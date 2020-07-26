@@ -1,4 +1,4 @@
-package com.swida.documetation.data.service.storagesService;
+package com.swida.documetation.data.service.storages;
 
 import com.swida.documetation.data.entity.storages.WasteStorage;
 

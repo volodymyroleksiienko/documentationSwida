@@ -1,8 +1,8 @@
-package com.swida.documetation.data.serviceImpl;
+package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.RawStorage;
-import com.swida.documetation.data.jpa.storagesJPA.RawStorageJPA;
-import com.swida.documetation.data.service.storagesService.RawStorageService;
+import com.swida.documetation.data.jpa.storages.RawStorageJPA;
+import com.swida.documetation.data.service.storages.RawStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

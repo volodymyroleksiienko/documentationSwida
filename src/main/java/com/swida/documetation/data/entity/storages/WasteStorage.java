@@ -1,6 +1,7 @@
 package com.swida.documetation.data.entity.storages;
 
 import com.swida.documetation.data.entity.UserCompany;
+import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,4 +21,5 @@ public class WasteStorage {
     @ManyToOne
     private UserCompany userCompany;
 
+    private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }

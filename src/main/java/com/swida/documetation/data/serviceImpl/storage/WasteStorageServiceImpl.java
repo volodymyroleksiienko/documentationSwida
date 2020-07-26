@@ -1,8 +1,8 @@
-package com.swida.documetation.data.serviceImpl;
+package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.WasteStorage;
-import com.swida.documetation.data.jpa.storagesJPA.WasteStorageJPA;
-import com.swida.documetation.data.service.storagesService.WasteStorageService;
+import com.swida.documetation.data.jpa.storages.WasteStorageJPA;
+import com.swida.documetation.data.service.storages.WasteStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

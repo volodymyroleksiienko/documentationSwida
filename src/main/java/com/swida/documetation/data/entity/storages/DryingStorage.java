@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class DryStorage {
+public class DryingStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,7 +24,6 @@ public class DryStorage {
 
     private String extent;
     private String description;
-
 
     @ManyToOne
     private UserCompany userCompany;

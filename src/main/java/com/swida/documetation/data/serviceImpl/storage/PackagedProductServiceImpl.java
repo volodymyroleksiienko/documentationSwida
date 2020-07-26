@@ -1,9 +1,9 @@
-package com.swida.documetation.data.serviceImpl;
+package com.swida.documetation.data.serviceImpl.storage;
 
 
 import com.swida.documetation.data.entity.storages.PackagedProduct;
-import com.swida.documetation.data.jpa.storagesJPA.PackagedProductJPA;
-import com.swida.documetation.data.service.storagesService.PackagedProductService;
+import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
+import com.swida.documetation.data.service.storages.PackagedProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

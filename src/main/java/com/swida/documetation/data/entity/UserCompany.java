@@ -1,6 +1,6 @@
 package com.swida.documetation.data.entity;
 
-import com.swida.documetation.data.Roles;
+import com.swida.documetation.data.enums.Roles;
 import lombok.Data;
 
 

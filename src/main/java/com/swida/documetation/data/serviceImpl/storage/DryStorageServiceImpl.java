@@ -1,9 +1,9 @@
-package com.swida.documetation.data.serviceImpl;
+package com.swida.documetation.data.serviceImpl.storage;
 
 
 import com.swida.documetation.data.entity.storages.DryStorage;
-import com.swida.documetation.data.jpa.storagesJPA.DryStorageJPA;
-import com.swida.documetation.data.service.storagesService.DryStorageService;
+import com.swida.documetation.data.jpa.storages.DryStorageJPA;
+import com.swida.documetation.data.service.storages.DryStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
