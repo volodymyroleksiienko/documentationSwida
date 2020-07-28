@@ -2,7 +2,7 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryStorage">
     <!-- Сухой склад -->
-    <div class="tab-pane fade container-fluid" id="drystorage">
+    <div class="tab-pane fade show active container-fluid" id="drystorage">
         <table class="table table-hover table-striped" id="drystoragetable">
             <br>
             <thead>
@@ -10,27 +10,30 @@
                 <th scope="col">id</th>
                 <th scope="col">Код партии</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
-                <th scope="col">Высота, шт</th>
-                <th scope="col">Ширина, шт</th>
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <th scope="row">20-1С-0506</th>
-                <td>Сосна</td>
-                <td>38</td>
-                <td>90</td>
-                <td>3050</td>
-                <td>876</td>
-                <td>20</td>
-                <td>10</td>
-                <td>9,138</td>
+            <tr th:each="ds, index : ${dryStorageList}" th:id="${ds.id}">
+                <td th:text="${ds.id}"></td>
+                <th scope="row" th:text="${ds.codeOfProduct}">20-1С3-2605-1-2805</th>
+                <td th:text="${ds.breedOfTree.breed}"></td>
+                <td th:text="${ds.breedDescription}"></td>
+                <td th:text="${ds.sizeOfHeight}"></td>
+                <td th:text="${ds.sizeOfWidth}"></td>
+                <td th:text="${ds.sizeOfLong}"></td>
+                <td th:text="${ds.countOfDesk}"></td>
+                <td th:text="${ds.extent}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
             </tr>
 
             <tfoot>
@@ -38,13 +41,13 @@
                 <th scope="col">id</th>
                 <th scope="col">Код партии</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
-                <th scope="col">Высота, шт</th>
-                <th scope="col">Ширина, шт</th>
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th></th>
             </tr>
             </tfoot>
             </tbody>

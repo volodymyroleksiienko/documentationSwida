@@ -6,11 +6,13 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
+import com.swida.documetation.data.enums.Roles;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +48,12 @@ public class FabricController {
 
     @GetMapping("/index-{userId}")
     public String index(@PathVariable("userId")int userId){
+//        UserCompany company  = new UserCompany();
+//        company.setRole(Roles.ROLES_USER);
+//        company.setUsername("9");
+//        company.setPassword("9");
+//        company.setNameOfCompany("SuperPylka");
+//        userCompanyService.save(company);
         int breedId = 1;
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -156,7 +164,7 @@ public class FabricController {
         model.addAttribute("tabName","dryingStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
-        model.addAttribute("dryingStorageList",dryingStorageService.findAll());
+        model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId));
         return "fabricPage";
     }
 
@@ -165,7 +173,6 @@ public class FabricController {
                                    String dryingStorageId, String codeOfProduct){
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(Integer.parseInt(dryingStorageId));
-        dryingStorageDB.setCountOfDesk(0);
         DryStorage dryStorage = new DryStorage();
         dryStorage.setCodeOfProduct(codeOfProduct);
 
@@ -181,6 +188,7 @@ public class FabricController {
         dryStorage.setDryingStorage(dryingStorageDB);
 
         dryStorageService.save(dryStorage);
+        dryingStorageDB.setCountOfDesk(0);
         dryingStorageService.save(dryingStorageDB);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
@@ -204,10 +212,15 @@ public class FabricController {
 
 
     //Dry Storage page
-    @GetMapping("/getListOfDryStorage")
-    public String getListOfDryStorage(Model model){
-        model.addAttribute("dryStorage",dryStorageService.findAll());
-        return "";
+    @GetMapping("/getListOfDryStorage-{userId}-{breedId}")
+    public String getListOfDryStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                      Model model){
+        model.addAttribute("fragmentPathTabDryStorage","dryStorage");
+        model.addAttribute("tabName","dryStorage");
+        model.addAttribute("userId",userId);
+        model.addAttribute("breedId",breedId);
+        model.addAttribute("dryStorageList",dryStorageService.findAll());
+        return "fabricPage";
     }
 
     @PutMapping("/addListOfPackagedDesk")

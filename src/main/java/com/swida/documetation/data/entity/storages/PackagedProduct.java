@@ -1,6 +1,7 @@
 package com.swida.documetation.data.entity.storages;
 
 import com.swida.documetation.data.entity.UserCompany;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
@@ -16,7 +17,9 @@ public class PackagedProduct {
     private String codeOfPackage;
     private String codeOfDeliveryCompany;
     //Detail of Product
-    private String breedOfTree;
+    @ManyToOne
+    private BreedOfTree breedOfTree;
+    private String breedDescription;
     private String quality;
 
     //Size of one desk
@@ -35,6 +38,9 @@ public class PackagedProduct {
 
     @ManyToOne
     private UserCompany userCompany;
+
+    @ManyToOne
+    private DryStorage dryStorage;
 
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;

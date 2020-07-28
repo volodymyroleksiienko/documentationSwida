@@ -44,7 +44,9 @@
                    th:classappend="${tabName.equals('dryingStorage')} ? 'active':''">Сушка</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#drystorage">Сухой склад</a>
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('dryStorage')} ? 'active':''">Сухой склад</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#wastestorage">Склад отходов</a>
@@ -69,6 +71,9 @@
         </div>
         <div th:if="${fragmentPathTabDryingStorage!=null}">
             <div th:replace="~{fragments/fabric/fragFabricTabDrying :: ${fragmentPathTabDryingStorage}}"></div>
+        </div>
+        <div th:if="${fragmentPathTabDryStorage!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabDryStorage :: ${fragmentPathTabDryStorage}}"></div>
         </div>
 
 
