@@ -1,0 +1,72 @@
+
+<th:block xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryStorage">
+    <!-- Сухой склад -->
+    <div class="tab-pane fade container-fluid" id="drystorage">
+        <table class="table table-hover table-striped" id="drystoragetable">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код партии</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Толщина, мм</th>
+                <th scope="col">Ширина, мм</th>
+                <th scope="col">Длина, мм</th>
+                <th scope="col">Высота, шт</th>
+                <th scope="col">Ширина, шт</th>
+                <th scope="col">Кол-во досок, шт</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <th scope="row">20-1С-0506</th>
+                <td>Сосна</td>
+                <td>38</td>
+                <td>90</td>
+                <td>3050</td>
+                <td>876</td>
+                <td>20</td>
+                <td>10</td>
+                <td>9,138</td>
+            </tr>
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код партии</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Толщина, мм</th>
+                <th scope="col">Ширина, мм</th>
+                <th scope="col">Длина, мм</th>
+                <th scope="col">Высота, шт</th>
+                <th scope="col">Ширина, шт</th>
+                <th scope="col">Кол-во досок, шт</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
+            </tr>
+            </tfoot>
+            </tbody>
+        </table>
+        <!-- BUTTON -->
+        <div class="float-action-button">
+            <button type="button" class="buttons btn btn-primary" title="Редактировать" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button type="button" class="buttons btn btn-primary" title="Удалить" data-toggle="tooltip" data-placement="left">
+                <i class="far fa-trash-alt"></i>
+            </button>
+            <button type="button" class="buttons btn btn-primary" title="Распиловка" data-toggle="tooltip" data-placement="left">
+                <i class="fab fa-buffer"></i>
+            </button>
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#exampleModal">
+                <p style="line-height: 1.25">+</p>
+            </button>
+        </div>
+        <!-- BUTTON -->
+    </div>
+    <!-- Сухой склад -->
+
+
+</th:block>

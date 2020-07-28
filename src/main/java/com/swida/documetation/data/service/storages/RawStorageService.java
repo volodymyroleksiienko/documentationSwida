@@ -8,5 +8,6 @@ public interface RawStorageService {
     void save(RawStorage rs);
     RawStorage findById(int id);
     List<RawStorage> findAll();
+    List<RawStorage> getListByUserByBreed(int breedId, int userId);
     void deleteByID(int id);
 }

@@ -13,7 +13,8 @@ public class PackagedProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String numberOfPackage;
+    private String codeOfPackage;
+    private String codeOfDeliveryCompany;
     //Detail of Product
     private String breedOfTree;
     private String quality;
@@ -35,6 +36,6 @@ public class PackagedProduct {
     @ManyToOne
     private UserCompany userCompany;
 
-
+    @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main</title>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/buttons.bootstrap4.css}">
+    <link th:href="@{../css/all.css}" rel="stylesheet">
+    <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+
+<!-- NAVIGATION -->
+<div th:replace="~{fragments/fabric/fragFabricNavigation :: fabricNavigation}"></div>
+<!-- NAVIGATION -->
+
+<br>
+<!-- TABS -->
+<div class="container-fluid">
+    <!-- HEADERS -->
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfTreeStorage-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('treeStorage')} ? 'active':''">Приход леса</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('rawStorage')} ? 'active':''">Сырой склад</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfDryingStorage-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('dryingStorage')} ? 'active':''">Сушка</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#drystorage">Сухой склад</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#wastestorage">Склад отходов</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#packagedproduct">Пачки</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#transportation">Транспортировка</a>
+            </li>
+        </ul>
+    </div>
+    <!-- HEADERS -->
+
+    <!-- ALL TABLES -->
+    <div id="myTabContent" class="tab-content">
+        <div th:if="${fragmentPathTabTreeStorage!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabTreeStorage :: ${fragmentPathTabTreeStorage}}"></div>
+        </div>
+        <div th:if="${fragmentPathTabRawStorage!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabRawStorage :: ${fragmentPathTabRawStorage}}"></div>
+        </div>
+        <div th:if="${fragmentPathTabDryingStorage!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabDrying :: ${fragmentPathTabDryingStorage}}"></div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Транспортировка -->
+        <div class="tab-pane fade container-fluid" id="transportation">
+
+
+            <table class="table table-hover table-striped" id="transportationtable">
+                <br>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">id</th>
+                    <th scope="col">№ выгрузки</th>
+                    <th scope="col">А/М</th>
+                    <th scope="col">П/П</th>
+                    <th scope="col">Дата выгрузки</th>
+                    <th scope="col">Время выгрузки</th>
+                    <th scope="col">Водитель</th>
+                    <th scope="col">Телефон</th>
+                </tr>
+                </thead>
+
+
+                <tbody>
+
+                </tbody>
+                <!--<tbody>
+                    <tr>
+                        <td></td>
+                        <td>1</td>
+                        <th scope="row">1901</th>
+                        <td>BM 2041 BC</td>
+                        <td>BM 2772 XP</td>
+                        <td>30.04.2020</td>
+                        <td>С:09-30 ПО:10-00</td>
+                        <td>Грибко Виталий</td>
+                        <td>0993530799</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <th scope="row">1901</th>
+                        <td>BM 2141 BC</td>
+                        <td>BM 2722 XP</td>
+                        <td>30.04.2020</td>
+                        <td>С:10-30 ПО:11-00</td>
+                        <td>Грибко Виталий2</td>
+                        <td>0993530799</td>
+                    </tr>
+                </tbody> -->
+
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <th scope="col">id</th>
+                    <th scope="col">№ выгрузки</th>
+                    <th scope="col">А/М</th>
+                    <th scope="col">П/П</th>
+                    <th scope="col">Дата выгрузки</th>
+                    <th scope="col">Время выгрузки</th>
+                    <th scope="col">Водитель</th>
+                    <th scope="col">Телефон</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- Транспортировка -->
+    </div>
+    <!-- ALL TABLES -->
+</div>
+<!-- TABS -->
+
+<!-- MODALS -->
+<!-- Приход леса -->
+<div class="modal fade" id="addIncomeModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавить приход материалов</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/addIncome">
+                <div class="modal-body">
+                    <label class="col-form-label" for="inputDefault">Код партии</label>
+                    <input type="text" class="form-control" id="inputDefault" required="required">
+
+                    <label class="col-form-label" for="inputDefault">Порода</label>
+                    <input type="text" class="form-control" id="breedOfTree" required="required">
+
+                    <label class="col-form-label" for="inputDefault">Поставщик</label>
+                    <input type="text" class="form-control" list="cityname" id="inputDefault">
+                    <datalist id="cityname">
+                        <option value="ДП «Глуховский агролесхоз»">
+                        <option value="ДП «Новгород Северская ЛНИС»">
+                    </datalist>
+                    <label class="col-form-label" for="inputDefault">Кубатура</label>
+                    <input type="text" class="form-control" placeholder="м3" id="inputDefault" pattern="[0-9]*\.?[0-9]*">
+                </div>
+                <div class="modal-footer">
+                    <button type="button submit" class="btn btn-primary">Добавить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Приход леса -->
+
+<!-- Распиловка -->
+<div class="modal fade" id="cutModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Отправить на распиловку</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/addIncome">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <fieldset disabled="">
+                            <label class="control-label" for="disabledInput">Код партии</label>
+                            <input class="form-control" id="disabledInput" type="text" placeholder="Код партии" disabled="">
+
+                            <label class="control-label" for="disabledInput">Порода</label>
+                            <input class="form-control" id="disabledInput" type="text" placeholder="Порода" disabled="">
+
+                            <label class="control-label" for="disabledInput">Поставщик</label>
+                            <input class="form-control" id="disabledInput" type="text" placeholder="Поставщик" disabled="">
+                        </fieldset>
+                        <label class="col-form-label" for="inputDefault">Осталось</label>
+                        <input type="text" class="form-control" placeholder="м3" id="inputDefault" pattern="[0-9]*\.?[0-9]*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button submit" class="btn btn-primary">Отправить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Распиловка -->
+
+
+
+
+<!-- MODALS -->
+
+<!-- SCRIPTS -->
+<script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" th:src="@{../js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
+
+<script type="text/javascript" th:src="@{../js/dataTables.buttons.js}"></script>
+<script type="text/javascript" th:src="@{../js/buttons.bootstrap4.js}"></script>
+
+<!-- TABLES CONFIGURATION -->
+<script type="text/javascript">
+    $(document).ready( function () {
+
+        // $('#button').click( function () {
+        //     alert( table.rows('.selected').data().length +' row(s) selected' );
+        // } );
+
+
+        $('#treestoragetable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            // columns width
+            "autoWidth": false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+        $('#rawstoragetable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            // columns width
+            "autoWidth": false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+        $('#dryingtable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            // columns width
+            "autoWidth": false,
+
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+        $('#drystoragetable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            // columns width
+            "autoWidth": false,
+
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+        $('#wastestoragetable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            // columns width
+            "autoWidth": false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+        $('#packagedproducttable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            // columns width
+            "autoWidth": false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+        });
+
+
+        //   $('#transportationtable').DataTable({
+        //   	"language": {
+        //   		"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        //   	},
+        //   	// columns width
+        //   	"autoWidth": false,
+        // // id column visibility
+        //   	"columnDefs": [
+        //           {
+        //               "targets": [  ],
+        //               "visible": false,
+        //               "searchable": false
+        //           }
+        //       ]
+
+        //   });
+
+
+        $('#treestoragetable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
+        $('#rawstoragetable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
+        $('#dryingtable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
+        $('#drystoragetable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
+        $('#wastestoragetable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
+        $('#packagedproducttable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
+        // $('#transportationtable tbody').on( 'click', 'tr', function () {
+        // 	$(this).toggleClass('selected');
+        // } );
+    } );
+</script>
+<!-- TABLES CONFIGURATION -->
+
+<!-- Transportation -->
+<script type="text/javascript">
+    function format ( d ) {
+        // `d` is the original data object for the row
+        return '<table class="table table-hover table-striped" id="packagedproducttable2">'+
+            '<thead>'+
+            '<tr>'+
+            '<th scope="col"></th>'+
+            '<th scope="col">№ пачки</th>'+
+            '<th scope="col">Порода</th>'+
+            '<th scope="col">Толщина, мм</th>'+
+            '<th scope="col">Ширина, мм</th>'+
+            '<th scope="col">Длина, мм</th>'+
+            '<th scope="col">Кол-во досок, шт</th>'+
+            '<th scope="col">Кубатура, м<sup>3</sup></th>'+
+            '<th scope="col">Высота, шт</th>'+
+            '<th scope="col">Ширина, шт</th>'+
+            '<th scope="col">Длина-ФАКТ</th>'+
+            '<th scope="col">Высота/Ширина</th>'+
+            '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+            '<tr>'+
+            '<td></td>'+
+            '<th scope="row">'+d.id+'</th>'+
+            '<td>Сосна</td>'+
+            '<td>45</td>'+
+            '<td>45</td>'+
+            '<td>3050</td>'+
+            '<td>876</td>'+
+            '<td>20</td>'+
+            '<td>10</td>'+
+            '<td>9,138</td>'+
+            '<td>6000</td>'+
+            '<td>10/12</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td></td>'+
+            '<th scope="row">'+d.id+'</th>'+
+            '<td>Сосна</td>'+
+            '<td>56</td>'+
+            '<td>456</td>'+
+            '<td>3050</td>'+
+            '<td>876</td>'+
+            '<td>20</td>'+
+            '<td>10</td>'+
+            '<td>9,138</td>'+
+            '<td>6000</td>'+
+            '<td>10/12</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td></td>'+
+            '<th scope="row">'+d.id+'</th>'+
+            '<td>Сосна</td>'+
+            '<td>56</td>'+
+            '<td>567</td>'+
+            '<td>3050</td>'+
+            '<td>876</td>'+
+            '<td>20</td>'+
+            '<td>10</td>'+
+            '<td>9,138</td>'+
+            '<td>6000</td>'+
+            '<td>10/12</td>'+
+            '</tr>'+
+            '</tbody>'+
+            '</table>';
+    }
+
+
+        // listener for opening and closing
+        $('#transportationtable tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if ( row.child.isShown() ) {
+                // already open
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // open row
+                row.child( format(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+</script>
+<!-- Transportation -->
+
+<!-- <script type="text/javascript">
+    $(function () {
+    $('body').tooltip({
+      selector: '[data-toggle="tooltip"]',
+      container: 'body'
+  });
+});
+</script> -->
+
+<!-- SCRIPTS -->
+</body>
+</html>

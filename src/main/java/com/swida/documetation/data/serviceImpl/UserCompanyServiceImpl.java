@@ -28,6 +28,11 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     }
 
     @Override
+    public UserCompany findByUsername(String username) {
+        return userCompanyJPA.findByUsername(username);
+    }
+
+    @Override
     public List<UserCompany> findAll() {
         return userCompanyJPA.findAll();
     }

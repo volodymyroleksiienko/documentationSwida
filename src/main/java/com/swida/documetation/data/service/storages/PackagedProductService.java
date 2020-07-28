@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface PackagedProductService {
     void save(PackagedProduct packProd);
+    void saveAll(List<PackagedProduct> productList);
     PackagedProduct findById(int id);
     List<PackagedProduct> findAll();
     void deleteByID(int id);

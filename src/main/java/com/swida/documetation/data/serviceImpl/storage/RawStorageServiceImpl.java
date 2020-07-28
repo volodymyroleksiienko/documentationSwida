@@ -19,6 +19,12 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public void save(RawStorage rs) {
+        float width = Float.parseFloat(rs.getSizeOfWidth())/1000;
+        float height = Float.parseFloat(rs.getSizeOfHeight())/1000;
+        float longSize = Float.parseFloat(rs.getSizeOfLong())/1000;
+        int count = rs.getCountOfDesk();
+        float extent = width*height*longSize*count;
+        rs.setExtent(String.valueOf(extent));
         rawStorageJPA.save(rs);
     }
 
@@ -30,6 +36,11 @@ public class RawStorageServiceImpl implements RawStorageService {
     @Override
     public List<RawStorage> findAll() {
         return rawStorageJPA.findAll();
+    }
+
+    @Override
+    public List<RawStorage> getListByUserByBreed(int breedId, int userId) {
+        return rawStorageJPA.getListByUserByBreed(breedId,userId);
     }
 
     @Override

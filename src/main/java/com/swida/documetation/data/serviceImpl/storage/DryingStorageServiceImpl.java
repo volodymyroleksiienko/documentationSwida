@@ -20,6 +20,12 @@ public class DryingStorageServiceImpl implements DryingStorageService {
 
     @Override
     public void save(DryingStorage ds) {
+        float width = Float.parseFloat(ds.getSizeOfWidth())/1000;
+        float height = Float.parseFloat(ds.getSizeOfHeight())/1000;
+        float longSize = Float.parseFloat(ds.getSizeOfLong())/1000;
+        int count = ds.getCountOfDesk();
+        float extent = width*height*longSize*count;
+        ds.setExtent(String.valueOf(extent));
         dryingStorageJPA.save(ds);
     }
 
@@ -31,6 +37,11 @@ public class DryingStorageServiceImpl implements DryingStorageService {
     @Override
     public List<DryingStorage> findAll() {
         return dryingStorageJPA.findAll(Sort.by(Sort.Direction.DESC,"id"));
+    }
+
+    @Override
+    public List<DryingStorage> getListByUserByBreed(int breedId, int userId) {
+        return dryingStorageJPA.getListByUserByBreed(breedId,userId);
     }
 
     @Override

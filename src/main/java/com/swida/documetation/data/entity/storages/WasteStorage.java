@@ -20,6 +20,6 @@ public class WasteStorage {
 
     @ManyToOne
     private UserCompany userCompany;
-
+    @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }

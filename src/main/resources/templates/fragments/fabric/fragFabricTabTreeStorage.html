@@ -1,0 +1,236 @@
+<!--// TREE STORAGE TAB-->
+<th:block xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="treeStorage">
+    <div class="tab-pane fade show active container-fluid" id="treestorage">
+        <table class="table table-hover table-striped" id="treestoragetable">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код партии</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Поставщик</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+<!--            //foreach!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+                <tr th:each="ts, index : ${treeStorageList}" th:id="${ts.id}">
+                    <td th:text="${ts.id}"></td>
+                    <th scope="row" th:text="${ts.codeOfProduct}"></th>
+                    <td th:text="${ts.breedOfTree.breed}"></td>
+                    <td th:text="${ts.breedDescription}"></td>
+                    <td th:text="${ts.contrAgent.nameOfAgent}"></td>
+                    <td th:text="${ts.extent}"></td>
+                    <td>
+                        <button  type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
+                            <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
+                        </button>
+                        <button  type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
+                            <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
+                        </button>
+                    </td>
+                </tr>
+
+
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код партии</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Поставщик</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
+            </tr>
+            </tfoot>
+            </tbody>
+        </table>
+        <!-- BUTTON -->
+        <div class="float-action-button">
+            <button type="button" class="buttons btn btn-primary" title="Редактировать" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button type="button" class="buttons btn btn-primary" title="Удалить" data-toggle="tooltip" data-placement="left">
+                <i class="far fa-trash-alt"></i>
+            </button>
+            <button type="button" class="buttons btn btn-primary" title="Распиловка" data-toggle="modal" data-placement="left" data-target="#cutModal">
+                <i class="fab fa-buffer"></i>
+            </button>
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addIncomeModal">
+                <p style="line-height: 1.25">+</p>
+            </button>
+        </div>
+        <!-- BUTTON -->
+    </div>
+    <div class="modal fade" id="addIncomeModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить приход материалов</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addTreeStorageRow-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <label class="col-form-label" for="addCode">Код партии</label>
+                        <input type="text" class="form-control" id="addCode" required="required" autocomplete="off" name="codeOfProduct">
+
+                        <label class="control-label" for="addMaterial">Порода</label>
+                        <input class="form-control" id="addMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
+
+                        <label class="control-label" for="addBreedDescription">Описание породы</label>
+                        <input class="form-control" id="addBreedDescription" type="text" placeholder="Порода"  name="breedDescription" >
+
+                        <label class="col-form-label" for="addSupplier">Поставщик</label>
+                        <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent">
+                        <datalist id="suppliers1">
+                            <option  th:each="c, index : ${contrAgentList}" th:value="${c.nameOfAgent}">
+                        </datalist>
+
+                        <label class="col-form-label" for="addVolume">Кубатура</label>
+                        <input type="text" class="form-control" placeholder="м3" id="addVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cutModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cutModalHeader">Отправить на распиловку</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/cutOfTreeStorage-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <!-- Insert rows -->
+                        <div class="form-group" id="formGroupCutOfTreeStorage">
+                            <input type="text" id="idOfTreeStorageRow" hidden="" name="idOfTreeStorageRow">
+
+                            <label class="col-form-label" for="addTreeStorageLeft">Осталось на складе</label>
+                            <input type="text" class="form-control" placeholder="м3" id="addTreeStorageLeft" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required" name="extentOfTreeStorage">
+
+                            <label class="col-form-label" for="addRawStorageCode">Код</label>
+                            <input type="text" class="form-control" id="addRawStorageCode" required="required" autocomplete="off" name="codeOfProduct">
+
+                            <label class="col-form-label" for="addRawStorageThickness">Толщина</label>
+                            <input type="text" class="form-control" id="addRawStorageThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+
+                            <label class="col-form-label" for="addRawStorageWidth">Шырина</label>
+                            <input type="text" class="form-control" id="addRawStorageWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+
+                            <label class="col-form-label" for="addRawStorageLength">Длина</label>
+                            <input type="text" class="form-control" id="addRawStorageLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+
+                            <label class="col-form-label" for="addRawStorageCount">Количество досок</label>
+                            <input type="text" class="form-control" id="addRawStorageCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+
+                        </div>
+                        <!-- Insert rows -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Отправить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit income -->
+    <div class="modal fade" id="editIncome">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/editTreeStorageRow-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <input type="text" id="incomeTreeStorageId" hidden="" name="id">
+                        <label class="col-form-label" for="editIncomeCode">Код партии</label>
+                        <input type="text" class="form-control" id="editIncomeCode" required="required" autocomplete="off" name="codeOfProduct">
+
+                        <label class="control-label" for="editIncomeMaterial">Порода</label>
+                        <input class="form-control" id="editIncomeMaterial" type="text" placeholder="Порода" name="breedOfTreeType" th:value="${breedOfTreeList[breedId-1].breed}">
+
+                        <label class="control-label" for="editIncomeMaterialDesc">Описание породы</label>
+                        <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Порода"  name="breedDescription" >
+
+                        <label class="col-form-label" for="editIncomeSupplier">Поставщик</label>
+                        <input type="text" class="form-control" list="suppliers2" id="editIncomeSupplier" autocomplete="off" name="nameOfAgent">
+                        <datalist id="suppliers2">
+                            <option  th:each="c, index : ${contrAgentList}" th:value="${c.nameOfAgent}">
+                        </datalist>
+
+                        <label class="col-form-label" for="editIncomeVolume">Кубатура</label>
+                        <input type="text" class="form-control" placeholder="м3" id="editIncomeVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit income -->
+    <script>
+        function showCutModal(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#idOfTreeStorageRow').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfTreeStorage = $(trObj).find('th:eq(0)').text();
+            $('#addRawStorageCode').val(codeOfTreeStorage);
+
+            $('#cutModal').modal('show');
+        }
+        function showEditModal(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#incomeTreeStorageId').val(trId);
+
+            var code = $(trObj).find('th:eq(0)').text();
+            var breed = $(trObj).find('td:eq(0)').text();
+            var desc = $(trObj).find('td:eq(1)').text();
+            var provider = $(trObj).find('td:eq(2)').text();
+            var extent = $(trObj).find('td:eq(3)').text();
+            $('#editIncomeCode').val(code);
+            $('#editIncomeMaterial').val(breed);
+            $('#editIncomeMaterialDesc').val(desc);
+            $('#editIncomeSupplier').val(provider);
+            $('#editIncomeVolume').val(extent);
+
+            $('#editIncome').modal('show');
+        }
+    </script>
+</th:block>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

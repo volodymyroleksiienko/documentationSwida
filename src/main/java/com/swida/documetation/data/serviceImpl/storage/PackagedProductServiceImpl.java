@@ -25,6 +25,13 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
+    public void saveAll(List<PackagedProduct> productList) {
+        for (PackagedProduct product: productList) {
+            productJPA.save(product);
+        }
+    }
+
+    @Override
     public PackagedProduct findById(int id) {
         return productJPA.getOne(id);
     }
