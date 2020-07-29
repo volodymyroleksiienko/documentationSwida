@@ -226,17 +226,35 @@ public class FabricController {
         return "fabricPage";
     }
 
-    @PutMapping("/addListOfPackagedDesk")
-    public void addListOfPackagedDesk(List<PackagedProduct> packagedProductList){
-        packagedProductService.saveAll(packagedProductList);
+    @PostMapping("/editDryStorageRow-{userId}-{breedId}")
+    public String editDryStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
+                                  String codeOfProduct){
+        DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
+        dryStorage.setCodeOfProduct(codeOfProduct);
+        dryStorageService.save(dryStorage);
+        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/createPackages-{userId}-{breedId}")
+    public String createPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
+                                    String codeOfProduct,String height, String width, String count, String longFact){
+        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact);
+
+        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
     //Packaged product page
-    @GetMapping("/getListOfPackagedProduct")
-    public String getListOfPackagedProduct(Model model){
-        model.addAttribute("packagedProducts",packagedProductService.findAll());
-        return "";
+    @GetMapping("/getListOfPackagedProduct-{userId}-{breedId}")
+    public String getListOfPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,Model model){
+        model.addAttribute("fragmentPathTabPackageStorage","packageStorage");
+        model.addAttribute("tabName","packageStorage");
+        model.addAttribute("userId",userId);
+        model.addAttribute("breedId",breedId);
+        model.addAttribute("packagedProductsList",packagedProductService.findAll());
+        return "fabricPage";
     }
+
+
 
     @PutMapping("/addPackagedProductToDelivery")
     public void addPackagedProductToDelivery(DriverInfo driverInfo,List<PackagedProduct> productList){

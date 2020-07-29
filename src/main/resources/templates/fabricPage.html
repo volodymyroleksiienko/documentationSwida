@@ -52,7 +52,9 @@
                 <a class="nav-link" data-toggle="tab" href="#wastestorage">Склад отходов</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#packagedproduct">Пачки</a>
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfPackagedProduct-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('packagedProductsList')} ? 'active':''">Пачки</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#transportation">Транспортировка</a>
@@ -75,7 +77,9 @@
         <div th:if="${fragmentPathTabDryStorage!=null}">
             <div th:replace="~{fragments/fabric/fragFabricTabDryStorage :: ${fragmentPathTabDryStorage}}"></div>
         </div>
-
+        <div th:if="${fragmentPathTabPackageStorage!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabPackageStorage :: ${fragmentPathTabPackageStorage}}"></div>
+        </div>
 
 
 

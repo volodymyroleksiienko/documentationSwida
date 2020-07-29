@@ -27,14 +27,17 @@ public class PackagedProduct {
     private String sizeOfWidth;
     private String sizeOfLong;
 
+
     //Info about package
     private String countDeskInHeight;
     private String countDeskInWidth;
+    private String longFact;
 
     private String sumWidthOfPackage;
     private String sumHeightOfPackage;
-    private String countOfBredInPackage;
-    private String extentOfBredInPackage;
+    private String countOfDesk;
+    private String extent;
+    private String height_width;
 
     @ManyToOne
     private UserCompany userCompany;
