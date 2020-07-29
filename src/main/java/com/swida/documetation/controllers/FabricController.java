@@ -12,6 +12,7 @@ import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import com.swida.documetation.utils.xlsParsers.ParseTreeStorageToXLS;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,8 @@ public class FabricController {
 //        company.setPassword("9");
 //        company.setNameOfCompany("SuperPylka");
 //        userCompanyService.save(company);
+        ParseTreeStorageToXLS parser =  new ParseTreeStorageToXLS(treeStorageService.findAll());
+        parser.parse();
         int breedId = 1;
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
