@@ -6,14 +6,12 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
-import com.swida.documetation.data.enums.Roles;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.utils.xlsParsers.ParseTreeStorageToXLS;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/fabric")
+@RequestMapping("fabric")
 @Controller
-public class FabricController {
+public class FabricOakController {
     private TreeStorageService treeStorageService;
     private RawStorageService rawStorageService;
     private DryingStorageService dryingStorageService;
@@ -35,7 +33,7 @@ public class FabricController {
     private UserCompanyService userCompanyService;
 
     @Autowired
-    public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService) {
+    public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -47,68 +45,44 @@ public class FabricController {
         this.userCompanyService = userCompanyService;
     }
 
-    @GetMapping("/index-{userId}")
-    public String index(@PathVariable("userId")int userId){
-//        UserCompany company  = new UserCompany();
-//        company.setRole(Roles.ROLES_USER);
-//        company.setUsername("9");
-//        company.setPassword("9");
-//        company.setNameOfCompany("SuperPylka");
-//        userCompanyService.save(company);
-        ParseTreeStorageToXLS parser =  new ParseTreeStorageToXLS(treeStorageService.findAll());
-        parser.parse();
-        int breedId = 1;
-        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
-    }
 
     //Tree Storage page
-    @GetMapping("/getListOfTreeStorage-{userId}-{breedId}")
-    public String getListOfTreeStorage(@PathVariable("userId")int userId,
-                                       @PathVariable("breedId")int breedId, Model model){
-        model.addAttribute("fragmentPathTabTreeStorage","treeStorage");
+    @GetMapping("/getListOfTreeStorage-{userId}-2")
+    public String getListOfTreeStorage(@PathVariable("userId")int userId, Model model){
+        int breedId = 2;
+        model.addAttribute("fragmentPathTabTreeStorage","treeStorageOAK");
         model.addAttribute("tabName","treeStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("contrAgentList",contrAgentService.findAll());
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("contrAgentList",contrAgentService.findAll());
         return "fabricPage";
     }
 
-    @PostMapping("/addTreeStorageRow-{userId}-{breedId}")
-    public String  addTreeStorageObj(@PathVariable("userId")int userId,
-                                     @PathVariable("breedId")int breedId,
-                                     String nameOfAgent, TreeStorage treeStorage){
-        BreedOfTree breedOfTree = new BreedOfTree();
-        breedOfTree.setId(breedId);
-        treeStorage.setBreedOfTree(breedOfTree);
-        UserCompany company = new UserCompany();
-        company.setId(userId);
-        treeStorage.setUserCompany(company);
-        ContrAgent contrAgent =  new ContrAgent();
-        contrAgent.setNameOfAgent(nameOfAgent);
-        treeStorage.setContrAgent(contrAgent);
-        treeStorageService.putNewTreeStorageObj(treeStorage);
-        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
-    }
 
 
-    @PostMapping("/cutOfTreeStorage-{userId}-{breedId}")
-    public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                       int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage){
+
+    @PostMapping("/cutOfTreeStorage-{userId}-2")
+    public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, int idOfTreeStorageRow,
+                                         RawStorage rawStorage){
+        int breedId = 2;
+
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
-        treeStorage.setExtent(extentOfTreeStorage);
-        rawStorage.setTreeStorage(treeStorage);
-        rawStorage.setUserCompany(userCompanyService.findById(userId));
+
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorage.setUserCompany(userCompanyService.findById(userId));
+        rawStorage.setTreeStorage(treeStorage);
         rawStorageService.save(rawStorage);
+        treeStorage.setExtent(String.valueOf(Integer.parseInt(treeStorage.getExtent())-Integer.parseInt(rawStorage.getExtent())));
+        treeStorageService.save(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
-    @PostMapping("/editTreeStorageRow-{userId}-{breedId}")
-    public String editTreeStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                     String nameOfAgent, TreeStorage treeStorage){
+    @PostMapping("/editTreeStorageRow-{userId}-2")
+    public String editTreeStorageRow(@PathVariable("userId")int userId, String nameOfAgent, TreeStorage treeStorage){
+        int breedId = 2;
+
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         ContrAgent contrAgent =  new ContrAgent();
@@ -119,10 +93,11 @@ public class FabricController {
     }
 
     //RawStorage page
-    @GetMapping("/getListOfRawStorage-{userId}-{breedId}")
-    public String getListOfRawStorage(@PathVariable("userId")int userId,
-                                      @PathVariable("breedId")int breedId, Model model){
-        model.addAttribute("fragmentPathTabRawStorage","rawStorage");
+    @GetMapping("/getListOfRawStorage-{userId}-2")
+    public String getListOfRawStorage(@PathVariable("userId")int userId, Model model){
+        int breedId = 2;
+
+        model.addAttribute("fragmentPathTabRawStorage","rawStorageOAK");
         model.addAttribute("tabName","rawStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
@@ -130,9 +105,10 @@ public class FabricController {
         model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
         return "fabricPage";
     }
-    @PostMapping("/addDeskToDrying-{userId}-{breedId}")
-    private String addDeskToDrying(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                    String rawStorageId, DryingStorage dryingStorage){
+    @PostMapping("/addDeskToDrying-{userId}-2")
+    private String addDeskToDrying(@PathVariable("userId")int userId, String rawStorageId, DryingStorage dryingStorage){
+        int breedId = 2;
+
         dryingStorage.setUserCompany(userCompanyService.findById(userId));
         dryingStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(rawStorageId));
@@ -147,9 +123,9 @@ public class FabricController {
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
-    @PostMapping("/editRawStorageObj-{userId}-{breedId}")
-    public String editRawStorageObj(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                    RawStorage rawStorage){
+    @PostMapping("/editRawStorageObj-{userId}-2")
+    public String editRawStorageObj(@PathVariable("userId")int userId, RawStorage rawStorage){
+        int breedId = 2;
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
@@ -162,9 +138,11 @@ public class FabricController {
     }
 
     //Drying page
-    @GetMapping("/getListOfDryingStorage-{userId}-{breedId}")
-    public String getListOfDryingStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,Model model){
-        model.addAttribute("fragmentPathTabDryingStorage","dryingStorage");
+    @GetMapping("/getListOfDryingStorage-{userId}-2")
+    public String getListOfDryingStorage(@PathVariable("userId")int userId, Model model){
+        int breedId = 2;
+
+        model.addAttribute("fragmentPathTabDryingStorage","dryingStorageOAK");
         model.addAttribute("tabName","dryingStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
@@ -173,9 +151,9 @@ public class FabricController {
         return "fabricPage";
     }
 
-    @PostMapping("/addDeskToDryStorage-{userId}-{breedId}")
-    private String addDeskToDryStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                   String dryingStorageId, String codeOfProduct){
+    @PostMapping("/addDeskToDryStorage-{userId}-2")
+    private String addDeskToDryStorage(@PathVariable("userId")int userId, String dryingStorageId, String codeOfProduct){
+        int breedId = 2;
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(Integer.parseInt(dryingStorageId));
         DryStorage dryStorage = new DryStorage();
@@ -198,9 +176,9 @@ public class FabricController {
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
-    @PostMapping("/editDryingStorageObj-{userId}-{breedId}")
-    public String editDryingStorageObj(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                    DryingStorage dryingStorage ){
+    @PostMapping("/editDryingStorageObj-{userId}-2")
+    public String editDryingStorageObj(@PathVariable("userId")int userId, DryingStorage dryingStorage ){
+        int breedId = 2;
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(dryingStorage.getId());
         if(dryingStorageDB.getCountOfDesk()!=dryingStorage.getCountOfDesk()){
@@ -217,10 +195,11 @@ public class FabricController {
 
 
     //Dry Storage page
-    @GetMapping("/getListOfDryStorage-{userId}-{breedId}")
-    public String getListOfDryStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                      Model model){
-        model.addAttribute("fragmentPathTabDryStorage","dryStorage");
+    @GetMapping("/getListOfDryStorage-{userId}-2")
+    public String getListOfDryStorage(@PathVariable("userId")int userId,Model model){
+        int breedId = 2;
+
+        model.addAttribute("fragmentPathTabDryStorage","dryStorageOAK");
         model.addAttribute("tabName","dryStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
@@ -229,26 +208,27 @@ public class FabricController {
         return "fabricPage";
     }
 
-    @PostMapping("/editDryStorageRow-{userId}-{breedId}")
-    public String editDryStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                  String codeOfProduct){
+    @PostMapping("/editDryStorageRow-{userId}-2")
+    public String editDryStorageRow(@PathVariable("userId")int userId, String id, String codeOfProduct){
+        int breedId = 2;
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
         dryStorage.setCodeOfProduct(codeOfProduct);
         dryStorageService.save(dryStorage);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
-    @PostMapping("/createPackages-{userId}-{breedId}")
-    public String createPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                    String codeOfProduct,String height, String width, String count, String longFact){
+    @PostMapping("/createPackages-{userId}-2")
+    public String createPackages(@PathVariable("userId")int userId, String id, String codeOfProduct,String height, String width, String count, String longFact){
+        int breedId = 2;
         packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact);
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
     //Packaged product page
-    @GetMapping("/getListOfPackagedProduct-{userId}-{breedId}")
-    public String getListOfPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,Model model){
+    @GetMapping("/getListOfPackagedProduct-{userId}-2")
+    public String getListOfPackagedProduct(@PathVariable("userId")int userId, Model model){
+        int breedId = 2;
         model.addAttribute("fragmentPathTabPackageStorage","packageStorage");
         model.addAttribute("tabName","packageStorage");
         model.addAttribute("userId",userId);
@@ -260,19 +240,6 @@ public class FabricController {
 
 
 
-    @PutMapping("/addPackagedProductToDelivery")
-    public void addPackagedProductToDelivery(DriverInfo driverInfo,List<PackagedProduct> productList){
-        DeliveryDocumentation deliveryDocumentation = new DeliveryDocumentation();
-        deliveryDocumentation.setDriverInfo(driverInfo);
-        deliveryDocumentation.setProductList(productList);
-        deliveryDocumentationService.save(deliveryDocumentation);
-    }
-
-    //Delivery page
-    @GetMapping("/getListOfDeliveryDocumentation")
-    public String getListOfDeliveryDocumentation(Model model){
-        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.findAll());
-        return "";
-    }
 
 }
+

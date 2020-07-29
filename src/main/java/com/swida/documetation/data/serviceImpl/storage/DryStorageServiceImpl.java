@@ -21,6 +21,12 @@ public class DryStorageServiceImpl implements DryStorageService {
 
     @Override
     public void save(DryStorage ds) {
+        float width = Float.parseFloat(ds.getSizeOfWidth())/1000;
+        float height = Float.parseFloat(ds.getSizeOfHeight())/1000;
+        float longSize = Float.parseFloat(ds.getSizeOfLong())/1000;
+        int count = ds.getCountOfDesk();
+        float extent = width*height*longSize*count;
+        ds.setExtent(String.valueOf(extent));
         dryStorageJPA.save(ds);
     }
 
