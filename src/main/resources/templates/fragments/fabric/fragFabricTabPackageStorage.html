@@ -1,7 +1,7 @@
 <!--//Package STORAGE TAB-->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="packageStorage"><!-- Пачки -->
-    <div class="tab-pane fade container-fluid" id="packagedproduct">
+    <div class="tab-pane fade show active container-fluid" id="packagedproduct">
         <table class="table table-hover table-striped" id="packagedproducttable">
             <br>
             <thead>
@@ -9,6 +9,7 @@
                 <th scope="col">id</th>
                 <th scope="col">№ пачки</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
@@ -21,25 +22,27 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <th scope="row">20-1С-0506</th>
-                <td>Сосна</td>
-                <td>38</td>
-                <td>90</td>
-                <td>3050</td>
-                <td>876</td>
-                <td>20</td>
-                <td>10</td>
-                <td>9,138</td>
-                <td>3000</td>
-                <td>15/15</td>
+            <tr th:each="ps, index : ${packagedProductsList}" th:id="${ps.id}">
+                <td th:text="${ps.id}"></td>
+                <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
+                <td th:text="${ps.breedOfTree.breed}"></td>
+                <td th:text="${ps.breedDescription}"></td>
+                <td th:text="${ps.sizeOfHeight}"></td>
+                <td th:text="${ps.sizeOfWidth}"></td>
+                <td th:text="${ps.sizeOfLong}"></td>
+                <td th:text="${ps.countOfDesk}"></td>
+                <td th:text="${ps.extent}"></td>
+                <td th:text="${ps.countDeskInHeight}"></td>
+                <td th:text="${ps.countDeskInWidth}"></td>
+                <td th:text="${ps.longFact}"></td>
+                <td th:text="${ps.height_width}"></td>
             </tr>
             <tfoot>
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">№ пачки</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
