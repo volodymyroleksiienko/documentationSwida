@@ -30,10 +30,10 @@ public class ParseTreeStorageToXLS {
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of TreeStorage");
         XSSFCellStyle style = book.createCellStyle();
-        style.setBorderTop(BorderStyle.THICK);
-        style.setBorderBottom(BorderStyle.THICK);
-        style.setBorderLeft(BorderStyle.THICK);
-        style.setBorderRight(BorderStyle.THICK);
+        style.setBorderTop(BorderStyle.MEDIUM);
+        style.setBorderBottom(BorderStyle.MEDIUM);
+        style.setBorderLeft(BorderStyle.MEDIUM);
+        style.setBorderRight(BorderStyle.MEDIUM);
 
         for (int i = 0; i<5;i++){
             sheet.setColumnWidth(i,7000);
