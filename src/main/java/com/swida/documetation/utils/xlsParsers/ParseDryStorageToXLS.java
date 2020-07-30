@@ -1,7 +1,6 @@
 package com.swida.documetation.utils.xlsParsers;
 
-import com.swida.documetation.data.entity.storages.RawStorage;
-import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.entity.storages.DryStorage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +20,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParseRawStorageToXLS {
-    private List<RawStorage> rawStorages;
+public class ParseDryStorageToXLS {
+    private List<DryStorage> dryStorages;
 
     public String parse(String startDate, String endDate ) throws ParseException {
         Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
@@ -60,7 +59,7 @@ public class ParseRawStorageToXLS {
         rowHeader.getCell(6).setCellStyle(style);
         rowHeader.getCell(7).setCellStyle(style);
 
-        for(RawStorage rs: rawStorages){
+        for(DryStorage rs: dryStorages){
             if (rs.getDate()!=null) {
                 Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getDate());
                 if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
@@ -131,7 +130,7 @@ public class ParseRawStorageToXLS {
         rowHeader.getCell(4).setCellStyle(style);
         rowHeader.getCell(5).setCellStyle(style);
 
-        for(RawStorage rs: rawStorages){
+        for(DryStorage rs: dryStorages){
             if (rs.getDate()!=null) {
                 Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getDate());
                 if (dateOfInsert.before(before) && dateOfInsert.after(after)) {

@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 
+import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
@@ -28,20 +29,16 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productJPA.save(packProd);
     }
 
-    @Override
-    public void saveAll(List<PackagedProduct> productList) {
-        for (PackagedProduct product: productList) {
-            productJPA.save(product);
-        }
-    }
 
     @Override
-    public void createPackages(String dryStorageId,String codeOfProduct, String countHeight, String countWidth, String countOfPack, String longFact) {
+    public void createPackages(String dryStorageId, String codeOfProduct, String countHeight, String countWidth,
+                               String countOfPack, String longFact, UserCompany userCompany) {
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(dryStorageId));
         for (int i=1; i<=Integer.parseInt(countOfPack);i++){
             PackagedProduct product = new PackagedProduct();
             product.setCodeOfPackage(codeOfProduct+"-"+i);
             product.setBreedOfTree(dryStorage.getBreedOfTree());
+            product.setUserCompany(userCompany);
             product.setBreedDescription(dryStorage.getBreedDescription());
 
             product.setSizeOfHeight(dryStorage.getSizeOfHeight());
@@ -72,6 +69,11 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     @Override
     public List<PackagedProduct> findAll() {
         return productJPA.findAll();
+    }
+
+    @Override
+    public List<PackagedProduct> getListByUserByBreed(int breedId, int userId) {
+        return productJPA.getListByUserByBreed(breedId,userId);
     }
 
     @Override

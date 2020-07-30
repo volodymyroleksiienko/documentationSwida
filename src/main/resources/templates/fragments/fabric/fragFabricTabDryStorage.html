@@ -54,17 +54,8 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button">
-            <button type="button" class="buttons btn btn-primary" title="Редактировать" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-pencil-alt"></i>
-            </button>
-            <button type="button" class="buttons btn btn-primary" title="Удалить" data-toggle="tooltip" data-placement="left">
-                <i class="far fa-trash-alt"></i>
-            </button>
-            <button type="button" class="buttons btn btn-primary" title="Распиловка" data-toggle="tooltip" data-placement="left">
-                <i class="fab fa-buffer"></i>
-            </button>
-            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#exampleModal">
-                <p style="line-height: 1.25">+</p>
+            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
+                <i class="far fa-file-excel"></i></i>
             </button>
         </div>
         <!-- BUTTON -->
@@ -175,6 +166,43 @@
             </div>
         </div>
     </div>
+    <!-- Export start-->
+    <div class="modal fade" id="exportModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Экспортировать таблицу</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/exportDryStorageXLS-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="startDateInput" class="col-2 col-form-label">Начало</label>
+                            <div class="col-10">
+                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput" required="required" name="startDate">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="endDateInput" class="col-2 col-form-label">Конец</label>
+                            <div class="col-10">
+                                <input class="form-control" type="date" id="endDateInput" required="required" name="endDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Скачать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.querySelector("#endDateInput").valueAsDate = new Date();
+    </script>
+    <!-- Export end -->
 
     <script type="text/javascript">
         function sendForPackagesStorage(btnObj) {
@@ -343,17 +371,8 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button">
-            <button type="button" class="buttons btn btn-primary" title="Редактировать" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-pencil-alt"></i>
-            </button>
-            <button type="button" class="buttons btn btn-primary" title="Удалить" data-toggle="tooltip" data-placement="left">
-                <i class="far fa-trash-alt"></i>
-            </button>
-            <button type="button" class="buttons btn btn-primary" title="Распиловка" data-toggle="tooltip" data-placement="left">
-                <i class="fab fa-buffer"></i>
-            </button>
-            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#exampleModal">
-                <p style="line-height: 1.25">+</p>
+            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
+                <i class="far fa-file-excel"></i></i>
             </button>
         </div>
         <!-- BUTTON -->
@@ -464,6 +483,43 @@
             </div>
         </div>
     </div>
+    <!-- Export start-->
+    <div class="modal fade" id="exportModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Экспортировать таблицу</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/exportDryStorageXLS-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="startDateInput" class="col-2 col-form-label">Начало</label>
+                            <div class="col-10">
+                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput" required="required" name="startDate">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="endDateInput" class="col-2 col-form-label">Конец</label>
+                            <div class="col-10">
+                                <input class="form-control" type="date" id="endDateInput" required="required" name="endDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Скачать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.querySelector("#endDateInput").valueAsDate = new Date();
+    </script>
+    <!-- Export end -->
 
     <script type="text/javascript">
         function sendForPackagesStorage(btnObj) {

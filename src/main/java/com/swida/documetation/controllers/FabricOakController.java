@@ -204,7 +204,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("dryStorageList",dryStorageService.findAll());
+        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
         return "fabricPage";
     }
 
@@ -220,7 +220,7 @@ public class FabricOakController {
     @PostMapping("/createPackages-{userId}-2")
     public String createPackages(@PathVariable("userId")int userId, String id, String codeOfProduct,String height, String width, String count, String longFact){
         int breedId = 2;
-        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact);
+        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,userCompanyService.findById(userId));
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
@@ -234,7 +234,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packagedProductsList",packagedProductService.findAll());
+        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId));
         return "fabricPage";
     }
 

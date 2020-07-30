@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,6 +28,8 @@ public class DryingStorageServiceImpl implements DryingStorageService {
         int count = ds.getCountOfDesk();
         float extent = width*height*longSize*count;
         ds.setExtent(String.valueOf(extent));
+        Date date = new Date(System.currentTimeMillis());
+        ds.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         dryingStorageJPA.save(ds);
     }
 

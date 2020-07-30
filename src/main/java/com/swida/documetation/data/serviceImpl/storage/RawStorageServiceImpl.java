@@ -6,6 +6,8 @@ import com.swida.documetation.data.service.storages.RawStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,6 +29,8 @@ public class RawStorageServiceImpl implements RawStorageService {
             float extent = width*height*longSize*count;
             rs.setExtent(String.valueOf(extent));
         }
+        Date date = new Date(System.currentTimeMillis());
+        rs.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         rawStorageJPA.save(rs);
     }
 

@@ -12,6 +12,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,7 +23,10 @@ import java.util.List;
 public class ParseTreeStorageToXLS {
     private List<TreeStorage> treeStorage;
 
-    public String parse(){
+    public String parse(String startDate, String endDate ) throws ParseException {
+        Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+        Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of TreeStorage");
         XSSFCellStyle style = book.createCellStyle();
@@ -48,22 +54,27 @@ public class ParseTreeStorageToXLS {
         rowHeader.getCell(4).setCellStyle(style);
 
         for(TreeStorage ts: treeStorage){
-            Row row = sheet.createRow(rowCount++);
-            row.setHeight((short)400);
-            row.createCell(0).setCellValue(ts.getCodeOfProduct());
-            row.createCell(1).setCellValue(ts.getBreedOfTree().getBreed());
-            row.createCell(2).setCellValue(ts.getBreedDescription());
-            row.createCell(3).setCellValue(ts.getContrAgent().getNameOfAgent());
-            row.createCell(4).setCellValue(ts.getExtent());
-            row.getCell(0).setCellStyle(style);
-            row.getCell(1).setCellStyle(style);
-            row.getCell(2).setCellStyle(style);
-            row.getCell(3).setCellStyle(style);
-            row.getCell(4).setCellStyle(style);
+           if (ts.getDate()!=null) {
+               Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(ts.getDate());
+               if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
+                   Row row = sheet.createRow(rowCount++);
+                   row.setHeight((short) 400);
+                   row.createCell(0).setCellValue(ts.getCodeOfProduct());
+                   row.createCell(1).setCellValue(ts.getBreedOfTree().getBreed());
+                   row.createCell(2).setCellValue(ts.getBreedDescription());
+                   row.createCell(3).setCellValue(ts.getContrAgent().getNameOfAgent());
+                   row.createCell(4).setCellValue(ts.getExtent());
+                   row.getCell(0).setCellStyle(style);
+                   row.getCell(1).setCellStyle(style);
+                   row.getCell(2).setCellStyle(style);
+                   row.getCell(3).setCellStyle(style);
+                   row.getCell(4).setCellStyle(style);
+               }
+           }
         }
 
         try {
-            String filePath = System.getProperty("user.home")+File.separator+"treeStorage.xlsx";
+            String filePath = System.getProperty("user.home")+File.separator+"Кругляк.xlsx";
             File file = new File(filePath);
             FileOutputStream fos = new FileOutputStream(file);
             book.write(fos);

@@ -12,13 +12,26 @@ import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import com.swida.documetation.utils.other.GenerateResponseForExport;
+import com.swida.documetation.utils.xlsParsers.ParseDryStorageToXLS;
+import com.swida.documetation.utils.xlsParsers.ParseDryingToXLS;
+import com.swida.documetation.utils.xlsParsers.ParseRawStorageToXLS;
 import com.swida.documetation.utils.xlsParsers.ParseTreeStorageToXLS;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.util.List;
 
 @RequestMapping("/fabric")
@@ -55,8 +68,6 @@ public class FabricController {
 //        company.setPassword("9");
 //        company.setNameOfCompany("SuperPylka");
 //        userCompanyService.save(company);
-        ParseTreeStorageToXLS parser =  new ParseTreeStorageToXLS(treeStorageService.findAll());
-        parser.parse();
         int breedId = 1;
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -118,7 +129,19 @@ public class FabricController {
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/exportTreeStorageXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportTreeStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
+                                                         String endDate) throws FileNotFoundException, ParseException {
+        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreed(breedId,userId));
+        String filePath = parser.parse(startDate,endDate);
+
+        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+    }
+
+
+
     //RawStorage page
+
     @GetMapping("/getListOfRawStorage-{userId}-{breedId}")
     public String getListOfRawStorage(@PathVariable("userId")int userId,
                                       @PathVariable("breedId")int breedId, Model model){
@@ -160,6 +183,21 @@ public class FabricController {
         rawStorageService.save(rawStorageDB);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
+
+    @PostMapping("/exportRawStorageXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
+                                                         String endDate) throws FileNotFoundException, ParseException {
+        ParseRawStorageToXLS parser = new ParseRawStorageToXLS(rawStorageService.getListByUserByBreed(breedId,userId));
+        String filePath;
+        if (breedId==2){
+//            for breed oak
+             filePath = parser.parseOAK(startDate,endDate);
+        }else {
+             filePath = parser.parse(startDate,endDate);
+        }
+       return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+    }
+
 
     //Drying page
     @GetMapping("/getListOfDryingStorage-{userId}-{breedId}")
@@ -215,6 +253,19 @@ public class FabricController {
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/exportDryingStorageXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportDryingStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
+                                                        String endDate) throws FileNotFoundException, ParseException {
+        ParseDryingToXLS parser = new ParseDryingToXLS(dryingStorageService.getListByUserByBreed(breedId,userId));
+        String filePath;
+        if (breedId==2){
+//            for breed oak
+            filePath = parser.parseOAK(startDate,endDate);
+        }else {
+            filePath = parser.parse(startDate,endDate);
+        }
+        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+    }
 
     //Dry Storage page
     @GetMapping("/getListOfDryStorage-{userId}-{breedId}")
@@ -225,7 +276,7 @@ public class FabricController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("dryStorageList",dryStorageService.findAll());
+        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
         return "fabricPage";
     }
 
@@ -241,10 +292,25 @@ public class FabricController {
     @PostMapping("/createPackages-{userId}-{breedId}")
     public String createPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
                                     String codeOfProduct,String height, String width, String count, String longFact){
-        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact);
+        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,userCompanyService.findById(userId));
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
+
+    @PostMapping("/exportDryStorageXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportDryStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
+                                                           String endDate) throws FileNotFoundException, ParseException {
+        ParseDryStorageToXLS parser = new ParseDryStorageToXLS(dryStorageService.getListByUserByBreed(breedId,userId));
+        String filePath;
+        if (breedId==2){
+//            for breed oak
+            filePath = parser.parseOAK(startDate,endDate);
+        }else {
+            filePath = parser.parse(startDate,endDate);
+        }
+        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+    }
+
 
     //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-{breedId}")
@@ -254,7 +320,7 @@ public class FabricController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packagedProductsList",packagedProductService.findAll());
+        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId));
         return "fabricPage";
     }
 

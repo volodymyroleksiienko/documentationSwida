@@ -27,6 +27,7 @@ public class DryStorage {
 
     private String extent;
     private String description;
+    private String date;
 
 
     @ManyToOne

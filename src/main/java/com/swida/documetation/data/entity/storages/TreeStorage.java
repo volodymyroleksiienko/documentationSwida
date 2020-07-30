@@ -7,6 +7,7 @@ import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -19,6 +20,7 @@ public class TreeStorage {
     private String codeOfProduct;
     private String breedDescription;
     private String extent;
+    private String date;
 
     @ManyToOne
     private BreedOfTree breedOfTree;

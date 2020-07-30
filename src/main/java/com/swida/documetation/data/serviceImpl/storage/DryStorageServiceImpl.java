@@ -7,6 +7,8 @@ import com.swida.documetation.data.service.storages.DryStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -27,6 +29,8 @@ public class DryStorageServiceImpl implements DryStorageService {
         int count = ds.getCountOfDesk();
         float extent = width*height*longSize*count;
         ds.setExtent(String.valueOf(extent));
+        Date date = new Date(System.currentTimeMillis());
+        ds.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         dryStorageJPA.save(ds);
     }
 
@@ -38,6 +42,11 @@ public class DryStorageServiceImpl implements DryStorageService {
     @Override
     public List<DryStorage> findAll() {
         return dryStorageJPA.findAll();
+    }
+
+    @Override
+    public List<DryStorage> getListByUserByBreed(int breedId, int userId) {
+        return dryStorageJPA.getListByUserByBreed(breedId,userId);
     }
 
     @Override

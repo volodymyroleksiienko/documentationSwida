@@ -37,22 +37,22 @@ public class SecurityController {
         return "redirect:/fabric/index-"+userID;
     }
 
-    @GetMapping("/save")
-    public ResponseEntity<Resource> save() throws FileNotFoundException {
-        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.findAll());
-        String filePath = parser.parse();
-        File file = new File(filePath);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getName());
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(file.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
-    }
+//    @GetMapping("/save")
+//    public ResponseEntity<Resource> save() throws FileNotFoundException {
+//        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.findAll());
+//        String filePath = parser.parse();
+//        File file = new File(filePath);
+//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getName());
+//        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+//        headers.add("Pragma", "no-cache");
+//        headers.add("Expires", "0");
+//
+//        return ResponseEntity.ok()
+//                .headers(headers)
+//                .contentLength(file.length())
+//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+//                .body(resource);
+//    }
 }

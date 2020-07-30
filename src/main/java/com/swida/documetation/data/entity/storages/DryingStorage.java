@@ -27,6 +27,7 @@ public class DryingStorage {
 
     private String extent;
     private String description;
+    private String date;
 
     @ManyToOne
     private UserCompany userCompany;

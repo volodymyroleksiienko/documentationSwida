@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,6 +26,8 @@ public class TreeStorageServiceImpl implements TreeStorageService {
 
     @Override
     public void save(TreeStorage ts) {
+        Date date = new Date(System.currentTimeMillis());
+        ts.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         treeStorageJPA.save(ts);
     }
 
@@ -35,6 +39,8 @@ public class TreeStorageServiceImpl implements TreeStorageService {
         }else {
             treeStorage.getContrAgent().setId(contrAgentService.getIdByUsername(nameOfTreeProvider));
         }
+        Date date = new Date(System.currentTimeMillis());
+        treeStorage.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         treeStorageJPA.save(treeStorage);
     }
 
