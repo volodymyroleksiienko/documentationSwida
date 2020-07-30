@@ -263,18 +263,18 @@
 <script type="text/javascript" th:src="@{../js/buttons.bootstrap4.js}"></script>
 
 <!-- TABLES CONFIGURATION -->
-<script type="text/javascript">
-    $(document).ready( function () {
 
-        // $('#button').click( function () {
-        //     alert( table.rows('.selected').data().length +' row(s) selected' );
-        // } );
+<script type="text/javascript">
+
+    $(document).ready( function () {
 
 
         $('#treestoragetable').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+
             // columns width
             "autoWidth": false,
             // id column visibility
@@ -282,10 +282,17 @@
                 {
                     "targets": [ 0 ],
                     "visible": false,
-                    "searchable": false
-                }
-            ]
+                    "searchable": false,
+                },
+                {
+                    "width": "70px",
+                    "sortable": false,
+                    "targets": 5
+                },
+            ],
+
         });
+
 
         $('#rawstoragetable').DataTable({
             "language": {
@@ -353,12 +360,13 @@
             ]
         });
 
-        $('#packagedproducttable').DataTable({
+        var table = $('#packagedproducttable').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
             // columns width
             "autoWidth": false,
+            // 'select': true,
             // id column visibility
             "columnDefs": [
                 {
@@ -367,56 +375,94 @@
                     "searchable": false
                 }
             ]
+
+        });
+
+        var modalPackagesTable = $('#tableForTransportation').DataTable({
+            // columns width
+            "autoWidth": false,
+            "bSort" : false,
+            "searching": false,
+            "paging": false,
+            "info": false,
+            'select': false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+
         });
 
 
-        //   $('#transportationtable').DataTable({
-        //   	"language": {
-        //   		"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
-        //   	},
-        //   	// columns width
-        //   	"autoWidth": false,
-        // // id column visibility
-        //   	"columnDefs": [
-        //           {
-        //               "targets": [  ],
-        //               "visible": false,
-        //               "searchable": false
-        //           }
-        //       ]
+        $('#transportationtable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            // columns width
+            "autoWidth": false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [ 1 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
 
-        //   });
+        });
 
-
-        $('#treestoragetable tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-        } );
-
-        $('#rawstoragetable tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-        } );
-
-        $('#dryingtable tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-        } );
-
-        $('#drystoragetable tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-        } );
-
-        $('#wastestoragetable tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-        } );
 
         $('#packagedproducttable tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
         } );
 
-        // $('#transportationtable tbody').on( 'click', 'tr', function () {
-        // 	$(this).toggleClass('selected');
-        // } );
+
+
+        $( "#buttonForTransportation" ).click(function() {
+
+            modalPackagesTable.clear().draw();
+            var newData = ( table.rows( '.selected' ).data() );
+            var array = [];
+
+            for (var i = newData.length - 1; i >= 0; i--) {
+
+                var id =			newData[i][0];
+                var code = 			newData[i][1];
+                var material = 		newData[i][2];
+                var description = 	newData[i][3];
+                var thickness = 	newData[i][4];
+                var width = 		newData[i][5];
+                var length = 		newData[i][6];
+                var count = 		newData[i][7];
+                var extent = 		newData[i][8];
+                var heightPc = 		newData[i][9];
+                var widthPc = 		newData[i][10];
+                var wh = heightPc.toString()+"/"+widthPc.toString();
+                var button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+
+                var d=[id, code, material, description, thickness, width, length, count, extent, wh, button];
+
+                array[i] = id;
+
+                modalPackagesTable.row.add(d).draw( false );
+            }
+            console.log(array);
+            $('#sendForTransportationModal').modal('show');
+        });
+
+
+
+        $('#tableForTransportation tbody').on( 'click', 'button', function () {
+            modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
+        } );
+
     } );
 </script>
+
 <!-- TABLES CONFIGURATION -->
 
 <!-- Transportation -->
