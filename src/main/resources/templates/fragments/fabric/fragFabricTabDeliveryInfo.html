@@ -19,80 +19,63 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td  class="details-control" onclick="javascript:$('#parentId1').toggle();"></td>
-                <td>220235345</td>
-                <td>DC 3456 VC</td>
-                <td>DF 3456 DR</td>
-                <td>21.05.2020</td>
-                <td>9:30-10:00</td>
-                <td>Dominik Toretto</td>
-                <td>88005553535</td>
-            </tr>
-            <tr style="display:none" id="parentId1">
-                <td colspan="13" class="child-table">
-                    <table class="table table-hover table-striped parent-table" id="packages">
-                        <thead>
-                        <tr>
-                            <th scope="col">№ пачки</th>
-                            <th scope="col">Порода</th>
-                            <th scope="col">Описание</th>
-                            <th scope="col">Толщина</th>
-                            <th scope="col">Ширина</th>
-                            <th scope="col">Длина</th>
-                            <th scope="col">Кол-во</th>
-                            <th scope="col">Кубатура</th>
-                            <th scope="col">Высота</th>
-                            <th scope="col">Ширина</th>
-                            <th scope="col">Длина-ФАКТ</th>
-                            <th scope="col">В/Ш</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">20-1С-0506-2</th>
-                            <td>Сосна</td>
-                            <td>df</td>
-                            <td>38</td>
-                            <td>90</td>
-                            <td>3050</td>
-                            <td>876</td>
-                            <td>9,138</td>
-                            <td>20</td>
-                            <td>10</td>
-                            <td>6000</td>
-                            <td>10/12</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">20-1С-0506-1</th>
-                            <td>Сосна</td>
-                            <td>dhj</td>
-                            <td>28</td>
-                            <td>90</td>
-                            <td>3050</td>
-                            <td>86</td>
-                            <td>9,138</td>
-                            <td>20</td>
-                            <td>10</td>
-                            <td>6000</td>
-                            <td>10/12</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td style="display:none"></td>
-                <td style="display:none"></td>
-                <td style="display:none"></td>
-                <td style="display:none"></td>
-                <td style="display:none"></td>
-                <td style="display:none"></td>
-                <td style="display:none"></td>
-            </tr>
-
-
-
-
-
+                  <div th:each="dd, index : ${deliveryDocumentations}">
+                          <tr>
+                              <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                              <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
+                              <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
+                              <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>
+                              <td th:text="${dd.getDateOfUnloading()}"></td>
+                              <td th:text="${dd.getDateOfUnloading()}"></td>
+                              <td th:text="${dd.driverInfo.getFullName()}"></td>
+                              <td th:text="${dd.driverInfo.getPhone()}"></td>
+                          </tr>
+                          <tr style="display:none" th:id="'parent'+${dd.id}">
+                              <td colspan="13" class="child-table">
+                                  <table class="table table-hover table-striped parent-table" id="packages">
+                                      <thead>
+                                      <tr>
+                                          <th scope="col">№ пачки</th>
+                                          <th scope="col">Порода</th>
+                                          <th scope="col">Описание</th>
+                                          <th scope="col">Толщина</th>
+                                          <th scope="col">Ширина</th>
+                                          <th scope="col">Длина</th>
+                                          <th scope="col">Кол-во</th>
+                                          <th scope="col">Кубатура</th>
+                                          <th scope="col">Высота</th>
+                                          <th scope="col">Ширина</th>
+                                          <th scope="col">Длина-ФАКТ</th>
+                                          <th scope="col">В/Ш</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr th:each="ps, index : ${dd.getProductList()}" th:id="${ps.id}">
+                                          <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
+                                          <td th:text="${ps.breedOfTree.breed}"></td>
+                                          <td th:text="${ps.breedDescription}"></td>
+                                          <td th:text="${ps.sizeOfHeight}"></td>
+                                          <td th:text="${ps.sizeOfWidth}"></td>
+                                          <td th:text="${ps.sizeOfLong}"></td>
+                                          <td th:text="${ps.countOfDesk}"></td>
+                                          <td th:text="${ps.extent}"></td>
+                                          <td th:text="${ps.countDeskInHeight}"></td>
+                                          <td th:text="${ps.countDeskInWidth}"></td>
+                                          <td th:text="${ps.longFact}"></td>
+                                          <td th:text="${ps.height_width}"></td>
+                                      </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                          </tr>
+                  </div>
             </tbody>
             <tfoot>
             <tr>
@@ -110,5 +93,6 @@
 
     </div>
     <!-- Транспортировка -->
+
 
 </th:block>

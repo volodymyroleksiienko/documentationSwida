@@ -54,7 +54,7 @@
             <li class="nav-item">
                 <a class="nav-link"
                    th:href="@{'/fabric/getListOfPackagedProduct-'+${userId}+'-'+${breedId}}"
-                   th:classappend="${tabName.equals('packagedProductsList')} ? 'active':''">Пачки</a>
+                   th:classappend="${tabName.equals('packageStorage')} ? 'active':''">Пачки</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
@@ -106,71 +106,6 @@
 
 
 
-        <!-- Транспортировка -->
-        <div class="tab-pane fade container-fluid" id="transportation">
-
-
-            <table class="table table-hover table-striped" id="transportationtable">
-                <br>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th scope="col">id</th>
-                    <th scope="col">№ выгрузки</th>
-                    <th scope="col">А/М</th>
-                    <th scope="col">П/П</th>
-                    <th scope="col">Дата выгрузки</th>
-                    <th scope="col">Время выгрузки</th>
-                    <th scope="col">Водитель</th>
-                    <th scope="col">Телефон</th>
-                </tr>
-                </thead>
-
-
-                <tbody>
-
-                </tbody>
-                <!--<tbody>
-                    <tr>
-                        <td></td>
-                        <td>1</td>
-                        <th scope="row">1901</th>
-                        <td>BM 2041 BC</td>
-                        <td>BM 2772 XP</td>
-                        <td>30.04.2020</td>
-                        <td>С:09-30 ПО:10-00</td>
-                        <td>Грибко Виталий</td>
-                        <td>0993530799</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>2</td>
-                        <th scope="row">1901</th>
-                        <td>BM 2141 BC</td>
-                        <td>BM 2722 XP</td>
-                        <td>30.04.2020</td>
-                        <td>С:10-30 ПО:11-00</td>
-                        <td>Грибко Виталий2</td>
-                        <td>0993530799</td>
-                    </tr>
-                </tbody> -->
-
-                <tfoot>
-                <tr>
-                    <th></th>
-                    <th scope="col">id</th>
-                    <th scope="col">№ выгрузки</th>
-                    <th scope="col">А/М</th>
-                    <th scope="col">П/П</th>
-                    <th scope="col">Дата выгрузки</th>
-                    <th scope="col">Время выгрузки</th>
-                    <th scope="col">Водитель</th>
-                    <th scope="col">Телефон</th>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-        <!-- Транспортировка -->
     </div>
     <!-- ALL TABLES -->
 </div>
@@ -404,6 +339,7 @@
             },
             // columns width
             "autoWidth": false,
+            "bSort": false,
             // id column visibility
             "columnDefs": [
                 {
