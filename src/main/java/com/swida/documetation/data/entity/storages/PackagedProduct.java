@@ -40,6 +40,8 @@ public class PackagedProduct {
     private String extent;
     private String height_width;
 
+    private String date;
+
     @ManyToOne
     private UserCompany userCompany;
 
