@@ -5,11 +5,10 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Main</title>
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/buttons.bootstrap4.css}">
+
     <link th:href="@{../css/all.css}" rel="stylesheet">
     <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
 
@@ -199,8 +198,6 @@
 <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
 <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
 
-<script type="text/javascript" th:src="@{../js/dataTables.buttons.js}"></script>
-<script type="text/javascript" th:src="@{../js/buttons.bootstrap4.js}"></script>
 
 <!-- TABLES CONFIGURATION -->
 
@@ -223,6 +220,11 @@
                     "targets": [ 0 ],
                     "visible": false,
                     "searchable": false,
+                },
+                {
+                    "targets": 6,
+                    "orderable": false,
+                    "width": "70px"
                 }
             ],
 
@@ -233,6 +235,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             // columns width
             "autoWidth": false,
             // id column visibility
@@ -241,6 +244,11 @@
                     "targets": [ 0 ],
                     "visible": false,
                     "searchable": false
+                },
+                {
+                    "targets": 9,
+                    "orderable": false,
+                    "width": "70px"
                 }
             ]
         });
@@ -249,6 +257,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             // columns width
             "autoWidth": false,
 
@@ -258,6 +267,11 @@
                     "targets": [ 0 ],
                     "visible": false,
                     "searchable": false
+                },
+                {
+                    "targets": 9,
+                    "orderable": false,
+                    "width": "70px"
                 }
             ]
         });
@@ -266,6 +280,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             // columns width
             "autoWidth": false,
 
@@ -275,6 +290,11 @@
                     "targets": [ 0 ],
                     "visible": false,
                     "searchable": false
+                },
+                {
+                    "targets": 9,
+                    "orderable": false,
+                    "width": "70px"
                 }
             ]
         });
@@ -283,6 +303,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             // columns width
             "autoWidth": false,
             // id column visibility
@@ -291,6 +312,11 @@
                     "targets": [ 0 ],
                     "visible": false,
                     "searchable": false
+                },
+                {
+                    "targets": 6,
+                    "orderable": false,
+                    "width": "70px"
                 }
             ]
         });
@@ -299,6 +325,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             // columns width
             "autoWidth": false,
             // 'select': true,
@@ -308,6 +335,11 @@
                     "targets": [ 0 ],
                     "visible": false,
                     "searchable": false
+                },
+                {
+                    "targets": 13,
+                    "orderable": false,
+                    "width": "30px"
                 }
             ]
 
@@ -327,7 +359,7 @@
                     "targets": [ 0 ],
                     "visible": true,
                     "searchable": true
-                }
+                },
             ]
 
         });
@@ -337,6 +369,7 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             // columns width
             "autoWidth": false,
             "bSort": false,
@@ -398,18 +431,6 @@
 </script>
 
 <!-- TABLES CONFIGURATION -->
-
-
-<!-- Transportation -->
-
-<!-- <script type="text/javascript">
-    $(function () {
-    $('body').tooltip({
-      selector: '[data-toggle="tooltip"]',
-      container: 'body'
-  });
-});
-</script> -->
 
 <!-- SCRIPTS -->
 </body>

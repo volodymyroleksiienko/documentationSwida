@@ -7317,14 +7317,16 @@ button.buttons {
   width: 56px;
   height: 56px;
   color: #fff;
-  font-size: 2.6em;
-  padding: 1px 0 0 0;
+  font-size: 2em;
+  padding: 0;
   text-align: center;
   display: block;
   margin: 20px auto 0;
   position: relative;
   -webkit-transition: all .1s ease-out;
-  transition: all .1s ease-out; }
+  transition: all .1s ease-out;
+  border: 0px;
+}
 
 button.buttons:active,
 button.buttons:focus,
@@ -7369,13 +7371,13 @@ button.buttons:nth-last-child(1):hover i.fa {
 
 button.buttons:nth-last-child(1) i.fa:nth-last-child(1) {
   position: absolute;
-  margin: 10px 0 0 -32px; }
+  margin: -13px 0 0 -13px; }
 
 button.buttons:nth-last-child(1) i.fa:nth-last-child(2) {
   opacity: 0; }
 
 button.buttons:nth-last-child(1):hover i.fa:nth-last-child(1) {
-  opacity: 0; }
+  opacity: 1; }
 
 button.buttons:nth-last-child(1):hover i.fa:nth-last-child(2) {
   opacity: 1; }
@@ -7388,7 +7390,7 @@ button.buttons:not(:last-child):nth-last-child(2) {
 button.buttons:not(:last-child):nth-last-child(3) {
   -webkit-transition-delay: 75ms;
   transition-delay: 40ms;
-  background-color: #E74C3C; }
+  background-color: #7b8a8b; }
 
 button.buttons:not(:last-child):nth-last-child(4) {
   -webkit-transition-delay: 100ms;

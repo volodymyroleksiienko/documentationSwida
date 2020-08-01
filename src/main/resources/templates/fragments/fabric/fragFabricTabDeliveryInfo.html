@@ -16,6 +16,7 @@
                 <th scope="col">Время выгрузки</th>
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -29,6 +30,11 @@
                               <td th:text="${dd.getDateOfUnloading()}"></td>
                               <td th:text="${dd.driverInfo.getFullName()}"></td>
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
+                              <td>
+                                  <button  type="button" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
+                                      <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
+                                  </button>
+                              </td>
                           </tr>
                           <tr style="display:none" th:id="'parent'+${dd.id}">
                               <td colspan="13" class="child-table">
@@ -74,6 +80,7 @@
                               <td style="display:none"></td>
                               <td style="display:none"></td>
                               <td style="display:none"></td>
+                              <td style="display:none"></td>
                           </tr>
                   </div>
             </tbody>
@@ -87,6 +94,7 @@
                 <th scope="col">Время выгрузки</th>
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
+                <th></th>
             </tr>
             </tfoot>
         </table>
