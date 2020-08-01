@@ -3,6 +3,7 @@ package com.swida.documetation.data.entity.storages;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfEntity;
+import com.swida.documetation.data.enums.StatusOfProduct;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -44,6 +45,9 @@ public class PackagedProduct {
 
     @ManyToOne
     private DryStorage dryStorage;
+
+    @Enumerated(EnumType.STRING)
+    private StatusOfProduct statusOfProduct = StatusOfProduct.ON_STORAGE;
 
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;

@@ -13,6 +13,8 @@ public class DriverInfo {
     private int id;
 
     private String fullName;
+    //for multimodal doc
+    private String idOfTruck;
     private String phone;
     private String numberOfTruck;
     private String numberOfTrailer;

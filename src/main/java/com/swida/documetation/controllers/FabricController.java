@@ -7,6 +7,7 @@ import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.Roles;
+import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
@@ -320,7 +321,7 @@ public class FabricController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         return "fabricPage";
     }
 
@@ -335,10 +336,17 @@ public class FabricController {
     }
 
     //Delivery page
-    @GetMapping("/getListOfDeliveryDocumentation")
-    public String getListOfDeliveryDocumentation(Model model){
+    @GetMapping("/getListOfDeliveryDocumentation-{userId}-{breedId}")
+    public String getListOfDeliveryDocumentation(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                                 Model model){
+
+        model.addAttribute("fragmentPathTabDelivery","deliveryInfo");
+        model.addAttribute("tabName","deliveryInfo");
+        model.addAttribute("userId",userId);
+        model.addAttribute("breedId",breedId);
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("deliveryDocumentations",deliveryDocumentationService.findAll());
-        return "";
+        return "fabricPage";
     }
 
 }

@@ -6,6 +6,7 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
+import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
@@ -114,8 +115,6 @@ public class FabricOakController {
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(rawStorageId));
         rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()-dryingStorage.getCountOfDesk());
         dryingStorage.setSizeOfWidth(rawStorage.getSizeOfWidth());
-        dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
-        dryingStorage.setSizeOfLong(rawStorage.getSizeOfLong());
         dryingStorage.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
@@ -129,10 +128,9 @@ public class FabricOakController {
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
-        rawStorageDB.setCountOfDesk(rawStorage.getCountOfDesk());
+        rawStorageDB.setExtent(rawStorage.getExtent());
         rawStorageDB.setSizeOfHeight(rawStorage.getSizeOfHeight());
-        rawStorageDB.setSizeOfLong(rawStorage.getSizeOfLong());
-        rawStorageDB.setSizeOfWidth(rawStorage.getSizeOfWidth());
+        rawStorageDB.setDescription(rawStorage.getDescription());
         rawStorageService.save(rawStorageDB);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
@@ -234,7 +232,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         return "fabricPage";
     }
 

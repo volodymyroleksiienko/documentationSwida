@@ -353,17 +353,11 @@
                             <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
                             <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
 
-                            <label class="col-form-label" for="sendForDryingModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalWidth" disabled="disabled" name="sizeOfWidth">
-
-                            <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalLength" disabled="disabled" name="sizeOfLong">
-
-                            <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="sendForDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
-
                             <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="sendForDryingModalVolume" disabled="disabled" name="extent">
+                            <input type="text" class="form-control" id="sendForDryingModalVolume"  name="extent">
+
+                            <label class="col-form-label" for="sendForDryingModalDescription">Примечания</label>
+                            <input type="text" class="form-control" id="sendForDryingModalDescription"  name="description">
 
                         </div>
                         <!-- Insert rows -->
@@ -405,17 +399,11 @@
                             <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
                             <input type="text" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
 
-                            <label class="col-form-label" for="editDryingModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
-
-                            <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                            <input type="text" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
-
-                            <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
-
                             <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
+                            <input type="text" class="form-control" id="editDryingModalVolume" required="required"  autocomplete="off" placeholder="мм" name="extent">
+
+                            <label class="col-form-label" for="editForDryingModalDescription">Примечания</label>
+                            <input type="text" class="form-control" id="editForDryingModalDescription"  name="description">
 
                         </div>
                         <!-- Insert rows -->
@@ -511,19 +499,15 @@
             var material = $(trObj).find('td:eq(0)').text();
             var description = $(trObj).find('td:eq(1)').text();
             var thickness = $(trObj).find('td:eq(2)').text();
-            var width = $(trObj).find('td:eq(3)').text();
-            var length = $(trObj).find('td:eq(4)').text();
-            var count = $(trObj).find('td:eq(5)').text();
-            var extent = $(trObj).find('td:eq(6)').text();
+            var extent = $(trObj).find('td:eq(3)').text();
+            var desc = $(trObj).find('td:eq(4)').text();
 
             $('#editDryingModalCode').val(code);
             $('#editDryingModalMaterial').val(material);
             $('#editDryingModalMaterialDescr').val(description);
             $('#editDryingModalThickness').val(thickness);
-            $('#editDryingModalWidth').val(width);
-            $('#editDryingModalLength').val(length);
-            $('#editDryingModalCount').val(count);
             $('#editDryingModalVolume').val(extent);
+            $('#editForDryingModalDescription').val(desc);
 
 
             $('#editDryingModal').modal('show');

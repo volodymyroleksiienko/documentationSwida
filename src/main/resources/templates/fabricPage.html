@@ -57,7 +57,9 @@
                    th:classappend="${tabName.equals('packagedProductsList')} ? 'active':''">Пачки</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#transportation">Транспортировка</a>
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfDeliveryDocumentation-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('deliveryInfo')} ? 'active':''">Транспортировка</a>
             </li>
         </ul>
     </div>
@@ -79,6 +81,9 @@
         </div>
         <div th:if="${fragmentPathTabPackageStorage!=null}">
             <div th:replace="~{fragments/fabric/fragFabricTabPackageStorage :: ${fragmentPathTabPackageStorage}}"></div>
+        </div>
+        <div th:if="${fragmentPathTabDelivery!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabDeliveryInfo :: ${fragmentPathTabDelivery}}"></div>
         </div>
 
 
@@ -283,12 +288,7 @@
                     "targets": [ 0 ],
                     "visible": false,
                     "searchable": false,
-                },
-                {
-                    "width": "70px",
-                    "sortable": false,
-                    "targets": 5
-                },
+                }
             ],
 
         });
@@ -390,8 +390,8 @@
             "columnDefs": [
                 {
                     "targets": [ 0 ],
-                    "visible": false,
-                    "searchable": false
+                    "visible": true,
+                    "searchable": true
                 }
             ]
 
@@ -407,7 +407,7 @@
             // id column visibility
             "columnDefs": [
                 {
-                    "targets": [ 1 ],
+                    "targets": [  ],
                     "visible": false,
                     "searchable": false
                 }
@@ -419,8 +419,6 @@
         $('#packagedproducttable tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
         } );
-
-
 
         $( "#buttonForTransportation" ).click(function() {
 
@@ -465,92 +463,7 @@
 
 <!-- TABLES CONFIGURATION -->
 
-<!-- Transportation -->
-<script type="text/javascript">
-    function format ( d ) {
-        // `d` is the original data object for the row
-        return '<table class="table table-hover table-striped" id="packagedproducttable2">'+
-            '<thead>'+
-            '<tr>'+
-            '<th scope="col"></th>'+
-            '<th scope="col">№ пачки</th>'+
-            '<th scope="col">Порода</th>'+
-            '<th scope="col">Толщина, мм</th>'+
-            '<th scope="col">Ширина, мм</th>'+
-            '<th scope="col">Длина, мм</th>'+
-            '<th scope="col">Кол-во досок, шт</th>'+
-            '<th scope="col">Кубатура, м<sup>3</sup></th>'+
-            '<th scope="col">Высота, шт</th>'+
-            '<th scope="col">Ширина, шт</th>'+
-            '<th scope="col">Длина-ФАКТ</th>'+
-            '<th scope="col">Высота/Ширина</th>'+
-            '</tr>'+
-            '</thead>'+
-            '<tbody>'+
-            '<tr>'+
-            '<td></td>'+
-            '<th scope="row">'+d.id+'</th>'+
-            '<td>Сосна</td>'+
-            '<td>45</td>'+
-            '<td>45</td>'+
-            '<td>3050</td>'+
-            '<td>876</td>'+
-            '<td>20</td>'+
-            '<td>10</td>'+
-            '<td>9,138</td>'+
-            '<td>6000</td>'+
-            '<td>10/12</td>'+
-            '</tr>'+
-            '<tr>'+
-            '<td></td>'+
-            '<th scope="row">'+d.id+'</th>'+
-            '<td>Сосна</td>'+
-            '<td>56</td>'+
-            '<td>456</td>'+
-            '<td>3050</td>'+
-            '<td>876</td>'+
-            '<td>20</td>'+
-            '<td>10</td>'+
-            '<td>9,138</td>'+
-            '<td>6000</td>'+
-            '<td>10/12</td>'+
-            '</tr>'+
-            '<tr>'+
-            '<td></td>'+
-            '<th scope="row">'+d.id+'</th>'+
-            '<td>Сосна</td>'+
-            '<td>56</td>'+
-            '<td>567</td>'+
-            '<td>3050</td>'+
-            '<td>876</td>'+
-            '<td>20</td>'+
-            '<td>10</td>'+
-            '<td>9,138</td>'+
-            '<td>6000</td>'+
-            '<td>10/12</td>'+
-            '</tr>'+
-            '</tbody>'+
-            '</table>';
-    }
 
-
-        // listener for opening and closing
-        $('#transportationtable tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row( tr );
-
-            if ( row.child.isShown() ) {
-                // already open
-                row.child.hide();
-                tr.removeClass('shown');
-            }
-            else {
-                // open row
-                row.child( format(row.data()) ).show();
-                tr.addClass('shown');
-            }
-        } );
-</script>
 <!-- Transportation -->
 
 <!-- <script type="text/javascript">

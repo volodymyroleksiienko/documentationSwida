@@ -4,6 +4,7 @@ package com.swida.documetation.data.serviceImpl.storage;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
+import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
 import com.swida.documetation.data.service.storages.DryStorageService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
@@ -72,8 +73,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
-    public List<PackagedProduct> getListByUserByBreed(int breedId, int userId) {
-        return productJPA.getListByUserByBreed(breedId,userId);
+    public List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status) {
+        return productJPA.getListByUserByBreed(breedId,userId,status);
     }
 
     @Override

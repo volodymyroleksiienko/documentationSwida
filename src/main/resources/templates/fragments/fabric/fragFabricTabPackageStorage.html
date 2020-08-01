@@ -58,22 +58,155 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button">
-            <button type="button" class="buttons btn btn-primary" title="Редактировать" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-pencil-alt"></i>
-            </button>
-            <button type="button" class="buttons btn btn-primary" title="Удалить" data-toggle="tooltip" data-placement="left">
-                <i class="far fa-trash-alt"></i>
-            </button>
-            <button type="button" class="buttons btn btn-primary" title="Распиловка" data-toggle="tooltip" data-placement="left">
-                <i class="fab fa-buffer"></i>
-            </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-placement="left" id ="buttonForTransportation">
                 <p style="line-height: 1.25">+</p>
             </button>
         </div>
         <!-- BUTTON -->
     </div>
-    <!-- Пачки -->
+    <!-- Send list for transportation begin -->
+    <div class="modal fade" id="sendForTransportationModal">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Погрузить</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/cut">
+                    <div class="modal-body">
+                        <!-- Selected row -->
+                        <table class="table table-hover table-striped" id="tableForTransportation">
+                            <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">№ пачки</th>
+                                <th scope="col">Порода</th>
+                                <th scope="col">Опис.</th>
+                                <th scope="col">Толщ.</th>
+                                <th scope="col">Шир.</th>
+                                <th scope="col">Дл.</th>
+                                <th scope="col">Кол-во</th>
+                                <th scope="col">Куб.</th>
+                                <th scope="col">В/Ш</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="listOfPackageId">
+                            <!-- <tr></tr> -->
+                            </tbody>
+                        </table>
+                        <!-- Selected row -->
 
+                        <!-- Insert rows -->
+                        <div class="form-group container">
+                            <input type="text" class="form-control" id="addRawStorageId" hidden="hidden" autocomplete="off">
+
+                            <label class="col-form-label" for="addIdOfTruck">№ выгрузки</label>
+                            <input type="text" class="form-control" placeholder="" id="addIdOfTruck" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
+                            <input type="text" hidden="hidden" id="breedID">
+                            <input type="text" hidden="hidden" id="userID">
+
+
+                            <br>
+
+                            <div class="form-group row">
+                                <label for="driverCredentionals" class="col-6 col-form-label">Имя, Фамилия водителя</label>
+                                <label for="driverPhone" class="col-6 col-form-label">Телефон</label>
+
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="driverCredentionals" required="required" autocomplete="off">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="driverPhone" required="required" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="numberOfTruck" class="col-6 col-form-label">Номер фуры</label>
+                                <label for="numberOfTrailer" class="col-6 col-form-label">Номер прицепа</label>
+
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="numberOfTruck" required="required" autocomplete="off">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="numberOfTrailer" required="required" autocomplete="off">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Insert rows -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="sendRequestToCreateDeleviry()">Отправить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Send list for transportation end -->
+    <!-- Пачки -->
+    <!-- Transportation -->
+    <script type="text/javascript">
+        // listener for opening and closing
+        $('#transportationtable tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if ( row.child.isShown() ) {
+                // already open
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // open row
+                row.child( format(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+
+        function sendRequestToCreateDeleviry() {
+            var arrOfTr = document.getElementById("listOfPackageId").getElementsByTagName("tr");
+            var idOfTruck1 = $("#addIdOfTruck").val();
+            var name1 = $("#driverCredentionals").val();
+            var phone1 = $("#driverPhone").val();
+            var numberOfTruck1 = $("#numberOfTruck").val();
+            var numberOfTrailer1 = $("#numberOfTrailer").val();
+            var breedID = $("#breedID").val();
+            var userID = $("#userID").val();
+
+
+            var arrayOfId = [];
+            for (var i = 0; i<arrOfTr.length;i++){
+                arrayOfId[i] = $(arrOfTr[i]).find('td:eq(0)').text();
+            }
+
+            console.log(arrayOfId);
+
+            $.ajax({
+                method: "post",
+                url: "/createDeliveryDoc-"+userID+"-"+breedID,
+                contextType: "application/json",
+                data: {
+                    list: arrayOfId,
+                    name: name1,
+                    phone: phone1,
+                    idOfTruck: idOfTruck1,
+                    numberOfTruck: numberOfTruck1,
+                    numberOfTrailer: numberOfTrailer1
+                },
+                traditional: true,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                   alert("Error");
+                }
+            });
+
+        }
+    </script>
 
 </th:block>
