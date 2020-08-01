@@ -140,6 +140,36 @@ public class FabricController {
     }
 
 
+    @PostMapping("/addDeskFromProvider-{userId}-{breedId}")
+    public String addDeskFromProvider(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                      TreeStorage treeStorage, String sizeOfHeight, String sizeOfWidth,
+                                      String sizeOfLong, String countOfDesk, String nameOfAgent, String extent){
+        treeStorage.setUserCompany(userCompanyService.findById(userId));
+        treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        treeStorage.setExtent(extent);
+        ContrAgent contrAgent =  new ContrAgent();
+        contrAgent.setNameOfAgent(nameOfAgent);
+        treeStorage.setContrAgent(contrAgent);
+        treeStorageService.putNewTreeStorageObj(treeStorage);
+
+        RawStorage rawStorage = new RawStorage();
+        rawStorage.setUserCompany(userCompanyService.findById(userId));
+        rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        rawStorage.setTreeStorage(treeStorage);
+
+        rawStorage.setCodeOfProduct(treeStorage.getCodeOfProduct());
+        rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorage.setExtent(treeStorage.getExtent());
+
+        rawStorage.setSizeOfHeight(sizeOfHeight);
+        rawStorage.setSizeOfWidth(sizeOfWidth);
+        rawStorage.setSizeOfLong(sizeOfLong);
+        rawStorage.setCountOfDesk(Integer.parseInt(countOfDesk));
+
+        rawStorageService.save(rawStorage);
+        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+    }
+
 
     //RawStorage page
 
@@ -154,6 +184,8 @@ public class FabricController {
         model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
         return "fabricPage";
     }
+
+
     @PostMapping("/addDeskToDrying-{userId}-{breedId}")
     private String addDeskToDrying(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     String rawStorageId, DryingStorage dryingStorage){
