@@ -268,6 +268,9 @@
 
 
 
+
+
+
 <!--OAK-->
 <!--//RAW STORAGE TAB-->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
@@ -298,8 +301,8 @@
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>
 
@@ -325,7 +328,9 @@
         </div>
         <!-- BUTTON -->
     </div>
-    <div class="modal fade" id="sendForDryingModal">
+
+
+    <div class="modal fade" id="sendForDryingModalOak">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -370,6 +375,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- Сушка edit-->
     <div class="modal fade" id="editDryingModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -456,7 +463,7 @@
     <!-- Export end -->
 
     <script type="text/javascript">
-        function sendForDrying(btnObj) {
+        function sendForDryingOak(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
@@ -465,28 +472,27 @@
             var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
             $('#sendForDryingModalHeader').text("Отправить в сушку "+codeOfRawStorage);
 
-            var code = $(trObj).find('th:eq(0)').text();
-            var material = $(trObj).find('td:eq(0)').text();
-            var description = $(trObj).find('td:eq(1)').text();
-            var thickness = $(trObj).find('td:eq(2)').text();
-            var width = $(trObj).find('td:eq(3)').text();
-            var length = $(trObj).find('td:eq(4)').text();
-            var count = $(trObj).find('td:eq(5)').text();
-            var extent = $(trObj).find('td:eq(6)').text();
+            var code =              $(trObj).find('th:eq(0)').text();
+            var material =          $(trObj).find('td:eq(0)').text();
+            var breedDescription =  $(trObj).find('td:eq(1)').text();
+            var thickness =         $(trObj).find('td:eq(2)').text();
+            var extent =            $(trObj).find('td:eq(3)').text();
+            var description =       $(trObj).find('td:eq(4)').text();
+
 
             $('#sendForDryingModalCode').val(code);
             $('#sendForDryingModalMaterial').val(material);
-            $('#sendForDryingModalMaterialDescr').val(description);
+            $('#sendForDryingModalMaterialDescr').val(breedDescription);
             $('#sendForDryingModalThickness').val(thickness);
-            $('#sendForDryingModalWidth').val(width);
-            $('#sendForDryingModalLength').val(length);
-            $('#sendForDryingModalCount').val(count);
             $('#sendForDryingModalVolume').val(extent);
+            $('#sendForDryingModalDescription').val(description);
 
 
-            $('#sendForDryingModal').modal('show');
+
+
+            $('#sendForDryingModalOak').modal('show');
         }
-        function editRawStorage(btnObj) {
+        function editRawStorageOak(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
