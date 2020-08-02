@@ -27,13 +27,15 @@
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>
                               <td th:text="${dd.getDateOfUnloading()}"></td>
-                              <td th:text="${dd.getDateOfUnloading()}"></td>
+                              <td th:text="${dd.getTimeOfUnloading()}"></td>
                               <td th:text="${dd.driverInfo.getFullName()}"></td>
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
                               <td>
-                                  <button  type="button" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
-                                      <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
-                                  </button>
+                                  <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post">
+                                      <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
+                                          <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
+                                      </button>
+                                  </form>
                               </td>
                           </tr>
                           <tr style="display:none" th:id="'parent'+${dd.id}">

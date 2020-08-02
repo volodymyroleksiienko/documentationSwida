@@ -216,9 +216,9 @@ public class FabricOakController {
     }
 
     @PostMapping("/createPackages-{userId}-2")
-    public String createPackages(@PathVariable("userId")int userId, String id, String codeOfProduct,String height, String width, String count, String longFact){
+    public String createPackages(@PathVariable("userId")int userId, String id, String codeOfProduct,String height, String width, String count, String longFact, String heightWidth){
         int breedId = 2;
-        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,userCompanyService.findById(userId));
+        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,heightWidth, userCompanyService.findById(userId));
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }

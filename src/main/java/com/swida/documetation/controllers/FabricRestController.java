@@ -30,7 +30,8 @@ public class FabricRestController {
 
     @PostMapping("/createDeliveryDoc-{userID}-{breedID}")
     public String createDeliveryDoc(@PathVariable("userID") String userID, @PathVariable("breedID") String breedID,
-            String[] list, String name, String phone, String idOfTruck, String numberOfTruck, String numberOfTrailer) {
+            String[] list, String name, String phone, String idOfTruck, String numberOfTruck, String numberOfTrailer,
+                                    String dateOfUnloading, String timeOfUnloading) {
         DriverInfo driverInfo = new DriverInfo();
         driverInfo.setFullName(name);
         driverInfo.setIdOfTruck(idOfTruck);
@@ -40,6 +41,9 @@ public class FabricRestController {
 
         List<PackagedProduct> productList = new ArrayList<>();
         DeliveryDocumentation deliveryDocumentation = new DeliveryDocumentation();
+        deliveryDocumentation.setDateOfUnloading(dateOfUnloading);
+        deliveryDocumentation.setTimeOfUnloading(timeOfUnloading);
+
         for (int i=0; i<list.length; i++){
             productList.add(packagedProductService.findById(Integer.parseInt(list[i])));
             productList.get(i).setStatusOfProduct(StatusOfProduct.IN_DELIVERY);

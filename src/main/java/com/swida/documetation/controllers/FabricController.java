@@ -14,10 +14,7 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
-import com.swida.documetation.utils.xlsParsers.ParseDryStorageToXLS;
-import com.swida.documetation.utils.xlsParsers.ParseDryingToXLS;
-import com.swida.documetation.utils.xlsParsers.ParseRawStorageToXLS;
-import com.swida.documetation.utils.xlsParsers.ParseTreeStorageToXLS;
+import com.swida.documetation.utils.xlsParsers.*;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -29,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -324,8 +322,9 @@ public class FabricController {
 
     @PostMapping("/createPackages-{userId}-{breedId}")
     public String createPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                    String codeOfProduct,String height, String width, String count, String longFact){
-        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,userCompanyService.findById(userId));
+                                    String codeOfProduct,String height, String width, String count, String longFact, String heightWidth){
+        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
+
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
@@ -357,6 +356,20 @@ public class FabricController {
         return "fabricPage";
     }
 
+    @PostMapping("/unformPackagedProduct-{userId}-{breedId}")
+    public  String unformPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String id){
+
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
+
+        DryStorage dryStorage = product.getDryStorage();
+
+        dryStorage.setCountOfDesk(dryStorage.getCountOfDesk()+ Integer.parseInt(product.getCountOfDesk()));
+        dryStorageService.save(dryStorage);
+        packagedProductService.deleteByID(Integer.parseInt(id));
+
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    }
+
 
 
     @PutMapping("/addPackagedProductToDelivery")
@@ -379,6 +392,15 @@ public class FabricController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("deliveryDocumentations",deliveryDocumentationService.findAll());
         return "fabricPage";
+    }
+
+    @PostMapping("/exportDeliveryInfo-{id}")
+    public ResponseEntity<Resource> exportDeliveryInfo(@PathVariable("id") int id) throws FileNotFoundException {
+        DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.findById(id);
+        ParserDeliveryDocumentationToXLS parser = new ParserDeliveryDocumentationToXLS(deliveryDocumentation);
+        String filePath = parser.parse();
+
+        return new GenerateResponseForExport().generate(filePath,deliveryDocumentation.getDriverInfo().getFullName(),deliveryDocumentation.getDriverInfo().getPhone());
     }
 
 }

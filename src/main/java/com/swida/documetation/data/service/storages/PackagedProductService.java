@@ -9,7 +9,7 @@ import java.util.List;
 public interface PackagedProductService {
     void save(PackagedProduct packProd);
     void createPackages(String dryStorageId, String codeOfProduct, String countHeight, String countWidth,
-                        String countOfPack, String longFact, UserCompany userCompany);
+                        String countOfPack, String longFact, String heightWidth, UserCompany userCompany);
     PackagedProduct findById(int id);
     List<PackagedProduct> findAll();
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);

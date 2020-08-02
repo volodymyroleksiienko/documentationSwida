@@ -21,9 +21,8 @@ import java.util.Date;
 public class ParserDeliveryDocumentationToXLS {
     private DeliveryDocumentation deliveryDocumentation;
 
-    public String parse(String startDate, String endDate ) throws ParseException {
-        Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
-        Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+    public String parse() {
+
 
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
@@ -33,12 +32,50 @@ public class ParserDeliveryDocumentationToXLS {
         style.setBorderLeft(BorderStyle.MEDIUM);
         style.setBorderRight(BorderStyle.MEDIUM);
 
-        for (int i = 0; i < 8; i++) {
-            sheet.setColumnWidth(i, 4000);
+        for (int i = 0; i < 12; i++) {
+            sheet.setColumnWidth(i, 3500);
         }
 
         int rowCount = 0;
+        Row rowHeaderDriver = sheet.createRow(rowCount++);
+        rowHeaderDriver.createCell(0).setCellValue("№ выгрузки");
+        rowHeaderDriver.createCell(1).setCellValue("А/М");
+        rowHeaderDriver.createCell(2).setCellValue("П/П");
+        rowHeaderDriver.createCell(3).setCellValue("Дата выгрузки");
+        rowHeaderDriver.createCell(4).setCellValue("Время выгрузки");
+        rowHeaderDriver.createCell(5).setCellValue("Водитель");
+        rowHeaderDriver.createCell(6).setCellValue("Телефон");
+
+        rowHeaderDriver.getCell(0).setCellStyle(style);
+        rowHeaderDriver.getCell(1).setCellStyle(style);
+        rowHeaderDriver.getCell(2).setCellStyle(style);
+        rowHeaderDriver.getCell(3).setCellStyle(style);
+        rowHeaderDriver.getCell(4).setCellStyle(style);
+        rowHeaderDriver.getCell(5).setCellStyle(style);
+        rowHeaderDriver.getCell(6).setCellStyle(style);
+
+        Row rowDriver = sheet.createRow(rowCount++);
+        rowDriver.createCell(0).setCellValue(deliveryDocumentation.getDriverInfo().getIdOfTruck());
+        rowDriver.createCell(1).setCellValue(deliveryDocumentation.getDriverInfo().getNumberOfTruck());
+        rowDriver.createCell(2).setCellValue(deliveryDocumentation.getDriverInfo().getNumberOfTrailer());
+        rowDriver.createCell(3).setCellValue(deliveryDocumentation.getDateOfUnloading());
+        rowDriver.createCell(4).setCellValue(deliveryDocumentation.getTimeOfUnloading());
+        rowDriver.createCell(5).setCellValue(deliveryDocumentation.getDriverInfo().getFullName());
+        rowDriver.createCell(6).setCellValue(deliveryDocumentation.getDriverInfo().getPhone());
+
+        rowDriver.getCell(0).setCellStyle(style);
+        rowDriver.getCell(1).setCellStyle(style);
+        rowDriver.getCell(2).setCellStyle(style);
+        rowDriver.getCell(3).setCellStyle(style);
+        rowDriver.getCell(4).setCellStyle(style);
+        rowDriver.getCell(5).setCellStyle(style);
+        rowDriver.getCell(6).setCellStyle(style);
+
+        // free space
+        sheet.createRow(rowCount++);
+
         Row rowHeader = sheet.createRow(rowCount++);
+
         rowHeader.setHeight((short) 400);
         rowHeader.createCell(0).setCellValue("Код");
         rowHeader.createCell(1).setCellValue("Порода");
@@ -67,9 +104,6 @@ public class ParserDeliveryDocumentationToXLS {
         rowHeader.getCell(11).setCellStyle(style);
 
         for (PackagedProduct product : deliveryDocumentation.getProductList()) {
-            if (product.getDate() != null) {
-                Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(product.getDate());
-                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
                     Row row = sheet.createRow(rowCount++);
                     row.setHeight((short) 400);
                     row.createCell(0).setCellValue(product.getCodeOfPackage());
@@ -96,12 +130,10 @@ public class ParserDeliveryDocumentationToXLS {
                     row.getCell(9).setCellStyle(style);
                     row.getCell(10).setCellStyle(style);
                     row.getCell(11).setCellStyle(style);
-                }
-            }
         }
 
         try {
-            String filePath = System.getProperty("user.home") + File.separator + "Пачки.xlsx";
+            String filePath = System.getProperty("user.home") + File.separator + "delivery.xlsx";
             File file = new File(filePath);
             FileOutputStream fos = new FileOutputStream(file);
             book.write(fos);

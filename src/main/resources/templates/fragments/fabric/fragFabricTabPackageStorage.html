@@ -84,7 +84,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/cut">
+                <form th:action="@{'/fabric/createDeliveryDoc-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <!-- Selected row -->
                         <table class="table table-hover table-striped" id="tableForTransportation">
@@ -150,10 +150,10 @@
                                 <label for="packTimeInput" class="col-6 col-form-label">Время выгрузки</label>
 
                                 <div class="col-6">
-                                    <input class="form-control" type="date" id="packDateInput" required="required" name="endDate">
+                                    <input class="form-control" type="date" id="packDateInput" required="required" name="dateOfUnloading">
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control" id="packTimeInput" required="required" autocomplete="off">
+                                    <input type="text" class="form-control" id="packTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
                                 </div>
                             </div>
 
@@ -184,7 +184,7 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form th:action="@{'/fabric/editRawStorageObj-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/unformPackagedProduct-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                 <!--       TUT                 -->
 
@@ -211,6 +211,7 @@
             $('#unformPackModalId').val(trId);
             console.log(  $(trObj).attr('id'));
             var codeOfPackage = $(trObj).find('th:eq(0)').text();
+
             $('#unformPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
             $('#unformPackModal').modal('show');
         }
@@ -257,9 +258,7 @@
                 arrayOfId[i] = $(arrOfTr[i]).find('td:eq(0)').text();
             }
 
-            console.log(arrayOfId);
-
-            if (idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != ""){
+            if (arrayOfId[0]!="No data available in table" && idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != ""){
 
             $.ajax({
                 method: "post",
@@ -272,8 +271,8 @@
                     idOfTruck: idOfTruck1,
                     numberOfTruck: numberOfTruck1,
                     numberOfTrailer: numberOfTrailer1,
-                    date: date1,
-                    time: time1
+                    dateOfUnloading: date1,
+                    timeOfUnloading: time1
                 },
                 traditional: true,
                 success: function () {

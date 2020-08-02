@@ -16,6 +16,7 @@ public class DeliveryDocumentation {
     private int id;
 
     private String dateOfUnloading;
+    private String timeOfUnloading;
     private String clientName;
 
     @ManyToOne
