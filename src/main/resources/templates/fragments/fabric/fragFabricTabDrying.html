@@ -65,7 +65,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="sendForDryingModalHeader">Отправить в сушку</h5>
+                    <h5 class="modal-title" id="sendForDryingModalHeader">Отправить на сухой склад</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -211,7 +211,7 @@
             $('#sendForDryingModalId').val(trId);
             console.log(  $(trObj).attr('id'));
             var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-            $('#sendForDryingModalHeader').text("Отправить в сушку "+codeOfRawStorage);
+            $('#sendForDryingModalHeader').text("Отправить на сухой склад "+codeOfRawStorage);
 
             var code = $(trObj).find('th:eq(0)').text();
             var material = $(trObj).find('td:eq(0)').text();
@@ -267,6 +267,15 @@
     </script>
 </th:block>
 
+
+
+
+
+
+
+
+
+
 <!--//    OAK   Drying STORAGE TAB-->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryingStorageOAK">
@@ -296,8 +305,8 @@
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>
 
@@ -324,11 +333,13 @@
         </div>
         <!-- BUTTON -->
     </div>
+
+<!--    Send for drying start  -->
     <div class="modal fade" id="sendForDryingModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="sendForDryingModalHeader">Отправить в сушку</h5>
+                    <h5 class="modal-title" id="sendForDryingModalHeader">Отправить на сухой склад</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -352,15 +363,6 @@
                             <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
                             <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
 
-                            <label class="col-form-label" for="sendForDryingModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalWidth" disabled="disabled" name="sizeOfWidth">
-
-                            <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalLength" disabled="disabled" name="sizeOfLong">
-
-                            <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="sendForDryingModalCount" required="required" disabled="disabled" autocomplete="off" placeholder="шт" name="countOfDesk">
-
                             <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
                             <input type="text" class="form-control" id="sendForDryingModalVolume" disabled="disabled" name="extent">
 
@@ -375,7 +377,10 @@
             </div>
         </div>
     </div>
-    <!-- Сушка edit-->
+    <!--    Send for drying end  -->
+
+
+    <!-- Сушка дуб edit start-->
     <div class="modal fade" id="editDryingModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -404,15 +409,6 @@
                             <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
                             <input type="text" class="form-control" id="editDryingModalThickness" required="required" disabled="disabled" autocomplete="off" placeholder="мм" name="sizeOfHeight">
 
-                            <label class="col-form-label" for="editDryingModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="editDryingModalWidth" required="required" disabled="disabled" autocomplete="off" placeholder="мм" name="sizeOfWidth">
-
-                            <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                            <input type="text" class="form-control" id="editDryingModalLength" required="required" disabled="disabled" autocomplete="off" placeholder="мм" name="sizeOfLong">
-
-                            <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
-
                             <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
                             <input type="text" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
 
@@ -427,6 +423,9 @@
             </div>
         </div>
     </div>
+    <!-- Сушка дуб edit end-->
+
+
     <!-- Export start-->
     <div class="modal fade" id="exportModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -467,37 +466,33 @@
 
 
     <script type="text/javascript">
-        function sendForDrying(btnObj) {
+        function sendForDryingOak(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
             $('#sendForDryingModalId').val(trId);
             console.log(  $(trObj).attr('id'));
             var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-            $('#sendForDryingModalHeader').text("Отправить в сушку "+codeOfRawStorage);
+            $('#sendForDryingModalHeader').text("Отправить на сухой склад "+codeOfRawStorage);
 
             var code = $(trObj).find('th:eq(0)').text();
             var material = $(trObj).find('td:eq(0)').text();
             var description = $(trObj).find('td:eq(1)').text();
             var thickness = $(trObj).find('td:eq(2)').text();
-            var width = $(trObj).find('td:eq(3)').text();
-            var length = $(trObj).find('td:eq(4)').text();
-            var count = $(trObj).find('td:eq(5)').text();
-            var extent = $(trObj).find('td:eq(6)').text();
+            var extent = $(trObj).find('td:eq(3)').text();
 
             $('#sendForDryingModalCode').val(code);
             $('#sendForDryingModalMaterial').val(material);
             $('#sendForDryingModalMaterialDescr').val(description);
             $('#sendForDryingModalThickness').val(thickness);
-            $('#sendForDryingModalWidth').val(width);
-            $('#sendForDryingModalLength').val(length);
-            $('#sendForDryingModalCount').val(count);
             $('#sendForDryingModalVolume').val(extent);
 
 
             $('#sendForDryingModal').modal('show');
         }
-        function editRawStorage(btnObj) {
+
+
+        function editRawStorageOak(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
@@ -510,18 +505,12 @@
             var material = $(trObj).find('td:eq(0)').text();
             var description = $(trObj).find('td:eq(1)').text();
             var thickness = $(trObj).find('td:eq(2)').text();
-            var width = $(trObj).find('td:eq(3)').text();
-            var length = $(trObj).find('td:eq(4)').text();
-            var count = $(trObj).find('td:eq(5)').text();
-            var extent = $(trObj).find('td:eq(6)').text();
+            var extent = $(trObj).find('td:eq(3)').text();
 
             $('#editDryingModalCode').val(code);
             $('#editDryingModalMaterial').val(material);
             $('#editDryingModalMaterialDescr').val(description);
             $('#editDryingModalThickness').val(thickness);
-            $('#editDryingModalWidth').val(width);
-            $('#editDryingModalLength').val(length);
-            $('#editDryingModalCount').val(count);
             $('#editDryingModalVolume').val(extent);
 
 

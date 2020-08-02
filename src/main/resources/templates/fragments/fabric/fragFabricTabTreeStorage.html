@@ -79,7 +79,7 @@
                         <input class="form-control" id="addMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
 
                         <label class="control-label" for="addBreedDescription">Описание породы</label>
-                        <input class="form-control" id="addBreedDescription" type="text" placeholder="Порода"  name="breedDescription" >
+                        <input class="form-control" id="addBreedDescription" type="text" placeholder="Описание"  name="breedDescription" >
 
                         <label class="col-form-label" for="addSupplier">Поставщик</label>
                         <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent">
@@ -118,7 +118,7 @@
                         <input class="form-control" id="addToRawStorageMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
 
                         <label class="control-label" for="addToRawStorageBreedDescription">Описание породы</label>
-                        <input class="form-control" id="addToRawStorageBreedDescription" type="text" placeholder="Порода"  name="breedDescription" >
+                        <input class="form-control" id="addToRawStorageBreedDescription" type="text" placeholder="Описание"  name="breedDescription" >
 
                         <label class="col-form-label" for="addToRawStorageSupplier">Поставщик</label>
                         <input type="text" class="form-control" list="suppliers3" id="addToRawStorageSupplier" autocomplete="off" name="nameOfAgent">
@@ -173,16 +173,16 @@
                             <input type="text" class="form-control" id="addRawStorageCode" required="required" autocomplete="off" name="codeOfProduct">
 
                             <label class="col-form-label" for="addRawStorageThickness">Толщина</label>
-                            <input type="text" class="form-control" id="addRawStorageThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                            <input type="number" class="form-control" id="addRawStorageThickness" required="required" autocomplete="off" placeholder="мм" min="1" name="sizeOfHeight">
 
                             <label class="col-form-label" for="addRawStorageWidth">Шырина</label>
-                            <input type="text" class="form-control" id="addRawStorageWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                            <input type="number" class="form-control" id="addRawStorageWidth" required="required" autocomplete="off" placeholder="мм" min="1" name="sizeOfWidth">
 
                             <label class="col-form-label" for="addRawStorageLength">Длина</label>
-                            <input type="text" class="form-control" id="addRawStorageLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                            <input type="number" class="form-control" id="addRawStorageLength" required="required" autocomplete="off" placeholder="мм" min="1" name="sizeOfLong">
 
                             <label class="col-form-label" for="addRawStorageCount">Количество досок</label>
-                            <input type="text" class="form-control" id="addRawStorageCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                            <input type="number" class="form-control" id="addRawStorageCount" required="required" autocomplete="off" placeholder="шт" min="1" name="countOfDesk">
 
                         </div>
                         <!-- Insert rows -->
@@ -215,7 +215,7 @@
                         <input class="form-control" id="editIncomeMaterial" type="text" placeholder="Порода" name="breedOfTreeType" th:value="${breedOfTreeList[breedId-1].breed}">
 
                         <label class="control-label" for="editIncomeMaterialDesc">Описание породы</label>
-                        <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Порода"  name="breedDescription" >
+                        <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Описание"  name="breedDescription" >
 
                         <label class="col-form-label" for="editIncomeSupplier">Поставщик</label>
                         <input type="text" class="form-control" list="suppliers2" id="editIncomeSupplier" autocomplete="off" name="nameOfAgent">
@@ -391,7 +391,7 @@
                         <input class="form-control" id="addMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
 
                         <label class="control-label" for="addBreedDescription">Описание породы</label>
-                        <input class="form-control" id="addBreedDescription" type="text" placeholder="Порода"  name="breedDescription" >
+                        <input class="form-control" id="addBreedDescription" type="text" placeholder="Описание"  name="breedDescription" >
 
                         <label class="col-form-label" for="addSupplier">Поставщик</label>
                         <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent">
@@ -430,7 +430,7 @@
                         <input class="form-control" id="addToRawStorageMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
 
                         <label class="control-label" for="addToRawStorageBreedDescription">Описание породы</label>
-                        <input class="form-control" id="addToRawStorageBreedDescription" type="text" placeholder="Порода"  name="breedDescription" >
+                        <input class="form-control" id="addToRawStorageBreedDescription" type="text" placeholder="Описание"  name="breedDescription" >
 
                         <label class="col-form-label" for="addToRawStorageSupplier">Поставщик</label>
                         <input type="text" class="form-control" list="suppliers3" id="addToRawStorageSupplier" autocomplete="off" name="nameOfAgent">
@@ -441,14 +441,14 @@
                         <label class="control-label" for="addToRawStorageThickness">Толщина</label>
                         <input class="form-control" id="addToRawStorageThickness" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="">
 
-                        <label class="control-label" for="addToRawStorageWidth">Ширина</label>
-                        <input class="form-control" id="addToRawStorageWidth" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="">
+<!--                        <label class="control-label" for="addToRawStorageWidth">Ширина</label>-->
+<!--                        <input class="form-control" id="addToRawStorageWidth" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="">-->
 
-                        <label class="control-label" for="addToRawStorageLength">Длина</label>
-                        <input class="form-control" id="addToRawStorageLength" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="">
+<!--                        <label class="control-label" for="addToRawStorageLength">Длина</label>-->
+<!--                        <input class="form-control" id="addToRawStorageLength" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="">-->
 
-                        <label class="control-label" for="addToRawStorageCount">Количество досок</label>
-                        <input class="form-control" id="addToRawStorageCount" type="number" placeholder="шт" min="1" required="required" autocomplete="off" name="">
+<!--                        <label class="control-label" for="addToRawStorageCount">Количество досок</label>-->
+<!--                        <input class="form-control" id="addToRawStorageCount" type="number" placeholder="шт" min="1" required="required" autocomplete="off" name="">-->
 
                         <label class="col-form-label" for="addToRawStorageVolume">Кубатура</label>
                         <input type="text" class="form-control" placeholder="м3" id="addToRawStorageVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent">
@@ -488,7 +488,7 @@
                             <input type="text" class="form-control" id="addRawStorageBreedDesc" required="required" autocomplete="off" name="breedDescription">
 
                             <label class="col-form-label" for="addRawStorageThickness">Толщина</label>
-                            <input type="text" class="form-control" id="addRawStorageThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                            <input type="number" class="form-control" id="addRawStorageThickness" required="required" autocomplete="off" placeholder="мм" min="1" name="sizeOfHeight">
 
                             <label class="col-form-label" for="addRawStorageExtent">Кубатура</label>
                             <input type="text" class="form-control" id="addRawStorageExtent" required="required" autocomplete="off" placeholder="м3" name="extent">
@@ -528,7 +528,7 @@
                         <input class="form-control" id="editIncomeMaterial" type="text" placeholder="Порода" name="breedOfTreeType" th:value="${breedOfTreeList[breedId-1].breed}">
 
                         <label class="control-label" for="editIncomeMaterialDesc">Описание породы</label>
-                        <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Порода"  name="breedDescription" >
+                        <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Описание"  name="breedDescription" >
 
                         <label class="col-form-label" for="editIncomeSupplier">Поставщик</label>
                         <input type="text" class="form-control" list="suppliers2" id="editIncomeSupplier" autocomplete="off" name="nameOfAgent">
