@@ -69,7 +69,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addDeskToDrying-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDeskToDrying-'+${userId}+'-'+${breedId}}" method="post" id="sendForDryingModalFormPine">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
@@ -95,7 +95,7 @@
                             <input type="text" class="form-control" id="sendForDryingModalLength" disabled="disabled" name="sizeOfLong">
 
                             <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="sendForDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                            <input type="number" class="form-control" id="sendForDryingModalCount" required="required" autocomplete="off" min="1" placeholder="шт" name="countOfDesk">
 
                             <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
                             <input type="text" class="form-control" id="sendForDryingModalVolume" disabled="disabled" name="extent">
@@ -232,7 +232,44 @@
 
 
             $('#sendForDryingModal').modal('show');
+
+            // CHECK
+            // $( "#sendForDryingModalFormPine" ).submit(function( event ) {
+            //     // alert( "Handler for .submit() called." );
+            //     let maxAmount =		parseInt(count);
+            //     let amount = 		parseFloat($('#sendForDryingModalCount').val());
+            //     let luck =			amount-maxAmount;
+            //
+            //     if (((parseFloat($('#sendForDryingModalCount').val()))<=0.0)) {
+            //         alert("Введите правильное значение");
+            //         $('#sendForDryingModalCount').val("0.0");
+            //     }else if (amount>maxAmount) {
+            //         alert("Не хватает: "+luck+" м3 !");
+            //     } else {
+            //         return;
+            //     }
+            //     event.preventDefault();
+            // });
+
+            $("#sendForDryingModalCount").change(function(){
+                if ((parseInt($('#sendForDryingModalCount').val()))<=0) {
+                    alert("Введите правильное значение");
+                    $('#sendForPackageModalPacksCount').val("1");
+                }else{
+                    var maxAmount =		count;
+                    var amount = 		parseInt($('#sendForDryingModalCount').val());
+                    var luck =			amount-maxAmount;
+                    if (amount>maxAmount) {
+                        alert("Не хватает досок: "+luck+"!");
+                        $('#sendForDryingModalCount').val("");
+                    }
+                }
+            });
+            // CHECK
         }
+
+
+
         function editRawStorage(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
@@ -339,7 +376,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addDeskToDrying-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDeskToDrying-'+${userId}+'-'+${breedId}}" method="post" id="sendForDryingModalFormOak">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
@@ -359,7 +396,7 @@
                             <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
 
                             <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="sendForDryingModalVolume"  name="extent">
+                            <input type="text" class="form-control" id="sendForDryingModalVolume"  name="extent" required="required">
 
                             <label class="col-form-label" for="sendForDryingModalDescription">Примечания</label>
                             <input type="text" class="form-control" id="sendForDryingModalDescription"  name="description">
@@ -368,7 +405,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Отправить</button>
+                        <button type="button submit" class="btn btn-primary" id="sendForDryingModalSubmit">Отправить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -488,9 +525,24 @@
             $('#sendForDryingModalDescription').val(description);
 
 
-
-
             $('#sendForDryingModalOak').modal('show');
+
+            $( "#sendForDryingModalFormOak" ).submit(function( event ) {
+                // alert( "Handler for .submit() called." );
+                let maxAmount =		parseFloat(extent);
+                let amount = 		parseFloat($('#sendForDryingModalVolume').val());
+                let luck =			amount-maxAmount;
+
+                if (((parseFloat($('#sendForDryingModalVolume').val()))<=0.0)) {
+                    alert("Введите правильное значение");
+                    $('#sendForDryingModalVolume').val("0.0");
+                }else if (amount>maxAmount) {
+                    alert("Не хватает: "+luck+" м3 !");
+                } else {
+                    return;
+                }
+                event.preventDefault();
+            });
         }
         function editRawStorageOak(btnObj) {
 
