@@ -32,9 +32,10 @@ public class FabricOakController {
     private BreedOfTreeService breedOfTreeService;
     private ContrAgentService contrAgentService;
     private UserCompanyService userCompanyService;
+    private WasteStorageService wasteStorageService;
 
     @Autowired
-    public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService) {
+    public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService, WasteStorageService wasteStorageService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -44,8 +45,8 @@ public class FabricOakController {
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
         this.userCompanyService = userCompanyService;
+        this.wasteStorageService = wasteStorageService;
     }
-
 
     //Tree Storage page
     @GetMapping("/getListOfTreeStorage-{userId}-2")
@@ -66,7 +67,7 @@ public class FabricOakController {
 
     @PostMapping("/cutOfTreeStorage-{userId}-2")
     public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, int idOfTreeStorageRow,
-                                         RawStorage rawStorage){
+                                         RawStorage rawStorage, String usedExtent){
         int breedId = 2;
 
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
@@ -75,8 +76,9 @@ public class FabricOakController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setTreeStorage(treeStorage);
         rawStorageService.save(rawStorage);
-        treeStorage.setExtent(String.valueOf(Integer.parseInt(treeStorage.getExtent())-Integer.parseInt(rawStorage.getExtent())));
+        treeStorage.setExtent(String.valueOf(Integer.parseInt(treeStorage.getExtent())-Integer.parseInt(usedExtent)));
         treeStorageService.save(treeStorage);
+        wasteStorageService.createWaste(treeStorage,usedExtent,rawStorage.getExtent());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -100,7 +102,7 @@ public class FabricOakController {
 
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        treeStorage.setExtent(extent);
+        treeStorage.setExtent("0");
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
@@ -113,7 +115,7 @@ public class FabricOakController {
 
         rawStorage.setCodeOfProduct(treeStorage.getCodeOfProduct());
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
-        rawStorage.setExtent(treeStorage.getExtent());
+        rawStorage.setExtent(extent);
 
         rawStorage.setSizeOfHeight(sizeOfHeight);
         rawStorage.setDescription(description);

@@ -1,6 +1,8 @@
 package com.swida.documetation.data.entity.storages;
 
 import com.swida.documetation.data.entity.UserCompany;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
+import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
@@ -14,10 +16,15 @@ public class WasteStorage {
     private int id;
 
     private String codeOfProduct;
-    private String breedOfTree;
+    private String breedDescription;
     private String extent;
     private String description;
+    private String date;
 
+    @ManyToOne
+    private ContrAgent contrAgent;
+    @ManyToOne
+    private BreedOfTree breedOfTree;
     @ManyToOne
     private UserCompany userCompany;
     @Enumerated(EnumType.STRING)
