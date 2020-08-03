@@ -91,7 +91,7 @@
 									<groupId>com.swida</groupId>
 									<artifactId>documetation</artifactId>
 									<version>1.0</version>
-									<destFileName>shop.jar</destFileName>
+									<destFileName>project.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

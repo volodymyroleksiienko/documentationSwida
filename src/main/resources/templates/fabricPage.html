@@ -48,9 +48,6 @@
                    th:classappend="${tabName.equals('dryStorage')} ? 'active':''">Сухой склад</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#wastestorage">Склад отходов</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link"
                    th:href="@{'/fabric/getListOfPackagedProduct-'+${userId}+'-'+${breedId}}"
                    th:classappend="${tabName.equals('packageStorage')} ? 'active':''">Пачки</a>
@@ -59,6 +56,11 @@
                 <a class="nav-link"
                    th:href="@{'/fabric/getListOfDeliveryDocumentation-'+${userId}+'-'+${breedId}}"
                    th:classappend="${tabName.equals('deliveryInfo')} ? 'active':''">Транспортировка</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfWasteStorage-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('wasteStorage')} ? 'active':''">Склад отходов</a>
             </li>
         </ul>
     </div>
@@ -83,6 +85,9 @@
         </div>
         <div th:if="${fragmentPathTabDelivery!=null}">
             <div th:replace="~{fragments/fabric/fragFabricTabDeliveryInfo :: ${fragmentPathTabDelivery}}"></div>
+        </div>
+        <div th:if="${fragmentPathTabWaste!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabWasteStorage :: ${fragmentPathTabWaste}}"></div>
         </div>
 
 
