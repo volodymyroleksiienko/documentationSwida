@@ -23,12 +23,14 @@ public class DryStorageServiceImpl implements DryStorageService {
 
     @Override
     public void save(DryStorage ds) {
-        float width = Float.parseFloat(ds.getSizeOfWidth())/1000;
-        float height = Float.parseFloat(ds.getSizeOfHeight())/1000;
-        float longSize = Float.parseFloat(ds.getSizeOfLong())/1000;
-        int count = ds.getCountOfDesk();
-        float extent = width*height*longSize*count;
-        ds.setExtent(String.valueOf(extent));
+        if (ds.getSizeOfWidth()!=null) {
+            float width = Float.parseFloat(ds.getSizeOfWidth()) / 1000;
+            float height = Float.parseFloat(ds.getSizeOfHeight()) / 1000;
+            float longSize = Float.parseFloat(ds.getSizeOfLong()) / 1000;
+            int count = ds.getCountOfDesk();
+            float extent = width * height * longSize * count;
+            ds.setExtent(String.valueOf(extent));
+        }
         Date date = new Date(System.currentTimeMillis());
         ds.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         dryStorageJPA.save(ds);

@@ -376,7 +376,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addDeskToDrying-'+${userId}+'-'+${breedId}}" method="post" id="sendForDryingModalFormOak">
+                <form th:action="@{'/fabric/addDeskToDrying-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
@@ -396,7 +396,7 @@
                             <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
 
                             <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="sendForDryingModalVolume"  name="extent" required="required">
+                            <input type="text" class="form-control" id="sendForDryingModalVolume"  name="extentOfDrying" required="required">
 
                             <label class="col-form-label" for="sendForDryingModalDescription">Примечания</label>
                             <input type="text" class="form-control" id="sendForDryingModalDescription"  name="description">

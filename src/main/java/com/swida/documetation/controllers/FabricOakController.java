@@ -93,6 +93,36 @@ public class FabricOakController {
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/addDeskFromProvider-{userId}-2")
+    public String addDeskFromProvider(@PathVariable("userId")int userId, TreeStorage treeStorage, String sizeOfHeight,
+                                      String description, String nameOfAgent, String extent){
+       int breedId = 2;
+
+        treeStorage.setUserCompany(userCompanyService.findById(userId));
+        treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        treeStorage.setExtent(extent);
+        ContrAgent contrAgent =  new ContrAgent();
+        contrAgent.setNameOfAgent(nameOfAgent);
+        treeStorage.setContrAgent(contrAgent);
+        treeStorageService.putNewTreeStorageObj(treeStorage);
+
+        RawStorage rawStorage = new RawStorage();
+        rawStorage.setUserCompany(userCompanyService.findById(userId));
+        rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        rawStorage.setTreeStorage(treeStorage);
+
+        rawStorage.setCodeOfProduct(treeStorage.getCodeOfProduct());
+        rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorage.setExtent(treeStorage.getExtent());
+
+        rawStorage.setSizeOfHeight(sizeOfHeight);
+        rawStorage.setDescription(description);
+
+        rawStorageService.save(rawStorage);
+        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+    }
+
+
     //RawStorage page
     @GetMapping("/getListOfRawStorage-{userId}-2")
     public String getListOfRawStorage(@PathVariable("userId")int userId, Model model){
@@ -107,14 +137,18 @@ public class FabricOakController {
         return "fabricPage";
     }
     @PostMapping("/addDeskToDrying-{userId}-2")
-    private String addDeskToDrying(@PathVariable("userId")int userId, String rawStorageId, DryingStorage dryingStorage){
+    private String addDeskToDrying(@PathVariable("userId")int userId, String rawStorageId, DryingStorage dryingStorage,
+                                   String extentOfDrying){
         int breedId = 2;
 
         dryingStorage.setUserCompany(userCompanyService.findById(userId));
         dryingStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        dryingStorage.setExtent(extentOfDrying);
+
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(rawStorageId));
-        rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()-dryingStorage.getCountOfDesk());
-        dryingStorage.setSizeOfWidth(rawStorage.getSizeOfWidth());
+        rawStorage.setExtent(String.valueOf(Integer.parseInt(rawStorage.getExtent())-Integer.parseInt(extentOfDrying)));
+
+        dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
         dryingStorage.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
@@ -134,6 +168,7 @@ public class FabricOakController {
         rawStorageService.save(rawStorageDB);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
+
 
     //Drying page
     @GetMapping("/getListOfDryingStorage-{userId}-2")
@@ -158,24 +193,21 @@ public class FabricOakController {
         dryStorage.setCodeOfProduct(codeOfProduct);
 
         dryStorage.setBreedOfTree(dryingStorageDB.getBreedOfTree());
-        dryStorage.setCountOfDesk(dryingStorageDB.getCountOfDesk());
-        dryStorage.setDescription(dryingStorageDB.getDescription());
+        dryStorage.setBreedDescription(dryingStorageDB.getBreedDescription());
         dryStorage.setExtent(dryingStorageDB.getExtent());
         dryStorage.setSizeOfHeight(dryingStorageDB.getSizeOfHeight());
-        dryStorage.setSizeOfLong(dryingStorageDB.getSizeOfLong());
-        dryStorage.setSizeOfWidth(dryingStorageDB.getSizeOfWidth());
         dryStorage.setDescription(dryingStorageDB.getDescription());
         dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
         dryStorage.setDryingStorage(dryingStorageDB);
 
         dryStorageService.save(dryStorage);
-        dryingStorageDB.setCountOfDesk(0);
+        dryingStorageDB.setExtent("0");
         dryingStorageService.save(dryingStorageDB);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/editDryingStorageObj-{userId}-2")
-    public String editDryingStorageObj(@PathVariable("userId")int userId, DryingStorage dryingStorage ){
+    public String editDryingStorageObj(@PathVariable("userId")int userId, DryingStorage dryingStorage, String description){
         int breedId = 2;
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(dryingStorage.getId());
@@ -185,6 +217,7 @@ public class FabricOakController {
             rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()+count);
             rawStorageService.save(rawStorage);
         }
+        dryingStorageDB.setDescription(description);
         dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
         dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
         dryingStorageService.save(dryingStorageDB);
@@ -222,6 +255,8 @@ public class FabricOakController {
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
+
+
 
     //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-2")
