@@ -408,6 +408,26 @@
 
         });
 
+        $('#transportationTableOak').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            // columns width
+            "autoWidth": false,
+            "bSort": false,
+            "info": false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [  ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
+
+        });
+
 
         $('#packagedproducttable tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
