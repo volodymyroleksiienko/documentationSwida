@@ -428,6 +428,28 @@
 
         });
 
+        $('#packageOakTableId').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            // columns width
+            "autoWidth": false,
+            "bSort":false,
+            // 'select': true,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "width": "30px"
+                }
+            ]
+
+        });
+        $('#packageOakTableId tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
 
         $('#packagedproducttable tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
@@ -466,6 +488,11 @@
         });
 
 
+
+        $('#tableForTransportation tbody').on( 'click', 'button', function () {
+            modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
+        } );
+
         $("#buttonForAddingOakRow").click(function () {
 
             var width = $("#sendForPackageModalWidthOak").val();
@@ -478,15 +505,10 @@
             tableForTransportationOak.row.add(d).draw();
         });
 
-
-
-        $('#tableForTransportation tbody').on( 'click', 'button', function () {
-            modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
-        } );
-
         $('#tableForTransportationOak tbody').on( 'click', 'button', function () {
             tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
         } );
+
 
     } );
 </script>

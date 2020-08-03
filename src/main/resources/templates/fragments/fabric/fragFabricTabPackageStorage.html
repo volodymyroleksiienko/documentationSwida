@@ -291,3 +291,87 @@
 
 
 </th:block>
+
+
+<!-- OAK Package Storage-->
+<!-- OAK Package Storage-->
+<!-- OAK Package Storage-->
+<!-- OAK Package Storage-->
+
+<th:block xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="packageStorageOak">
+
+        <!-- Транспортировка -->
+        <div class="tab-pane fade show active container-fluid" id="transportation">
+
+            <table class="table table-hover table-striped" id="packageOakTableId">
+                <br>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">№ пачки</th>
+                    <th scope="col">Качество</th>
+                    <th scope="col">Размер</th>
+                    <th scope="col">Длина</th>
+                    <th scope="col">Сум. ширина</th>
+                    <th scope="col">Кол. досок</th>
+                    <th scope="col">Кубатура</th>
+                </tr>
+                </thead>
+                <tbody>
+                      <div th:each="p, index : ${packageOakList}">
+                              <tr>
+                                  <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${p.id}"></td>
+                                  <td th:text="${p.codeOfPackage}"></td>
+                                  <td th:text="${p.quality}"></td>
+                                  <td th:text="${p.sizeOfHeight}"></td>
+                                  <td th:text="${p.sizeOfLong}"></td>
+                                  <td th:text="${p.sumWidthOfAllDesk}"></td>
+                                  <td th:text="${p.countOfDesk}"></td>
+                                  <td th:text="${p.extent}"></td>
+                              </tr>
+                              <tr style="display:none" th:id="'parent'+${p.id}">
+                                  <td colspan="13" class="child-table">
+                                      <table class="table table-hover table-striped parent-table" id="packages">
+                                          <thead>
+                                          <tr>
+                                              <th scope="col">Ширина, мм</th>
+                                              <th scope="col">Количество досок</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr th:each="l, index : ${p.deskOakList}" th:id="${l.id}">
+                                              <td th:text="${l.sizeOfWidth}"></td>
+                                              <td th:text="${l.countOfDesk}"></td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </td>
+                                  <td style="display:none"></td>
+                                  <td style="display:none"></td>
+                                  <td style="display:none"></td>
+                                  <td style="display:none"></td>
+                                  <td style="display:none"></td>
+                                  <td style="display:none"></td>
+                                  <td style="display:none"></td>
+                                  <td style="display:none"></td>
+                              </tr>
+                      </div>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <th scope="col">№ пачки</th>
+                    <th scope="col">Качество</th>
+                    <th scope="col">Размер</th>
+                    <th scope="col">Длина</th>
+                    <th scope="col">Сум. ширина</th>
+                    <th scope="col">Кол. досок</th>
+                    <th scope="col">Кубатура</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+</th:block>

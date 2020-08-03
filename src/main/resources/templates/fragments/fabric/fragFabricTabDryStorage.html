@@ -396,11 +396,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/createPackages-'+${userId}+'-'+${breedId}}" method="post">
+                <form >
                     <div class="modal-body">
 
                         <div class="form-group row">
-                            <input type="text" class="form-control" id="sendForDryingModalIdOak" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
+                            <input type="text" hidden="hidden" id="breedID">
+                            <input type="text" hidden="hidden" id="userID">
 
                             <div class="col-3">
                                 <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
@@ -466,7 +468,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сформировать</button>
+                        <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreatePackageOak(this)">Сформировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -592,8 +594,8 @@
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
-            $('#sendForDryingModalId').val(trId);
-            console.log(  $(trObj).attr('id'));
+            $('#sendForDryingModalIdOak').val(trId);
+            console.log($(trObj).attr('id'));
             var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
             $('#sendForPackageModalHeader').text("Формирование пачек из  "+codeOfRawStorage);
 
@@ -695,6 +697,61 @@
 
 
             $('#editDryStorageModal').modal('show');
+        }
+
+        // ADD Package OAK
+
+
+        function sendRequestCreatePackageOak(btnObj) {
+            var breedID = $("#breedID").val();
+            var userID = $("#userID").val();
+            var idOfDryStorageOak = $("#sendForDryingModalIdOak").val();
+            console.log("id "+idOfDryStorageOak);
+            var codeOfPackage1 = $('#sendForPackageModalCodeOak').val();
+            var quality1 = $('#sendForPackageModalQualityOak').val();
+            var sizeOfHeight1 = $('#sendForPackageModalSizeOak').val();
+            var long1 = $('#sendForPackageModalLengthOak').val();
+
+            var tableBody = document.getElementById('listOfPackageId');
+            var listTr = tableBody.getElementsByTagName('tr');
+
+            var arrOfDesk = [];
+
+                //fix one dimension array on controller
+                arrOfDesk[0] = [];
+                arrOfDesk[0][0] = "test";
+                arrOfDesk[0][1] = "test";
+
+            for(var i=1; i<=listTr.length;i++){
+                var width = $(listTr[i-1]).find('td:eq(0)').text();
+                var count = $(listTr[i-1]).find('td:eq(1)').text();
+
+                arrOfDesk[i] = [];
+                arrOfDesk[i][0] = width;
+                arrOfDesk[i][1] = count;
+            }
+
+            console.log(arrOfDesk);
+            $.ajax({
+                method: "post",
+                url: "/createPackageOakObject-"+userID+"-"+breedID,
+                contextType: "application/json",
+                data: {
+                    idOfDryStorage: idOfDryStorageOak,
+                    codeOfPackage: codeOfPackage1,
+                    quality: quality1,
+                    sizeOfHeight: sizeOfHeight1,
+                    length: long1,
+                    arrayOfDesk: arrOfDesk
+                },
+                traditional: true,
+                success: function () {
+                    alert("Suck");
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
         }
     </script>
     <!-- Сухой склад -> Пачки  -->

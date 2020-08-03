@@ -7,6 +7,7 @@ import com.swida.documetation.data.enums.StatusOfProduct;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Data
@@ -36,11 +37,15 @@ public class PackagedProduct {
 
     private String sumWidthOfPackage;
     private String sumHeightOfPackage;
+    private String sumWidthOfAllDesk;
     private String countOfDesk;
     private String extent;
     private String height_width;
 
     private String date;
+
+    @OneToMany
+    private List<DescriptionDeskOak> deskOakList;
 
     @ManyToOne
     private UserCompany userCompany;

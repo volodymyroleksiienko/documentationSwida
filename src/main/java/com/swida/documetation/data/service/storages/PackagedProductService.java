@@ -10,6 +10,9 @@ public interface PackagedProductService {
     void save(PackagedProduct packProd);
     void createPackages(String dryStorageId, String codeOfProduct, String countHeight, String countWidth,
                         String countOfPack, String longFact, String heightWidth, UserCompany userCompany);
+    void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
+                          String codeOfPackage, String quality, String sizeOfHeight, String length);
+
     PackagedProduct findById(int id);
     List<PackagedProduct> findAll();
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);

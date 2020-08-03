@@ -264,12 +264,12 @@ public class FabricOakController {
     @GetMapping("/getListOfPackagedProduct-{userId}-2")
     public String getListOfPackagedProduct(@PathVariable("userId")int userId, Model model){
         int breedId = 2;
-        model.addAttribute("fragmentPathTabPackageStorage","packageStorage");
+        model.addAttribute("fragmentPathTabPackageStorage","packageStorageOak");
         model.addAttribute("tabName","packageStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
+        model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         return "fabricPage";
     }
 

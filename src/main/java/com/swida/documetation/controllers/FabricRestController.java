@@ -10,6 +10,7 @@ import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -59,5 +60,20 @@ public class FabricRestController {
         driverInfoService.save(driverInfo);
         deliveryDocumentationService.save(deliveryDocumentation);
         return "redirect:/fabric/getListOfPackagedProduct-"+userID+"-"+breedID;
+    }
+
+    @PostMapping("/createPackageOakObject-{userID}-{breedID}")
+    public void createPackageOak(@PathVariable("userID") String userID, @PathVariable("breedID") String breedID,
+                                   @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,
+                                   String codeOfPackage, String quality, String sizeOfHeight, String length){
+        System.out.println();
+        System.out.println(idOfDryStorage);
+        System.out.println(codeOfPackage);
+        System.out.println(quality);
+        System.out.println(sizeOfHeight);
+        System.out.println(length);
+        System.out.println();
+        packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length);
+//        return "redirect:/fabric/getListOfPackagedProduct-"+userID+"-"+breedID;
     }
 }
