@@ -145,7 +145,7 @@ public class FabricController {
                                       String sizeOfLong, String countOfDesk, String nameOfAgent, String extent){
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        treeStorage.setExtent(extent);
+        treeStorage.setExtent("0");
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
