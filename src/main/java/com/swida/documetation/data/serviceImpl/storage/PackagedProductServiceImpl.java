@@ -15,7 +15,9 @@ import com.swida.documetation.data.service.storages.PackagedProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,6 +36,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
     @Override
     public void save(PackagedProduct packProd) {
+        Date date = new Date(System.currentTimeMillis());
+        packProd.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         productJPA.save(packProd);
     }
 
@@ -67,7 +71,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
 
             dryStorage.setCountOfDesk(dryStorage.getCountOfDesk()-Integer.parseInt(product.getCountOfDesk()));
-
+            Date date = new Date(System.currentTimeMillis());
+            product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
             productJPA.save(product);
         }
         dryStorageService.save(dryStorage);
@@ -113,6 +118,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         dryStorage.setExtent(String.valueOf(Float.parseFloat(dryStorage.getExtent())-extent));
         dryStorageService.save(dryStorage);
         deskOakService.saveAll(deskOakList);
+        Date date = new Date(System.currentTimeMillis());
+        product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         productJPA.save(product);
     }
 
