@@ -6,6 +6,7 @@ import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.DryingStorage;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
@@ -73,10 +74,17 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
-    public void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage, String codeOfPackage, String quality, String sizeOfHeight, String length) {
+    public void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage, String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID) {
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(idOfDryStorage));
 
+        UserCompany company = new UserCompany();
+        company.setId(userID);
+        BreedOfTree breedOfTree = new BreedOfTree();
+        breedOfTree.setId(breedID);
+
         PackagedProduct product = new PackagedProduct();
+        product.setUserCompany(company);
+        product.setBreedOfTree(breedOfTree);
         product.setDryStorage(dryStorage);
         product.setCodeOfPackage(codeOfPackage);
         product.setQuality(quality);

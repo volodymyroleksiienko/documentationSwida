@@ -401,8 +401,8 @@
 
                         <div class="form-group row">
                             <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
-                            <input type="text" hidden="hidden" id="breedID">
-                            <input type="text" hidden="hidden" id="userID">
+                            <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
+                            <input type="text" hidden="hidden" id="userId" th:value="${userId}">
 
                             <div class="col-3">
                                 <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
@@ -703,8 +703,8 @@
 
 
         function sendRequestCreatePackageOak(btnObj) {
-            var breedID = $("#breedID").val();
-            var userID = $("#userID").val();
+            var breedID = $("#breedId").val();
+            var userID = $("#userId").val();
             var idOfDryStorageOak = $("#sendForDryingModalIdOak").val();
             console.log("id "+idOfDryStorageOak);
             var codeOfPackage1 = $('#sendForPackageModalCodeOak').val();
@@ -746,7 +746,7 @@
                 },
                 traditional: true,
                 success: function () {
-                    alert("Suck");
+                    location.reload();
                 },
                 error: function () {
                     alert("Error");

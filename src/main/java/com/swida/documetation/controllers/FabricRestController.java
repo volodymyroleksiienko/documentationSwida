@@ -63,7 +63,7 @@ public class FabricRestController {
     }
 
     @PostMapping("/createPackageOakObject-{userID}-{breedID}")
-    public void createPackageOak(@PathVariable("userID") String userID, @PathVariable("breedID") String breedID,
+    public void createPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                    @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,
                                    String codeOfPackage, String quality, String sizeOfHeight, String length){
         System.out.println();
@@ -73,7 +73,7 @@ public class FabricRestController {
         System.out.println(sizeOfHeight);
         System.out.println(length);
         System.out.println();
-        packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length);
+        packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
 //        return "redirect:/fabric/getListOfPackagedProduct-"+userID+"-"+breedID;
     }
 }

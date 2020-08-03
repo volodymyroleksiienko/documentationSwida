@@ -76,7 +76,7 @@ public class FabricOakController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setTreeStorage(treeStorage);
         rawStorageService.save(rawStorage);
-        treeStorage.setExtent(String.valueOf(Integer.parseInt(treeStorage.getExtent())-Integer.parseInt(usedExtent)));
+        treeStorage.setExtent(String.valueOf(Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)));
         treeStorageService.save(treeStorage);
         wasteStorageService.createWaste(treeStorage,usedExtent,rawStorage.getExtent());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
@@ -148,7 +148,7 @@ public class FabricOakController {
         dryingStorage.setExtent(extentOfDrying);
 
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(rawStorageId));
-        rawStorage.setExtent(String.valueOf(Integer.parseInt(rawStorage.getExtent())-Integer.parseInt(extentOfDrying)));
+        rawStorage.setExtent(String.valueOf(Float.parseFloat(rawStorage.getExtent())-Float.parseFloat(extentOfDrying)));
 
         dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
         dryingStorage.setBreedDescription(rawStorage.getBreedDescription());

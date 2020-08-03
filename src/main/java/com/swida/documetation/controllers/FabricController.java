@@ -63,12 +63,7 @@ public class FabricController {
 
     @GetMapping("/index-{userId}")
     public String index(@PathVariable("userId")int userId){
-//        UserCompany company  = new UserCompany();
-//        company.setRole(Roles.ROLES_USER);
-//        company.setUsername("9");
-//        company.setPassword("9");
-//        company.setNameOfCompany("SuperPylka");
-//        userCompanyService.save(company);
+
         int breedId = 1;
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -116,7 +111,7 @@ public class FabricController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
-        String usedExtent = String.valueOf(Integer.parseInt(mainExtentTreeStorage)-Integer.parseInt(extentOfTreeStorage));
+        String usedExtent = String.valueOf(Float.parseFloat(mainExtentTreeStorage)-Float.parseFloat(extentOfTreeStorage));
         rawStorageService.save(rawStorage);
         wasteStorageService.createWaste(treeStorage,usedExtent,rawStorage.getExtent());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;

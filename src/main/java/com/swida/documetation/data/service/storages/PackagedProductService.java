@@ -11,7 +11,7 @@ public interface PackagedProductService {
     void createPackages(String dryStorageId, String codeOfProduct, String countHeight, String countWidth,
                         String countOfPack, String longFact, String heightWidth, UserCompany userCompany);
     void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
-                          String codeOfPackage, String quality, String sizeOfHeight, String length);
+                          String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID);
 
     PackagedProduct findById(int id);
     List<PackagedProduct> findAll();

@@ -1,5 +1,7 @@
 package com.swida.documetation.controllers;
 
+import com.swida.documetation.data.entity.UserCompany;
+import com.swida.documetation.data.enums.Roles;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.TreeStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,12 @@ public class SecurityController {
 
     @PostMapping("/enterRequest")
     public String loginPost(){
+//        UserCompany company  = new UserCompany();
+//        company.setRole(Roles.ROLES_USER);
+//        company.setUsername("8");
+//        company.setPassword("8");
+//        company.setNameOfCompany("SuperPylka");
+//        userCompanyService.save(company);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         int userID = userCompanyService.findByUsername(auth.getName()).getId();
         return "redirect:/fabric/index-"+userID;
