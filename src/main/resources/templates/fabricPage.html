@@ -364,6 +364,24 @@
 
         });
 
+        var tableForTransportationOak = $('#tableForTransportationOak').DataTable({
+            // columns width
+            "autoWidth": false,
+            "bSort": false,
+            "searching": false,
+            "paging": false,
+            "info": false,
+            'select': false,
+            "columnDefs": [
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "width": "30px"
+                }
+            ]
+
+        });
+
 
         $('#transportationtable').DataTable({
             "language": {
@@ -423,9 +441,26 @@
         });
 
 
+        $("#buttonForAddingOakRow").click(function () {
+
+            var width = $("#sendForPackageModalWidthOak").val();
+            var count = $("#sendForPackageModalCountOak").val();
+            var button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+            var d = [width, count, button];
+
+            console.log(d);
+
+            tableForTransportationOak.row.add(d).draw();
+        });
+
+
 
         $('#tableForTransportation tbody').on( 'click', 'button', function () {
             modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
+        } );
+
+        $('#tableForTransportationOak tbody').on( 'click', 'button', function () {
+            tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
         } );
 
     } );

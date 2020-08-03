@@ -323,6 +323,10 @@
 
 
 
+
+
+
+
 <!--           OAK DRY STORAGE           -->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryStorageOAK">
@@ -352,8 +356,8 @@
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>
 
@@ -380,12 +384,14 @@
         <!-- BUTTON -->
     </div>
     <!-- Сухой склад -->
-    <!-- Сухой склад -> Пачки -->
-    <div class="modal fade" id="sendForPackageModal">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+
+
+    <!-- Packing start Сухой склад -> Пачки -->
+    <div class="modal fade" id="sendForPackageModalOak">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="sendForPackageModalHeader">Формирование пачек</h5>
+                    <h5 class="modal-title " id="sendForPackageModalOakHeader">Формирование пачки</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -393,37 +399,71 @@
                 <form th:action="@{'/fabric/createPackages-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
-                        <!-- Insert rows -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="sendForDryingModalId" hidden="hidden" autocomplete="off" name="id">
+                        <div class="form-group row">
+                            <input type="text" class="form-control" id="sendForDryingModalIdOak" hidden="hidden" autocomplete="off" name="id">
 
-                            <label class="col-form-label" for="sendForPackageModalCode">Код</label>
-                            <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                            <div class="col-3">
+                                <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
+                                <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off">
+                            </div>
 
-                            <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="sendForPackageModalMaterial" disabled="disabled">
+                            <div class="col-3">
+                                <label class="control-label" for="sendForPackageModalQualityOak" style="padding-top: 7px">Качество</label>
+                                <input type="text" class="form-control" id="sendForPackageModalQualityOak">
+                            </div>
 
-                            <label class="control-label" for="sendForPackageModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="sendForPackageModalMaterialDescr" type="text" disabled="disabled">
+                            <div class="col-3">
+                                <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Размер</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" autocomplete="off" placeholder="мм">
+                            </div>
 
-                            <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">
-
-
-                            <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="height">
-
-                            <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="width">
-
-                            <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
-                            <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
-
-                            <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
-
+                            <div class="col-3">
+                                <label class="col-form-label" for="sendForPackageModalLengthOak">Длина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
+                            </div>
                         </div>
-                        <!-- Insert rows -->
+
+                        <hr>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+
+                            <div class="col-5">
+                                <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
+                            </div>
+
+                            <div class="col-5">
+                                <label class="control-label" for="sendForPackageModalCountOak" style="padding-top: 7px">Количество</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalCountOak" required="required" autocomplete="off" placeholder="шт">
+                            </div>
+
+                            <div class="col-2">
+                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-striped" id="tableForTransportationOak">
+                            <thead>
+                            <tr>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="listOfPackageId">
+                            <!-- <tr></tr> -->
+                            </tbody>
+
+                            <tfoot>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th></th>
+                            </tfoot>
+
+                        </table>
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сформировать</button>
@@ -433,6 +473,10 @@
             </div>
         </div>
     </div>
+<!--Packing end-->
+
+
+<!--Edit start-->
     <div class="modal fade" id="editDryStorageModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -484,6 +528,8 @@
             </div>
         </div>
     </div>
+<!--  Edit end  -->
+
     <!-- Export start-->
     <div class="modal fade" id="exportModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -523,7 +569,26 @@
     <!-- Export end -->
 
     <script type="text/javascript">
-        function sendForPackagesStorage(btnObj) {
+
+        // $("#buttonForAddingRow").click(function () {
+        //
+        //     var width = $("#sendForPackageModalWidthOak").val();
+        //     var count = $("#sendForPackageModalCountOak").val();
+        //     var d = [width, count];
+        //
+        //     console.log(d);
+        //
+        //     tableForTransportationOak.row.add(d).draw();
+        // });
+
+        // $('#tableForTransportation tbody').on( 'click', 'button', function () {
+        //     modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
+        // } );
+
+    </script>
+
+    <script type="text/javascript">
+        function sendForPackagesStorageOak(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
@@ -550,7 +615,9 @@
             $('#sendForPackageModalCount')			.val(count);
             $('#sendForPackageModalVolume')			.val(extent);
 
-            $('#sendForPackageModal').modal('show');
+            $('#sendForPackageModalOak').modal('show');
+
+
 
             // CHECK
             $("#sendForPackageHeightPc").change(function(){
@@ -599,7 +666,7 @@
             });
             // CHECK
         }
-        function editDryStorage(btnObj) {
+        function editDryStorageOak(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
