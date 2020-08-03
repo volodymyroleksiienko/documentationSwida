@@ -202,6 +202,39 @@
     </script>
     <!-- Export end -->
 
+    <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#dryingtable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [ 0, "desc" ],
+                // columns width
+                "autoWidth": false,
+
+                // id column visibility
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "width": "70px"
+                    }
+                ]
+            });
+
+
+        });
+
+    </script>
+
 
     <script type="text/javascript">
         function sendForDrying(btnObj) {
@@ -469,6 +502,39 @@
         document.querySelector("#endDateInput").valueAsDate = new Date();
     </script>
     <!-- Export end -->
+
+    <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#dryingtable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [ 0, "desc" ],
+                // columns width
+                "autoWidth": false,
+
+                // id column visibility
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "width": "70px"
+                    }
+                ]
+            });
+
+
+        });
+
+    </script>
 
 
     <script type="text/javascript">

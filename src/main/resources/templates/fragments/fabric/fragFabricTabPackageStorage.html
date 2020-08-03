@@ -219,6 +219,106 @@
     <!--  Modal confirmation  -->
 
     <!-- Пачки -->
+
+    <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            var table = $('#packagedproducttable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [ 0, "desc" ],
+                // columns width
+                "autoWidth": false,
+                // 'select': true,
+                // id column visibility
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "width": "30px"
+                    }
+                ]
+
+            });
+
+
+            //            SELECT
+            $('#packagedproducttable tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+            } );
+            //            SELECT
+
+
+            $( "#buttonForTransportation" ).click(function() {
+
+                modalPackagesTable.clear().draw();
+                var newData = ( table.rows( '.selected' ).data() );
+                var array = [];
+
+                for (var i = newData.length - 1; i >= 0; i--) {
+
+                    var id =			newData[i][0];
+                    var code = 			newData[i][1];
+                    var material = 		newData[i][2];
+                    var description = 	newData[i][3];
+                    var thickness = 	newData[i][4];
+                    var width = 		newData[i][5];
+                    var length = 		newData[i][6];
+                    var count = 		newData[i][7];
+                    var extent = 		newData[i][8];
+                    var heightPc = 		newData[i][9];
+                    var widthPc = 		newData[i][10];
+                    var wh = heightPc.toString()+"/"+widthPc.toString();
+                    var button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+
+                    var d=[id, code, material, description, thickness, width, length, count, extent, wh, button];
+
+                    array[i] = id;
+
+                    modalPackagesTable.row.add(d).draw( false );
+                }
+                console.log(array);
+                $('#sendForTransportationModal').modal('show');
+            });
+
+
+            var modalPackagesTable = $('#tableForTransportation').DataTable({
+                // columns width
+                "autoWidth": false,
+                "bSort" : false,
+                "searching": false,
+                "paging": false,
+                "info": false,
+                'select': false,
+                // id column visibility
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": true,
+                        "searchable": true
+                    },
+                ]
+
+            });
+
+
+            $('#tableForTransportation tbody').on( 'click', 'button', function () {
+                modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
+            } );
+
+
+
+        });
+    </script>
+
     <!-- Transportation -->
     <script type="text/javascript">
         // listener for opening and closing
@@ -291,6 +391,10 @@
 
 
 </th:block>
+
+
+
+
 
 
 <!-- OAK Package Storage-->
@@ -372,6 +476,43 @@
                 </tfoot>
             </table>
         </div>
+
+
+    <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#packageOakTableId').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                // columns width
+                "autoWidth": false,
+                "bSort":false,
+                // 'select': true,
+                // id column visibility
+                "columnDefs": [
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "width": "30px"
+                    }
+                ]
+
+            });
+
+
+
+            $('#packageOakTableId tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+            } );
+
+
+
+        });
+
+    </script>
 
 
 </th:block>
