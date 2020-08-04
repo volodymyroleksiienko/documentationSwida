@@ -195,6 +195,7 @@
             </div>
         </div>
     </div>
+
     <!-- Edit income -->
     <div class="modal fade" id="editIncome">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -212,7 +213,7 @@
                         <input type="text" class="form-control" id="editIncomeCode" required="required" autocomplete="off" name="codeOfProduct">
 
                         <label class="control-label" for="editIncomeMaterial">Порода</label>
-                        <input class="form-control" id="editIncomeMaterial" type="text" placeholder="Порода" name="breedOfTreeType" th:value="${breedOfTreeList[breedId-1].breed}">
+                        <input class="form-control" id="editIncomeMaterial" type="text" placeholder="Порода" name="breedOfTreeType" th:value="${breedOfTreeList[breedId-1].breed}" disabled="disabled">
 
                         <label class="control-label" for="editIncomeMaterialDesc">Описание породы</label>
                         <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Описание"  name="breedDescription" >
@@ -514,16 +515,16 @@
                             <input type="text" class="form-control" id="addRawStorageBreed" required="required" disabled="disabled" autocomplete="off" th:value="${breedOfTreeList[breedId-1].breed}">
 
                             <label class="col-form-label" for="addRawStorageBreedDesc">Описание</label>
-                            <input type="text" class="form-control" id="addRawStorageBreedDesc" required="required" autocomplete="off" name="breedDescription">
+                            <input type="text" class="form-control" id="addRawStorageBreedDesc" autocomplete="off" name="breedDescription">
 
                             <label class="col-form-label" for="addRawStorageThickness">Толщина</label>
                             <input type="number" class="form-control" id="addRawStorageThickness" required="required" autocomplete="off" placeholder="мм" min="1" name="sizeOfHeight">
 
-                            <label class="col-form-label" for="addRawStorageExtent">Кубатура распила</label>
+                            <label class="col-form-label" for="addRawStorageExtent">Кубатура после распиловки</label>
                             <input type="text" class="form-control" id="addRawStorageExtent" required="required" autocomplete="off" placeholder="м3" name="extent">
 
-                            <label class="col-form-label" for="addRawStorageExtent">Кубатура использованого кругляка</label>
-                            <input type="text" class="form-control" id="addRawStorageExtent" required="required" autocomplete="off" placeholder="м3" name="usedExtent">
+                            <label class="col-form-label" for="addRawStorageUsedExtent">Кубатура использованого кругляка</label>
+                            <input type="text" class="form-control" id="addRawStorageUsedExtent" required="required" autocomplete="off" placeholder="м3" name="usedExtent">
 
                             <label class="col-form-label" for="addRawStorageDescription">Примечания</label>
                             <input type="text" class="form-control" id="addRawStorageDescription" autocomplete="off" placeholder="" name="description">
@@ -557,7 +558,7 @@
                         <input type="text" class="form-control" id="editIncomeCode" required="required" autocomplete="off" name="codeOfProduct">
 
                         <label class="control-label" for="editIncomeMaterial">Порода</label>
-                        <input class="form-control" id="editIncomeMaterial" type="text" placeholder="Порода" name="breedOfTreeType" th:value="${breedOfTreeList[breedId-1].breed}">
+                        <input class="form-control" id="editIncomeMaterial" type="text" placeholder="Порода" name="breedOfTreeType" th:value="${breedOfTreeList[breedId-1].breed}" disabled="disabled">
 
                         <label class="control-label" for="editIncomeMaterialDesc">Описание породы</label>
                         <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Описание"  name="breedDescription" >
