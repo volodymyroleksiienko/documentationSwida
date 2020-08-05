@@ -43,15 +43,15 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
 
     @Override
-    public void createPackages(String dryStorageId, String codeOfProduct, String countHeight, String countWidth,
+    public void createPackages(String dryStorageId, String codeOfProduct,String breedDescription, String countHeight, String countWidth,
                                String countOfPack, String longFact,String heightWidth, UserCompany userCompany) {
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(dryStorageId));
         for (int i=1; i<=Integer.parseInt(countOfPack);i++){
             PackagedProduct product = new PackagedProduct();
             product.setCodeOfPackage(codeOfProduct+"-"+i);
             product.setBreedOfTree(dryStorage.getBreedOfTree());
+            product.setBreedDescription(breedDescription);
             product.setUserCompany(userCompany);
-            product.setBreedDescription(dryStorage.getBreedDescription());
             product.setDryStorage(dryStorage);
 
             product.setSizeOfHeight(dryStorage.getSizeOfHeight());
@@ -105,7 +105,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         //i = 1 skip test obj
         for (int i=1; i<arrayOfDesk.length;i++){
             deskOakList.add(new DescriptionDeskOak(arrayOfDesk[i][0],arrayOfDesk[i][1]));
-            sumWidth += Integer.parseInt(arrayOfDesk[i][0]);
+            sumWidth += (Integer.parseInt(arrayOfDesk[i][0])*Integer.parseInt(arrayOfDesk[i][1]));
             countOfAllDesk += Integer.parseInt(arrayOfDesk[i][1]);
             extent += (cofExtent*Float.parseFloat(arrayOfDesk[i][0])*Float.parseFloat(arrayOfDesk[i][1])/1000);
         }

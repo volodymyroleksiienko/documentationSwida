@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.TreeStorageJPA;
 import com.swida.documetation.data.service.storages.TreeStorageService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
@@ -55,8 +56,8 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     }
 
     @Override
-    public List<TreeStorage> getListByUserByBreed(int breedId, int userId) {
-        return treeStorageJPA.getListByUserByBreed(breedId,userId);
+    public List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status) {
+        return treeStorageJPA.getListByUserByBreed(breedId,userId,status);
     }
 
     @Override

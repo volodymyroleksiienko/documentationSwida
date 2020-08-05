@@ -8,6 +8,7 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.Roles;
 import com.swida.documetation.data.enums.StatusOfProduct;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
@@ -26,9 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.List;
@@ -45,10 +43,9 @@ public class FabricController {
     private BreedOfTreeService breedOfTreeService;
     private ContrAgentService contrAgentService;
     private UserCompanyService userCompanyService;
-    private WasteStorageService wasteStorageService;
 
     @Autowired
-    public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService, WasteStorageService wasteStorageService) {
+    public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -58,7 +55,6 @@ public class FabricController {
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
         this.userCompanyService = userCompanyService;
-        this.wasteStorageService = wasteStorageService;
     }
 
     @GetMapping("/index-{userId}")
@@ -78,7 +74,7 @@ public class FabricController {
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("contrAgentList",contrAgentService.findAll());
-        model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         return "fabricPage";
     }
 
@@ -111,9 +107,7 @@ public class FabricController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
-        String usedExtent = String.valueOf(Float.parseFloat(mainExtentTreeStorage)-Float.parseFloat(extentOfTreeStorage));
         rawStorageService.save(rawStorage);
-        wasteStorageService.createWaste(treeStorage,usedExtent,rawStorage.getExtent());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -132,7 +126,7 @@ public class FabricController {
     @PostMapping("/exportTreeStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportTreeStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
                                                          String endDate) throws FileNotFoundException, ParseException {
-        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreed(breedId,userId));
+        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         String filePath = parser.parse(startDate,endDate);
 
         return new GenerateResponseForExport().generate(filePath,startDate,endDate);
@@ -149,6 +143,7 @@ public class FabricController {
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
+        treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
         treeStorageService.putNewTreeStorageObj(treeStorage);
 
         RawStorage rawStorage = new RawStorage();
@@ -195,7 +190,6 @@ public class FabricController {
         dryingStorage.setSizeOfWidth(rawStorage.getSizeOfWidth());
         dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
         dryingStorage.setSizeOfLong(rawStorage.getSizeOfLong());
-        dryingStorage.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
         dryingStorageService.save(dryingStorage);
@@ -207,6 +201,7 @@ public class FabricController {
                                     RawStorage rawStorage){
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
+        rawStorageDB.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
         rawStorageDB.setCountOfDesk(rawStorage.getCountOfDesk());
         rawStorageDB.setSizeOfHeight(rawStorage.getSizeOfHeight());
@@ -245,13 +240,14 @@ public class FabricController {
 
     @PostMapping("/addDeskToDryStorage-{userId}-{breedId}")
     private String addDeskToDryStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                   String dryingStorageId, String codeOfProduct){
+                                   String dryingStorageId, String codeOfProduct, String breedDescription){
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(Integer.parseInt(dryingStorageId));
         DryStorage dryStorage = new DryStorage();
         dryStorage.setCodeOfProduct(codeOfProduct);
 
         dryStorage.setBreedOfTree(dryingStorageDB.getBreedOfTree());
+        dryStorage.setBreedDescription(breedDescription);
         dryStorage.setCountOfDesk(dryingStorageDB.getCountOfDesk());
         dryStorage.setDescription(dryingStorageDB.getDescription());
         dryStorage.setExtent(dryingStorageDB.getExtent());
@@ -279,6 +275,7 @@ public class FabricController {
             rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()+count);
             rawStorageService.save(rawStorage);
         }
+        dryingStorageDB.setBreedDescription(dryingStorage.getBreedDescription());
         dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
         dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
         dryingStorageService.save(dryingStorageDB);
@@ -314,8 +311,9 @@ public class FabricController {
 
     @PostMapping("/editDryStorageRow-{userId}-{breedId}")
     public String editDryStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                  String codeOfProduct){
+                                  String codeOfProduct, String breedDescription){
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
+        dryStorage.setBreedDescription(breedDescription);
         dryStorage.setCodeOfProduct(codeOfProduct);
         dryStorageService.save(dryStorage);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
@@ -323,8 +321,8 @@ public class FabricController {
 
     @PostMapping("/createPackages-{userId}-{breedId}")
     public String createPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                    String codeOfProduct,String height, String width, String count, String longFact, String heightWidth){
-        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
+                                    String codeOfProduct,String breedDescription,String height, String width, String count, String longFact, String heightWidth){
+        packagedProductService.createPackages(id,codeOfProduct,breedDescription,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
 
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
@@ -404,15 +402,73 @@ public class FabricController {
         return new GenerateResponseForExport().generate(filePath,deliveryDocumentation.getDriverInfo().getFullName(),deliveryDocumentation.getDriverInfo().getPhone());
     }
 
-    //Waste Storage page
-    @GetMapping("/getListOfWasteStorage-{userId}-{breedId}")
-    public String getListOfWasteStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,Model model){
-        model.addAttribute("fragmentPathTabWaste","wasteStorage");
-        model.addAttribute("tabName","wasteStorage");
+
+
+    //Recycle Page
+    @GetMapping("/getListOfRecycle-{userId}-{breedId}")
+    public String getListOfRecycle(@PathVariable("userId")int userId,
+                                       @PathVariable("breedId")int breedId, Model model){
+        model.addAttribute("fragmentPathTabRecycle","recyclePage");
+        model.addAttribute("tabName","recycle");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("wasteStorageList",wasteStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("contrAgentList",contrAgentService.findAll());
+        model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.RECYCLING));
         return "fabricPage";
+    }
+
+    @PostMapping("/addRecycleRow-{userId}-{breedId}")
+    public String  addRecycleRow(@PathVariable("userId")int userId,
+                                     @PathVariable("breedId")int breedId,
+                                     String nameOfAgent, TreeStorage treeStorage){
+        BreedOfTree breedOfTree = new BreedOfTree();
+        breedOfTree.setId(breedId);
+        treeStorage.setBreedOfTree(breedOfTree);
+        UserCompany company = new UserCompany();
+        company.setId(userId);
+        treeStorage.setUserCompany(company);
+        ContrAgent contrAgent =  new ContrAgent();
+        contrAgent.setNameOfAgent(nameOfAgent);
+        treeStorage.setContrAgent(contrAgent);
+        treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
+        treeStorageService.putNewTreeStorageObj(treeStorage);
+        return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
+    }
+
+
+    @PostMapping("/cutOfRecycle-{userId}-{breedId}")
+    public String  cutOfRecycle(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                          int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage){
+        TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
+
+        treeStorage.setExtent(extentOfTreeStorage);
+        rawStorage.setTreeStorage(treeStorage);
+        rawStorage.setUserCompany(userCompanyService.findById(userId));
+        rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorageService.save(rawStorage);
+        return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/editRecycleRow-{userId}-{breedId}")
+    public String editRecycleRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                     String nameOfAgent, TreeStorage treeStorage){
+        treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        treeStorage.setUserCompany(userCompanyService.findById(userId));
+        ContrAgent contrAgent =  new ContrAgent();
+        contrAgent.setNameOfAgent(nameOfAgent);
+        treeStorage.setContrAgent(contrAgent);
+        treeStorageService.putNewTreeStorageObj(treeStorage);
+        return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/exportRecycleXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportRecycleXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
+                                                         String endDate) throws FileNotFoundException, ParseException {
+        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.RECYCLING));
+        String filePath = parser.parse(startDate,endDate);
+
+        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
     }
 }

@@ -4,6 +4,7 @@ import com.swida.documetation.data.entity.storages.DryingStorage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -29,6 +30,8 @@ public class ParseDryingToXLS {
 
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
+        sheet.getPrintSetup().setLandscape(true);
+        sheet.getPrintSetup().setPaperSize(HSSFPrintSetup.A4_PAPERSIZE);
         XSSFCellStyle style = book.createCellStyle();
         style.setBorderTop(BorderStyle.MEDIUM);
         style.setBorderBottom(BorderStyle.MEDIUM);
@@ -36,7 +39,7 @@ public class ParseDryingToXLS {
         style.setBorderRight(BorderStyle.MEDIUM);
 
         for (int i = 0; i<8;i++){
-            sheet.setColumnWidth(i,7000);
+            sheet.setColumnWidth(i,3600);
         }
 
         int rowCount = 0;
@@ -48,7 +51,7 @@ public class ParseDryingToXLS {
         rowHeader.createCell(3).setCellValue("Толщина, мм");
         rowHeader.createCell(4).setCellValue("Ширина, мм");
         rowHeader.createCell(5).setCellValue("Длина, мм");
-        rowHeader.createCell(6).setCellValue("Кол-во досок, шт");
+        rowHeader.createCell(6).setCellValue("Доски, шт");
         rowHeader.createCell(7).setCellValue("Кубатура,м3");
         rowHeader.getCell(0).setCellStyle(style);
         rowHeader.getCell(1).setCellStyle(style);

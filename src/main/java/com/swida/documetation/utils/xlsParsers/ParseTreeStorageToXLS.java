@@ -36,7 +36,7 @@ public class ParseTreeStorageToXLS {
         style.setBorderRight(BorderStyle.MEDIUM);
 
         for (int i = 0; i<5;i++){
-            sheet.setColumnWidth(i,7000);
+            sheet.setColumnWidth(i,5000);
         }
 
         int rowCount = 0;

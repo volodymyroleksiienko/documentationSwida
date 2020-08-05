@@ -7,6 +7,7 @@ import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.StatusOfProduct;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
@@ -32,10 +33,9 @@ public class FabricOakController {
     private BreedOfTreeService breedOfTreeService;
     private ContrAgentService contrAgentService;
     private UserCompanyService userCompanyService;
-    private WasteStorageService wasteStorageService;
 
     @Autowired
-    public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService, WasteStorageService wasteStorageService) {
+    public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -45,7 +45,6 @@ public class FabricOakController {
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
         this.userCompanyService = userCompanyService;
-        this.wasteStorageService = wasteStorageService;
     }
 
     //Tree Storage page
@@ -57,7 +56,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         model.addAttribute("contrAgentList",contrAgentService.findAll());
         return "fabricPage";
     }
@@ -78,7 +77,6 @@ public class FabricOakController {
         rawStorageService.save(rawStorage);
         treeStorage.setExtent(String.valueOf(Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)));
         treeStorageService.save(treeStorage);
-        wasteStorageService.createWaste(treeStorage,usedExtent,rawStorage.getExtent());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -106,6 +104,7 @@ public class FabricOakController {
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
+        treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
         treeStorageService.putNewTreeStorageObj(treeStorage);
 
         RawStorage rawStorage = new RawStorage();
@@ -163,6 +162,7 @@ public class FabricOakController {
         int breedId = 2;
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
+        rawStorageDB.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
         rawStorageDB.setExtent(rawStorage.getExtent());
         rawStorageDB.setSizeOfHeight(rawStorage.getSizeOfHeight());
@@ -187,7 +187,8 @@ public class FabricOakController {
     }
 
     @PostMapping("/addDeskToDryStorage-{userId}-2")
-    private String addDeskToDryStorage(@PathVariable("userId")int userId, String dryingStorageId, String codeOfProduct){
+    private String addDeskToDryStorage(@PathVariable("userId")int userId, String dryingStorageId, String codeOfProduct,
+                                       String breedDescription){
         int breedId = 2;
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(Integer.parseInt(dryingStorageId));
@@ -195,7 +196,7 @@ public class FabricOakController {
         dryStorage.setCodeOfProduct(codeOfProduct);
 
         dryStorage.setBreedOfTree(dryingStorageDB.getBreedOfTree());
-        dryStorage.setBreedDescription(dryingStorageDB.getBreedDescription());
+        dryStorage.setBreedDescription(breedDescription);
         dryStorage.setExtent(dryingStorageDB.getExtent());
         dryStorage.setSizeOfHeight(dryingStorageDB.getSizeOfHeight());
         dryStorage.setDescription(dryingStorageDB.getDescription());
@@ -209,7 +210,8 @@ public class FabricOakController {
     }
 
     @PostMapping("/editDryingStorageObj-{userId}-2")
-    public String editDryingStorageObj(@PathVariable("userId")int userId, DryingStorage dryingStorage, String description){
+    public String editDryingStorageObj(@PathVariable("userId")int userId, DryingStorage dryingStorage,String breedDescription,
+                                       String description){
         int breedId = 2;
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(dryingStorage.getId());
@@ -222,6 +224,7 @@ public class FabricOakController {
         dryingStorageDB.setDescription(description);
         dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
         dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
+        dryingStorageDB.setBreedDescription(breedDescription);
         dryingStorageService.save(dryingStorageDB);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
@@ -242,22 +245,14 @@ public class FabricOakController {
     }
 
     @PostMapping("/editDryStorageRow-{userId}-2")
-    public String editDryStorageRow(@PathVariable("userId")int userId, String id, String codeOfProduct){
+    public String editDryStorageRow(@PathVariable("userId")int userId, String id, String codeOfProduct,String breedDescription){
         int breedId = 2;
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
         dryStorage.setCodeOfProduct(codeOfProduct);
+        dryStorage.setBreedDescription(breedDescription);
         dryStorageService.save(dryStorage);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
-
-    @PostMapping("/createPackages-{userId}-2")
-    public String createPackages(@PathVariable("userId")int userId, String id, String codeOfProduct,String height, String width, String count, String longFact, String heightWidth){
-        int breedId = 2;
-        packagedProductService.createPackages(id,codeOfProduct,height,width,count,longFact,heightWidth, userCompanyService.findById(userId));
-
-        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
-    }
-
 
 
     //Packaged product page
@@ -272,8 +267,6 @@ public class FabricOakController {
         model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         return "fabricPage";
     }
-
-
 
 
 }

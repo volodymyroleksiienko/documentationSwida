@@ -59,8 +59,8 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   th:href="@{'/fabric/getListOfWasteStorage-'+${userId}+'-'+${breedId}}"
-                   th:classappend="${tabName.equals('wasteStorage')} ? 'active':''">Склад отходов</a>
+                   th:href="@{'/fabric/getListOfRecycle-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('recycle')} ? 'active':''">На переработку</a>
             </li>
         </ul>
     </div>
@@ -87,8 +87,8 @@
         <div th:if="${fragmentPathTabDelivery!=null}">
             <div th:replace="~{fragments/fabric/fragFabricTabDeliveryInfo :: ${fragmentPathTabDelivery}}"></div>
         </div>
-        <div th:if="${fragmentPathTabWaste!=null}">
-            <div th:replace="~{fragments/fabric/fragFabricTabWasteStorage :: ${fragmentPathTabWaste}}"></div>
+        <div th:if="${fragmentPathTabRecycle!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabRecycle :: ${fragmentPathTabRecycle}}"></div>
         </div>
 
     </div>

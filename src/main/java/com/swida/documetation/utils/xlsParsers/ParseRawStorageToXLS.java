@@ -30,6 +30,7 @@ public class ParseRawStorageToXLS {
 
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
+        sheet.getPrintSetup().setLandscape(true);
         XSSFCellStyle style = book.createCellStyle();
         style.setBorderTop(BorderStyle.MEDIUM);
         style.setBorderBottom(BorderStyle.MEDIUM);
@@ -37,7 +38,7 @@ public class ParseRawStorageToXLS {
         style.setBorderRight(BorderStyle.MEDIUM);
 
         for (int i = 0; i<8;i++){
-            sheet.setColumnWidth(i,7000);
+            sheet.setColumnWidth(i,3500);
         }
 
         int rowCount = 0;
@@ -49,7 +50,7 @@ public class ParseRawStorageToXLS {
         rowHeader.createCell(3).setCellValue("Толщина, мм");
         rowHeader.createCell(4).setCellValue("Ширина, мм");
         rowHeader.createCell(5).setCellValue("Длина, мм");
-        rowHeader.createCell(6).setCellValue("Кол-во досок, шт");
+        rowHeader.createCell(6).setCellValue("Доски, шт");
         rowHeader.createCell(7).setCellValue("Кубатура,м3");
         rowHeader.getCell(0).setCellStyle(style);
         rowHeader.getCell(1).setCellStyle(style);

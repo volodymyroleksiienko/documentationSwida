@@ -4,6 +4,7 @@ import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.StatusOfEntity;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,6 +29,8 @@ public class TreeStorage {
     private ContrAgent contrAgent;
     @ManyToOne
     private UserCompany userCompany;
+    @Enumerated(EnumType.STRING)
+    private StatusOfTreeStorage statusOfTreeStorage = StatusOfTreeStorage.TREE;
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }
