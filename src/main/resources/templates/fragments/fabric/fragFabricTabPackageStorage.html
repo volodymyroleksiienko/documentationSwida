@@ -413,6 +413,7 @@
                 <thead>
                 <tr>
                     <th></th>
+                    <th scope="col">id</th>
                     <th scope="col">№ пачки</th>
                     <th scope="col">Качество</th>
                     <th scope="col">Размер</th>
@@ -420,19 +421,26 @@
                     <th scope="col">Сум. ширина</th>
                     <th scope="col">Кол. досок</th>
                     <th scope="col">Кубатура</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                       <div th:each="p, index : ${packageOakList}">
-                              <tr>
+                              <tr class="outer-table">
                                   <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${p.id}"></td>
-                                  <td th:text="${p.codeOfPackage}"></td>
+                                  <td>tut id</td>
+                                  <th th:text="${p.codeOfPackage}"></th>
                                   <td th:text="${p.quality}"></td>
                                   <td th:text="${p.sizeOfHeight}"></td>
                                   <td th:text="${p.sizeOfLong}"></td>
                                   <td th:text="${p.sumWidthOfAllDesk}"></td>
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}"></td>
+                                  <td>
+                                      <button  type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)">
+                                          <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
+                                      </button>
+                                  </td>
                               </tr>
                               <tr style="display:none" th:id="'parent'+${p.id}">
                                   <td colspan="13" class="child-table">
@@ -459,12 +467,14 @@
                                   <td style="display:none"></td>
                                   <td style="display:none"></td>
                                   <td style="display:none"></td>
+                                  <td style="display:none"></td>
                               </tr>
                       </div>
                 </tbody>
                 <tfoot>
                 <tr>
                     <th></th>
+                    <th scope="col">id</th>
                     <th scope="col">№ пачки</th>
                     <th scope="col">Качество</th>
                     <th scope="col">Размер</th>
@@ -472,17 +482,226 @@
                     <th scope="col">Сум. ширина</th>
                     <th scope="col">Кол. досок</th>
                     <th scope="col">Кубатура</th>
+                    <th></th>
                 </tr>
                 </tfoot>
             </table>
+            <!-- BUTTON -->
+            <div class="float-action-button">
+                <button type="button" class="buttons main-button btn btn-primary" title="Добавить к погрузке" data-placement="left" id ="buttonForOakTransportation">
+                    <i class="fas fa-truck-loading"></i>
+                </button>
+            </div>
+            <!-- BUTTON -->
         </div>
+
+
+    <!-- Send oak list for transportation modal begin MODAL -->
+    <div class="modal fade" id="sendOakListForTransportationModal">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Погрузить</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/createDeliveryDoc-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <!-- Selected rows -->
+                        <table class="table table-hover table-striped" id="tableForOakTransportation">
+                            <br>
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col">id</th>
+                                <th scope="col">№ пачки</th>
+                                <th scope="col">Качество</th>
+                                <th scope="col">Размер</th>
+                                <th scope="col">Длина</th>
+                                <th scope="col">Сум. ширина</th>
+                                <th scope="col">Кол. досок</th>
+                                <th scope="col">Кубатура</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <div th:each="p, index : ${packageOakList}">
+                                    <tr class="outer-table">
+                                        <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${p.id}"></td>
+                                        <td>1</td>
+                                        <td th:text="${p.codeOfPackage}"></td>
+                                        <td th:text="${p.quality}"></td>
+                                        <td th:text="${p.sizeOfHeight}"></td>
+                                        <td th:text="${p.sizeOfLong}"></td>
+                                        <td th:text="${p.sumWidthOfAllDesk}"></td>
+                                        <td th:text="${p.countOfDesk}"></td>
+                                        <td th:text="${p.extent}"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="display:none" th:id="'parent'+${p.id}">
+                                        <td colspan="13" class="child-table">
+                                            <table class="table table-hover table-striped parent-table" id="packages">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Ширина, мм</th>
+                                                    <th scope="col">Количество досок</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="l, index : ${p.deskOakList}" th:id="${l.id}">
+                                                    <td th:text="${l.sizeOfWidth}"></td>
+                                                    <td th:text="${l.countOfDesk}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                </div>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th></th>
+                                <th scope="col">id</th>
+                                <th scope="col">№ пачки</th>
+                                <th scope="col">Качество</th>
+                                <th scope="col">Размер</th>
+                                <th scope="col">Длина</th>
+                                <th scope="col">Сум. ширина</th>
+                                <th scope="col">Кол. досок</th>
+                                <th scope="col">Кубатура</th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                        <hr>
+
+                        <!-- Selected rows -->
+
+                        <!-- Insert rows -->
+                        <div class="form-group container">
+                            <input type="text" class="form-control" id="addRawStorageId" hidden="hidden" autocomplete="off">
+
+                            <label class="col-form-label" for="addIdOfTruck">№ выгрузки</label>
+                            <input type="text" class="form-control" placeholder="" id="addIdOfTruck" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
+                            <input type="text" hidden="hidden" id="breedID">
+                            <input type="text" hidden="hidden" id="userID">
+
+                            <br>
+
+                            <div class="form-group row">
+                                <label for="driverCredentionals" class="col-6 col-form-label">Имя, Фамилия водителя</label>
+                                <label for="driverPhone" class="col-6 col-form-label">Телефон</label>
+
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="driverCredentionals" required="required" autocomplete="off">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="driverPhone" required="required" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="numberOfTruck" class="col-6 col-form-label">Номер фуры</label>
+                                <label for="numberOfTrailer" class="col-6 col-form-label">Номер прицепа</label>
+
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="numberOfTruck" required="required" autocomplete="off">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="numberOfTrailer" required="required" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="packDateInput" class="col-6 col-form-label">Дата выгрузки</label>
+                                <label for="packTimeInput" class="col-6 col-form-label">Время выгрузки</label>
+
+                                <div class="col-6">
+                                    <input class="form-control" type="date" id="packDateInput" required="required" name="dateOfUnloading">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="packTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
+                                </div>
+                            </div>
+
+                        </div>
+                        <script type="text/javascript">
+                            document.querySelector("#packDateInput").valueAsDate = new Date();
+                        </script>
+                        <!-- Insert rows -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="sendRequestToCreateDeleviry()">Отправить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Send oak list for transportation end  MODAL -->
+
+
+    <!--  Modal confirmation  -->
+    <div class="modal fade" id="unformOakPackModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Расформирование пачек</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form th:action="@{'/fabric/unformPackagedProduct-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <!--       TUT                 -->
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="unformOakPackModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="unformOakPackModalConfirmation">
+                                Вы уверены, что хотите расформировать пачку ?
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Расформировать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function packageOakUnform(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#unformOakPackModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfPackage = $(trObj).find('th:eq(0)').text();
+
+            $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
+            $('#unformOakPackModal').modal('show');
+        }
+    </script>
+    <!--  Modal confirmation  -->
 
 
     <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
 
     <script type="text/javascript">
         $(document).ready( function () {
-            $('#packageOakTableId').DataTable({
+            var oakTable = $('#packageOakTableId').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
                 },
@@ -494,6 +713,11 @@
                 // id column visibility
                 "columnDefs": [
                     {
+                        "targets": [ 1 ],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
                         "targets": -1,
                         "orderable": false,
                         "width": "30px"
@@ -504,9 +728,82 @@
 
 
 
-            $('#packageOakTableId tbody').on( 'click', 'tr', function () {
+            $('#packageOakTableId tbody').on( 'click', '.outer-table', function () {
                 $(this).toggleClass('selected');
+
+                // $('#packageOakTableId tbody .outer-table .details-control').toggleClass('toggled-white-arrow');
             } );
+
+
+
+            $( "#buttonForOakTransportation" ).click(function() {
+
+                modalOakPackagesTable.clear().draw();
+                var newData = ( oakTable.rows( ).data() );
+                // var newData = ( oakTable.rows( '.selected' ).data() );
+
+                console.log(newData);
+
+                var array = [];
+
+                for (var i = newData.length - 1; i >= 0; i--) {
+
+                    // var arrow =         newData[i][0];
+                    var id =            newData[i][1];
+                    var code = 			newData[i][2];
+                    var quality = 		newData[i][3];
+                    var size = 	        newData[i][4];
+                    var length =     	newData[i][5];
+                    var width = 		newData[i][6];
+                    var count = 		newData[i][7];
+                    var extent = 		newData[i][8];
+
+
+
+                    var button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+                    var arrow =         "<td class='details-control' onclick='javascript:$(\"#parent\"+this.id).toggle();' id='1'></td>";
+                    // var arrow =         "<div><td  class='details-control'></td></div>";
+                    // var jRow = $(&quot;&lt;tr&gt;&quot;).append(&quot;&lt;td&gt;Cell 1&lt;/td&gt;&quot;, &quot;&lt;td&gt;Cell 2&lt;/td&gt;&quot;);
+
+
+                    var d=[arrow, id,code, quality, size, length, width, count, extent, button];
+
+                    array[i] = id;
+
+                    modalOakPackagesTable.row.add([arrow, id,code, quality, size, length, width, count, extent, button]).draw( false );
+                    // var td = $('#tableForOakTransportation tbody tr').find('td:eq(0)');
+                    // td.outerHTML = "<td class='details-control' onclick='javascript:$(\"#parent\"+this.id).toggle();' th:id='${p.id}'></td>";
+                }
+                console.log("ids:"+array);
+                // console.log(array);
+                $('#sendOakListForTransportationModal').modal('show');
+            });
+
+
+            var modalOakPackagesTable = $('#tableForOakTransportation').DataTable({
+                // columns width
+                "autoWidth": false,
+                "bSort" : false,
+                "searching": false,
+                "paging": false,
+                "info": false,
+                'select': false,
+                // id column visibility
+                "columnDefs": [
+                    {
+                        "targets": [  ],
+                        "visible": true,
+                        "searchable": true
+                    },
+                ]
+
+            });
+
+
+            $('#tableForOakTransportation tbody').on( 'click', 'button', function () {
+                modalOakPackagesTable.row( $(this).parents('tr') ).remove().draw();
+            } );
+
 
 
 
