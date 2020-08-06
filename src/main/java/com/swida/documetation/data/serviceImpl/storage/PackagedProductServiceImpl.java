@@ -36,6 +36,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
     @Override
     public void save(PackagedProduct packProd) {
+        packProd.setExtent(String.format("%.3f", Float.parseFloat(packProd.getExtent())).replace(',', '.'));
         Date date = new Date(System.currentTimeMillis());
         packProd.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         productJPA.save(packProd);
@@ -113,9 +114,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         product.setDeskOakList(deskOakList);
         product.setSumWidthOfAllDesk(String.valueOf(sumWidth));
         product.setCountOfDesk(String.valueOf(countOfAllDesk));
-        product.setExtent(String.valueOf(extent));
+        product.setExtent(String.format("%.3f",extent).replace(',','.'));
 
-        dryStorage.setExtent(String.valueOf(Float.parseFloat(dryStorage.getExtent())-extent));
+        dryStorage.setExtent(String.format("%.3f",Float.parseFloat(dryStorage.getExtent())-extent).replace(',','.'));
         dryStorageService.save(dryStorage);
         deskOakService.saveAll(deskOakList);
         Date date = new Date(System.currentTimeMillis());
@@ -149,6 +150,6 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         float longSize = Float.parseFloat(packagedProduct.getSizeOfLong())/1000;
         int count = Integer.parseInt(packagedProduct.getCountOfDesk());
         float extent = width*height*longSize*count;
-        return String.valueOf(extent);
+        return String.format("%.3f",extent).replace(',','.');
     }
 }

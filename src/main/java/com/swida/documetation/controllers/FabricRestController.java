@@ -1,6 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.storages.PackagedProduct;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.StatusOfProduct;
@@ -42,6 +43,9 @@ public class FabricRestController {
 
         List<PackagedProduct> productList = new ArrayList<>();
         DeliveryDocumentation deliveryDocumentation = new DeliveryDocumentation();
+        BreedOfTree breedOfTree = new BreedOfTree();
+        breedOfTree.setId(Integer.parseInt(breedID));
+        deliveryDocumentation.setBreedOfTree(breedOfTree);
         deliveryDocumentation.setDateOfUnloading(dateOfUnloading);
         deliveryDocumentation.setTimeOfUnloading(timeOfUnloading);
 

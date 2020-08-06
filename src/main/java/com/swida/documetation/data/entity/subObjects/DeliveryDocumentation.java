@@ -19,6 +19,9 @@ public class DeliveryDocumentation {
     private String timeOfUnloading;
     private String clientName;
 
+
+    @ManyToOne
+    private BreedOfTree breedOfTree;
     @ManyToOne
     private DriverInfo driverInfo;
     @ManyToOne

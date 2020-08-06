@@ -6,7 +6,6 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
-import com.swida.documetation.data.enums.Roles;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -16,12 +15,8 @@ import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.*;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,6 +86,7 @@ public class FabricController {
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
+        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -98,15 +94,31 @@ public class FabricController {
 
     @PostMapping("/cutOfTreeStorage-{userId}-{breedId}")
     public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                       int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage){
+                                       int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage,String  extentOfWaste){
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
         String mainExtentTreeStorage = treeStorage.getExtent();
 
-        treeStorage.setExtent(extentOfTreeStorage);
+        treeStorage.setExtent(String.format("%.3f",Float.parseFloat(extentOfTreeStorage)).replace(',','.'));
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+
+        TreeStorage recycle = new TreeStorage();
+        if(extentOfWaste==null){
+            recycle.setExtent("0.000");
+        }else {
+            recycle.setExtent(String.format("%.3f", Float.parseFloat(extentOfWaste)).replace(',', '.'));
+        }
+        recycle.setCodeOfProduct(treeStorage.getCodeOfProduct()+"-rec");
+        recycle.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
+        recycle.setContrAgent(treeStorage.getContrAgent());
+
+        recycle.setUserCompany(userCompanyService.findById(userId));
+        recycle.setBreedOfTree(breedOfTreeService.findById(breedId));
+        recycle.setBreedDescription(treeStorage.getBreedDescription());
+
+        treeStorageService.save(recycle);
         rawStorageService.save(rawStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -119,6 +131,7 @@ public class FabricController {
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
+        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -139,7 +152,7 @@ public class FabricController {
                                       String sizeOfLong, String countOfDesk, String nameOfAgent, String extent){
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        treeStorage.setExtent("0");
+        treeStorage.setExtent("0.000");
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
@@ -389,15 +402,21 @@ public class FabricController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.findAll());
+        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         return "fabricPage";
     }
 
     @PostMapping("/exportDeliveryInfo-{id}")
     public ResponseEntity<Resource> exportDeliveryInfo(@PathVariable("id") int id) throws FileNotFoundException {
         DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.findById(id);
-        ParserDeliveryDocumentationToXLS parser = new ParserDeliveryDocumentationToXLS(deliveryDocumentation);
-        String filePath = parser.parse();
+        String filePath;
+        if(deliveryDocumentation.getBreedOfTree().getId()==2){
+            ParseOakDeliveryInfoToXLS parser = new ParseOakDeliveryInfoToXLS(deliveryDocumentation);
+            filePath = parser.parse();
+        }else {
+            ParserDeliveryDocumentationToXLS parser = new ParserDeliveryDocumentationToXLS(deliveryDocumentation);
+            filePath = parser.parse();
+        }
 
         return new GenerateResponseForExport().generate(filePath,deliveryDocumentation.getDriverInfo().getFullName(),deliveryDocumentation.getDriverInfo().getPhone());
     }
@@ -442,7 +461,7 @@ public class FabricController {
                                           int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage){
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
 
-        treeStorage.setExtent(extentOfTreeStorage);
+        treeStorage.setExtent(String.format("%.3f",Float.parseFloat(extentOfTreeStorage)).replace(',','.'));
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));

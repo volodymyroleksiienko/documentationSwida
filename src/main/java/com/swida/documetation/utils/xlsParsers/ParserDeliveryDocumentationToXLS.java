@@ -93,14 +93,14 @@ public class ParserDeliveryDocumentationToXLS {
         rowHeader.getCell(11).setCellStyle(style);
         rowHeader.getCell(12).setCellStyle(style);
 
-        for(int i = 1; i<deliveryDocumentation.getProductList().size();i++){
+        for(int i = 0; i<deliveryDocumentation.getProductList().size();i++){
             rowCount++;
             PackagedProduct product = deliveryDocumentation.getProductList().get(i);
             sumCount+=Integer.parseInt(product.getCountOfDesk());
             sumExtent+=Float.parseFloat(product.getExtent());
             Row row;
             if (i<12){
-                row = sheet.getRow(i);
+                row = sheet.getRow(rowCount);
                 row.getCell(1).setCellValue(product.getCodeOfPackage());
                 row.getCell(2).setCellValue(product.getBreedOfTree().getBreed());
                 row.getCell(3).setCellValue(product.getBreedDescription());
@@ -114,7 +114,7 @@ public class ParserDeliveryDocumentationToXLS {
                 row.getCell(11).setCellValue(product.getLongFact());
                 row.getCell(12).setCellValue(product.getHeight_width());
             }else{
-                row = sheet.createRow(i);
+                row = sheet.createRow(rowCount);
                 row.setHeight((short)400);
                 row.createCell(0);
                 row.createCell(1).setCellValue(product.getCodeOfPackage());
@@ -158,12 +158,6 @@ public class ParserDeliveryDocumentationToXLS {
         }
         rowFooter.getCell(7).setCellValue(sumCount);
         rowFooter.getCell(8).setCellValue(String.format("%6.3f",sumExtent));
-
-
-
-
-
-
 
 
         try {

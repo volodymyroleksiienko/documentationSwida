@@ -115,8 +115,8 @@
 
                             <label class="col-form-label" for="addIdOfTruck">№ выгрузки</label>
                             <input type="text" class="form-control" placeholder="" id="addIdOfTruck" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
-                            <input type="text" hidden="hidden" id="breedID">
-                            <input type="text" hidden="hidden" id="userID">
+                            <input type="text" hidden="hidden" id="breedID" th:value="${breedId}">
+                            <input type="text" hidden="hidden" id="userID" th:value="${userId}">
 
 
                             <br>
@@ -437,7 +437,7 @@
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}"></td>
                                   <td>
-                                      <button  type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)">
+                                      <button  type="button" class="btn btn-primary btn-sm">
                                           <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                                       </button>
                                   </td>
@@ -525,48 +525,8 @@
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody>
-                                <div th:each="p, index : ${packageOakList}">
-                                    <tr class="outer-table">
-                                        <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${p.id}"></td>
-                                        <td>1</td>
-                                        <td th:text="${p.codeOfPackage}"></td>
-                                        <td th:text="${p.quality}"></td>
-                                        <td th:text="${p.sizeOfHeight}"></td>
-                                        <td th:text="${p.sizeOfLong}"></td>
-                                        <td th:text="${p.sumWidthOfAllDesk}"></td>
-                                        <td th:text="${p.countOfDesk}"></td>
-                                        <td th:text="${p.extent}"></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr style="display:none" th:id="'parent'+${p.id}">
-                                        <td colspan="13" class="child-table">
-                                            <table class="table table-hover table-striped parent-table" id="packages">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Ширина, мм</th>
-                                                    <th scope="col">Количество досок</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr th:each="l, index : ${p.deskOakList}" th:id="${l.id}">
-                                                    <td th:text="${l.sizeOfWidth}"></td>
-                                                    <td th:text="${l.countOfDesk}"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                    </tr>
-                                </div>
+                            <tbody id="sendDeliveryInfoModal">
+
                             </tbody>
                             <tfoot>
                             <tr>
@@ -593,8 +553,8 @@
 
                             <label class="col-form-label" for="addIdOfTruck">№ выгрузки</label>
                             <input type="text" class="form-control" placeholder="" id="addIdOfTruck" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
-                            <input type="text" hidden="hidden" id="breedID">
-                            <input type="text" hidden="hidden" id="userID">
+                            <input type="text" hidden="hidden" id="breedID" th:value="${breedId}">
+                            <input type="text" hidden="hidden" id="userID" th:value="${userId}">
 
                             <br>
 
@@ -641,7 +601,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="sendRequestToCreateDeleviry()">Отправить</button>
+                        <button type="button" class="btn btn-primary" onclick="sendRequestToCreateDeleviryOak()">Отправить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -683,16 +643,17 @@
         </div>
     </div>
     <script type="text/javascript">
-        function packageOakUnform(btnObj) {
-            var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
-            $('#unformOakPackModalId').val(trId);
-            console.log(  $(trObj).attr('id'));
-            var codeOfPackage = $(trObj).find('th:eq(0)').text();
+        // function packageOakUnform(btnObj) {
+        //     var trObj = btnObj.parentElement.parentElement;
+        //     var trId =  $(trObj).attr('id');
+        //     $('#unformOakPackModalId').val(trId);
+        //     console.log(  $(trObj).attr('id'));
+        //     var codeOfPackage = $(trObj).find('th:eq(0)').text();
+        //
+        //     $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
+        //     $('#unformOakPackModal').modal('show');
+        // }
 
-            $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
-            $('#unformOakPackModal').modal('show');
-        }
     </script>
     <!--  Modal confirmation  -->
 
@@ -701,6 +662,17 @@
 
     <script type="text/javascript">
         $(document).ready( function () {
+            $('#packageOakTableId tbody').on( 'click', 'button', function () {
+                var trObj = this.parentElement.parentElement;
+                var trId =  $(trObj).attr('id');
+                $('#unformOakPackModalId').val(trId);
+                console.log(  $(trObj).attr('id'));
+                var codeOfPackage = $(trObj).find('th:eq(0)').text();
+
+                $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
+                $('#unformOakPackModal').modal('show');
+            } );
+
             var oakTable = $('#packageOakTableId').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
@@ -730,55 +702,36 @@
 
             $('#packageOakTableId tbody').on( 'click', '.outer-table', function () {
                 $(this).toggleClass('selected');
-
-                // $('#packageOakTableId tbody .outer-table .details-control').toggleClass('toggled-white-arrow');
             } );
 
 
-
             $( "#buttonForOakTransportation" ).click(function() {
-
                 modalOakPackagesTable.clear().draw();
-                var newData = ( oakTable.rows( ).data() );
-                // var newData = ( oakTable.rows( '.selected' ).data() );
+                var newData = document.getElementsByClassName("selected");
+                var tBody = document.getElementById('sendDeliveryInfoModal');
+                tBody.deleteRow(0);
+                for(var i=0;i<newData.length;i++){
+                    var tmp = newData[i];
+                    var clone = tmp.cloneNode(true);
+                    var tdId = clone.getElementsByClassName("details-control")[0];
+                    var idOfPackage=tdId.getAttribute("id");
+                    var idOfPackageParent="parent"+idOfPackage;
+                    tdId.setAttribute("id",'modal'+idOfPackage);
+                    console.log(clone);
+                    var insideTr = $(clone).closest('tr').html();
+                    var trObj = $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
 
-                console.log(newData);
+                    var trParent = document.getElementById(idOfPackageParent);
+                    var trParentClone = trParent.cloneNode(true);
+                    trParentClone.setAttribute("id",'parentmodal'+i);
 
-                var array = [];
-
-                for (var i = newData.length - 1; i >= 0; i--) {
-
-                    // var arrow =         newData[i][0];
-                    var id =            newData[i][1];
-                    var code = 			newData[i][2];
-                    var quality = 		newData[i][3];
-                    var size = 	        newData[i][4];
-                    var length =     	newData[i][5];
-                    var width = 		newData[i][6];
-                    var count = 		newData[i][7];
-                    var extent = 		newData[i][8];
-
-
-
-                    var button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
-                    var arrow =         "<td class='details-control' onclick='javascript:$(\"#parent\"+this.id).toggle();' id='1'></td>";
-                    // var arrow =         "<div><td  class='details-control'></td></div>";
-                    // var jRow = $(&quot;&lt;tr&gt;&quot;).append(&quot;&lt;td&gt;Cell 1&lt;/td&gt;&quot;, &quot;&lt;td&gt;Cell 2&lt;/td&gt;&quot;);
-
-
-                    var d=[arrow, id,code, quality, size, length, width, count, extent, button];
-
-                    array[i] = id;
-
-                    modalOakPackagesTable.row.add([arrow, id,code, quality, size, length, width, count, extent, button]).draw( false );
-                    // var td = $('#tableForOakTransportation tbody tr').find('td:eq(0)');
-                    // td.outerHTML = "<td class='details-control' onclick='javascript:$(\"#parent\"+this.id).toggle();' th:id='${p.id}'></td>";
+                    $('#sendDeliveryInfoModal').append(trObj);
+                    $('#sendDeliveryInfoModal').append(trParentClone);
                 }
-                console.log("ids:"+array);
-                // console.log(array);
+
+
                 $('#sendOakListForTransportationModal').modal('show');
             });
-
 
             var modalOakPackagesTable = $('#tableForOakTransportation').DataTable({
                 // columns width
@@ -791,9 +744,9 @@
                 // id column visibility
                 "columnDefs": [
                     {
-                        "targets": [  ],
-                        "visible": true,
-                        "searchable": true
+                        "targets": [ 1],
+                        "visible": false,
+                        "searchable": false
                     },
                 ]
 
@@ -801,14 +754,64 @@
 
 
             $('#tableForOakTransportation tbody').on( 'click', 'button', function () {
-                modalOakPackagesTable.row( $(this).parents('tr') ).remove().draw();
+                var idOfParent = 'parent'+this.parentElement.parentElement.getElementsByClassName("details-control")[0].getAttribute("id");
+                this.parentElement.parentElement.remove();
+                document.getElementById(idOfParent).remove()
             } );
-
-
-
-
         });
 
+
+        function sendRequestToCreateDeleviryOak() {
+            var arrOfTr = document.getElementsByClassName("selectMainTrPackage");
+            console.log("arr length = "+arrOfTr.length);
+            var idOfTruck1 = $("#addIdOfTruck").val();
+            var name1 = $("#driverCredentionals").val();
+            var phone1 = $("#driverPhone").val();
+            var numberOfTruck1 = $("#numberOfTruck").val();
+            var numberOfTrailer1 = $("#numberOfTrailer").val();
+            var date1 = $("#packDateInput").val();
+            var time1 = $("#packTimeInput").val();
+            var breedID = $("#breedID").val();
+            var userID = $("#userID").val();
+
+
+            var arrayOfId = [];
+
+            for (var i = 0; i<arrOfTr.length;i++){
+                var td = arrOfTr[i].getElementsByClassName("details-control")[0];
+                arrayOfId[i] = td.getAttribute("id").replace('modal','');
+                console.log(arrayOfId[i]);
+            }
+
+            if (arrayOfId[0]!="No data available in table" && idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != ""){
+
+                $.ajax({
+                    method: "post",
+                    url: "/createDeliveryDoc-"+userID+"-"+breedID,
+                    contextType: "application/json",
+                    data: {
+                        list: arrayOfId,
+                        name: name1,
+                        phone: phone1,
+                        idOfTruck: idOfTruck1,
+                        numberOfTruck: numberOfTruck1,
+                        numberOfTrailer: numberOfTrailer1,
+                        dateOfUnloading: date1,
+                        timeOfUnloading: time1
+                    },
+                    traditional: true,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });}
+            else {
+                alert("Заполните все поля!");
+            }
+
+        }
     </script>
 
 

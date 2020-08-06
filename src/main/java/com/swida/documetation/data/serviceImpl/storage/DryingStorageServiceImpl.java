@@ -28,7 +28,7 @@ public class DryingStorageServiceImpl implements DryingStorageService {
             float longSize = Float.parseFloat(ds.getSizeOfLong()) / 1000;
             int count = ds.getCountOfDesk();
             float extent = width * height * longSize * count;
-            ds.setExtent(String.valueOf(extent));
+            ds.setExtent(String.format("%.3f",extent).replace(',','.'));
         }
         Date date = new Date(System.currentTimeMillis());
         ds.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
@@ -47,6 +47,9 @@ public class DryingStorageServiceImpl implements DryingStorageService {
 
     @Override
     public List<DryingStorage> getListByUserByBreed(int breedId, int userId) {
+        if(breedId==2){
+            return dryingStorageJPA.getListByUserByBreedOak(breedId,userId);
+        }
         return dryingStorageJPA.getListByUserByBreed(breedId,userId);
     }
 

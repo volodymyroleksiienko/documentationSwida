@@ -5,6 +5,7 @@ import com.swida.documetation.data.jpa.storages.DescriptionDeskOakJPA;
 import com.swida.documetation.data.jpa.storages.DryingStorageJPA;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class DescriptionDeskOakServiceImpl implements DescriptionDeskOakService 
 
     @Override
     public List<DescriptionDeskOak> findAll() {
-        return descriptionDeskOakJPA.findAll();
+        return descriptionDeskOakJPA.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @Override

@@ -66,7 +66,7 @@ public class FabricOakController {
 
     @PostMapping("/cutOfTreeStorage-{userId}-2")
     public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, int idOfTreeStorageRow,
-                                         RawStorage rawStorage, String usedExtent){
+                                         RawStorage rawStorage, String usedExtent,String extentOfWaste){
         int breedId = 2;
 
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
@@ -75,7 +75,24 @@ public class FabricOakController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setTreeStorage(treeStorage);
         rawStorageService.save(rawStorage);
-        treeStorage.setExtent(String.valueOf(Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)));
+        treeStorage.setExtent(String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)).replace(',','.'));
+
+        TreeStorage recycle = new TreeStorage();
+        if(extentOfWaste==null){
+            recycle.setExtent("0.000");
+        }else {
+            recycle.setExtent(String.format("%.3f", Float.parseFloat(extentOfWaste)).replace(',', '.'));
+        }
+        recycle.setCodeOfProduct(treeStorage.getCodeOfProduct()+"-rec");
+        recycle.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
+        recycle.setContrAgent(treeStorage.getContrAgent());
+
+        recycle.setUserCompany(userCompanyService.findById(userId));
+        recycle.setBreedOfTree(breedOfTreeService.findById(breedId));
+        recycle.setBreedDescription(treeStorage.getBreedDescription());
+
+        treeStorageService.save(recycle);
+
         treeStorageService.save(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -100,7 +117,7 @@ public class FabricOakController {
 
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        treeStorage.setExtent("0");
+        treeStorage.setExtent("0.000");
         ContrAgent contrAgent =  new ContrAgent();
         contrAgent.setNameOfAgent(nameOfAgent);
         treeStorage.setContrAgent(contrAgent);
@@ -147,7 +164,7 @@ public class FabricOakController {
         dryingStorage.setExtent(extentOfDrying);
 
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(rawStorageId));
-        rawStorage.setExtent(String.valueOf(Float.parseFloat(rawStorage.getExtent())-Float.parseFloat(extentOfDrying)));
+        rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-Float.parseFloat(extentOfDrying)).replace(',','.'));
 
         dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
         dryingStorage.setBreedDescription(rawStorage.getBreedDescription());
@@ -204,7 +221,7 @@ public class FabricOakController {
         dryStorage.setDryingStorage(dryingStorageDB);
 
         dryStorageService.save(dryStorage);
-        dryingStorageDB.setExtent("0");
+        dryingStorageDB.setExtent("0.000");
         dryingStorageService.save(dryingStorageDB);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
@@ -268,6 +285,20 @@ public class FabricOakController {
         return "fabricPage";
     }
 
+
+    //Delivery page
+    @GetMapping("/getListOfDeliveryDocumentation-{userId}-2")
+    public String getListOfDeliveryDocumentation(@PathVariable("userId")int userId,Model model){
+
+        int breedId = 2;
+        model.addAttribute("fragmentPathTabDelivery","deliveryInfoOak");
+        model.addAttribute("tabName","deliveryInfo");
+        model.addAttribute("userId",userId);
+        model.addAttribute("breedId",breedId);
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
+        return "fabricPage";
+    }
 
 }
 

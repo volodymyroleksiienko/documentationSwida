@@ -32,6 +32,11 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     }
 
     @Override
+    public List<DeliveryDocumentation> getListByUserByBreed(int breedId,int userId) {
+        return documentationJPA.getListByUserByBreed(breedId,userId);
+    }
+
+    @Override
     public void deleteByID(int id) {
         documentationJPA.deleteById(id);
     }

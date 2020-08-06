@@ -8,5 +8,6 @@ public interface DeliveryDocumentationService {
     void save(DeliveryDocumentation doc);
     DeliveryDocumentation findById(int id);
     List<DeliveryDocumentation> findAll();
+    List<DeliveryDocumentation> getListByUserByBreed(int breedId, int userId);
     void deleteByID(int id);
 }

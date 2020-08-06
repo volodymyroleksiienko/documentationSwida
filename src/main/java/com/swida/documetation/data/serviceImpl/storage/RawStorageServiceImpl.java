@@ -27,8 +27,9 @@ public class RawStorageServiceImpl implements RawStorageService {
             float longSize = Float.parseFloat(rs.getSizeOfLong())/1000;
             int count = rs.getCountOfDesk();
             float extent = width*height*longSize*count;
-            rs.setExtent(String.valueOf(extent));
+            rs.setExtent(String.format("%.3f",extent).replace(',','.'));
         }
+        rs.setExtent(String.format("%.3f", Float.parseFloat(rs.getExtent())).replace(',', '.'));
         Date date = new Date(System.currentTimeMillis());
         rs.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         rawStorageJPA.save(rs);
@@ -46,6 +47,9 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public List<RawStorage> getListByUserByBreed(int breedId, int userId) {
+        if (breedId==2){
+            return rawStorageJPA.getListByUserByBreedOak(breedId,userId);
+        }
         return rawStorageJPA.getListByUserByBreed(breedId,userId);
     }
 

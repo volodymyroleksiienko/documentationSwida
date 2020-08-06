@@ -141,139 +141,137 @@
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="deliveryInfoOak">
 
 
-    <!--    &lt;!&ndash; Транспортировка OAK&ndash;&gt;-->
-    <!--    <div class="tab-pane fade show active container-fluid" id="transportation">-->
+        <!-- Транспортировка OAK-->
+        <div class="tab-pane fade show active container-fluid" id="transportation">
 
-    <!--        <table class="table table-hover table-striped" id="transportationTableOak">-->
-    <!--            <br>-->
-    <!--            <thead>-->
-    <!--                <tr>-->
-    <!--                    <th></th>-->
-    <!--                    <th scope="col">№ выгрузки</th>-->
-    <!--                    <th scope="col">А/М</th>-->
-    <!--                    <th scope="col">П/П</th>-->
-    <!--                    <th scope="col">Дата выгрузки</th>-->
-    <!--                    <th scope="col">Время выгрузки</th>-->
-    <!--                    <th scope="col">Водитель</th>-->
-    <!--                    <th scope="col">Телефон</th>-->
-    <!--                    <th></th>-->
-    <!--                </tr>-->
-    <!--            </thead>-->
-    <!--            <tbody>-->
-    <!--                <div th:each="dd, index : ${deliveryDocumentations}">-->
+            <table class="table table-hover table-striped" id="transportationTableOak">
+                <br>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">№ выгрузки</th>
+                        <th scope="col">А/М</th>
+                        <th scope="col">П/П</th>
+                        <th scope="col">Дата выгрузки</th>
+                        <th scope="col">Время выгрузки</th>
+                        <th scope="col">Водитель</th>
+                        <th scope="col">Телефон</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div th:each="dd, index : ${deliveryDocumentations}">
 
 
-    <!--                    <tr>-->
-    <!--                        <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>-->
-    <!--                        <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>-->
-    <!--                        <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>-->
-    <!--                        <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>-->
-    <!--                        <td th:text="${dd.getDateOfUnloading()}"></td>-->
-    <!--                        <td th:text="${dd.getTimeOfUnloading()}"></td>-->
-    <!--                        <td th:text="${dd.driverInfo.getFullName()}"></td>-->
-    <!--                        <td th:text="${dd.driverInfo.getPhone()}"></td>-->
-    <!--                        <td>-->
-    <!--                            <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post">-->
-    <!--                                <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">-->
-    <!--                                    <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>-->
-    <!--                                </button>-->
-    <!--                            </form>-->
-    <!--                        </td>-->
-    <!--                    </tr>-->
+                        <tr>
+                            <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                            <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
+                            <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
+                            <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>
+                            <td th:text="${dd.getDateOfUnloading()}"></td>
+                            <td th:text="${dd.getTimeOfUnloading()}"></td>
+                            <td th:text="${dd.driverInfo.getFullName()}"></td>
+                            <td th:text="${dd.driverInfo.getPhone()}"></td>
+                            <td>
+                                <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post">
+                                    <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
+                                        <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
 
-    <!--                    &lt;!&ndash;      LEVEL    2    START          &ndash;&gt;-->
-    <!--                    <tr style="display:none" th:id="'parent'+${dd.id}">-->
-    <!--                        <td colspan="13" class="child-table">-->
-    <!--                            <table class="table table-hover table-striped parent-table" id="packages">-->
-    <!--                                <thead>-->
-    <!--                                    <tr>-->
-    <!--                                        <th></th>-->
-    <!--                                        <th scope="col">№ пачки</th>-->
-    <!--                                        <th scope="col">Качество</th>-->
-    <!--                                        <th scope="col">Размер</th>-->
-    <!--                                        <th scope="col">Длина</th>-->
-    <!--                                        <th scope="col">Сум. ширина</th>-->
-    <!--                                        <th scope="col">Кол. досок</th>-->
-    <!--                                        <th scope="col">Кубатура</th>-->
-    <!--                                    </tr>-->
-    <!--                                </thead>-->
-    <!--                                <tbody>-->
-    <!--                                    <div>-->
-    <!--                                        <tr>-->
-    <!--                                            <td  class="details-control" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${dd.id}"></td>-->
-    <!--                                            <th scope="row">20-1С3-2605-1-2805</th>-->
-    <!--                                            <td>Збс</td>-->
-    <!--                                            <td>50</td>-->
-    <!--                                            <td>3000</td>-->
-    <!--                                            <td>1000</td>-->
-    <!--                                            <td>100</td>-->
-    <!--                                            <td>5</td>-->
-    <!--                                        </tr>-->
+                        <!--      LEVEL    2    START          -->
+                        <tr style="display:none" th:id="'parent'+${dd.id}">
+                            <td colspan="13" class="child-table">
+                                <table class="table table-hover table-striped parent-table" id="packages">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th scope="col">№ пачки</th>
+                                            <th scope="col">Качество</th>
+                                            <th scope="col">Размер</th>
+                                            <th scope="col">Длина</th>
+                                            <th scope="col">Сум. ширина</th>
+                                            <th scope="col">Кол. досок</th>
+                                            <th scope="col">Кубатура</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <div th:each="ps, index : ${dd.getProductList()}">
+                                            <tr th:id="${ps.id}">
+                                                <td  class="details-control" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}"></td>
+                                                <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
+                                                <td th:text="${ps.quality}"></td>
+                                                <td th:text="${ps.sizeOfHeight}"></td>
+                                                <td th:text="${ps.longFact}"></td>
+                                                <td th:text="${ps.sumWidthOfAllDesk}"></td>
+                                                <td th:text="${ps.countOfDesk}"></td>
+                                                <td th:text="${ps.extent}"></td>
+                                            </tr>
 
-    <!--                                        &lt;!&ndash;      LEVEL    3    START          &ndash;&gt;-->
-    <!--                                        <tr style="display:none" th:id="'parent-parent'+${dd.id}">-->
-    <!--                                            <td colspan="13" class="child-table">-->
-    <!--                                                <table class="table table-hover table-striped parent-table" id="packages">-->
-    <!--                                                    <thead>-->
-    <!--                                                        <tr>-->
-    <!--                                                            <th scope="col">Ширина, мм</th>-->
-    <!--                                                            <th scope="col">Количество досок</th>-->
-    <!--                                                        </tr>-->
-    <!--                                                    </thead>-->
-    <!--                                                    <tbody>-->
+                                            <!--      LEVEL    3    START          -->
+                                            <tr style="display:none" th:id="'parent-parent'+${ps.id}">
+                                                <td colspan="13" class="child-table">
+                                                    <table class="table table-hover table-striped parent-table" id="packages">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Ширина, мм</th>
+                                                                <th scope="col">Количество досок</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
 
-    <!--                                                        <div>-->
-    <!--                                                            <tr>-->
-    <!--                                                                <td>50</td>-->
-    <!--                                                                <td>10</td>-->
-    <!--                                                            </tr>-->
-    <!--                                                        </div>-->
+                                                            <tr th:each="desc, index : ${ps.deskOakList}">
+                                                                <td th:text="${desc.sizeOfWidth}"></td>
+                                                                <td th:text="${desc.countOfDesk}"></td>
+                                                            </tr>
 
-    <!--                                                    </tbody>-->
-    <!--                                                </table>-->
-    <!--                                            </td>-->
-    <!--                                            <td style="display:none"></td>-->
-    <!--                                            <td style="display:none"></td>-->
-    <!--                                            <td style="display:none"></td>-->
-    <!--                                            <td style="display:none"></td>-->
-    <!--                                            <td style="display:none"></td>-->
-    <!--                                            <td style="display:none"></td>-->
-    <!--                                            <td style="display:none"></td>-->
-    <!--                                        </tr>-->
-    <!--                                        &lt;!&ndash;      LEVEL    3    END          &ndash;&gt;-->
-    <!--                                    </div>-->
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                            </tr>
+                                            <!--      LEVEL    3    END          -->
+                                        </div>
 
-    <!--                                </tbody>-->
-    <!--                            </table>-->
-    <!--                        </td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                        <td style="display:none"></td>-->
-    <!--                    </tr>-->
-    <!--                    &lt;!&ndash;      LEVEL    2    END          &ndash;&gt;-->
-    <!--                </div>-->
-    <!--            </tbody>-->
-    <!--            <tfoot>-->
-    <!--            <tr>-->
-    <!--                <th></th>-->
-    <!--                <th scope="col">№ выгрузки</th>-->
-    <!--                <th scope="col">А/М</th>-->
-    <!--                <th scope="col">П/П</th>-->
-    <!--                <th scope="col">Дата выгрузки</th>-->
-    <!--                <th scope="col">Время выгрузки</th>-->
-    <!--                <th scope="col">Водитель</th>-->
-    <!--                <th scope="col">Телефон</th>-->
-    <!--                <th></th>-->
-    <!--            </tr>-->
-    <!--            </tfoot>-->
-    <!--        </table>-->
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                        </tr>
+                        <!--      LEVEL    2    END          -->
+                    </div>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <th scope="col">№ выгрузки</th>
+                    <th scope="col">А/М</th>
+                    <th scope="col">П/П</th>
+                    <th scope="col">Дата выгрузки</th>
+                    <th scope="col">Время выгрузки</th>
+                    <th scope="col">Водитель</th>
+                    <th scope="col">Телефон</th>
+                    <th></th>
+                </tr>
+                </tfoot>
+            </table>
 
-    <!--    </div>-->
+        </div>
 
     <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
 

@@ -29,7 +29,7 @@ public class DryStorageServiceImpl implements DryStorageService {
             float longSize = Float.parseFloat(ds.getSizeOfLong()) / 1000;
             int count = ds.getCountOfDesk();
             float extent = width * height * longSize * count;
-            ds.setExtent(String.valueOf(extent));
+            ds.setExtent(String.format("%.3f",extent).replace(',','.'));
         }
         Date date = new Date(System.currentTimeMillis());
         ds.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
@@ -48,6 +48,9 @@ public class DryStorageServiceImpl implements DryStorageService {
 
     @Override
     public List<DryStorage> getListByUserByBreed(int breedId, int userId) {
+        if (breedId==2){
+            return  dryStorageJPA.getListByUserByBreedOak(breedId,userId);
+        }
         return dryStorageJPA.getListByUserByBreed(breedId,userId);
     }
 

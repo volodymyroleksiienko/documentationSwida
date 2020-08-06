@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RawStorageJPA extends JpaRepository<RawStorage,Integer> {
-    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2")
+    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.countOfDesk<>0")
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
+    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.extent<>'0.000'")
+    List<RawStorage> getListByUserByBreedOak(int breedId, int userId);
 }
