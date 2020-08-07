@@ -19,6 +19,7 @@ public class UserCompany implements UserDetails {
     private int id;
 
     private String nameOfCompany;
+    private String location;
     @Column(unique = true)
     private String username;
     private String password;

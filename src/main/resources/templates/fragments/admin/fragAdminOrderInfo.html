@@ -1,0 +1,598 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="contracts">
+    <!-- Контракты  START-->
+    <div class="tab-pane fade show active container-fluid" id="contracts-tab">
+        <table class="table table-hover table-striped" id="contracts-tab-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Покупатель</th>
+                <th scope="col">Заказ, м<sup>3</sup></th>
+                <th scope="col">Отгружено, м<sup>3</sup></th>
+                <th scope="col">Остаток, м<sup>3</sup></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${orderInfoList}" th:id="${b.id}">
+                <td th:text="${b.id}"></td>
+                <td scope="row" th:text="${b.breed}"></td>
+                <td th:text="${b.codeOfOrder}"></td>
+                <td th:text="${b.breedOfTree.breed}"></td>
+                <td th:text="${b.contrAgent.nameOfAgent}"></td>
+                <td th:text="${b.extentOfOrder}"></td>
+                <td th:text="${b.doneExtendOfOrder}"></td>
+                <td th:text="${b.toDoExtentOfOrder}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="distributeContract(this)"><i class="fas fa-th" data-toggle="tooltip" title="Распределение"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Покупатель</th>
+                <th scope="col">Заказ, м<sup>3</sup></th>
+                <th scope="col">Отгружено, м<sup>3</sup></th>
+                <th scope="col">Остаток, м<sup>3</sup></th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addContractModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+    <!-- Контракты END -->
+    <!-- EDIT CONTRACT MODAL START -->
+    <div class="modal fade" id="editContractModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editContractModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/editUser">
+                    <div class="modal-body">
+                        <input type="text" id="editContractId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editContractCode">Код</label>
+                        <input type="text" class="form-control" id="editContractCode" required="required" autocomplete="off">
+
+                        <label class="control-label" for="editContractBreedOfTree">Порода</label>
+                        <input type="text" class="form-control" list="editBreedOfTreeList" id="editContractBreedOfTree" required="required" autocomplete="off">
+                        <datalist id="editBreedOfTreeList">
+                            <option th:each="b : ${breedOfTreeList}"  th:text="${b.breed}" th:value="${b.id}">
+                        </datalist>
+
+                        <label class="col-form-label" for="editContractBuyer">Покупатель</label>
+                        <input type="text" class="form-control" id="editContractBuyer" required="required" autocomplete="off">
+
+                        <label class="col-form-label" for="editContractOrder">Заказ</label>
+                        <input type="text" class="form-control" id="editContractOrder" required="required" autocomplete="off" placeholder="м3">
+
+                        <label class="col-form-label" for="editContractDone">Отгружено</label>
+                        <input type="text" class="form-control" id="editContractDone" required="required" autocomplete="off" placeholder="м3">
+
+                        <label class="col-form-label" for="editContractLeft">Остаток</label>
+                        <input type="text" class="form-control" id="editContractLeft" required="required" autocomplete="off" placeholder="м3">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editContract(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editContractId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var contractCode = $(trObj).find('th:eq(0)').text();
+            $('#editContractModalHeader').text("Редактировать контракт №"+contractCode);
+
+            var breedOfTree = $(trObj).find('td:eq(0)').text();
+            var buyer = $(trObj).find('td:eq(1)').text();
+            var amount = $(trObj).find('td:eq(2)').text();
+            var done = $(trObj).find('td:eq(3)').text();
+            var left = $(trObj).find('td:eq(4)').text();
+
+            $('#editContractCode').val(contractCode);
+            $('#editContractBreedOfTree').val(breedOfTree);
+            $('#editContractBuyer').val(buyer);
+            $('#editContractOrder').val(amount);
+            $('#editContractDone').val(done);
+            $('#editContractLeft').val(left);
+
+            $('#editContractModal').modal('show');
+        }
+    </script>
+    <!-- EDIT CONTRACT MODAL END -->
+
+    <!-- ADD CONTRACT MODAL START -->
+    <div class="modal fade" id="addContractModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить контракт</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/addContract">
+                    <div class="modal-body">
+
+                        <label class="col-form-label" for="addContractCode">Код</label>
+                        <input type="text" class="form-control" id="addContractCode" required="required" autocomplete="off">
+
+                        <label class="control-label" for="addContractBreedOfTree">Порода</label>
+                        <input type="text" class="form-control" list="breedOfTreeList1" id="addContractBreedOfTree" required="required" autocomplete="off">
+                        <datalist id="breedOfTreeList1">
+                            <option th:each="b : ${breedOfTreeList}"  th:text="${b.breed}" th:value="${b.id}">
+                        </datalist>
+
+                        <label class="col-form-label" for="addContractBuyer">Покупатель</label>
+                        <input type="text" class="form-control" id="addContractBuyer" required="required" autocomplete="off">
+
+                        <label class="col-form-label" for="addContractOrder">Заказ</label>
+                        <input type="text" class="form-control" id="addContractOrder" required="required" autocomplete="off" placeholder="м3">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ADD CONTRACT MODAL END -->
+
+    <!-- CREATE DISTRIBUTION START -->
+    <div class="modal fade" id="createDistributionModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="distributionModalHeader">Распределение заказа</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form >
+                    <div class="modal-body">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <input type="text" id="sendDistributionModalId" hidden="" name="id">
+
+                            <div class="col-7">
+                                <label class="control-label" for="addDistributionCompanyInner">Поставщик</label>
+                                <input type="text" class="form-control" list="suppliersList" id="addDistributionCompanyInner" required="required" autocomplete="off">
+                                <datalist id="suppliersList">
+                                    <option th:each="b : ${contrAgentList}"  th:text="${b.nameOfAgent}" th:value="${b.id}">
+                                </datalist>
+                            </div>
+
+                            <div class="col-3">
+                                <label class="control-label" for="addDistributionAmountInner" style="padding-top: 7px">Заказ</label>
+                                <input type="number" min="1" class="form-control" id="addDistributionAmountInner" required="required" autocomplete="off" placeholder="м3">
+                            </div>
+
+                            <div class="col-2">
+                                <button id="buttonForAddingDistributionRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-striped" id="tableOfDistribution">
+                            <thead>
+                            <tr>
+                                <th scope="col">Поставщик</th>
+                                <th scope="col">Заказ, м<sup>3</sup></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="listOfDistributionsId">
+                            <!-- <tr></tr> -->
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <th scope="col">Поставщик</th>
+                                <th scope="col">Заказ, м<sup>3</sup></th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+
+                        </table>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="createDistributionButton" onclick="sendRequestForDistribution(this)">Распределить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            // Contracts table start
+            $('#contracts-tab-table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [0, "desc"],
+                "autoWidth": false,
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false,
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "70px"
+                    }
+                ]
+            });
+            // Contracts table end
+        });
+        // SHOW MODAL START
+        function distributeContract(btnObj) {
+            // tableOfDistribution.clear().draw();
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#sendDistributionModalId').val(trId);
+            console.log($(trObj).attr('id'));
+            var codeOfOrder =           $(trObj).find('th:eq(0)').text();
+
+            $('#distributionModalHeader').text("Распределение заказа №"+codeOfOrder);
+
+            $('#createDistributionModal').modal('show');
+        }
+        // SHOW MODAL END
+
+        // CHECK IF 0 OR LESS THAN 0
+        $('#addDistributionAmountInner').change(function(){
+            if ((parseFloat($('#addDistributionAmountInner').toFixed(2).val()))<=0.0) {
+                alert("Введите правильное значение");
+                $('#addDistributionAmountInner').val("1.0");
+            }else{
+
+            }
+        });
+        // END CHECK
+
+        // AJAX REQUEST START
+        function sendRequestForDistribution(btnObj) {
+            var arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
+            console.log("arr length = "+arrOfTr.length);
+
+            var arrayOfSuppliers = [];
+            var arrayOfOrderings = [];
+
+            for (var i = 0; i<arrOfTr.length;i++){
+                arrayOfSuppliers[i] =      $(arrOfTr[i]).find('td:eq(0)').text();
+                arrayOfOrderings[i] =      $(arrOfTr[i]).find('td:eq(1)').text();
+            }
+
+            console.log("s:"+ arrayOfSuppliers+"\n o:"+arrayOfOrderings);
+
+            if (arrayOfSuppliers[0]!="No data available in table"){
+                alert("OK");
+
+                // $.ajax({
+                //     method: "post",
+                //     url: "/createDistributionObject-"+userID,
+                //     contextType: "application/json",
+                //     data: {
+                //         suppliersList: arrayOfSuppliers,
+                //         orderingsList: arrayOfOrderings
+                //     },
+                //     traditional: true,
+                //     success: function () {
+                //         location.reload();
+                //     },
+                //     error: function () {
+                //     alert("Error");
+                //     }
+                // });
+
+            }else {
+                alert("Внесите записи!");
+            }
+
+        }
+        // AJAX REQUEST END
+    </script>
+    <!-- CREATE DISTRIBUTION END -->
+</th:block>
+
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="orders">
+    <!-- Распределение  START-->
+    <div class="tab-pane fade show active container-fluid" id="distribution-tab">
+        <table class="table table-hover table-striped" id="distribution-tab-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Поставщик</th>
+                <th scope="col">Заказ, м<sup>3</sup></th>
+                <th scope="col">Отгружено, м<sup>3</sup></th>
+                <th scope="col">Остаток, м<sup>3</sup></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="distributionRowId">
+                <td>1</td>
+                <th scope="row">1111111</th>
+                <td>Сосна</td>
+                <td>«Золотой Дым»</td>
+                <td>300</td>
+                <td>100</td>
+                <td>200</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editDistribution(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+
+            <tr class="distributionRowId">
+                <td>2</td>
+                <th scope="row">2222222</th>
+                <td>Дуб</td>
+                <td>ФЛП Бойко А</td>
+                <td>200</td>
+                <td>100</td>
+                <td>100</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editDistribution(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Код</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Поставщик</th>
+                <th scope="col">Заказ, м<sup>3</sup></th>
+                <th scope="col">Отгружено, м<sup>3</sup></th>
+                <th scope="col">Остаток, м<sup>3</sup></th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addDistributionModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+    <!-- Распределение END -->
+
+    <!-- EDIT DISTRIBUTION MODAL START -->
+    <div class="modal fade" id="editDistributionModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDistributionModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/editDistribution">
+                    <div class="modal-body">
+                        <input type="text" id="editDistributionId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editDistributionCode">Код</label>
+                        <input type="text" class="form-control" id="editDistributionCode" required="required" autocomplete="off">
+
+                        <label class="control-label" for="editDistributionBreedOfTree">Порода</label>
+                        <input type="text" class="form-control" list="breedOfTreeList1" id="editDistributionBreedOfTree" required="required" autocomplete="off">
+                        <datalist id="breedOfTreeList1">
+                            <option th:each="b : ${breedOfTreeList}"  th:text="${b.breed}" th:value="${b.id}">
+                        </datalist>
+
+                        <label class="col-form-label" for="editDistributionCompany">Поставщик</label>
+                        <input type="text" class="form-control" id="editDistributionCompany" required="required" autocomplete="off">
+
+                        <label class="col-form-label" for="editDistributionOrder">Заказ</label>
+                        <input type="text" class="form-control" id="editDistributionOrder" required="required" autocomplete="off" placeholder="м3">
+
+                        <label class="col-form-label" for="editDistributionDone">Отгружено</label>
+                        <input type="text" class="form-control" id="editDistributionDone" required="required" autocomplete="off" placeholder="м3">
+
+                        <label class="col-form-label" for="editDistributionLeft">Остаток</label>
+                        <input type="text" class="form-control" id="editDistributionLeft" required="required" autocomplete="off" placeholder="м3">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editDistribution(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editDistributionId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var contractCode = $(trObj).find('th:eq(0)').text();
+            $('#editDistributionModalHeader').text("Редактировать заказ №"+contractCode);
+
+            var breedOfTree = $(trObj).find('td:eq(0)').text();
+            var company = $(trObj).find('td:eq(1)').text();
+            var amount = $(trObj).find('td:eq(2)').text();
+            var done = $(trObj).find('td:eq(3)').text();
+            var left = $(trObj).find('td:eq(4)').text();
+
+            $('#editDistributionCode').val(contractCode);
+            $('#editDistributionBreedOfTree').val(breedOfTree);
+            $('#editDistributionCompany').val(company);
+            $('#editDistributionOrder').val(amount);
+            $('#editDistributionDone').val(done);
+            $('#editDistributionLeft').val(left);
+
+            $('#editDistributionModal').modal('show');
+        }
+    </script>
+    <!-- EDIT DISTRIBUTION MODAL END -->
+
+    <!-- ADD DISTRIBUTION MODAL START -->
+    <div class="modal fade" id="addDistributionModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить заказ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/addDistribution">
+                    <div class="modal-body">
+
+                        <label class="col-form-label" for="addDistributionCode">Код</label>
+                        <input type="text" class="form-control" id="addDistributionCode" required="required" autocomplete="off">
+
+                        <label class="control-label" for="addDistributionBreedOfTree">Порода</label>
+                        <input type="text" class="form-control" list="breedOfTreeList" id="addDistributionBreedOfTree" required="required" autocomplete="off">
+                        <datalist id="breedOfTreeList">
+                            <option value="Сосна">
+                            <option value="Дуб">
+                        </datalist>
+
+                        <label class="col-form-label" for="addDistributionCompany">Поставщик</label>
+                        <input type="text" class="form-control" id="addDistributionCompany" required="required" autocomplete="off">
+
+                        <label class="col-form-label" for="addDistributionOrder">Заказ</label>
+                        <input type="text" class="form-control" id="addDistributionOrder" required="required" autocomplete="off" placeholder="м3">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ADD DISTRIBUTION MODAL END -->
+    <!-- MODALS END-->
+
+    <!-- SCRIPTS START-->
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/datatables.js"></script>
+    <script type="text/javascript" src="js/dataTables.bootstrap4.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            // Distribution table start
+            $('#distribution-tab-table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [ 0, "desc" ],
+                "autoWidth": false,
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false,
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "30px"
+                    }
+                ]
+            });
+            // Distribution table end
+
+            // Modal inner table start
+            var tableOfDistribution = $('#tableOfDistribution').DataTable({
+                "autoWidth": false,
+                "bSort": false,
+                "searching": false,
+                "paging": false,
+                "info": false,
+                'select': false,
+                "columnDefs": [
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "width": "30px"
+                    }
+                ]
+
+            });
+            // Modal inner table end
+
+            // ADD ELEMENTS TO INNER TABLE LIST START
+            $("#buttonForAddingDistributionRow").click(function () {
+                var company = $("#addDistributionCompanyInner").val();
+                var amount = parseFloat($("#addDistributionAmountInner").val());
+                var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+
+                if( company=="" || amount=="" ) {
+                    alert("Заполните все поля!");
+                } else if (amount<=0.000){
+                    alert("Значение не может быть отрицательным либо равным 0!")
+                } else {
+                    var row = [company, amount, button];
+
+                    console.log(row);
+
+                    $("#addDistributionCompanyInner").val("");
+                    $("#addDistributionAmountInner").val("");
+
+                    tableOfDistribution.row.add(row).draw();
+                }
+            });
+            // ADD ELEMENTS TO INNER TABLE LIST END
+
+            // DELETE BUTTON START
+            $('#tableOfDistribution tbody').on( 'click', 'button', function () {
+                tableOfDistribution.row( $(this).parents('tr') ).remove().draw();
+            } );
+            // DELETE BUTTON END
+        })
+    </script>
+</th:block>

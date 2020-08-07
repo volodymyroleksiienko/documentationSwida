@@ -1,0 +1,366 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="contrAgent">
+    <!-- Покупатели (внутренний рынок)  START-->
+    <div class="tab-pane fade show active container-fluid" id="inner-market-buyers">
+        <table class="table table-hover table-striped" id="inner-market-buyers-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Наименование компании</th>
+                <th scope="col">ЄДРПОУ</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Телефоны</th>
+                <th scope="col">Эл. адрес</th>
+                <th scope="col">Контактное лицо</th>
+                <th scope="col">Порода, вид продукции</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${contrAgentList}" th:id="${c.id}">
+                <td th:text="${c.id}"></td>
+                <th scope="row" th:text="${c.nameOfAgent}"></th>
+                <td th:text="${c.codeOfEDRPOY}"></td>
+                <td th:text="${c.addressOfCompany}"></td>
+                <td th:text="${c.phoneNumber1}"></td>
+                <td th:text="${c.email}"></td>
+                <td th:text="${c.contactFace}"></td>
+                <td th:text="${c.breedOfTree}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editInnerCompany(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Наименование компании</th>
+                <th scope="col">ЄДРПОУ</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Телефоны</th>
+                <th scope="col">Эл. адрес</th>
+                <th scope="col">Контактное лицо</th>
+                <th scope="col">Порода, вид продукции</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addInnerCompanyModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+    <!-- Покупатели (внутренний рынок) END -->
+
+    <!-- EDIT INNER COMPANIES MODAL START -->
+    <div class="modal fade" id="editInnerCompanyModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editInnerCompanyModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/admin/editCompany-'+${companyType}}" method="post">
+                    <div class="modal-body">
+
+                        <input type="text" id="editInnerCompanyId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editInnerCompanyName">Наименование компании</label>
+                        <input type="text" class="form-control" id="editInnerCompanyName" required="required" autocomplete="off" name="nameOfAgent">
+
+                        <label class="control-label" for="editInnerCompanyTax">ЄДРПОУ</label>
+                        <input type="text" class="form-control" id="editInnerCompanyTax" autocomplete="off" name="codeOfEDRPOY">
+
+                        <label class="col-form-label" for="editInnerCompanyAddress">Адрес</label>
+                        <input type="text" class="form-control" id="editInnerCompanyAddress" autocomplete="off" name="addressOfCompany">
+
+                        <label class="col-form-label" for="editInnerCompanyPhone">Телефоны</label>
+                        <input type="text" class="form-control" id="editInnerCompanyPhone" autocomplete="off" name="phoneNumber1">
+
+                        <label class="col-form-label" for="editInnerCompanyMail">Эл. адрес</label>
+                        <input type="text" class="form-control" id="editInnerCompanyMail" autocomplete="off" name="email">
+
+                        <label class="col-form-label" for="editInnerCompanyRepresenter">Контактное лицо</label>
+                        <input type="text" class="form-control" id="editInnerCompanyRepresenter" autocomplete="off" name="contactFace">
+
+                        <label class="col-form-label" for="editInnerCompanyMaterials">Порода, вид продукции</label>
+                        <input type="text" class="form-control" id="editInnerCompanyMaterials" autocomplete="off" name="breedOfTree">
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editInnerCompany(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editInnerCompanyId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var userName = $(trObj).find('th:eq(0)').text();
+            $('#editInnerCompanyModalHeader').text("Редактировать "+userName);
+
+            var name =          $(trObj).find('th:eq(0)').text();
+            var tax =           $(trObj).find('td:eq(1)').text();
+            var address =       $(trObj).find('td:eq(2)').text();
+            var phone =         $(trObj).find('td:eq(3)').text();
+            var mail =          $(trObj).find('td:eq(4)').text();
+            var representator = $(trObj).find('td:eq(5)').text();
+            var materials =     $(trObj).find('td:eq(6)').text();
+
+            $('#editInnerCompanyName').val(name);
+            $('#editInnerCompanyTax').val(tax);
+            $('#editInnerCompanyAddress').val(address);
+            $('#editInnerCompanyPhone').val(phone);
+            $('#editInnerCompanyMail').val(mail);
+            $('#editInnerCompanyRepresenter').val(representator);
+            $('#editInnerCompanyMaterials').val(materials);
+
+            $('#editInnerCompanyModal').modal('show');
+        }
+    </script>
+    <!-- EDIT INNER COMPANIES MODAL END -->
+
+    <!-- ADD INNER COMPANY MODAL START -->
+    <div class="modal fade" id="addInnerCompanyModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить покупателя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/admin/addCompany-'+${companyType}}" method="post">
+                    <div class="modal-body">
+
+                        <label class="col-form-label" for="editInnerCompanyName">Наименование компании</label>
+                        <input type="text" class="form-control" id="editInnerCompanyName" required="required" autocomplete="off" name="nameOfAgent">
+
+                        <label class="control-label" for="editInnerCompanyTax">ЄДРПОУ</label>
+                        <input type="text" class="form-control" id="editInnerCompanyTax" autocomplete="off" name="codeOfEDRPOY">
+
+                        <label class="col-form-label" for="editInnerCompanyAddress">Адрес</label>
+                        <input type="text" class="form-control" id="editInnerCompanyAddress" autocomplete="off" name="addressOfCompany">
+
+                        <label class="col-form-label" for="editInnerCompanyPhone">Телефоны</label>
+                        <input type="text" class="form-control" id="editInnerCompanyPhone" autocomplete="off" name="phoneNumber1">
+
+                        <label class="col-form-label" for="editInnerCompanyMail">Эл. адрес</label>
+                        <input type="text" class="form-control" id="editInnerCompanyMail" autocomplete="off" name="email">
+
+                        <label class="col-form-label" for="editInnerCompanyRepresenter">Контактное лицо</label>
+                        <input type="text" class="form-control" id="editInnerCompanyRepresenter" autocomplete="off" name="contactFace">
+
+                        <label class="col-form-label" for="editInnerCompanyMaterials">Порода, вид продукции</label>
+                        <input type="text" class="form-control" id="editInnerCompanyMaterials" autocomplete="off" name="breedOfTree">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ADD INNER COMPANY MODAL END -->
+</th:block>
+
+
+
+
+<!--FOREIGN Contragent-->
+
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="contrAgentForeign">
+
+    <!-- Покупатели (внешний рынок)  START-->
+    <div class="tab-pane fade show active container-fluid" id="outer-market-buyers">
+        <table class="table table-hover table-striped" id="outer-market-buyers-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Наименование компании</th>
+                <th scope="col">Страна</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Телефоны</th>
+                <th scope="col">Эл. адрес</th>
+                <th scope="col">Контактное лицо</th>
+                <th scope="col">Порода, вид продукции</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${contrAgentList}" th:id="${c.id}">
+                <td th:text="${c.id}"></td>
+                <th scope="row" th:text="${c.nameOfAgent}"></th>
+                <td th:text="${c.country}"></td>
+                <td th:text="${c.addressOfCompany}"></td>
+                <td th:text="${c.phoneNumber1}"></td>
+                <td th:text="${c.email}"></td>
+                <td th:text="${c.contactFace}"></td>
+                <td th:text="${c.breedOfTree}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editOuterCompany(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Наименование компании</th>
+                <th scope="col">Страна</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Телефоны</th>
+                <th scope="col">Эл. адрес</th>
+                <th scope="col">Контактное лицо</th>
+                <th scope="col">Порода, вид продукции</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addOuterCompanyModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+
+    <!-- EDIT OUTER COMPANIES MODAL START -->
+    <div class="modal fade" id="editOuterCompanyModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editOuterCompanyModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/admin/editCompany-'+${companyType}}" method="post">
+                    <div class="modal-body">
+
+                        <input type="text" id="editOuterCompanyId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editOuterCompanyName">Наименование компании</label>
+                        <input type="text" class="form-control" id="editOuterCompanyName" required="required" autocomplete="off" name="nameOfAgent">
+
+                        <label class="control-label" for="editOuterCompanyCountry">Страна</label>
+                        <input type="text" class="form-control" id="editOuterCompanyCountry" autocomplete="off" name="country">
+
+                        <label class="col-form-label" for="editOuterCompanyAddress">Адрес</label>
+                        <input type="text" class="form-control" id="editOuterCompanyAddress" autocomplete="off" name="addressOfCompany">
+
+                        <label class="col-form-label" for="editOuterCompanyPhone">Телефоны</label>
+                        <input type="text" class="form-control" id="editOuterCompanyPhone" autocomplete="off" name="phoneNumber1">
+
+                        <label class="col-form-label" for="editOuterCompanyMail">Эл. адрес</label>
+                        <input type="text" class="form-control" id="editOuterCompanyMail" autocomplete="off" name="email">
+
+                        <label class="col-form-label" for="editOuterCompanyRepresenter">Контактное лицо</label>
+                        <input type="text" class="form-control" id="editOuterCompanyRepresenter" autocomplete="off" name="contactFace">
+
+                        <label class="col-form-label" for="editOuterCompanyMaterials">Порода, вид продукции</label>
+                        <input type="text" class="form-control" id="editOuterCompanyMaterials" autocomplete="off" name="breedOfTree">
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editOuterCompany(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editOuterCompanyId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var userName = $(trObj).find('th:eq(0)').text();
+            $('#editOuterCompanyModalHeader').text("Редактировать "+userName);
+
+            var name =          $(trObj).find('th:eq(0)').text();
+            var country =       $(trObj).find('td:eq(1)').text();
+            var address =       $(trObj).find('td:eq(2)').text();
+            var phone =         $(trObj).find('td:eq(3)').text();
+            var mail =          $(trObj).find('td:eq(4)').text();
+            var representator = $(trObj).find('td:eq(5)').text();
+            var materials =     $(trObj).find('td:eq(6)').text();
+
+            $('#editOuterCompanyName').val(name);
+            $('#editOuterCompanyCountry').val(country);
+            $('#editOuterCompanyAddress').val(address);
+            $('#editOuterCompanyPhone').val(phone);
+            $('#editOuterCompanyMail').val(mail);
+            $('#editOuterCompanyRepresenter').val(representator);
+            $('#editOuterCompanyMaterials').val(materials);
+
+            $('#editOuterCompanyModal').modal('show');
+        }
+    </script>
+    <!-- EDIT OUTER COMPANIES MODAL END -->
+
+    <!-- ADD OUTER COMPANY MODAL START -->
+    <div class="modal fade" id="addOuterCompanyModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить покупателя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/admin/addCompany-'+${companyType}}" method="post">
+                    <div class="modal-body">
+
+                        <label class="col-form-label" for="addOuterCompanyName">Наименование компании</label>
+                        <input type="text" class="form-control" id="addOuterCompanyName" required="required" autocomplete="off" name="nameOfAgent">
+
+                        <label class="control-label" for="addOuterCompanyCountry">Страна</label>
+                        <input type="text" class="form-control" id="addOuterCompanyCountry" autocomplete="off" name="country">
+
+                        <label class="col-form-label" for="addOuterCompanyAddress">Адрес</label>
+                        <input type="text" class="form-control" id="addOuterCompanyAddress" autocomplete="off" name="addressOfCompany">
+
+                        <label class="col-form-label" for="addOuterCompanyPhone">Телефоны</label>
+                        <input type="text" class="form-control" id="addOuterCompanyPhone" autocomplete="off" name="phoneNumber1">
+
+                        <label class="col-form-label" for="addOuterCompanyMail">Эл. адрес</label>
+                        <input type="text" class="form-control" id="addOuterCompanyMail" autocomplete="off" name="email">
+
+                        <label class="col-form-label" for="addOuterCompanyRepresenter">Контактное лицо</label>
+                        <input type="text" class="form-control" id="addOuterCompanyRepresenter" autocomplete="off" name="contactFace">
+
+                        <label class="col-form-label" for="addOuterCompanyMaterials">Порода, вид продукции</label>
+                        <input type="text" class="form-control" id="addOuterCompanyMaterials" autocomplete="off" name="breedOfTree">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ADD OUTER COMPANY MODAL END -->
+</th:block>

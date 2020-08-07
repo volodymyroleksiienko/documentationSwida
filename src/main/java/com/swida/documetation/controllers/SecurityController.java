@@ -37,9 +37,24 @@ public class SecurityController {
 //        company.setPassword("8");
 //        company.setNameOfCompany("SuperPylka");
 //        userCompanyService.save(company);
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        int userID = userCompanyService.findByUsername(auth.getName()).getId();
-        return "redirect:/fabric/index-"+userID;
+        int userID;
+
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
+        boolean hasAdminRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+
+        if(hasUserRole){
+            userID = userCompanyService.findByUsername(auth.getName()).getId();
+            return "redirect:/fabric/index-"+userID;
+
+        }
+        if (hasAdminRole){
+            return "redirect:/admin/getListOfUserCompany";
+        }
+        return "redirect:/logout";
     }
 
 }

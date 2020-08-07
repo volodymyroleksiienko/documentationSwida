@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.subObjects;
 
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
+import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.jpa.subObjects.ContrAgentJPA;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class ContrAgentServiceImpl implements ContrAgentService {
     @Override
     public List<ContrAgent> findAll() {
         return contrAgentJPA.findAll();
+    }
+
+    @Override
+    public List<ContrAgent> getListByType(ContrAgentType type) {
+        return contrAgentJPA.getListByType(type);
     }
 
     @Override

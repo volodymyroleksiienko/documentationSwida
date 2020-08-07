@@ -1,0 +1,61 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="adminNavigation">
+    <!-- NAVIGATION START-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+        <a class="navbar-brand" href="#">SWIDA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.html">Главная</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/getListOfContract">Заказы</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/getListOfContrAgents-1">Контрагенты</a>
+                </li>
+
+
+                <!-- Dropdown 1 start -->
+                <li class="nav-item dropdown show">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Вход от имени</a>
+                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="#">Золотой дым</a>
+                        <a class="dropdown-item" href="#">МСИТ Сервис</a>
+                    </div>
+                </li>
+                <!--Dropdown 1 end -->
+
+                <!-- Dropdown 2 start -->
+                <li class="nav-item dropdown show">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Материал</a>
+                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="#">Сосна</a>
+                        <a class="dropdown-item" href="#">Дуб</a>
+                    </div>
+                </li>
+                <!--Dropdown 2 end -->
+
+            </ul>
+            <img src="../img/user2_4.png" width="50px">
+            <form class="form-inline my-2 my-lg-0">
+
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Выйти <i class="fas fa-sign-out-alt"></i></button>
+            </form>
+        </div>
+    </nav>
+    <!-- NAVIGATION END-->
+
+    <br>
+
+</th:block>

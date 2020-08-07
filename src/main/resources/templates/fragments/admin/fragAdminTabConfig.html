@@ -1,0 +1,48 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="adminDashboard">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListOfUserCompany"
+                   th:classappend="${tabName.equals('userCompany')} ? 'active':''">Пользователи</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListBreedOfTree"
+                   th:classappend="${tabName.equals('breedOfTree')} ? 'active':''">Материалы</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="contrAgent">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListOfContrAgents-1"
+                   th:classappend="${tabName.equals('1')} ? 'active':''">Покупатели (внутренний рынок)</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListOfContrAgents-2"
+                   th:classappend="${tabName.equals('2')} ? 'active':''">Покупатели (внешний рынок)</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListOfContrAgents-3"
+                   th:classappend="${tabName.equals('3')} ? 'active':''">Поставщики</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="orders">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListOfContract"
+                   th:classappend="${tabName.equals('contract')} ? 'active':''">Контракты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListOfOrders"
+                   th:classappend="${tabName.equals('order')} ? 'active':''">Заказы</a>
+            </li>
+        </ul>
+    </div>
+</th:block>

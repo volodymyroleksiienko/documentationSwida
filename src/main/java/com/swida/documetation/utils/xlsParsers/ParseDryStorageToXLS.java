@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParseDryStorageToXLS {
+public class  ParseDryStorageToXLS {
     private List<DryStorage> dryStorages;
 
     public String parse(String startDate, String endDate ) throws ParseException {

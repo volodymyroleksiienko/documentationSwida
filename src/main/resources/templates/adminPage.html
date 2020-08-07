@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWIDA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/buttons.bootstrap4.css}">
+    <link th:href="@{../css/all.css}" rel="stylesheet">
+    <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
+</head>
+<body>
+<!-- NAVIGATION -->
+<div th:replace="~{fragments/admin/fragAdminNavigation :: adminNavigation}"></div>
+<!-- NAVIGATION -->
+
+<!-- TABS -->
+<div class="container-fluid">
+    <!-- HEADERS START-->
+    <div th:if="${fragmentPathTabConfig!=null}">
+        <div th:replace="~{fragments/admin/fragAdminTabConfig :: ${fragmentPathTabConfig}}"></div>
+    </div>
+
+    <!-- HEADERS END-->
+
+    <!-- ALL TABLES START-->
+    <div id="myTabContent" class="tab-content">
+
+        <div th:if="${fragmentPathUserCompany!=null}">
+            <div th:replace="~{fragments/admin/fragAdminUserCompany :: ${fragmentPathUserCompany}}"></div>
+        </div>
+        <div th:if="${fragmentPathBreedOfTree!=null}">
+            <div th:replace="~{fragments/admin/fragBreedOfTree :: ${fragmentPathBreedOfTree}}"></div>
+        </div>
+        <div th:if="${fragmentPathContrAgent!=null}">
+            <div th:replace="~{fragments/admin/fragAdminContrAgent :: ${fragmentPathContrAgent}}"></div>
+        </div>
+        <div th:if="${fragmentPathOrderInfo!=null}">
+            <div th:replace="~{fragments/admin/fragAdminOrderInfo :: ${fragmentPathOrderInfo}}"></div>
+        </div>
+
+
+
+    </div>
+    <!-- ALL TABLES end-->
+</div>
+<!-- TABS end-->
+
+<!-- MODALS START-->
+
+
+
+
+<!-- ADD BREED OF TREE MODAL END -->
+<!-- MODALS END-->
+
+<!-- SCRIPTS START-->
+
+<script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" th:src="@{../js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
+
+
+<!-- Users table start -->
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#admin-users-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "30px"
+                }
+            ]
+        });
+
+
+    });
+</script>
+<!-- Users table end -->
+
+<!-- Breed of tree table start -->
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#admin-breed-of-tree-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                // {
+                //     "targets": [ 0 ],
+                //     "visible": false,
+                //     "searchable": false,
+                // },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "30px"
+                }
+            ]
+        });
+
+
+    });
+</script>
+<!-- Breed of tree table end -->
+
+<!-- SCRIPTS  END-->
+</body>
+</html>

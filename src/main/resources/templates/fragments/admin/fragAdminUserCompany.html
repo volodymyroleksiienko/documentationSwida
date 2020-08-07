@@ -1,0 +1,167 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="userCompany">
+    <!-- Пользователи  START-->
+    <div class="tab-pane fade show active container-fluid" id="admin-users">
+        <table class="table table-hover table-striped" id="admin-users-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Название компании</th>
+                <th scope="col">Местонахождение</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Пароль</th>
+                <th scope="col">Роль</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="uc : ${userCompanyList}" th:id="${uc.id}">
+                    <td th:text="${uc.id}"></td>
+                    <th scope="row" th:text="${uc.nameOfCompany}"></th>
+                    <td th:text="${uc.location}"></td>
+                    <td th:text="${uc.username}"></td>
+                    <td th:text="${uc.password}"></td>
+                    <td th:text="${uc.role}"></td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="editUserCompany(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Название компании</th>
+                <th scope="col">Местонахождение</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Пароль</th>
+                <th scope="col">Роль</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addUserModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+    <!-- Пользователи END -->
+
+    <!-- ADD USER MODAL START -->
+    <div class="modal fade" id="addUserModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить пользователя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/addUser" method="post">
+                    <div class="modal-body">
+
+                        <label class="col-form-label" for="addUserCompanyName">Название компании</label>
+                        <input type="text" class="form-control" id="addUserCompanyName" required="required" autocomplete="off" name="nameOfCompany">
+
+                        <label class="control-label" for="addUserLocation">Местонахождение</label>
+                        <input type="text" class="form-control" id="addUserLocation" autocomplete="off" name="location">
+
+                        <label class="col-form-label" for="addUserCompanyLogin">Логин</label>
+                        <input type="text" class="form-control" id="addUserCompanyLogin" required="required" autocomplete="off" name="username">
+
+                        <label class="col-form-label" for="addUserCompanyPassword">Пароль</label>
+                        <input type="text" class="form-control" id="addUserCompanyPassword" required="required" autocomplete="off" name="password">
+
+                        <label class="col-form-label" for="addUserCompanyRole">Роль</label>
+                        <input type="text" class="form-control" list="rolesList" id="addUserCompanyRole" required="required" autocomplete="off" name="role">
+                        <datalist id="rolesList">
+                            <option value="ROLES_USER">
+                            <option value="ROLES_USER_WITH_MORE_ACCESS">
+                        </datalist>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ADD USERS MODAL END -->
+
+    <!-- EDIT USERS MODAL START -->
+    <div class="modal fade" id="editUserModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserCompanyModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/editUser" method="post">
+                    <div class="modal-body">
+                        <input type="text" id="editUserId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editUserCompanyName">Название компании</label>
+                        <input type="text" class="form-control" id="editUserCompanyName" required="required" autocomplete="off" name="nameOfCompany">
+
+                        <label class="control-label" for="editUserLocation">Местонахождение</label>
+                        <input type="text" class="form-control" id="editUserLocation" autocomplete="off" name="location">
+
+                        <label class="col-form-label" for="editUserCompanyLogin">Логин</label>
+                        <input type="text" class="form-control" id="editUserCompanyLogin" required="required" autocomplete="off" name="username">
+
+                        <label class="col-form-label" for="editUserCompanyPassword">Пароль</label>
+                        <input type="text" class="form-control" id="editUserCompanyPassword" required="required" autocomplete="off" name="password">
+
+                        <label class="col-form-label" for="editdUserCompanyRole">Роль</label>
+                        <input type="text" class="form-control" list="editRolesList" id="editdUserCompanyRole" required="required" autocomplete="off" name="role">
+                        <datalist id="editRolesList">
+                            <option value="ROLES_USER">
+                            <option value="ROLES_USER_WITH_MORE_ACCESS">
+                        </datalist>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editUserCompany(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editUserId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var userName = $(trObj).find('th:eq(0)').text();
+            $('#editUserCompanyModalHeader').text("Редактировать "+userName);
+
+            var name = $(trObj).find('th:eq(0)').text();
+            var location = $(trObj).find('td:eq(0)').text();
+            var login = $(trObj).find('td:eq(1)').text();
+            var password = $(trObj).find('td:eq(2)').text();
+            var role = $(trObj).find('td:eq(3)').text();
+
+            $('#editUserCompanyName').val(name);
+            $('#editUserLocation').val(location);
+            $('#editUserCompanyLogin').val(login);
+            $('#editUserCompanyPassword').val(password);
+            $('#editUserCompanyRole').val(role);
+
+            $('#editUserModal').modal('show');
+        }
+    </script>
+    <!-- EDIT USERS MODAL END -->
+
+
+
+</th:block>
