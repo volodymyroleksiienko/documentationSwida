@@ -95,14 +95,6 @@
             ]
         });
 
-
-    });
-</script>
-<!-- Users table end -->
-
-<!-- Breed of tree table start -->
-<script type="text/javascript">
-    $(document).ready( function () {
         $('#admin-breed-of-tree-table').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
@@ -125,10 +117,68 @@
             ]
         });
 
+        // INNER MARKET TABLE START
+        $('#inner-market-buyers-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [  ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "30px"
+                },
+                {
+                    // "width": "20%",
+                    // "targets": 6
+                }
+            ]
 
+        });
+        // INNER MARKET TABLE END
+
+        // OUTER MARKET TABLE START
+        $('#outer-market-buyers-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [  ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "30px"
+                },
+                {
+                    // "width": "20%",
+                    // "targets": 6
+                }
+            ]
+
+        });
+        // OUTER MARKET TABLE END
     });
 </script>
-<!-- Breed of tree table end -->
+<!-- Users table end -->
+
+
 
 <!-- SCRIPTS  END-->
 </body>

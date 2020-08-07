@@ -33,7 +33,6 @@ public class AdminController {
     }
 
 //    User Company Page
-
     @GetMapping("/getListOfUserCompany")
     public String getListOfUSerCompany(Model model){
         model.addAttribute("fragmentPathUserCompany","userCompany");
@@ -128,9 +127,9 @@ public class AdminController {
         model.addAttribute("fragmentPathOrderInfo", "contracts");
         model.addAttribute("tabName","contract");
         model.addAttribute("fragmentPathTabConfig","orders");
-        model.addAttribute("orderInfoList","");
-        model.addAttribute("breedOfTreeList","");
-        model.addAttribute("contrAgentList","");
+//        model.addAttribute("orderInfoList","");
+//        model.addAttribute("breedOfTreeList","");
+        model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.BUYER_UA));
         return "adminPage";
     }
     @GetMapping("/getListOfOrders")
@@ -138,7 +137,9 @@ public class AdminController {
         model.addAttribute("fragmentPathOrderInfo", "orders");
         model.addAttribute("tabName","orders");
         model.addAttribute("fragmentPathTabConfig","orders");
-        model.addAttribute("orderInfoList","");
+//        model.addAttribute("orderInfoList","");
+//        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("orderInfoList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         return "adminPage";
     }
 }

@@ -177,6 +177,39 @@
         </div>
     </div>
     <!-- ADD INNER COMPANY MODAL END -->
+    <script type="text/javascript">
+        $(document).ready( function () {
+            // INNER MARKET TABLE START
+            $('#inner-market-buyers-table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [ 0, "desc" ],
+                "autoWidth": false,
+                "columnDefs": [
+                    {
+                        "targets": [1],
+                        "visible": false,
+                        "searchable": false,
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "30px"
+                    },
+                    {
+                        // "width": "20%",
+                        // "targets": 6
+                    }
+                ]
+
+            });
+            // INNER MARKET TABLE END
+        });
+    </script>
+    <!-- Users table end -->
 </th:block>
 
 
@@ -363,4 +396,37 @@
         </div>
     </div>
     <!-- ADD OUTER COMPANY MODAL END -->
+    <script type="text/javascript">
+        $(document).ready( function () {
+            // OUTER MARKET TABLE START
+            $('#outer-market-buyers-table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [ 0, "desc" ],
+                "autoWidth": false,
+                "columnDefs": [
+                    {
+                        "targets": [  ],
+                        "visible": false,
+                        "searchable": false,
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "30px"
+                    },
+                    {
+                        // "width": "20%",
+                        // "targets": 6
+                    }
+                ]
+
+            });
+            // OUTER MARKET TABLE END
+        });
+    </script>
+    <!-- Users table end -->
 </th:block>
