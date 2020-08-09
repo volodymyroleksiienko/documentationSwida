@@ -1,5 +1,6 @@
 package com.swida.documetation.data.entity;
 
+import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.Roles;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,9 @@ public class UserCompany implements UserDetails {
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired= true;
     private boolean enabled = true;
+
+    @OneToOne
+    private ContrAgent contrAgent;
 
 
     public Collection<? extends GrantedAuthority> getAuthorities() {

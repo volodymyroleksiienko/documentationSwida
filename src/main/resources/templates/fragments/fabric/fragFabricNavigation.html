@@ -1,5 +1,6 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml"
-          xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="fabricNavigation">
+          xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org"
+          th:fragment="fabricNavigation">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
         <a class="navbar-brand" href="#">SWIDA</a>
@@ -9,11 +10,14 @@
 
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')" >
+                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="users.html">Точки</a>
+                    <a class="nav-link" href="#">Точки</a>
                 </li>
 
                 <!--Variant 1 - Dropdown  -->

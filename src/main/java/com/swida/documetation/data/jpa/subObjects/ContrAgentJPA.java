@@ -14,6 +14,9 @@ public interface ContrAgentJPA extends JpaRepository<ContrAgent,Integer> {
     @Query("select pr.id from ContrAgent pr where pr.nameOfAgent=?1")
     int getIdByUsername(String nameOfTreeProvider);
 
+    @Query("select obj from  ContrAgent obj where obj.nameOfAgent=?1")
+    ContrAgent getObjectByName (String name);
+
     @Query("select pr from ContrAgent pr where pr.contrAgentType=?1")
     List<ContrAgent> getListByType(ContrAgentType type);
 }

@@ -25,8 +25,13 @@
 <!-- TABS -->
 <div class="container-fluid">
     <!-- HEADERS -->
-    <div class="container">
+    <div class="container-fluid">
         <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:href="@{'/fabric/getListOfOrders-'+${userId}+'-'+${breedId}}"
+                   th:classappend="${tabName.equals('orders')} ? 'active':''">Заказы</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link"
                    th:href="@{'/fabric/getListOfTreeStorage-'+${userId}+'-'+${breedId}}"
@@ -69,6 +74,9 @@
     <!-- ALL TABLES -->
     <div id="myTabContent" class="tab-content">
 
+        <div th:if="${fragmentPathOrderInfo!=null}">
+            <div th:replace="~{fragments/admin/fragAdminOrderInfo :: ${fragmentPathOrderInfo}}"></div>
+        </div>
         <div th:if="${fragmentPathTabTreeStorage!=null}">
             <div th:replace="~{fragments/fabric/fragFabricTabTreeStorage :: ${fragmentPathTabTreeStorage}}"></div>
         </div>
@@ -172,6 +180,67 @@
 <!-- Распиловка -->
 
 <!-- MODALS -->
+<script type="text/javascript">
+    $(document).ready( function () {
+        // Distribution table start
+        $('#distribution-tab-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                }
+            ]
+        });
+        // Distribution table end
+        console.log("load on ready");
+        // Modal inner table start
+        var tableOfDistribution = $('#tableOfDistribution').DataTable({
+            "autoWidth": false,
+            "bSort": false,
+            "searching": false,
+            "paging": false,
+            "info": false,
+            'select': false
 
+        });
+        // Modal inner table end
+
+        // ADD ELEMENTS TO INNER TABLE LIST START
+        $("#buttonForAddingDistributionRow").click(function () {
+            var company = $("#addDistributionCompanyInner").val();
+            var amount = parseFloat($("#addDistributionAmountInner").val());
+            var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+
+            if( company=="" || amount=="" ) {
+                alert("Заполните все поля!");
+            } else if (amount<=0.000){
+                alert("Значение не может быть отрицательным либо равным 0!")
+            } else {
+                var row = [company, amount, button];
+
+                console.log(row);
+
+                $("#addDistributionCompanyInner").val("");
+                $("#addDistributionAmountInner").val("");
+
+                tableOfDistribution.row.add(row).draw();
+            }
+        });
+        // ADD ELEMENTS TO INNER TABLE LIST END
+
+        // DELETE BUTTON START
+        $('#tableOfDistribution tbody').on( 'click', 'button', function () {
+            tableOfDistribution.row( $(this).parents('tr') ).remove().draw();
+        } );
+        // DELETE BUTTON END
+    })
+</script>
 </body>
 </html>

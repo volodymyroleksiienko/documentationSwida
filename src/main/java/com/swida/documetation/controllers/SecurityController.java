@@ -40,6 +40,7 @@ public class SecurityController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         int userID;
+        System.out.println(auth.getAuthorities());
 
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_USER"));

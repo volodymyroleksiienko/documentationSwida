@@ -6,8 +6,10 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
+import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
+import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
@@ -15,6 +17,7 @@ import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.*;
+import org.apache.tomcat.util.digester.ObjectCreateRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +41,14 @@ public class FabricController {
     private BreedOfTreeService breedOfTreeService;
     private ContrAgentService contrAgentService;
     private UserCompanyService userCompanyService;
+    private OrderInfoService orderInfoService;
 
     @Autowired
-    public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService) {
+    public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService,
+                            DryingStorageService dryingStorageService, DryStorageService dryStorageService,
+                            PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService,
+                            BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService,
+                            UserCompanyService userCompanyService, OrderInfoService orderInfoService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -50,6 +58,7 @@ public class FabricController {
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
         this.userCompanyService = userCompanyService;
+        this.orderInfoService = orderInfoService;
     }
 
     @GetMapping("/index-{userId}")
@@ -58,6 +67,25 @@ public class FabricController {
         int breedId = 1;
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
+
+    //    Orders page
+    @GetMapping("/getListOfOrders-{id}-{breedId}")
+    public String getListOfOrders(@PathVariable("id")int userId,@PathVariable("breedId")int breedId,
+                                  Model model){
+        UserCompany company = userCompanyService.findById(userId);
+        ContrAgent contrAgent = company.getContrAgent();
+
+        model.addAttribute("fragmentPathOrderInfo","orders");
+        model.addAttribute("tabName","orders");
+        model.addAttribute("userId",userId);
+        model.addAttribute("breedId",breedId);
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("orderInfoList",orderInfoService.getOrdersListByAgent(contrAgent.getId()));
+
+
+        return "fabricPage";
+    }
+
 
     //Tree Storage page
     @GetMapping("/getListOfTreeStorage-{userId}-{breedId}")
@@ -427,7 +455,11 @@ public class FabricController {
     @GetMapping("/getListOfRecycle-{userId}-{breedId}")
     public String getListOfRecycle(@PathVariable("userId")int userId,
                                        @PathVariable("breedId")int breedId, Model model){
-        model.addAttribute("fragmentPathTabRecycle","recyclePage");
+        if(breedId==2){
+            model.addAttribute("fragmentPathTabRecycle","recyclePageOak");
+        }else {
+            model.addAttribute("fragmentPathTabRecycle","recyclePage");
+        }
         model.addAttribute("tabName","recycle");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
@@ -473,6 +505,7 @@ public class FabricController {
     @PostMapping("/editRecycleRow-{userId}-{breedId}")
     public String editRecycleRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                      String nameOfAgent, TreeStorage treeStorage){
+        treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         ContrAgent contrAgent =  new ContrAgent();

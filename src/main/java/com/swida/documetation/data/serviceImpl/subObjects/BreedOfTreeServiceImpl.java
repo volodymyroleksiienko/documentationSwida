@@ -29,6 +29,11 @@ public class BreedOfTreeServiceImpl implements BreedOfTreeService {
     }
 
     @Override
+    public BreedOfTree getObjectByName(String name) {
+        return breedOfTreeJPA.getObjectByName(name);
+    }
+
+    @Override
     public List<BreedOfTree> findAll() {
         return breedOfTreeJPA.findAll();
     }

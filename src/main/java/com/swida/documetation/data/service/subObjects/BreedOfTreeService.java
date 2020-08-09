@@ -8,6 +8,7 @@ import java.util.List;
 public interface BreedOfTreeService {
     void save(BreedOfTree breedOfTree);
     BreedOfTree findById(int id);
+    BreedOfTree getObjectByName (String name);
     List<BreedOfTree> findAll();
     void deleteByID(int id);
 }

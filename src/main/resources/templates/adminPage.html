@@ -174,6 +174,107 @@
 
         });
         // OUTER MARKET TABLE END
+
+        //ORDER INFO START
+
+        // Contracts table start
+        $('#contracts-tab-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "70px"
+                }
+            ]
+        });
+        // Contracts table end
+
+        // Distribution table start
+        $('#distribution-tab-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "30px"
+                }
+            ]
+        });
+        // Distribution table end
+
+        // Modal inner table start
+        var tableOfDistribution = $('#tableOfDistribution').DataTable({
+            "autoWidth": false,
+            "bSort": false,
+            "searching": false,
+            "paging": false,
+            "info": false,
+            'select': false,
+            "columnDefs": [
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "width": "30px"
+                }
+            ]
+
+        });
+        // Modal inner table end
+
+        // ADD ELEMENTS TO INNER TABLE LIST START
+        $("#buttonForAddingDistributionRow").click(function () {
+            var company = $("#addDistributionCompanyInner").val();
+            var amount = parseFloat($("#addDistributionAmountInner").val());
+            var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+
+            if( company=="" || amount=="" ) {
+                alert("Заполните все поля!");
+            } else if (amount<=0.000){
+                alert("Значение не может быть отрицательным либо равным 0!")
+            } else {
+                var row = [company, amount, button];
+
+                console.log(row);
+
+                $("#addDistributionCompanyInner").val("");
+                $("#addDistributionAmountInner").val("");
+
+                tableOfDistribution.row.add(row).draw();
+            }
+        });
+        // ADD ELEMENTS TO INNER TABLE LIST END
+
+        // DELETE BUTTON START
+        $('#tableOfDistribution tbody').on( 'click', 'button', function () {
+            tableOfDistribution.row( $(this).parents('tr') ).remove().draw();
+        } );
+        // DELETE BUTTON END
+
+        // ORDER INFO END
+
     });
 </script>
 <!-- Users table end -->

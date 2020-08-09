@@ -29,6 +29,11 @@ public class ContrAgentServiceImpl implements ContrAgentService {
     }
 
     @Override
+    public ContrAgent getObjectByName(String name) {
+        return contrAgentJPA.getObjectByName(name);
+    }
+
+    @Override
     public List<ContrAgent> findAll() {
         return contrAgentJPA.findAll();
     }

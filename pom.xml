@@ -61,6 +61,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<!--Down version to fix SprincSecurityDialect -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>3.0.4.RELEASE</version>
+		</dependency>
 		<!-- Poi for create xls files -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>

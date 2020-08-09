@@ -300,5 +300,20 @@ public class FabricOakController {
         return "fabricPage";
     }
 
+//    Recycle page
+    @PostMapping("/cutOfRecycle-{userId}-2")
+    public String  cutOfRecycle(@PathVariable("userId")int userId,
+                                int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage){
+        int breedId =2;
+        TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
+
+        treeStorage.setExtent(String.format("%.3f",Float.parseFloat(extentOfTreeStorage)).replace(',','.'));
+        rawStorage.setTreeStorage(treeStorage);
+        rawStorage.setUserCompany(userCompanyService.findById(userId));
+        rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorageService.save(rawStorage);
+        return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
+    }
 }
 

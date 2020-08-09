@@ -9,19 +9,19 @@
 
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="admin.html">Главная</a>
+                <li class="nav-item" th:classappend="${navTabName.equals('main')} ? 'active':''">
+                    <a class="nav-link" href="#">Главная</a>
                 </li>
 
-                <li class="nav-item active">
-                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель <span class="sr-only">(current)</span></a>
+                <li class="nav-item" th:classappend="${navTabName.equals('adminPanel')} ? 'active':''">
+                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" th:classappend="${navTabName.equals('orderInfo')} ? 'active':''">
                     <a class="nav-link" href="/admin/getListOfContract">Заказы</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" th:classappend="${navTabName.equals('contrAgents')} ? 'active':''">
                     <a class="nav-link" href="/admin/getListOfContrAgents-1">Контрагенты</a>
                 </li>
 
@@ -30,27 +30,26 @@
                 <li class="nav-item dropdown show">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Вход от имени</a>
                     <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
-                        <a class="dropdown-item" href="#">Золотой дым</a>
-                        <a class="dropdown-item" href="#">МСИТ Сервис</a>
+                        <a class="dropdown-item" th:each="u : ${userCompanyList}" th:text="${u.nameOfCompany}"  th:href="@{'/fabric/getListOfTreeStorage-'+${u.id}+'-1'}"></a>
                     </div>
                 </li>
                 <!--Dropdown 1 end -->
 
-                <!-- Dropdown 2 start -->
-                <li class="nav-item dropdown show">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Материал</a>
-                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
-                        <a class="dropdown-item" href="#">Сосна</a>
-                        <a class="dropdown-item" href="#">Дуб</a>
-                    </div>
-                </li>
-                <!--Dropdown 2 end -->
+<!--                &lt;!&ndash; Dropdown 2 start &ndash;&gt;-->
+<!--                <li class="nav-item dropdown show">-->
+<!--                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Материал</a>-->
+<!--                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">-->
+<!--                        <a class="dropdown-item" href="#">Сосна</a>-->
+<!--                        <a class="dropdown-item" href="#">Дуб</a>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                &lt;!&ndash;Dropdown 2 end &ndash;&gt;-->
 
             </ul>
             <img src="../img/user2_4.png" width="50px">
             <form class="form-inline my-2 my-lg-0">
 
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Выйти <i class="fas fa-sign-out-alt"></i></button>
+                <a class="btn btn-secondary my-2 my-sm-0" type="submit" href="/logout">Выйти <i class="fas fa-sign-out-alt"></i></a>
             </form>
         </div>
     </nav>

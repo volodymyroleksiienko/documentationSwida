@@ -8,6 +8,7 @@ import java.util.List;
 public interface ContrAgentService {
     void save(ContrAgent provider);
     ContrAgent findById(int id);
+    ContrAgent getObjectByName (String name);
     List<ContrAgent> findAll();
     List<ContrAgent> getListByType(ContrAgentType type);
     //return 0 if doesnot Exist

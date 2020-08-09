@@ -20,9 +20,12 @@ public class OrderInfo {
     private String extentOfOrder;
     private String doneExtendOfOrder;
     private String toDoExtentOfOrder;
+    private String extentForDistribution;
+    private String date;
 
-    @OneToMany
-    private List<OrderInfo> distributionList;
+
+    @ManyToOne
+    private OrderInfo mainOrder;
     @ManyToOne
     private BreedOfTree breedOfTree;
     @OneToOne

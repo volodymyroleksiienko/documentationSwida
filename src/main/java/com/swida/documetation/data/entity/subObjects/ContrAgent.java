@@ -12,7 +12,7 @@ public class ContrAgent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @Column(unique = true)
     private String nameOfAgent;
     private String codeOfEDRPOY;
     private String country;
