@@ -28,6 +28,7 @@ public class OrderInfo {
     private OrderInfo mainOrder;
     @ManyToOne
     private BreedOfTree breedOfTree;
+    private String breedDescription;
     @OneToOne
     private ContrAgent contrAgent;
     @Enumerated(EnumType.STRING)

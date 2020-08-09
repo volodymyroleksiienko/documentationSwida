@@ -8,6 +8,7 @@
                 <th scope="col">id</th>
                 <th scope="col">Код</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Покупатель</th>
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
@@ -21,6 +22,7 @@
                 <td th:text="${b.id}"></td>
                 <th scope="row" th:text="${b.codeOfOrder}"></th>
                 <td th:text="${b.breedOfTree.breed}"></td>
+                <td th:text="${b.breedDescription}"></td>
                 <td th:text="${b.contrAgent.nameOfAgent}"></td>
                 <td th:text="${b.extentOfOrder}"></td>
                 <td th:text="${b.doneExtendOfOrder}"></td>
@@ -38,6 +40,7 @@
                 <th scope="col">id</th>
                 <th scope="col">Код</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Покупатель</th>
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
@@ -79,6 +82,10 @@
                             <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
                         </datalist>
 
+                        <label class="col-form-label" for="editBreedDescriptionContract">Описание</label>
+                        <input type="text" class="form-control" id="editBreedDescriptionContract" autocomplete="off"  name="breedDescription">
+
+
                         <label class="col-form-label" for="editContractBuyer">Покупатель</label>
                         <input type="text" class="form-control" list="editContractBuyerList" id="editContractBuyer" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
                         <datalist id="editContractBuyerList">
@@ -89,7 +96,7 @@
                         <input type="text" class="form-control" id="editContractOrder" required="required" autocomplete="off" placeholder="м3" name="extentOfOrder">
 
                         <label class="col-form-label" for="editContractDone">Отгружено</label>
-                        <input type="text" class="form-control" id="editContractDone" required="required" autocomplete="off" placeholder="м3" name="doneExtendOfOrder">
+                        <input type="text" class="form-control" id="editContractDone" required="required" autocomplete="off" disabled="disabled" placeholder="м3" name="doneExtendOfOrder">
 
                         <label class="col-form-label" for="editContractLeft">Остаток</label>
                         <input type="text" class="form-control" id="editContractLeft" required="required" autocomplete="off" disabled="disabled" placeholder="м3">
@@ -114,13 +121,15 @@
             $('#editContractModalHeader').text("Редактировать контракт №"+contractCode);
 
             var breedOfTree = $(trObj).find('td:eq(0)').text();
-            var buyer = $(trObj).find('td:eq(1)').text();
-            var amount = $(trObj).find('td:eq(2)').text();
-            var done = $(trObj).find('td:eq(3)').text();
-            var left = $(trObj).find('td:eq(4)').text();
+            var breedDescription = $(trObj).find('td:eq(1)').text();
+            var buyer = $(trObj).find('td:eq(2)').text();
+            var amount = $(trObj).find('td:eq(3)').text();
+            var done = $(trObj).find('td:eq(4)').text();
+            var left = $(trObj).find('td:eq(5)').text();
 
             $('#editContractCode').val(contractCode);
             $('#editContractBreedOfTree').val(breedOfTree);
+            $('#editBreedDescriptionContract').val(breedDescription);
             $('#editContractBuyer').val(buyer);
             $('#editContractOrder').val(amount);
             $('#editContractDone').val(done);
@@ -152,6 +161,9 @@
                         <datalist id="addBreedOfTreeList">
                             <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
                         </datalist>
+
+                        <label class="col-form-label" for="addBreedDescriptionContract">Описание</label>
+                        <input type="text" class="form-control" id="addBreedDescriptionContract" autocomplete="off"  name="breedDescription">
 
                         <label class="col-form-label" for="addContractBuyer">Покупатель</label>
                         <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
@@ -324,6 +336,7 @@
                 <th scope="col">id</th>
                 <th scope="col">Код</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Поставщик</th>
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
@@ -337,6 +350,7 @@
                 <td th:text="${b.id}"></td>
                 <th scope="row" th:text="${b.codeOfOrder}"></th>
                 <td th:text="${b.breedOfTree.breed}"></td>
+                <td th:text="${b.breedDescription}"></td>
                 <td th:text="${b.contrAgent.nameOfAgent}"></td>
                 <td th:text="${b.extentOfOrder}"></td>
                 <td th:text="${b.doneExtendOfOrder}"></td>
@@ -353,6 +367,7 @@
                 <th scope="col">id</th>
                 <th scope="col">Код</th>
                 <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Поставщик</th>
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
@@ -362,13 +377,6 @@
             </tr>
             </tfoot>
         </table>
-        <!-- BUTTON START-->
-        <div class="float-action-button" sec:authorize="hasRole('ROLE_ADMIN')">
-            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addDistributionModal">
-                <i class="fa fa-plus"></i>
-            </button>
-        </div>
-        <!-- BUTTON END-->
     </div>
     <!-- Распределение END -->
 
@@ -394,6 +402,10 @@
                         <datalist id="breedOfTreeList1">
                             <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
                         </datalist>
+
+                        <label class="col-form-label" for="editBreedDescription">Описание</label>
+                        <input type="text" class="form-control" id="editBreedDescription" autocomplete="off"  name="breedDescription">
+
 
                         <label class="col-form-label" for="editDistributionCompany">Поставщик</label>
                         <input type="text" class="form-control" list="contrAgentProviderList" id="editDistributionCompany" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
@@ -430,13 +442,15 @@
             $('#editDistributionModalHeader').text("Редактировать заказ №"+contractCode);
 
             var breedOfTree = $(trObj).find('td:eq(0)').text();
-            var company = $(trObj).find('td:eq(1)').text();
-            var amount = $(trObj).find('td:eq(2)').text();
-            var done = $(trObj).find('td:eq(3)').text();
-            var left = $(trObj).find('td:eq(4)').text();
+            var breedDescription = $(trObj).find('td:eq(1)').text();
+            var company = $(trObj).find('td:eq(2)').text();
+            var amount = $(trObj).find('td:eq(3)').text();
+            var done = $(trObj).find('td:eq(4)').text();
+            var left = $(trObj).find('td:eq(5)').text();
 
             $('#editDistributionCode').val(contractCode);
             $('#editDistributionBreedOfTree').val(breedOfTree);
+            $('#editBreedDescription').val(breedDescription);
             $('#editDistributionCompany').val(company);
             $('#editDistributionOrder').val(amount);
             $('#editDistributionDone').val(done);
@@ -469,6 +483,10 @@
                             <option value="Сосна">
                             <option value="Дуб">
                         </datalist>
+
+                        <label class="col-form-label" for="addBreedDescription">Описание</label>
+                        <input type="text" class="form-control" id="addBreedDescription" autocomplete="off"  name="breedDescription">
+
 
                         <label class="col-form-label" for="addDistributionCompany">Поставщик</label>
                         <input type="text" class="form-control" id="addDistributionCompany" required="required" autocomplete="off">

@@ -37,6 +37,7 @@ public class AdminRestController {
             OrderInfo order = new OrderInfo();
             order.setCodeOfOrder(main.getCodeOfOrder());
             order.setBreedOfTree(main.getBreedOfTree());
+            order.setBreedDescription(main.getBreedDescription());
             order.setContrAgent(contrAgentService.getObjectByName(arrayOfAgent[i]));
             order.setExtentOfOrder(arrayOfExtent[i]);
             order.setDoneExtendOfOrder("0.000");

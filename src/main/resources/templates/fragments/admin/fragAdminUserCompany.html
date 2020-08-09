@@ -79,7 +79,7 @@
                         <input type="text" class="form-control" id="addUserCompanyPassword" required="required" autocomplete="off" name="password">
 
                         <label class="col-form-label" for="addContractBuyer">Соединить с контрагентом</label>
-                        <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer"  autocomplete="off" name="contrAgent.nameOfAgent">
                         <datalist id="contrAgentList">
                             <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
                         </datalist>
@@ -88,7 +88,7 @@
                         <input type="text" class="form-control" list="rolesList" id="addUserCompanyRole" required="required" autocomplete="off" name="role">
                         <datalist id="rolesList">
                             <option value="ROLE_ADMIN">
-                            <option value="ROLE_USER_WITH_MORE_ACCESS">
+                            <option value="ROLE_SUPER_USER">
                             <option value="ROLE_USER">
                         </datalist>
 
@@ -130,7 +130,7 @@
                         <input type="text" class="form-control" id="editUserCompanyPassword" required="required" autocomplete="off" name="password">
 
                         <label class="col-form-label" for="addContrAgent">Соединить с контрагентом</label>
-                        <input type="text" class="form-control" list="contrAgentList1" id="addContrAgent" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <input type="text" class="form-control" list="contrAgentList1" id="addContrAgent" autocomplete="off" name="contrAgent.nameOfAgent">
                         <datalist id="contrAgentList1">
                             <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
                         </datalist>
@@ -139,7 +139,7 @@
                         <input type="text" class="form-control" list="editRolesList" id="editUserCompanyRole" required="required" autocomplete="off" name="role">
                         <datalist id="editRolesList">
                             <option value="ROLE_ADMIN">
-                            <option value="ROLE_USER_WITH_MORE_ACCESS">
+                            <option value="ROLE_SUPER_USER">
                             <option value="ROLE_USER">
                         </datalist>
 

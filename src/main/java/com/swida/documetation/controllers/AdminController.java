@@ -164,6 +164,7 @@ public class AdminController {
 
 
         orderInfoDB.setExtentOfOrder(orderInfo.getExtentOfOrder());
+        orderInfoDB.setBreedDescription(orderInfo.getBreedDescription());
         orderInfoDB.setDoneExtendOfOrder(orderInfo.getDoneExtendOfOrder());
         orderInfoDB.setCodeOfOrder(orderInfo.getCodeOfOrder());
         orderInfoDB.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
@@ -203,6 +204,8 @@ public class AdminController {
     public String editOrder(OrderInfo orderInfo){
         OrderInfo orderInfoDB = orderInfoService.findById(orderInfo.getId());
         float differenceExtent = Float.parseFloat(orderInfoDB.getExtentOfOrder())-Float.parseFloat(orderInfo.getExtentOfOrder());
+        float differenceDoneExtent = Float.parseFloat(orderInfoDB.getDoneExtendOfOrder())-Float.parseFloat(orderInfo.getDoneExtendOfOrder());
+
 
 
         orderInfoDB.setExtentOfOrder(orderInfo.getExtentOfOrder());
@@ -211,9 +214,11 @@ public class AdminController {
         orderInfoDB.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
         orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.DISTRIBUTION);
         orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
+        orderInfoDB.setBreedDescription(orderInfo.getBreedDescription());
 
         OrderInfo main = orderInfoDB.getMainOrder();
         main.setExtentForDistribution(String.format("%.3f",Float.parseFloat(main.getExtentForDistribution())+differenceExtent).replace(",","."));
+        main.setDoneExtendOfOrder(String.format("%.3f",Float.parseFloat(main.getDoneExtendOfOrder())-differenceDoneExtent).replace(",","."));
 
         orderInfoService.save(main);
         orderInfoService.save(orderInfoDB);
