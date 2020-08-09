@@ -22,7 +22,7 @@
                     <td th:text="${uc.location}"></td>
                     <td th:text="${uc.username}"></td>
                     <td th:text="${uc.password}"></td>
-                    <td th:text="${uc.contrAgent.nameOfAgent}"></td>
+                    <td th:text="${(uc.contrAgent!=null)?uc.contrAgent.nameOfAgent:''}"></td>
                     <td th:text="${uc.role}"></td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" onclick="editUserCompany(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
