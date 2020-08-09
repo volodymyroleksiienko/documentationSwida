@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-                <tr th:each="uc : ${userCompanyList}" th:id="${uc.id}">
+                <tr th:each="uc : ${allUserCompanyList}" th:id="${uc.id}">
                     <td th:text="${uc.id}"></td>
                     <th scope="row" th:text="${uc.nameOfCompany}"></th>
                     <td th:text="${uc.location}"></td>

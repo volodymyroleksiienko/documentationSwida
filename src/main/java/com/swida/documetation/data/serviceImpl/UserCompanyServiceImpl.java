@@ -33,6 +33,11 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     }
 
     @Override
+    public List<UserCompany> getListOfAllUsersROLE() {
+        return userCompanyJPA.getListOfAllUsersROLE();
+    }
+
+    @Override
     public List<UserCompany> findAll() {
         return userCompanyJPA.findAll();
     }

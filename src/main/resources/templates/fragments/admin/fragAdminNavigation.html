@@ -27,7 +27,7 @@
 
 
                 <!-- Dropdown 1 start -->
-                <li class="nav-item dropdown show">
+                <li class="nav-item dropdown ">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Вход от имени</a>
                     <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
                         <a class="dropdown-item" th:each="u : ${userCompanyList}" th:text="${u.nameOfCompany}"  th:href="@{'/fabric/getListOfTreeStorage-'+${u.id}+'-1'}"></a>

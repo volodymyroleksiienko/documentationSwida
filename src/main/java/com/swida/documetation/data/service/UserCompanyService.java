@@ -8,6 +8,7 @@ public interface UserCompanyService {
     void save(UserCompany userComp);
     UserCompany findById(int id);
     UserCompany findByUsername(String username);
+    List<UserCompany> getListOfAllUsersROLE();
     List<UserCompany> findAll();
     void deleteByID(int id);
 }
