@@ -55,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("admin")
-                .password("admin")
+                .withUser("swidaSuperAdmin")
+                .password("swidaCorporation852456")
                 .roles("ADMIN")
                 .and()
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
