@@ -10,6 +10,7 @@ import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -158,10 +159,19 @@ public class AdminController {
 
     @PostMapping("/editContarct")
     public String editContarct(OrderInfo orderInfo){
-        orderInfo.setStatusOfOrderInfo(StatusOfOrderInfo.MAIN);
-        orderInfo.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
-        orderInfo.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
-        orderInfoService.save(orderInfo);
+        OrderInfo orderInfoDB = orderInfoService.findById(orderInfo.getId());
+        float differenceExtent = Float.parseFloat(orderInfoDB.getExtentOfOrder())-Float.parseFloat(orderInfo.getExtentOfOrder());
+
+
+        orderInfoDB.setExtentOfOrder(orderInfo.getExtentOfOrder());
+        orderInfoDB.setDoneExtendOfOrder(orderInfo.getDoneExtendOfOrder());
+        orderInfoDB.setCodeOfOrder(orderInfo.getCodeOfOrder());
+        orderInfoDB.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
+        orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.MAIN);
+        orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
+        orderInfoDB.setExtentForDistribution(String.format("%.3f",Float.parseFloat(orderInfoDB.getExtentForDistribution())-differenceExtent).replace(",","."));
+
+        orderInfoService.save(orderInfoDB);
         return "redirect:/admin/getListOfContract";
     }
 
@@ -191,10 +201,22 @@ public class AdminController {
 
     @PostMapping("/editOrder")
     public String editOrder(OrderInfo orderInfo){
-        orderInfo.setStatusOfOrderInfo(StatusOfOrderInfo.DISTRIBUTION);
-        orderInfo.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
-        orderInfo.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
-        orderInfoService.save(orderInfo);
+        OrderInfo orderInfoDB = orderInfoService.findById(orderInfo.getId());
+        float differenceExtent = Float.parseFloat(orderInfoDB.getExtentOfOrder())-Float.parseFloat(orderInfo.getExtentOfOrder());
+
+
+        orderInfoDB.setExtentOfOrder(orderInfo.getExtentOfOrder());
+        orderInfoDB.setDoneExtendOfOrder(orderInfo.getDoneExtendOfOrder());
+        orderInfoDB.setCodeOfOrder(orderInfo.getCodeOfOrder());
+        orderInfoDB.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
+        orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.DISTRIBUTION);
+        orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
+
+        OrderInfo main = orderInfoDB.getMainOrder();
+        main.setExtentForDistribution(String.format("%.3f",Float.parseFloat(main.getExtentForDistribution())+differenceExtent).replace(",","."));
+
+        orderInfoService.save(main);
+        orderInfoService.save(orderInfoDB);
         return "redirect:/admin/getListOfOrders";
     }
 }

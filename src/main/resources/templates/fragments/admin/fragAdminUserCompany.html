@@ -87,8 +87,9 @@
                         <label class="col-form-label" for="addUserCompanyRole">Роль</label>
                         <input type="text" class="form-control" list="rolesList" id="addUserCompanyRole" required="required" autocomplete="off" name="role">
                         <datalist id="rolesList">
-                            <option value="ROLES_USER">
-                            <option value="ROLES_USER_WITH_MORE_ACCESS">
+                            <option value="ROLE_ADMIN">
+                            <option value="ROLE_USER_WITH_MORE_ACCESS">
+                            <option value="ROLE_USER">
                         </datalist>
 
                     </div>
@@ -134,11 +135,12 @@
                             <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
                         </datalist>
 
-                        <label class="col-form-label" for="editdUserCompanyRole">Роль</label>
-                        <input type="text" class="form-control" list="editRolesList" id="editdUserCompanyRole" required="required" autocomplete="off" name="role">
+                        <label class="col-form-label" for="editUserCompanyRole">Роль</label>
+                        <input type="text" class="form-control" list="editRolesList" id="editUserCompanyRole" required="required" autocomplete="off" name="role">
                         <datalist id="editRolesList">
-                            <option value="ROLES_USER">
-                            <option value="ROLES_USER_WITH_MORE_ACCESS">
+                            <option value="ROLE_ADMIN">
+                            <option value="ROLE_USER_WITH_MORE_ACCESS">
+                            <option value="ROLE_USER">
                         </datalist>
 
                     </div>
