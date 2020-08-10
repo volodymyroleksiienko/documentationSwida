@@ -7311,6 +7311,12 @@ a.text-dark:hover, a.text-dark:focus {
   left: 0;
   margin: 1em; }
 
+.float-action-button-right{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 1em }
+
 button.buttons {
   box-shadow: 0 5px 11px -2px rgba(0, 0, 0, 0.18), 0 4px 12px -7px rgba(0, 0, 0, 0.15);
   border-radius: 50%;
