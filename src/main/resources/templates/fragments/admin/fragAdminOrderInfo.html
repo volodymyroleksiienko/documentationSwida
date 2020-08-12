@@ -13,6 +13,7 @@
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
                 <th scope="col">Остаток, м<sup>3</sup></th>
+                <th scope="col">Срок выполнения</th>
                 <th></th>
                 <th>extentForDistribution</th>
             </tr>
@@ -27,6 +28,7 @@
                 <td th:text="${b.extentOfOrder}"></td>
                 <td th:text="${b.doneExtendOfOrder}"></td>
                 <td th:text="${b.toDoExtentOfOrder}"></td>
+                <td th:text="${b.date}"></td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm" onclick="distributeContract(this)"><i class="fas fa-th" data-toggle="tooltip" title="Распределение"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -45,6 +47,7 @@
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
                 <th scope="col">Остаток, м<sup>3</sup></th>
+                <th scope="col">Срок выполнения</th>
                 <th ></th>
                 <th ></th>
             </tr>
@@ -341,6 +344,7 @@
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
                 <th scope="col">Остаток, м<sup>3</sup></th>
+                <th scope="col">Срок выполнения</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th>extentForDistribution main order</th>
             </tr>
@@ -355,6 +359,7 @@
                 <td th:text="${b.extentOfOrder}"></td>
                 <td th:text="${b.doneExtendOfOrder}"></td>
                 <td th:text="${b.toDoExtentOfOrder}"></td>
+                <td th:text="${b.date}"></td>
                 <td sec:authorize="hasRole('ROLE_ADMIN')">
                     <button type="button" class="btn btn-primary btn-sm" onclick="editDistribution(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
@@ -372,6 +377,7 @@
                 <th scope="col">Заказ, м<sup>3</sup></th>
                 <th scope="col">Отгружено, м<sup>3</sup></th>
                 <th scope="col">Остаток, м<sup>3</sup></th>
+                <th scope="col">Срок выполнения</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th></th>
             </tr>

@@ -22,7 +22,7 @@
             <tr th:each="order : ${multimodalOrderList}" th:id="${order.id}">
                 <td th:text="${order.id}"></td>
                 <th scope="row" th:text="${order.codeOfOrder}"></th>
-                <td th:text="${order.contrAgent.nameOfAgent}"></td>
+                <td th:text="${(order.contrAgent!=null)?order.contrAgent.nameOfAgent:''}"></td>
                 <td th:text="${order.breedOfTree.breed}"></td>
                 <td th:text="${order.breedDescription}"></td>
                 <td th:text="${order.extentOfOrder}"></td>
