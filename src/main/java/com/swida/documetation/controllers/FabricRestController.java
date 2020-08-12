@@ -4,7 +4,9 @@ import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
+import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
@@ -22,18 +24,22 @@ public class FabricRestController {
     DriverInfoService driverInfoService;
     PackagedProductService packagedProductService;
     DeliveryDocumentationService deliveryDocumentationService;
+    OrderInfoService orderInfoService;
 
     @Autowired
-    public FabricRestController(DriverInfoService driverInfoService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService) {
+    public FabricRestController(DriverInfoService driverInfoService, PackagedProductService packagedProductService,
+                                DeliveryDocumentationService deliveryDocumentationService, OrderInfoService orderInfoService) {
         this.driverInfoService = driverInfoService;
         this.packagedProductService = packagedProductService;
         this.deliveryDocumentationService = deliveryDocumentationService;
+        this.orderInfoService = orderInfoService;
     }
 
     @PostMapping("/createDeliveryDoc-{userID}-{breedID}")
     public String createDeliveryDoc(@PathVariable("userID") String userID, @PathVariable("breedID") String breedID,
             String[] list, String name, String phone, String idOfTruck, String numberOfTruck, String numberOfTrailer,
-                                    String dateOfUnloading, String timeOfUnloading) {
+                                    String dateOfUnloading, String timeOfUnloading,String contractName, String deliveryDestination,
+                                    String description) {
         DriverInfo driverInfo = new DriverInfo();
         driverInfo.setFullName(name);
         driverInfo.setIdOfTruck(idOfTruck);
@@ -57,6 +63,10 @@ public class FabricRestController {
                 deliveryDocumentation.setUserCompany(productList.get(0).getUserCompany());
             }
         }
+
+        deliveryDocumentation.setOrderInfo(orderInfoService.findByCodeOfOrder(contractName));
+        deliveryDocumentation.setDestinationType(DeliveryDestinationType.valueOf(deliveryDestination));
+        deliveryDocumentation.setDescription(description);
 
         deliveryDocumentation.setProductList(productList);
         deliveryDocumentation.setDriverInfo(driverInfo);

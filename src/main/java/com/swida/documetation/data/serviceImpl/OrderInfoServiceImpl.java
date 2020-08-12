@@ -38,6 +38,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
+    public OrderInfo findByCodeOfOrder(String code) {
+        return orderInfoJPA.findByCodeOfOrder(code);
+    }
+
+    @Override
     public List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status) {
         return orderInfoJPA.getOrdersByStatusOfOrder(status);
     }

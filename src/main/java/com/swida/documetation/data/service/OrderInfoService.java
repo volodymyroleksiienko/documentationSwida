@@ -9,6 +9,7 @@ import java.util.List;
 public interface OrderInfoService {
     void save(OrderInfo orderInfo);
     OrderInfo findById(int id);
+    OrderInfo findByCodeOfOrder(String code);
     List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status);
     List<OrderInfo> getOrdersListByAgent(int agentId);
     List<OrderInfo> findAll();

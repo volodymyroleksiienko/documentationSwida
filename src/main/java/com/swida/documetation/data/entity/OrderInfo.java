@@ -16,6 +16,7 @@ public class OrderInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(unique = true)
     private String codeOfOrder;
     private String extentOfOrder;
     private String doneExtendOfOrder;
