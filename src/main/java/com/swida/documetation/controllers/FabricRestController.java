@@ -2,11 +2,13 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
+import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.service.OrderInfoService;
+import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
@@ -25,14 +27,17 @@ public class FabricRestController {
     PackagedProductService packagedProductService;
     DeliveryDocumentationService deliveryDocumentationService;
     OrderInfoService orderInfoService;
+    UserCompanyService userCompanyService;
 
     @Autowired
     public FabricRestController(DriverInfoService driverInfoService, PackagedProductService packagedProductService,
-                                DeliveryDocumentationService deliveryDocumentationService, OrderInfoService orderInfoService) {
+                                DeliveryDocumentationService deliveryDocumentationService, OrderInfoService orderInfoService,
+                                UserCompanyService userCompanyService) {
         this.driverInfoService = driverInfoService;
         this.packagedProductService = packagedProductService;
         this.deliveryDocumentationService = deliveryDocumentationService;
         this.orderInfoService = orderInfoService;
+        this.userCompanyService = userCompanyService;
     }
 
     @PostMapping("/createDeliveryDoc-{userID}-{breedID}")
@@ -40,6 +45,9 @@ public class FabricRestController {
             String[] list, String name, String phone, String idOfTruck, String numberOfTruck, String numberOfTrailer,
                                     String dateOfUnloading, String timeOfUnloading,String contractName, String deliveryDestination,
                                     String description) {
+        ContrAgent userContrAgent = userCompanyService.findById(Integer.parseInt(userID)).getContrAgent();
+        float extentOfAllPack = 0;
+
         DriverInfo driverInfo = new DriverInfo();
         driverInfo.setFullName(name);
         driverInfo.setIdOfTruck(idOfTruck);
@@ -54,15 +62,19 @@ public class FabricRestController {
         deliveryDocumentation.setBreedOfTree(breedOfTree);
         deliveryDocumentation.setDateOfUnloading(dateOfUnloading);
         deliveryDocumentation.setTimeOfUnloading(timeOfUnloading);
+        deliveryDocumentation.setContrAgent(userContrAgent);
 
         for (int i=0; i<list.length; i++){
             productList.add(packagedProductService.findById(Integer.parseInt(list[i])));
             productList.get(i).setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
             packagedProductService.save(productList.get(i));
+            extentOfAllPack += Float.parseFloat(productList.get(i).getExtent());
             if (i==0) {
                 deliveryDocumentation.setUserCompany(productList.get(0).getUserCompany());
             }
         }
+
+        deliveryDocumentation.setPackagesExtent(String.format("%.3f",extentOfAllPack).replace(",","."));
 
         deliveryDocumentation.setOrderInfo(orderInfoService.findByCodeOfOrder(contractName));
         deliveryDocumentation.setDestinationType(DeliveryDestinationType.valueOf(deliveryDestination));

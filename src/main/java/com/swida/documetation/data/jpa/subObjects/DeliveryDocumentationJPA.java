@@ -9,4 +9,8 @@ import java.util.List;
 public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocumentation,Integer> {
     @Query("select t from  DeliveryDocumentation  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 ")
     List<DeliveryDocumentation> getListByUserByBreed(int breedId, int userId);
+
+    @Query("select t from  DeliveryDocumentation  t where t.orderInfo.id in ?1")
+    List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId);
+
 }

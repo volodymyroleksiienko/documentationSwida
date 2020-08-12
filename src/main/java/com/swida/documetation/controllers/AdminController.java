@@ -3,11 +3,13 @@ package com.swida.documetation.controllers;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
+import com.swida.documetation.data.entity.subObjects.BreedOfTreeDescription;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
+import com.swida.documetation.data.service.subObjects.BreedOfTreeDescriptionService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import org.aspectj.weaver.ast.Or;
@@ -30,14 +32,17 @@ public class AdminController {
     private BreedOfTreeService breedOfTreeService;
     private ContrAgentService contrAgentService;
     private OrderInfoService orderInfoService;
+    private BreedOfTreeDescriptionService breedOfTreeDescriptionService;
 
     @Autowired
     public AdminController(UserCompanyService userCompanyService,BreedOfTreeService breedOfTreeService,
-                           ContrAgentService contrAgentService, OrderInfoService orderInfoService) {
+                           ContrAgentService contrAgentService, OrderInfoService orderInfoService,
+                           BreedOfTreeDescriptionService breedOfTreeDescriptionService) {
         this.userCompanyService = userCompanyService;
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
         this.orderInfoService = orderInfoService;
+        this.breedOfTreeDescriptionService = breedOfTreeDescriptionService;
     }
 
 
@@ -90,6 +95,30 @@ public class AdminController {
     public String editBreedOfTree(BreedOfTree breedOfTree){
         breedOfTreeService.save(breedOfTree);
         return "redirect:/admin/getListBreedOfTree";
+    }
+
+    //    Breed of tree DESCRIPTION page
+    @GetMapping("/getListBreedOfTreeDescription")
+    public String getListBreedOfTreeDescription(Model model){
+        model.addAttribute("navTabName","adminPanel");
+        model.addAttribute("fragmentPathBreedOfTreeDescription","breedOfTreeDesc");
+        model.addAttribute("tabName","breedOfTreeDescription");
+        model.addAttribute("fragmentPathTabConfig","adminDashboard");
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedOfTreeDescriptionList",breedOfTreeDescriptionService.findAll());
+        return "adminPage";
+    }
+
+    @PostMapping("/addBreedOfTreeDescription")
+    public String addBreedOfTreeDescription(BreedOfTreeDescription description){
+        breedOfTreeDescriptionService.save(description);
+        return "redirect:/admin/getListBreedOfTreeDescription";
+    }
+
+    @PostMapping("/editBreedOfTreeDescription")
+    public String editBreedOfTreeDescription(BreedOfTreeDescription description){
+        breedOfTreeDescriptionService.save(description);
+        return "redirect:/admin/getListBreedOfTreeDescription";
     }
 
 //    Contr Agent Page

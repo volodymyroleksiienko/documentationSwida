@@ -30,7 +30,7 @@
                 <td th:text="${order.toDoExtentOfOrder}"></td>
                 <td th:text="${order.date}"></td>
                 <td>
-                    <a class="btn btn-primary btn-sm" th:href="@{'/admin/getDetailsOfContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
+                    <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
@@ -162,7 +162,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="@{'/admin/" method="post">
+                <form action="#" method="post">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">
@@ -206,7 +206,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="@{'/admin/" method="post" id="importForm">
+                <form action="#" method="post" id="importForm">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">

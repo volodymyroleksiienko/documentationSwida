@@ -9,5 +9,6 @@ public interface DeliveryDocumentationService {
     DeliveryDocumentation findById(int id);
     List<DeliveryDocumentation> findAll();
     List<DeliveryDocumentation> getListByUserByBreed(int breedId, int userId);
+    List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId);
     void deleteByID(int id);
 }

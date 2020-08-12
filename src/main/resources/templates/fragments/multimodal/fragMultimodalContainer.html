@@ -1,0 +1,177 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="multimodalContainers">
+    <!-- Подробно контейнеры  START-->
+    <div class="tab-pane fade show active container-fluid" id="multimodal-container">
+        <table class="table table-hover table-striped" id="multimodal-container-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">№ контейнера</th>
+                <th scope="col">Экспортный объем, загрузка, м<sup>3</sup></th>
+                <th scope="col">Загрузка контейнера, $</th>
+                <th scope="col">Вывоз контейнера в порт, $</th>
+                <th scope="col">Взвешивание, грн</th>
+                <th scope="col">Курс, $</th>
+                <th scope="col">Эквивалент в гривне</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="container : ${containerList}" th:id="${container.id}">
+                <td th:text="${container.id}"></td>
+                <td scope="row" th:text="${container.code}"></td>
+                <td th:text="${container.extent}"></td>
+                <td th:text="${container.costOfUploading}"></td>
+                <td th:text="${container.costOfDeliveryToPort}"></td>
+                <td th:text="${container.costOfWeighing}"></td>
+                <td th:text="${container.exchangeRate}"></td>
+                <td th:text="${container.equalsToUAH}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">№ контейнера</th>
+                <th scope="col">Экспортный объем, загрузка, м<sup>3</sup></th>
+                <th scope="col">Загрузка контейнера, $</th>
+                <th scope="col">Вывоз контейнера в порт, $</th>
+                <th scope="col">Взвешивание, грн</th>
+                <th scope="col">Курс, $</th>
+                <th scope="col">Эквивалент в гривне</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addContainerModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- BUTTON END-->
+    </div>
+    <!-- Подробно контейнеры END -->
+
+    <!-- ADD CONTAINER MODAL START -->
+    <div class="modal fade" id="addContainerModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/multimodal/addContainerMultimodal" method="post">
+                    <div class="modal-body">
+                        <label class="col-form-label" for="addContainerNumber">№ контейнера</label>
+                        <input type="text" class="form-control" id="addContainerNumber" required="required" autocomplete="off" name="code">
+
+                        <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка, м<sup>3</sup></label>
+                        <input type="number" class="form-control" id="addContainerExpotrExtent" required="required" autocomplete="off" name="extent">
+
+                        <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера, $</label>
+                        <input type="number" class="form-control" id="addContainerUnloading" required="required" autocomplete="off" name="costOfUploading">
+
+                        <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт, $</label>
+                        <input type="number" class="form-control" id="addContainerDelivery" required="required" autocomplete="off" name="costOfDeliveryToPort">
+
+                        <label class="col-form-label" for="addContainerMeasurement">Взвешивание, грн</label>
+                        <input type="number" class="form-control" id="addContainerMeasurement" required="required" autocomplete="off" name="costOfWeighing">
+
+                        <label class="col-form-label" for="addContainerCurrency">Курс, $</label>
+                        <input type="number" class="form-control" id="addContainerCurrency" required="required" autocomplete="off" name="exchangeRate">
+
+                        <label class="col-form-label" for="addUah">Эквивалент в гривне</label>
+                        <input type="number" class="form-control" id="addUah" required="required" autocomplete="off" name="equalsToUAH">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ADD CONTAINER MODAL END -->
+
+    <!-- EDIT CONTAINER MODAL START -->
+    <div class="modal fade" id="editContainerModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editContainerModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/multimodal/editContainerMultimodal" method="post">
+                    <div class="modal-body">
+                        <input type="text" id="editContainerId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editContainerNumber">№ контейнера</label>
+                        <input type="text" class="form-control" id="editContainerNumber" required="required" autocomplete="off" name="code">
+
+                        <label class="col-form-label" for="editContainerExpotrExtent">Экспортный объем, загрузка, м<sup>3</sup></label>
+                        <input type="text" class="form-control" id="editContainerExpotrExtent" required="required" autocomplete="off" name="extent">
+
+                        <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера, $</label>
+                        <input type="text" class="form-control" id="editContainerUnloading" required="required" autocomplete="off" name="costOfUploading">
+
+                        <label class="col-form-label" for="editContainerDelivery">Вывоз контейнера в порт, $</label>
+                        <input type="text" class="form-control" id="editContainerDelivery" required="required" autocomplete="off" name="costOfDeliveryToPort">
+
+                        <label class="col-form-label" for="editContainerMeasurement">Взвешивание, грн</label>
+                        <input type="text" class="form-control" id="editContainerMeasurement" required="required" autocomplete="off" name="costOfWeighing">
+
+                        <label class="col-form-label" for="editContainerCurrency">Курс, $</label>
+                        <input type="text" class="form-control" id="editContainerCurrency" required="required" autocomplete="off" name="exchangeRate">
+
+                        <label class="col-form-label" for="editUah">Эквивалент в гривне</label>
+                        <input type="text" class="form-control" id="editUah" required="required" autocomplete="off" name="equalsToUAH">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editContainer(btnObj) {
+
+            var trObj =             btnObj.parentElement.parentElement;
+            var trId =              $(trObj).attr('id');
+            $('#editContainerId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var cantainerNumber =    $(trObj).find('td:eq(0)').text();
+            $('#editContainerModalHeader').text("Редактировать "+ cantainerNumber);
+
+            var exportExtent =      $(trObj).find('td:eq(1)').text();
+            var unloading =         $(trObj).find('td:eq(2)').text();
+            var delivery =          $(trObj).find('td:eq(3)').text();
+            var measurement =       $(trObj).find('td:eq(4)').text();
+            var currency =          $(trObj).find('td:eq(5)').text();
+            var uah =               $(trObj).find('td:eq(6)').text();
+
+            $('#editContainerNumber')           .val(cantainerNumber);
+            $('#editContainerExpotrExtent')     .val(exportExtent);
+            $('#editContainerUnloading')        .val(unloading);
+            $('#editContainerDelivery')         .val(delivery);
+            $('#editContainerMeasurement')      .val(measurement);
+            $('#editContainerCurrency')         .val(currency);
+            $('#editUah')                       .val(uah);
+
+            $('#editContainerModal').modal('show');
+        }
+    </script>
+    <!-- EDIT CONTAINER MODAL END -->
+
+</th:block>

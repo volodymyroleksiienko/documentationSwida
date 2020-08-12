@@ -1,0 +1,113 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="breedOfTreeDesc">
+    <!-- Материалы  START-->
+    <div class="tab-pane fade show active container-fluid" id="admin-breed-of-tree">
+        <table class="table table-hover table-striped" id="admin-breed-of-tree-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Описание</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b : ${breedOfTreeDescriptionList}" th:id="${b.id}">
+                <td th:text="${b.id}"></td>
+                <td scope="row" th:text="${b.description}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editBreedOfTree(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Название</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addBreedOfTreeModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+    <!-- Материалы END -->
+
+
+    <!-- EDIT BREED OF TREE MODAL START -->
+    <div class="modal fade" id="editBreedOfTreeModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBreedOfTreeModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/editBreedOfTreeDescription" method="post">
+                    <div class="modal-body">
+                        <input type="text" id="editBreedOfTreeId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editBreedOfTreeName">Название</label>
+                        <input type="text" class="form-control" id="editBreedOfTreeName" required="required" autocomplete="off" name="description">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editBreedOfTree(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editBreedOfTreeId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var nameHeader = $(trObj).find('td:eq(1)').text();
+            $('#editBreedOfTreeModalHeader').text("Редактировать \""+nameHeader+"\"");
+
+            var name = $(trObj).find('td:eq(1)').text();
+
+            $('#editBreedOfTreeName').val(name);
+
+            $('#editBreedOfTreeModal').modal('show');
+        }
+    </script>
+    <!-- EDIT BREED OF TREE MODAL END -->
+
+    <!-- ADD BREED OF TREE MODAL START -->
+    <div class="modal fade" id="addBreedOfTreeModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить материал</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/addBreedOfTreeDescription" method="post">
+                    <div class="modal-body">
+
+                        <label class="col-form-label" for="addBreedOfTreeName">Название</label>
+                        <input type="text" class="form-control" id="addBreedOfTreeName" required="required" autocomplete="off" name="description">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>

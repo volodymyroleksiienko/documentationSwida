@@ -56,6 +56,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
+    public List<Integer> findDistributionId(int mainId) {
+        return orderInfoJPA.findDistributionId(mainId);
+    }
+
+    @Override
     public void deleteByID(int id) {
         orderInfoJPA.deleteById(id);
     }

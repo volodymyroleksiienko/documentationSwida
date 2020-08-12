@@ -9,6 +9,10 @@
                 <a class="nav-link" href="/admin/getListBreedOfTree"
                    th:classappend="${tabName.equals('breedOfTree')} ? 'active':''">Материалы</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getListBreedOfTreeDescription"
+                   th:classappend="${tabName.equals('breedOfTreeDescription')} ? 'active':''">Описаник материалов</a>
+            </li>
         </ul>
     </div>
 </th:block>
@@ -52,7 +56,27 @@
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="/admin/getMultimodalOrders">Контракты</a>
+                <a class="nav-link" href="/multimodal/getMultimodalOrders"
+                   th:classappend="${tabName.equals('contracts')} ? 'active':''">Контракты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/multimodal/getListOfALLContainers"
+                   th:classappend="${tabName.equals('containers')} ? 'active':''">Контейнеры</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="multimodalDetails">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'/multimodal/getTrucksByContract-'+${contractId}}"
+                   th:classappend="${tabName.equals('trucks')} ? 'active':''">Машины</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  th:href="@{'/multimodal/getContainersByContract-'+${contractId}}"
+                   th:classappend="${tabName.equals('containers')} ? 'active':''">Контейнеры</a>
             </li>
         </ul>
     </div>

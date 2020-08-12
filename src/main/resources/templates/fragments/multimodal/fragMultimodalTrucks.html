@@ -1,0 +1,54 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="multimodalTrucks">
+    <!-- Подробно машины  START-->
+    <div class="tab-pane fade show active container-fluid" id="multimodal-truck">
+        <table class="table table-hover table-striped" id="multimodal-truck-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Дата загрузки</th>
+                <th scope="col">№ машины</th>
+                <th scope="col">Место отгрузки</th>
+                <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="doc : ${deliveryDocumentationList}" th:id="${doc.id}">
+                <td th:text="${doc.id}"></td>
+                <td scope="row" th:text="${doc.dateOfUnloading}"></td>
+                <td th:text="${doc.driverInfo.idOfTruck}"></td>
+                <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.addressOfCompany:''}"></td>
+                <td th:text="${doc.packagesExtent}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Дата загрузки</th>
+                <th scope="col">№ машины</th>
+                <th scope="col">Место отгрузки</th>
+                <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left" onclick="location.href='multimodal-contracts.html';">
+                <i class="fas fa-chevron-left">&nbsp;</i>
+            </button>
+        </div>
+        <div class="float-action-button-right">
+            <button type="button" class="buttons main-button btn btn-primary" title="Подробнее" data-placement="left" onclick="location.href='info-detailed.html';">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+    <!-- Подробно машины END -->
+</th:block>
