@@ -44,10 +44,12 @@ public class SecurityController {
 
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
+        boolean hasSuperUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_SUPER_USER"));
         boolean hasAdminRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 
-        if(hasUserRole){
+        if(hasUserRole || hasSuperUserRole){
             userID = userCompanyService.findByUsername(auth.getName()).getId();
             return "redirect:/fabric/index-"+userID;
 

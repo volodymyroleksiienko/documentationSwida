@@ -1,0 +1,286 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml"  th:fragment="multimodalContracts">
+
+    <!-- Контракты  START-->
+    <div class="tab-pane fade show active container-fluid" id="contracts">
+        <table class="table table-hover table-striped" id="contracts-table">
+            <br>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th scope="col">№ контракта</th>
+                <th scope="col">Покупатель</th>
+                <th scope="col">Материал</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Кубатура</th>
+                <th scope="col">Отгрузка (выехало в порт)</th>
+                <th scope="col">Ожидаемый объем</th>
+                <th scope="col">Срок выполнения</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${multimodalOrderList}" th:id="${order.id}">
+                <td th:text="${order.id}"></td>
+                <th scope="row" th:text="${order.codeOfOrder}"></th>
+                <td th:text="${order.contrAgent.nameOfAgent}"></td>
+                <td th:text="${order.breedOfTree.breed}"></td>
+                <td th:text="${order.breedDescription}"></td>
+                <td th:text="${order.extentOfOrder}"></td>
+                <td th:text="${order.doneExtendOfOrder}"></td>
+                <td th:text="${order.toDoExtentOfOrder}"></td>
+                <td th:text="${order.date}"></td>
+                <td>
+                    <a class="btn btn-primary btn-sm" th:href="@{'/admin/getDetailsOfContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th>id</th>
+                <th scope="col">№ контракта</th>
+                <th scope="col">Покупатель</th>
+                <th scope="col">Материал</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Кубатура</th>
+                <th scope="col">Отгрузка (выехало в порт)</th>
+                <th scope="col">Ожидаемый объем</th>
+                <th scope="col">Срок выполнения</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <!-- <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addUserModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div> -->
+        <!-- BUTTON END-->
+    </div>
+    <!-- Контракты END -->
+
+    <!-- MODALS START-->
+    <!-- EDIT CONTRACTS MODAL START -->
+    <div class="modal fade" id="editContractModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editContractModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/admin/editMultimodalContarct" method="post">
+                    <div class="modal-body">
+                        <input type="text" id="editContractId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editContractNumber">№ контракта</label>
+                        <input type="text" class="form-control" id="editContractNumber" required="required" autocomplete="off" name="codeOfOrder">
+
+                        <label class="col-form-label" for="editContractBuyers">Покупатель</label>
+                        <input type="text" class="form-control" list="companiesList" id="editContractBuyers" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <datalist id="companiesList">
+                            <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                        </datalist>
+
+
+                        <label class="control-label" for="editContractMaterial">Материал</label>
+                        <input type="text" class="form-control" list="breedOfTreeList" id="editContractMaterial" required="required" autocomplete="off" name="breedOfTree.breed">
+                        <datalist id="breedOfTreeList">
+                            <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
+                        </datalist>
+
+                        <label class="col-form-label" for="editContractMaterialDescription">Описание</label>
+                        <input type="text" class="form-control" id="editContractMaterialDescription" required="required" autocomplete="off" name="breedDescription">
+
+                        <label class="col-form-label" for="editContractExtent">Кубатура</label>
+                        <input type="text" class="form-control" id="editContractExtent" required="required" autocomplete="off" name="extentOfOrder">
+
+                        <label class="col-form-label" for="editContractTarnsported">Отгрузка (выехало в порт)</label>
+                        <input type="text" class="form-control" id="editContractTarnsported" required="required" autocomplete="off" name="doneExtendOfOrder">
+
+                        <label class="col-form-label" for="editContractExpectedExtent">Ожидаемый объем</label>
+                        <input type="text" class="form-control" id="editContractExpectedExtent" required="required" autocomplete="off" name="toDoExtentOfOrder">
+
+                        <label class="col-form-label" for="editContractTerms">Срок выполнения</label>
+                        <input type="text" class="form-control" id="editContractTerms" required="required" autocomplete="off" name="date">
+                        <!-- <input type="date" class="form-control" id="editContractTerms" required="required"> -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editContract(btnObj) {
+
+            var trObj =             btnObj.parentElement.parentElement;
+            var trId =              $(trObj).attr('id');
+            $('#editContractId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var contractNumber =    $(trObj).find('th:eq(0)').text();
+            $('#editContractModalHeader').text("Редактировать контракт №"+contractNumber);
+
+            var buyer =             $(trObj).find('td:eq(0)').text();
+            var material =          $(trObj).find('td:eq(1)').text();
+            var description =       $(trObj).find('td:eq(2)').text();
+            var extent =            $(trObj).find('td:eq(3)').text();
+            var sent =              $(trObj).find('td:eq(4)').text();
+            var expected =          $(trObj).find('td:eq(5)').text();
+            var terms =             $(trObj).find('td:eq(6)').text();
+
+            $('#editContractNumber').val(contractNumber);
+            $('#editContractBuyers').val(buyer);
+            $('#editContractMaterial').val(material);
+            $('#editContractMaterialDescription').val(description);
+            $('#editContractExtent').val(extent);
+            $('#editContractTarnsported').val(sent);
+            $('#editContractExpectedExtent').val(expected);
+            $('#editContractTerms').val(terms);
+
+            $('#editContractModal').modal('show');
+        }
+    </script>
+    <!-- EDIT CONTRACTS MODAL END -->
+
+    <!-- CONFIRMATION MODAL START -->
+    <div class="modal fade" id="archiveConfirmationModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Архив</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="@{'/admin/" method="post">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="archiveRecordModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="archiveModalConfirmation">
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">В архив</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function sendToArchive(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#archiveRecordModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfContract = $(trObj).find('th:eq(0)').text();
+
+            $('#archiveModalConfirmation').text("Вы уверены, что хотите отправить в архив контракт №"+codeOfContract+" ?");
+            $('#archiveConfirmationModal').modal('show');
+        }
+    </script>
+    <!-- CONFIRMATION MODAL END -->
+
+    <!-- IMPORT MODAL START -->
+    <div class="modal fade" id="importModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Импорт из Excel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="@{'/admin/" method="post" id="importForm">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputFile">Выберите файл</label>
+                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" id="importButton" class="btn btn-primary">Импорт</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function importData() {
+            $('#importModal').modal('show');
+        }
+    </script>
+    <!-- IMPORT MODAL END -->
+
+    <!-- MODALS END-->
+
+    <!-- SCRIPTS START-->
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            // Contracts table config
+            $('#contracts-table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                },
+                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+                "order": [ 0, "desc" ],
+                "autoWidth": false,
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false,
+                    },
+                    {
+                        "targets": -1,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "140px"
+                    }
+                ]
+            });
+
+            // Check if excel document
+            $( "#importForm" ).submit(function( event ) {
+                var validExts = new Array(".xlsx", ".xls", ".csv");
+
+                var fileInput = document.getElementById('inputFile');
+                var fileExt = fileInput.files[0].name;
+
+                fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+                if (validExts.indexOf(fileExt) < 0) {
+                    alert("Неправильный формат файла, доступные форматы: " +
+                        validExts.toString());
+                    return false;
+                } else {
+                    return true
+                };
+                event.preventDefault();
+            });
+
+
+        });
+    </script>
+    <!-- SCRIPTS  END-->
+
+
+</th:block>

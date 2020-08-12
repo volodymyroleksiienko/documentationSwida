@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWIDA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/buttons.bootstrap4.css}">
+    <link th:href="@{../css/all.css}" rel="stylesheet">
+    <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
+</head>
+<body>
+<!-- NAVIGATION -->
+<div th:replace="~{fragments/admin/fragAdminNavigation :: adminNavigation}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+<div th:replace="~{fragments/fabric/fragFabricNavigation :: fabricNavigation}" sec:authorize="hasRole('ROLE_SUPER_USER')"></div>
+<!-- NAVIGATION -->
+
+<!-- TABS -->
+<div class="container-fluid">
+    <!-- HEADERS START-->
+    <div th:if="${fragmentPathTabConfig!=null}">
+        <div th:replace="~{fragments/admin/fragAdminTabConfig :: ${fragmentPathTabConfig}}"></div>
+    </div>
+
+    <!-- HEADERS END-->
+
+    <!-- ALL TABLES START-->
+    <div id="myTabContent" class="tab-content">
+
+        <!--        Multimodal frags-->
+        <div th:if="${fragmentPathMultimodalMain!=null}">
+            <div th:replace="~{fragments/admin/multimodal/fragMultimodalMain :: ${fragmentPathMultimodalMain}}"></div>
+        </div>
+
+
+    </div>
+    <!-- ALL TABLES end-->
+</div>
+<!-- TABS end-->
+
+<!-- MODALS START-->
+
+
+
+
+<!-- ADD BREED OF TREE MODAL END -->
+<!-- MODALS END-->
+
+<!-- SCRIPTS START-->
+
+<script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" th:src="@{../js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
+
+<!-- SCRIPTS  END-->
+</body>
+</html>

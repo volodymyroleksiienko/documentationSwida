@@ -45,6 +45,10 @@
             <div th:replace="~{fragments/admin/fragAdminOrderInfo :: ${fragmentPathOrderInfo}}"></div>
         </div>
 
+<!--        Multimodal frags-->
+        <div th:if="${fragmentPathMultimodalMain!=null}">
+            <div th:replace="~{fragments/admin/multimodal/fragMultimodalMain :: ${fragmentPathMultimodalMain}}"></div>
+        </div>
 
 
     </div>

@@ -23,7 +23,6 @@ public class OrderInfo {
     private String extentForDistribution;
     private String date;
 
-
     @ManyToOne
     private OrderInfo mainOrder;
     @ManyToOne

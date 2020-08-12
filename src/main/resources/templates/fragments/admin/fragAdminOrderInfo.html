@@ -23,7 +23,7 @@
                 <th scope="row" th:text="${b.codeOfOrder}"></th>
                 <td th:text="${b.breedOfTree.breed}"></td>
                 <td th:text="${b.breedDescription}"></td>
-                <td th:text="${b.contrAgent.nameOfAgent}"></td>
+                <td th:text="${(b.contrAgent!=null)?b.contrAgent.nameOfAgent:''}"></td>
                 <td th:text="${b.extentOfOrder}"></td>
                 <td th:text="${b.doneExtendOfOrder}"></td>
                 <td th:text="${b.toDoExtentOfOrder}"></td>
@@ -351,7 +351,7 @@
                 <th scope="row" th:text="${b.codeOfOrder}"></th>
                 <td th:text="${b.breedOfTree.breed}"></td>
                 <td th:text="${b.breedDescription}"></td>
-                <td th:text="${b.contrAgent.nameOfAgent}"></td>
+                <td th:text="${(b.contrAgent!=null)?b.contrAgent.nameOfAgent:''}"></td>
                 <td th:text="${b.extentOfOrder}"></td>
                 <td th:text="${b.doneExtendOfOrder}"></td>
                 <td th:text="${b.toDoExtentOfOrder}"></td>
@@ -480,8 +480,7 @@
                         <label class="control-label" for="addDistributionBreedOfTree">Порода</label>
                         <input type="text" class="form-control" list="breedOfTreeList" id="addDistributionBreedOfTree" required="required" autocomplete="off">
                         <datalist id="breedOfTreeList">
-                            <option value="Сосна">
-                            <option value="Дуб">
+                            <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
                         </datalist>
 
                         <label class="col-form-label" for="addBreedDescription">Описание</label>
