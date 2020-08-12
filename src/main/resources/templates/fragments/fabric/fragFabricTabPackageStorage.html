@@ -176,7 +176,7 @@
                                 </div>
                             </div>
                             <label class="col-form-label" for="addDeliveryDescription">Примечания</label>
-                            <input type="text" class="form-control" placeholder="" id="addDeliveryDescription" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
+                            <input type="text" class="form-control" placeholder="" id="addDeliveryDescription"  autocomplete="off">
 
 
                         </div>
@@ -372,6 +372,9 @@
             var time1 = $("#packTimeInput").val();
             var breedID = $("#breedID").val();
             var userID = $("#userID").val();
+            var contractName1 = $("#packContractId").val();
+            var deliveryDestination1 = $("#packDeliveryDestination").val();
+            var description1 = $("#addDeliveryDescription").val();
 
 
             var arrayOfId = [];
@@ -394,7 +397,10 @@
                     numberOfTruck: numberOfTruck1,
                     numberOfTrailer: numberOfTrailer1,
                     dateOfUnloading: date1,
-                    timeOfUnloading: time1
+                    timeOfUnloading: time1,
+                    contractName: contractName1,
+                    deliveryDestination: deliveryDestination1,
+                    description: description1
                 },
                 traditional: true,
                 success: function () {
