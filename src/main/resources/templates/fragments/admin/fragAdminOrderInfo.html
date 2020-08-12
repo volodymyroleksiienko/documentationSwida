@@ -99,13 +99,13 @@
                         <input type="text" class="form-control" id="editContractOrder" required="required" autocomplete="off" placeholder="м3" name="extentOfOrder">
 
                         <label class="col-form-label" for="editContractDone">Отгружено</label>
-                        <input type="text" class="form-control" id="editContractDone" required="required" autocomplete="off" disabled="disabled" placeholder="м3" name="doneExtendOfOrder">
+                        <input type="text" class="form-control" id="editContractDone" required="required" autocomplete="off" placeholder="м3" name="doneExtendOfOrder">
 
                         <label class="col-form-label" for="editContractLeft">Остаток</label>
                         <input type="text" class="form-control" id="editContractLeft" required="required" autocomplete="off" disabled="disabled" placeholder="м3">
 
                         <label class="col-form-label" for="editContractDate">Срок выполнения</label>
-                        <input class="form-control" type="date" id="editContractDate" required="required" name="deadlineDate">
+                        <input class="form-control" type="date" id="editContractDate" required="required" name="date">
 
                     </div>
                     <div class="modal-footer">
@@ -132,7 +132,9 @@
             var amount =            $(trObj).find('td:eq(3)').text();
             var done =              $(trObj).find('td:eq(4)').text();
             var left =              $(trObj).find('td:eq(5)').text();
-            var deadline =          $(trObj).find('td:eq(6)').text();
+            let deadline =          $(trObj).find('td:eq(6)').text();
+
+            console.log("date on modal " + deadline);
 
             $('#editContractCode').val(contractCode);
             $('#editContractBreedOfTree').val(breedOfTree);
@@ -183,7 +185,7 @@
                         <input type="number" class="form-control" id="addContractOrder" required="required" autocomplete="off" placeholder="м3" name="extentOfOrder">
 
                         <label class="col-form-label" for="addContractDate">Срок выполнения</label>
-                        <input class="form-control" type="date" id="addContractDate" required="required" name="deadlineDate">
+                        <input class="form-control" type="date" id="addContractDate" required="required" name="date">
 
                     </div>
                     <div class="modal-footer">
@@ -439,6 +441,9 @@
                         <label class="col-form-label" for="editDistributionLeft">Остаток</label>
                         <input type="text" class="form-control" id="editDistributionLeft" required="required" autocomplete="off" disabled="disabled" placeholder="м3" name="toDoExtentOfOrder">
 
+                        <label class="col-form-label" for="editOrderContractDate">Срок выполнения</label>
+                        <input class="form-control" type="date" id="editOrderContractDate" required="required" name="date">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
@@ -464,6 +469,8 @@
             var amount = $(trObj).find('td:eq(3)').text();
             var done = $(trObj).find('td:eq(4)').text();
             var left = $(trObj).find('td:eq(5)').text();
+            var deadline = $(trObj).find('td:eq(6)').text();
+
 
             $('#editDistributionCode').val(contractCode);
             $('#editDistributionBreedOfTree').val(breedOfTree);
@@ -472,6 +479,7 @@
             $('#editDistributionOrder').val(amount);
             $('#editDistributionDone').val(done);
             $('#editDistributionLeft').val(left);
+            $('#editOrderContractDate').val(deadline);
 
             $('#editDistributionModal').modal('show');
         }
@@ -509,6 +517,9 @@
 
                         <label class="col-form-label" for="addDistributionOrder">Заказ</label>
                         <input type="text" class="form-control" id="addDistributionOrder" required="required" autocomplete="off" placeholder="м3">
+
+                        <label class="col-form-label" for="addOrderContractDate">Срок выполнения</label>
+                        <input class="form-control" type="date" id="addOrderContractDate" required="required" name="date">
 
                     </div>
                     <div class="modal-footer">

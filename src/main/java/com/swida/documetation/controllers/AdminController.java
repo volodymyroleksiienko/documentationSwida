@@ -172,6 +172,7 @@ public class AdminController {
         orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.MAIN);
         orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
         orderInfoDB.setExtentForDistribution(String.format("%.3f",Float.parseFloat(orderInfoDB.getExtentForDistribution())-differenceExtent).replace(",","."));
+        orderInfoDB.setDate(orderInfo.getDate());
 
         orderInfoService.save(orderInfoDB);
         return "redirect:/admin/getListOfContract";
@@ -216,6 +217,7 @@ public class AdminController {
         orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.DISTRIBUTION);
         orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
         orderInfoDB.setBreedDescription(orderInfo.getBreedDescription());
+        orderInfoDB.setDate(orderInfo.getDate());
 
         OrderInfo main = orderInfoDB.getMainOrder();
         main.setExtentForDistribution(String.format("%.3f",Float.parseFloat(main.getExtentForDistribution())+differenceExtent).replace(",","."));
