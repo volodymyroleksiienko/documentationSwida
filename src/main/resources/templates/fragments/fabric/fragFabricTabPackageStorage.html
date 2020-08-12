@@ -156,6 +156,28 @@
                                     <input type="text" class="form-control" id="packTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="packContractId" class="col-6 col-form-label">Код контракта</label>
+                                <label for="packDeliveryDestination" class="col-6 col-form-label">Пункт назначения</label>
+
+                                <div class="col-6">
+                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                    <datalist id="contractList">
+                                        <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                    </datalist>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" list="destinationType" id="packDeliveryDestination" required="required" autocomplete="off" name="destinationType">
+                                    <datalist id="destinationType">
+                                        <option value="MULTIMODAL">
+                                        <option value="PORT">
+                                        <option value="COUNTRY">
+                                    </datalist>
+                                </div>
+                            </div>
+                            <label class="col-form-label" for="addDeliveryDescription">Примечания</label>
+                            <input type="text" class="form-control" placeholder="" id="addDeliveryDescription" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
+
 
                         </div>
                         <script type="text/javascript">

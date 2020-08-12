@@ -1,7 +1,9 @@
 package com.swida.documetation.data.entity.subObjects;
 
+import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
@@ -18,8 +20,11 @@ public class DeliveryDocumentation {
     private String dateOfUnloading;
     private String timeOfUnloading;
     private String clientName;
+    private String description;
 
 
+    @ManyToOne
+    private OrderInfo orderInfo;
     @ManyToOne
     private BreedOfTree breedOfTree;
     @ManyToOne
@@ -28,6 +33,8 @@ public class DeliveryDocumentation {
     private UserCompany userCompany;
     @OneToMany
     private List<PackagedProduct> productList;
+    @Enumerated(EnumType.STRING)
+    private DeliveryDestinationType destinationType;
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }

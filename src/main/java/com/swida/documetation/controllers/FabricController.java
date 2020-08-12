@@ -387,10 +387,15 @@ public class FabricController {
     //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-{breedId}")
     public String getListOfPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,Model model){
+        UserCompany company = userCompanyService.findById(userId);
+        ContrAgent contrAgent = company.getContrAgent();
+
         model.addAttribute("fragmentPathTabPackageStorage","packageStorage");
         model.addAttribute("tabName","packageStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
+
+        model.addAttribute("contractList",orderInfoService.getOrdersListByAgent(contrAgent.getId()));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         return "fabricPage";
