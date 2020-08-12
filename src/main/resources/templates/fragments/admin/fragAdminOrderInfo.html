@@ -104,6 +104,9 @@
                         <label class="col-form-label" for="editContractLeft">Остаток</label>
                         <input type="text" class="form-control" id="editContractLeft" required="required" autocomplete="off" disabled="disabled" placeholder="м3">
 
+                        <label class="col-form-label" for="editContractDate">Срок выполнения</label>
+                        <input class="form-control" type="date" id="editContractDate" required="required" name="deadlineDate">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
@@ -123,12 +126,13 @@
             var contractCode = $(trObj).find('th:eq(0)').text();
             $('#editContractModalHeader').text("Редактировать контракт №"+contractCode);
 
-            var breedOfTree = $(trObj).find('td:eq(0)').text();
-            var breedDescription = $(trObj).find('td:eq(1)').text();
-            var buyer = $(trObj).find('td:eq(2)').text();
-            var amount = $(trObj).find('td:eq(3)').text();
-            var done = $(trObj).find('td:eq(4)').text();
-            var left = $(trObj).find('td:eq(5)').text();
+            var breedOfTree =       $(trObj).find('td:eq(0)').text();
+            var breedDescription =  $(trObj).find('td:eq(1)').text();
+            var buyer =             $(trObj).find('td:eq(2)').text();
+            var amount =            $(trObj).find('td:eq(3)').text();
+            var done =              $(trObj).find('td:eq(4)').text();
+            var left =              $(trObj).find('td:eq(5)').text();
+            var deadline =          $(trObj).find('td:eq(6)').text();
 
             $('#editContractCode').val(contractCode);
             $('#editContractBreedOfTree').val(breedOfTree);
@@ -137,6 +141,7 @@
             $('#editContractOrder').val(amount);
             $('#editContractDone').val(done);
             $('#editContractLeft').val(left);
+            $('#editContractDate').val(deadline);
 
             $('#editContractModal').modal('show');
         }
@@ -177,6 +182,9 @@
                         <label class="col-form-label" for="addContractOrder">Заказ</label>
                         <input type="number" class="form-control" id="addContractOrder" required="required" autocomplete="off" placeholder="м3" name="extentOfOrder">
 
+                        <label class="col-form-label" for="addContractDate">Срок выполнения</label>
+                        <input class="form-control" type="date" id="addContractDate" required="required" name="deadlineDate">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Добавить</button>
@@ -186,6 +194,9 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        document.querySelector("#addContractDate").valueAsDate = new Date();
+    </script>
     <!-- ADD CONTRACT MODAL END -->
 
     <!-- CREATE DISTRIBUTION START -->
