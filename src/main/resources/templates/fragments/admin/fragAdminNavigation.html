@@ -25,19 +25,29 @@
                     <a class="nav-link" href="/admin/getListOfContrAgents-1">Контрагенты</a>
                 </li>
 
-                <li class="nav-item" th:classappend="${navTabName.equals('multimodalMain')} ? 'active':''">
-                    <a class="nav-link" href="/multimodal/getMultimodalOrders">Мультимодал</a>
+<!--                <li class="nav-item" th:classappend="${navTabName.equals('multimodalMain')} ? 'active':''">-->
+<!--                    <a class="nav-link" href="/admin/getMultimodalOrders">Мультимодал</a>-->
+<!--                </li>-->
+
+                <!-- Dropdown 1 start -->
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Доставка</a>
+                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="/admin/getMultimodalOrders">Мультимодал</a>
+                        <a class="dropdown-item" href="#">Доставка по Украине</a>
+                        <a class="dropdown-item" href="#">Порты</a>
+                    </div>
                 </li>
 
 
-                <!-- Dropdown 1 start -->
+                <!-- Dropdown 2 start -->
                 <li class="nav-item dropdown ">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Вход от имени</a>
                     <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
                         <a class="dropdown-item" th:each="u : ${userCompanyList}" th:text="${u.nameOfCompany}"  th:href="@{'/fabric/getListOfTreeStorage-'+${u.id}+'-1'}"></a>
                     </div>
                 </li>
-                <!--Dropdown 1 end -->
+                <!--Dropdown 2 end -->
 
 <!--                &lt;!&ndash; Dropdown 2 start &ndash;&gt;-->
 <!--                <li class="nav-item dropdown show">-->

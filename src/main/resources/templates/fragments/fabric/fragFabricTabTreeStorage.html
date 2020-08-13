@@ -227,7 +227,7 @@
                         </datalist>
 
                         <label class="col-form-label" for="editIncomeVolume">Кубатура</label>
-                        <input type="number" class="form-control" placeholder="м3" id="editIncomeVolume"  autocomplete="off" name="extent">
+                        <input type="text" class="form-control" placeholder="м3" id="editIncomeVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent">
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
@@ -310,7 +310,6 @@
 
     <script>
         function showCutModal(btnObj) {
-
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
             $('#idOfTreeStorageRow').val(trId);
@@ -320,6 +319,7 @@
 
             $('#cutModal').modal('show');
         }
+
         function showEditModal(btnObj) {
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
@@ -380,10 +380,10 @@
                             <td th:text="${ts.contrAgent.nameOfAgent}"></td>
                             <td th:text="${ts.extent}"></td>
                             <td>
-                                <button  type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
+                                <button  type="button" class="btn btn-primary btn-sm" onclick="showCutOakModal(this)">
                                     <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
                                 </button>
-                                <button  type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
+                                <button  type="button" class="btn btn-primary btn-sm" onclick="showEditOakModal(this)">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                                 </button>
                             </td>
@@ -528,18 +528,16 @@
                             <input type="number" class="form-control" id="addRawStorageThickness" required="required" autocomplete="off" placeholder="мм" min="1" name="sizeOfHeight">
 
                             <label class="col-form-label" for="addRawStorageExtent">Кубатура после распиловки</label>
-                            <input type="text" class="form-control" id="addRawStorageExtent" required="required" autocomplete="off" placeholder="м3" name="extent">
+                            <input type="text" class="form-control" id="addRawStorageExtent" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="extent">
 
                             <label class="col-form-label" for="addRawStorageUsedExtent">Кубатура использованого кругляка</label>
-                            <input type="text" class="form-control" id="addRawStorageUsedExtent" required="required" autocomplete="off" placeholder="м3" name="usedExtent">
+                            <input type="text" class="form-control" id="addRawStorageUsedExtent" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="usedExtent">
 
                             <label class="col-form-label" for="extentOfWaste">Отходы</label>
                             <input type="text" class="form-control" placeholder="м3" id="extentOfWaste" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required" name="extentOfWaste">
 
                             <label class="col-form-label" for="addRawStorageDescription">Примечания</label>
                             <input type="text" class="form-control" id="addRawStorageDescription" autocomplete="off" placeholder="" name="description">
-
-
                         </div>
                         <!-- Insert rows -->
                     </div>
@@ -631,58 +629,6 @@
 
     <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
 
-<!--    <script type="text/javascript">-->
-<!--        $(document).ready(function() {-->
-<!--            // Setup - add a text input to each footer cell-->
-<!--            $('#treestoragetable tfoot th').each( function () {-->
-<!--                var title = $(this).text();-->
-<!--                $(this).html( '<input type="text" class="form-control" placeholder="'+title+'" />' );-->
-<!--            } );-->
-
-<!--            // DataTable-->
-<!--            var table = $('#treestoragetable').DataTable({-->
-<!--                initComplete: function () {-->
-<!--                    // Apply the search-->
-<!--                    this.api().columns().every( function () {-->
-<!--                        var that = this;-->
-
-<!--                        $( 'input', this.footer() ).on( 'keyup change clear', function () {-->
-<!--                            if ( that.search() !== this.value ) {-->
-<!--                                that-->
-<!--                                    .search( this.value )-->
-<!--                                    .draw();-->
-<!--                            }-->
-<!--                        } );-->
-<!--                    } );-->
-<!--                },-->
-
-<!--                "language": {-->
-<!--                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"-->
-<!--                },-->
-
-<!--                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],-->
-<!--                "order": [ 0, "desc" ],-->
-
-<!--                // columns width-->
-<!--                "autoWidth": false,-->
-<!--                // id column visibility-->
-<!--                "columnDefs": [-->
-<!--                    {-->
-<!--                        "targets": [ 0 ],-->
-<!--                        "visible": false,-->
-<!--                        "searchable": false,-->
-<!--                    },-->
-<!--                    {-->
-<!--                        "targets": -1,-->
-<!--                        "orderable": false,-->
-<!--                        "width": "70px"-->
-<!--                    }-->
-<!--                ]-->
-
-<!--            });-->
-
-<!--        } );-->
-<!--    </script>-->
 
     <script type="text/javascript">
         $(document).ready( function () {
@@ -717,7 +663,7 @@
     </script>
 
     <script>
-        function showCutModal(btnObj) {
+        function showCutOakModal(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
@@ -733,7 +679,7 @@
 
             $('#cutModal').modal('show');
         }
-        function showEditModal(btnObj) {
+        function showEditOakModal(btnObj) {
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
             $('#incomeTreeStorageId').val(trId);

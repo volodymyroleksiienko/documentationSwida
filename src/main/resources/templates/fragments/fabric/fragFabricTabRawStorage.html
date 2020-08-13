@@ -33,6 +33,7 @@
                 <td>
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                 </td>
             </tr>
 
@@ -202,6 +203,86 @@
     </script>
     <!-- Export end -->
 
+    <!-- Сырой склад -> Пачки -->
+    <div class="modal fade" id="sendFromRawToPackageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendForPackageModalHeader">Формирование пачек</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--     TUT         -->
+                <form th:action="@{'/fabric/createPackages-'+${userId}+'-'+${breedId}}" method="post">
+                <!--     TUT         -->
+                    <div class="modal-body">
+
+                        <!-- Insert rows -->
+                        <input type="text" class="form-control" id="sendForPackagesModalId" hidden="hidden" autocomplete="off" name="id">
+
+                        <label class="col-form-label" for="sendForPackageModalCode">Код</label>
+                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
+                                <input type="text" class="form-control" id="sendForPackageModalMaterial" disabled="disabled">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackageModalMaterialDescr">Описание</label>
+                                <input class="form-control" id="sendForPackageModalMaterialDescr" type="text" name="breedDescription">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="height">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="width">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
+                                <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalHeightWidth">Высота/Ширина</label>
+                                <input type="text" class="form-control" id="sendForPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="heightWidth">
+                            </div>
+                        </div>
+                        <!-- Insert rows -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сформировать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Сырой склад -> Пачки end-->
+
     <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
 
     <script type="text/javascript">
@@ -224,7 +305,7 @@
                     {
                         "targets": -1,
                         "orderable": false,
-                        "width": "70px"
+                        "width": "100px"
                     }
                 ]
             });
@@ -299,8 +380,6 @@
             // CHECK
         }
 
-
-
         function editRawStorage(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
@@ -331,8 +410,88 @@
 
             $('#editDryingModal').modal('show');
         }
+
+        function sendForPackagesStorage(btnObj) {
+
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#sendForPackagesModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+            $('#sendForPackageModalHeader').text("Формирование пачек из  "+codeOfRawStorage);
+
+            var code = 			$(trObj).find('th:eq(0)').text();
+            var material = 		$(trObj).find('td:eq(0)').text();
+            var description = 	$(trObj).find('td:eq(1)').text();
+            var thickness = 	parseInt($(trObj).find('td:eq(2)').text());
+            var width = 		parseInt($(trObj).find('td:eq(3)').text());
+            var length = 		parseInt($(trObj).find('td:eq(4)').text());
+            var count = 		parseInt($(trObj).find('td:eq(5)').text());
+            var extent = 		$(trObj).find('td:eq(6)').text();
+
+            $('#sendForPackageModalCode')			.val(code);
+            $('#sendForPackageModalMaterial')		.val(material);
+            $('#sendForPackageModalMaterialDescr')	.val(description);
+            $('#sendForPackageModalThickness')		.val(thickness);
+            $('#sendForPackageModalWidth')			.val(width);
+            $('#sendForPackageModalLength')			.val(length);
+            $('#sendForPackageModalCount')			.val(count);
+            $('#sendForPackageModalVolume')			.val(extent);
+
+            $('#sendFromRawToPackageModal').modal('show');
+
+            // CHECK
+            $("#sendForPackageHeightPc").change(function(){
+                if ((parseInt($('#sendForPackageHeightPc').val()))<=0) {
+                    alert("Введите правильное значение");
+                    $('#sendForPackageHeightPc').val("1");
+                }else{
+
+                }
+            });
+
+            $("#sendForPackageModalWidthPc").change(function(){
+                if ((parseInt($('#sendForPackageModalWidthPc').val()))<=0) {
+                    alert("Введите правильное значение");
+                    $('#sendForPackageModalWidthPc').val("1");
+                }else{
+
+                }
+            });
+
+            $("#sendForPackageModalLengthFact").change(function(){
+                if ((parseInt($('#sendForPackageModalLengthFact').val()))<=0) {
+                    alert("Введите правильное значение");
+                    $('#sendForPackageModalLengthFact').val("1");
+                }else{
+
+                }
+            });
+
+            $("#sendForPackageModalPacksCount").change(function(){
+                if ((parseInt($('#sendForPackageModalPacksCount').val()))<=0) {
+                    alert("Введите правильное значение");
+                    $('#sendForPackageModalPacksCount').val("1");
+                }else{
+                    var heightPc = 		parseInt($('#sendForPackageHeightPc').val());
+                    var widthPc = 		parseInt($('#sendForPackageModalWidthPc').val());
+                    var amount = 		heightPc*widthPc*(parseInt($('#sendForPackageModalPacksCount').val()));
+                    var maxAmount =		count;
+                    var packsCt = 		parseInt($('#sendForPackageModalPacksCount').val());
+                    var luck =			amount-maxAmount;
+                    if (amount>maxAmount) {
+                        alert("Не хватает досок: "+luck+"!");
+                        $('#sendForPackageModalPacksCount').val("");
+                    }
+                }
+            });
+            // CHECK
+        }
     </script>
 </th:block>
+
+
+
 
 
 

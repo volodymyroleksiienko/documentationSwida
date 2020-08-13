@@ -31,7 +31,7 @@
                 <td th:text="${ds.countOfDesk}"></td>
                 <td th:text="${ds.extent}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-th" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>
@@ -75,37 +75,57 @@
                     <div class="modal-body">
 
                         <!-- Insert rows -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="sendForDryingModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="sendForPackagesModalId" hidden="hidden" autocomplete="off" name="id">
 
-                            <label class="col-form-label" for="sendForPackageModalCode">Код</label>
-                            <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                        <label class="col-form-label" for="sendForPackageModalCode">Код</label>
+                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
 
-                            <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="sendForPackageModalMaterial" disabled="disabled">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
+                                <input type="text" class="form-control" id="sendForPackageModalMaterial" disabled="disabled">
+                            </div>
 
-                            <label class="control-label" for="sendForPackageModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="sendForPackageModalMaterialDescr" type="text" name="breedDescription">
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackageModalMaterialDescr">Описание</label>
+                                <input class="form-control" id="sendForPackageModalMaterialDescr" type="text" name="breedDescription">
+                            </div>
+                        </div>
 
-                            <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">
+                            </div>
 
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="height">
+                            </div>
+                        </div>
 
-                            <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="height">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="width">
+                            </div>
 
-                            <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="width">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
+                                <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
+                            </div>
+                        </div>
 
-                            <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
-                            <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
+                            </div>
 
-                            <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
-                            <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
-
-                            <label class="col-form-label" for="sendForPackageModalLengthFact">Высота/Ширина</label>
-                            <input type="text" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="в/ш" name="heightWidth">
-
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalHeightWidth">Высота/Ширина</label>
+                                <input type="text" class="form-control" id="sendForPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="heightWidth">
+                            </div>
                         </div>
                         <!-- Insert rows -->
                     </div>
@@ -117,6 +137,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="modal fade" id="editDryStorageModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -168,6 +190,7 @@
             </div>
         </div>
     </div>
+
     <!-- Export start-->
     <div class="modal fade" id="exportModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -244,7 +267,7 @@
 
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
-            $('#sendForDryingModalId').val(trId);
+            $('#sendForPackagesModalId').val(trId);
             console.log(  $(trObj).attr('id'));
             var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
             $('#sendForPackageModalHeader').text("Формирование пачек из  "+codeOfRawStorage);
@@ -316,6 +339,7 @@
             });
             // CHECK
         }
+
         function editDryStorage(btnObj) {
 
             var trObj = btnObj.parentElement.parentElement;
@@ -389,7 +413,7 @@
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>

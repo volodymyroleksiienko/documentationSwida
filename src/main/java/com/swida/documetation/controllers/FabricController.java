@@ -65,7 +65,7 @@ public class FabricController {
     public String index(@PathVariable("userId")int userId){
 
         int breedId = 1;
-        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfOrders-"+userId+"-"+breedId;
     }
 
     //    Orders page
