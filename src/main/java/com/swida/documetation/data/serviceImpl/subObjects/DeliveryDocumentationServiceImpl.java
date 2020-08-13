@@ -37,6 +37,11 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     }
 
     @Override
+    public List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId) {
+        return documentationJPA.getListByDistributionContractsId(contractId);
+    }
+
+    @Override
     public void deleteByID(int id) {
         documentationJPA.deleteById(id);
     }

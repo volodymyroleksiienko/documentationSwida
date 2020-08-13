@@ -31,23 +31,22 @@
 
     <!-- ALL TABLES START-->
     <div id="myTabContent" class="tab-content">
-
+        <!--ADMIN DASHBOARD START-->
         <div th:if="${fragmentPathUserCompany!=null}">
             <div th:replace="~{fragments/admin/fragAdminUserCompany :: ${fragmentPathUserCompany}}"></div>
         </div>
         <div th:if="${fragmentPathBreedOfTree!=null}">
             <div th:replace="~{fragments/admin/fragBreedOfTree :: ${fragmentPathBreedOfTree}}"></div>
         </div>
+        <div th:if="${fragmentPathBreedOfTreeDescription!=null}">
+            <div th:replace="~{fragments/admin/fragBreedOfTreeDescription :: ${fragmentPathBreedOfTreeDescription}}"></div>
+        </div>
+        <!--ADMIN DASHBOARD END-->
         <div th:if="${fragmentPathContrAgent!=null}">
             <div th:replace="~{fragments/admin/fragAdminContrAgent :: ${fragmentPathContrAgent}}"></div>
         </div>
         <div th:if="${fragmentPathOrderInfo!=null}">
             <div th:replace="~{fragments/admin/fragAdminOrderInfo :: ${fragmentPathOrderInfo}}"></div>
-        </div>
-
-<!--        Multimodal frags-->
-        <div th:if="${fragmentPathMultimodalMain!=null}">
-            <div th:replace="~{fragments/admin/multimodal/fragMultimodalMain :: ${fragmentPathMultimodalMain}}"></div>
         </div>
 
 

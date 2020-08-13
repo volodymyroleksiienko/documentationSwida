@@ -16,4 +16,7 @@ public interface OrderInfoJPA extends JpaRepository<OrderInfo,Integer> {
 
     @Query("select obj from  OrderInfo obj where obj.codeOfOrder=?1")
     OrderInfo findByCodeOfOrder(String code);
+
+    @Query("select obj.id from  OrderInfo obj where obj.mainOrder.id=?1")
+    List<Integer> findDistributionId(int mainId);
 }

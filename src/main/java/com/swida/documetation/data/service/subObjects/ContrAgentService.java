@@ -11,7 +11,7 @@ public interface ContrAgentService {
     ContrAgent getObjectByName (String name);
     List<ContrAgent> findAll();
     List<ContrAgent> getListByType(ContrAgentType type);
-    //return 0 if doesnot Exist
+    //return 0 if does not Exist
     int existByNameOfProvider(String name);
     int getIdByUsername(String name);
     void deleteByID(int id);

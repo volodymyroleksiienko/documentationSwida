@@ -21,6 +21,7 @@ public class DeliveryDocumentation {
     private String timeOfUnloading;
     private String clientName;
     private String description;
+    private String packagesExtent;
 
 
     @ManyToOne
@@ -29,6 +30,8 @@ public class DeliveryDocumentation {
     private BreedOfTree breedOfTree;
     @ManyToOne
     private DriverInfo driverInfo;
+    @ManyToOne
+    private ContrAgent contrAgent;
     @ManyToOne
     private UserCompany userCompany;
     @OneToMany

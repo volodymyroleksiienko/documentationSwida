@@ -37,6 +37,13 @@
         <div th:if="${fragmentPathMultimodalMain!=null}">
             <div th:replace="~{fragments/multimodal/fragMultimodalMain :: ${fragmentPathMultimodalMain}}"></div>
         </div>
+        <div th:if="${fragmentPathMultimodalContainers!=null}">
+            <div th:replace="~{fragments/multimodal/fragMultimodalContainer :: ${fragmentPathMultimodalContainers}}"></div>
+        </div>
+        <div th:if="${fragmentPathMultimodalTrucks!=null}">
+            <div th:replace="~{fragments/multimodal/fragMultimodalTrucks :: ${fragmentPathMultimodalTrucks}}"></div>
+        </div>
+
 
 
     </div>
@@ -60,7 +67,56 @@
 
 <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
 <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
-
 <!-- SCRIPTS  END-->
+
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#multimodal-truck-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "bSort": false,
+            "info": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                }
+            ]
+        });
+
+
+        $('#multimodal-container-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "bSort": false,
+            "info": false,
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "30px"
+                }
+            ]
+        });
+
+
+    });
+</script>
+
 </body>
 </html>
