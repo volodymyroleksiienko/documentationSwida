@@ -131,4 +131,15 @@ public class MultimodalController {
     }
 
 
+//    Full Details Page
+    @GetMapping("/getFullDetailsOfContract-{id}")
+    public String getFullDetailsOfContract(@PathVariable("id")int contractId,Model model){
+        model.addAttribute("navTabName","multimodalFullDetails");
+        model.addAttribute("fragmentPathTabConfig","multimodalFullDetails");
+        model.addAttribute("fragmentPathMultimodalFullDetails","multimodalFullDetails");
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("contractPackagesList","");
+        return "multimodalPage";
+    }
+
 }

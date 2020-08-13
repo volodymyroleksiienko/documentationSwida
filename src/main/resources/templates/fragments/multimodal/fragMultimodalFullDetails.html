@@ -1,0 +1,444 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="multimodalFullDetails">
+
+    <!-- Подробно  START-->
+    <div class="tab-pane fade show active container-fluid" id="info-detailed">
+        <table class="table table-hover table-striped" id="info-detailed-table">
+            <br>
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">№ маш.</th>
+                <th scope="col">№ пачки</th>
+                <th scope="col">Толщина</th>
+                <th scope="col">Ширина</th>
+                <th scope="col">Длина</th>
+                <th scope="col">Штук</th>
+                <th scope="col">Кубатура</th>
+                <th scope="col">Выс.</th>
+                <th scope="col">Шир.</th>
+                <th scope="col">№ пачки</th>
+                <th scope="col">Дл.-ФАКТ</th>
+                <th scope="col">Выс/Шир</th>
+                <th scope="col">Контракт</th>
+                <th scope="col">№ контейн.</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="">
+                <td>1</td>
+                <td>1488</td>
+                <td>3456789</td>
+                <td>0.038</td>
+                <td>0.140</td>
+                <td>3.650</td>
+                <td>224</td>
+                <td>4.350</td>
+                <td>8</td>
+                <td>8</td>
+                <td>26293</td>
+                <td>3.75</td>
+                <td>115/115</td>
+                <td>20-1С</td>
+                <td>MRKU1904472</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editRecord(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <!-- <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button> -->
+                    <button type="button" class="btn btn-primary btn-sm" onclick="deleteRecord(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
+                </td>
+            </tr>
+
+            <tr id="detailedRowId">
+                <td>2</td>
+                <td>8814</td>
+                <td>456789</td>
+                <td>0.038</td>
+                <td>0.140</td>
+                <td>3.650</td>
+                <td>224</td>
+                <td>4.350</td>
+                <td>8</td>
+                <td>8</td>
+                <td>26293</td>
+                <td>3.75</td>
+                <td>110/110</td>
+                <td>20-1С</td>
+                <td>MRKU1904472</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editRecord(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <!-- <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button> -->
+                    <button type="button" class="btn btn-primary btn-sm" onclick="deleteRecord(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
+                </td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">№ маш.</th>
+                <th scope="col">№ пачки</th>
+                <th scope="col">Толщина</th>
+                <th scope="col">Ширина</th>
+                <th scope="col">Длина</th>
+                <th scope="col">Штук</th>
+                <th scope="col">Кубатура</th>
+                <th scope="col">Выс.</th>
+                <th scope="col">Шир.</th>
+                <th scope="col">№ пачки</th>
+                <th scope="col">Дл.-ФАКТ</th>
+                <th scope="col">Выс/Шир</th>
+                <th scope="col">Контракт</th>
+                <th scope="col">№ контейн.</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left" onclick="location.href='info.html';">
+                <i class="fas fa-chevron-left">&nbsp;</i>
+            </button>
+        </div>
+
+        <div class="float-action-button" style="right: 0; left: auto;">
+            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-placement="left">
+                <i class="far fa-file-excel"></i></i>
+            </button>
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addRecordModal">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
+    </div>
+    <!-- Подробно END -->
+
+
+
+    <!-- MODALS START-->
+    <!-- EDIT CONTRACTS MODAL START -->
+    <div class="modal fade" id="editDetailsModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editContractModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/editRecordMultimodal">
+                    <div class="modal-body">
+                        <input type="text" id="editRecordtId" hidden="" name="id">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editRecordCarNumber">№ машыны</label>
+                                <input type="text" class="form-control" id="editRecordCarNumber" required="required" autocomplete="off">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="editRecordPackNumber">№ пачки</label>
+                                <input type="text" class="form-control" id="editRecordPackNumber" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordThickness">Толщина</label>
+                                <input type="number" class="form-control" id="editRecordThickness" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordWidth">Ширина</label>
+                                <input type="number" class="form-control" id="editRecordWidth" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordLength">Длина</label>
+                                <input type="number" class="form-control" id="editRecordLength" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordCount">Штук</label>
+                                <input type="number" class="form-control" id="editRecordCount" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordExtent">Кубатура</label>
+                                <input type="number" class="form-control" id="editRecordExtent" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordHeightPc">Высота, шт.</label>
+                                <input type="number" class="form-control" id="editRecordHeightPc" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordWidthPc">Ширина, шт.</label>
+                                <input type="number" class="form-control" id="editRecordWidthPc" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="editRecordLengthFact">Длина - ФАКТ</label>
+                                <input type="number" class="form-control" id="editRecordLengthFact" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editRecordPackNumberMultiModal">№ пачки (Мультимодал)</label>
+                                <input type="text" class="form-control" id="editRecordPackNumberMultiModal" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editRecordWidthHeight">Высота/Ширина</label>
+                                <input type="text" class="form-control" id="editRecordWidthHeight" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editRecordContractNumber">Контракт</label>
+                                <input type="text" class="form-control" id="editRecordContractNumber" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editRecordContainerNumber">№ контейнера</label>
+                                <input type="text" class="form-control" id="editRecordContainerNumber" required="required" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- SCRIPTS START-->
+
+    <script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
+
+    <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
+    <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
+    <!-- SCRIPTS  END-->
+
+    <script type="text/javascript">
+        function editRecord(btnObj) {
+
+            var trObj =             btnObj.parentElement.parentElement;
+            var trId =              $(trObj).attr('id');
+            $('#editRecordtId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var contractNumber =    $(trObj).find('th:eq(0)').text();
+            // $('#editContratModalHeader').text("Редактировать контракт №"+contractNumber);
+
+            var carNumber =         $(trObj).find('td:eq(0)').text();
+            var pack =              $(trObj).find('td:eq(1)').text();
+            var thickness =         $(trObj).find('td:eq(2)').text();
+            var width =             $(trObj).find('td:eq(3)').text();
+            var length =            $(trObj).find('td:eq(4)').text();
+            var count =             $(trObj).find('td:eq(5)').text();
+            var extent =            $(trObj).find('td:eq(6)').text();
+            var heightPc =          $(trObj).find('td:eq(7)').text();
+            var widthPc =           $(trObj).find('td:eq(8)').text();
+            var packMM =            $(trObj).find('td:eq(9)').text();
+            var fact =              $(trObj).find('td:eq(10)').text();
+            var wh =                $(trObj).find('td:eq(11)').text();
+            var contract =          $(trObj).find('td:eq(12)').text();
+            var container =         $(trObj).find('td:eq(13)').text();
+
+            $('#editRecordCarNumber')           .val(carNumber);
+            $('#editRecordPackNumber')          .val(pack);
+            $('#editRecordThickness')           .val(thickness);
+            $('#editRecordWidth')               .val(width);
+            $('#editRecordLength')              .val(length);
+            $('#editRecordCount')               .val(count);
+            $('#editRecordExtent')              .val(extent);
+            $('#editRecordHeightPc')            .val(heightPc);
+            $('#editRecordWidthPc')             .val(widthPc);
+            $('#editRecordPackNumberMultiModal').val(packMM);
+            $('#editRecordLengthFact')          .val(fact);
+            $('#editRecordWidthHeight')         .val(wh);
+            $('#editRecordContractNumber')      .val(contract);
+            $('#editRecordContainerNumber')     .val(container);
+
+
+            $('#editDetailsModal').modal('show');
+        }
+    </script>
+    <!-- EDIT CONTRACTS MODAL END -->
+
+    <!-- ADD CONTRACTS MODAL START -->
+    <div class="modal fade" id="addRecordModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить запись</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/addRecordMultimodal">
+                    <div class="modal-body">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addRecordCarNumber">№ машыны</label>
+                                <input type="text" class="form-control" id="addRecordCarNumber" required="required" autocomplete="off">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="addRecordPackNumber">№ пачки</label>
+                                <input type="text" class="form-control" id="addRecordPackNumber" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordThickness">Толщина</label>
+                                <input type="number" class="form-control" id="addRecordThickness" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordWidth">Ширина</label>
+                                <input type="number" class="form-control" id="addRecordWidth" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordLength">Длина</label>
+                                <input type="number" class="form-control" id="addRecordLength" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordCount">Штук</label>
+                                <input type="number" class="form-control" id="addRecordCount" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordExtent">Кубатура</label>
+                                <input type="number" class="form-control" id="addRecordExtent" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordHeightPc">Высота, шт.</label>
+                                <input type="number" class="form-control" id="addRecordHeightPc" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordWidthPc">Ширина, шт.</label>
+                                <input type="number" class="form-control" id="addRecordWidthPc" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="addRecordLengthFact">Длина - ФАКТ</label>
+                                <input type="number" class="form-control" id="addRecordLengthFact" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addRecordPackNumberMultiModal">№ пачки (Мультимодал)</label>
+                                <input type="text" class="form-control" id="addRecordPackNumberMultiModal" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addRecordWidthHeight">Высота/Ширина</label>
+                                <input type="text" class="form-control" id="addRecordWidthHeight" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addRecordContractNumber">Контракт</label>
+                                <input type="text" class="form-control" id="addRecordContractNumber" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addRecordContainerNumber">№ контейнера</label>
+                                <input type="text" class="form-control" id="addRecordContainerNumber" required="required" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ADD CONTRACTS MODAL END -->
+
+
+    <!-- IMPORT MODAL START -->
+    <div class="modal fade" id="importModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Импорт из Excel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="@{'/admin/" method="post" id="importForm">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputFile">Выберите файл</label>
+                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" id="importButton" class="btn btn-primary">Импорт</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function importData() {
+            $('#importModal').modal('show');
+        }
+    </script>
+    <!-- IMPORT MODAL END -->
+
+    <!-- CONFIRMATION MODAL START -->
+    <div class="modal fade" id="deleteConfirmationModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="@{'/admin/" method="post">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deleteRecordModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="deleteModalConfirmation">
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function deleteRecord(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#deleteRecordModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var carNumber = $(trObj).find('th:eq(0)').text();
+
+            $('#deleteModalConfirmation').text("Вы уверены, что хотите удалить выбраную строку?");
+            $('#deleteConfirmationModal').modal('show');
+        }
+    </script>
+    <!-- CONFIRMATION MODAL END -->
+
+    <!-- MODALS END-->
+
+
+</th:block>

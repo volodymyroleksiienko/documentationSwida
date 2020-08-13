@@ -39,14 +39,18 @@
         </table>
         <!-- BUTTON START-->
         <div class="float-action-button">
-            <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left" onclick="location.href='multimodal-contracts.html';">
-                <i class="fas fa-chevron-left">&nbsp;</i>
-            </button>
+            <a  href="/multimodal/getMultimodalOrders">
+                <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left">
+                    <i class="fas fa-chevron-left">&nbsp;</i>
+                </button>
+            </a>
         </div>
         <div class="float-action-button-right">
-            <button type="button" class="buttons main-button btn btn-primary" title="Подробнее" data-placement="left" onclick="location.href='info-detailed.html';">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+            <a th:href="@{'/multimodal/getFullDetailsOfContract-'+${contractId}}">
+                <button type="button" class="buttons main-button btn btn-primary" title="Подробнее" data-placement="left" >
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </a>
         </div>
         <!-- BUTTON END-->
     </div>
