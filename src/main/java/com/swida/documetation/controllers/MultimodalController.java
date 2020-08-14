@@ -16,8 +16,6 @@ import com.swida.documetation.data.service.subObjects.DeliveryDocumentationServi
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
 import com.swida.documetation.utils.xlsParsers.ParseMultimodalPackagesByContract;
-import com.swida.documetation.utils.xlsParsers.ParseOakDeliveryInfoToXLS;
-import com.swida.documetation.utils.xlsParsers.ParserDeliveryDocumentationToXLS;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -27,7 +25,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.GeneratedValue;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,19 +52,27 @@ public class MultimodalController {
         this.deliveryDocumentationService = deliveryDocumentationService;
     }
 // Main page
-    @GetMapping("/getDeliveryInUkraine")
-    public String getDeliveryInUkraine(Model model){
+    @GetMapping("/getDeliveryInUkraine-{breedId}")
+    public String getDeliveryInUkraine(@PathVariable("breedId") int breedId,  Model model){
 
         model.addAttribute("navTabName","multimodalMain");
+        model.addAttribute("tabName",breedId);
         model.addAttribute("fragmentPathTabConfig","transportationTab");
-        model.addAttribute("fragmentPathDeliveryUA", "deliveryInfo");
+        model.addAttribute("fragmentPathDeliveryUA", (breedId==2)?"deliveryInfoOak":"deliveryInfo");
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
 
-        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByDestinationType(DeliveryDestinationType.COUNTRY));
+
+
+        List<DeliveryDocumentation> list = deliveryDocumentationService.getListByDestinationType(DeliveryDestinationType.COUNTRY);
+
+        list.removeIf(doc -> doc.getBreedOfTree().getId() != breedId);
+
+        model.addAttribute("deliveryDocumentations",list);
         return "multimodalPage";
     }
+
 
 
     @GetMapping("/getMultimodalOrders")
