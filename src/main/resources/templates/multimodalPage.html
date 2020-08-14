@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SWIDA</title>
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/buttons.bootstrap4.css}">
     <link th:href="@{../css/all.css}" rel="stylesheet">
     <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
 </head>
@@ -46,8 +44,6 @@
         <div th:if="${fragmentPathMultimodalFullDetails!=null}">
             <div th:replace="~{fragments/multimodal/fragMultimodalFullDetails :: ${fragmentPathMultimodalFullDetails}}"></div>
         </div>
-
-
 
 
     </div>
@@ -149,6 +145,49 @@
         // Check if excel document
         $( "#importForm" ).submit(function( event ) {
             var validExts = new Array(".xlsx", ".xls");
+
+            var fileInput = document.getElementById('inputFile');
+            var fileExt = fileInput.files[0].name;
+
+            fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+            if (validExts.indexOf(fileExt) < 0) {
+                alert("Неправильный формат файла, доступные форматы: " +
+                    validExts.toString());
+                return false;
+            } else {
+                return true
+            };
+            event.preventDefault();
+        });
+
+
+
+        // Contracts table config
+        $('#contracts-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "140px"
+                }
+            ]
+        });
+
+        // Check if excel document
+        $( "#importForm" ).submit(function( event ) {
+            var validExts = new Array(".xlsx", ".xls", ".csv");
 
             var fileInput = document.getElementById('inputFile');
             var fileExt = fileInput.files[0].name;

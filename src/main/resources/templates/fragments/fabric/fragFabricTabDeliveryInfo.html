@@ -104,40 +104,7 @@
     </div>
     <!-- Транспортировка -->
 
-    <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
 
-    <script type="text/javascript">
-        $(document).ready( function () {
-            $('#transportationtable').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
-                },
-                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
-                // columns width
-                "autoWidth": false,
-                "bSort": false,
-                "info": false,
-                // id column visibility
-                "columnDefs": [
-                    {
-                        "targets": [  ],
-                        "visible": false,
-                        "searchable": false
-                    },
-                    {
-                        "targets": -1,
-                        "orderable": false,
-                        "width": "30px"
-                    }
-
-                ]
-
-            });
-
-
-        });
-
-    </script>
 
 </th:block>
 
@@ -278,38 +245,6 @@
             </table>
 
         </div>
-
-    <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
-
-    <script type="text/javascript">
-        $(document).ready( function () {
-            $('#transportationTableOak').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
-                },
-                "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
-                // columns width
-                "autoWidth": false,
-                "bSort": false,
-                "info": false,
-                // id column visibility
-                "columnDefs": [
-                    {
-                        "targets": [  ],
-                        "visible": false,
-                        "searchable": false
-                    },
-                    {
-                        "targets": -1,
-                        "orderable": false,
-                        "width": "30px"
-                    }
-                ]
-
-            });
-        });
-
-    </script>
 
     <!--    &lt;!&ndash; Транспортировка &ndash;&gt;-->
 </th:block>
