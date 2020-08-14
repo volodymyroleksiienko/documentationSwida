@@ -185,23 +185,7 @@
             ]
         });
 
-        // Check if excel document
-        $( "#importForm" ).submit(function( event ) {
-            var validExts = new Array(".xlsx", ".xls", ".csv");
 
-            var fileInput = document.getElementById('inputFile');
-            var fileExt = fileInput.files[0].name;
-
-            fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
-            if (validExts.indexOf(fileExt) < 0) {
-                alert("Неправильный формат файла, доступные форматы: " +
-                    validExts.toString());
-                return false;
-            } else {
-                return true
-            };
-            event.preventDefault();
-        });
 
 
 
