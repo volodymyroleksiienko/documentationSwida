@@ -25,51 +25,31 @@
             </tr>
             </thead>
             <tbody>
-            <tr id="">
-                <td>1</td>
-                <td>1488</td>
-                <td>3456789</td>
-                <td>0.038</td>
-                <td>0.140</td>
-                <td>3.650</td>
-                <td>224</td>
-                <td>4.350</td>
-                <td>8</td>
-                <td>8</td>
-                <td>26293</td>
-                <td>3.75</td>
-                <td>115/115</td>
-                <td>20-1С</td>
-                <td>MRKU1904472</td>
-                <td>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="editRecord(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <!-- <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button> -->
-                    <button type="button" class="btn btn-primary btn-sm" onclick="deleteRecord(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
-                </td>
-            </tr>
+            <th:block th:each="doc : ${contractPackagesList}">
+                <tr th:each="pack : ${doc.productList}" th:id="${pack.id}">
+                    <td th:text="${pack.id}"></td>
+                    <td th:text="${doc.driverInfo?.idOfTruck}"></td>
+                    <td th:text="${pack.codeOfPackage}"></td>
+                    <td th:text="${pack.sizeOfHeight}"></td>
+                    <td th:text="${pack.sizeOfWidth}"></td>
+                    <td th:text="${pack.sizeOfLong}"></td>
+                    <td th:text="${pack.countOfDesk}"></td>
+                    <td th:text="${pack.extent}"></td>
+                    <td th:text="${pack.countDeskInHeight}"></td>
+                    <td th:text="${pack.countDeskInWidth}"></td>
+                    <td th:text="${pack.codeOfDeliveryCompany}"></td>
+                    <td th:text="${pack.longFact}"></td>
+                    <td th:text="${pack.height_width}"></td>
+                    <td th:text="${pack.orderInfo?.codeOfOrder}"></td>
+                    <td th:text="${pack?.container?.code}"></td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="editRecord(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                        <!-- <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button> -->
+                        <button type="button" class="btn btn-primary btn-sm" onclick="deleteRecord(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
+                    </td>
+                </tr>
+            </th:block>
 
-            <tr id="detailedRowId">
-                <td>2</td>
-                <td>8814</td>
-                <td>456789</td>
-                <td>0.038</td>
-                <td>0.140</td>
-                <td>3.650</td>
-                <td>224</td>
-                <td>4.350</td>
-                <td>8</td>
-                <td>8</td>
-                <td>26293</td>
-                <td>3.75</td>
-                <td>110/110</td>
-                <td>20-1С</td>
-                <td>MRKU1904472</td>
-                <td>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="editRecord(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <!-- <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button> -->
-                    <button type="button" class="btn btn-primary btn-sm" onclick="deleteRecord(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
-                </td>
-            </tr>
             </tbody>
 
             <tfoot>
@@ -370,7 +350,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="@{'/admin/" method="post" id="importForm">
+                <form th:action="" method="post" id="importForm">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">
@@ -405,7 +385,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="@{'/admin/" method="post">
+                <form th:action="" method="post">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">

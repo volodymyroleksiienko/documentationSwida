@@ -8,6 +8,7 @@ import java.util.List;
 public interface DryingStorageService {
     void save(DryingStorage ds);
     DryingStorage findById(int id);
+    DryingStorage createFromRawStorage(RawStorage rawStorage);
     List<DryingStorage> findAll();
     List<DryingStorage> getListByUserByBreed(int breedId, int userId);
     void deleteByID(int id);

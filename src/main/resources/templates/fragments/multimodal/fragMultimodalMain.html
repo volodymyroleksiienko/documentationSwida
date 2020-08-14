@@ -32,7 +32,7 @@
                 <td>
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button>
+                    <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/exportAllPackagesByContract-'+${order.id}}"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></a>
                     <button type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
                 </td>
             </tr>
@@ -206,12 +206,12 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form action="#" method="post" id="importForm">
+                <form th:action="@{/multimodal/importXLS}" method="post" id="importForm" enctype="multipart/form-data">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="inputFile">Выберите файл</label>
-                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="fileXLS">
                             <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
                         </div>
                     </div>

@@ -3,7 +3,9 @@ package com.swida.documetation.controllers;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
+import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.ContrAgentType;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -11,15 +13,23 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContainerService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import com.swida.documetation.utils.other.GenerateResponseForExport;
+import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
+import com.swida.documetation.utils.xlsParsers.ParseMultimodalPackagesByContract;
+import com.swida.documetation.utils.xlsParsers.ParseOakDeliveryInfoToXLS;
+import com.swida.documetation.utils.xlsParsers.ParserDeliveryDocumentationToXLS;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.GeneratedValue;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +55,21 @@ public class MultimodalController {
         this.deliveryDocumentationService = deliveryDocumentationService;
     }
 // Main page
+    @GetMapping("/getDeliveryInUkraine")
+    public String getDeliveryInUkraine(Model model){
+
+        model.addAttribute("navTabName","multimodalMain");
+        model.addAttribute("fragmentPathTabConfig","transportationTab");
+        model.addAttribute("fragmentPathDeliveryUA", "deliveryInfo");
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+
+        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByDestinationType(DeliveryDestinationType.COUNTRY));
+        return "multimodalPage";
+    }
+
+
     @GetMapping("/getMultimodalOrders")
     public String getMultimodalOrders(Model model){
 
@@ -82,8 +107,27 @@ public class MultimodalController {
         orderInfoDB.setDate(orderInfo.getDate());
 
         orderInfoService.save(orderInfoDB);
-        return "redirect:/admin/getMultimodalOrders";
+        return "redirect:/multimodal/getMultimodalOrders";
     }
+
+    @GetMapping("/exportAllPackagesByContract-{id}")
+    public ResponseEntity<Resource> exportAllPackagesByContract(@PathVariable("id")int orderId) throws FileNotFoundException {
+        List<DeliveryDocumentation> deliveryDocumentation = deliveryDocumentationService
+                .getListByDistributionContractsId(orderInfoService.findDistributionId(orderId));
+        ParseMultimodalPackagesByContract parser = new ParseMultimodalPackagesByContract(deliveryDocumentation);
+        String filePath = parser.parse();
+
+        return new GenerateResponseForExport().generate(filePath,orderInfoService.findById(orderId).getCodeOfOrder(),"");
+    }
+
+    @PostMapping("/importXLS")
+    public String importXLS(@RequestParam MultipartFile fileXLS) throws IOException, InvalidFormatException {
+        ImportOrderDataFromXLS dataFromXLS = new ImportOrderDataFromXLS(fileXLS);
+        dataFromXLS.importData();
+        return "redirect:/multimodal/getMultimodalOrders";
+    }
+
+
 
 //    All Containers
     @GetMapping("/getListOfALLContainers")
@@ -134,11 +178,15 @@ public class MultimodalController {
 //    Full Details Page
     @GetMapping("/getFullDetailsOfContract-{id}")
     public String getFullDetailsOfContract(@PathVariable("id")int contractId,Model model){
+
+        List<DeliveryDocumentation> deliveryDocumentation = deliveryDocumentationService
+                .getListByDistributionContractsId(orderInfoService.findDistributionId(contractId));
+
         model.addAttribute("navTabName","multimodalFullDetails");
         model.addAttribute("fragmentPathTabConfig","multimodalFullDetails");
         model.addAttribute("fragmentPathMultimodalFullDetails","multimodalFullDetails");
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("contractPackagesList","");
+        model.addAttribute("contractPackagesList",deliveryDocumentation);
         return "multimodalPage";
     }
 

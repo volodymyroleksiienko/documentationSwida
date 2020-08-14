@@ -16,6 +16,9 @@
                 <th scope="col">Время выгрузки</th>
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
+                <th scope="col">№ контракта</th>
+                <th scope="col">Назначение</th>
+                <th scope="col">Примечание</th>
                 <th></th>
             </tr>
             </thead>
@@ -30,6 +33,9 @@
                               <td th:text="${dd.getTimeOfUnloading()}"></td>
                               <td th:text="${dd.driverInfo.getFullName()}"></td>
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
+                              <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
+                              <td th:text="${dd.destinationType}"></td>
+                              <td th:text="${dd.description}"></td>
                               <td>
                                   <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post">
                                       <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
@@ -96,6 +102,9 @@
                 <th scope="col">Время выгрузки</th>
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
+                <th scope="col">№ контракта</th>
+                <th scope="col">Назначение</th>
+                <th scope="col">Примечание</th>
                 <th></th>
             </tr>
             </tfoot>

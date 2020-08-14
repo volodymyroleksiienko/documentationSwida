@@ -1,7 +1,9 @@
 package com.swida.documetation.data.entity.storages;
 
+import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
+import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import lombok.Data;
@@ -46,6 +48,12 @@ public class PackagedProduct {
 
     @OneToMany
     private List<DescriptionDeskOak> deskOakList;
+
+    @ManyToOne
+    private OrderInfo orderInfo;
+
+    @ManyToOne
+    private Container container;
 
     @ManyToOne
     private UserCompany userCompany;

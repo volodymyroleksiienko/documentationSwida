@@ -74,10 +74,6 @@
                 <a class="nav-link" th:href="@{'/multimodal/getTrucksByContract-'+${contractId}}"
                    th:classappend="${tabName.equals('trucks')} ? 'active':''">Машины</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link"  th:href="@{'/multimodal/getContainersByContract-'+${contractId}}"
-                   th:classappend="${tabName.equals('containers')} ? 'active':''">Контейнеры</a>
-            </li>
         </ul>
     </div>
 </th:block>
@@ -87,6 +83,16 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" th:href="@{'/multimodal/getTrucksByContract-'+${contractId}}">Подробно</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="transportationTab">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active">Транспортировка</a>
             </li>
         </ul>
     </div>

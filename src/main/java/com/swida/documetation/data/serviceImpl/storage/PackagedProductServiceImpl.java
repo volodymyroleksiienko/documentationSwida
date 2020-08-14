@@ -2,16 +2,14 @@ package com.swida.documetation.data.serviceImpl.storage;
 
 
 import com.swida.documetation.data.entity.UserCompany;
-import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
-import com.swida.documetation.data.entity.storages.DryStorage;
-import com.swida.documetation.data.entity.storages.DryingStorage;
-import com.swida.documetation.data.entity.storages.PackagedProduct;
+import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import com.swida.documetation.data.service.storages.DryStorageService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
+import com.swida.documetation.data.service.storages.RawStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +22,17 @@ import java.util.List;
 @Service
 public class PackagedProductServiceImpl implements PackagedProductService {
     private DryStorageService dryStorageService;
+    private RawStorageService rawStorageService;
     private PackagedProductJPA productJPA;
     private DescriptionDeskOakService deskOakService;
 
     @Autowired
-    public PackagedProductServiceImpl(DryStorageService dryStorageService, PackagedProductJPA productJPA, DescriptionDeskOakService deskOakService) {
+    public PackagedProductServiceImpl(DryStorageService dryStorageService, PackagedProductJPA productJPA,
+                                      DescriptionDeskOakService deskOakService, RawStorageService rawStorageService) {
         this.dryStorageService = dryStorageService;
         this.productJPA = productJPA;
         this.deskOakService = deskOakService;
+        this.rawStorageService = rawStorageService;
     }
 
     @Override
@@ -78,6 +79,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         }
         dryStorageService.save(dryStorage);
     }
+
+
 
     @Override
     public void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage, String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID) {

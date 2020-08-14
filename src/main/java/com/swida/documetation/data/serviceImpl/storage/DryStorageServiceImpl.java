@@ -2,6 +2,7 @@ package com.swida.documetation.data.serviceImpl.storage;
 
 
 import com.swida.documetation.data.entity.storages.DryStorage;
+import com.swida.documetation.data.entity.storages.DryingStorage;
 import com.swida.documetation.data.jpa.storages.DryStorageJPA;
 import com.swida.documetation.data.service.storages.DryStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,28 @@ public class DryStorageServiceImpl implements DryStorageService {
     @Override
     public DryStorage findById(int id) {
         return dryStorageJPA.getOne(id);
+    }
+
+    @Override
+    public DryStorage createFromDryingStorage(DryingStorage dryingStorage) {
+        DryStorage dryStorage = new DryStorage();
+        dryStorage.setCodeOfProduct(dryingStorage.getCodeOfProduct());
+        dryStorage.setBreedOfTree(dryingStorage.getBreedOfTree());
+        dryStorage.setBreedDescription(dryingStorage.getBreedDescription());
+
+        dryStorage.setSizeOfHeight(dryingStorage.getSizeOfHeight());
+        dryStorage.setSizeOfLong(dryingStorage.getSizeOfLong());
+        dryStorage.setSizeOfWidth(dryingStorage.getSizeOfWidth());
+
+        dryStorage.setCountOfDesk(dryingStorage.getCountOfDesk());
+
+        dryStorage.setExtent(dryingStorage.getExtent());
+        dryStorage.setDescription(dryingStorage.getDescription());
+        dryStorage.setDate(dryingStorage.getDate());
+
+        dryStorage.setUserCompany(dryingStorage.getUserCompany());
+        dryStorage.setDryingStorage(dryingStorage);
+        return dryStorage;
     }
 
     @Override

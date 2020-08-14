@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.subObjects;
 
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.jpa.subObjects.DeliveryDocumentationJPA;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,11 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     @Override
     public List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId) {
         return documentationJPA.getListByDistributionContractsId(contractId);
+    }
+
+    @Override
+    public List<DeliveryDocumentation> getListByDestinationType(DeliveryDestinationType type) {
+        return documentationJPA.getListByDestinationType(type);
     }
 
     @Override

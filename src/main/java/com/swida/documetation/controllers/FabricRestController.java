@@ -1,6 +1,9 @@
 package com.swida.documetation.controllers;
 
+import com.swida.documetation.data.entity.OrderInfo;
+import com.swida.documetation.data.entity.storages.DryingStorage;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
+import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
@@ -9,7 +12,10 @@ import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
+import com.swida.documetation.data.service.storages.DryStorageService;
+import com.swida.documetation.data.service.storages.DryingStorageService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
+import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +34,25 @@ public class FabricRestController {
     DeliveryDocumentationService deliveryDocumentationService;
     OrderInfoService orderInfoService;
     UserCompanyService userCompanyService;
+    RawStorageService rawStorageService;
+    DryingStorageService dryingStorageService;
+    DryStorageService dryStorageService;
 
     @Autowired
     public FabricRestController(DriverInfoService driverInfoService, PackagedProductService packagedProductService,
                                 DeliveryDocumentationService deliveryDocumentationService, OrderInfoService orderInfoService,
-                                UserCompanyService userCompanyService) {
+                                UserCompanyService userCompanyService, RawStorageService rawStorageService,
+                                DryingStorageService dryingStorageService, DryStorageService dryStorageService) {
         this.driverInfoService = driverInfoService;
         this.packagedProductService = packagedProductService;
         this.deliveryDocumentationService = deliveryDocumentationService;
         this.orderInfoService = orderInfoService;
         this.userCompanyService = userCompanyService;
+        this.rawStorageService = rawStorageService;
+        this.dryingStorageService = dryingStorageService;
+        this.dryStorageService = dryStorageService;
     }
+
 
     @PostMapping("/createDeliveryDoc-{userID}-{breedID}")
     public String createDeliveryDoc(@PathVariable("userID") String userID, @PathVariable("breedID") String breedID,
@@ -46,6 +60,7 @@ public class FabricRestController {
                                     String dateOfUnloading, String timeOfUnloading,String contractName, String deliveryDestination,
                                     String description) {
         ContrAgent userContrAgent = userCompanyService.findById(Integer.parseInt(userID)).getContrAgent();
+        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractName);
         float extentOfAllPack = 0;
 
         DriverInfo driverInfo = new DriverInfo();
@@ -67,6 +82,7 @@ public class FabricRestController {
         for (int i=0; i<list.length; i++){
             productList.add(packagedProductService.findById(Integer.parseInt(list[i])));
             productList.get(i).setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
+            productList.get(i).setOrderInfo(orderInfo.getMainOrder());
             packagedProductService.save(productList.get(i));
             extentOfAllPack += Float.parseFloat(productList.get(i).getExtent());
             if (i==0) {
@@ -76,7 +92,7 @@ public class FabricRestController {
 
         deliveryDocumentation.setPackagesExtent(String.format("%.3f",extentOfAllPack).replace(",","."));
 
-        deliveryDocumentation.setOrderInfo(orderInfoService.findByCodeOfOrder(contractName));
+        deliveryDocumentation.setOrderInfo(orderInfo);
         deliveryDocumentation.setDestinationType(DeliveryDestinationType.valueOf(deliveryDestination));
         deliveryDocumentation.setDescription(description);
 
@@ -95,4 +111,6 @@ public class FabricRestController {
 
         packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
     }
+
+
 }

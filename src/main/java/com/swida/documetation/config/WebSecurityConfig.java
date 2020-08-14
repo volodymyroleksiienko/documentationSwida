@@ -31,9 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
            http.authorizeRequests()
 //                    .antMatchers("/login", "/registration").permitAll()
-//                    .antMatchers("/*").permitAll()
-                    .antMatchers("/*").authenticated()
-                    .and()
+                   .antMatchers("/**").authenticated()
+                   .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                   .and()
                         .formLogin()
                         .failureForwardUrl("/login?error=true")
                         .successForwardUrl("/enterRequest")
@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .and()
+                   .and()
                         .csrf().disable();
         }
 

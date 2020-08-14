@@ -267,6 +267,31 @@ public class FabricController {
     }
 
 
+    @PostMapping("/createRawPackages-{userId}-{breedId}")
+    public String createRawPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
+                                 String codeOfProduct,String breedDescription,String height, String width, String count, String longFact, String heightWidth){
+        int countOfDesk = Integer.parseInt(width)*Integer.parseInt(height)*Integer.parseInt(count);
+
+        RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
+        DryingStorage dryingStorage = dryingStorageService.createFromRawStorage(rawStorage);
+
+        rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()-countOfDesk);
+        rawStorageService.save(rawStorage);
+
+        DryStorage dryStorage = dryStorageService.createFromDryingStorage(dryingStorage);
+
+        dryingStorage.setCountOfDesk(0);
+        dryingStorage.setCodeOfProduct(dryingStorage.getCodeOfProduct()+"raw");
+        dryingStorageService.save(dryingStorage);
+
+        dryStorage.setCountOfDesk(countOfDesk);
+        dryStorage.setCodeOfProduct(dryStorage.getCodeOfProduct()+"raw");
+        dryStorageService.save(dryStorage);
+
+        packagedProductService.createPackages(String.valueOf(dryStorage.getId()),codeOfProduct+"raw",breedDescription,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+
     //Drying page
     @GetMapping("/getListOfDryingStorage-{userId}-{breedId}")
     public String getListOfDryingStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,Model model){
