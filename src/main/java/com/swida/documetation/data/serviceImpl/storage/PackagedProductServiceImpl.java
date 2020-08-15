@@ -37,7 +37,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
     @Override
     public void save(PackagedProduct packProd) {
-        packProd.setExtent(String.format("%.3f", Float.parseFloat(packProd.getExtent())).replace(',', '.'));
+        packProd.setExtent(String.format("%.3f", Float.parseFloat(packProd.getExtent().replace(',', '.'))).replace(',', '.'));
         Date date = new Date(System.currentTimeMillis());
         packProd.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         productJPA.save(packProd);
