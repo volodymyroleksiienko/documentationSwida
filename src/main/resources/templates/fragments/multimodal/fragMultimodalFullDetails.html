@@ -75,15 +75,16 @@
         </table>
         <!-- BUTTON START-->
         <div class="float-action-button">
-            <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left" onclick="location.href='/multimodal/getMultimodalOrders';">
+            <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left" onclick="location.href='/multimodal/getTrucksByContract-'+this.name" th:name="${contractId}">
                 <i class="fas fa-chevron-left">&nbsp;</i>
             </button>
         </div>
 
         <div class="float-action-button" style="right: 0; left: auto;">
-            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-placement="left">
-                <i class="far fa-file-excel"></i></i>
-            </button>
+           <button type="button" class="buttons btn btn-primary" title="Экспорт" data-placement="left" onclick="location.href='/multimodal/exportAllPackagesByContract-'+this.name" th:name="${contractId}">
+               <i class="far fa-file-excel"></i>
+           </button>
+
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addRecordModal">
                 <i class="fa fa-plus"></i>
             </button>
@@ -254,77 +255,81 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/addRecordMultimodal">
+                <form th:action="@{'/multimodal/addPackageToDeliveryDoc-'+${contractId}}" method="post">
                     <div class="modal-body">
                         <div class="form-group row d-flex" style="align-items: flex-end">
+
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordCarNumber">№ машыны</label>
-                                <input type="text" class="form-control" id="addRecordCarNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" list="idList" id="addRecordCarNumber" required="required" autocomplete="off" name="driverIdOfTruck">
+                                <datalist id="idList">
+                                    <option th:each="idValue : ${idOfTruckList}"  th:value="${idValue}">
+                                </datalist>
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordPackNumber">№ пачки</label>
-                                <input type="text" class="form-control" id="addRecordPackNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="addRecordPackNumber" required="required" autocomplete="off" name="codeOfPackage">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordThickness">Толщина</label>
-                                <input type="number" class="form-control" id="addRecordThickness" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordThickness" required="required" autocomplete="off" name="sizeOfHeight">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordWidth">Ширина</label>
-                                <input type="number" class="form-control" id="addRecordWidth" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordWidth" required="required" autocomplete="off" name="sizeOfWidth">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordLength">Длина</label>
-                                <input type="number" class="form-control" id="addRecordLength" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordLength" required="required" autocomplete="off" name="sizeOfLong">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordCount">Штук</label>
-                                <input type="number" class="form-control" id="addRecordCount" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordCount" required="required" autocomplete="off" name="countOfDesk">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordExtent">Кубатура</label>
-                                <input type="number" class="form-control" id="addRecordExtent" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordExtent" required="required" autocomplete="off" name="extent">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordHeightPc">Высота, шт.</label>
-                                <input type="number" class="form-control" id="addRecordHeightPc" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordWidthPc">Ширина, шт.</label>
-                                <input type="number" class="form-control" id="addRecordWidthPc" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordLengthFact">Длина - ФАКТ</label>
-                                <input type="number" class="form-control" id="addRecordLengthFact" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="addRecordLengthFact" required="required" autocomplete="off" name="longFact">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordPackNumberMultiModal">№ пачки (Мультимодал)</label>
-                                <input type="text" class="form-control" id="addRecordPackNumberMultiModal" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="addRecordPackNumberMultiModal" required="required" autocomplete="off" name="codeOfDeliveryCompany">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordWidthHeight">Высота/Ширина</label>
-                                <input type="text" class="form-control" id="addRecordWidthHeight" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="addRecordWidthHeight" required="required" autocomplete="off" name="height_width">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordContractNumber">Контракт</label>
-                                <input type="text" class="form-control" id="addRecordContractNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="addRecordContractNumber" required="required" autocomplete="off" name="contractName">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordContainerNumber">№ контейнера</label>
-                                <input type="text" class="form-control" id="addRecordContainerNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="addRecordContainerNumber" required="required" autocomplete="off" name="containerName">
                             </div>
                         </div>
                     </div>
@@ -339,40 +344,40 @@
     <!-- ADD CONTRACTS MODAL END -->
 
 
-    <!-- IMPORT MODAL START -->
-    <div class="modal fade" id="importModal">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Импорт из Excel</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!--       HERE         -->
-                <form th:action="" method="post" id="importForm">
-                    <!--       HERE                 -->
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="inputFile">Выберите файл</label>
-                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                            <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button submit" id="importButton" class="btn btn-primary">Импорт</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        function importData() {
-            $('#importModal').modal('show');
-        }
-    </script>
-    <!-- IMPORT MODAL END -->
+<!--    &lt;!&ndash; IMPORT MODAL START &ndash;&gt;-->
+<!--    <div class="modal fade" id="importModal">-->
+<!--        <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title">Импорт из Excel</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;       HERE         &ndash;&gt;-->
+<!--                <form th:action="" method="post" id="importForm">-->
+<!--                    &lt;!&ndash;       HERE                 &ndash;&gt;-->
+<!--                    <div class="modal-body">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="inputFile">Выберите файл</label>-->
+<!--                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">-->
+<!--                            &lt;!&ndash; <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> &ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button submit" id="importButton" class="btn btn-primary">Импорт</button>-->
+<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <script type="text/javascript">-->
+<!--        function importData() {-->
+<!--            $('#importModal').modal('show');-->
+<!--        }-->
+<!--    </script>-->
+<!--    &lt;!&ndash; IMPORT MODAL END &ndash;&gt;-->
 
     <!-- CONFIRMATION MODAL START -->
     <div class="modal fade" id="deleteConfirmationModal">
@@ -385,7 +390,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="" method="post">
+                <form th:action="/multimodal /confirm" method="post">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">

@@ -1,6 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.OrderInfo;
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
@@ -9,6 +10,7 @@ import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
+import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContainerService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
@@ -39,17 +41,20 @@ public class MultimodalController {
     private OrderInfoService orderInfoService;
     private ContainerService containerService;
     private DeliveryDocumentationService deliveryDocumentationService;
+    private PackagedProductService packagedProductService;
 
     @Autowired
     public MultimodalController(UserCompanyService userCompanyService, BreedOfTreeService breedOfTreeService,
                                 ContrAgentService contrAgentService, OrderInfoService orderInfoService,
-                                ContainerService containerService,DeliveryDocumentationService deliveryDocumentationService) {
+                                ContainerService containerService,DeliveryDocumentationService deliveryDocumentationService,
+                                PackagedProductService packagedProductService) {
         this.userCompanyService = userCompanyService;
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
         this.orderInfoService = orderInfoService;
         this.containerService = containerService;
         this.deliveryDocumentationService = deliveryDocumentationService;
+        this.packagedProductService = packagedProductService;
     }
 // Main page
     @GetMapping("/getDeliveryInUkraine-{breedId}")
@@ -62,9 +67,6 @@ public class MultimodalController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-
-
-
         List<DeliveryDocumentation> list = deliveryDocumentationService.getListByDestinationType(DeliveryDestinationType.COUNTRY);
 
         list.removeIf(doc -> doc.getBreedOfTree().getId() != breedId);
@@ -87,6 +89,7 @@ public class MultimodalController {
         model.addAttribute("fragmentPathMultimodalMain", "multimodalContracts");
         model.addAttribute("fragmentPathTabConfig","multimodalMain");
         model.addAttribute("multimodalOrderList",orderInfoService.getOrdersByStatusOfOrder(StatusOfOrderInfo.MAIN));
+        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrder(StatusOfOrderInfo.DISTRIBUTION));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentList",contrAgentList);
@@ -126,9 +129,12 @@ public class MultimodalController {
     }
 
     @PostMapping("/importXLS")
-    public String importXLS(@RequestParam MultipartFile fileXLS) throws IOException, InvalidFormatException {
+    public String importXLS(@RequestParam MultipartFile fileXLS, String contractId) throws IOException, InvalidFormatException {
         ImportOrderDataFromXLS dataFromXLS = new ImportOrderDataFromXLS(fileXLS);
-        dataFromXLS.importData();
+        System.out.println("contractId "+ contractId);
+        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractId);
+
+        deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
         return "redirect:/multimodal/getMultimodalOrders";
     }
 
@@ -192,7 +198,25 @@ public class MultimodalController {
         model.addAttribute("fragmentPathMultimodalFullDetails","multimodalFullDetails");
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contractPackagesList",deliveryDocumentation);
+        model.addAttribute("contractId",contractId);
+
+        model.addAttribute(" ",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
         return "multimodalPage";
+    }
+
+    @PostMapping("/addPackageToDeliveryDoc-{id}")
+    public String addPackageToDeliveryDoc(@PathVariable("id")int contractId, PackagedProduct packagedProduct,
+                                          String contractName, String containerName, String driverIdOfTruck){
+
+        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractName);
+        DeliveryDocumentation doc = deliveryDocumentationService.getDeliveryDocumentationByIdOfTruck(driverIdOfTruck);
+
+        packagedProduct.setOrderInfo(orderInfo);
+        packagedProductService.save(packagedProduct);
+        doc.getProductList().add(packagedProduct);
+        deliveryDocumentationService.save(doc);
+
+        return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
 
 }

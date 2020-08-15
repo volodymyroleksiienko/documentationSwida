@@ -17,4 +17,7 @@ public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocument
 
     @Query("select t from DeliveryDocumentation  t where t.destinationType=?1")
     List<DeliveryDocumentation> getListByDestinationType(DeliveryDestinationType type);
+
+    @Query("select obj from  DeliveryDocumentation obj where obj.driverInfo.idOfTruck=?1")
+    DeliveryDocumentation getDeliveryDocumentationByIdOfTruck(String idOfTruck);
 }

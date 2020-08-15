@@ -214,10 +214,9 @@
                             <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="fileXLS">
                             <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
                             <label class="col-form-label" for="importSetContract">Привязать контракт</label>
-                            <input type="text" class="form-control" list="contractssList" id="importSetContract" required="required" autocomplete="off">
+                            <input type="text" class="form-control" list="contractssList" id="importSetContract" required="required" autocomplete="off" name="contractId">
                             <datalist id="contractssList">
-                                <option value="Contract 1">
-                                <option value="Contract 1">
+                                <option  th:each="c : ${distributeOrderList}" th:value="${c.codeOfOrder}">
                             </datalist>
                         </div>
                     </div>
