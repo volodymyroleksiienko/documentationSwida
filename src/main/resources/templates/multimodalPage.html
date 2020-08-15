@@ -83,7 +83,7 @@
             "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             "order": [ 0, "desc" ],
             "autoWidth": false,
-            "bSort": false,
+            // "bSort": false,
             "info": false,
             "columnDefs": [
                 {
@@ -101,7 +101,7 @@
             },
             "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
             "order": [ 0, "desc" ],
-            "bSort": false,
+            // "bSort": false,
             "info": false,
             "autoWidth": false,
             "columnDefs": [
@@ -191,6 +191,31 @@
         });
 
 
+        $('#transportationtable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            // columns width
+            "autoWidth": false,
+            "bSort": false,
+            "info": false,
+            // id column visibility
+            "columnDefs": [
+                {
+                    "targets": [  ],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "width": "30px"
+                }
+
+            ]
+
+        });
 
 
 

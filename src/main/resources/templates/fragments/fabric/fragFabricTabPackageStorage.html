@@ -285,7 +285,7 @@
                 arrayOfId[i] = $(arrOfTr[i]).find('td:eq(0)').text();
             }
 
-            if (arrayOfId[0]!="No data available in table" && idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != ""){
+            if (arrayOfId[0]!="No data available in table" && idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != "" && contractName1 != "" && deliveryDestination1!="" && description1!=""){
 
             $.ajax({
                 method: "post",
@@ -455,7 +455,7 @@
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody id="sendDeliveryInfoModal">
+                            <tbody id="selectMainTrPackage">
 
                             </tbody>
                             <tfoot>
@@ -524,6 +524,27 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="packContractId" class="col-6 col-form-label">Код контракта</label>
+                                <label for="packDeliveryDestination" class="col-6 col-form-label">Пункт назначения</label>
+
+                                <div class="col-6">
+                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                    <datalist id="contractList">
+                                        <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                    </datalist>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" list="destinationType" id="packDeliveryDestination" required="required" autocomplete="off" name="destinationType">
+                                    <datalist id="destinationType">
+                                        <option value="PORT">
+                                        <option value="COUNTRY">
+                                    </datalist>
+                                </div>
+                            </div>
+                            <label class="col-form-label" for="addDeliveryDescription">Примечания</label>
+                            <input type="text" class="form-control" placeholder="" id="addDeliveryDescription"  autocomplete="off">
+
                         </div>
                         <script type="text/javascript">
                             document.querySelector("#packDateInput").valueAsDate = new Date();
@@ -589,6 +610,39 @@
 
 
     <script type="text/javascript">
+        // listener for opening and closing
+        $('#transportationtable tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+
+            if ( row.child.isShown() ) {
+                // already open
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // open row
+                row.child( format(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+
+
+
+        $('#packageOakTableId tbody').on( 'click', 'button', function () {
+            var trObj = this.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#unformOakPackModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfPackage = $(trObj).find('th:eq(0)').text();
+
+            $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
+            $('#unformOakPackModal').modal('show');
+        } );
+
+
+
+
         function sendRequestToCreateDeleviryOak() {
             var arrOfTr = document.getElementsByClassName("selectMainTrPackage");
             console.log("arr length = "+arrOfTr.length);
@@ -599,6 +653,9 @@
             var numberOfTrailer1 = $("#numberOfTrailer").val();
             var date1 = $("#packDateInput").val();
             var time1 = $("#packTimeInput").val();
+            var contractName1 = $("#packContractId").val();
+            var deliveryDestination1 = $("#packDeliveryDestination").val();
+            var description1 = $("#addDeliveryDescription").val();
             var breedID = $("#breedID").val();
             var userID = $("#userID").val();
 
@@ -611,7 +668,7 @@
                 console.log(arrayOfId[i]);
             }
 
-            if (arrayOfId[0]!="No data available in table" && idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != ""){
+            if (arrayOfId[0]!="No data available in table" && idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != "" && contractName1 != "" && deliveryDestination1!="" && description1!=""){
 
                 $.ajax({
                     method: "post",
@@ -625,7 +682,10 @@
                         numberOfTruck: numberOfTruck1,
                         numberOfTrailer: numberOfTrailer1,
                         dateOfUnloading: date1,
-                        timeOfUnloading: time1
+                        timeOfUnloading: time1,
+                        contractName: contractName1,
+                        deliveryDestination: deliveryDestination1,
+                        description: description1
                     },
                     traditional: true,
                     success: function () {
@@ -638,8 +698,7 @@
             else {
                 alert("Заполните все поля!");
             }
-
-        }
+         }
     </script>
 
 
