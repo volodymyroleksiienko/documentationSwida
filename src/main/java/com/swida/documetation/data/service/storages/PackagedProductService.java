@@ -14,6 +14,8 @@ public interface PackagedProductService {
                           String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID);
 
     PackagedProduct findById(int id);
+    String countExtent(PackagedProduct product);
+    String countDesk(PackagedProduct product);
     List<PackagedProduct> findAll();
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);
     void deleteByID(int id);

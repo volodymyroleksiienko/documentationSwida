@@ -361,6 +361,7 @@
                 <th scope="col">Срок выполнения</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th scope="col">extentForDistribution main order</th>
+                <th scope="col">date main order</th>
             </tr>
             </thead>
             <tbody>
@@ -378,6 +379,7 @@
                     <button type="button" class="btn btn-primary btn-sm" onclick="editDistribution(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
                 <td th:text="${(b.mainOrder!=null)? b.mainOrder.extentForDistribution:''}"></td>
+                <td th:text="${(b.mainOrder!=null)? b.mainOrder.date:''}"></td>
             </tr>
             </tbody>
 
@@ -394,6 +396,7 @@
                 <th scope="col">Срок выполнения</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th scope="col">extentForDistribution main order</th>
+                <th scope="col">date main order</th>
             </tr>
             </tfoot>
         </table>

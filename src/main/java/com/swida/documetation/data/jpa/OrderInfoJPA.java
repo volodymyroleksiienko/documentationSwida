@@ -19,4 +19,7 @@ public interface OrderInfoJPA extends JpaRepository<OrderInfo,Integer> {
 
     @Query("select obj.id from  OrderInfo obj where obj.mainOrder.id=?1")
     List<Integer> findDistributionId(int mainId);
+
+    @Query("select obj from  OrderInfo obj where obj.mainOrder.id=?1")
+    List<OrderInfo> findDistributionObj(int mainId);
 }

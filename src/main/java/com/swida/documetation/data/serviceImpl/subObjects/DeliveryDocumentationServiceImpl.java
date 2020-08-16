@@ -33,24 +33,32 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
 
     @Override
     public void checkInfoFromImport(List<DeliveryDocumentation> docList, OrderInfo orderInfo) {
+
         for (DeliveryDocumentation doc:docList) {
             DeliveryDocumentation docDB = documentationJPA.getDeliveryDocumentationByIdOfTruck(doc.getDriverInfo().getIdOfTruck());
             if (docDB==null){
+                float mainExtent = 0;
                 doc.setOrderInfo(orderInfo);
 
                 for(PackagedProduct product: doc.getProductList()){
                     product.setOrderInfo(orderInfo);
                     product.setBreedOfTree(orderInfo.getBreedOfTree());
+                    mainExtent+=Float.parseFloat(packagedProductService.countExtent(product));
                     packagedProductService.save(product);
                 }
                 doc.setContrAgent(orderInfo.getContrAgent());
+                doc.setPackagesExtent(String.format("%.3f",mainExtent).replace(",","."));
                 driverInfoService.save(doc.getDriverInfo());
                 documentationJPA.save(doc);
             } else {
                 int startIndex = 0;
                 for(int i=0; i<docDB.getProductList().size();i++){
+
                     PackagedProduct productDB = docDB.getProductList().get(i);
                     for(PackagedProduct productXLS: doc.getProductList()){
+                        if(docDB.getDriverInfo().getIdOfTruck().equals(doc.getDriverInfo().getIdOfTruck())){
+                            docDB.setDateOfUnloading(doc.getDateOfUnloading());
+                        }
                         if (productDB.getSizeOfHeight().equals(productXLS.getSizeOfHeight()) &&
                                 productDB.getSizeOfWidth().equals(productXLS.getSizeOfWidth()) &&
                                 productDB.getSizeOfLong().equals(productXLS.getSizeOfLong()) &&
@@ -64,8 +72,8 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
                             packagedProductService.save(productDB);
                             break;
                         }
-
                     }
+
                 }
             }
 

@@ -5,16 +5,14 @@ import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
+import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
-import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
-import com.swida.documetation.data.service.subObjects.ContainerService;
-import com.swida.documetation.data.service.subObjects.ContrAgentService;
-import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import com.swida.documetation.data.service.subObjects.*;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
 import com.swida.documetation.utils.xlsParsers.ParseMultimodalPackagesByContract;
@@ -42,12 +40,13 @@ public class MultimodalController {
     private ContainerService containerService;
     private DeliveryDocumentationService deliveryDocumentationService;
     private PackagedProductService packagedProductService;
+    private DriverInfoService driverInfoService;
 
     @Autowired
     public MultimodalController(UserCompanyService userCompanyService, BreedOfTreeService breedOfTreeService,
                                 ContrAgentService contrAgentService, OrderInfoService orderInfoService,
                                 ContainerService containerService,DeliveryDocumentationService deliveryDocumentationService,
-                                PackagedProductService packagedProductService) {
+                                PackagedProductService packagedProductService, DriverInfoService driverInfoService) {
         this.userCompanyService = userCompanyService;
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
@@ -55,6 +54,7 @@ public class MultimodalController {
         this.containerService = containerService;
         this.deliveryDocumentationService = deliveryDocumentationService;
         this.packagedProductService = packagedProductService;
+        this.driverInfoService = driverInfoService;
     }
 // Main page
     @GetMapping("/getDeliveryInUkraine-{breedId}")
@@ -67,6 +67,7 @@ public class MultimodalController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("navTabName","delivery");
         List<DeliveryDocumentation> list = deliveryDocumentationService.getListByDestinationType(DeliveryDestinationType.COUNTRY);
 
         list.removeIf(doc -> doc.getBreedOfTree().getId() != breedId);
@@ -94,7 +95,7 @@ public class MultimodalController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentList",contrAgentList);
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-
+        model.addAttribute("navTabName","delivery");
         return "multimodalPage";
     }
 
@@ -151,7 +152,7 @@ public class MultimodalController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("containerList",containerService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-
+        model.addAttribute("navTabName","delivery");
         return "multimodalPage";
     }
 
@@ -180,11 +181,51 @@ public class MultimodalController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("deliveryDocumentationList",deliveryDocumentationService
                 .getListByDistributionContractsId(orderInfoService.findDistributionId(contractId)));
-        System.out.println(deliveryDocumentationService
-                .getListByDistributionContractsId(orderInfoService.findDistributionId(contractId)));
+
+        model.addAttribute("providerList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("navTabName","delivery");
         return "multimodalPage";
     }
 
+    @PostMapping("/addTrucksByContract-{id}")
+    public String addTrucksByContract(@PathVariable("id")int contractId, DeliveryDocumentation docWeb){
+
+        DriverInfo driverInfo = new DriverInfo();
+        driverInfo.setIdOfTruck(docWeb.getDriverInfo().getIdOfTruck());
+        driverInfoService.save(driverInfo);
+
+        docWeb.setDriverInfo(driverInfo);
+
+        deliveryDocumentationService.save(docWeb);
+
+        return "redirect:/multimodal/getTrucksByContract-"+contractId;
+    }
+
+    @PostMapping("/editTrucksByContract-{id}")
+    public String editTrucksByContract(@PathVariable("id")int contractId, DeliveryDocumentation docWeb){
+        DeliveryDocumentation docDB = deliveryDocumentationService.findById(docWeb.getId());
+        docDB.setDateOfUnloading(docWeb.getDateOfUnloading());
+        docDB.getDriverInfo().setIdOfTruck(docWeb.getDriverInfo().getIdOfTruck());
+        docDB.setContrAgent(contrAgentService.findById(docWeb.getContrAgent().getId()));
+        docDB.setPackagesExtent(docWeb.getPackagesExtent());
+        deliveryDocumentationService.save(docDB);
+
+        return "redirect:/multimodal/getTrucksByContract-"+contractId;
+    }
+
+//    no button
+    @PostMapping("/deleteTruckByContract-{id}")
+    public String deleteTruckByContract(@PathVariable("id")int contractId, String id){
+        DeliveryDocumentation doc = deliveryDocumentationService.findById(Integer.parseInt(id));
+        List<PackagedProduct> products = doc.getProductList();
+
+        driverInfoService.deleteByID(doc.getDriverInfo().getId());
+        for(PackagedProduct product :products){
+            packagedProductService.deleteByID(product.getId());
+        }
+        deliveryDocumentationService.deleteByID(doc.getId());
+        return "redirect:/multimodal/getTrucksByContract-"+contractId;
+    }
 
 //    Full Details Page
     @GetMapping("/getFullDetailsOfContract-{id}")
@@ -199,8 +240,9 @@ public class MultimodalController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contractPackagesList",deliveryDocumentation);
         model.addAttribute("contractId",contractId);
-
-        model.addAttribute(" ",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
+        model.addAttribute("distributeOrderList",orderInfoService.findDistributionObj(contractId));
+        model.addAttribute("navTabName","delivery");
+        model.addAttribute("idOfTruckList",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
         return "multimodalPage";
     }
 
@@ -216,6 +258,26 @@ public class MultimodalController {
         doc.getProductList().add(packagedProduct);
         deliveryDocumentationService.save(doc);
 
+        return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
+    }
+
+    @PostMapping("/editPackageToDeliveryDoc-{id}")
+    public String editPackageToDeliveryDoc(@PathVariable("id")int contractId, PackagedProduct packagedProduct,
+                                          String contractName, String containerName, String driverIdOfTruck){
+
+        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractName);
+
+        //        packagedProduct.setCountOfDesk(packagedProductService.countDesk(packagedProduct));
+        packagedProduct.setExtent(packagedProductService.countExtent(packagedProduct));
+
+        packagedProduct.setOrderInfo(orderInfo);
+        packagedProductService.save(packagedProduct);
+        return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
+    }
+
+    @PostMapping("/deletePackage-{id}")
+    public String deletePackage(@PathVariable("id")int contractId, String id){
+        packagedProductService.deleteByID(Integer.parseInt(id));
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
 

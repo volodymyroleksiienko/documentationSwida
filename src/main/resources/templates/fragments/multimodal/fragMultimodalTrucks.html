@@ -21,7 +21,7 @@
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.addressOfCompany:''}"></td>
                 <td th:text="${doc.packagesExtent}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editTruck(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>
             </tbody>
@@ -39,20 +39,134 @@
         </table>
         <!-- BUTTON START-->
         <div class="float-action-button">
-            <a  href="/multimodal/getMultimodalOrders">
-                <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left">
-                    <i class="fas fa-chevron-left">&nbsp;</i>
-                </button>
-            </a>
+            <button type="button" class="buttons btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addTruckModal">
+                <i class="fa fa-plus"></i>
+            </button>
+
+            <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left" onclick="location.href='/multimodal/getMultimodalOrders';">
+                <i class="fas fa-chevron-left">&nbsp;</i>
+            </button>
         </div>
         <div class="float-action-button-right">
-            <a th:href="@{'/multimodal/getFullDetailsOfContract-'+${contractId}}">
-                <button type="button" class="buttons main-button btn btn-primary" title="Подробнее" data-placement="left" >
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </a>
+            <button type="button" class="buttons main-button btn btn-primary" title="Подробнее" data-placement="left" onclick="location.href='/multimodal/getFullDetailsOfContract-'+this.name" th:name="${contractId}">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
         <!-- BUTTON END-->
     </div>
     <!-- Подробно машины END -->
+
+    <!-- ADD TRUCK MODAL START -->
+    <div class="modal fade" id="addTruckModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/multimodal/addTrucksByContract-'+${contractId}}" method="post">
+                    <div class="modal-body">
+
+                        <label class="col-form-label" for="addTruckDateOfUploading">Дата загрузки</label>
+                        <input type="date" class="form-control" id="addTruckDateOfUploading" required="required" name="dateOfUnloading">
+
+                        <label class="col-form-label" for="addTruckNumber">№ машины</label>
+                        <input type="text" class="form-control" id="addTruckNumber" required="required" autocomplete="off" name="driverInfo.idOfTruck">
+
+                        <label class="col-form-label" for="addTruckPlace">Место отгрузки</label>
+                        <input type="text" class="form-control" list="addTruckList" id="addTruckPlace" required="required" autocomplete="off" name="contrAgent.id">
+                        <datalist id="addTruckList">
+                            <option th:each="agent : ${providerList}"  th:value="${agent.id}" th:label="${agent.addressOfCompany}">
+                        </datalist>
+
+<!--                        <label class="col-form-label" for="addTruckPlace">Место отгрузки</label>-->
+<!--                        <input type="text" class="form-control" id="addTruckPlace" required="required" autocomplete="off">-->
+
+                        <label class="col-form-label" for="addTruckExpotrExtent">Экспортный объем, привоз, м<sup>3</sup></label>
+                        <input type="text" class="form-control" id="addTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.querySelector("#addTruckDateOfUploading").valueAsDate = new Date();
+    </script>
+    <!-- ADD TRUCK MODAL END -->
+    <!-- EDIT TRUCK MODAL START -->
+    <div class="modal fade" id="editTruckModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTruckModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/multimodal/editTrucksByContract-'+${contractId}}" method="post">
+                    <div class="modal-body">
+                        <input type="text" id="editTruckId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editTruckDateOfUploading">Дата загрузки</label>
+                        <input type="date" class="form-control" id="editTruckDateOfUploading" required="required" name="dateOfUnloading">
+
+                        <label class="col-form-label" for="editTruckNumber">№ машины</label>
+                        <input type="text" class="form-control" id="editTruckNumber" required="required" autocomplete="off" name="driverInfo.idOfTruck">
+
+                        <label class="col-form-label" for="editTruckPlace">Место отгрузки</label>
+                        <input type="text" class="form-control" list="editTruckList" id="editTruckPlace" required="required" autocomplete="off" name="contrAgent.id">
+                        <datalist id="editTruckList">
+                            <option th:each="agent : ${providerList}"  th:value="${agent.id}" th:label="${agent.addressOfCompany}">
+                        </datalist>
+<!--                        -->
+<!--                        <label class="col-form-label" for="editTruckPlace">Место отгрузки</label>-->
+<!--                        <input type="text" class="form-control" id="editTruckPlace" required="required" autocomplete="off">-->
+
+                        <label class="col-form-label" for="editTruckExpotrExtent">Экспортный объем, привоз, м<sup>3</sup></label>
+                        <input type="text" class="form-control" id="editTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editTruck(btnObj) {
+
+            var trObj =             btnObj.parentElement.parentElement;
+            var trId =              $(trObj).attr('id');
+            $('#editTruckId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var truckNumber =    $(trObj).find('td:eq(1)').text();
+            $('#editTruckModalHeader').text("Редактировать "+ truckNumber);
+
+            var date =              $(trObj).find('td:eq(0)').text();
+            var place =             $(trObj).find('td:eq(2)').text();
+            var extent =            $(trObj).find('td:eq(3)').text();
+
+            var dataListOpt =  document.getElementById("editTruckList").getElementsByTagName("option");
+            for(var i=0;i<dataListOpt.length;i++){
+                if(dataListOpt[i].label===place){
+                    $('#editTruckPlace') .val(dataListOpt[i].value);
+                }
+            }
+
+            $('#editTruckDateOfUploading')             .val(date);
+            $('#editTruckNumber')                      .val(truckNumber);
+            $('#editTruckExpotrExtent')                .val(extent);
+
+            $('#editTruckModal').modal('show');
+        }
+    </script>
+    <!-- EDIT TRUCK MODAL END -->
 </th:block>

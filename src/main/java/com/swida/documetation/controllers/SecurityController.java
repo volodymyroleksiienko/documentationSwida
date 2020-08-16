@@ -55,7 +55,7 @@ public class SecurityController {
 
         }
         if (hasAdminRole){
-            return "redirect:/admin/getListOfUserCompany";
+            return "redirect:/admin/getListOfContract";
         }
         return "redirect:/logout";
     }

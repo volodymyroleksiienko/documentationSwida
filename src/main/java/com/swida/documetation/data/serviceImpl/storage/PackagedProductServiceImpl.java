@@ -133,6 +133,21 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
+    public String countExtent(PackagedProduct product) {
+        return String.format("%.3f",
+                Float.parseFloat(countDesk(product))
+                        *Float.parseFloat(product.getSizeOfHeight())
+                        *Float.parseFloat(product.getSizeOfWidth())
+                        *Float.parseFloat(product.getSizeOfLong())
+                        /1000000000).replace(",",".");
+    }
+
+    @Override
+    public String countDesk(PackagedProduct product) {
+        return String.valueOf(Integer.parseInt(product.getCountDeskInWidth())*Integer.parseInt(product.getCountDeskInHeight())).replace(",",".");
+    }
+
+    @Override
     public List<PackagedProduct> findAll() {
         return productJPA.findAll();
     }

@@ -56,6 +56,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
+    public List<OrderInfo> findDistributionObj(int mainId) {
+        return orderInfoJPA.findDistributionObj(mainId);
+    }
+
+    @Override
     public List<Integer> findDistributionId(int mainId) {
         return orderInfoJPA.findDistributionId(mainId);
     }
