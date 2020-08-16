@@ -1,9 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.OrderInfo;
-import com.swida.documetation.data.entity.storages.DryingStorage;
-import com.swida.documetation.data.entity.storages.PackagedProduct;
-import com.swida.documetation.data.entity.storages.RawStorage;
+import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
@@ -112,5 +110,35 @@ public class FabricRestController {
         packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
     }
 
+    @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
+    public void createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
+                                 @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,
+                                 String codeOfPackage, String quality, String sizeOfHeight, String length){
+        float cofExtent = Float.parseFloat(sizeOfHeight)*Float.parseFloat(length)/1000000;
+        float extent = 0;
+
+        //i = 1 skip test obj
+        for (int i=1; i<arrayOfDesk.length;i++){
+            extent += (cofExtent*Float.parseFloat(arrayOfDesk[i][0])*Float.parseFloat(arrayOfDesk[i][1])/1000);
+        }
+
+        RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(idOfDryStorage));
+        DryingStorage dryingStorage = dryingStorageService.createFromRawStorage(rawStorage);
+
+        rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-extent).replace(',','.'));
+        rawStorageService.save(rawStorage);
+
+        DryStorage dryStorage = dryStorageService.createFromDryingStorage(dryingStorage);
+
+        dryingStorage.setExtent("0.000");
+        dryingStorage.setCodeOfProduct(dryingStorage.getCodeOfProduct()+"raw");
+        dryingStorageService.save(dryingStorage);
+
+        dryStorage.setExtent(String.format("%.3f",extent).replace(',','.'));
+        dryStorage.setCodeOfProduct(dryStorage.getCodeOfProduct()+"raw");
+        dryStorageService.save(dryStorage);
+
+        packagedProductService.createPackageOak(arrayOfDesk,String.valueOf(dryStorage.getId()),codeOfPackage+"-raw",quality,sizeOfHeight,length,userID,breedID);
+    }
 
 }
