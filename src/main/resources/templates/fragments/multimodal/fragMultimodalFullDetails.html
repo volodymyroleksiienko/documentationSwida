@@ -206,6 +206,30 @@
     <!-- SCRIPTS  END-->
 
     <script type="text/javascript">
+        $('#info-detailed-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 3, "asc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "70px"
+                }
+            ]
+        });
+    </script>
+
+    <script type="text/javascript">
         function editRecord(btnObj) {
 
             var trObj =             btnObj.parentElement.parentElement;
@@ -433,6 +457,5 @@
     <!-- CONFIRMATION MODAL END -->
 
     <!-- MODALS END-->
-
 
 </th:block>

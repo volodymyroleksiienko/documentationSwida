@@ -181,12 +181,12 @@
 
 <!-- MODALS -->
 
-<!--<script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>-->
-<!--<script type="text/javascript" th:src="@{../js/popper.min.js}"></script>-->
-<!--<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>-->
+<script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
 
-<!--<script type="text/javascript" th:src="@{../js/datatables.js}"></script>-->
-<!--<script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>-->
+<script type="text/javascript" th:src="@{../js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
 
 <div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
 
@@ -519,18 +519,7 @@
         } );
         //PACKAGES 1 END
 
-        //PACKAGES 2 START
-        $('#packageOakTableId tbody').on( 'click', 'button', function () {
-            var trObj = this.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
-            $('#unformOakPackModalId').val(trId);
-            console.log(  $(trObj).attr('id'));
-            var codeOfPackage = $(trObj).find('th:eq(0)').text();
-
-            $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
-            $('#unformOakPackModal').modal('show');
-        } );
-
+        //PACKS2 start
         var oakTable = $('#packageOakTableId').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
@@ -561,7 +550,6 @@
         $('#packageOakTableId tbody').on( 'click', '.outer-table', function () {
             $(this).toggleClass('selected');
         } );
-
 
         $( "#buttonForOakTransportation" ).click(function() {
             modalOakPackagesTable.clear().draw();
@@ -602,7 +590,7 @@
             // id column visibility
             "columnDefs": [
                 {
-                    "targets": [ 1],
+                    "targets": [ 1 ],
                     "visible": false,
                     "searchable": false
                 },
@@ -616,7 +604,9 @@
             this.parentElement.parentElement.remove();
             document.getElementById(idOfParent).remove()
         } );
-        //PACKAGES 2 END
+        //PACKS 2 end
+
+
 
 
 
