@@ -60,7 +60,7 @@
 <!--                &lt;!&ndash;Dropdown 2 end &ndash;&gt;-->
             </ul>
 
-            <h5 style="color: white; margin: 0 10px 0 0">Администратор</h5>
+            <h5 style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">Администратор</h5>
 
             <img src="../img/user2_4.png" width="50px" style="margin-right: 20px">
             <form class="form-inline my-2 my-lg-0">

@@ -12,6 +12,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,8 @@ public class ImportOrderDataFromXLS {
     private MultipartFile multipartFile;
 
     public List<DeliveryDocumentation> importData() throws IOException, InvalidFormatException {
-        File mainFile = new File(System.getProperty("user.home") +File.separator+multipartFile.getOriginalFilename());
+        String currentDate = new SimpleDateFormat("yyMMddHHmmssZ").format(new Date());
+        File mainFile = new File(System.getProperty("user.home") +File.separator+currentDate+multipartFile.getOriginalFilename());
         multipartFile.transferTo(mainFile);
         Workbook workbook = WorkbookFactory.create(mainFile);
 

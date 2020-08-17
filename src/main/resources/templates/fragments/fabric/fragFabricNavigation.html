@@ -50,7 +50,7 @@
                 <!--Dropdown 2 end -->
 
             </ul>
-            <h5 style="color: white; margin: 0 10px 0 0">User</h5>
+            <h5 style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">User</h5>
             <img th:src="@{../img/users2_3.png}" width="50px" style="margin-right: 20px">
             <form class="form-inline my-2 my-lg-0" method="get" action="/logout">
 
