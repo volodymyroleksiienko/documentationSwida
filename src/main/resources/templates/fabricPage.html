@@ -519,6 +519,8 @@
         } );
         //PACKAGES 1 END
 
+
+
         //PACKS2 start
         var oakTable = $('#packageOakTableId').DataTable({
             "language": {
@@ -546,33 +548,37 @@
         });
 
 
-
+        // TOOGLE SELECTED START
         $('#packageOakTableId tbody').on( 'click', '.outer-table', function () {
             $(this).toggleClass('selected');
         } );
+        //TOOGLE SELECTED END
+
+
 
         $( "#buttonForOakTransportation" ).click(function() {
             modalOakPackagesTable.clear().draw();
-            var newData = document.getElementsByClassName("selected");
-            var tBody = document.getElementById('sendDeliveryInfoModal');
+            let newData = document.getElementsByClassName("selected");
+            let tBody = document.getElementById('listOfPackagesOakId');
             tBody.deleteRow(0);
-            for(var i=0;i<newData.length;i++){
-                var tmp = newData[i];
-                var clone = tmp.cloneNode(true);
-                var tdId = clone.getElementsByClassName("details-control")[0];
-                var idOfPackage=tdId.getAttribute("id");
-                var idOfPackageParent="parent"+idOfPackage;
+            for(let i=0;i<newData.length;i++){
+                let tmp = newData[i];
+                let clone = tmp.cloneNode(true);
+                let tdId = clone.getElementsByClassName("details-control")[0];
+                let idOfPackage=tdId.getAttribute("id");
+                let idOfPackageParent="parent"+idOfPackage;
                 tdId.setAttribute("id",'modal'+idOfPackage);
                 console.log(clone);
-                var insideTr = $(clone).closest('tr').html();
-                var trObj = $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
+                console.log("parent: "+idOfPackage+" packageparent: "+idOfPackageParent);
+                let insideTr = $(clone).closest('tr').html();
+                let trObj = $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
 
-                var trParent = document.getElementById(idOfPackageParent);
-                var trParentClone = trParent.cloneNode(true);
-                trParentClone.setAttribute("id",'parentmodal'+i);
+                let trParent = document.getElementById(idOfPackageParent);
+                let trParentClone = trParent.cloneNode(true);
+                trParentClone.setAttribute("id",'parentmodal'+idOfPackage);
 
-                $('#sendDeliveryInfoModal').append(trObj);
-                $('#sendDeliveryInfoModal').append(trParentClone);
+                $('#listOfPackagesOakId').append(trObj);
+                $('#listOfPackagesOakId').append(trParentClone);
             }
 
 
@@ -635,6 +641,7 @@
             ]
 
         });
+
 
         $('#transportationTableOak').DataTable({
             "language": {

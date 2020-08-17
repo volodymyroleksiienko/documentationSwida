@@ -54,7 +54,7 @@
             </tfoot>
         </table>
         <!-- BUTTON START-->
-        <<div class="float-action-button">
+        <div class="float-action-button">
             <button type="button" class="buttons main-button btn btn-primary" title="Импорт" data-placement="left" onclick="importData()">
                 <i class="fas fa-file-import">&nbsp;</i>
             </button>
@@ -87,29 +87,44 @@
                             <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
                         </datalist>
 
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="control-label" for="editContractMaterial">Материал</label>
+                                <input type="text" class="form-control" list="breedOfTreeList" id="editContractMaterial" required="required" autocomplete="off" name="breedOfTree.breed">
+                                <datalist id="breedOfTreeList">
+                                    <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
+                                </datalist>
+                            </div>
 
-                        <label class="control-label" for="editContractMaterial">Материал</label>
-                        <input type="text" class="form-control" list="breedOfTreeList" id="editContractMaterial" required="required" autocomplete="off" name="breedOfTree.breed">
-                        <datalist id="breedOfTreeList">
-                            <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
-                        </datalist>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContractMaterialDescription">Описание</label>
+                                <input type="text" class="form-control" id="editContractMaterialDescription" required="required" autocomplete="off" name="breedDescription">
+                            </div>
+                        </div>
 
-                        <label class="col-form-label" for="editContractMaterialDescription">Описание</label>
-                        <input type="text" class="form-control" id="editContractMaterialDescription" required="required" autocomplete="off" name="breedDescription">
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContractExtent">Кубатура</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContractExtent" required="required" autocomplete="off" name="extentOfOrder">
+                            </div>
 
-                        <label class="col-form-label" for="editContractExtent">Кубатура</label>
-                        <input type="text" class="form-control" id="editContractExtent" required="required" autocomplete="off" name="extentOfOrder">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContractTarnsported">Отгрузка (выехало в порт)</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContractTarnsported" required="required" autocomplete="off" name="doneExtendOfOrder">
+                            </div>
+                        </div>
 
-                        <label class="col-form-label" for="editContractTarnsported">Отгрузка (выехало в порт)</label>
-                        <input type="text" class="form-control" id="editContractTarnsported" required="required" autocomplete="off" name="doneExtendOfOrder">
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContractExpectedExtent">Ожидаемый объем</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContractExpectedExtent" required="required" autocomplete="off" name="toDoExtentOfOrder">
+                            </div>
 
-                        <label class="col-form-label" for="editContractExpectedExtent">Ожидаемый объем</label>
-                        <input type="text" class="form-control" id="editContractExpectedExtent" required="required" autocomplete="off" name="toDoExtentOfOrder">
-
-                        <label class="col-form-label" for="editContractTerms">Срок выполнения</label>
-<!--                        <input type="text" class="form-control" id="editContractTerms" required="required" autocomplete="off" name="date">-->
-                         <input type="date" class="form-control" id="editContractTerms" required="required">
-
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContractTerms">Срок выполнения</label>
+                                <input type="date" class="form-control" id="editContractTerms" required="required">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
@@ -121,7 +136,6 @@
     </div>
     <script type="text/javascript">
         function editContract(btnObj) {
-
             var trObj =             btnObj.parentElement.parentElement;
             var trId =              $(trObj).attr('id');
             $('#editContractId').val(trId);

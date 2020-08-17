@@ -231,7 +231,7 @@
             $('#editRecordtId').val(trId);
             console.log(  $(trObj).attr('id'));
             var contractNumber =    $(trObj).find('th:eq(0)').text();
-            // $('#editContratModalHeader').text("Редактировать контракт №"+contractNumber);
+            // $('#editContractModalHeader').text("Редактировать контракт №"+contractNumber);
 
             var carNumber =         $(trObj).find('td:eq(0)').text();
             var pack =              $(trObj).find('td:eq(1)').text();
@@ -319,7 +319,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordExtent">Кубатура</label>
-                                <input type="number" class="form-control" id="addRecordExtent" required="required" autocomplete="off" name="extent">
+                                <input type="text" class="form-control" id="addRecordExtent" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="addRecordHeightPc">Высота, шт.</label>

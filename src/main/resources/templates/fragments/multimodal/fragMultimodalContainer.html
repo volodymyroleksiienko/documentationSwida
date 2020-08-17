@@ -72,23 +72,41 @@
                         <label class="col-form-label" for="addContainerNumber">№ контейнера</label>
                         <input type="text" class="form-control" id="addContainerNumber" required="required" autocomplete="off" name="code">
 
-                        <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка, м<sup>3</sup></label>
-                        <input type="number" class="form-control" id="addContainerExpotrExtent" required="required" autocomplete="off" name="extent">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent">
+                            </div>
 
-                        <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера, $</label>
-                        <input type="number" class="form-control" id="addContainerUnloading" required="required" autocomplete="off" name="costOfUploading">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера</label>
+                                <input type="number" step="any" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading">
+                            </div>
+                        </div>
 
-                        <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт, $</label>
-                        <input type="number" class="form-control" id="addContainerDelivery" required="required" autocomplete="off" name="costOfDeliveryToPort">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт</label>
+                                <input type="number" step="any" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort">
+                            </div>
 
-                        <label class="col-form-label" for="addContainerMeasurement">Взвешивание, грн</label>
-                        <input type="number" class="form-control" id="addContainerMeasurement" required="required" autocomplete="off" name="costOfWeighing">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerMeasurement">Взвешивание</label>
+                                <input type="number" step="any" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing">
+                            </div>
+                        </div>
 
-                        <label class="col-form-label" for="addContainerCurrency">Курс, $</label>
-                        <input type="number" class="form-control" id="addContainerCurrency" required="required" autocomplete="off" name="exchangeRate">
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerCurrency">Курс</label>
+                                <input type="number" step="any" class="form-control" id="addContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="exchangeRate">
+                            </div>
 
-                        <label class="col-form-label" for="addUah">Эквивалент в гривне</label>
-                        <input type="number" class="form-control" id="addUah" required="required" autocomplete="off" name="equalsToUAH">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addUah">Эквивалент в гривне</label>
+                                <input type="number" step="any" class="form-control" id="addUah" required="required" placeholder="uah" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="equalsToUAH">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Добавить</button>
@@ -117,24 +135,41 @@
                         <label class="col-form-label" for="editContainerNumber">№ контейнера</label>
                         <input type="text" class="form-control" id="editContainerNumber" required="required" autocomplete="off" name="code">
 
-                        <label class="col-form-label" for="editContainerExpotrExtent">Экспортный объем, загрузка, м<sup>3</sup></label>
-                        <input type="text" class="form-control" id="editContainerExpotrExtent" required="required" autocomplete="off" name="extent">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerExpotrExtent">Эксп. объем, загрузка, м<sup>3</sup></label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" required="required" autocomplete="off" name="extent">
+                            </div>
 
-                        <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера, $</label>
-                        <input type="text" class="form-control" id="editContainerUnloading" required="required" autocomplete="off" name="costOfUploading">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера, $</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerUnloading" required="required" autocomplete="off" name="costOfUploading">
+                            </div>
+                        </div>
 
-                        <label class="col-form-label" for="editContainerDelivery">Вывоз контейнера в порт, $</label>
-                        <input type="text" class="form-control" id="editContainerDelivery" required="required" autocomplete="off" name="costOfDeliveryToPort">
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerDelivery">Вывоз контейнера в порт, $</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerDelivery" required="required" autocomplete="off" name="costOfDeliveryToPort">
+                            </div>
 
-                        <label class="col-form-label" for="editContainerMeasurement">Взвешивание, грн</label>
-                        <input type="text" class="form-control" id="editContainerMeasurement" required="required" autocomplete="off" name="costOfWeighing">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerMeasurement">Взвешивание, грн</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerMeasurement" required="required" autocomplete="off" name="costOfWeighing">
+                            </div>
+                        </div>
 
-                        <label class="col-form-label" for="editContainerCurrency">Курс, $</label>
-                        <input type="text" class="form-control" id="editContainerCurrency" required="required" autocomplete="off" name="exchangeRate">
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerCurrency">Курс, $</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerCurrency" required="required" autocomplete="off" name="exchangeRate">
+                            </div>
 
-                        <label class="col-form-label" for="editUah">Эквивалент в гривне</label>
-                        <input type="text" class="form-control" id="editUah" required="required" autocomplete="off" name="equalsToUAH">
-
+                            <div class="col-6">
+                                <label class="col-form-label" for="editUah">Эквивалент в гривне</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editUah" required="required" autocomplete="off" name="equalsToUAH">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>

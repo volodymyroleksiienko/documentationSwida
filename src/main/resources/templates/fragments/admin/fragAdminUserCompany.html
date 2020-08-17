@@ -78,20 +78,25 @@
                         <label class="col-form-label" for="addUserCompanyPassword">Пароль</label>
                         <input type="text" class="form-control" id="addUserCompanyPassword" required="required" autocomplete="off" name="password">
 
-                        <label class="col-form-label" for="addContractBuyer">Соединить с контрагентом</label>
-                        <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer"  autocomplete="off" name="contrAgent.nameOfAgent">
-                        <datalist id="contrAgentList">
-                            <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
-                        </datalist>
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContractBuyer">Соединить с контрагентом</label>
+                                <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer"  autocomplete="off" name="contrAgent.nameOfAgent">
+                                <datalist id="contrAgentList">
+                                    <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                                </datalist>
+                            </div>
 
-                        <label class="col-form-label" for="addUserCompanyRole">Роль</label>
-                        <input type="text" class="form-control" list="rolesList" id="addUserCompanyRole" required="required" autocomplete="off" name="role">
-                        <datalist id="rolesList">
-                            <option value="ROLE_ADMIN">
-                            <option value="ROLE_SUPER_USER">
-                            <option value="ROLE_USER">
-                        </datalist>
-
+                            <div class="col-6">
+                                <label class="col-form-label" for="addUserCompanyRole">Роль</label>
+                                <input type="text" class="form-control" list="rolesList" id="addUserCompanyRole" required="required" autocomplete="off" name="role">
+                                <datalist id="rolesList">
+                                    <option value="ROLE_ADMIN">
+                                    <option value="ROLE_SUPER_USER">
+                                    <option value="ROLE_USER">
+                                </datalist>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Добавить</button>
@@ -123,26 +128,32 @@
                         <label class="control-label" for="editUserLocation">Местонахождение</label>
                         <input type="text" class="form-control" id="editUserLocation" autocomplete="off" name="location">
 
+
                         <label class="col-form-label" for="editUserCompanyLogin">Логин</label>
                         <input type="text" class="form-control" id="editUserCompanyLogin" required="required" autocomplete="off" name="username">
 
                         <label class="col-form-label" for="editUserCompanyPassword">Пароль</label>
                         <input type="text" class="form-control" id="editUserCompanyPassword" required="required" autocomplete="off" name="password">
 
-                        <label class="col-form-label" for="addContrAgent">Соединить с контрагентом</label>
-                        <input type="text" class="form-control" list="contrAgentList1" id="addContrAgent" autocomplete="off" name="contrAgent.nameOfAgent">
-                        <datalist id="contrAgentList1">
-                            <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
-                        </datalist>
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContrAgent">Соединить с контрагентом</label>
+                                <input type="text" class="form-control" list="contrAgentList1" id="addContrAgent" autocomplete="off" name="contrAgent.nameOfAgent">
+                                <datalist id="contrAgentList1">
+                                    <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                                </datalist>
+                            </div>
 
-                        <label class="col-form-label" for="editUserCompanyRole">Роль</label>
-                        <input type="text" class="form-control" list="editRolesList" id="editUserCompanyRole" required="required" autocomplete="off" name="role">
-                        <datalist id="editRolesList">
-                            <option value="ROLE_ADMIN">
-                            <option value="ROLE_SUPER_USER">
-                            <option value="ROLE_USER">
-                        </datalist>
-
+                            <div class="col-6">
+                                <label class="col-form-label" for="editUserCompanyRole">Роль</label>
+                                <input type="text" class="form-control" list="editRolesList" id="editUserCompanyRole" required="required" autocomplete="off" name="role">
+                                <datalist id="editRolesList">
+                                    <option value="ROLE_ADMIN">
+                                    <option value="ROLE_SUPER_USER">
+                                    <option value="ROLE_USER">
+                                </datalist>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
