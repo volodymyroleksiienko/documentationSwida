@@ -75,17 +75,30 @@
                         <label class="col-form-label" for="addTruckNumber">№ машины</label>
                         <input type="text" class="form-control" id="addTruckNumber" required="required" autocomplete="off" name="driverInfo.idOfTruck">
 
-                        <label class="col-form-label" for="addTruckPlace">Место отгрузки</label>
-                        <input type="text" class="form-control" list="addTruckList" id="addTruckPlace" required="required" autocomplete="off" name="contrAgent.id">
-                        <datalist id="addTruckList">
-                            <option th:each="agent : ${providerList}"  th:value="${agent.id}" th:label="${agent.addressOfCompany}">
-                        </datalist>
+<!--                        <label class="col-form-label" for="addTruckPlace">Место отгрузки</label>-->
+<!--                        <input type="text" class="form-control" list="addTruckList" id="addTruckPlace" required="required" autocomplete="off" name="contrAgent.id">-->
+<!--                        <datalist id="addTruckList">-->
+<!--                            <option th:each="agent : ${providerList}"  th:value="${agent.id}" th:label="${agent.addressOfCompany}">-->
+<!--                        </datalist>-->
 
 <!--                        <label class="col-form-label" for="addTruckPlace">Место отгрузки</label>-->
 <!--                        <input type="text" class="form-control" id="addTruckPlace" required="required" autocomplete="off">-->
 
-                        <label class="col-form-label" for="addTruckExpotrExtent">Экспортный объем, привоз, м<sup>3</sup></label>
-                        <input type="text" class="form-control" id="addTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
+                        <label class="col-form-label" for="answer">Место отгрузки</label>
+                        <input type="text" class="form-control" list="places" id="answer" required="required" autocomplete="off">
+<!--                        <input list="places" id="answer">-->
+                        <datalist id="places">
+                            <option data-value="1">Company 1</option>
+                            <option data-value="666">Vova hui</option>
+                            <option data-value="2">Company 2</option>
+                        </datalist>
+                        <input type="hidden" name="answer" id="answer-hidden">
+
+                        <p>Submitted id:</p>
+                        <pre id="result"></pre>
+
+                        <label class="col-form-label" for="addTruckExpotrExtent">Экспортный объем, привоз</label>
+                        <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Добавить</button>
@@ -97,6 +110,33 @@
     </div>
     <script type="text/javascript">
         document.querySelector("#addTruckDateOfUploading").valueAsDate = new Date();
+
+        document.querySelector('input[list]').addEventListener('input', function(e) {
+            var input = e.target,
+                list = input.getAttribute('list'),
+                options = document.querySelectorAll('#' + list + ' option'),
+                hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
+                label = input.value;
+
+            hiddenInput.value = label;
+
+            for(var i = 0; i < options.length; i++) {
+                var option = options[i];
+
+                if(option.innerText === label) {
+                    hiddenInput.value = option.getAttribute('data-value');
+                    break;
+                }
+            }
+        });
+
+        // debugging
+        document.getElementById("answer").addEventListener('change', function(e) {
+            var value = document.getElementById('answer-hidden').value;
+            document.getElementById('result').innerHTML = value;
+        });
+
+
     </script>
     <!-- ADD TRUCK MODAL END -->
     <!-- EDIT TRUCK MODAL START -->

@@ -102,26 +102,28 @@
 
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <label class="col-form-label" for="editContractOrder">Заказ</label>
                                 <input type="number" step="any" class="form-control" id="editContractOrder" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="extentOfOrder">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-6">
                                 <label class="col-form-label" for="editContractDone">Отгружено</label>
                                 <input type="number" step="any" class="form-control" id="editContractDone" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="doneExtendOfOrder">
                             </div>
+                        </div>
 
-                            <div class="col-4">
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
                                 <label class="col-form-label" for="editContractLeft">Остаток</label>
                                 <input type="number" step="any" class="form-control" id="editContractLeft" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" disabled="disabled" placeholder="м3">
                             </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContractDate">Срок выполнения</label>
+                                <input class="form-control" type="date" id="editContractDate" required="required" name="date">
+                            </div>
                         </div>
-
-
-                        <label class="col-form-label" for="editContractDate">Срок выполнения</label>
-                        <input class="form-control" type="date" id="editContractDate" required="required" name="date">
-
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
@@ -469,25 +471,28 @@
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <label class="col-form-label" for="editDistributionOrder">Заказ</label>
                                 <input type="number" step="any" class="form-control" id="editDistributionOrder" pattern="[0-9]*\.?[0-9]*" required="required" autocomplete="off" placeholder="м3" name="extentOfOrder">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-6">
                                 <label class="col-form-label" for="editDistributionDone">Отгружено</label>
                                 <input type="number" step="any" class="form-control" id="editDistributionDone" pattern="[0-9]*\.?[0-9]*" required="required" autocomplete="off" placeholder="м3" name="doneExtendOfOrder">
                             </div>
+                        </div>
 
-                            <div class="col-4">
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
                                 <label class="col-form-label" for="editDistributionLeft">Остаток</label>
                                 <input type="number" step="any" class="form-control" id="editDistributionLeft" pattern="[0-9]*\.?[0-9]*" required="required" autocomplete="off" disabled="disabled" placeholder="м3" name="toDoExtentOfOrder">
                             </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="editOrderContractDate">Срок выполнения</label>
+                                <input class="form-control" type="date" id="editOrderContractDate" required="required" name="date">
+                            </div>
                         </div>
-
-                        <label class="col-form-label" for="editOrderContractDate">Срок выполнения</label>
-                        <input class="form-control" type="date" id="editOrderContractDate" required="required" name="date">
-
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
