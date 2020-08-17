@@ -29,6 +29,26 @@
                 </li>
                 <!--Dropdown  -->
 
+                <!-- Dropdown 1 start -->
+                <li class="nav-item dropdown " th:classappend="${navTabName?.equals('delivery')} ? 'active':''" sec:authorize="hasRole('ROLE_SUPER_USER')">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Доставка</a>
+                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" href="/multimodal/getMultimodalOrders">Мультимодал</a>
+                        <a class="dropdown-item" href="/multimodal/getDeliveryInUkraine-1">Доставка по Украине</a>
+                        <a class="dropdown-item" href="#">Порты</a>
+                    </div>
+                </li>
+
+
+                <!-- Dropdown 2 start -->
+                <li class="nav-item dropdown " sec:authorize="hasRole('ROLE_SUPER_USER')">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Вход от имени</a>
+                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                        <a class="dropdown-item" th:each="u : ${userCompanyList}" th:text="${u.nameOfCompany}"  th:href="@{'/fabric/getListOfTreeStorage-'+${u.id}+'-1'}"></a>
+                    </div>
+                </li>
+                <!--Dropdown 2 end -->
+
             </ul>
             <h5 style="color: white; margin: 0 10px 0 0">User</h5>
             <img th:src="@{../img/users2_3.png}" width="50px" style="margin-right: 20px">

@@ -30,7 +30,7 @@
 <!--                </li>-->
 
                 <!-- Dropdown 1 start -->
-                <li class="nav-item dropdown ">
+                <li class="nav-item dropdown " th:classappend="${navTabName.equals('delivery')} ? 'active':''">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Доставка</a>
                     <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
                         <a class="dropdown-item" href="/multimodal/getMultimodalOrders">Мультимодал</a>

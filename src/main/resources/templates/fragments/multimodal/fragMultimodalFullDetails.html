@@ -106,78 +106,84 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/editRecordMultimodal">
+                <form th:action="@{'/multimodal/editPackageToDeliveryDoc-'+${contractId}}" method="post">
                     <div class="modal-body">
                         <input type="text" id="editRecordtId" hidden="" name="id">
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordCarNumber">№ машыны</label>
-                                <input type="text" class="form-control" id="editRecordCarNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" list="editIdList" id="editRecordCarNumber" required="required" autocomplete="off" name="driverIdOfTruck">
+                                <datalist id="editIdList">
+                                    <option th:each="idValue : ${idOfTruckList}"  th:value="${idValue}">
+                                </datalist>
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordPackNumber">№ пачки</label>
-                                <input type="text" class="form-control" id="editRecordPackNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editRecordPackNumber" required="required" autocomplete="off" name="codeOfPackage">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordThickness">Толщина</label>
-                                <input type="number" class="form-control" id="editRecordThickness" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordThickness" required="required" autocomplete="off" name="sizeOfHeight">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordWidth">Ширина</label>
-                                <input type="number" class="form-control" id="editRecordWidth" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordWidth" required="required" autocomplete="off" name="sizeOfWidth">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordLength">Длина</label>
-                                <input type="number" class="form-control" id="editRecordLength" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordLength" required="required" autocomplete="off" name="sizeOfLong">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordCount">Штук</label>
-                                <input type="number" class="form-control" id="editRecordCount" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordCount" required="required" autocomplete="off" name="countOfDesk">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordExtent">Кубатура</label>
-                                <input type="number" class="form-control" id="editRecordExtent" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordExtent" required="required" autocomplete="off" name="extent">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordHeightPc">Высота, шт.</label>
-                                <input type="number" class="form-control" id="editRecordHeightPc" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordWidthPc">Ширина, шт.</label>
-                                <input type="number" class="form-control" id="editRecordWidthPc" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editRecordLengthFact">Длина - ФАКТ</label>
-                                <input type="number" class="form-control" id="editRecordLengthFact" required="required" autocomplete="off">
+                                <input type="number" class="form-control" id="editRecordLengthFact" required="required" autocomplete="off" name="longFact">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordPackNumberMultiModal">№ пачки (Мультимодал)</label>
-                                <input type="text" class="form-control" id="editRecordPackNumberMultiModal" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editRecordPackNumberMultiModal" required="required" autocomplete="off" name="codeOfDeliveryCompany">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordWidthHeight">Высота/Ширина</label>
-                                <input type="text" class="form-control" id="editRecordWidthHeight" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editRecordWidthHeight" required="required" autocomplete="off" name="height_width">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordContractNumber">Контракт</label>
-                                <input type="text" class="form-control" id="editRecordContractNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" list="editContractssList" id="editRecordContractNumber"  autocomplete="off" name="contractName">
+                                <datalist id="editContractssList">
+                                    <option  th:each="c : ${distributeOrderList}" th:value="${c.codeOfOrder}">
+                                </datalist>
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordContainerNumber">№ контейнера</label>
-                                <input type="text" class="form-control" id="editRecordContainerNumber" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editRecordContainerNumber" required="required" autocomplete="off" name="containerName">
                             </div>
                         </div>
                     </div>
@@ -338,22 +344,25 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordPackNumberMultiModal">№ пачки (Мультимодал)</label>
-                                <input type="text" class="form-control" id="addRecordPackNumberMultiModal" required="required" autocomplete="off" name="codeOfDeliveryCompany">
+                                <input type="text" class="form-control" id="addRecordPackNumberMultiModal"  autocomplete="off" name="codeOfDeliveryCompany">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordWidthHeight">Высота/Ширина</label>
-                                <input type="text" class="form-control" id="addRecordWidthHeight" required="required" autocomplete="off" name="height_width">
+                                <input type="text" class="form-control" id="addRecordWidthHeight"  autocomplete="off" name="height_width">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordContractNumber">Контракт</label>
-                                <input type="text" class="form-control" id="addRecordContractNumber" required="required" autocomplete="off" name="contractName">
+                                <input type="text" class="form-control" list="contractssList" id="addRecordContractNumber"  autocomplete="off" name="contractName">
+                                <datalist id="contractssList">
+                                    <option  th:each="c : ${distributeOrderList}" th:value="${c.codeOfOrder}">
+                                </datalist>
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordContainerNumber">№ контейнера</label>
-                                <input type="text" class="form-control" id="addRecordContainerNumber" required="required" autocomplete="off" name="containerName">
+                                <input type="text" class="form-control" id="addRecordContainerNumber"  autocomplete="off" name="containerName">
                             </div>
                         </div>
                     </div>
@@ -414,7 +423,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="/multimodal /confirm" method="post">
+                <form th:action="@{'/multimodal/deletePackage-'+${contractId}}" method="post">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">

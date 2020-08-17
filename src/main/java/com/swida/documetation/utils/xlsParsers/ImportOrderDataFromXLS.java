@@ -88,7 +88,13 @@ public class ImportOrderDataFromXLS {
         driverInfo.setNumberOfTruck(dataFormatter.formatCellValue(sheet.getRow(startRow+2).getCell(startCell)));
         driverInfo.setNumberOfTrailer(dataFormatter.formatCellValue(sheet.getRow(startRow+4).getCell(startCell)));
 
-        deliveryDocumentation.setDateOfUnloading(dataFormatter.formatCellValue(sheet.getRow(startRow+6).getCell(startCell)));
+        String date = dataFormatter.formatCellValue(sheet.getRow(startRow+6).getCell(startCell));
+        String[] dateArr= date.split("\".\"");
+        if (dateArr.length==3){
+            date = dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0];
+        }
+
+        deliveryDocumentation.setDateOfUnloading(date);
 
         String timeInfo = dataFormatter.formatCellValue(sheet.getRow(startRow+8).getCell(startCell))+" "
                 +dataFormatter.formatCellValue(sheet.getRow(startRow+9).getCell(startCell));

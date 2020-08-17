@@ -13,6 +13,7 @@ public interface OrderInfoService {
     List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status);
     List<OrderInfo> getOrdersListByAgent(int agentId);
     List<OrderInfo> findAll();
+    List<OrderInfo> findDistributionObj(int mainId);
     List<Integer> findDistributionId(int mainId);
     void deleteByID(int id);
 }
