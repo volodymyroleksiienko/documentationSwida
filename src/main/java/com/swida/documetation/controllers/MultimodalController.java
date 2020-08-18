@@ -1,6 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.OrderInfo;
+import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
@@ -58,28 +59,6 @@ public class MultimodalController {
         this.driverInfoService = driverInfoService;
     }
 // Main page
-    @GetMapping("/getDeliveryInUkraine-{breedId}")
-    public String getDeliveryInUkraine(@PathVariable("breedId") int breedId,  Model model){
-
-        model.addAttribute("navTabName","multimodalMain");
-        model.addAttribute("tabName",breedId);
-        model.addAttribute("fragmentPathTabConfig","transportationTab");
-        model.addAttribute("fragmentPathDeliveryUA", (breedId==2)?"deliveryInfoOak":"deliveryInfo");
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("navTabName","delivery");
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
-        List<DeliveryDocumentation> list = deliveryDocumentationService.getListByDestinationType(DeliveryDestinationType.COUNTRY);
-
-        list.removeIf(doc -> doc.getBreedOfTree().getId() != breedId);
-
-        model.addAttribute("deliveryDocumentations",list);
-        return "multimodalPage";
-    }
-
-
 
     @GetMapping("/getMultimodalOrders")
     public String getMultimodalOrders(Model model){
@@ -92,15 +71,18 @@ public class MultimodalController {
         model.addAttribute("tabName","contracts");
         model.addAttribute("fragmentPathMultimodalMain", "multimodalContracts");
         model.addAttribute("fragmentPathTabConfig","multimodalMain");
-        model.addAttribute("multimodalOrderList",orderInfoService.getOrdersByStatusOfOrder(StatusOfOrderInfo.MAIN));
+        model.addAttribute("multimodalOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.MAIN, DeliveryDestinationType.MULTIMODAL));
         model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrder(StatusOfOrderInfo.DISTRIBUTION));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentList",contrAgentList);
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("navTabName","delivery");
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (userCompany!=null){
+            model.addAttribute("userCompanyName",userCompany);
+            model.addAttribute("userId",userCompany.getId());
+        }
         return "multimodalPage";
     }
 
@@ -158,8 +140,11 @@ public class MultimodalController {
         model.addAttribute("containerList",containerService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("navTabName","delivery");
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (userCompany!=null){
+            model.addAttribute("userCompanyName",userCompany);
+            model.addAttribute("userId",userCompany.getId());
+        }
         return "multimodalPage";
     }
 
@@ -191,8 +176,11 @@ public class MultimodalController {
 
         model.addAttribute("providerList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("navTabName","delivery");
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (userCompany!=null){
+            model.addAttribute("userCompanyName",userCompany);
+            model.addAttribute("userId",userCompany.getId());
+        }
         return "multimodalPage";
     }
 
@@ -252,8 +240,11 @@ public class MultimodalController {
         model.addAttribute("distributeOrderList",orderInfoService.findDistributionObj(contractId));
         model.addAttribute("navTabName","delivery");
         model.addAttribute("idOfTruckList",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (userCompany!=null){
+            model.addAttribute("userCompanyName",userCompany);
+            model.addAttribute("userId",userCompany.getId());
+        }
         return "multimodalPage";
     }
 

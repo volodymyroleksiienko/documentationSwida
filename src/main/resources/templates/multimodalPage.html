@@ -32,8 +32,11 @@
     <div id="myTabContent" class="tab-content">
 
         <!-- Show delivery in Ukraine        -->
-        <div th:if="${fragmentPathDeliveryUA!=null}">
-            <div th:replace="~{fragments/fabric/fragFabricTabDeliveryInfo.html :: ${fragmentPathDeliveryUA}}"></div>
+        <div th:if="${fragmentPathOrderInfo!=null}">
+            <div th:replace="~{fragments/admin/fragAdminOrderInfo :: ${fragmentPathOrderInfo}}"></div>
+        </div>
+        <div th:if="${fragmentPathDeliveryDoc!=null}">
+            <div th:replace="~{fragments/fabric/fragFabricTabDeliveryInfo :: ${fragmentPathDeliveryDoc}}"></div>
         </div>
 
         <!--        Multimodal frags-->

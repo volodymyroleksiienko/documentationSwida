@@ -213,6 +213,7 @@ public class AdminController {
         orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
         orderInfoDB.setExtentForDistribution(String.format("%.3f",Float.parseFloat(orderInfoDB.getExtentForDistribution())-differenceExtent).replace(",","."));
         orderInfoDB.setDate(orderInfo.getDate());
+        orderInfoDB.setDestinationType(orderInfo.getDestinationType());
 
         orderInfoService.save(orderInfoDB);
         return "redirect:/admin/getListOfContract";

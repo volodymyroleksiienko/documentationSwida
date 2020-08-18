@@ -2,6 +2,7 @@ package com.swida.documetation.data.service;
 
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public interface OrderInfoService {
     OrderInfo findById(int id);
     OrderInfo findByCodeOfOrder(String code);
     List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status);
+    List<OrderInfo> getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo status, DeliveryDestinationType type);
     List<OrderInfo> getOrdersListByAgent(int agentId);
     List<OrderInfo> findAll();
     List<OrderInfo> findDistributionObj(int mainId);

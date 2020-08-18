@@ -10,6 +10,7 @@
                 <th scope="col">№ машины</th>
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
+                <th scope="col">Контракт</th>
                 <th></th>
             </tr>
             </thead>
@@ -20,6 +21,7 @@
                 <td th:text="${doc.driverInfo.idOfTruck}"></td>
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.addressOfCompany:''}"></td>
                 <td th:text="${doc.packagesExtent}"></td>
+                <td th:text="${doc.orderInfo.codeOfOrder}"></td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editTruck(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
@@ -33,6 +35,7 @@
                 <th scope="col">№ машины</th>
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
+                <th scope="col">Контракт</th>
                 <th></th>
             </tr>
             </tfoot>

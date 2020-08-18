@@ -2,6 +2,7 @@ package com.swida.documetation.data.serviceImpl;
 
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.jpa.OrderInfoJPA;
 import com.swida.documetation.data.service.OrderInfoService;
@@ -43,6 +44,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status) {
         return orderInfoJPA.getOrdersByStatusOfOrder(status);
+    }
+
+    @Override
+    public List<OrderInfo> getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo status, DeliveryDestinationType type) {
+        return orderInfoJPA.getOrdersByStatusOfOrderByDestination(status,type);
     }
 
     @Override

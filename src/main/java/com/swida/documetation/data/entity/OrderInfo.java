@@ -2,6 +2,7 @@ package com.swida.documetation.data.entity;
 
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class OrderInfo {
     private String extentForDistribution;
     private String date;
 
+
     @ManyToOne
     private OrderInfo mainOrder;
     @ManyToOne
@@ -31,6 +33,8 @@ public class OrderInfo {
     private String breedDescription;
     @OneToOne
     private ContrAgent contrAgent;
+    @Enumerated(EnumType.STRING)
+    private DeliveryDestinationType destinationType;
     @Enumerated(EnumType.STRING)
     private StatusOfOrderInfo statusOfOrderInfo;
     @Enumerated(EnumType.STRING)

@@ -90,7 +90,7 @@ public class FabricRestController {
 
         deliveryDocumentation.setPackagesExtent(String.format("%.3f",extentOfAllPack).replace(",","."));
 
-        deliveryDocumentation.setOrderInfo(orderInfo);
+        deliveryDocumentation.setOrderInfo(orderInfo.getMainOrder());
         deliveryDocumentation.setDestinationType(DeliveryDestinationType.valueOf(deliveryDestination));
         deliveryDocumentation.setDescription(description);
 
