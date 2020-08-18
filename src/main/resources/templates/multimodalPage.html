@@ -102,6 +102,28 @@
 </script>
 
 <script type="text/javascript">
+    document.querySelector('input[list]').addEventListener('input', function(e) {
+        var input = e.target,
+            list = input.getAttribute('list'),
+            options = document.querySelectorAll('#' + list + ' option'),
+            hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
+            label = input.value;
+
+        hiddenInput.value = label;
+
+        for(var i = 0; i < options.length; i++) {
+            var option = options[i];
+
+            if(option.innerText === label) {
+                hiddenInput.value = option.getAttribute('data-value');
+                break;
+            }
+        }
+        console.log("Hidden input value:"+hiddenInput.value);
+    });
+</script>
+
+<script type="text/javascript">
     $(document).ready( function () {
         $('#multimodal-truck-table').DataTable({
             "language": {

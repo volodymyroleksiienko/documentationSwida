@@ -36,8 +36,14 @@
                               <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                               <td th:text="${dd.destinationType}"></td>
                               <td th:text="${dd.description}"></td>
-                              <td>
+                              <td style="display: flex;align-items: baseline">
+                                  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
+                                      <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
+                                  </button>
                                   <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post">
+<!--                                      <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">-->
+<!--                                          <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>-->
+<!--                                      </button>-->
                                       <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
                                           <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                       </button>
@@ -61,6 +67,7 @@
                                           <th scope="col">Ширина</th>
                                           <th scope="col">Длина-ФАКТ</th>
                                           <th scope="col">В/Ш</th>
+                                          <th></th>
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -77,6 +84,9 @@
                                           <td th:text="${ps.countDeskInWidth}"></td>
                                           <td th:text="${ps.longFact}"></td>
                                           <td th:text="${ps.height_width}"></td>
+                                          <td>
+                                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                          </td>
                                       </tr>
                                       </tbody>
                                   </table>
