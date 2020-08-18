@@ -188,7 +188,7 @@
 <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
 <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
 
-<div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>
+<!--<div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>-->
 
 <script type="text/javascript">
     let tdsDate = document.getElementsByClassName('change-color');
@@ -428,7 +428,7 @@
 
 
         //PACKAGES 1 START
-        var table = $('#packagedproducttable').DataTable({
+        let table = $('#packagedproducttable').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
             },

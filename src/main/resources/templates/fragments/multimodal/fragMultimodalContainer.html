@@ -62,7 +62,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Добавить</h5>
+                    <h5 class="modal-title">Добавить контейнер</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -72,7 +72,7 @@
                         <label class="col-form-label" for="addContainerNumber">№ контейнера</label>
                         <input type="text" class="form-control" id="addContainerNumber" required="required" autocomplete="off" name="code">
 
-                        <div class="form-group row d-flex" style="align-items: flex-end">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка</label>
                                 <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent">
@@ -84,7 +84,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row d-flex" style="align-items: flex-end">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт</label>
                                 <input type="number" step="any" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row d-flex" style="align-items: flex-end">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerCurrency">Курс</label>
                                 <input type="number" step="any" class="form-control" id="addContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="exchangeRate">
@@ -187,7 +187,7 @@
             $('#editContainerId').val(trId);
             console.log(  $(trObj).attr('id'));
             var cantainerNumber =    $(trObj).find('td:eq(0)').text();
-            $('#editContainerModalHeader').text("Редактировать "+ cantainerNumber);
+            $('#editContainerModalHeader').text("Редактировать контейнер №"+ cantainerNumber);
 
             var exportExtent =      $(trObj).find('td:eq(1)').text();
             var unloading =         $(trObj).find('td:eq(2)').text();

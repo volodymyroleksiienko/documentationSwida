@@ -28,7 +28,7 @@
                 <td th:text="${order.extentOfOrder}"></td>
                 <td th:text="${order.doneExtendOfOrder}"></td>
                 <td th:text="${order.toDoExtentOfOrder}"></td>
-                <td th:text="${order.date}"></td>
+                <td th:text="${order.date}"  class="change-color"></td>
                 <td>
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -90,7 +90,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
                                 <label class="control-label" for="editContractMaterial">Материал</label>
-                                <input type="text" class="form-control" list="breedOfTreeList" id="editContractMaterial" required="required" autocomplete="off" name="breedOfTree.breed">
+                                <input type="text" class="form-control" list="breedOfTreeList" disabled="disabled" id="editContractMaterial" required="required" autocomplete="off" name="breedOfTree.breed">
                                 <datalist id="breedOfTreeList">
                                     <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
                                 </datalist>
@@ -98,7 +98,7 @@
 
                             <div class="col-6">
                                 <label class="col-form-label" for="editContractMaterialDescription">Описание</label>
-                                <input type="text" class="form-control" id="editContractMaterialDescription" required="required" autocomplete="off" name="breedDescription">
+                                <input type="text" class="form-control" id="editContractMaterialDescription" disabled="disabled" required="required" autocomplete="off" name="breedDescription">
                             </div>
                         </div>
 
@@ -110,7 +110,7 @@
 
                             <div class="col-6">
                                 <label class="col-form-label" for="editContractTarnsported">Отгрузка (выехало в порт)</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContractTarnsported" required="required" autocomplete="off" name="doneExtendOfOrder">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" disabled="disabled" id="editContractTarnsported" required="required" autocomplete="off" name="doneExtendOfOrder">
                             </div>
                         </div>
 
