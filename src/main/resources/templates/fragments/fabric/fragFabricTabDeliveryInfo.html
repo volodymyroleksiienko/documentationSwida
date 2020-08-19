@@ -36,14 +36,19 @@
                               <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                               <td th:text="${dd.destinationType}"></td>
                               <td th:text="${dd.description}"></td>
-                              <td style="display: flex;align-items: baseline">
+                              <td>
                                   <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
                                       <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                                   </button>
-                                  <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post">
-<!--                                      <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">-->
+                                  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addDriverPackage(this)">
+                                      <i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i>
+                                  </button>
+<!--                                  <a th:href="@{'/fabric/exportDeliveryInfo-'+${dd.id}}">-->
+<!--                                      <button  type="submit" class="btn btn-primary btn-sm">-->
 <!--                                          <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>-->
 <!--                                      </button>-->
+<!--                                  </a>-->
+                                  <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
                                       <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
                                           <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                       </button>
@@ -72,7 +77,7 @@
                                       </thead>
                                       <tbody>
                                       <tr th:each="ps, index : ${dd.getProductList()}" th:id="${ps.id}">
-                                          <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
+                                          <th scope="row" th:text="${ps.codeOfPackage}"></th>
                                           <td th:text="${ps.breedOfTree.breed}"></td>
                                           <td th:text="${ps.breedDescription}"></td>
                                           <td th:text="${ps.sizeOfHeight}"></td>
@@ -84,8 +89,9 @@
                                           <td th:text="${ps.countDeskInWidth}"></td>
                                           <td th:text="${ps.longFact}"></td>
                                           <td th:text="${ps.height_width}"></td>
-                                          <td>
+                                          <td style="width: 70px">
                                               <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverPackage(this)"><i class="fas fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
                                           </td>
                                       </tr>
                                       </tbody>
@@ -126,8 +132,413 @@
     </div>
     <!-- Транспортировка -->
 
+<!--    Edit driver start-->
+    <div class="modal fade" id="editDriverInfoModal">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="">
+                    <div class="modal-body">
+                        <input type="text" id="driverId" hidden="" name="id">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-3">
+                                <label class="col-form-label" for="editIdOfTruck">№ выгрузки</label>
+                                <input type="text" class="form-control"  id="editIdOfTruck" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
+                            </div>
+                            <div class="col-6">
+                                <label for="editDriverCredentionals" class="col-form-label">Имя, Фамилия водителя</label>
+                                <input type="text" class="form-control" id="editDriverCredentionals" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label for="editDriverPhone" class="col-form-label">Телефон</label>
+                                <input type="text" class="form-control" id="editDriverPhone" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-3">
+                                <label for="editNumberOfTruck" class="col-form-label">Номер фуры</label>
+                                <input type="text" class="form-control" id="editNumberOfTruck" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label for="editNumberOfTrailer" class="col-form-label">Номер прицепа</label>
+                                <input type="text" class="form-control" id="editNumberOfTrailer" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label for="editPackDateInput" class="col-form-label">Дата выгрузки</label>
+                                <input class="form-control" type="date" id="editPackDateInput" required="required" name="dateOfUnloading">
+                            </div>
+                            <div class="col-3">
+                                <label for="editPackTimeInput" class="col-form-label">Время выгрузки</label>
+                                <input type="text" class="form-control" id="editPackTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-3">
+                                <label for="editPackContractId" class="col-form-label">Код контракта</label>
+                                <input type="text" class="form-control" list="contractList" id="editPackContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                <datalist id="contractList">
+                                    <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                </datalist>
+                            </div>
+                            <div class="col-3">
+                                <label for="editPackDeliveryDestination" class="col-form-label">Пункт назначения</label>
+                                <input type="text" class="form-control" list="destinationType" id="editPackDeliveryDestination" required="required" autocomplete="off" name="destinationType">
+                                <datalist id="destinationType">
+                                    <option value="MULTIMODAL">
+                                    <option value="PORT">
+                                    <option value="COUNTRY">
+                                </datalist>
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
+                                <input type="text" class="form-control" placeholder="" id="editDeliveryDescription"  autocomplete="off">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Insert rows -->
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--Edit end-->
+
+    <!--    Edit package start-->
+    <div class="modal fade" id="editDriverPackagesModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать пачку</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="">
+                    <div class="modal-body">
+                        <input type="text" id="packageId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editIdOfPack">№ пачки</label>
+                        <input type="text" class="form-control" placeholder="" id="editIdOfPack" autocomplete="off" required="required">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="control-label" for="editDeliveryBreedOfTree">Порода</label>
+                                <input type="text" class="form-control" list="editBreedOfTreeList" id="editDeliveryBreedOfTree" required="required" autocomplete="off" name="breedOfTree.breed">
+                                <datalist id="editBreedOfTreeList">
+                                    <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
+                                </datalist>
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editBreedDescriptionDelivery">Описание</label>
+                                <input type="text" class="form-control" id="editBreedDescriptionDelivery" autocomplete="off"  name="breedDescription">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackThickness">Толщина</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackWidth">Ширина</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackLength">Длина</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackCount">Кол-во досок</label>
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackExtent">Кубатура</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*"  placeholder="м3" class="form-control" id="editDeliveryPackExtent" required="required" autocomplete="off" name="extent">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackHeightPc">Высота, шт.</label>
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackWidthPc">Ширина, шт.</label>
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackLengthFact">Длина - ФАКТ</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackLengthFact" required="required" autocomplete="off" name="longFact">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDeliveryPackWidthHeight">Высота/Ширина</label>
+                                <input type="text" class="form-control" id="editDeliveryPackWidthHeight" placeholder="в/ш" autocomplete="off" name="height_width">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Insert rows -->
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Edit end-->
+
+    <!--    Add package start-->
+    <div class="modal fade" id="addDriverPackagesModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить пачку</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="">
+                    <div class="modal-body">
+                        <input type="text" id="driverDeliveryId" hidden="" name="id">
+
+                        <label class="col-form-label" for="addIdOfPack">№ пачки</label>
+                        <input type="text" class="form-control" placeholder="" id="addIdOfPack" autocomplete="off" required="required">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="control-label" for="addDeliveryBreedOfTree">Порода</label>
+                                <input type="text" class="form-control" list="addBreedOfTreeList" id="addDeliveryBreedOfTree" required="required" autocomplete="off" name="breedOfTree.breed">
+                                <datalist id="addBreedOfTreeList">
+                                    <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
+                                </datalist>
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addBreedDescriptionDelivery">Описание</label>
+                                <input type="text" class="form-control" id="addBreedDescriptionDelivery" autocomplete="off"  name="breedDescription">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackThickness">Толщина</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackWidth">Ширина</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackLength">Длина</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackCount">Кол-во досок</label>
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackExtent">Кубатура</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*"  placeholder="м3" class="form-control" id="addDeliveryPackExtent" required="required" autocomplete="off" name="extent">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackHeightPc">Высота, шт.</label>
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackWidthPc">Ширина, шт.</label>
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackLengthFact">Длина - ФАКТ</label>
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackLengthFact" required="required" autocomplete="off" name="longFact">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackWidthHeight">Высота/Ширина</label>
+                                <input type="text" class="form-control" id="addDeliveryPackWidthHeight" placeholder="в/ш" autocomplete="off" name="height_width">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Insert rows -->
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Add end-->
+
+    <!--  Modal confirmation  -->
+    <div class="modal fade" id="deletePackModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление пачек</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form action="/delete" method="post">
+                    <div class="modal-body">
+                        <!--       TUT                 -->
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deletePackModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="deletePackModalConfirmation">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal confirmation  -->
+
+    <script type="text/javascript">
+        function editDriverInfo(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
+            $('#driverId').val(trId);
+
+            var truck =             $(trObj).find('td:eq(1)').text();
+            var truckNum =          $(trObj).find('td:eq(2)').text();
+            var trailerNum  =       $(trObj).find('td:eq(3)').text();
+            var packDate  =         $(trObj).find('td:eq(4)').text();
+            var packTime  =         $(trObj).find('td:eq(5)').text();
+            var driver =            $(trObj).find('td:eq(6)').text();
+            var phone =             $(trObj).find('td:eq(7)').text();
+            var contract =          $(trObj).find('td:eq(8)').text();
+            var destination =       $(trObj).find('td:eq(9)').text();
+            var delDescription =    $(trObj).find('td:eq(10)').text();
+
+
+            $('#editIdOfTruck')                 .val(truck);
+            $('#editDriverCredentionals')       .val(driver);
+            $('#editDriverPhone')               .val(phone);
+            $('#editNumberOfTruck')             .val(truckNum);
+            $('#editNumberOfTrailer')           .val(trailerNum);
+            $('#editPackDateInput')             .val(packDate);
+            $('#editPackTimeInput')             .val(packTime);
+            $('#editPackContractId')            .val(contract);
+            $('#editPackDeliveryDestination')   .val(destination);
+            $('#editDeliveryDescription')       .val(delDescription);
+
+            $('#editDriverInfoModal').modal('show');
+        }
+    </script>
+
+    <script type="text/javascript">
+        function editDriverPackage(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
+            $('#packageId').val(trId);
+
+            var pack =              $(trObj).find('th:eq(0)').text();
+            var breedOfTree =       $(trObj).find('td:eq(0)').text();
+            var breedDescription =  $(trObj).find('td:eq(1)').text();
+            var thickness =         $(trObj).find('td:eq(2)').text();
+            var width =             $(trObj).find('td:eq(3)').text();
+            var length =            $(trObj).find('td:eq(4)').text();
+            var packCount =         $(trObj).find('td:eq(5)').text();
+            var extent =            $(trObj).find('td:eq(6)').text();
+            var heightPc =          $(trObj).find('td:eq(7)').text();
+            var widthPc =           $(trObj).find('td:eq(8)').text();
+            var lengthFact =        $(trObj).find('td:eq(9)').text();
+            var widthHeight =       $(trObj).find('td:eq(10)').text();
+
+            $('#editIdOfPack')                  .val(pack);
+            $('#editDeliveryBreedOfTree')       .val(breedOfTree);
+            $('#editBreedDescriptionDelivery')  .val(breedDescription);
+            $('#editDeliveryPackThickness')     .val(thickness);
+            $('#editDeliveryPackWidth')         .val(width);
+            $('#editDeliveryPackLength')        .val(length);
+            $('#editDeliveryPackCount')         .val(packCount);
+            $('#editDeliveryPackExtent')        .val(extent);
+            $('#editDeliveryPackHeightPc')      .val(heightPc);
+            $('#editDeliveryPackWidthPc')       .val(widthPc);
+            $('#editDeliveryPackLengthFact')    .val(lengthFact);
+            $('#editDeliveryPackWidthHeight')    .val(widthHeight);
+
+            $('#editDriverPackagesModal').modal('show');
+        }
+    </script>
+
+    <script type="text/javascript">
+        function addDriverPackage(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
+            $('#driverDeliveryId').val(trId);
+
+            $('#addDriverPackagesModal').modal('show');
+        }
+    </script>
+
+    <script type="text/javascript">
+        function deleteDriverPackage(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#deletePackModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfPackage = $(trObj).find('th:eq(0)').text();
+
+            $('#deletePackModalConfirmation').text(" Вы уверены, что хотите окончательно удалить пачку "+codeOfPackage+" ?");
+            $('#deletePackModal').modal('show');
+        }
+    </script>
+
 
 </th:block>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!--OAK DElivery info-->
