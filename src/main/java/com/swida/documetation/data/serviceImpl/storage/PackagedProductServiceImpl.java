@@ -43,6 +43,11 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productJPA.save(packProd);
     }
 
+    @Override
+    public void saveWithoutCalculating(PackagedProduct packProd) {
+        productJPA.save(packProd);
+    }
+
 
     @Override
     public void createPackages(String dryStorageId, String codeOfProduct,String breedDescription, String countHeight, String countWidth,

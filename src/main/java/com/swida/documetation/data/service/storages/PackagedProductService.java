@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PackagedProductService {
     void save(PackagedProduct packProd);
+    void saveWithoutCalculating(PackagedProduct packProd);
     void createPackages(String dryStorageId, String codeOfProduct,String breedDescription, String countHeight, String countWidth,
                         String countOfPack, String longFact, String heightWidth, UserCompany userCompany);
     void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,

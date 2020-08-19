@@ -1,5 +1,6 @@
 package com.swida.documetation.controllers;
 
+import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
@@ -15,6 +16,7 @@ import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.*;
 import org.apache.tomcat.util.digester.ObjectCreateRule;
@@ -25,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -43,13 +46,15 @@ public class FabricController {
     private ContrAgentService contrAgentService;
     private UserCompanyService userCompanyService;
     private OrderInfoService orderInfoService;
+    private DriverInfoService driverInfoService;
 
     @Autowired
     public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService,
                             DryingStorageService dryingStorageService, DryStorageService dryStorageService,
                             PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService,
                             BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService,
-                            UserCompanyService userCompanyService, OrderInfoService orderInfoService) {
+                            UserCompanyService userCompanyService, OrderInfoService orderInfoService,
+                            DriverInfoService driverInfoService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -60,6 +65,7 @@ public class FabricController {
         this.contrAgentService = contrAgentService;
         this.userCompanyService = userCompanyService;
         this.orderInfoService = orderInfoService;
+        this.driverInfoService = driverInfoService;
     }
 
     @GetMapping("/index-{userId}")
@@ -465,7 +471,8 @@ public class FabricController {
     @GetMapping("/getListOfDeliveryDocumentation-{userId}-{breedId}")
     public String getListOfDeliveryDocumentation(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                                  Model model){
-
+        UserCompany company = userCompanyService.findById(userId);
+        ContrAgent contrAgent = company.getContrAgent();
         model.addAttribute("fragmentPathTabDelivery","deliveryInfo");
         model.addAttribute("tabName","deliveryInfo");
         model.addAttribute("userId",userId);
@@ -473,6 +480,7 @@ public class FabricController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("contractList",orderInfoService.getOrdersListByAgent(contrAgent.getId()));
 
         return "fabricPage";
     }
@@ -493,6 +501,78 @@ public class FabricController {
     }
 
 
+    @PostMapping("/editDeliveryDocumentation-{userId}-{breedId}")
+    public String editDeliveryDocumentation(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DeliveryDocumentation documentation){
+        DeliveryDocumentation docDB = deliveryDocumentationService.findById(documentation.getId());
+        documentation.getDriverInfo().setId(docDB.getDriverInfo().getId());
+        driverInfoService.save(documentation.getDriverInfo());
+        docDB.setDriverInfo(documentation.getDriverInfo());
+
+        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(documentation.getOrderInfo().getCodeOfOrder());
+        docDB.setOrderInfo(orderInfo);
+        docDB.setDateOfUnloading(documentation.getDateOfUnloading());
+        docDB.setTimeOfUnloading(documentation.getTimeOfUnloading());
+        docDB.setDestinationType(documentation.getDestinationType());
+        docDB.setDescription(documentation.getDescription());
+
+
+        deliveryDocumentationService.save(docDB);
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/editPackageProduct-{userId}-{breedId}")
+    public String editPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, PackagedProduct product){
+        PackagedProduct productDB = packagedProductService.findById(product.getId());
+
+        productDB.setCodeOfPackage(product.getCodeOfPackage());
+        productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        productDB.setBreedDescription(product.getBreedDescription());
+
+        productDB.setSizeOfHeight(product.getSizeOfHeight());
+        productDB.setSizeOfWidth(product.getSizeOfWidth());
+        productDB.setSizeOfLong(product.getSizeOfLong());
+
+        productDB.setCountOfDesk(product.getCountOfDesk());
+        productDB.setExtent(product.getExtent());
+        productDB.setCountDeskInHeight(product.getCountDeskInHeight());
+        productDB.setCountDeskInWidth(product.getCountDeskInWidth());
+
+        productDB.setLongFact(product.getLongFact());
+        productDB.setHeight_width(product.getHeight_width());
+        packagedProductService.saveWithoutCalculating(productDB);
+
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/addPackageProduct-{userId}-{breedId}")
+    public String addPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,PackagedProduct product,
+                                    String docId){
+        DeliveryDocumentation documentation = deliveryDocumentationService.findById(Integer.parseInt(docId));
+        product.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        product.setExtent(String.format("%.3f",Float.parseFloat(product.getExtent())).replace(",","."));
+        product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
+        packagedProductService.saveWithoutCalculating(product);
+        documentation.getProductList().add(product);
+        deliveryDocumentationService.save(documentation);
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/deletePackageProduct-{userId}-{breedId}")
+    public String deletePackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                    String id){
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
+        if (product.getUserCompany()==null){
+            packagedProductService.deleteByID(product.getId());
+        }else{
+            DeliveryDocumentation  deliveryDocumentation = deliveryDocumentationService.findById(product.getDeliveryDocumentation().getId());
+            deliveryDocumentation.getProductList().remove(product);
+            product.setStatusOfProduct(StatusOfProduct.ON_STORAGE);
+            packagedProductService.saveWithoutCalculating(product);
+            deliveryDocumentationService.save(deliveryDocumentation);
+        }
+
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
 
     //Recycle Page
     @GetMapping("/getListOfRecycle-{userId}-{breedId}")

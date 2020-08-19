@@ -1,5 +1,6 @@
 package com.swida.documetation.data.jpa.subObjects;
 
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,7 @@ public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocument
 
     @Query("select obj from  DeliveryDocumentation obj where obj.driverInfo.idOfTruck=?1")
     DeliveryDocumentation getDeliveryDocumentationByIdOfTruck(String idOfTruck);
+
+    @Query("select obj from  DeliveryDocumentation obj where obj.productList in ?1")
+    DeliveryDocumentation getDeliveryDocumentationPackagedProduct(PackagedProduct product);
 }

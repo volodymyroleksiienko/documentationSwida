@@ -673,7 +673,53 @@
             </tr>
             </tfoot>
         </table>
+        <!-- BUTTON START-->
+        <div class="float-action-button">
+            <button type="button" class="buttons main-button btn btn-primary" title="Импорт" data-placement="left" onclick="importData()">
+                <i class="fas fa-file-import">&nbsp;</i>
+            </button>
+        </div>
+        <!-- BUTTON END-->
     </div>
     <!-- Распределение END -->
+    <!-- IMPORT MODAL START -->
+    <div class="modal fade" id="importModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Импорт из Excel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="@{/multimodal/importOakXLS}" method="post" id="importForm" enctype="multipart/form-data">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputFile">Выберите файл</label>
+                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="fileXLS">
+                            <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
+                            <label class="col-form-label" for="importSetContract">Привязать контракт</label>
+                            <input type="text" class="form-control" list="contractssList" id="importSetContract" required="required" autocomplete="off" name="contractId">
+                            <datalist id="contractssList">
+                                <option  th:each="c : ${distributeOrderList}" th:value="${c.codeOfOrder}">
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" id="importButton" class="btn btn-primary">Импорт</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function importData() {
+            $('#importModal').modal('show');
+        }
+    </script>
+    <!-- IMPORT MODAL END -->
 
 </th:block>

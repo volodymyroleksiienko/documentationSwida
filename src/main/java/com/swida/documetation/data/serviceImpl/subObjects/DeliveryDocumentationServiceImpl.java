@@ -4,6 +4,7 @@ import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
+import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.subObjects.DeliveryDocumentationJPA;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
@@ -78,6 +79,15 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
             }
 
         }
+    }
+
+    @Override
+    public void deletePackageFromDeliveryDoc(PackagedProduct product) {
+        DeliveryDocumentation deliveryDocumentation = documentationJPA.getDeliveryDocumentationPackagedProduct(product);
+        deliveryDocumentation.getProductList().remove(product);
+        product.setStatusOfProduct(StatusOfProduct.ON_STORAGE);
+        packagedProductService.saveWithoutCalculating(product);
+        documentationJPA.save(deliveryDocumentation);
     }
 
 

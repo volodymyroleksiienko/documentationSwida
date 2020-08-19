@@ -11,15 +11,17 @@ import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.*;
+import com.swida.documetation.utils.xlsParsers.ImportOakOrderDataFromXLS;
+import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -137,5 +139,17 @@ public class DeliveryUAController {
         }
 
         return "multimodalPage";
+    }
+
+    @PostMapping("/importOakXLS")
+    public String importOakXLS(@RequestParam MultipartFile fileXLS, String contractId) throws IOException, InvalidFormatException {
+        ImportOakOrderDataFromXLS dataFromXLS = new ImportOakOrderDataFromXLS(fileXLS);
+        System.out.println("contractId "+ contractId);
+        dataFromXLS.importData();
+
+//        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractId);
+
+//        deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
+        return "redirect:/multimodal/getDeliveryPort";
     }
 }

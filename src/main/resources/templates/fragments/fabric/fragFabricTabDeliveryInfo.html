@@ -24,7 +24,7 @@
             </thead>
             <tbody>
                   <div th:each="dd, index : ${deliveryDocumentations}">
-                          <tr>
+                          <tr >
                               <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
                               <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
@@ -142,33 +142,33 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="">
+                <form  th:action="@{'/fabric/editDeliveryDocumentation-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <input type="text" id="driverId" hidden="" name="id">
+                        <input type="number" id="driverId" hidden="" name="id">
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label class="col-form-label" for="editIdOfTruck">№ выгрузки</label>
-                                <input type="text" class="form-control"  id="editIdOfTruck" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
+                                <input type="text" class="form-control"  id="editIdOfTruck"  autocomplete="off" required="required" name="driverInfo.idOfTruck">
                             </div>
                             <div class="col-6">
                                 <label for="editDriverCredentionals" class="col-form-label">Имя, Фамилия водителя</label>
-                                <input type="text" class="form-control" id="editDriverCredentionals" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editDriverCredentionals" required="required" autocomplete="off" name="driverInfo.fullName">
                             </div>
                             <div class="col-3">
                                 <label for="editDriverPhone" class="col-form-label">Телефон</label>
-                                <input type="text" class="form-control" id="editDriverPhone" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editDriverPhone" required="required" autocomplete="off" name="driverInfo.phone">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label for="editNumberOfTruck" class="col-form-label">Номер фуры</label>
-                                <input type="text" class="form-control" id="editNumberOfTruck" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editNumberOfTruck" required="required" autocomplete="off" name="driverInfo.numberOfTruck">
                             </div>
                             <div class="col-3">
                                 <label for="editNumberOfTrailer" class="col-form-label">Номер прицепа</label>
-                                <input type="text" class="form-control" id="editNumberOfTrailer" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="editNumberOfTrailer" required="required" autocomplete="off" name="driverInfo.numberOfTrailer">
                             </div>
                             <div class="col-3">
                                 <label for="editPackDateInput" class="col-form-label">Дата выгрузки</label>
@@ -199,7 +199,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
-                                <input type="text" class="form-control" placeholder="" id="editDeliveryDescription"  autocomplete="off">
+                                <input type="text" class="form-control" placeholder="" id="editDeliveryDescription"  autocomplete="off" name="description">
                             </div>
                         </div>
 
@@ -226,12 +226,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="">
+                <form  th:action="@{'/fabric/editPackageProduct-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <input type="text" id="packageId" hidden="" name="id">
 
                         <label class="col-form-label" for="editIdOfPack">№ пачки</label>
-                        <input type="text" class="form-control" placeholder="" id="editIdOfPack" autocomplete="off" required="required">
+                        <input type="text" class="form-control" placeholder="" id="editIdOfPack" autocomplete="off" required="required" name="codeOfPackage">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
@@ -315,12 +315,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="">
+                <form  th:action="@{'/fabric/addPackageProduct-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <input type="text" id="driverDeliveryId" hidden="" name="id">
+                        <input type="number" id="driverDeliveryId" hidden="" name="docId">
 
                         <label class="col-form-label" for="addIdOfPack">№ пачки</label>
-                        <input type="text" class="form-control" placeholder="" id="addIdOfPack" autocomplete="off" required="required">
+                        <input type="text" class="form-control" placeholder="" id="addIdOfPack" autocomplete="off" required="required" name="codeOfPackage">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
@@ -405,7 +405,7 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form action="/delete" method="post">
+                <form  th:action="@{'/fabric/deletePackageProduct-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <!--       TUT                 -->
 
@@ -429,9 +429,10 @@
     <script type="text/javascript">
         function editDriverInfo(btnObj) {
             let trObj = btnObj.parentElement.parentElement;
-            let trId =  $(trObj).attr('id');
-            $('#driverId').val(trId);
+            // let trId =  $(trObj).attr('id');
 
+
+            var trId =              $(trObj).find('td:eq(0)').attr('id');
             var truck =             $(trObj).find('td:eq(1)').text();
             var truckNum =          $(trObj).find('td:eq(2)').text();
             var trailerNum  =       $(trObj).find('td:eq(3)').text();
@@ -442,7 +443,7 @@
             var contract =          $(trObj).find('td:eq(8)').text();
             var destination =       $(trObj).find('td:eq(9)').text();
             var delDescription =    $(trObj).find('td:eq(10)').text();
-
+            $('#driverId').val(trId);
 
             $('#editIdOfTruck')                 .val(truck);
             $('#editDriverCredentionals')       .val(driver);
@@ -498,7 +499,7 @@
     <script type="text/javascript">
         function addDriverPackage(btnObj) {
             let trObj = btnObj.parentElement.parentElement;
-            let trId =  $(trObj).attr('id');
+            let trId = $(trObj).find('td:eq(0)').attr('id');
             $('#driverDeliveryId').val(trId);
 
             $('#addDriverPackagesModal').modal('show');

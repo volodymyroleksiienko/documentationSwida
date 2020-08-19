@@ -4,6 +4,7 @@ import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.Container;
+import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import lombok.Data;
@@ -60,6 +61,9 @@ public class PackagedProduct {
 
     @ManyToOne
     private DryStorage dryStorage;
+
+    @ManyToOne
+    private DeliveryDocumentation deliveryDocumentation;
 
     @Enumerated(EnumType.STRING)
     private StatusOfProduct statusOfProduct = StatusOfProduct.ON_STORAGE;
