@@ -204,18 +204,17 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form action="/send" method="post">
+                <form th:action="@{'/fabric/addPackToExistDeliveryDoc-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <!--       TUT                 -->
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="selectedPackModalId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="selectedPackModalId" hidden="hidden" autocomplete="off" name="packId">
 
                             <label class="col-form-label" for="selectTruck">Машина</label>
-                            <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" name="contrAgent.id">
+                            <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" name="driverId">
                             <datalist id="trucksList">
-                                <option value="12123123">Vodila 1</option>
-                                <option value="54532324">Vodila 2</option>
+                                <option th:each="d : ${deliveryList}"   th:value="${d.driverInfo.idOfTruck}">
                             </datalist>
                         </div>
                     </div>

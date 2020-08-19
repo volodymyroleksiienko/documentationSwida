@@ -439,6 +439,7 @@ public class FabricController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
 
         return "fabricPage";
     }
@@ -457,7 +458,18 @@ public class FabricController {
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/addPackToExistDeliveryDoc-{userId}-{breedId}")
+    public String addPackToExistDeliveryDoc(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                       String packId,String driverId){
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(packId));
+        DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.getDeliveryDocumentationByIdOfTruck(driverId);
+        product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
+        packagedProductService.save(product);
+        deliveryDocumentation.getProductList().add(product);
+        deliveryDocumentationService.save(deliveryDocumentation);
 
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
 
     @PutMapping("/addPackagedProductToDelivery")
     public void addPackagedProductToDelivery(DriverInfo driverInfo,List<PackagedProduct> productList){
