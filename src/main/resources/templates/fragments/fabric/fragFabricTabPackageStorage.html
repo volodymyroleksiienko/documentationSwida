@@ -38,6 +38,9 @@
                 <td th:text="${ps.longFact}"></td>
                 <td th:text="${ps.height_width}"></td>
                 <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoDelivery(this)">
+                        <i class="fas fa-plus" data-toggle="tooltip" title="Добавить к погрузке"></i>
+                    </button>
                     <button  type="button" class="btn btn-primary btn-sm" onclick="packageUnform(this)">
                         <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                     </button>
@@ -72,6 +75,8 @@
         </div>
         <!-- BUTTON -->
     </div>
+
+
 
 
     <!-- Send list for transportation modal begin -->
@@ -187,6 +192,57 @@
         </div>
     </div>
     <!-- Send list for transportation end -->
+
+<!--    Delivery-->
+    <div class="modal fade" id="sendPackModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendPackageHeader"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form action="/send" method="post">
+                    <div class="modal-body">
+                        <!--       TUT                 -->
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="selectedPackModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <label class="col-form-label" for="selectTruck">Машина</label>
+                            <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" name="contrAgent.id">
+                            <datalist id="trucksList">
+                                <option value="12123123">Vodila 1</option>
+                                <option value="54532324">Vodila 2</option>
+                                <option value="34345344">Vova hui 3</option>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function addPackageIntoDelivery(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#selectedPackModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfSelectedPackage = $(trObj).find('th:eq(0)').text();
+
+            $('#sendPackageHeader').text("Добавить пачку "+codeOfSelectedPackage+" к существующей доставке");
+
+            $('#sendPackModal').modal('show');
+        }
+    </script>
+<!--    Delivery end-->
 
     <!--  Modal confirmation  -->
     <div class="modal fade" id="unformPackModal">
