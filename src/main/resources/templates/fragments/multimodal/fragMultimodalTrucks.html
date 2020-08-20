@@ -42,9 +42,9 @@
         </table>
         <!-- BUTTON START-->
         <div class="float-action-button">
-            <button type="button" class="buttons btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addTruckModal">
-                <i class="fa fa-plus"></i>
-            </button>
+<!--            <button type="button" class="buttons btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addTruckModal">-->
+<!--                <i class="fa fa-plus"></i>-->
+<!--            </button>-->
 
             <button type="button" class="buttons main-button btn btn-primary" title="Назад"  data-placement="left" onclick="location.href='/multimodal/getMultimodalOrders';">
                 <i class="fas fa-chevron-left">&nbsp;</i>
@@ -135,12 +135,16 @@
                         <datalist id="editTruckList">
                             <option th:each="agent : ${providerList}"  th:value="${agent.id}" th:label="${agent.addressOfCompany}">
                         </datalist>
-<!--                        -->
-<!--                        <label class="col-form-label" for="editTruckPlace">Место отгрузки</label>-->
-<!--                        <input type="text" class="form-control" id="editTruckPlace" required="required" autocomplete="off">-->
 
                         <label class="col-form-label" for="editTruckExpotrExtent">Экспортный объем, привоз, м<sup>3</sup></label>
                         <input type="text" class="form-control" id="editTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
+
+                        <label class="col-form-label" for="editContractCode">Контракт</label>
+                        <input type="text" class="form-control" list="editContractsList" id="editContractCode" required="required" autocomplete="off" name="contrAgent.id">
+                        <datalist id="editContractsList">
+                            <option value="12345" label="345678">
+                            <option value="87655" label="985765">
+                        </datalist>
 
                     </div>
                     <div class="modal-footer">
@@ -154,21 +158,29 @@
     <script type="text/javascript">
         function editTruck(btnObj) {
 
-            var trObj =             btnObj.parentElement.parentElement;
-            var trId =              $(trObj).attr('id');
+            let trObj =             btnObj.parentElement.parentElement;
+            let trId =              $(trObj).attr('id');
             $('#editTruckId').val(trId);
             console.log(  $(trObj).attr('id'));
-            var truckNumber =    $(trObj).find('td:eq(1)').text();
+            let truckNumber =    $(trObj).find('td:eq(1)').text();
             $('#editTruckModalHeader').text("Редактировать "+ truckNumber);
 
-            var date =              $(trObj).find('td:eq(0)').text();
-            var place =             $(trObj).find('td:eq(2)').text();
-            var extent =            $(trObj).find('td:eq(3)').text();
+            let date =              $(trObj).find('td:eq(0)').text();
+            let place =             $(trObj).find('td:eq(2)').text();
+            let extent =            $(trObj).find('td:eq(3)').text();
+            let contract =          $(trObj).find('td:eq(4)').text();
 
-            var dataListOpt =  document.getElementById("editTruckList").getElementsByTagName("option");
-            for(var i=0;i<dataListOpt.length;i++){
-                if(dataListOpt[i].label===place){
-                    $('#editTruckPlace') .val(dataListOpt[i].value);
+            let dataListTrucksOpt =  document.getElementById("editTruckList").getElementsByTagName("option");
+            for(let i=0;i<dataListTrucksOpt.length;i++){
+                if(dataListTrucksOpt[i].label===place){
+                    $('#editTruckPlace') .val(dataListTrucksOpt[i].value);
+                }
+            }
+
+            let dataListContractsOpt =  document.getElementById("editContractsList").getElementsByTagName("option");
+            for(let i=0;i<dataListContractsOpt.length;i++){
+                if(dataListContractsOpt[i].label===contract){
+                    $('#editContractCode') .val(dataListContractsOpt[i].value);
                 }
             }
 
