@@ -440,6 +440,7 @@
             var delDescription =    $(trObj).find('td:eq(10)').text();
 
 
+            $('#driverId')                      .val(trId);
             $('#editIdOfTruck')                 .val(truck);
             $('#editDriverCredentionals')       .val(driver);
             $('#editDriverPhone')               .val(phone);
@@ -458,7 +459,7 @@
     <script type="text/javascript">
         function editDriverPackage(btnObj) {
             let trObj = btnObj.parentElement.parentElement;
-            let trId =  $(trObj).attr('id');
+            let trId =  $(trObj).find('td:eq(0)').attr('id');
             $('#packageId').val(trId);
 
             var pack =              $(trObj).find('th:eq(0)').text();
@@ -494,7 +495,7 @@
     <script type="text/javascript">
         function addDriverPackage(btnObj) {
             let trObj = btnObj.parentElement.parentElement;
-            let trId =  $(trObj).attr('id');
+            let trId =  $(trObj).find('td:eq(0)').attr('id');
             $('#driverDeliveryId').val(trId);
 
             $('#addDriverPackagesModal').modal('show');

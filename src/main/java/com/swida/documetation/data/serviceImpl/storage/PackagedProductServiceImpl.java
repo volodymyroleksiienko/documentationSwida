@@ -4,12 +4,15 @@ package com.swida.documetation.data.serviceImpl.storage;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
+import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import com.swida.documetation.data.service.storages.DryStorageService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.storages.RawStorageService;
+import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
+import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +28,12 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     private RawStorageService rawStorageService;
     private PackagedProductJPA productJPA;
     private DescriptionDeskOakService deskOakService;
+    private BreedOfTreeService breedOfTreeService;
 
     @Autowired
     public PackagedProductServiceImpl(DryStorageService dryStorageService, PackagedProductJPA productJPA,
-                                      DescriptionDeskOakService deskOakService, RawStorageService rawStorageService) {
+                                      DescriptionDeskOakService deskOakService, RawStorageService rawStorageService,
+                                      BreedOfTreeService breedOfTreeService) {
         this.dryStorageService = dryStorageService;
         this.productJPA = productJPA;
         this.deskOakService = deskOakService;
@@ -165,6 +170,30 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     @Override
     public void deleteByID(int id) {
         productJPA.deleteById(id);
+    }
+
+
+
+    @Override
+    public void editPackageProduct(PackagedProduct product) {
+        PackagedProduct productDB = productJPA.getOne(product.getId());
+
+        productDB.setCodeOfPackage(product.getCodeOfPackage());
+        productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        productDB.setBreedDescription(product.getBreedDescription());
+
+        productDB.setSizeOfHeight(product.getSizeOfHeight());
+        productDB.setSizeOfWidth(product.getSizeOfWidth());
+        productDB.setSizeOfLong(product.getSizeOfLong());
+
+        productDB.setCountOfDesk(product.getCountOfDesk());
+        productDB.setExtent(product.getExtent());
+        productDB.setCountDeskInHeight(product.getCountDeskInHeight());
+        productDB.setCountDeskInWidth(product.getCountDeskInWidth());
+
+        productDB.setLongFact(product.getLongFact());
+        productDB.setHeight_width(product.getHeight_width());
+        productJPA.save(productDB);
     }
 
     public String countOfExtent(PackagedProduct packagedProduct){

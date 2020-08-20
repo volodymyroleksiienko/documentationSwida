@@ -19,5 +19,9 @@ public interface DeliveryDocumentationService {
     List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId);
     List<DeliveryDocumentation> getListByDestinationType(DeliveryDestinationType type);
     List<String> getAllTruckIdList(List<DeliveryDocumentation> docList);
+
+    void editDeliveryDoc(DeliveryDocumentation documentation);
+    void addPackageProductToDeliveryDoc(String docId,PackagedProduct product);
+    void deletePackage(String id,String deliveryId);
     void deleteByID(int id);
 }

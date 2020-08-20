@@ -6,7 +6,9 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.subObjects.DeliveryDocumentationJPA;
+import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
+import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,18 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     private DeliveryDocumentationJPA documentationJPA;
     private PackagedProductService packagedProductService;
     private DriverInfoService driverInfoService;
+    private OrderInfoService orderInfoService;
+    private BreedOfTreeService breedOfTreeService;
 
     @Autowired
-    public DeliveryDocumentationServiceImpl(DeliveryDocumentationJPA documentationJPA, PackagedProductService packagedProductService, DriverInfoService driverInfoService) {
+    public DeliveryDocumentationServiceImpl(DeliveryDocumentationJPA documentationJPA, PackagedProductService packagedProductService,
+                                            DriverInfoService driverInfoService, OrderInfoService orderInfoService,
+                                            BreedOfTreeService breedOfTreeService) {
         this.documentationJPA = documentationJPA;
         this.packagedProductService = packagedProductService;
         this.driverInfoService = driverInfoService;
+        this.orderInfoService = orderInfoService;
+        this.breedOfTreeService = breedOfTreeService;
     }
 
     @Override
@@ -130,6 +138,47 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
         return truckIdList;
     }
 
+    @Override
+    public void editDeliveryDoc(DeliveryDocumentation documentation) {
+        DeliveryDocumentation docDB = documentationJPA.getOne(documentation.getId());
+        documentation.getDriverInfo().setId(docDB.getDriverInfo().getId());
+        driverInfoService.save(documentation.getDriverInfo());
+        docDB.setDriverInfo(documentation.getDriverInfo());
+
+        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(documentation.getOrderInfo().getCodeOfOrder());
+        docDB.setOrderInfo(orderInfo);
+        docDB.setDateOfUnloading(documentation.getDateOfUnloading());
+        docDB.setTimeOfUnloading(documentation.getTimeOfUnloading());
+        docDB.setDestinationType(documentation.getDestinationType());
+        docDB.setDescription(documentation.getDescription());
+
+
+        documentationJPA.save(docDB);
+    }
+
+    @Override
+    public void addPackageProductToDeliveryDoc(String docId, PackagedProduct product) {
+        DeliveryDocumentation documentation = documentationJPA.getOne(Integer.parseInt(docId));
+        product.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        product.setExtent(String.format("%.3f",Float.parseFloat(product.getExtent())).replace(",","."));
+        product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
+        packagedProductService.saveWithoutCalculating(product);
+        documentation.getProductList().add(product);
+        documentationJPA.save(documentation);
+    }
+    @Override
+    public void deletePackage(String id, String deliveryId) {
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
+        if (product.getUserCompany()==null){
+            packagedProductService.deleteByID(product.getId());
+        }else{
+            DeliveryDocumentation deliveryDocumentation = documentationJPA.getOne(Integer.parseInt(deliveryId));
+            deliveryDocumentation.getProductList().remove(product);
+            product.setStatusOfProduct(StatusOfProduct.ON_STORAGE);
+            packagedProductService.saveWithoutCalculating(product);
+            documentationJPA.save(deliveryDocumentation);
+        }
+    }
     @Override
     public void deleteByID(int id) {
         documentationJPA.deleteById(id);

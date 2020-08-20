@@ -35,6 +35,7 @@ import java.util.List;
 
 @RequestMapping("/fabric")
 @Controller
+
 public class FabricController {
     private TreeStorageService treeStorageService;
     private RawStorageService rawStorageService;
@@ -520,74 +521,28 @@ public class FabricController {
 
     @PostMapping("/editDeliveryDocumentation-{userId}-{breedId}")
     public String editDeliveryDocumentation(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DeliveryDocumentation documentation){
-        DeliveryDocumentation docDB = deliveryDocumentationService.findById(documentation.getId());
-        documentation.getDriverInfo().setId(docDB.getDriverInfo().getId());
-        driverInfoService.save(documentation.getDriverInfo());
-        docDB.setDriverInfo(documentation.getDriverInfo());
-
-        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(documentation.getOrderInfo().getCodeOfOrder());
-        docDB.setOrderInfo(orderInfo);
-        docDB.setDateOfUnloading(documentation.getDateOfUnloading());
-        docDB.setTimeOfUnloading(documentation.getTimeOfUnloading());
-        docDB.setDestinationType(documentation.getDestinationType());
-        docDB.setDescription(documentation.getDescription());
-
-
-        deliveryDocumentationService.save(docDB);
+        deliveryDocumentationService.editDeliveryDoc(documentation);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
+
     @PostMapping("/editPackageProduct-{userId}-{breedId}")
     public String editPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, PackagedProduct product){
-        PackagedProduct productDB = packagedProductService.findById(product.getId());
-
-        productDB.setCodeOfPackage(product.getCodeOfPackage());
-        productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
-        productDB.setBreedDescription(product.getBreedDescription());
-
-        productDB.setSizeOfHeight(product.getSizeOfHeight());
-        productDB.setSizeOfWidth(product.getSizeOfWidth());
-        productDB.setSizeOfLong(product.getSizeOfLong());
-
-        productDB.setCountOfDesk(product.getCountOfDesk());
-        productDB.setExtent(product.getExtent());
-        productDB.setCountDeskInHeight(product.getCountDeskInHeight());
-        productDB.setCountDeskInWidth(product.getCountDeskInWidth());
-
-        productDB.setLongFact(product.getLongFact());
-        productDB.setHeight_width(product.getHeight_width());
-        packagedProductService.saveWithoutCalculating(productDB);
-
+        packagedProductService.editPackageProduct(product);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
     @PostMapping("/addPackageProduct-{userId}-{breedId}")
     public String addPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,PackagedProduct product,
                                     String docId){
-        DeliveryDocumentation documentation = deliveryDocumentationService.findById(Integer.parseInt(docId));
-        product.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
-        product.setExtent(String.format("%.3f",Float.parseFloat(product.getExtent())).replace(",","."));
-        product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
-        packagedProductService.saveWithoutCalculating(product);
-        documentation.getProductList().add(product);
-        deliveryDocumentationService.save(documentation);
+        deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
     @PostMapping("/deletePackageProduct-{userId}-{breedId}")
     public String deletePackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                    String id){
-        PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
-        if (product.getUserCompany()==null){
-            packagedProductService.deleteByID(product.getId());
-        }else{
-            DeliveryDocumentation  deliveryDocumentation = deliveryDocumentationService.findById(product.getDeliveryDocumentation().getId());
-            deliveryDocumentation.getProductList().remove(product);
-            product.setStatusOfProduct(StatusOfProduct.ON_STORAGE);
-            packagedProductService.saveWithoutCalculating(product);
-            deliveryDocumentationService.save(deliveryDocumentation);
-        }
-
+                                    String id,String deliveryId){
+        deliveryDocumentationService.deletePackage(id,deliveryId);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
