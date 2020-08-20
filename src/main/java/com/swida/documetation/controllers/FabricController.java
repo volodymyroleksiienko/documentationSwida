@@ -494,6 +494,11 @@ public class FabricController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgent(contrAgent.getId()));
 
+        model.addAttribute("urlEditDriver","/fabric/editDeliveryDocumentation-"+userId+"-"+breedId);
+        model.addAttribute("urlEditPackage","/fabric/editPackageProduct-"+userId+"-"+breedId);
+        model.addAttribute("urlAddPackage","/fabric/addPackageProduct-"+userId+"-"+breedId);
+        model.addAttribute("urlDeletePackage","/fabric/deletePackageProduct-"+userId+"-"+breedId);
+
         return "fabricPage";
     }
 

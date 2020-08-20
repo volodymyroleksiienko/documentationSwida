@@ -35,7 +35,7 @@
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
                               <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                               <td th:text="${dd.destinationType}"></td>
-                              <td th:text="${dd.description}"></td>
+                              <td th:text="${(dd.description==null)?'':dd.description}"></td>
                               <td>
                                   <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
                                       <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
@@ -78,7 +78,7 @@
                                       <tbody>
                                       <tr th:each="ps, index : ${dd.getProductList()}" th:id="${ps.id}">
                                           <th scope="row" th:text="${ps.codeOfPackage}"></th>
-                                          <td th:text="${ps.breedOfTree.breed}"></td>
+                                          <td th:text="${(ps.breedOfTree!=null)?ps.breedOfTree.breed:''}"></td>
                                           <td th:text="${ps.breedDescription}"></td>
                                           <td th:text="${ps.sizeOfHeight}"></td>
                                           <td th:text="${ps.sizeOfWidth}"></td>
@@ -142,7 +142,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form  th:action="@{'/fabric/editDeliveryDocumentation-'+${userId}+'-'+${breedId}}" method="post">
+                <form  th:action="${urlEditDriver}" method="post">
                     <div class="modal-body">
                         <input type="number" id="driverId" hidden="" name="id">
 
@@ -226,7 +226,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form  th:action="@{'/fabric/editPackageProduct-'+${userId}+'-'+${breedId}}" method="post">
+                <form  th:action="${urlEditPackage}" method="post">
                     <div class="modal-body">
                         <input type="text" id="packageId" hidden="" name="id">
 
@@ -315,7 +315,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form  th:action="@{'/fabric/addPackageProduct-'+${userId}+'-'+${breedId}}" method="post">
+                <form  th:action="${urlAddPackage}" method="post">
                     <div class="modal-body">
                         <input type="number" id="driverDeliveryId" hidden="" name="docId">
 
@@ -405,7 +405,7 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form  th:action="@{'/fabric/deletePackageProduct-'+${userId}+'-'+${breedId}}" method="post">
+                <form  th:action="${urlDeletePackage}" method="post">
                     <div class="modal-body">
                         <!--       TUT                 -->
 
