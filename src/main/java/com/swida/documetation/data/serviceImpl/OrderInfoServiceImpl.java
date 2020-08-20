@@ -2,24 +2,29 @@ package com.swida.documetation.data.serviceImpl;
 
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
+import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.jpa.OrderInfoJPA;
 import com.swida.documetation.data.service.OrderInfoService;
+import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
     private OrderInfoJPA orderInfoJPA;
+//    private DeliveryDocumentationService deliveryDocumentationService;
 
     @Autowired
     public OrderInfoServiceImpl(OrderInfoJPA orderInfoJPA) {
         this.orderInfoJPA = orderInfoJPA;
+//        this.deliveryDocumentationService = deliveryDocumentationService;
     }
 
     @Override
@@ -27,7 +32,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfo.setExtentOfOrder(String.format("%.3f", Float.parseFloat(orderInfo.getExtentOfOrder())).replace(',', '.'));
         orderInfo.setDoneExtendOfOrder(String.format("%.3f", Float.parseFloat(orderInfo.getDoneExtendOfOrder())).replace(',', '.'));
         orderInfo.setToDoExtentOfOrder(String.format("%.3f",Float.parseFloat(orderInfo.getExtentOfOrder())
-            -Float.parseFloat(orderInfo.getDoneExtendOfOrder())));
+            -Float.parseFloat(orderInfo.getDoneExtendOfOrder())).replace(",","."));
         orderInfoJPA.save(orderInfo);
     }
 
@@ -45,6 +50,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status) {
         return orderInfoJPA.getOrdersByStatusOfOrder(status);
     }
+
 
     @Override
     public List<OrderInfo> getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo status, DeliveryDestinationType type) {
@@ -69,6 +75,40 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public List<Integer> findDistributionId(int mainId) {
         return orderInfoJPA.findDistributionId(mainId);
+    }
+
+    @Override
+    public void changeDestinationTypeOfDistributed(OrderInfo main) {
+        List<OrderInfo> list = orderInfoJPA.findDistributionObj(main.getId());
+        for(OrderInfo orderInfo:list){
+            orderInfo.setDestinationType(main.getDestinationType());
+        }
+        orderInfoJPA.saveAll(list);
+    }
+
+    @Override
+    public void reloadOrderExtent(OrderInfo orderInfo) {
+//        List<Integer> list = new ArrayList<Integer>();
+//        list.add(orderInfo.getId());
+//        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+//
+//        float fullExtent = 0;
+//        for (DeliveryDocumentation doc:docList){
+//            fullExtent += Float.parseFloat(doc.getPackagesExtent());
+//        }
+//        orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
+//        save(orderInfo);
+    }
+
+    @Override
+    public void reloadMainOrderExtent(OrderInfo orderInfo) {
+        List<OrderInfo> list = orderInfoJPA.findDistributionObj(orderInfo.getId());
+        float fullExtent = 0;
+        for (OrderInfo order:list){
+            fullExtent += Float.parseFloat(order.getDoneExtendOfOrder());
+        }
+        orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
+        save(orderInfo);
     }
 
     @Override

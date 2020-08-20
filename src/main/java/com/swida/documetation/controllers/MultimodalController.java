@@ -163,7 +163,6 @@ public class MultimodalController {
 //    Details of contract page
     @GetMapping("/getTrucksByContract-{id}")
     public String getDetailsOfContract(@PathVariable("id")int contractId, Model model){
-        model.addAttribute("navTabName","multimodalDetails");
         model.addAttribute("tabName","trucks");
         model.addAttribute("contractId",contractId);
         model.addAttribute("fragmentPathMultimodalTrucks", "multimodalTrucks");
@@ -176,6 +175,7 @@ public class MultimodalController {
 
         model.addAttribute("providerList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("navTabName","delivery");
+        model.addAttribute("contractDistributionList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.MULTIMODAL));
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);

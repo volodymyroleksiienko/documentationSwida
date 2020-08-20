@@ -166,6 +166,16 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
         documentation.getProductList().add(product);
         documentationJPA.save(documentation);
     }
+
+    @Override
+    public void reloadExtentOfAllPack(DeliveryDocumentation documentation) {
+        float fullExtent = 0;
+        for(PackagedProduct product:documentation.getProductList()){
+            fullExtent=+Float.parseFloat(product.getExtent());
+        }
+        documentation.setPackagesExtent(String.format("%.3f",fullExtent).replace(",","."));
+    }
+
     @Override
     public void deletePackage(String id, String deliveryId) {
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));

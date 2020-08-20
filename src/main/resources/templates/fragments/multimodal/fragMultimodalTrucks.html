@@ -140,11 +140,12 @@
                         <input type="text" class="form-control" id="editTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
 
                         <label class="col-form-label" for="editContractCode">Контракт</label>
-                        <input type="text" class="form-control" list="editContractsList" id="editContractCode" required="required" autocomplete="off" name="contrAgent.id">
+                        <input type="text" class="form-control" list="editContractsList" id="editContractCode" required="required" autocomplete="off">
                         <datalist id="editContractsList">
-                            <option value="12345" label="345678">
-                            <option value="87655" label="985765">
+                            <option th:each="contract : ${contractDistributionList}"  th:data-value="${contract.id}" th:label="${contract.codeOfOrder}">
                         </datalist>
+                        <input type="hidden" name="contrAgent.id" id="editContractCode-hidden">
+
 
                     </div>
                     <div class="modal-footer">
