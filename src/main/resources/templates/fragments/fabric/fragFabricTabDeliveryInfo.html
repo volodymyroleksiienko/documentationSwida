@@ -583,7 +583,13 @@
                             <td th:text="${dd.driverInfo.getFullName()}"></td>
                             <td th:text="${dd.driverInfo.getPhone()}"></td>
                             <td>
-                                <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverInfo(this)">
+                                    <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackage(this)">
+                                    <i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i>
+                                </button>
+                                <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
                                     <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
                                         <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                     </button>

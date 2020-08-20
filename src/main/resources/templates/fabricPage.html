@@ -554,6 +554,7 @@
             // columns width
             "autoWidth": false,
             "bSort":false,
+            "info": false,
             // 'select': true,
             // id column visibility
             "columnDefs": [
@@ -564,6 +565,11 @@
                 },
                 {
                     "targets": -1,
+                    "orderable": false,
+                    "width": "70px"
+                },
+                {
+                    "targets": 0,
                     "orderable": false,
                     "width": "30px"
                 }
@@ -609,6 +615,7 @@
             $('#sendOakListForTransportationModal').modal('show');
         });
 
+
         var modalOakPackagesTable = $('#tableForOakTransportation').DataTable({
             // columns width
             "autoWidth": false,
@@ -624,6 +631,17 @@
                     "visible": false,
                     "searchable": false
                 },
+                {
+                    "targets": 0,
+                    "orderable": false,
+                    "width": "30px"
+                },
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "width": "70px"
+                }
+
             ]
 
         });
@@ -690,6 +708,11 @@
                 },
                 {
                     "targets": -1,
+                    "orderable": false,
+                    "width": "100px"
+                },
+                {
+                    "targets": 0,
                     "orderable": false,
                     "width": "30px"
                 }
