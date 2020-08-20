@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/fabric")
@@ -463,10 +464,16 @@ public class FabricController {
     public String addPackToExistDeliveryDoc(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                        String packId,String driverId){
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packId));
-        DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.getDeliveryDocumentationByIdOfTruck(driverId);
+        DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.findById(Integer.parseInt(driverId));
         product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
         packagedProductService.save(product);
-        deliveryDocumentation.getProductList().add(product);
+        if (deliveryDocumentation.getProductList()==null){
+            List<PackagedProduct> list = new ArrayList<>();
+            list.add(product);
+            deliveryDocumentation.setProductList(list);
+        }else{
+            deliveryDocumentation.getProductList().add(product);
+        }
         deliveryDocumentationService.save(deliveryDocumentation);
 
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;

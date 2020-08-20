@@ -459,7 +459,7 @@
     <script type="text/javascript">
         function editDriverPackage(btnObj) {
             let trObj = btnObj.parentElement.parentElement;
-            let trId =  $(trObj).find('td:eq(0)').attr('id');
+            let trId =  $(trObj).attr('id');
             $('#packageId').val(trId);
 
             var pack =              $(trObj).find('th:eq(0)').text();

@@ -292,6 +292,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
 
         return "fabricPage";
     }
