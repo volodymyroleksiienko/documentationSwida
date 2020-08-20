@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.ContrAgentType;
@@ -127,6 +128,7 @@ public class DeliveryUAController {
         model.addAttribute("tabName","details");
         model.addAttribute("fragmentPathTabConfig","deliveryUA");
         model.addAttribute("deliveryDocumentations",docList);
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);
@@ -137,8 +139,41 @@ public class DeliveryUAController {
         }else{
             model.addAttribute("fragmentPathDeliveryDoc","deliveryInfoOak");
         }
+        if(orderInfoService.findById(contractId).getDestinationType()==DeliveryDestinationType.COUNTRY){
+            model.addAttribute("urlContractPage","/multimodal/getDeliveryInUkraine");
+        }
+        if(orderInfoService.findById(contractId).getDestinationType()==DeliveryDestinationType.PORT){
+            model.addAttribute("urlContractPage","/multimodal/getDeliveryPort");
+        }
+
+        model.addAttribute("urlEditDriver","/multimodal/editDeliveryDocumentation-"+contractId);
+        model.addAttribute("urlEditPackage","/multimodal/editPackageProduct-"+contractId);
+        model.addAttribute("urlAddPackage","/multimodal/addPackageProduct-"+contractId);
+        model.addAttribute("urlDeletePackage","/multimodal/deletePackageProduct-"+contractId);
 
         return "multimodalPage";
+    }
+
+    @PostMapping("/editDeliveryDocumentation-{id}")
+    public String editDeliveryDocumentation(@PathVariable("id")int contractId,DeliveryDocumentation documentation){
+        deliveryDocumentationService.editDeliveryDoc(documentation);
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
+    }
+
+    @PostMapping("/editPackageProduct-{id}")
+    public String editPackageProduct(@PathVariable("id")int contractId, PackagedProduct product){
+        packagedProductService.editPackageProduct(product);
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
+    }
+    @PostMapping("/addPackageProduct-{id}")
+    public String addPackageProduct(@PathVariable("id")int contractId,String docId,PackagedProduct product){
+        deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
+    }
+    @PostMapping("/deletePackageProduct-{id}")
+    public String deletePackageProduct(@PathVariable("id")int contractId,String id, String deliveryId){
+        deliveryDocumentationService.deletePackage(id,deliveryId);
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
     @PostMapping("/importOakXLS")

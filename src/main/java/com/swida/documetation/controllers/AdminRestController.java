@@ -42,6 +42,7 @@ public class AdminRestController {
             order.setExtentOfOrder(arrayOfExtent[i]);
             order.setDoneExtendOfOrder("0.000");
             order.setStatusOfOrderInfo(StatusOfOrderInfo.DISTRIBUTION);
+            order.setDestinationType(main.getDestinationType());
             order.setMainOrder(main);
             order.setDate(main.getDate());
             orderInfoService.save(order);

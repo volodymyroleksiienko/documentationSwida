@@ -215,6 +215,8 @@ public class AdminController {
         orderInfoDB.setDate(orderInfo.getDate());
         orderInfoDB.setDestinationType(orderInfo.getDestinationType());
 
+        orderInfoService.changeDestinationTypeOfDistributed(orderInfoDB);
+
         orderInfoService.save(orderInfoDB);
         return "redirect:/admin/getListOfContract";
     }

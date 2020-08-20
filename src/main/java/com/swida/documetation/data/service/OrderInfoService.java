@@ -17,5 +17,8 @@ public interface OrderInfoService {
     List<OrderInfo> findAll();
     List<OrderInfo> findDistributionObj(int mainId);
     List<Integer> findDistributionId(int mainId);
+    void changeDestinationTypeOfDistributed(OrderInfo main);
+    void reloadOrderExtent(OrderInfo orderInfo);
+    void reloadMainOrderExtent(OrderInfo orderInfo);
     void deleteByID(int id);
 }
