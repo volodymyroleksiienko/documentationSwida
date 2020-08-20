@@ -43,11 +43,6 @@
                                   <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addDriverPackage(this)">
                                       <i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i>
                                   </button>
-<!--                                  <a th:href="@{'/fabric/exportDeliveryInfo-'+${dd.id}}">-->
-<!--                                      <button  type="submit" class="btn btn-primary btn-sm">-->
-<!--                                          <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>-->
-<!--                                      </button>-->
-<!--                                  </a>-->
                                   <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
                                       <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
                                           <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
@@ -407,9 +402,9 @@
                 <!--       TUT         -->
                 <form  th:action="${urlDeletePackage}" method="post">
                     <div class="modal-body">
-                        <!--       TUT                 -->
 
                         <div class="form-group">
+                            <input type="text" class="form-control" id="deleteDeliveryId" hidden="hidden" autocomplete="off" name="deliveryId">
                             <input type="text" class="form-control" id="deletePackModalId" hidden="hidden" autocomplete="off" name="id">
 
                             <p id="deletePackModalConfirmation">
@@ -443,7 +438,7 @@
             var contract =          $(trObj).find('td:eq(8)').text();
             var destination =       $(trObj).find('td:eq(9)').text();
             var delDescription =    $(trObj).find('td:eq(10)').text();
-            $('#driverId').val(trId);
+
 
             $('#editIdOfTruck')                 .val(truck);
             $('#editDriverCredentionals')       .val(driver);
@@ -499,7 +494,7 @@
     <script type="text/javascript">
         function addDriverPackage(btnObj) {
             let trObj = btnObj.parentElement.parentElement;
-            let trId = $(trObj).find('td:eq(0)').attr('id');
+            let trId =  $(trObj).attr('id');
             $('#driverDeliveryId').val(trId);
 
             $('#addDriverPackagesModal').modal('show');
@@ -508,10 +503,19 @@
 
     <script type="text/javascript">
         function deleteDriverPackage(btnObj) {
-            var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
             $('#deletePackModalId').val(trId);
             console.log(  $(trObj).attr('id'));
+
+            let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
+            let expandedId = $(expandedObj).attr('id');
+            console.log("fullId: "+expandedId);
+            let deliveryId = expandedId.replace(/\D+/g, "");
+            console.log("Id: "+deliveryId);
+
+            $('#deleteDeliveryId').val(deliveryId);
+
             var codeOfPackage = $(trObj).find('th:eq(0)').text();
 
             $('#deletePackModalConfirmation').text(" Вы уверены, что хотите окончательно удалить пачку "+codeOfPackage+" ?");

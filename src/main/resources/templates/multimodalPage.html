@@ -262,7 +262,12 @@
                 {
                     "targets": -1,
                     "orderable": false,
-                    "width": "140px"
+                    "width": "90px"
+                },
+                {
+                    "targets": 0,
+                    "orderable": false,
+                    "width": "30px"
                 }
 
             ]
@@ -288,6 +293,31 @@
             ]
 
         });
+
+        // Distribution table start
+        $('#distribution-tab-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+            },
+            "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+            "order": [ 0, "desc" ],
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    // "targets": [ 0, -2, -1 ],
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {
+                    "targets": -2,
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "30px"
+                }
+            ]
+        });
+        // Distribution table end
 
 
 
