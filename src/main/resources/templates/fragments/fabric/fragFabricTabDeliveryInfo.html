@@ -44,7 +44,7 @@
                                       <i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i>
                                   </button>
                                   <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
-                                      <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
+                                      <button  type="submit" class="btn btn-primary btn-sm">
                                           <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                       </button>
                                   </form>
@@ -547,10 +547,29 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--OAK DElivery info-->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="deliveryInfoOak">
-
 
         <!-- Транспортировка OAK-->
         <div class="tab-pane fade show active container-fluid" id="transportation">
@@ -567,12 +586,15 @@
                         <th scope="col">Время выгрузки</th>
                         <th scope="col">Водитель</th>
                         <th scope="col">Телефон</th>
+                        <th scope="col">№ контракта</th>
+                        <th scope="col">Назначение</th>
+                        <th scope="col">Примечание</th>
                         <th></th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <div th:each="dd, index : ${deliveryDocumentations}">
-
 
                         <tr>
                             <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
@@ -583,15 +605,14 @@
                             <td th:text="${dd.getTimeOfUnloading()}"></td>
                             <td th:text="${dd.driverInfo.getFullName()}"></td>
                             <td th:text="${dd.driverInfo.getPhone()}"></td>
+                            <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
+                            <td th:text="${dd.destinationType}"></td>
+                            <td th:text="${(dd.description==null)?'':dd.description}"></td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverInfo(this)">
-                                    <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
-                                </button>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackage(this)">
-                                    <i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i>
-                                </button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverInfo(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackage(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i></button>
                                 <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
-                                    <button  type="submit" class="btn btn-primary btn-sm" onclick="exportDataByDriver(this)">
+                                    <button  type="submit" class="btn btn-primary btn-sm">
                                         <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                     </button>
                                 </form>
@@ -612,12 +633,13 @@
                                             <th scope="col">Сум. ширина</th>
                                             <th scope="col">Кол. досок</th>
                                             <th scope="col">Кубатура</th>
+                                            <th scope="col" style="width: 100px"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <div th:each="ps, index : ${dd.getProductList()}">
                                             <tr th:id="${ps.id}">
-                                                <td  class="details-control" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}"></td>
+                                                <td  class="details-control" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}" style="width: 30px;"></td>
                                                 <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
                                                 <td th:text="${ps.quality}"></td>
                                                 <td th:text="${ps.sizeOfHeight}"></td>
@@ -625,6 +647,11 @@
                                                 <td th:text="${ps.sumWidthOfAllDesk}"></td>
                                                 <td th:text="${ps.countOfDesk}"></td>
                                                 <td th:text="${ps.extent}"></td>
+                                                <td style="width: 100px; text-align: end">
+                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
+                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakDriverPackage(this)"><i class="fas fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
+                                                </td>
                                             </tr>
 
                                             <!--      LEVEL    3    START          -->
@@ -635,13 +662,18 @@
                                                             <tr>
                                                                 <th scope="col">Ширина, мм</th>
                                                                 <th scope="col">Количество досок</th>
+                                                                <th scope="col"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
 
-                                                            <tr th:each="desc, index : ${ps.deskOakList}">
+                                                            <tr th:each="desc, index : ${ps.deskOakList}" th:id="${desc.id}">
                                                                 <td th:text="${desc.sizeOfWidth}"></td>
                                                                 <td th:text="${desc.countOfDesk}"></td>
+                                                                <td style="text-align: end;">
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakDriverPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
+                                                                </td>
                                                             </tr>
 
                                                         </tbody>
@@ -654,6 +686,8 @@
                                                 <td style="display:none"></td>
                                                 <td style="display:none"></td>
                                                 <td style="display:none"></td>
+                                                <td style="display:none"></td>
+
                                             </tr>
                                             <!--      LEVEL    3    END          -->
                                         </div>
@@ -661,6 +695,9 @@
                                     </tbody>
                                 </table>
                             </td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
                             <td style="display:none"></td>
                             <td style="display:none"></td>
                             <td style="display:none"></td>
@@ -683,6 +720,9 @@
                     <th scope="col">Время выгрузки</th>
                     <th scope="col">Водитель</th>
                     <th scope="col">Телефон</th>
+                    <th scope="col">№ контракта</th>
+                    <th scope="col">Назначение</th>
+                    <th scope="col">Примечание</th>
                     <th></th>
                 </tr>
                 </tfoot>
@@ -691,5 +731,629 @@
         </div>
 
 
-    <!--    &lt;!&ndash; Транспортировка &ndash;&gt;-->
+    <!-- Edit delivery start   -->
+    <div class="modal fade" id="editOakDeliveryModal">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  th:action="${urlEditDriver}" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="driverOakId" hidden="" name="id">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-3">
+                                <label class="col-form-label" for="editOakIdOfTruck">№ выгрузки</label>
+                                <input type="text" class="form-control"  id="editOakIdOfTruck"  autocomplete="off" required="required" name="driverInfo.idOfTruck">
+                            </div>
+                            <div class="col-6">
+                                <label for="editOakDriverCredentionals" class="col-form-label">Имя, Фамилия водителя</label>
+                                <input type="text" class="form-control" id="editOakDriverCredentionals" required="required" autocomplete="off" name="driverInfo.fullName">
+                            </div>
+                            <div class="col-3">
+                                <label for="editOakDriverPhone" class="col-form-label">Телефон</label>
+                                <input type="text" class="form-control" id="editOakDriverPhone" required="required" autocomplete="off" name="driverInfo.phone">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-3">
+                                <label for="editOakNumberOfTruck" class="col-form-label">Номер фуры</label>
+                                <input type="text" class="form-control" id="editOakNumberOfTruck" required="required" autocomplete="off" name="driverInfo.numberOfTruck">
+                            </div>
+                            <div class="col-3">
+                                <label for="editOakNumberOfTrailer" class="col-form-label">Номер прицепа</label>
+                                <input type="text" class="form-control" id="editOakNumberOfTrailer" required="required" autocomplete="off" name="driverInfo.numberOfTrailer">
+                            </div>
+                            <div class="col-3">
+                                <label for="editOakPackDateInput" class="col-form-label">Дата выгрузки</label>
+                                <input class="form-control" type="date" id="editOakPackDateInput" required="required" name="dateOfUnloading">
+                            </div>
+                            <div class="col-3">
+                                <label for="editOakPackTimeInput" class="col-form-label">Время выгрузки</label>
+                                <input type="text" class="form-control" id="editOakPackTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-3">
+                                <label for="editOakPackContractId" class="col-form-label">Код контракта</label>
+                                <input type="text" class="form-control" list="contractOakList" id="editOakPackContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                <datalist id="contractOakList">
+                                    <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                </datalist>
+                            </div>
+                            <div class="col-3">
+                                <label for="editOakPackDeliveryDestination" class="col-form-label">Пункт назначения</label>
+                                <input type="text" class="form-control" list="destinationOakType" id="editOakPackDeliveryDestination" required="required" autocomplete="off" name="destinationType">
+                                <datalist id="destinationOakType">
+                                    <option value="PORT">
+                                    <option value="COUNTRY">
+                                </datalist>
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
+                                <input type="text" class="form-control" placeholder="" id="editOakDeliveryDescription"  autocomplete="off" name="description">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit delivery end   -->
+
+    <!-- Edit package start   -->
+    <div class="modal fade" id="editOakDeliveryPackageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editOakPackModalHeader"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  action="/editPackage" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="driverOakPackageId" hidden="" name="id">
+
+                        <label class="col-form-label" for="editOakIdOfPack">№ пачки</label>
+                        <input type="text" class="form-control"  id="editOakIdOfPack"  autocomplete="off" required="required">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-4">
+                                <label for="editOakQuality" class="col-form-label">Качество</label>
+                                <input type="text" class="form-control" id="editOakQuality" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editOakPackSize">Размер</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control"  id="editOakPackSize"  autocomplete="off" required="required">
+                            </div>
+                            <div class="col-4">
+                                <label for="editOakPackLength" class="col-form-label">Длина</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackLength" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-4">
+                                <label for="editOakPackSummaryLen" class="col-form-label">Сумарная ширина</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackSummaryLen" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editOakPackDescCount">Количество досок</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakPackDescCount"  autocomplete="off" required="required">
+                            </div>
+                            <div class="col-4">
+                                <label for="editOakPackExtent" class="col-form-label">Кубатура</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="м3" step="any" class="form-control" id="editOakPackExtent" required="required" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit package end   -->
+
+    <!-- Edit package content start   -->
+    <div class="modal fade" id="editOakDeliveryPackageContentModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  action="/editPackage" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="driverOakPackageContentId" hidden="" name="rowId">
+                        <input type="number" id="deleteOakPackageId" hidden="" name="packageId">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label for="editOakDeliveryPackageContentWidth" class="col-form-label">Ширина, мм</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakDeliveryPackageContentWidth" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editOakDeliveryPackageContentCount">Количество досок</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakDeliveryPackageContentCount"  autocomplete="off" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit package content end   -->
+
+    <!-- Add package start -->
+    <div class="modal fade" id="addDriverPackageModalOak">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ">Добавление пачки</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form >
+                    <div class="modal-body">
+
+                        <div class="form-group row">
+                            <input type="text" hidden="hidden" id="driverOakDeliveryId" name="driverId">
+
+                            <div class="col-4">
+                                <label class="col-form-label" for="addDeliveryPackageModalCodeOak">Код пачки</label>
+                                <input type="text" class="form-control" id="addDeliveryPackageModalCodeOak" required="required" autocomplete="off">
+                            </div>
+
+                            <div class="col-4">
+                                <label class="control-label" for="addDeliveryPackageModalQualityOak" style="padding-top: 7px">Качество</label>
+                                <input type="text" class="form-control" id="addDeliveryPackageModalQualityOak" required="required">
+                            </div>
+
+                            <div class="col-2">
+                                <label class="control-label" for="addDeliveryPackageModalSizeOak" style="padding-top: 7px">Размер</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalSizeOak" required="required">
+                            </div>
+
+                            <div class="col-2">
+                                <label class="col-form-label" for="addDeliveryPackageModalLengthOak">Длина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalLengthOak" required="required" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-5">
+                                <label class="col-form-label" for="addDeliveryPackageModalWidthOak">Ширина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalWidthOak" required="required" autocomplete="off">
+                            </div>
+
+                            <div class="col-5">
+                                <label class="control-label" for="addDeliveryPackageModalCountOak" style="padding-top: 7px">Количество</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control" id="addDeliveryPackageModalCountOak" required="required" autocomplete="off">
+                            </div>
+
+                            <div class="col-2">
+                                <button id="buttonForAddingDeliveryOakRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-striped" id="tableForTransportationOak">
+                            <thead>
+                            <tr>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="listOfOakPackageId">
+                            <!-- <tr></tr> -->
+                            </tbody>
+
+                            <tfoot>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th></th>
+                            </tfoot>
+
+                        </table>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreateDeliveryPackageOak(this)">Готово</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Add package end-->
+
+    <!-- Edit package content start   -->
+    <div class="modal fade" id="addOakDeliveryPackageContentModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addOakDriverPackageItemsModalHeader"> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  action="/addPackageItem" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="addOakDriverPackageItemsPackId" hidden="" name="packageId">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label for="addOakDeliveryPackageContentWidth" class="col-form-label">Ширина</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addOakDeliveryPackageContentWidth" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addOakDeliveryPackageContentCount">Количество досок</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakDeliveryPackageContentCount"  autocomplete="off" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit package content end   -->
+
+    <!--  Modal package delete confirmation start -->
+    <div class="modal fade" id="deleteOakPackModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление пачек</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form  th:action="${urlDeletePackage}" method="post">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deleteOakDeliveryId" hidden="hidden" autocomplete="off" name="deliveryId">
+                            <input type="text" class="form-control" id="deleteOakPackModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="deleteOakPackModalConfirmation">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal package delete confirmation end -->
+
+    <!--  Modal package item delete confirmation start -->
+    <div class="modal fade" id="deleteOakPackItemModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление пачек</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form  th:action="${urlDeletePackage}" method="post">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden" autocomplete="off" name="packageId">
+                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="deleteOakPackItemModalConfirmation">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal package item delete confirmation end -->
+
+
+    <!--    Add delivery package start-->
+    <script type="text/javascript">
+        function addOakDriverPackage(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            // let trId =  $(trObj).attr('id');
+            var trId =  $(trObj).find('td:eq(0)').attr('id');
+            console.log("row id: "+trId);
+            $('#driverOakDeliveryId').val(trId);
+
+            $('#addDriverPackageModalOak').modal('show');
+
+            // CHECK
+            $("#sendForPackageModalSizeOak").change(function(){
+                if ((parseInt($('#sendForPackageModalSizeOak').val()))<=0) {
+                    alert("Введите правильное значение");
+                    $('#sendForPackageModalSizeOak').val("1");
+                }else{
+
+                }
+            });
+
+            $("#sendForPackageModalLengthOak").change(function(){
+                if ((parseInt($('#sendForPackageModalLengthOak').val()))<=0) {
+                    alert("Введите правильное значение");
+                    $('#sendForPackageModalLengthOak').val("1");
+                }else{
+
+                }
+            });
+            // CHECK
+        }
+
+        // Ajax
+        function sendRequestCreateDeliveryPackageOak(btnObj) {
+            var deliveryId1 = $("#driverOakDeliveryId").val();
+            var codeOfPackage1 = $('#addDeliveryPackageModalCodeOak').val();
+            var quality1 = $('#addDeliveryPackageModalQualityOak').val();
+            var sizeOfHeight1 = $('#addDeliveryPackageModalSizeOak').val();
+            var long1 = $('#addDeliveryPackageModalLengthOak').val();
+
+            console.log("delivery id:" + deliveryId1+"\npackage: "+codeOfPackage1+"\nqual: "+quality1+ "\nheight: "+sizeOfHeight1+"\nlength: "+long1);
+
+
+            var tableBody = document.getElementById('listOfOakPackageId');
+            var listTr = tableBody.getElementsByTagName('tr');
+
+            var arrOfDesk = [];
+
+            //fix one dimension array on controller
+            arrOfDesk[0] = [];
+            arrOfDesk[0][0] = "test";
+            arrOfDesk[0][1] = "test";
+
+
+
+            if (codeOfPackage1 != "" && quality1 != "" && sizeOfHeight1 != "" && long1 != "" ) {
+                for (var i = 1; i <= listTr.length; i++) {
+                    var width = $(listTr[i - 1]).find('td:eq(0)').text();
+                    var count = $(listTr[i - 1]).find('td:eq(1)').text();
+
+                    arrOfDesk[i] = [];
+                    arrOfDesk[i][0] = width;
+                    arrOfDesk[i][1] = count;
+                }
+
+                console.log(arrOfDesk);
+
+                // $.ajax({
+                //     method: "post",
+                //     url: "/createPackageOakObject-",
+                //     contextType: "application/json",
+                //     data: {
+                //         deliveryId: deliveryId1,
+                //         codeOfPackage: codeOfPackage1,
+                //         quality: quality1,
+                //         sizeOfHeight: sizeOfHeight1,
+                //         length: long1,
+                //         arrayOfDesk: arrOfDesk
+                //     },
+                //     traditional: true,
+                //     success: function () {
+                //         location.reload();
+                //     },
+                //     error: function () {
+                //         alert("Error");
+                //     }
+                // });
+            } else {
+                alert("Заполните все поля!");
+            }
+        }
+    </script>
+    <!--    Add delivery package end-->
+
+    <!--    Edit delivery start-->
+    <script type="text/javascript">
+        function editOakDriverInfo(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            // let trId =  $(trObj).attr('id');
+            var trId =              $(trObj).find('td:eq(0)').attr('id');
+            console.log("row id: "+trId);
+            var truck =             $(trObj).find('td:eq(1)').text();
+            var truckNum =          $(trObj).find('td:eq(2)').text();
+            var trailerNum  =       $(trObj).find('td:eq(3)').text();
+            var packDate  =         $(trObj).find('td:eq(4)').text();
+            var packTime  =         $(trObj).find('td:eq(5)').text();
+            var driver =            $(trObj).find('td:eq(6)').text();
+            var phone =             $(trObj).find('td:eq(7)').text();
+            var contract =          $(trObj).find('td:eq(8)').text();
+            var destination =       $(trObj).find('td:eq(9)').text();
+            var delDescription =    $(trObj).find('td:eq(10)').text();
+
+            $('#driverOakId')                      .val(trId);
+            $('#editOakIdOfTruck')                 .val(truck);
+            $('#editOakDriverCredentionals')       .val(driver);
+            $('#editOakDriverPhone')               .val(phone);
+            $('#editOakNumberOfTruck')             .val(truckNum);
+            $('#editOakNumberOfTrailer')           .val(trailerNum);
+            $('#editOakPackDateInput')             .val(packDate);
+            $('#editOakPackTimeInput')             .val(packTime);
+            $('#editOakPackContractId')            .val(contract);
+            $('#editOakPackDeliveryDestination')   .val(destination);
+            $('#editOakDeliveryDescription')       .val(delDescription);
+
+            $('#editOakDeliveryModal').modal('show');
+        }
+    </script>
+    <!--    Edit delivery end-->
+
+    <!--    Edit delivery package start-->
+    <script type="text/javascript">
+        function editOakDriverPackage(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            // let trId =  $(trObj).attr('id');
+            var trId =              $(trObj).find('td:eq(0)').attr('id');
+            console.log("row id: "+trId);
+            var packCode =          $(trObj).find('th:eq(0)').text();
+            var quality =           $(trObj).find('td:eq(1)').text();
+            var packSize  =         $(trObj).find('td:eq(2)').text();
+            var packLen  =          $(trObj).find('td:eq(3)').text();
+            var summaryWidth  =     $(trObj).find('td:eq(4)').text();
+            var descsCount =        $(trObj).find('td:eq(5)').text();
+            var extent =            $(trObj).find('td:eq(6)').text();
+
+            $('#editOakPackModalHeader')         .text("Редактировать пачку "+packCode);
+
+            $('#driverOakPackageId')             .val(trId);
+            $('#editOakIdOfPack')                .val(packCode);
+            $('#editOakQuality')                 .val(quality);
+            $('#editOakPackSize')                .val(packSize);
+            $('#editOakPackLength')              .val(packLen);
+            $('#editOakPackSummaryLen')          .val(summaryWidth);
+            $('#editOakPackDescCount')           .val(descsCount);
+            $('#editOakPackExtent')              .val(extent);
+
+            $('#editOakDeliveryPackageModal').modal('show');
+        }
+    </script>
+    <!--    Edit delivery package end-->
+
+    <!--    Edit delivery package item start-->
+    <script type="text/javascript">
+        function editOakDriverPackageItem(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            // let trId =  $(trObj).attr('id');
+            let trId =              $(trObj).attr('id');
+            console.log("row id: "+trId);
+
+            let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
+            let expandedId = $(expandedObj).attr('id');
+            console.log("string-id: "+expandedId);
+            let packageId = expandedId.replace(/\D+/g, "");
+            console.log("parent-id: "+packageId);
+
+            $('#deleteOakPackageId').val(packageId);
+
+
+            var width =             $(trObj).find('td:eq(0)').text();
+            var count =             $(trObj).find('td:eq(1)').text();
+
+            $('#driverOakPackageContentId')              .val(trId);
+            $('#editOakDeliveryPackageContentWidth')     .val(width);
+            $('#editOakDeliveryPackageContentCount')     .val(count);
+
+            $('#editOakDeliveryPackageContentModal').modal('show');
+        }
+    </script>
+    <!--    Edit delivery package item end-->
+
+    <!--    Add delivery package item start-->
+    <script type="text/javascript">
+        function addOakDriverPackageItems(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =              $(trObj).attr('id');
+            let packageCode =       $(trObj).find('th:eq(0)').text();
+
+            console.log("row id: "+trId);
+
+            $('#addOakDriverPackageItemsModalHeader').text("Добавить позицию к пачке "+ packageCode);
+            $('#addOakDriverPackageItemsPackId').val(trId);
+
+            $('#addOakDeliveryPackageContentModal').modal('show');
+        }
+    </script>
+    <!--    Add delivery package item end-->
+
+    <!--    Delete delivery package start-->
+    <script type="text/javascript">
+        function deleteOakDriverPackage(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
+            $('#deleteOakPackModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+
+            let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
+            let expandedId = $(expandedObj).attr('id');
+            console.log("string-id: "+expandedId);
+            let deliveryId = expandedId.replace(/\D+/g, "");
+            console.log("id: "+deliveryId);
+
+            $('#deleteOakDeliveryId').val(deliveryId);
+
+            var codeOfPackage = $(trObj).find('th:eq(0)').text();
+
+            $('#deleteOakPackModalConfirmation').text(" Вы уверены, что хотите окончательно удалить пачку "+codeOfPackage+" ?");
+            $('#deleteOakPackModal').modal('show');
+        }
+    </script>
+    <!--    Delete delivery package end-->
+
+    <!--    Delete delivery package item start-->
+    <script type="text/javascript">
+        function deleteOakDriverPackageItem(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
+            $('#deleteOakPackItemModalId').val(trId);
+            console.log("row id: "+trId);
+
+            let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
+            let expandedId = $(expandedObj).attr('id');
+            console.log("string-id: "+expandedId);
+            let packageId = expandedId.replace(/\D+/g, "");
+            console.log("id: "+packageId);
+
+            $('#deleteOakPackId').val(packageId);
+
+            let width = $(trObj).find('td:eq(0)').text();
+            let count = $(trObj).find('td:eq(1)').text();
+
+            $('#deleteOakPackItemModalConfirmation').text(" Вы уверены, что хотите удалить позицию: "+width+"мм / "+count+"шт?");
+            $('#deleteOakPackItemModal').modal('show');
+        }
+    </script>
+    <!--    Delete delivery package item end-->
+
+        <!-- Транспортировка -->
 </th:block>
