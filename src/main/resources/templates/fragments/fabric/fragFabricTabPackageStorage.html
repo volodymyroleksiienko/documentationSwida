@@ -212,11 +212,9 @@
                             <input type="text" class="form-control" id="selectedPackModalId" hidden="hidden" autocomplete="off" name="packId">
 
                             <label class="col-form-label" for="selectTruck">Машина</label>
-                            <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" name="contrAgent.id">
+                            <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" name="driverId">
                             <datalist id="trucksList">
-                                <option value="12123123">Vodila 1</option>
-                                <option value="54532324">Vodila 2</option>
-                                <option value="34345344">Vova hui 3</option>
+                                <option th:each="b : ${deliveryList}"  th:value="${b.id}" th:label="${b.driverInfo.idOfTruck}">
                             </datalist>
                         </div>
                     </div>
@@ -625,14 +623,12 @@
                 <form th:action="@{'/fabric/addPackToExistDeliveryDoc-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="selectedOakPackModalId" hidden="hidden" autocomplete="off" name="packId">
+                            <input type="number" class="form-control" id="selectedOakPackModalId" hidden="hidden" autocomplete="off" name="packId">
 
                             <label class="col-form-label" for="selectOakTruck">Машина</label>
-                            <input type="text" class="form-control" list="trucksOakList" id="selectOakTruck" required="required" autocomplete="off" name="contrAgent.id">
+                            <input type="text" class="form-control" list="trucksOakList" id="selectOakTruck" required="required" autocomplete="off" name="driverId">
                             <datalist id="trucksOakList">
-                                <option value="12123123">Vodila 1</option>
-                                <option value="54532324">Vodila 2</option>
-                                <option value="34345344">Vova vzhe ne hui</option>
+                                    <option th:each="b : ${deliveryList}"  th:value="${b.id}" th:label="${b.driverInfo.idOfTruck}">
                             </datalist>
                         </div>
                     </div>
@@ -648,7 +644,7 @@
     <script type="text/javascript">
         function addPackageIntoOakDelivery(btnObj) {
             var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
+            var trId =  $(trObj).find('td:eq(0)').attr('id');
             $('#selectedOakPackModalId').val(trId);
             console.log(  $(trObj).attr('id'));
             var codeOfSelectedPackage = $(trObj).find('th:eq(0)').text();

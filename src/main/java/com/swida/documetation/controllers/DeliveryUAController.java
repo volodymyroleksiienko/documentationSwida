@@ -154,24 +154,24 @@ public class DeliveryUAController {
         return "multimodalPage";
     }
 
-    @PostMapping("/editDeliveryDocumentation-{id}")
-    public String editDeliveryDocumentation(@PathVariable("id")int contractId,DeliveryDocumentation documentation){
+    @PostMapping("/editDeliveryDocumentation-{contractId}")
+    public String editDeliveryDocumentation(@PathVariable("contractId")int contractId,DeliveryDocumentation documentation){
         deliveryDocumentationService.editDeliveryDoc(documentation);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
-    @PostMapping("/editPackageProduct-{id}")
-    public String editPackageProduct(@PathVariable("id")int contractId, PackagedProduct product){
+    @PostMapping("/editPackageProduct-{contractId}")
+    public String editPackageProduct(@PathVariable("contractId")int contractId, PackagedProduct product){
         packagedProductService.editPackageProduct(product);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
-    @PostMapping("/addPackageProduct-{id}")
-    public String addPackageProduct(@PathVariable("id")int contractId,String docId,PackagedProduct product){
+    @PostMapping("/addPackageProduct-{contractId}")
+    public String addPackageProduct(@PathVariable("contractId")int contractId,String docId,PackagedProduct product){
         deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
-    @PostMapping("/deletePackageProduct-{id}")
-    public String deletePackageProduct(@PathVariable("id")int contractId,String id, String deliveryId){
+    @PostMapping("/deletePackageProduct-{contractId}")
+    public String deletePackageProduct(@PathVariable("contractId")int contractId,String id, String deliveryId){
         deliveryDocumentationService.deletePackage(id,deliveryId);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
