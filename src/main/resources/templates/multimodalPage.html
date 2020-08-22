@@ -320,6 +320,72 @@
         // Distribution table end
 
 
+        //    DRYING OAK START
+        var tableForTransportationOak = $('#tableForTransportationOak').DataTable({
+            // columns width
+            "autoWidth": false,
+            "bSort": false,
+            "searching": false,
+            "paging": false,
+            "info": false,
+            'select': false,
+            "columnDefs": [
+                {
+                    "targets": -1,
+                    "orderable": false,
+                    "width": "30px"
+                }
+            ]
+
+        });
+
+        $("#buttonForAddingOakRow").click(function () {
+            var width = $("#sendForPackageModalWidthOak").val();
+            var count = $("#sendForPackageModalCountOak").val();
+            var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+
+            if( width=="" || count=="" ) {
+                alert("Заполните ширину и количество досок!");
+            } else if (width<=0 || count<=0){
+                alert("Значение не может быть отрицательным либо равным 0!")
+            } else {
+                var d = [width, count, button];
+
+                console.log(d);
+
+                $("#sendForPackageModalWidthOak").val("");
+                $("#sendForPackageModalCountOak").val("");
+
+                tableForTransportationOak.row.add(d).draw();
+            }
+        });
+
+        $("#buttonForAddingDeliveryOakRow").click(function () {
+            var width = $("#addDeliveryPackageModalWidthOak").val();
+            var count = $("#addDeliveryPackageModalCountOak").val();
+            var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
+
+            if( width=="" || count=="" ) {
+                alert("Заполните ширину и количество досок!");
+            } else if (width<=0 || count<=0){
+                alert("Значение не может быть отрицательным либо равным 0!")
+            } else {
+                var d = [width, count, button];
+
+                console.log(d);
+
+                $("#addDeliveryPackageModalWidthOak").val("");
+                $("#addDeliveryPackageModalCountOak").val("");
+
+                tableForTransportationOak.row.add(d).draw();
+            }
+        });
+
+        $('#tableForTransportationOak tbody').on( 'click', 'button', function () {
+            tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
+        } );
+
+
 
 
     });
