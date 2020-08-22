@@ -29,7 +29,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/multimodal")
-public class DeliveryUAController {
+public class DeliveryPortAndUAController {
     private UserCompanyService userCompanyService;
     private BreedOfTreeService breedOfTreeService;
     private ContrAgentService contrAgentService;
@@ -41,11 +41,11 @@ public class DeliveryUAController {
     private DescriptionDeskOakService deskOakService;
 
     @Autowired
-    public DeliveryUAController(UserCompanyService userCompanyService, BreedOfTreeService breedOfTreeService,
-                                ContrAgentService contrAgentService, OrderInfoService orderInfoService,
-                                ContainerService containerService,DeliveryDocumentationService deliveryDocumentationService,
-                                PackagedProductService packagedProductService, DriverInfoService driverInfoService,
-                                DescriptionDeskOakService deskOakService) {
+    public DeliveryPortAndUAController(UserCompanyService userCompanyService, BreedOfTreeService breedOfTreeService,
+                                       ContrAgentService contrAgentService, OrderInfoService orderInfoService,
+                                       ContainerService containerService, DeliveryDocumentationService deliveryDocumentationService,
+                                       PackagedProductService packagedProductService, DriverInfoService driverInfoService,
+                                       DescriptionDeskOakService deskOakService) {
         this.userCompanyService = userCompanyService;
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
@@ -71,6 +71,7 @@ public class DeliveryUAController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.COUNTRY));
 
 
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -92,7 +93,7 @@ public class DeliveryUAController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-
+        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.PORT));
 
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
@@ -121,6 +122,7 @@ public class DeliveryUAController {
         if (breedOfTree.getId()!=2){
             model.addAttribute("fragmentPathDeliveryDoc","deliveryInfo");
         }else{
+            model.addAttribute("breedId",2);
             model.addAttribute("fragmentPathDeliveryDoc","deliveryInfoOak");
         }
         if(orderInfoService.findById(contractId).getDestinationType()==DeliveryDestinationType.COUNTRY){
@@ -197,10 +199,14 @@ public class DeliveryUAController {
 
     @PostMapping("/importOakXLS")
     public String importOakXLS(@RequestParam MultipartFile fileXLS, String contractId) throws IOException, InvalidFormatException {
-        ImportOakOrderDataFromXLS dataFromXLS = new ImportOakOrderDataFromXLS(fileXLS);
-        System.out.println("contractId "+ contractId);
-        dataFromXLS.importData();
+        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
+        if (orderInfo.getBreedOfTree().getId()==2) {
+            ImportOakOrderDataFromXLS dataFromXLS = new ImportOakOrderDataFromXLS(fileXLS);
+            System.out.println("contractId " + contractId);
+            dataFromXLS.importData();
+        }else{
 
+        }
 //        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractId);
 
 //        deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
