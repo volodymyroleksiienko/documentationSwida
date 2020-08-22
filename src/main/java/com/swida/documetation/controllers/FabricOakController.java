@@ -8,6 +8,7 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
+import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
@@ -34,9 +35,16 @@ public class FabricOakController {
     private BreedOfTreeService breedOfTreeService;
     private ContrAgentService contrAgentService;
     private UserCompanyService userCompanyService;
+    private OrderInfoService orderInfoService;
+    private DescriptionDeskOakService deskOakService;
 
     @Autowired
-    public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService) {
+    public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService,
+                               DryingStorageService dryingStorageService, DryStorageService dryStorageService,
+                               PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService,
+                               BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService,
+                               UserCompanyService userCompanyService, OrderInfoService orderInfoService,
+                               DescriptionDeskOakService deskOakService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -46,6 +54,8 @@ public class FabricOakController {
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
         this.userCompanyService = userCompanyService;
+        this.orderInfoService = orderInfoService;
+        this.deskOakService = deskOakService;
     }
 
     //Tree Storage page
@@ -303,6 +313,9 @@ public class FabricOakController {
     public String getListOfDeliveryDocumentation(@PathVariable("userId")int userId,Model model){
 
         int breedId = 2;
+        UserCompany company = userCompanyService.findById(userId);
+        ContrAgent contrAgent = company.getContrAgent();
+
         model.addAttribute("fragmentPathTabDelivery","deliveryInfoOak");
         model.addAttribute("tabName","deliveryInfo");
         model.addAttribute("userId",userId);
@@ -310,9 +323,48 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
+
+
+        model.addAttribute("urlEditDriver","/fabric/editDeliveryDocumentation-"+userId+"-"+breedId);
+        model.addAttribute("urlEditPackage","/fabric/editPackageProduct-"+userId+"-"+breedId);
+        model.addAttribute("urlAddPackage","/fabric/addPackageProduct-"+userId+"-"+breedId);
+        model.addAttribute("urlDeletePackage","/fabric/deletePackageProduct-"+userId+"-"+breedId);
+        model.addAttribute("urlEditPackageDescriptionOak","/fabric/editPackageDescriptionOak-"+userId+"-"+breedId);
+        model.addAttribute("urlAddPackageDescriptionOak","/fabric/addPackageDescriptionOak-"+userId+"-"+breedId);
+        model.addAttribute("urlDeleteDescriptionOak","/fabric/deletePackageDescriptionOak-"+userId+"-"+breedId);
 
         return "fabricPage";
     }
+
+
+    @PostMapping("/editPackageDescriptionOak-{userId}-{breedId}")
+    public String editPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
+                                            String rowId,String packageId, String width, String count) {
+
+        deskOakService.editDescription(rowId,width,count);
+        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/addPackageDescriptionOak-{userId}-{breedId}")
+    public String addPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
+                                            String packageId, String width, String count) {
+        packagedProductService.addDescriptionOak(packageId,width,count);
+        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/deletePackageDescriptionOak-{userId}-{breedId}")
+    public String deletePackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
+                                           String packageId, String id) {
+        packagedProductService.deleteDescriptionOak(packageId,id);
+        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+    }
+
+
+
 
 //    Recycle page
     @PostMapping("/cutOfRecycle-{userId}-2")

@@ -11,14 +11,17 @@ public interface PackagedProductService {
     void saveWithoutCalculating(PackagedProduct packProd);
     void createPackages(String dryStorageId, String codeOfProduct,String breedDescription, String countHeight, String countWidth,
                         String countOfPack, String longFact, String heightWidth, UserCompany userCompany);
-    void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
+    PackagedProduct createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
                           String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID);
 
     PackagedProduct findById(int id);
     String countExtent(PackagedProduct product);
+    void countExtentOak(PackagedProduct product);
     String countDesk(PackagedProduct product);
     List<PackagedProduct> findAll();
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);
     void deleteByID(int id);
     void editPackageProduct(PackagedProduct product);
+    void addDescriptionOak(String packId, String width, String count);
+    void deleteDescriptionOak(String packId, String deskId);
 }

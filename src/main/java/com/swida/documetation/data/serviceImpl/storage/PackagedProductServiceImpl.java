@@ -16,6 +16,7 @@ import com.swida.documetation.data.service.subObjects.DeliveryDocumentationServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,8 +94,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
 
     @Override
-    public void createPackageOak(String[][] arrayOfDesk, String idOfDryStorage, String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID) {
-        DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(idOfDryStorage));
+    public PackagedProduct createPackageOak(String[][] arrayOfDesk, String idOfDryStorage, String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID) {
+        DryStorage dryStorage = (idOfDryStorage.isEmpty())?null:dryStorageService.findById(Integer.parseInt(idOfDryStorage));
 
         UserCompany company = new UserCompany();
         company.setId(userID);
@@ -102,7 +103,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         breedOfTree.setId(breedID);
 
         PackagedProduct product = new PackagedProduct();
-        product.setUserCompany(company);
+        if(company.getId()!=0) {
+            product.setUserCompany(company);
+        }
         product.setBreedOfTree(breedOfTree);
         product.setDryStorage(dryStorage);
         product.setCodeOfPackage(codeOfPackage);
@@ -128,13 +131,16 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         product.setSumWidthOfAllDesk(String.valueOf(sumWidth));
         product.setCountOfDesk(String.valueOf(countOfAllDesk));
         product.setExtent(String.format("%.3f",extent).replace(',','.'));
-
-        dryStorage.setExtent(String.format("%.3f",Float.parseFloat(dryStorage.getExtent())-extent).replace(',','.'));
-        dryStorageService.save(dryStorage);
+        if(dryStorage!=null) {
+            dryStorage.setExtent(String.format("%.3f", Float.parseFloat(dryStorage.getExtent()) - extent).replace(',', '.'));
+            dryStorageService.save(dryStorage);
+        }
         deskOakService.saveAll(deskOakList);
         Date date = new Date(System.currentTimeMillis());
         product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         productJPA.save(product);
+
+        return product;
     }
 
     @Override
@@ -150,6 +156,27 @@ public class PackagedProductServiceImpl implements PackagedProductService {
                         *Float.parseFloat(product.getSizeOfWidth())
                         *Float.parseFloat(product.getSizeOfLong())
                         /1000000000).replace(",",".");
+    }
+
+    @Override
+    public void countExtentOak(PackagedProduct product) {
+        int sumWidth = 0;
+        int countOfAllDesk = 0;
+        float extent = 0;
+
+        float cofExtent = Float.parseFloat(product.getSizeOfHeight())*Float.parseFloat(product.getSizeOfLong())/1000000;
+
+        for(DescriptionDeskOak deskOak: product.getDeskOakList()){
+            sumWidth+=(Integer.parseInt(deskOak.getSizeOfWidth())* Integer.parseInt(deskOak.getCountOfDesk()));
+            countOfAllDesk+= Integer.parseInt(deskOak.getCountOfDesk());
+            extent +=( cofExtent* Float.parseFloat(deskOak.getSizeOfWidth())* Float.parseFloat(deskOak.getCountOfDesk()));
+        }
+
+
+        product.setSumWidthOfAllDesk(String.valueOf(sumWidth));
+        product.setCountOfDesk(String.valueOf(countOfAllDesk));
+        product.setExtent(String.format("%.3f",extent).replace(',','.'));
+        productJPA.save(product);
     }
 
     @Override
@@ -179,7 +206,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         PackagedProduct productDB = productJPA.getOne(product.getId());
 
         productDB.setCodeOfPackage(product.getCodeOfPackage());
-        productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        if (product.getBreedOfTree() != null) {
+            productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        }
         productDB.setBreedDescription(product.getBreedDescription());
 
         productDB.setSizeOfHeight(product.getSizeOfHeight());
@@ -194,6 +223,27 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productDB.setLongFact(product.getLongFact());
         productDB.setHeight_width(product.getHeight_width());
         productJPA.save(productDB);
+    }
+
+    @Override
+    public void addDescriptionOak(String packId, String width, String count) {
+        DescriptionDeskOak deskOak = new DescriptionDeskOak();
+        deskOak.setCountOfDesk(count);
+        deskOak.setSizeOfWidth(width);
+        deskOakService.save(deskOak);
+        PackagedProduct product = productJPA.getOne(Integer.parseInt(packId));
+        product.getDeskOakList().add(deskOak);
+        productJPA.save(product);
+    }
+
+    @Override
+    public void deleteDescriptionOak(String packId, String deskId) {
+        PackagedProduct product = productJPA.getOne(Integer.parseInt(packId));
+        DescriptionDeskOak deskOak = deskOakService.findById(Integer.parseInt(deskId));
+
+        product.getDeskOakList().remove(deskOak);
+        productJPA.save(product);
+        deskOakService.deleteByID(deskOak.getId());
     }
 
     public String countOfExtent(PackagedProduct packagedProduct){

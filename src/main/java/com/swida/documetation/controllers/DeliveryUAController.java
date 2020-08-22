@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
+import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
@@ -10,6 +11,7 @@ import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
+import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.*;
 import com.swida.documetation.utils.xlsParsers.ImportOakOrderDataFromXLS;
@@ -36,12 +38,14 @@ public class DeliveryUAController {
     private DeliveryDocumentationService deliveryDocumentationService;
     private PackagedProductService packagedProductService;
     private DriverInfoService driverInfoService;
+    private DescriptionDeskOakService deskOakService;
 
     @Autowired
     public DeliveryUAController(UserCompanyService userCompanyService, BreedOfTreeService breedOfTreeService,
                                 ContrAgentService contrAgentService, OrderInfoService orderInfoService,
                                 ContainerService containerService,DeliveryDocumentationService deliveryDocumentationService,
-                                PackagedProductService packagedProductService, DriverInfoService driverInfoService) {
+                                PackagedProductService packagedProductService, DriverInfoService driverInfoService,
+                                DescriptionDeskOakService deskOakService) {
         this.userCompanyService = userCompanyService;
         this.breedOfTreeService = breedOfTreeService;
         this.contrAgentService = contrAgentService;
@@ -50,32 +54,12 @@ public class DeliveryUAController {
         this.deliveryDocumentationService = deliveryDocumentationService;
         this.packagedProductService = packagedProductService;
         this.driverInfoService = driverInfoService;
+        this.deskOakService = deskOakService;
     }
-    // Main page
-//    @GetMapping("/getDeliveryInUkraine-{breedId}")
-//    public String getDeliveryInUkraine(@PathVariable("breedId") int breedId, Model model){
-//
-//        model.addAttribute("navTabName","multimodalMain");
-//        model.addAttribute("tabName",breedId);
-//        model.addAttribute("fragmentPathTabConfig","transportationTab");
-//        model.addAttribute("fragmentPathDeliveryUA", (breedId==2)?"deliveryInfoOak":"deliveryInfo");
-//        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-//        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-//        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-//        model.addAttribute("navTabName","delivery");
-//        UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-//        if (userCompany!=null){
-//            model.addAttribute("userCompanyName",userCompany);
-//            model.addAttribute("userId",userCompany.getId());
-//        }
-//        List<DeliveryDocumentation> list = deliveryDocumentationService.getListByDestinationType(DeliveryDestinationType.COUNTRY);
-//
-//        list.removeIf(doc -> doc.getBreedOfTree().getId() != breedId);
-//
-//        model.addAttribute("deliveryDocumentations",list);
-//        return "multimodalPage";
-//    }
 
+
+
+    // Main page
     @GetMapping("/getDeliveryInUkraine")
     public String getDeliveryInUkraine(Model model){
 
@@ -151,8 +135,15 @@ public class DeliveryUAController {
         model.addAttribute("urlAddPackage","/multimodal/addPackageProduct-"+contractId);
         model.addAttribute("urlDeletePackage","/multimodal/deletePackageProduct-"+contractId);
 
+        model.addAttribute("urlEditPackageDescriptionOak","/multimodal/editPackageDescriptionOak-"+contractId);
+        model.addAttribute("urlAddPackageDescriptionOak","/multimodal/addPackageDescriptionOak-"+contractId);
+        model.addAttribute("urlDeleteDescriptionOak","/multimodal/deletePackageDescriptionOak-"+contractId);
+
+
         return "multimodalPage";
     }
+
+//    Work with Delivery doc
 
     @PostMapping("/editDeliveryDocumentation-{contractId}")
     public String editDeliveryDocumentation(@PathVariable("contractId")int contractId,DeliveryDocumentation documentation){
@@ -175,6 +166,34 @@ public class DeliveryUAController {
         deliveryDocumentationService.deletePackage(id,deliveryId);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
+
+    //    Work with Delivery doc OAK
+
+    @PostMapping("/editPackageDescriptionOak-{contractId}")
+    public String editPackageDescriptionOak(@PathVariable("contractId")int contractId,
+                                            String rowId,String packageId, String width, String count) {
+
+        deskOakService.editDescription(rowId,width,count);
+        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
+    }
+
+    @PostMapping("/addPackageDescriptionOak-{contractId}")
+    public String addPackageDescriptionOak(@PathVariable("contractId")int contractId,
+                                           String packageId, String width, String count) {
+        packagedProductService.addDescriptionOak(packageId,width,count);
+        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
+    }
+
+    @PostMapping("/deletePackageDescriptionOak-{contractId}")
+    public String deletePackageDescriptionOak(@PathVariable("contractId")int contractId,
+                                              String packageId, String id) {
+        packagedProductService.deleteDescriptionOak(packageId,id);
+        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
+    }
+
 
     @PostMapping("/importOakXLS")
     public String importOakXLS(@RequestParam MultipartFile fileXLS, String contractId) throws IOException, InvalidFormatException {

@@ -30,6 +30,14 @@ public class DescriptionDeskOakServiceImpl implements DescriptionDeskOakService 
     }
 
     @Override
+    public void editDescription(String deskId, String width, String count) {
+        DescriptionDeskOak deskOak = descriptionDeskOakJPA.getOne(Integer.parseInt(deskId));
+        deskOak.setSizeOfWidth(width);
+        deskOak.setCountOfDesk(count);
+        descriptionDeskOakJPA.save(deskOak);
+    }
+
+    @Override
     public DescriptionDeskOak findById(int id) {
         return descriptionDeskOakJPA.getOne(id);
     }

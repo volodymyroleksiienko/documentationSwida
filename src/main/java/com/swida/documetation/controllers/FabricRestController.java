@@ -110,6 +110,17 @@ public class FabricRestController {
         packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
     }
 
+    @PostMapping("/createPackageOakObjectForExistDeliveryDoc")
+    public void createPackageOakObjectForExistDeliveryDoc(String breedID,@RequestParam("arrayOfDesk") String[][] arrayOfDesk,
+                                                          String deliveryId, String codeOfPackage, String quality,
+                                                          String sizeOfHeight, String length){
+        PackagedProduct product = packagedProductService.createPackageOak(arrayOfDesk,"",codeOfPackage,quality,sizeOfHeight,length,0,Integer.parseInt(breedID));
+
+        DeliveryDocumentation documentation = deliveryDocumentationService.findById(Integer.parseInt(deliveryId));
+        documentation.getProductList().add(product);
+        deliveryDocumentationService.save(documentation);
+    }
+
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
     public void createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                  @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,

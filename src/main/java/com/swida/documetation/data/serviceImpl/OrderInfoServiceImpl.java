@@ -63,6 +63,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
+    public List<OrderInfo> getOrdersListByAgentByBreed(int agentId, int breedId) {
+        return orderInfoJPA.getOrdersListByAgentByBreed(agentId,breedId);
+    }
+
+    @Override
     public List<OrderInfo> findAll() {
         return orderInfoJPA.findAll();
     }
