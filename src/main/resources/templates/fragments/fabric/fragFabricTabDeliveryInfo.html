@@ -17,7 +17,7 @@
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
                 <th scope="col">№ контракта</th>
-                <th scope="col">Назначение</th>
+                <th scope="col">Кубатура</th>
                 <th scope="col">Примечание</th>
                 <th></th>
             </tr>
@@ -34,7 +34,7 @@
                               <td th:text="${dd.driverInfo.getFullName()}"></td>
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
                               <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
-                              <td th:text="${dd.destinationType}"></td>
+                              <td th:text="${dd.packagesExtent}"></td>
                               <td th:text="${(dd.description==null)?'':dd.description}"></td>
                               <td>
                                   <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
@@ -117,7 +117,7 @@
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
                 <th scope="col">№ контракта</th>
-                <th scope="col">Назначение</th>
+                <th scope="col">Кубатура</th>
                 <th scope="col">Примечание</th>
                 <th></th>
             </tr>
@@ -184,13 +184,8 @@
                                 </datalist>
                             </div>
                             <div class="col-3">
-                                <label for="editPackDeliveryDestination" class="col-form-label">Пункт назначения</label>
-                                <input type="text" class="form-control" list="destinationType" id="editPackDeliveryDestination" required="required" autocomplete="off" name="destinationType">
-                                <datalist id="destinationType">
-                                    <option value="MULTIMODAL">
-                                    <option value="PORT">
-                                    <option value="COUNTRY">
-                                </datalist>
+                                <label for="editPackDeliveryDestination" class="col-form-label">Кубатура</label>
+                                <input type="number" class="form-control"  id="editPackDeliveryDestination" required="required" autocomplete="off" name="packagesExtent">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
@@ -587,7 +582,7 @@
                         <th scope="col">Водитель</th>
                         <th scope="col">Телефон</th>
                         <th scope="col">№ контракта</th>
-                        <th scope="col">Назначение</th>
+                        <th scope="col">Кубатура</th>
                         <th scope="col">Примечание</th>
                         <th></th>
                     </tr>
@@ -606,7 +601,7 @@
                             <td th:text="${dd.driverInfo.getFullName()}"></td>
                             <td th:text="${dd.driverInfo.getPhone()}"></td>
                             <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
-                            <td th:text="${dd.destinationType}"></td>
+                            <td th:text="${dd.packagesExtent}"></td>
                             <td th:text="${(dd.description==null)?'':dd.description}"></td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverInfo(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -721,7 +716,7 @@
                     <th scope="col">Водитель</th>
                     <th scope="col">Телефон</th>
                     <th scope="col">№ контракта</th>
-                    <th scope="col">Назначение</th>
+                    <th scope="col">Кубатура</th>
                     <th scope="col">Примечание</th>
                     <th></th>
                 </tr>
@@ -788,12 +783,8 @@
                                 </datalist>
                             </div>
                             <div class="col-3">
-                                <label for="editOakPackDeliveryDestination" class="col-form-label">Пункт назначения</label>
-                                <input type="text" class="form-control" list="destinationOakType" id="editOakPackDeliveryDestination" required="required" autocomplete="off" name="destinationType">
-                                <datalist id="destinationOakType">
-                                    <option value="PORT">
-                                    <option value="COUNTRY">
-                                </datalist>
+                                <label for="editOakPackDeliveryDestination" class="col-form-label">Кубатура</label>
+                                <input type="text" class="form-control"  id="editOakPackDeliveryDestination" required="required" autocomplete="off" name="packagesExtent">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>

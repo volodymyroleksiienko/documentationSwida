@@ -1,12 +1,14 @@
 package com.swida.documetation.data.serviceImpl.subObjects;
 
 import com.swida.documetation.data.entity.OrderInfo;
+import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.subObjects.DeliveryDocumentationJPA;
 import com.swida.documetation.data.service.OrderInfoService;
+import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
@@ -23,16 +25,18 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     private DriverInfoService driverInfoService;
     private OrderInfoService orderInfoService;
     private BreedOfTreeService breedOfTreeService;
+    private DescriptionDeskOakService deskOakService;
 
     @Autowired
     public DeliveryDocumentationServiceImpl(DeliveryDocumentationJPA documentationJPA, PackagedProductService packagedProductService,
                                             DriverInfoService driverInfoService, OrderInfoService orderInfoService,
-                                            BreedOfTreeService breedOfTreeService) {
+                                            BreedOfTreeService breedOfTreeService, DescriptionDeskOakService deskOakService) {
         this.documentationJPA = documentationJPA;
         this.packagedProductService = packagedProductService;
         this.driverInfoService = driverInfoService;
         this.orderInfoService = orderInfoService;
         this.breedOfTreeService = breedOfTreeService;
+        this.deskOakService = deskOakService;
     }
 
     @Override
@@ -44,16 +48,25 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     public void checkInfoFromImport(List<DeliveryDocumentation> docList, OrderInfo orderInfo) {
 
         for (DeliveryDocumentation doc:docList) {
-            DeliveryDocumentation docDB = documentationJPA.getDeliveryDocumentationByIdOfTruck(doc.getDriverInfo().getIdOfTruck());
+            DeliveryDocumentation docDB = documentationJPA.getDeliveryDocumentationByIdOfTruckByOrder(doc.getDriverInfo().getIdOfTruck(),orderInfo.getId());
             if (docDB==null){
+                driverInfoService.save(doc.getDriverInfo());
+                List<PackagedProduct> packList = new ArrayList<>();
+                packList.addAll(doc.getProductList());
+                doc.setProductList(new ArrayList<>());
+                documentationJPA.save(doc);
+
                 float mainExtent = 0;
                 doc.setOrderInfo(orderInfo);
 
-                for(PackagedProduct product: doc.getProductList()){
+                for(PackagedProduct product: packList){
                     product.setOrderInfo(orderInfo);
                     product.setBreedOfTree(orderInfo.getBreedOfTree());
                     mainExtent+=Float.parseFloat(packagedProductService.countExtent(product));
+                    product.setDeliveryDocumentation(doc);
+                    doc.getProductList().add(product);
                     packagedProductService.save(product);
+
                 }
                 doc.setContrAgent(orderInfo.getContrAgent());
                 doc.setPackagesExtent(String.format("%.3f",mainExtent).replace(",","."));
@@ -98,6 +111,48 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
         documentationJPA.save(deliveryDocumentation);
     }
 
+    @Override
+    public void checkInfoFromImportOak(List<DeliveryDocumentation> docList, OrderInfo orderInfo) {
+        for(DeliveryDocumentation doc:docList){
+            DeliveryDocumentation docDB = documentationJPA.getDeliveryDocumentationByIdOfTruckByOrder(doc.getDriverInfo().getIdOfTruck(),orderInfo.getId());
+            if(docDB==null){
+                driverInfoService.save(doc.getDriverInfo());
+                List<PackagedProduct> packList = new ArrayList<>();
+                packList.addAll(doc.getProductList());
+                doc.setProductList(new ArrayList<>());
+                documentationJPA.save(doc);
+                float mainExtent = 0;
+                doc.setOrderInfo(orderInfo);
+
+                for(PackagedProduct product: packList){
+                    List<DescriptionDeskOak> list = new ArrayList<>();
+                            list.addAll(product.getDeskOakList());
+                    for(DescriptionDeskOak deskOak:list){
+                        if (deskOak.getSizeOfWidth().equals("-") || deskOak.getCountOfDesk().equals("-")){
+                            product.getDeskOakList().remove(deskOak);
+                        }else{
+                            deskOakService.save(deskOak);
+                        }
+                    }
+                    product.setDeliveryDocumentation(doc);
+                    doc.getProductList().add(product);
+
+                    product.setOrderInfo(orderInfo);
+                    product.setBreedOfTree(orderInfo.getBreedOfTree());
+
+                    mainExtent+=Float.parseFloat(product.getExtent().replace(",","."));
+                    packagedProductService.save(product);
+                }
+                doc.setBreedOfTree(orderInfo.getBreedOfTree());
+                doc.setContrAgent(orderInfo.getContrAgent());
+                doc.setPackagesExtent(String.format("%.3f",mainExtent).replace(",","."));
+                driverInfoService.save(doc.getDriverInfo());
+                documentationJPA.save(doc);
+            }
+
+        }
+    }
+
 
     @Override
     public DeliveryDocumentation findById(int id) {
@@ -117,6 +172,11 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     @Override
     public DeliveryDocumentation getDeliveryDocumentationByIdOfTruck(String idOfTruck) {
         return documentationJPA.getDeliveryDocumentationByIdOfTruck(idOfTruck);
+    }
+
+    @Override
+    public DeliveryDocumentation getDeliveryDocumentationByIdOfTruckByOrder(String idOfTruck, int orderId) {
+        return documentationJPA.getDeliveryDocumentationByIdOfTruckByOrder(idOfTruck,orderId);
     }
 
     @Override
@@ -149,7 +209,8 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
         docDB.setOrderInfo(orderInfo);
         docDB.setDateOfUnloading(documentation.getDateOfUnloading());
         docDB.setTimeOfUnloading(documentation.getTimeOfUnloading());
-        docDB.setDestinationType(documentation.getDestinationType());
+//        docDB.setDestinationType(documentation.getDestinationType());
+        docDB.setPackagesExtent(documentation.getPackagesExtent());
         docDB.setDescription(documentation.getDescription());
 
 
@@ -171,9 +232,10 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     public void reloadExtentOfAllPack(DeliveryDocumentation documentation) {
         float fullExtent = 0;
         for(PackagedProduct product:documentation.getProductList()){
-            fullExtent=+Float.parseFloat(product.getExtent());
+            fullExtent+=Float.parseFloat(product.getExtent());
         }
         documentation.setPackagesExtent(String.format("%.3f",fullExtent).replace(",","."));
+        documentationJPA.save(documentation);
     }
 
     @Override

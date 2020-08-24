@@ -22,6 +22,9 @@ public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocument
     @Query("select obj from  DeliveryDocumentation obj where obj.driverInfo.idOfTruck=?1")
     DeliveryDocumentation getDeliveryDocumentationByIdOfTruck(String idOfTruck);
 
+    @Query("select obj from  DeliveryDocumentation obj where obj.driverInfo.idOfTruck=?1 and obj.orderInfo.id=?2")
+    DeliveryDocumentation getDeliveryDocumentationByIdOfTruckByOrder(String idOfTruck,int orderId);
+
     @Query("select obj from  DeliveryDocumentation obj where obj.productList in ?1")
     DeliveryDocumentation getDeliveryDocumentationPackagedProduct(PackagedProduct product);
 }

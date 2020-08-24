@@ -108,7 +108,7 @@ public class ImportOrderDataFromXLS {
         driverInfo.setFullName(dataFormatter.formatCellValue(sheet.getRow(startRow+11).getCell(startCell)));
 
         deliveryDocumentation.setProductList(getListOfPackages(startRow,startCell,sheet));
-        deliveryDocumentation.setDestinationType(DeliveryDestinationType.MULTIMODAL);
+//        deliveryDocumentation.setDestinationType(DeliveryDestinationType.MULTIMODAL);
         deliveryDocumentation.setDriverInfo(driverInfo);
         return deliveryDocumentation;
     }

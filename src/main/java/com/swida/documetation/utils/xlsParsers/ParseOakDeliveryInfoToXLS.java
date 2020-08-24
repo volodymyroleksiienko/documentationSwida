@@ -169,9 +169,9 @@ public class ParseOakDeliveryInfoToXLS {
                 " Телефон: "+deliveryDocumentation.getDriverInfo().getPhone());
 
 
-
+        String filePath="";
         try {
-            String filePath = System.getProperty("user.home") + File.separator + "delivery.xlsx";
+            filePath = System.getProperty("user.home") + File.separator + "delivery.xlsx";
             File file = new File(filePath);
             FileOutputStream fos = new FileOutputStream(file);
             book.write(fos);
@@ -180,7 +180,7 @@ public class ParseOakDeliveryInfoToXLS {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return filePath;
     }
 
     private void getUnicWidth(){

@@ -2,7 +2,6 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
-import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
@@ -166,6 +165,7 @@ public class DeliveryPortAndUAController {
     @PostMapping("/deletePackageProduct-{contractId}")
     public String deletePackageProduct(@PathVariable("contractId")int contractId,String id, String deliveryId){
         deliveryDocumentationService.deletePackage(id,deliveryId);
+        deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentationService.findById(Integer.parseInt(deliveryId)));
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -203,13 +203,13 @@ public class DeliveryPortAndUAController {
         if (orderInfo.getBreedOfTree().getId()==2) {
             ImportOakOrderDataFromXLS dataFromXLS = new ImportOakOrderDataFromXLS(fileXLS);
             System.out.println("contractId " + contractId);
-            dataFromXLS.importData();
+            deliveryDocumentationService.checkInfoFromImportOak(dataFromXLS.importData(),orderInfo);
         }else{
-
+            ImportOrderDataFromXLS dataFromXLS = new ImportOrderDataFromXLS(fileXLS);
+            deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
         }
-//        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractId);
 
-//        deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
+
         return "redirect:/multimodal/getDeliveryPort";
     }
 }

@@ -57,7 +57,8 @@ public class ImportOakOrderDataFromXLS {
         String deliveryDateInfo = dataFormatter.formatCellValue(sheet.getRow(startRow-2).getCell(0));
         String date = deliveryDateInfo.substring(0,deliveryDateInfo.lastIndexOf("Время выгрузки"))
                                         .replace("Дата выгрузки","")
-                                        .replace(":","");
+                                        .replace(":","")
+                                        .trim();
         String time = deliveryDateInfo.substring(deliveryDateInfo.lastIndexOf("Время выгрузки"))
                                         .replace("Время выгрузки:","");
 
@@ -122,9 +123,9 @@ public class ImportOakOrderDataFromXLS {
             product.setCodeOfPackage(dataFormatter.formatCellValue(row.getCell(startCell+2)));
             product.setSizeOfLong(dataFormatter.formatCellValue(row.getCell(startCell+3)));
 
-            product.setExtent(dataFormatter.formatCellValue(row.getCell(lastIndexCol)));
-            product.setCountOfDesk(dataFormatter.formatCellValue(row.getCell(lastIndexCol-1)));
-            product.setSumWidthOfAllDesk(dataFormatter.formatCellValue(row.getCell(lastIndexCol-2)));
+            product.setExtent(dataFormatter.formatCellValue(row.getCell(lastIndexCol-1)));
+            product.setCountOfDesk(dataFormatter.formatCellValue(row.getCell(lastIndexCol-2)));
+            product.setSumWidthOfAllDesk(dataFormatter.formatCellValue(row.getCell(lastIndexCol-3)));
             product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
 
             product.setDeskOakList(getDeskDescription(startRow+1,startCell+4,startRowPack,sheet));
