@@ -110,7 +110,9 @@ public class FabricRestController {
     public void createPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                    @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,
                                    String codeOfPackage, String quality, String sizeOfHeight, String length){
-
+        if (idOfDryStorage==null){
+            idOfDryStorage="";
+        }
         packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
     }
 
