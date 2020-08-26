@@ -562,6 +562,36 @@
         $('#tableForTransportation tbody').on( 'click', 'button', function () {
             modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
         } );
+
+        //Extent
+
+        function extentCalc(){
+            $("#sendForPackageModalExtent").val('');
+            if ($("#sendForPackageLength").val() != '' && $("#sendForPackageHeight").val() != '' && $("#sendForPackageWidth").val() != '' && $("#sendForPackageModalCount").val() != ''){
+                let res = (($("#sendForPackageLength").val()/1000) * ($("#sendForPackageHeight").val()/1000) * ($("#sendForPackageWidth").val()/1000) * ($("#sendForPackageModalCount").val()));
+                $("#sendForPackageModalExtent").val(res.toFixed(3));
+                console.log("result: "+res.toFixed(3));
+            } else {
+                console.log("fill all");
+            }
+        }
+
+        $("#sendForPackageLength").change(function() {
+            extentCalc();
+        });
+
+        $("#sendForPackageHeight").change(function() {
+            extentCalc();
+        });
+
+        $("#sendForPackageWidth").change(function() {
+            extentCalc();
+        });
+
+        $("#sendForPackageModalCount").change(function() {
+            extentCalc();
+        });
+        // Extent
         //PACKAGES 1 END
 
 
@@ -673,6 +703,7 @@
             this.parentElement.parentElement.remove();
             document.getElementById(idOfParent).remove()
         } );
+
         //PACKS 2 end
 
 

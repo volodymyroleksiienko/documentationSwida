@@ -69,6 +69,9 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button">
+            <button type="button" class="buttons btn btn-primary" title="Добавить пачку" data-toggle="modal" data-placement="left" data-target="#addOwnPackageModal">
+                <i class="fa fa-plus"></i>
+            </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить к погрузке" data-placement="left" id ="buttonForTransportation">
                 <i class="fas fa-truck-loading"></i>
             </button>
@@ -77,6 +80,106 @@
     </div>
 
 
+    <!-- Create own package start -->
+    <div class="modal fade" id="addOwnPackageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendForPackageModalHeader">Создаение  пачки</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/createPackages-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+
+                        <!-- Insert rows -->
+                        <input type="text" class="form-control" id="sendForPackagesModalId" hidden="hidden" autocomplete="off" name="id">
+
+                        <label class="col-form-label" for="sendForPackageModalCode">Код</label>
+                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
+                                <input type="text" class="form-control" list="addBreedOfTreeList" id="sendForPackageModalMaterial" required="required" autocomplete="off" name="breedOfTree.breed">
+                                <datalist id="addBreedOfTreeList">
+                                    <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
+                                </datalist>
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalMaterialDescr">Описание</label>
+                                <input type="text" class="form-control" id="sendForPackageModalMaterialDescr" autocomplete="off"  name="breedDescription">
+                            </div>
+                        </div>
+<!--                        -->
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageHeight">Толщина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageHeight" required="required" autocomplete="off" placeholder="мм" name="width">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageWidth">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageWidth" required="required" autocomplete="off" placeholder="мм" name="height">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageLength">Длина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageLength" required="required" autocomplete="off" placeholder="мм" name="length">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
+                                <input type="number" min="1" step="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDecks">
+                            </div>
+                        </div>
+<!--                        -->
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalExtent">Кубатура</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalExtent" required="required" autocomplete="off" placeholder="м3" name="extent" disabled="disabled">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
+                                <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="countOfPacks">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="widthPc">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="heightPc">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
+                            </div>
+
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackageModalHeightWidth">Высота/Ширина</label>
+                                <input type="text" class="form-control" id="sendForPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="heightWidth">
+                            </div>
+                        </div>
+                        <!-- Insert rows -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Создать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Create own package end  -->
 
 
     <!-- Send list for transportation modal begin -->
@@ -473,12 +576,99 @@
             </table>
             <!-- BUTTON -->
             <div class="float-action-button">
+                <button type="button" class="buttons btn btn-primary" title="Добавить пачку" data-toggle="modal" data-placement="left" data-target="#addOwnOakPackageModal">
+                    <i class="fa fa-plus"></i>
+                </button>
                 <button type="button" class="buttons main-button btn btn-primary" title="Добавить к погрузке" data-placement="left" id ="buttonForOakTransportation">
                     <i class="fas fa-truck-loading"></i>
                 </button>
             </div>
             <!-- BUTTON -->
         </div>
+
+    <!-- Create own package start -->
+    <div class="modal fade" id="addOwnOakPackageModal">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ">Создание пачки</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+
+                        <div class="form-group row">
+                            <input type="text" id="createPackageModalIdOak" hidden="hidden" >
+                            <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
+                            <input type="text" hidden="hidden" id="userId" th:value="${userId}">
+
+                            <div class="col-3">
+                                <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
+                                <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="control-label" for="sendForPackageModalQualityOak" style="padding-top: 7px">Качество</label>
+                                <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required">
+                            </div>
+                            <div class="col-3">
+                                <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Размер</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" placeholder="мм">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="sendForPackageModalLengthOak">Длина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+
+                            <div class="col-5">
+                                <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
+                            </div>
+                            <div class="col-5">
+                                <label class="control-label" for="sendForPackageModalCountOak" style="padding-top: 7px">Количество</label>
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalCountOak" required="required" autocomplete="off" placeholder="шт">
+                            </div>
+                            <div class="col-2">
+                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-striped" id="tableForTransportationOak">
+                            <thead>
+                            <tr>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="listOfOakPackagesId">
+                            <!-- <tr></tr> -->
+                            </tbody>
+
+                            <tfoot>
+                            <th scope="col">Толщина, мм</th>
+                            <th scope="col">Количество досок, шт</th>
+                            <th></th>
+                            </tfoot>
+
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="createPackageOak" onclick="createOakPackageForm()">Создать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Send oak list for transportation modal begin MODAL -->
@@ -734,6 +924,50 @@
         } );
 
 
+        function createOakPackageForm() {
+            var arrOfTr = document.getElementById("listOfOakPackagesId").getElementsByTagName("tr");
+            console.log("arr length = "+arrOfTr.length);
+            var packNumber1 =   $("#sendForPackageModalCodeOak").val();
+            var quality1 =      $("#sendForPackageModalQualityOak").val();
+            var size1 =         $("#sendForPackageModalSizeOak").val();
+            var length1 =       $("#sendForPackageModalLengthOak").val();
+
+            var breedID = $("#breedID").val();
+            var userID = $("#userID").val();
+
+            let arrayOfId = [];
+
+            for (let i = 0; i<arrOfTr.length;i++){
+                arrayOfId[i] = $(arrOfTr[i]).find('td:eq(0)').text();
+            }
+
+            if (arrayOfId[0]!="No data available in table" && packNumber1 != "" && quality1 != "" && size1 != "" && length1 != ""){
+
+                // $.ajax({
+                //     method: "post",
+                //     url: "/createOakPackage-"+userID+"-"+breedID,
+                //     contextType: "application/json",
+                //     data: {
+                //         list: arrayOfId,
+                //         packNumber: packNumber1,
+                //         quality: quality1,
+                //         size: size1,
+                //         length: length1,
+                //     },
+                //     traditional: true,
+                //     success: function () {
+                //         location.reload();
+                //     },
+                //     error: function () {
+                //         alert("Error");
+                //     }
+                // })
+                alert("Zbs!");
+            ;} else {
+                alert("Заполните все поля!");
+            }
+
+        }
 
 
         function sendRequestToCreateDeleviryOak() {
