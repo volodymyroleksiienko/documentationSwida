@@ -11,6 +11,7 @@ public interface PackagedProductService {
     void saveWithoutCalculating(PackagedProduct packProd);
     void createPackages(String dryStorageId, String codeOfProduct,String breedDescription, String countHeight, String countWidth,
                         String countOfPack, String longFact, String heightWidth, UserCompany userCompany);
+    void createPackagesWithoutHistory(PackagedProduct product,String countOfPacks,int breedId, int userId);
     PackagedProduct createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
                           String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID);
 

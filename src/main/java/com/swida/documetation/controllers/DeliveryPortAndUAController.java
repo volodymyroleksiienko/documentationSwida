@@ -174,25 +174,31 @@ public class DeliveryPortAndUAController {
     @PostMapping("/editPackageDescriptionOak-{contractId}")
     public String editPackageDescriptionOak(@PathVariable("contractId")int contractId,
                                             String rowId,String packageId, String width, String count) {
-
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         deskOakService.editDescription(rowId,width,count);
-        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        packagedProductService.countExtentOak(product);
+        deliveryDocumentationService.reloadExtentOfAllPack(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
     @PostMapping("/addPackageDescriptionOak-{contractId}")
     public String addPackageDescriptionOak(@PathVariable("contractId")int contractId,
                                            String packageId, String width, String count) {
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.addDescriptionOak(packageId,width,count);
-        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        packagedProductService.countExtentOak(product);
+        deliveryDocumentationService.reloadExtentOfAllPack(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
     @PostMapping("/deletePackageDescriptionOak-{contractId}")
     public String deletePackageDescriptionOak(@PathVariable("contractId")int contractId,
                                               String packageId, String id) {
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
+
         packagedProductService.deleteDescriptionOak(packageId,id);
-        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        packagedProductService.countExtentOak(product);
+        deliveryDocumentationService.reloadExtentOfAllPack(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 

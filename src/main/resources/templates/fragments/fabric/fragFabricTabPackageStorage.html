@@ -90,22 +90,23 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/createPackages-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addPackagedProductWithoutHistory-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
-                        <input type="text" class="form-control" id="sendForPackagesModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="sendForPackagesModalId" hidden="hidden" autocomplete="off" >
 
                         <label class="col-form-label" for="sendForPackageModalCode">Код</label>
-                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfPackage">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
-                                <input type="text" class="form-control" list="addBreedOfTreeList" id="sendForPackageModalMaterial" required="required" autocomplete="off" name="breedOfTree.breed">
-                                <datalist id="addBreedOfTreeList">
-                                    <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
-                                </datalist>
+                                <th:block th:each="b : ${breedOfTreeList}" >
+                                    <th:block th:if="${b.id==breedId}">
+                                        <input type="text" class="form-control"  id="sendForPackageModalMaterial" required="required" autocomplete="off" disabled="disabled"  th:value="${b.breed}">
+                                    </th:block>
+                                </th:block>
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalMaterialDescr">Описание</label>
@@ -116,22 +117,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageHeight">Толщина</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageHeight" required="required" autocomplete="off" placeholder="мм" name="width">
+                                <input type="number" min="1" class="form-control" id="sendForPackageHeight" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageWidth">Ширина</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageWidth" required="required" autocomplete="off" placeholder="мм" name="height">
+                                <input type="number" min="1" class="form-control" id="sendForPackageWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageLength">Длина</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageLength" required="required" autocomplete="off" placeholder="мм" name="length">
+                                <input type="number" min="1" class="form-control" id="sendForPackageLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
-                                <input type="number" min="1" step="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDecks">
+                                <input type="number" min="1" step="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
                             </div>
                         </div>
 <!--                        -->
@@ -139,7 +140,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalExtent">Кубатура</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalExtent" required="required" autocomplete="off" placeholder="м3" name="extent" disabled="disabled">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalExtent" required="required" autocomplete="off" placeholder="м3" disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
@@ -150,11 +151,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="widthPc">
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInWidth">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="heightPc">
+                                <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInHeight">
                             </div>
                         </div>
 
@@ -166,7 +167,7 @@
 
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalHeightWidth">Высота/Ширина</label>
-                                <input type="text" class="form-control" id="sendForPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="heightWidth">
+                                <input type="text" class="form-control" id="sendForPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="height_width">
                             </div>
                         </div>
                         <!-- Insert rows -->

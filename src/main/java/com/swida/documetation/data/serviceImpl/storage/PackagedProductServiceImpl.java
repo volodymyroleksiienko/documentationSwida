@@ -7,6 +7,7 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
+import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import com.swida.documetation.data.service.storages.DryStorageService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
@@ -30,15 +31,18 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     private PackagedProductJPA productJPA;
     private DescriptionDeskOakService deskOakService;
     private BreedOfTreeService breedOfTreeService;
+    private UserCompanyService userCompanyService;
 
     @Autowired
     public PackagedProductServiceImpl(DryStorageService dryStorageService, PackagedProductJPA productJPA,
                                       DescriptionDeskOakService deskOakService, RawStorageService rawStorageService,
-                                      BreedOfTreeService breedOfTreeService) {
+                                      BreedOfTreeService breedOfTreeService,UserCompanyService userCompanyService) {
         this.dryStorageService = dryStorageService;
         this.productJPA = productJPA;
         this.deskOakService = deskOakService;
         this.rawStorageService = rawStorageService;
+        this.breedOfTreeService = breedOfTreeService;
+        this.userCompanyService = userCompanyService;
     }
 
     @Override
@@ -91,6 +95,35 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         dryStorageService.save(dryStorage);
     }
 
+    @Override
+    public void createPackagesWithoutHistory(PackagedProduct product, String countOfPacks,int breedId, int userId) {
+        int countPack = Integer.parseInt(countOfPacks);
+        String codeOfPack = product.getCodeOfPackage();
+
+        for(int i=0;i<countPack;i++){
+            PackagedProduct newProduct = new PackagedProduct();
+            if (countPack>1){
+                newProduct.setCodeOfPackage(codeOfPack+"-"+(i+1));
+            }else {
+                newProduct.setCodeOfPackage(codeOfPack);
+            }
+            newProduct.setBreedOfTree(breedOfTreeService.findById(breedId));
+            newProduct.setUserCompany(userCompanyService.findById(userId));
+
+            newProduct.setSizeOfHeight(product.getSizeOfHeight());
+            newProduct.setSizeOfWidth(product.getSizeOfWidth());
+            newProduct.setSizeOfLong(product.getSizeOfLong());
+            newProduct.setCountOfDesk(product.getCountOfDesk());
+            newProduct.setCountDeskInHeight(product.getCountDeskInHeight());
+            newProduct.setCountDeskInWidth(product.getCountDeskInWidth());
+
+            newProduct.setLongFact(product.getLongFact());
+            newProduct.setHeight_width(product.getHeight_width());
+
+            newProduct.setExtent(countExtent(newProduct));
+            productJPA.save(newProduct);
+        }
+    }
 
 
     @Override
@@ -164,12 +197,12 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         int countOfAllDesk = 0;
         float extent = 0;
 
-        float cofExtent = Float.parseFloat(product.getSizeOfHeight())*Float.parseFloat(product.getSizeOfLong())/1000000;
+        float cofExtent = Float.parseFloat(product.getSizeOfHeight())*Float.parseFloat(product.getSizeOfLong())/1000000000;
 
         for(DescriptionDeskOak deskOak: product.getDeskOakList()){
             sumWidth+=(Integer.parseInt(deskOak.getSizeOfWidth())* Integer.parseInt(deskOak.getCountOfDesk()));
             countOfAllDesk+= Integer.parseInt(deskOak.getCountOfDesk());
-            extent +=( cofExtent* Float.parseFloat(deskOak.getSizeOfWidth())* Float.parseFloat(deskOak.getCountOfDesk()));
+            extent += (cofExtent* Float.parseFloat(deskOak.getSizeOfWidth())* Float.parseFloat(deskOak.getCountOfDesk()));
         }
 
 

@@ -451,6 +451,11 @@ public class FabricController {
 
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
 
+        if(product.getDryStorage()==null){
+            packagedProductService.deleteByID(product.getId());
+            return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+        }
+
         DryStorage dryStorage = product.getDryStorage();
 
         dryStorage.setCountOfDesk(dryStorage.getCountOfDesk()+ Integer.parseInt(product.getCountOfDesk()));
@@ -460,12 +465,21 @@ public class FabricController {
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/addPackagedProductWithoutHistory-{userId}-{breedId}")
+    public String addPackagedProductWithoutHistory(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                                  PackagedProduct product, String countOfPacks){
+
+        packagedProductService.createPackagesWithoutHistory(product,countOfPacks,breedId,userId);
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    }
+
     @PostMapping("/addPackToExistDeliveryDoc-{userId}-{breedId}")
     public String addPackToExistDeliveryDoc(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                        String packId,String driverId){
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packId));
         DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.findById(Integer.parseInt(driverId));
         product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
+        product.setDeliveryDocumentation(deliveryDocumentation);
         packagedProductService.save(product);
         if (deliveryDocumentation.getProductList()==null){
             List<PackagedProduct> list = new ArrayList<>();
@@ -479,13 +493,14 @@ public class FabricController {
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
-    @PutMapping("/addPackagedProductToDelivery")
-    public void addPackagedProductToDelivery(DriverInfo driverInfo,List<PackagedProduct> productList){
-        DeliveryDocumentation deliveryDocumentation = new DeliveryDocumentation();
-        deliveryDocumentation.setDriverInfo(driverInfo);
-        deliveryDocumentation.setProductList(productList);
-        deliveryDocumentationService.save(deliveryDocumentation);
-    }
+
+//    @PutMapping("/addPackagedProductToDelivery")
+//    public void addPackagedProductToDelivery(DriverInfo driverInfo,List<PackagedProduct> productList){
+//        DeliveryDocumentation deliveryDocumentation = new DeliveryDocumentation();
+//        deliveryDocumentation.setDriverInfo(driverInfo);
+//        deliveryDocumentation.setProductList(productList);
+//        deliveryDocumentationService.save(deliveryDocumentation);
+//    }
 
     //Delivery page
     @GetMapping("/getListOfDeliveryDocumentation-{userId}-{breedId}")

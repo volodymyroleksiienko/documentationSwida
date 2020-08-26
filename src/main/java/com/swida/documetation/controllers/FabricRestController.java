@@ -99,6 +99,10 @@ public class FabricRestController {
 
         driverInfoService.save(driverInfo);
         deliveryDocumentationService.save(deliveryDocumentation);
+        for(PackagedProduct product:productList){
+            product.setDeliveryDocumentation(deliveryDocumentation);
+            packagedProductService.save(product);
+        }
         return "redirect:/fabric/getListOfPackagedProduct-"+userID+"-"+breedID;
     }
 
