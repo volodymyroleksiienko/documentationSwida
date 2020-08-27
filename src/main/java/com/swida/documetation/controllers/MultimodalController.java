@@ -123,6 +123,7 @@ public class MultimodalController {
         OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractId);
 
         deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
+
         return "redirect:/multimodal/getMultimodalOrders";
     }
 
@@ -206,7 +207,7 @@ public class MultimodalController {
         docDB.setContrAgent(contrAgentService.findById(docWeb.getContrAgent().getId()));
         docDB.setPackagesExtent(docWeb.getPackagesExtent());
         deliveryDocumentationService.save(docDB);
-
+        reloadAllExtentFields(docDB);
         return "redirect:/multimodal/getTrucksByContract-"+contractId;
     }
 
@@ -221,6 +222,7 @@ public class MultimodalController {
             packagedProductService.deleteByID(product.getId());
         }
         deliveryDocumentationService.deleteByID(doc.getId());
+
         return "redirect:/multimodal/getTrucksByContract-"+contractId;
     }
 
@@ -248,6 +250,23 @@ public class MultimodalController {
         return "multimodalPage";
     }
 
+    public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation ){
+        deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentation);
+        List<Integer> list = new ArrayList<>();
+        list.add(deliveryDocumentation.getOrderInfo().getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(deliveryDocumentation.getOrderInfo(),docList);
+        orderInfoService.reloadMainOrderExtent(deliveryDocumentation.getOrderInfo().getMainOrder());
+    }
+
+    public void reloadOrdersExtent(OrderInfo orderInfo){
+        List<Integer> list = new ArrayList<>();
+        list.add(orderInfo.getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(orderInfo,docList);
+        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+    }
+
     @PostMapping("/addPackageToDeliveryDoc-{id}")
     public String addPackageToDeliveryDoc(@PathVariable("id")int contractId, PackagedProduct packagedProduct,
                                           String contractName, String containerName, String driverIdOfTruck){
@@ -259,7 +278,7 @@ public class MultimodalController {
         packagedProductService.save(packagedProduct);
         doc.getProductList().add(packagedProduct);
         deliveryDocumentationService.save(doc);
-
+        reloadAllExtentFields(doc);
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
 
@@ -274,12 +293,15 @@ public class MultimodalController {
 
         packagedProduct.setOrderInfo(orderInfo);
         packagedProductService.save(packagedProduct);
+        reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
 
     @PostMapping("/deletePackage-{id}")
     public String deletePackage(@PathVariable("id")int contractId, String id){
+        DeliveryDocumentation documentation = packagedProductService.findById(Integer.parseInt(id)).getDeliveryDocumentation();
         packagedProductService.deleteByID(Integer.parseInt(id));
+        reloadAllExtentFields(documentation);
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
 
