@@ -326,6 +326,12 @@
 
         });
 
+        // TOOGLE SELECTED START
+        $('#treestoragetable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+        //TOOGLE SELECTED END
+
 
 
         $('#rawstoragetable').DataTable({
@@ -350,6 +356,12 @@
                 }
             ]
         });
+
+        // TOOGLE SELECTED START
+        $('#rawstoragetable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+        //TOOGLE SELECTED END
 
 
 
@@ -378,6 +390,12 @@
             ]
         });
 
+        // TOOGLE SELECTED START
+        $('#dryingtable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+        //TOOGLE SELECTED END
+
 
 
         $('#drystoragetable').DataTable({
@@ -403,6 +421,12 @@
                 }
             ]
         });
+
+        // TOOGLE SELECTED START
+        $('#drystoragetable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+        //TOOGLE SELECTED END
 
         //    DRYING OAK START
         var tableForTransportationOak = $('#tableForTransportationOak').DataTable({

@@ -84,7 +84,9 @@
            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-placement="left" onclick="location.href='/multimodal/exportAllPackagesByContract-'+this.name" th:name="${contractId}">
                <i class="far fa-file-excel"></i>
            </button>
-
+            <button type="button" class="buttons btn btn-primary" title="Присвоить контейнер выделенным"  data-toggle="modal" data-placement="left" data-target="#setContainer">
+                <i class="far fa-list-alt"></i>
+            </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addRecordModal">
                 <i class="fa fa-plus"></i>
             </button>
@@ -427,6 +429,40 @@
     </script>
     <!-- CONFIRMATION MODAL END -->
 
+    <!-- SET CONTAINER MODAL START -->
+    <div class="modal fade" id="setContainer">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Присвоить контейнер</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form>
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label" for="selectContainer">Контейнер</label>
+                            <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off">
+                            <datalist id="selectContainersList">
+<!--                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:label="${container.code}">-->
+                                <option data-value="value 1" label="label 1"></option>
+                                <option data-value="value 2" label="label 2"></option>
+                            </datalist>
+                            <input type="hidden" name="container.id" id="selectContainer-hidden">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="setContainerRequest">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- SET CONTAINER MODAL END -->
     <!-- MODALS END-->
 
 </th:block>
