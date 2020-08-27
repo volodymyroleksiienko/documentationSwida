@@ -30,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.PseudoColumnUsage;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -152,26 +154,40 @@ public class DeliveryPortAndUAController {
 
 //    Work with Delivery doc
 
+    public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation ){
+        deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentation);
+        List<Integer> list = new ArrayList<>();
+        list.add(deliveryDocumentation.getOrderInfo().getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(deliveryDocumentation.getOrderInfo(),docList);
+        orderInfoService.reloadMainOrderExtent(deliveryDocumentation.getOrderInfo().getMainOrder());
+    }
+
     @PostMapping("/editDeliveryDocumentation-{contractId}")
     public String editDeliveryDocumentation(@PathVariable("contractId")int contractId,DeliveryDocumentation documentation){
         deliveryDocumentationService.editDeliveryDoc(documentation);
+        reloadAllExtentFields(documentation);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
     @PostMapping("/editPackageProduct-{contractId}")
     public String editPackageProduct(@PathVariable("contractId")int contractId, PackagedProduct product){
         packagedProductService.editPackageProduct(product);
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
     @PostMapping("/addPackageProduct-{contractId}")
     public String addPackageProduct(@PathVariable("contractId")int contractId,String docId,PackagedProduct product){
         deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
     @PostMapping("/deletePackageProduct-{contractId}")
     public String deletePackageProduct(@PathVariable("contractId")int contractId,String id, String deliveryId){
         deliveryDocumentationService.deletePackage(id,deliveryId);
-        deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentationService.findById(Integer.parseInt(deliveryId)));
+        DeliveryDocumentation documentation =  deliveryDocumentationService.findById(Integer.parseInt(deliveryId));
+        reloadAllExtentFields(documentation);
+
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -183,7 +199,7 @@ public class DeliveryPortAndUAController {
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         deskOakService.editDescription(rowId,width,count);
         packagedProductService.countExtentOak(product);
-        deliveryDocumentationService.reloadExtentOfAllPack(product.getDeliveryDocumentation());
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -193,7 +209,7 @@ public class DeliveryPortAndUAController {
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.addDescriptionOak(packageId,width,count);
         packagedProductService.countExtentOak(product);
-        deliveryDocumentationService.reloadExtentOfAllPack(product.getDeliveryDocumentation());
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -204,7 +220,7 @@ public class DeliveryPortAndUAController {
 
         packagedProductService.deleteDescriptionOak(packageId,id);
         packagedProductService.countExtentOak(product);
-        deliveryDocumentationService.reloadExtentOfAllPack(product.getDeliveryDocumentation());
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -221,6 +237,11 @@ public class DeliveryPortAndUAController {
             deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
         }
 
+        List<Integer> list = new ArrayList<>();
+        list.add(orderInfo.getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(orderInfo,docList);
+        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
 
         return "redirect:/multimodal/getDeliveryPort";
     }
