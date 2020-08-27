@@ -19,6 +19,9 @@ public class GenerateResponseForExport {
         System.out.println(endDate);
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report_"+startDate+"___" +
                 endDate+"_"+file.getName());
+        System.out.println();
+        System.out.println(file.getName());
+        System.out.println();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");

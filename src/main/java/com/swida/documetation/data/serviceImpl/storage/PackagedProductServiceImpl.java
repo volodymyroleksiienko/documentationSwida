@@ -235,7 +235,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
 
     @Override
-    public void editPackageProduct(PackagedProduct product) {
+    public PackagedProduct editPackageProduct(PackagedProduct product) {
         PackagedProduct productDB = productJPA.getOne(product.getId());
 
         productDB.setCodeOfPackage(product.getCodeOfPackage());
@@ -256,6 +256,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productDB.setLongFact(product.getLongFact());
         productDB.setHeight_width(product.getHeight_width());
         productJPA.save(productDB);
+        return productDB;
     }
 
     @Override

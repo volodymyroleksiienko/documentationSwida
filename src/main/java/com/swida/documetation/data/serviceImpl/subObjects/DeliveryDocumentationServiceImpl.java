@@ -68,6 +68,7 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
                     packagedProductService.save(product);
 
                 }
+                doc.setBreedOfTree(orderInfo.getBreedOfTree());
                 doc.setContrAgent(orderInfo.getContrAgent());
                 doc.setPackagesExtent(String.format("%.3f",mainExtent).replace(",","."));
                 driverInfoService.save(doc.getDriverInfo());
@@ -199,7 +200,7 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     }
 
     @Override
-    public void editDeliveryDoc(DeliveryDocumentation documentation) {
+    public DeliveryDocumentation editDeliveryDoc(DeliveryDocumentation documentation) {
         DeliveryDocumentation docDB = documentationJPA.getOne(documentation.getId());
         documentation.getDriverInfo().setId(docDB.getDriverInfo().getId());
         driverInfoService.save(documentation.getDriverInfo());
@@ -215,17 +216,20 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
 
 
         documentationJPA.save(docDB);
+        return docDB;
     }
 
     @Override
-    public void addPackageProductToDeliveryDoc(String docId, PackagedProduct product) {
+    public PackagedProduct addPackageProductToDeliveryDoc(String docId, PackagedProduct product) {
         DeliveryDocumentation documentation = documentationJPA.getOne(Integer.parseInt(docId));
         product.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
         product.setExtent(String.format("%.3f",Float.parseFloat(product.getExtent())).replace(",","."));
         product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
+        product.setDeliveryDocumentation(documentation);
         packagedProductService.saveWithoutCalculating(product);
         documentation.getProductList().add(product);
         documentationJPA.save(documentation);
+        return product;
     }
 
     @Override
@@ -241,10 +245,12 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     @Override
     public void deletePackage(String id, String deliveryId) {
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
+        DeliveryDocumentation deliveryDocumentation = documentationJPA.getOne(Integer.parseInt(deliveryId));
         if (product.getUserCompany()==null){
+            deliveryDocumentation.getProductList().remove(product);
             packagedProductService.deleteByID(product.getId());
+            documentationJPA.save(deliveryDocumentation);
         }else{
-            DeliveryDocumentation deliveryDocumentation = documentationJPA.getOne(Integer.parseInt(deliveryId));
             deliveryDocumentation.getProductList().remove(product);
             product.setStatusOfProduct(StatusOfProduct.ON_STORAGE);
             packagedProductService.saveWithoutCalculating(product);

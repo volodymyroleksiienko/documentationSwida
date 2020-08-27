@@ -103,6 +103,7 @@ public class FabricRestController {
             product.setDeliveryDocumentation(deliveryDocumentation);
             packagedProductService.save(product);
         }
+        reloadAllExtentFields(deliveryDocumentation);
         return "redirect:/fabric/getListOfPackagedProduct-"+userID+"-"+breedID;
     }
 
@@ -116,6 +117,15 @@ public class FabricRestController {
         packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
     }
 
+    public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation ){
+        deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentation);
+        List<Integer> list = new ArrayList<>();
+        list.add(deliveryDocumentation.getOrderInfo().getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(deliveryDocumentation.getOrderInfo(),docList);
+        orderInfoService.reloadMainOrderExtent(deliveryDocumentation.getOrderInfo().getMainOrder());
+    }
+
     @PostMapping("/createPackageOakObjectForExistDeliveryDoc")
     public void createPackageOakObjectForExistDeliveryDoc(String breedID,@RequestParam("arrayOfDesk") String[][] arrayOfDesk,
                                                           String deliveryId, String codeOfPackage, String quality,
@@ -125,6 +135,7 @@ public class FabricRestController {
         DeliveryDocumentation documentation = deliveryDocumentationService.findById(Integer.parseInt(deliveryId));
         documentation.getProductList().add(product);
         deliveryDocumentationService.save(documentation);
+        reloadAllExtentFields(documentation);
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")

@@ -22,7 +22,7 @@ public interface PackagedProductService {
     List<PackagedProduct> findAll();
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);
     void deleteByID(int id);
-    void editPackageProduct(PackagedProduct product);
+    PackagedProduct editPackageProduct(PackagedProduct product);
     void addDescriptionOak(String packId, String width, String count);
     void deleteDescriptionOak(String packId, String deskId);
 }

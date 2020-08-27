@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("fabric")
@@ -337,13 +338,23 @@ public class FabricOakController {
         return "fabricPage";
     }
 
+    public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation ){
+        deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentation);
+        List<Integer> list = new ArrayList<>();
+        list.add(deliveryDocumentation.getOrderInfo().getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(deliveryDocumentation.getOrderInfo(),docList);
+        orderInfoService.reloadMainOrderExtent(deliveryDocumentation.getOrderInfo().getMainOrder());
+    }
 
     @PostMapping("/editPackageDescriptionOak-{userId}-{breedId}")
     public String editPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
                                             String rowId,String packageId, String width, String count) {
 
         deskOakService.editDescription(rowId,width,count);
-        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
+        packagedProductService.countExtentOak(product);
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
@@ -351,7 +362,9 @@ public class FabricOakController {
     public String addPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
                                             String packageId, String width, String count) {
         packagedProductService.addDescriptionOak(packageId,width,count);
-        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
+        packagedProductService.countExtentOak(product);
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
@@ -359,7 +372,9 @@ public class FabricOakController {
     public String deletePackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
                                            String packageId, String id) {
         packagedProductService.deleteDescriptionOak(packageId,id);
-        packagedProductService.countExtentOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
+        packagedProductService.countExtentOak(product);
+        reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
