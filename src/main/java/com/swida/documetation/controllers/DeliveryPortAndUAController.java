@@ -13,16 +13,22 @@ import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.*;
+import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.ImportOakOrderDataFromXLS;
 import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
+import com.swida.documetation.utils.xlsParsers.ParseOakDeliveryInfoToXLS;
+import com.swida.documetation.utils.xlsParsers.ParserDeliveryDocumentationToXLS;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -217,5 +223,20 @@ public class DeliveryPortAndUAController {
 
 
         return "redirect:/multimodal/getDeliveryPort";
+    }
+
+    @PostMapping("/exportDeliveryInfo-{id}")
+    public ResponseEntity<Resource> exportDeliveryInfo(@PathVariable("id") int id) throws FileNotFoundException {
+        DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.findById(id);
+        String filePath;
+        if(deliveryDocumentation.getBreedOfTree().getId()==2){
+            ParseOakDeliveryInfoToXLS parser = new ParseOakDeliveryInfoToXLS(deliveryDocumentation);
+            filePath = parser.parse();
+        }else {
+            ParserDeliveryDocumentationToXLS parser = new ParserDeliveryDocumentationToXLS(deliveryDocumentation);
+            filePath = parser.parse();
+        }
+
+        return new GenerateResponseForExport().generate(filePath,deliveryDocumentation.getDriverInfo().getFullName(),deliveryDocumentation.getDriverInfo().getPhone());
     }
 }

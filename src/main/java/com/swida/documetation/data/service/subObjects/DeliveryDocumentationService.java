@@ -21,8 +21,8 @@ public interface DeliveryDocumentationService {
     List<DeliveryDocumentation> getListByDestinationType(DeliveryDestinationType type);
     List<String> getAllTruckIdList(List<DeliveryDocumentation> docList);
 
-    void editDeliveryDoc(DeliveryDocumentation documentation);
-    void addPackageProductToDeliveryDoc(String docId,PackagedProduct product);
+    DeliveryDocumentation editDeliveryDoc(DeliveryDocumentation documentation);
+    PackagedProduct addPackageProductToDeliveryDoc(String docId,PackagedProduct product);
     void reloadExtentOfAllPack(DeliveryDocumentation documentation);
     void deletePackage(String id,String deliveryId);
     void deleteByID(int id);

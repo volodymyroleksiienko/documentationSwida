@@ -1,13 +1,10 @@
 package com.swida.documetation.controllers;
 
-import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
-import com.swida.documetation.data.entity.subObjects.DriverInfo;
-import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.OrderInfoService;
@@ -19,15 +16,16 @@ import com.swida.documetation.data.service.subObjects.DeliveryDocumentationServi
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.*;
-import org.apache.tomcat.util.digester.ObjectCreateRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -465,6 +463,7 @@ public class FabricController {
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
+
     @PostMapping("/addPackagedProductWithoutHistory-{userId}-{breedId}")
     public String addPackagedProductWithoutHistory(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                                   PackagedProduct product, String countOfPacks){
@@ -490,17 +489,21 @@ public class FabricController {
         }
         deliveryDocumentationService.save(deliveryDocumentation);
 
+        //reload order extent info
+        reloadAllExtentFields(product.getDeliveryDocumentation());
+
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
+    public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation ){
+        deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentation);
+        List<Integer> list = new ArrayList<>();
+        list.add(deliveryDocumentation.getOrderInfo().getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(deliveryDocumentation.getOrderInfo(),docList);
+        orderInfoService.reloadMainOrderExtent(deliveryDocumentation.getOrderInfo().getMainOrder());
+    }
 
-//    @PutMapping("/addPackagedProductToDelivery")
-//    public void addPackagedProductToDelivery(DriverInfo driverInfo,List<PackagedProduct> productList){
-//        DeliveryDocumentation deliveryDocumentation = new DeliveryDocumentation();
-//        deliveryDocumentation.setDriverInfo(driverInfo);
-//        deliveryDocumentation.setProductList(productList);
-//        deliveryDocumentationService.save(deliveryDocumentation);
-//    }
 
     //Delivery page
     @GetMapping("/getListOfDeliveryDocumentation-{userId}-{breedId}")
@@ -536,28 +539,30 @@ public class FabricController {
             ParserDeliveryDocumentationToXLS parser = new ParserDeliveryDocumentationToXLS(deliveryDocumentation);
             filePath = parser.parse();
         }
+        ResponseEntity<Resource> responseEntity = new GenerateResponseForExport().generate(filePath,deliveryDocumentation.getDriverInfo().getFullName(),deliveryDocumentation.getDriverInfo().getPhone());
 
-        return new GenerateResponseForExport().generate(filePath,deliveryDocumentation.getDriverInfo().getFullName(),deliveryDocumentation.getDriverInfo().getPhone());
-    }
+        return responseEntity;    }
 
 
     @PostMapping("/editDeliveryDocumentation-{userId}-{breedId}")
     public String editDeliveryDocumentation(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DeliveryDocumentation documentation){
-        deliveryDocumentationService.editDeliveryDoc(documentation);
+        DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.editDeliveryDoc(documentation);
+        reloadAllExtentFields(deliveryDocumentation);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
 
     @PostMapping("/editPackageProduct-{userId}-{breedId}")
     public String editPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, PackagedProduct product){
-        packagedProductService.editPackageProduct(product);
+        PackagedProduct packagedProduct = packagedProductService.editPackageProduct(product);
+        reloadAllExtentFields(packagedProduct.getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
     @PostMapping("/addPackageProduct-{userId}-{breedId}")
     public String addPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,PackagedProduct product,
                                     String docId){
-        deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
+        reloadAllExtentFields(deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product).getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
@@ -565,6 +570,7 @@ public class FabricController {
     public String deletePackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     String id,String deliveryId){
         deliveryDocumentationService.deletePackage(id,deliveryId);
+        reloadAllExtentFields(deliveryDocumentationService.findById(Integer.parseInt(deliveryId)));
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 

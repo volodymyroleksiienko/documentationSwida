@@ -92,17 +92,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public void reloadOrderExtent(OrderInfo orderInfo) {
-//        List<Integer> list = new ArrayList<Integer>();
-//        list.add(orderInfo.getId());
-//        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
-//
-//        float fullExtent = 0;
-//        for (DeliveryDocumentation doc:docList){
-//            fullExtent += Float.parseFloat(doc.getPackagesExtent());
-//        }
-//        orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
-//        save(orderInfo);
+    public void reloadOrderExtent(OrderInfo orderInfo,List<DeliveryDocumentation> docList) {
+        float fullExtent = 0;
+        for (DeliveryDocumentation doc:docList){
+            fullExtent += Float.parseFloat(doc.getPackagesExtent());
+        }
+        orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
+        save(orderInfo);
     }
 
     @Override
