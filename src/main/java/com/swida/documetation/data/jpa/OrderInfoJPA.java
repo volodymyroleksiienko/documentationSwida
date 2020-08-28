@@ -9,13 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.*;
 
 public interface OrderInfoJPA extends JpaRepository<OrderInfo,Integer> {
-    @Query("select obj from OrderInfo obj where obj.statusOfOrderInfo=?1")
+    @Query("select obj from OrderInfo obj where obj.statusOfOrderInfo=?1 and obj.statusOfEntity='ACTIVE'")
     List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status);
 
-    @Query("select obj from OrderInfo obj where obj.statusOfOrderInfo=?1 and  obj.destinationType=?2")
+    @Query("select obj from OrderInfo obj where obj.statusOfOrderInfo=?1 and  obj.destinationType=?2 ")
     List<OrderInfo> getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo status, DeliveryDestinationType type);
 
-    @Query("select obj from OrderInfo  obj where obj.contrAgent.id=?1")
+    @Query("select obj from OrderInfo obj where obj.statusOfOrderInfo=?1 and  obj.destinationType=?2 and obj.statusOfEntity='ACTIVE'")
+    List<OrderInfo> getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo status, DeliveryDestinationType type);
+
+    @Query("select obj from OrderInfo  obj where obj.contrAgent.id=?1 and obj.statusOfEntity='ACTIVE'")
     List<OrderInfo> getOrdersListByAgent(int agentId);
 
     @Query("select obj from OrderInfo  obj where obj.contrAgent.id=?1 and obj.breedOfTree.id=?2")

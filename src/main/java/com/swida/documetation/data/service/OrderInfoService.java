@@ -14,6 +14,7 @@ public interface OrderInfoService {
     OrderInfo findByCodeOfOrder(String code);
     List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status);
     List<OrderInfo> getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo status, DeliveryDestinationType type);
+    List<OrderInfo> getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo status, DeliveryDestinationType type);
     List<OrderInfo> getOrdersListByAgent(int agentId);
     List<OrderInfo> getOrdersListByAgentByBreed(int agentId,int breedId);
     List<OrderInfo> findAll();

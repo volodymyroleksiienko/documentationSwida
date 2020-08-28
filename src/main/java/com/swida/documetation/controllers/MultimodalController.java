@@ -73,7 +73,7 @@ public class MultimodalController {
         model.addAttribute("fragmentPathMultimodalMain", "multimodalContracts");
         model.addAttribute("fragmentPathTabConfig","multimodalMain");
         model.addAttribute("multimodalOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.MAIN, DeliveryDestinationType.MULTIMODAL));
-        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrder(StatusOfOrderInfo.DISTRIBUTION));
+        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo.DISTRIBUTION,DeliveryDestinationType.MULTIMODAL));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentList",contrAgentList);
@@ -336,9 +336,9 @@ public class MultimodalController {
     @PostMapping("/sendToArchive")
     public String sendToArchive(String id){
         OrderInfo mainOrder = orderInfoService.findById(Integer.parseInt(id));
-        if (mainOrder.getStatusOfEntity()==StatusOfEntity.ARCHIVED){
-            return "redirect:/multimodal/getMultimodalOrders";
-        }
+//        if (mainOrder.getStatusOfEntity()==StatusOfEntity.ARCHIVED){
+//            return "redirect:/multimodal/getMultimodalOrders";
+//        }
         mainOrder.setStatusOfEntity(StatusOfEntity.ARCHIVED);
         List<OrderInfo> distributedOrder = orderInfoService.findDistributionObj(Integer.parseInt(id));
 
@@ -362,7 +362,14 @@ public class MultimodalController {
                 orderInfoService.findDistributionId(Integer.parseInt(id)));
 
         for(DeliveryDocumentation documentation: docList){
-            deliveryDocumentationService.reloadExtentOfAllPack(createDeliveryDocLeftOver(documentation,distOrder));
+            DeliveryDocumentation newDoc = createDeliveryDocLeftOver(documentation,distOrder);
+            if(newDoc!=null){
+                deliveryDocumentationService.reloadExtentOfAllPack(newDoc);
+            }
+            if (documentation.getProductList()==null){
+                deliveryDocumentationService.deleteByID(documentation.getId());
+                return null;
+            }
         }
         reloadOrdersExtent(distOrder);
         for(OrderInfo order:distributedOrder){
@@ -375,17 +382,21 @@ public class MultimodalController {
     }
 
     public DeliveryDocumentation createDeliveryDocLeftOver(DeliveryDocumentation main, OrderInfo orderInfo){
-        DeliveryDocumentation newDelivery = new DeliveryDocumentation();
         List<PackagedProduct> packWithoutContainer = new ArrayList<>();
-        for(PackagedProduct product:main.getProductList()){
-            if (product.getContainer()==null){
-                packWithoutContainer.add(product);
-                main.getProductList().remove(product);
-            }else {
-                product.setStatusOfEntity(StatusOfEntity.ARCHIVED);
-                packagedProductService.save(product);
+        List<PackagedProduct> mainProductListDB = new ArrayList<>();
+        mainProductListDB.addAll(main.getProductList());
+
+        for(PackagedProduct product:mainProductListDB){
+                if (product.getContainer()==null){
+                    packWithoutContainer.add(product);
+                    main.getProductList().remove(product);
+                }else {
+                    product.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+                    packagedProductService.save(product);
+                }
             }
-        }
+
+        DeliveryDocumentation newDelivery = new DeliveryDocumentation();
         newDelivery.setProductList(packWithoutContainer);
         newDelivery.setDateOfUnloading(main.getDateOfUnloading());
         newDelivery.setTimeOfUnloading(main.getTimeOfUnloading());

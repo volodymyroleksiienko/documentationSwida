@@ -59,6 +59,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
+    public List<OrderInfo> getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo status, DeliveryDestinationType type) {
+        return orderInfoJPA.getOrdersByStatusOfOrderByDestinationOnlyActive(status, type);
+    }
+
+    @Override
     public List<OrderInfo> getOrdersListByAgent(int agentId) {
         return orderInfoJPA.getOrdersListByAgent(agentId);
     }
