@@ -24,5 +24,6 @@ public interface PackagedProductService {
     void deleteByID(int id);
     PackagedProduct editPackageProduct(PackagedProduct product);
     void addDescriptionOak(String packId, String width, String count);
+    void setContainer(String[] arrayOfPackagesId, String containerId);
     void deleteDescriptionOak(String packId, String deskId);
 }

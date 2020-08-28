@@ -241,6 +241,7 @@ public class MultimodalController {
         model.addAttribute("contractId",contractId);
         model.addAttribute("distributeOrderList",orderInfoService.findDistributionObj(contractId));
         model.addAttribute("navTabName","delivery");
+        model.addAttribute("containersList",containerService.findAll());
         model.addAttribute("idOfTruckList",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
@@ -304,5 +305,14 @@ public class MultimodalController {
         reloadAllExtentFields(documentation);
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
+
+// REST REST REST
+    @ResponseBody
+    @PostMapping("/setContainer")
+    public  void setContainer(String[] arrayOfPackagesId, String containerId){
+        packagedProductService.setContainer(arrayOfPackagesId,containerId);
+    }
+
+
 
 }

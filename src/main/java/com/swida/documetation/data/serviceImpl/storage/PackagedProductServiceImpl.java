@@ -4,6 +4,7 @@ package com.swida.documetation.data.serviceImpl.storage;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
+import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
@@ -13,6 +14,7 @@ import com.swida.documetation.data.service.storages.DryStorageService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
+import com.swida.documetation.data.service.subObjects.ContainerService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,17 +34,20 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     private DescriptionDeskOakService deskOakService;
     private BreedOfTreeService breedOfTreeService;
     private UserCompanyService userCompanyService;
+    private ContainerService containerService;
 
     @Autowired
     public PackagedProductServiceImpl(DryStorageService dryStorageService, PackagedProductJPA productJPA,
                                       DescriptionDeskOakService deskOakService, RawStorageService rawStorageService,
-                                      BreedOfTreeService breedOfTreeService,UserCompanyService userCompanyService) {
+                                      BreedOfTreeService breedOfTreeService,UserCompanyService userCompanyService,
+                                      ContainerService containerService) {
         this.dryStorageService = dryStorageService;
         this.productJPA = productJPA;
         this.deskOakService = deskOakService;
         this.rawStorageService = rawStorageService;
         this.breedOfTreeService = breedOfTreeService;
         this.userCompanyService = userCompanyService;
+        this.containerService = containerService;
     }
 
     @Override
@@ -268,6 +273,16 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         PackagedProduct product = productJPA.getOne(Integer.parseInt(packId));
         product.getDeskOakList().add(deskOak);
         productJPA.save(product);
+    }
+
+    @Override
+    public void setContainer(String[] arrayOfPackagesId, String containerId) {
+        Container container = containerService.findById(Integer.parseInt(containerId));
+        for (String id:arrayOfPackagesId) {
+            PackagedProduct product = productJPA.getOne(Integer.parseInt(id));
+            product.setContainer(container);
+            productJPA.save(product);
+        }
     }
 
     @Override

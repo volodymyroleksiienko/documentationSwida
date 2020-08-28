@@ -447,9 +447,7 @@
                             <label class="col-form-label" for="selectContainer">Контейнер</label>
                             <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off">
                             <datalist id="selectContainersList">
-<!--                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:label="${container.code}">-->
-                                <option data-value="value 1" label="label 1"></option>
-                                <option data-value="value 2" label="label 2"></option>
+                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:label="${container.code}">
                             </datalist>
                             <input type="hidden" name="container.id" id="selectContainer-hidden">
                         </div>
