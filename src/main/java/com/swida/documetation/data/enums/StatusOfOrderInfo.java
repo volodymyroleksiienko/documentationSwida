@@ -1,5 +1,5 @@
 package com.swida.documetation.data.enums;
 
 public enum  StatusOfOrderInfo {
-    MAIN, DISTRIBUTION;
+    MAIN, DISTRIBUTION, LEFT_OVER, LEFT_OVER_DISTRIBUTION;
 }

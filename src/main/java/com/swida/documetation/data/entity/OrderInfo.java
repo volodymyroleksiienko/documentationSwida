@@ -19,10 +19,10 @@ public class OrderInfo {
 
     @Column(unique = true)
     private String codeOfOrder;
-    private String extentOfOrder;
-    private String doneExtendOfOrder;
-    private String toDoExtentOfOrder;
-    private String extentForDistribution;
+    private String extentOfOrder="0.000";
+    private String doneExtendOfOrder="0.000";
+    private String toDoExtentOfOrder="0.000";
+    private String extentForDistribution="0.000";
     private String date;
 
 

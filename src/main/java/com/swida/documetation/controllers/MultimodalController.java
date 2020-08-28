@@ -9,6 +9,7 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
+import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -72,6 +73,32 @@ public class MultimodalController {
         model.addAttribute("fragmentPathMultimodalMain", "multimodalContracts");
         model.addAttribute("fragmentPathTabConfig","multimodalMain");
         model.addAttribute("multimodalOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.MAIN, DeliveryDestinationType.MULTIMODAL));
+        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrder(StatusOfOrderInfo.DISTRIBUTION));
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("contrAgentList",contrAgentList);
+        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("navTabName","delivery");
+        UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (userCompany!=null){
+            model.addAttribute("userCompanyName",userCompany);
+            model.addAttribute("userId",userCompany.getId());
+        }
+        return "multimodalPage";
+    }
+
+    @GetMapping("/getLeftOverInfo")
+    public String getLeftOverInfo(Model model){
+
+        List<ContrAgent> contrAgentList = new ArrayList<>();
+        contrAgentList.addAll(contrAgentService.getListByType(ContrAgentType.BUYER_UA));
+        contrAgentList.addAll(contrAgentService.getListByType(ContrAgentType.BUYER_FOREIGN));
+
+        model.addAttribute("navTabName","multimodalMain");
+        model.addAttribute("tabName","leftOver");
+        model.addAttribute("fragmentPathMultimodalMain", "multimodalContracts");
+        model.addAttribute("fragmentPathTabConfig","multimodalMain");
+        model.addAttribute("multimodalOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.LEFT_OVER, DeliveryDestinationType.MULTIMODAL));
         model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrder(StatusOfOrderInfo.DISTRIBUTION));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
@@ -306,13 +333,81 @@ public class MultimodalController {
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
 
+    @PostMapping("/sendToArchive")
+    public String sendToArchive(String id){
+        OrderInfo mainOrder = orderInfoService.findById(Integer.parseInt(id));
+        if (mainOrder.getStatusOfEntity()==StatusOfEntity.ARCHIVED){
+            return "redirect:/multimodal/getMultimodalOrders";
+        }
+        mainOrder.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+        List<OrderInfo> distributedOrder = orderInfoService.findDistributionObj(Integer.parseInt(id));
+
+        OrderInfo leftOrder = new OrderInfo();
+        OrderInfo distOrder = new OrderInfo();
+        leftOrder.setCodeOfOrder(mainOrder.getCodeOfOrder()+"-остаток");
+        leftOrder.setStatusOfOrderInfo(StatusOfOrderInfo.LEFT_OVER);
+        leftOrder.setDestinationType(DeliveryDestinationType.MULTIMODAL);
+        leftOrder.setBreedOfTree(mainOrder.getBreedOfTree());
+
+        distOrder.setCodeOfOrder(mainOrder.getCodeOfOrder()+"-ост");
+        distOrder.setBreedOfTree(mainOrder.getBreedOfTree());
+        distOrder.setMainOrder(leftOrder);
+        distOrder.setStatusOfOrderInfo(StatusOfOrderInfo.LEFT_OVER_DISTRIBUTION);
+        distOrder.setDestinationType(DeliveryDestinationType.MULTIMODAL);
+
+        orderInfoService.save(leftOrder);
+        orderInfoService.save(distOrder);
+
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(
+                orderInfoService.findDistributionId(Integer.parseInt(id)));
+
+        for(DeliveryDocumentation documentation: docList){
+            deliveryDocumentationService.reloadExtentOfAllPack(createDeliveryDocLeftOver(documentation,distOrder));
+        }
+        reloadOrdersExtent(distOrder);
+        for(OrderInfo order:distributedOrder){
+            order.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+
+            orderInfoService.save(order);
+        }
+
+        return "redirect:/multimodal/getMultimodalOrders";
+    }
+
+    public DeliveryDocumentation createDeliveryDocLeftOver(DeliveryDocumentation main, OrderInfo orderInfo){
+        DeliveryDocumentation newDelivery = new DeliveryDocumentation();
+        List<PackagedProduct> packWithoutContainer = new ArrayList<>();
+        for(PackagedProduct product:main.getProductList()){
+            if (product.getContainer()==null){
+                packWithoutContainer.add(product);
+                main.getProductList().remove(product);
+            }else {
+                product.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+                packagedProductService.save(product);
+            }
+        }
+        newDelivery.setProductList(packWithoutContainer);
+        newDelivery.setDateOfUnloading(main.getDateOfUnloading());
+        newDelivery.setTimeOfUnloading(main.getTimeOfUnloading());
+        newDelivery.setClientName(main.getClientName());
+        newDelivery.setDescription(main.getDescription());
+
+        newDelivery.setOrderInfo(orderInfo);
+        newDelivery.setContrAgent(main.getContrAgent());
+        newDelivery.setBreedOfTree(main.getBreedOfTree());
+        newDelivery.setDriverInfo(main.getDriverInfo());
+        newDelivery.setDestinationType(DeliveryDestinationType.MULTIMODAL);
+
+        deliveryDocumentationService.save(newDelivery);
+        return newDelivery;
+    }
+
 // REST REST REST
     @ResponseBody
     @PostMapping("/setContainer")
     public  void setContainer(String[] arrayOfPackagesId, String containerId){
+        containerId="2";
         packagedProductService.setContainer(arrayOfPackagesId,containerId);
     }
-
-
 
 }

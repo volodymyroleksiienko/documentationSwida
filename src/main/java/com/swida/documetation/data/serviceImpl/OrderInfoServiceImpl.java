@@ -6,6 +6,7 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.jpa.OrderInfoJPA;
+import com.swida.documetation.data.jpa.subObjects.DeliveryDocumentationJPA;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,12 @@ import java.util.List;
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
     private OrderInfoJPA orderInfoJPA;
-//    private DeliveryDocumentationService deliveryDocumentationService;
+    private DeliveryDocumentationJPA deliveryDocumentationJPA;
 
     @Autowired
     public OrderInfoServiceImpl(OrderInfoJPA orderInfoJPA) {
         this.orderInfoJPA = orderInfoJPA;
-//        this.deliveryDocumentationService = deliveryDocumentationService;
+
     }
 
     @Override
@@ -111,6 +112,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
         save(orderInfo);
     }
+
+    @Override
+    public void checkLeftOverInfo(int contractId) {
+        OrderInfo mainOrder = orderInfoJPA.getOne(contractId);
+        List<OrderInfo> distributedOrders = orderInfoJPA.findDistributionObj(contractId);
+
+
+
+    }
+
+
 
     @Override
     public void deleteByID(int id) {
