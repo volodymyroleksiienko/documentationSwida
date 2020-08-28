@@ -199,6 +199,35 @@
             $(this).toggleClass('selected');
         } );
 
+        $('#setContainerRequest').on( 'click', function () {
+            let newData = document.getElementsByClassName("selected");
+            let container = document.getElementById("selectContainer-hidden").value;
+            console.log(container);
+
+            let arrayOfId = [];
+            for(let i=0;i<newData.length;i++){
+                arrayOfId[i] = newData[i].getAttribute("id");
+                console.log("id: "+newData[i].getAttribute("id"));
+            }
+
+            $.ajax({
+                method: "post",
+                url: "/multimodal/setContainer",
+                contextType: "application/json",
+                data: {
+                    arrayOfPackagesId: arrayOfId,
+                    containerId: container,
+                },
+                traditional: true,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            })
+        });
+
         // Check if excel document
         $( "#importForm" ).submit(function( event ) {
             var validExts = new Array(".xlsx", ".xls");
