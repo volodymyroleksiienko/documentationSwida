@@ -11,6 +11,8 @@
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
                 <th scope="col">Контракт</th>
+                <th scope="col">Контракт id</th>
+                <th scope="col">Агент id</th>
                 <th></th>
             </tr>
             </thead>
@@ -22,6 +24,8 @@
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.addressOfCompany:''}"></td>
                 <td th:text="${doc.packagesExtent}"></td>
                 <td th:text="${doc.orderInfo.codeOfOrder}"></td>
+                <td th:text="${doc.orderInfo.id}"></td>
+                <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.id:''}"></td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editTruck(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
@@ -36,6 +40,8 @@
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
                 <th scope="col">Контракт</th>
+                <th scope="col">Контракт id</th>
+                <th scope="col">Агент id</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -110,6 +116,7 @@
         document.querySelector("#addTruckDateOfUploading").valueAsDate = new Date();
     </script>
     <!-- ADD TRUCK MODAL END -->
+
     <!-- EDIT TRUCK MODAL START -->
     <div class="modal fade" id="editTruckModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -131,10 +138,11 @@
                         <input type="text" class="form-control" id="editTruckNumber" required="required" autocomplete="off" name="driverInfo.idOfTruck">
 
                         <label class="col-form-label" for="editTruckPlace">Место отгрузки</label>
-                        <input type="text" class="form-control" list="editTruckList" id="editTruckPlace" required="required" autocomplete="off" name="contrAgent.id">
+                        <input type="text" class="form-control" list="editTruckList" id="editTruckPlace" required="required" autocomplete="off">
                         <datalist id="editTruckList">
-                            <option th:each="agent : ${providerList}"  th:value="${agent.id}" th:label="${agent.addressOfCompany}">
+                            <option th:each="agent : ${providerList}"  th:data-value="${agent.id}" th:label="${agent.addressOfCompany}">
                         </datalist>
+                        <input type="hidden" name="contrAgent.id" id="editTruckPlace-hidden">
 
                         <label class="col-form-label" for="editTruckExpotrExtent">Экспортный объем, привоз, м<sup>3</sup></label>
                         <input type="text" class="form-control" id="editTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
