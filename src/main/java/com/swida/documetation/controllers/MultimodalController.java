@@ -229,6 +229,7 @@ public class MultimodalController {
     @PostMapping("/editTrucksByContract-{id}")
     public String editTrucksByContract(@PathVariable("id")int contractId, DeliveryDocumentation docWeb){
         DeliveryDocumentation docDB = deliveryDocumentationService.findById(docWeb.getId());
+        OrderInfo oldOrder = docDB.getOrderInfo();
         docDB.setDateOfUnloading(docWeb.getDateOfUnloading());
         docDB.getDriverInfo().setIdOfTruck(docWeb.getDriverInfo().getIdOfTruck());
         docDB.setContrAgent(contrAgentService.findById(docWeb.getContrAgent().getId()));
@@ -236,7 +237,7 @@ public class MultimodalController {
         docDB.setPackagesExtent(docWeb.getPackagesExtent());
         deliveryDocumentationService.save(docDB);
         reloadAllExtentFields(docDB);
-        reloadOrdersExtent(orderInfoService.findById(docWeb.getOrderInfo().getId()));
+        reloadOrdersExtent(oldOrder);
         return "redirect:/multimodal/getTrucksByContract-"+contractId;
     }
 
