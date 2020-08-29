@@ -236,6 +236,7 @@ public class MultimodalController {
         docDB.setPackagesExtent(docWeb.getPackagesExtent());
         deliveryDocumentationService.save(docDB);
         reloadAllExtentFields(docDB);
+        reloadOrdersExtent(orderInfoService.findById(docWeb.getOrderInfo().getId()));
         return "redirect:/multimodal/getTrucksByContract-"+contractId;
     }
 
