@@ -232,6 +232,7 @@ public class MultimodalController {
         docDB.setDateOfUnloading(docWeb.getDateOfUnloading());
         docDB.getDriverInfo().setIdOfTruck(docWeb.getDriverInfo().getIdOfTruck());
         docDB.setContrAgent(contrAgentService.findById(docWeb.getContrAgent().getId()));
+        docDB.setOrderInfo(orderInfoService.findById(docWeb.getOrderInfo().getId()));
         docDB.setPackagesExtent(docWeb.getPackagesExtent());
         deliveryDocumentationService.save(docDB);
         reloadAllExtentFields(docDB);
