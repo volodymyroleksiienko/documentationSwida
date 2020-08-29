@@ -106,7 +106,7 @@
 
 <script type="text/javascript">
     document.querySelector('input[list]').addEventListener('input', function(e) {
-        var input = e.target,
+        let input = e.target,
             list = input.getAttribute('list'),
             options = document.querySelectorAll('#' + list + ' option'),
             hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
@@ -114,8 +114,8 @@
 
         hiddenInput.value = label;
 
-        for(var i = 0; i < options.length; i++) {
-            var option = options[i];
+        for(let i = 0; i < options.length; i++) {
+            let option = options[i];
 
             if(option.innerText === label) {
                 hiddenInput.value = option.getAttribute('data-value');
@@ -124,6 +124,27 @@
         }
         console.log("Hidden input value:"+hiddenInput.value);
     });
+</script>
+
+<script type="text/javascript">
+    function setHiddenValue(input) {
+        let list = input.getAttribute('list');
+        let options = document.querySelectorAll('#' + list + ' option');
+        let hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden');
+        let label = input.value;
+
+        hiddenInput.value = label;
+
+        for(let i = 0; i < options.length; i++) {
+            let option = options[i];
+
+            if(option.innerText === label) {
+                hiddenInput.value = option.getAttribute('data-value');
+                break;
+            }
+        }
+        console.log("Hidden input value:"+hiddenInput.value);
+    }
 </script>
 
 <script type="text/javascript">
@@ -202,7 +223,7 @@
         $('#setContainerRequest').on( 'click', function () {
             let newData = document.getElementsByClassName("selected");
             let container = document.getElementById("selectContainer-hidden").value;
-            console.log(container);
+            console.log("id of container: "+container);
 
             let arrayOfId = [];
             for(let i=0;i<newData.length;i++){

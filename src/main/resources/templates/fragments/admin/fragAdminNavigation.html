@@ -25,10 +25,6 @@
                     <a class="nav-link" href="/admin/getListOfContrAgents-1">Контрагенты</a>
                 </li>
 
-<!--                <li class="nav-item" th:classappend="${navTabName.equals('multimodalMain')} ? 'active':''">-->
-<!--                    <a class="nav-link" href="/admin/getMultimodalOrders">Мультимодал</a>-->
-<!--                </li>-->
-
                 <!-- Dropdown 1 start -->
                 <li class="nav-item dropdown " th:classappend="${navTabName.equals('delivery')} ? 'active':''">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Доставка</a>
@@ -49,15 +45,10 @@
                 </li>
                 <!--Dropdown 2 end -->
 
-<!--                &lt;!&ndash; Dropdown 2 start &ndash;&gt;-->
-<!--                <li class="nav-item dropdown show">-->
-<!--                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Материал</a>-->
-<!--                    <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">-->
-<!--                        <a class="dropdown-item" href="#">Сосна</a>-->
-<!--                        <a class="dropdown-item" href="#">Дуб</a>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                &lt;!&ndash;Dropdown 2 end &ndash;&gt;-->
+                <li class="nav-item">
+                    <a class="nav-link" href="faq.html">Информация</a>
+                </li>
+
             </ul>
 
             <h5 style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">Администратор</h5>

@@ -138,26 +138,25 @@
                         <input type="text" class="form-control" id="editTruckNumber" required="required" autocomplete="off" name="driverInfo.idOfTruck">
 
                         <label class="col-form-label" for="editTruckPlace">Место отгрузки</label>
-                        <input type="text" class="form-control" list="editTruckList" id="editTruckPlace" required="required" autocomplete="off">
+                        <input type="text" class="form-control" list="editTruckList" id="editTruckPlace" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="editTruckList">
-                            <option th:each="agent : ${providerList}"  th:data-value="${agent.id}" th:label="${agent.addressOfCompany}">
+                            <option th:each="agent : ${providerList}"  th:data-value="${agent.id}" th:text="${agent.addressOfCompany}" th:label="${agent.nameOfAgent}">
                         </datalist>
                         <input type="hidden" name="contrAgent.id" id="editTruckPlace-hidden">
 
                         <label class="col-form-label" for="editTruckExpotrExtent">Экспортный объем, привоз, м<sup>3</sup></label>
                         <input type="text" class="form-control" id="editTruckExpotrExtent" required="required" autocomplete="off" name="packagesExtent">
 
-                        <label class="col-form-label" for="editContractCode">Контракт</label>
-                        <input type="text" class="form-control" list="editContractsList" id="editContractCode" required="required" autocomplete="off">
+                        <label class="col-form-label" for="editContractCode" >Контракт</label>
+                        <input type="text" class="form-control" list="editContractsList" id="editContractCode" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="editContractsList">
-                            <option th:each="contract : ${contractDistributionList}"  th:data-value="${contract.id}" th:label="${contract.codeOfOrder}">
+                            <option th:each="contract : ${contractDistributionList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract.date}"></option>
                         </datalist>
-                        <input type="hidden" name="contrAgent.id" id="editContractCode-hidden">
-
+                        <input type="hidden" name="orderInfo.id" id="editContractCode-hidden">
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" >Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -170,7 +169,7 @@
             let trObj =             btnObj.parentElement.parentElement;
             let trId =              $(trObj).attr('id');
             $('#editTruckId').val(trId);
-            console.log(  $(trObj).attr('id'));
+            console.log("truck id: "+  $(trObj).attr('id'));
             let truckNumber =    $(trObj).find('td:eq(1)').text();
             $('#editTruckModalHeader').text("Редактировать "+ truckNumber);
 
@@ -179,26 +178,40 @@
             let extent =            $(trObj).find('td:eq(3)').text();
             let contract =          $(trObj).find('td:eq(4)').text();
 
-            let dataListTrucksOpt =  document.getElementById("editTruckList").getElementsByTagName("option");
-            for(let i=0;i<dataListTrucksOpt.length;i++){
-                if(dataListTrucksOpt[i].label===place){
-                    $('#editTruckPlace') .val(dataListTrucksOpt[i].value);
-                }
-            }
-
-            let dataListContractsOpt =  document.getElementById("editContractsList").getElementsByTagName("option");
-            for(let i=0;i<dataListContractsOpt.length;i++){
-                if(dataListContractsOpt[i].label===contract){
-                    $('#editContractCode') .val(dataListContractsOpt[i].value);
-                }
-            }
+            let hiddenContract=     $(trObj).find('td:eq(5)').text();
+            let hiddenPlace=        $(trObj).find('td:eq(6)').text();
 
             $('#editTruckDateOfUploading')             .val(date);
+            $('#editTruckPlace')                       .val(place);
             $('#editTruckNumber')                      .val(truckNumber);
             $('#editTruckExpotrExtent')                .val(extent);
+            $('#editContractCode')                     .val(contract);
+
+            $('#editContractCode-hidden')              .val(hiddenContract);
+            $('#editTruckPlace-hidden')                .val(hiddenPlace);
 
             $('#editTruckModal').modal('show');
         }
     </script>
+<!--    <script type="text/javascript">-->
+<!--        function setHiddenValue(input) {-->
+<!--            let list = input.getAttribute('list');-->
+<!--            let options = document.querySelectorAll('#' + list + ' option');-->
+<!--            let hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden');-->
+<!--            let label = input.value;-->
+
+<!--            hiddenInput.value = label;-->
+
+<!--            for(let i = 0; i < options.length; i++) {-->
+<!--                let option = options[i];-->
+
+<!--                if(option.innerText === label) {-->
+<!--                    hiddenInput.value = option.getAttribute('data-value');-->
+<!--                    break;-->
+<!--                }-->
+<!--            }-->
+<!--            console.log("Hidden input value:"+hiddenInput.value);-->
+<!--        }-->
+<!--    </script>-->
     <!-- EDIT TRUCK MODAL END -->
 </th:block>
