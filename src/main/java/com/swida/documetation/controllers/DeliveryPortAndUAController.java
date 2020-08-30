@@ -7,6 +7,7 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
+import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -80,6 +81,7 @@ public class DeliveryPortAndUAController {
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.COUNTRY));
 
+        model.addAttribute("urlSendToArchive","/multimodal/sendToArchiveUA");
 
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
@@ -101,6 +103,8 @@ public class DeliveryPortAndUAController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.PORT));
+
+        model.addAttribute("urlSendToArchive","/multimodal/sendToArchivePort");
 
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
@@ -259,5 +263,37 @@ public class DeliveryPortAndUAController {
         }
 
         return new GenerateResponseForExport().generate(filePath,deliveryDocumentation.getDriverInfo().getFullName(),deliveryDocumentation.getDriverInfo().getPhone());
+    }
+
+    @PostMapping("/sendToArchiveUA")
+    public String sendToArchiveUA(String id){
+        OrderInfo mainOrder = orderInfoService.findById(Integer.parseInt(id));
+        if (mainOrder.getStatusOfEntity()==StatusOfEntity.ARCHIVED){
+            return "redirect:/multimodal/getDeliveryInUkraine";
+        }
+        archiveContractInfo(mainOrder);
+        return "redirect:/multimodal/getDeliveryInUkraine";
+    }
+
+    @PostMapping("/sendToArchivePort")
+    public String sendToArchivePort(String id){
+        OrderInfo mainOrder = orderInfoService.findById(Integer.parseInt(id));
+        if (mainOrder.getStatusOfEntity()==StatusOfEntity.ARCHIVED){
+            return "redirect:/multimodal/getDeliveryPort";
+        }
+        archiveContractInfo(mainOrder);
+        return "redirect:/multimodal/getDeliveryPort";
+    }
+
+
+    private void archiveContractInfo( OrderInfo mainOrder){
+        mainOrder.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+        List<OrderInfo> distributedOrder = orderInfoService.findDistributionObj(mainOrder.getId());
+        orderInfoService.save(mainOrder);
+
+        for(OrderInfo order:distributedOrder){
+            order.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+            orderInfoService.save(order);
+        }
     }
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SWIDA</title>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
+
+    <link th:href="@{../css/all.css}" rel="stylesheet">
+    <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+
+<!-- NAVIGATION -->
+<div th:replace="~{fragments/admin/fragAdminNavigation :: adminNavigation}"></div>
+<!-- NAVIGATION -->
+
+<h1>Information</h1>
+
+
+
+<!-- MODALS -->
+
+<script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" th:src="@{../js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
+
+
+</body>
+</html>

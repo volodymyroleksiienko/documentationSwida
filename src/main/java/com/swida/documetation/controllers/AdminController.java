@@ -272,4 +272,16 @@ public class AdminController {
         orderInfoService.save(orderInfoDB);
         return "redirect:/admin/getListOfOrders";
     }
+
+    @GetMapping("/getInformation")
+    public String getInformation(Model model){
+        model.addAttribute("navTabName","adminPanel");
+        model.addAttribute("fragmentPathUserCompany","userCompany");
+        model.addAttribute("tabName","userCompany");
+        model.addAttribute("fragmentPathTabConfig","adminDashboard");
+        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+
+        return "informationPage";
+    }
 }
