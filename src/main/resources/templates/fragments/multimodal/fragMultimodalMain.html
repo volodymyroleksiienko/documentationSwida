@@ -222,14 +222,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       HERE         -->
                 <form th:action="@{/multimodal/importXLS}" method="post" id="importForm" enctype="multipart/form-data">
-                    <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="inputFile">Выберите файл</label>
                             <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="fileXLS">
-                            <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
+                             <small id="fileHelp" class="form-text text-muted">Чтобы избежать ошибок со считованием данных, ознакомтесь с требованиями к импортируему файлу <a href="#">здесь</a></small>
                             <label class="col-form-label" for="importSetContract">Привязать контракт</label>
                             <input type="text" class="form-control" list="contractsList" id="importSetContract" required="required" autocomplete="off">
                             <datalist id="contractsList">
@@ -237,10 +235,6 @@
                                 </option>
                             </datalist>
                             <input type="number" hidden="hidden"  name="contractId" id="importSetContract-hidden">
-<!--                            <input type="text" class="form-control" list="contractssList" id="importSetContract" required="required" autocomplete="off" name="contractId">-->
-<!--                            <datalist id="contractssList">-->
-<!--                                <option  th:each="c : ${distributeOrderList}" th:value="${c.codeOfOrder}">-->
-<!--                            </datalist>-->
                         </div>
                     </div>
                     <div class="modal-footer">

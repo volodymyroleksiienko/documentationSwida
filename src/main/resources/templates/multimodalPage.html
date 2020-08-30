@@ -104,27 +104,27 @@
     }
 </script>
 
-<script type="text/javascript">
-    document.querySelector('input[list]').addEventListener('input', function(e) {
-        let input = e.target,
-            list = input.getAttribute('list'),
-            options = document.querySelectorAll('#' + list + ' option'),
-            hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
-            label = input.value;
+<!--<script type="text/javascript">-->
+<!--    document.querySelector('input[list]').addEventListener('input', function(e) {-->
+<!--        let input = e.target,-->
+<!--            list = input.getAttribute('list'),-->
+<!--            options = document.querySelectorAll('#' + list + ' option'),-->
+<!--            hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),-->
+<!--            label = input.value;-->
 
-        hiddenInput.value = label;
+<!--        hiddenInput.value = label;-->
 
-        for(let i = 0; i < options.length; i++) {
-            let option = options[i];
+<!--        for(let i = 0; i < options.length; i++) {-->
+<!--            let option = options[i];-->
 
-            if(option.innerText === label) {
-                hiddenInput.value = option.getAttribute('data-value');
-                break;
-            }
-        }
-        console.log("Hidden input value:"+hiddenInput.value);
-    });
-</script>
+<!--            if(option.innerText === label) {-->
+<!--                hiddenInput.value = option.getAttribute('data-value');-->
+<!--                break;-->
+<!--            }-->
+<!--        }-->
+<!--        console.log("Hidden input value:"+hiddenInput.value);-->
+<!--    });-->
+<!--</script>-->
 
 <script type="text/javascript">
     function setHiddenValue(input) {

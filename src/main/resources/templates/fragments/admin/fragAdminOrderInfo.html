@@ -270,7 +270,12 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <input type="text" id="sendDistributionModalId" hidden="" name="id">
 
-                            <div class="col-7">
+                            <div class="col-3">
+                                <label class="control-label" for="addDistributionCode" style="padding-top: 7px">Код</label>
+                                <input type="text" class="form-control" id="addDistributionCode" required="required" autocomplete="off"  name="extent">
+                            </div>
+
+                            <div class="col-5">
                                 <label class="control-label" for="addDistributionCompanyInner">Поставщик</label>
                                 <input type="text" class="form-control" list="suppliersList" id="addDistributionCompanyInner" required="required" autocomplete="off" name="nameOfAgent">
                                 <datalist id="suppliersList">
@@ -278,19 +283,20 @@
                                 </datalist>
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label class="control-label" for="addDistributionAmountInner" style="padding-top: 7px">Заказ</label>
                                 <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDistributionAmountInner" required="required" autocomplete="off" placeholder="м3" name="extent">
                             </div>
 
                             <div class="col-2">
-                                <button id="buttonForAddingDistributionRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                                <button id="buttonForAddingDistributionRow"  type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
                             </div>
                         </div>
 
                         <table class="table table-hover table-striped" id="tableOfDistribution">
                             <thead>
                             <tr>
+                                <th scope="col">Код</th>
                                 <th scope="col">Поставщик</th>
                                 <th scope="col">Заказ, м<sup>3</sup></th>
                                 <th></th>
@@ -303,6 +309,7 @@
 
                             <tfoot>
                             <tr>
+                                <th scope="col">Код</th>
                                 <th scope="col">Поставщик</th>
                                 <th scope="col">Заказ, м<sup>3</sup></th>
                                 <th></th>
@@ -325,13 +332,14 @@
         // SHOW MODAL START
         function distributeContract(btnObj) {
             // tableOfDistribution.clear().draw();
-            var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
             $('#sendDistributionModalId').val(trId);
             // console.log($(trObj).attr('id'));
-            var codeOfOrder =           $(trObj).find('th:eq(0)').text();
+            let codeOfOrder =           $(trObj).find('th:eq(0)').text();
 
             $('#distributionModalHeader').text("Распределение заказа №"+codeOfOrder);
+            $('#addDistributionCode')    .val(codeOfOrder);
 
             $('#createDistributionModal').modal('show');
         }
@@ -350,15 +358,15 @@
 
         // AJAX REQUEST START
         function sendRequestForDistribution(btnObj) {
-            var idOfMainOrder = $('#sendDistributionModalId').val();
+            let idOfMainOrder = $('#sendDistributionModalId').val();
             console.log("id of main  "+idOfMainOrder);
-            var arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
+            let arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
             // console.log("arr length = "+arrOfTr.length);
 
-            var arrayOfSuppliers = [];
-            var arrayOfOrderings = [];
+            let arrayOfSuppliers = [];
+            let arrayOfOrderings = [];
 
-            for (var i = 0; i<arrOfTr.length;i++){
+            for (let i = 0; i<arrOfTr.length;i++){
                 arrayOfSuppliers[i] =      $(arrOfTr[i]).find('td:eq(0)').text();
                 arrayOfOrderings[i] =      $(arrOfTr[i]).find('td:eq(1)').text();
             }

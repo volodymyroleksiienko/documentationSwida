@@ -296,19 +296,21 @@
 
         // ADD ELEMENTS TO INNER TABLE LIST START
         $("#buttonForAddingDistributionRow").click(function () {
-            var company = $("#addDistributionCompanyInner").val();
-            var amount = parseFloat($("#addDistributionAmountInner").val());
-            var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+            let code =          $("#addDistributionCode").val();
+            let company =       $("#addDistributionCompanyInner").val();
+            let amount =        parseFloat($("#addDistributionAmountInner").val());
+            let button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
 
-            if( company=="" || amount=="" ) {
+            if( code=="" || company=="" || amount=="" ) {
                 alert("Заполните все поля!");
             } else if (amount<=0.000){
                 alert("Значение не может быть отрицательным либо равным 0!")
             } else {
-                var row = [company, amount, button];
+                let row = [code, company, amount, button];
 
                 console.log(row);
 
+                $("#addDistributionCode").val("");
                 $("#addDistributionCompanyInner").val("");
                 $("#addDistributionAmountInner").val("");
 

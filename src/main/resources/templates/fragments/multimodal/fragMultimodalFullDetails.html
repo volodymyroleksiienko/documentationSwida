@@ -178,17 +178,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordContractNumber">Контракт</label>
-                                <input type="text" class="form-control" list="editContractssList" id="editRecordContractNumber"  autocomplete="off" name="contractName">
+                                <input type="text" class="form-control" list="editContractssList" id="editRecordContractNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="editContractssList">
-                                    <option  th:each="c : ${distributeOrderList}" th:value="${c.codeOfOrder}">
+                                    <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c.contrAgent.nameOfAgent}">
+                                    </option>
                                 </datalist>
+                                <input type="number" hidden="hidden"  name="contractName" id="editRecordContractNumber-hidden">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordContainerNumber">№ контейнера</label>
-                                <input type="text" class="form-control" id="editRecordContainerNumber" required="required" autocomplete="off" name="containerName">
+                                <input type="text" class="form-control" list="selectContainerListToAdd" id="editRecordContainerNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <datalist id="selectContainerListToAdd">
+                                    <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}">
+                                </datalist>
+                                <input type="hidden" name="containerName" id="editRecordContainerNumber-hidden">
                             </div>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Сохранить</button>
@@ -207,8 +212,8 @@
             var trObj =             btnObj.parentElement.parentElement;
             var trId =              $(trObj).attr('id');
             $('#editRecordtId').val(trId);
-            console.log(  $(trObj).attr('id'));
-            var contractNumber =    $(trObj).find('th:eq(0)').text();
+            console.log("row id: " + $(trObj).attr('id'));
+            // var contractNumber =    $(trObj).find('th:eq(0)').text();
             // $('#editContractModalHeader').text("Редактировать контракт №"+contractNumber);
 
             var carNumber =         $(trObj).find('td:eq(0)').text();
@@ -240,7 +245,6 @@
             $('#editRecordWidthHeight')         .val(wh);
             $('#editRecordContractNumber')      .val(contract);
             $('#editRecordContainerNumber')     .val(container);
-
 
             $('#editDetailsModal').modal('show');
         }
@@ -327,14 +331,20 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordContractNumber">Контракт</label>
-                                <input type="text" class="form-control" list="contractssList" id="addRecordContractNumber"  autocomplete="off" name="contractName">
-                                <datalist id="contractssList">
-                                    <option  th:each="c : ${distributeOrderList}" th:value="${c.codeOfOrder}">
+                                <input type="text" class="form-control" list="contractsList" id="addRecordContractNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <datalist id="contractsList">
+                                    <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c.contrAgent.nameOfAgent}">
+                                    </option>
                                 </datalist>
+                                <input type="number" hidden="hidden"  name="contractName" id="addRecordContractNumber-hidden">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordContainerNumber">№ контейнера</label>
-                                <input type="text" class="form-control" id="addRecordContainerNumber"  autocomplete="off" name="containerName">
+                                <input type="text" class="form-control" list="selectContainersListToAdd" id="addRecordContainerNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <datalist id="selectContainersListToAdd">
+                                    <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}">
+                                </datalist>
+                                <input type="hidden" name="containerName" id="addRecordContainerNumber-hidden">
                             </div>
                         </div>
 
@@ -349,41 +359,6 @@
     </div>
     <!-- ADD CONTRACTS MODAL END -->
 
-
-<!--    &lt;!&ndash; IMPORT MODAL START &ndash;&gt;-->
-<!--    <div class="modal fade" id="importModal">-->
-<!--        <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h5 class="modal-title">Импорт из Excel</h5>-->
-<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                &lt;!&ndash;       HERE         &ndash;&gt;-->
-<!--                <form th:action="" method="post" id="importForm">-->
-<!--                    &lt;!&ndash;       HERE                 &ndash;&gt;-->
-<!--                    <div class="modal-body">-->
-<!--                        <div class="form-group">-->
-<!--                            <label for="inputFile">Выберите файл</label>-->
-<!--                            <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">-->
-<!--                            &lt;!&ndash; <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> &ndash;&gt;-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button submit" id="importButton" class="btn btn-primary">Импорт</button>-->
-<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <script type="text/javascript">-->
-<!--        function importData() {-->
-<!--            $('#importModal').modal('show');-->
-<!--        }-->
-<!--    </script>-->
-<!--    &lt;!&ndash; IMPORT MODAL END &ndash;&gt;-->
 
     <!-- CONFIRMATION MODAL START -->
     <div class="modal fade" id="deleteConfirmationModal">
@@ -439,15 +414,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       HERE         -->
                 <form>
-                    <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="col-form-label" for="selectContainer">Контейнер</label>
-                            <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off">
+                            <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="selectContainersList">
-                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:label="${container.code}">
+                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}">
                             </datalist>
                             <input type="hidden" name="container.id" id="selectContainer-hidden">
                         </div>
