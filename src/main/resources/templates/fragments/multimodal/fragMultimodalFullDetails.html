@@ -445,7 +445,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="col-form-label" for="selectContainer">Контейнер</label>
-                            <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off">
+                            <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="selectContainersList">
                                 <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:label="${container.code}">
                             </datalist>

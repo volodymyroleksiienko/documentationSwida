@@ -639,6 +639,7 @@
                 <th scope="col">Отгружено, м<sup>3</sup></th>
                 <th scope="col">Остаток, м<sup>3</sup></th>
                 <th scope="col">Срок выполнения</th>
+                <th scope="col">Статус</th>
                 <th ></th>
             </tr>
             </thead>
@@ -653,6 +654,7 @@
                 <td th:text="${b.doneExtendOfOrder}"></td>
                 <td th:text="${b.toDoExtentOfOrder}"></td>
                 <td th:text="${b.date}" class="change-color"></td>
+                <td th:text="${b.statusOfEntity}"></td>
                 <td >
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getDeliveryTrucksByContract-'+${b.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
                     <button type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
@@ -671,6 +673,7 @@
                 <th scope="col">Отгружено, м<sup>3</sup></th>
                 <th scope="col">Остаток, м<sup>3</sup></th>
                 <th scope="col">Срок выполнения</th>
+                <th scope="col">Статус</th>
                 <th ></th>
             </tr>
             </tfoot>
@@ -726,4 +729,48 @@
     </script>
     <!-- IMPORT MODAL END -->
 
-</th:block>
+    <!-- CONFIRMATION MODAL START -->
+    <div class="modal fade" id="archiveConfirmationModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Архив</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="${urlSendToArchive}" method="post">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="archiveRecordModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="archiveModalConfirmation">
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">В архив</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function sendToArchive(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#archiveRecordModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfContract = $(trObj).find('th:eq(0)').text();
+
+            $('#archiveModalConfirmation').text("Вы уверены, что хотите отправить в архив контракт №"+codeOfContract+" ?");
+            $('#archiveConfirmationModal').modal('show');
+        }
+    </script>
+    <!-- CONFIRMATION MODAL END -->
+
+</th:block>2

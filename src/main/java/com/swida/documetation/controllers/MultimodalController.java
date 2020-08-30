@@ -79,6 +79,9 @@ public class MultimodalController {
         model.addAttribute("contrAgentList",contrAgentList);
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("navTabName","delivery");
+
+        model.addAttribute("buttonConfig","multimodalMain");
+
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);
@@ -176,6 +179,14 @@ public class MultimodalController {
         return "multimodalPage";
     }
 
+    @PostMapping("/archiveContainer")
+    public String archiveContainer(String id){
+        Container container = containerService.findById(Integer.parseInt(id));
+        container.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+        containerService.save(container);
+        return "redirect:/multimodal/getListOfALLContainers";
+    }
+
     @PostMapping("/addContainerMultimodal")
     public String addContainerMultimodal(Container container){
         containerService.save(container);
@@ -196,7 +207,7 @@ public class MultimodalController {
         model.addAttribute("fragmentPathMultimodalTrucks", "multimodalTrucks");
         model.addAttribute("fragmentPathTabConfig","multimodalDetails");
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("containerList",containerService.findAll());
+//        model.addAttribute("containerList",containerService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("deliveryDocumentationList",deliveryDocumentationService
                 .getListByDistributionContractsId(orderInfoService.findDistributionId(contractId)));
@@ -271,7 +282,7 @@ public class MultimodalController {
         model.addAttribute("contractId",contractId);
         model.addAttribute("distributeOrderList",orderInfoService.findDistributionObj(contractId));
         model.addAttribute("navTabName","delivery");
-        model.addAttribute("containersList",containerService.findAll());
+        model.addAttribute("containersList",containerService.selectByStatusOfEntity(StatusOfEntity.ACTIVE));
         model.addAttribute("idOfTruckList",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
@@ -339,9 +350,9 @@ public class MultimodalController {
     @PostMapping("/sendToArchive")
     public String sendToArchive(String id){
         OrderInfo mainOrder = orderInfoService.findById(Integer.parseInt(id));
-//        if (mainOrder.getStatusOfEntity()==StatusOfEntity.ARCHIVED){
-//            return "redirect:/multimodal/getMultimodalOrders";
-//        }
+        if (mainOrder.getStatusOfEntity()==StatusOfEntity.ARCHIVED){
+            return "redirect:/multimodal/getMultimodalOrders";
+        }
         mainOrder.setStatusOfEntity(StatusOfEntity.ARCHIVED);
         List<OrderInfo> distributedOrder = orderInfoService.findDistributionObj(Integer.parseInt(id));
 
@@ -383,6 +394,8 @@ public class MultimodalController {
 
         return "redirect:/multimodal/getMultimodalOrders";
     }
+
+
 
     public DeliveryDocumentation createDeliveryDocLeftOver(DeliveryDocumentation main, OrderInfo orderInfo){
         List<PackagedProduct> packWithoutContainer = new ArrayList<>();

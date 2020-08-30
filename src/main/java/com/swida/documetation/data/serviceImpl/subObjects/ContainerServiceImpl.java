@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.subObjects;
 
 import com.swida.documetation.data.entity.subObjects.Container;
+import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.jpa.subObjects.ContainerJPA;
 import com.swida.documetation.data.service.subObjects.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class ContainerServiceImpl implements ContainerService {
     @Override
     public List<Container> findAll() {
         return containerJPA.findAll();
+    }
+
+    @Override
+    public List<Container> selectByStatusOfEntity(StatusOfEntity status) {
+        return containerJPA.selectByStatusOfEntity(status);
     }
 
     @Override
