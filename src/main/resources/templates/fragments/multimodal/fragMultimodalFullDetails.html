@@ -189,7 +189,7 @@
                                 <label class="col-form-label" for="editRecordContainerNumber">№ контейнера</label>
                                 <input type="text" class="form-control" list="selectContainerListToAdd" id="editRecordContainerNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="selectContainerListToAdd">
-                                    <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}">
+                                    <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}"></option>
                                 </datalist>
                                 <input type="hidden" name="containerName" id="editRecordContainerNumber-hidden">
                             </div>
@@ -342,7 +342,7 @@
                                 <label class="col-form-label" for="addRecordContainerNumber">№ контейнера</label>
                                 <input type="text" class="form-control" list="selectContainersListToAdd" id="addRecordContainerNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="selectContainersListToAdd">
-                                    <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}">
+                                    <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}"></option>
                                 </datalist>
                                 <input type="hidden" name="containerName" id="addRecordContainerNumber-hidden">
                             </div>
@@ -420,7 +420,7 @@
                             <label class="col-form-label" for="selectContainer">Контейнер</label>
                             <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="selectContainersList">
-                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}">
+                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}"></option>
                             </datalist>
                             <input type="hidden" name="container.id" id="selectContainer-hidden">
                         </div>
