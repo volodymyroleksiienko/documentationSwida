@@ -17,8 +17,7 @@ public class GenerateResponseForExport {
         HttpHeaders headers = new HttpHeaders();
         System.out.println(startDate);
         System.out.println(endDate);
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report_"+startDate+"___" +
-                endDate+"_"+file.getName());
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getName());
         System.out.println();
         System.out.println(file.getName());
         System.out.println();
