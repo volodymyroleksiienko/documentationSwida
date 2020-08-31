@@ -363,10 +363,12 @@
             let arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
             // console.log("arr length = "+arrOfTr.length);
 
+            let arrayOfCodes     = [];
             let arrayOfSuppliers = [];
             let arrayOfOrderings = [];
 
             for (let i = 0; i<arrOfTr.length;i++){
+                arrayOfCodes[i]     =      $(arrOfTr[i]).find('td:eq(0)').text();
                 arrayOfSuppliers[i] =      $(arrOfTr[i]).find('td:eq(1)').text();
                 arrayOfOrderings[i] =      $(arrOfTr[i]).find('td:eq(2)').text();
             }
@@ -380,6 +382,7 @@
                     contextType: "application/json",
                     data: {
                         id:idOfMainOrder,
+                        codesList: arrayOfCodes,
                         suppliersList: arrayOfSuppliers,
                         orderingsList: arrayOfOrderings
                     },
