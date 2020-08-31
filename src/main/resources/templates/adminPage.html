@@ -323,12 +323,29 @@
             let button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
             const mainOrderCode =  $('#sendDistributionModalCode').val();
 
+            let arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
+            console.log("arr length = "+arrOfTr.length);
+
+            let arrayOfCodes     = [];
+            let res = false;
+
+            for (let i = 0; i<arrOfTr.length;i++){
+                arrayOfCodes[i] = $(arrOfTr[i]).find('td:eq(0)').text();
+                if (code == arrayOfCodes[i]){
+                    res = true;
+                }
+            }
 
             if( code=="" || company=="" || amount=="" ) {
                 alert("Заполните все поля!");
             } else if (amount<=0.000){
                 alert("Значение не может быть отрицательным либо равным 0!")
-            } else {
+            } else if(code == mainOrderCode){
+                alert("Значение не может быть идентичным главному заказу!");
+            } else if(res == true){
+                alert("Дубликация кода!");
+                $("#addDistributionCode").val(mainOrderCode);
+            }else {
                 let row = [code, company, amount, button];
 
                 console.log(row);
