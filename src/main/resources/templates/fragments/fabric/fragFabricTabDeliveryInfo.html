@@ -19,12 +19,13 @@
                 <th scope="col">№ контракта</th>
                 <th scope="col">Кубатура</th>
                 <th scope="col">Примечание</th>
+                <th scope="col">Contact id</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
                   <div th:each="dd, index : ${deliveryDocumentations}">
-                          <tr >
+                          <tr>
                               <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
                               <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
@@ -36,6 +37,7 @@
                               <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                               <td th:text="${dd.packagesExtent}"></td>
                               <td th:text="${(dd.description==null)?'':dd.description}"></td>
+                              <td th:text="${dd?.orderInfo?.id}"></td>
                               <td>
                                   <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
                                       <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
@@ -119,6 +121,7 @@
                 <th scope="col">№ контракта</th>
                 <th scope="col">Кубатура</th>
                 <th scope="col">Примечание</th>
+                <th scope="col">Contact id</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -177,15 +180,16 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
-                                <label for="editPackContractId" class="col-form-label">Код контракта</label>
-                                <input type="text" class="form-control" list="contractList" id="editPackContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                <label class="col-form-label" for="editPackContractId" >Контракт</label>
+                                <input type="text" class="form-control" list="contractList" id="editPackContractId" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="contractList">
-                                    <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                    <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
                                 </datalist>
+                                <input type="hidden" name="orderInfo.id" id="editPackContractId-hidden">
                             </div>
                             <div class="col-3">
                                 <label for="editPackDeliveryDestination" class="col-form-label">Кубатура</label>
-                                <input type="number" class="form-control"  id="editPackDeliveryDestination" required="required" autocomplete="off" name="packagesExtent">
+                                <input type="number" class="form-control"  id="editPackDeliveryDestination" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="packagesExtent" disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
@@ -433,6 +437,7 @@
             var contract =          $(trObj).find('td:eq(8)').text();
             var destination =       $(trObj).find('td:eq(9)').text();
             var delDescription =    $(trObj).find('td:eq(10)').text();
+            var contractId =        $(trObj).find('td:eq(11)').text();
 
 
             $('#driverId')                      .val(trId);
@@ -446,6 +451,7 @@
             $('#editPackContractId')            .val(contract);
             $('#editPackDeliveryDestination')   .val(destination);
             $('#editDeliveryDescription')       .val(delDescription);
+            $('#editPackContractId-hidden')       .val(contractId);
 
             $('#editDriverInfoModal').modal('show');
         }
@@ -469,6 +475,7 @@
             var widthPc =           $(trObj).find('td:eq(8)').text();
             var lengthFact =        $(trObj).find('td:eq(9)').text();
             var widthHeight =       $(trObj).find('td:eq(10)').text();
+
 
             $('#editIdOfPack')                  .val(pack);
             $('#editDeliveryBreedOfTree')       .val(breedOfTree);
@@ -584,6 +591,7 @@
                         <th scope="col">№ контракта</th>
                         <th scope="col">Кубатура</th>
                         <th scope="col">Примечание</th>
+                        <th scope="col">Contact id</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -603,6 +611,7 @@
                             <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                             <td th:text="${dd.packagesExtent}"></td>
                             <td th:text="${(dd.description==null)?'':dd.description}"></td>
+                            <td th:text="${dd?.orderInfo?.id}"></td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverInfo(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackage(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i></button>
@@ -718,6 +727,7 @@
                     <th scope="col">№ контракта</th>
                     <th scope="col">Кубатура</th>
                     <th scope="col">Примечание</th>
+                    <th scope="col">Contact id</th>
                     <th></th>
                 </tr>
                 </tfoot>
@@ -776,11 +786,12 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
-                                <label for="editOakPackContractId" class="col-form-label">Код контракта</label>
-                                <input type="text" class="form-control" list="contractOakList" id="editOakPackContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                <label class="col-form-label" for="editOakPackContractId" >Контракт</label>
+                                <input type="text" class="form-control" list="contractOakList" id="editOakPackContractId" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="contractOakList">
-                                    <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                    <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
                                 </datalist>
+                                <input type="hidden" name="orderInfo.id" id="editOakPackContractId-hidden">
                             </div>
                             <div class="col-3">
                                 <label for="editOakPackDeliveryDestination" class="col-form-label">Кубатура</label>
@@ -1206,6 +1217,7 @@
             var contract =          $(trObj).find('td:eq(8)').text();
             var destination =       $(trObj).find('td:eq(9)').text();
             var delDescription =    $(trObj).find('td:eq(10)').text();
+            var contractId =        $(trObj).find('td:eq(11)').text();
 
             $('#driverOakId')                      .val(trId);
             $('#editOakIdOfTruck')                 .val(truck);
@@ -1218,6 +1230,7 @@
             $('#editOakPackContractId')            .val(contract);
             $('#editOakPackDeliveryDestination')   .val(destination);
             $('#editOakDeliveryDescription')       .val(delDescription);
+            $('#editOakPackContractId-hidden')     .val(contractId);
 
             $('#editOakDeliveryModal').modal('show');
         }

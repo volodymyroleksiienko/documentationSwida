@@ -100,12 +100,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public void reloadOrderExtent(OrderInfo orderInfo,List<DeliveryDocumentation> docList) {
-        float fullExtent = 0;
-        for (DeliveryDocumentation doc:docList){
-            fullExtent += Float.parseFloat(doc.getPackagesExtent());
+        if(docList.size()>0) {
+            float fullExtent = 0;
+            for (DeliveryDocumentation doc : docList) {
+                fullExtent += Float.parseFloat(doc.getPackagesExtent());
+            }
+            orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
+            save(orderInfo);
         }
-        orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
-        save(orderInfo);
     }
 
     @Override
@@ -123,9 +125,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public void checkLeftOverInfo(int contractId) {
         OrderInfo mainOrder = orderInfoJPA.getOne(contractId);
         List<OrderInfo> distributedOrders = orderInfoJPA.findDistributionObj(contractId);
-
-
-
     }
 
 

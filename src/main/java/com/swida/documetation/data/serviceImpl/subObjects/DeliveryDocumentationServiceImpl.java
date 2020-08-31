@@ -206,17 +206,31 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
         driverInfoService.save(documentation.getDriverInfo());
         docDB.setDriverInfo(documentation.getDriverInfo());
 
-        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(documentation.getOrderInfo().getCodeOfOrder());
-        docDB.setOrderInfo(orderInfo);
+        int oldOrderInfoId =docDB.getOrderInfo().getId();
+        OrderInfo orderInfo = orderInfoService.findById(documentation.getOrderInfo().getId());
+        if (oldOrderInfoId!=orderInfo.getId()){
+            docDB.setOrderInfo(orderInfo);
+            documentationJPA.save(docDB);
+            reloadOrdersExtent(orderInfoService.findById(oldOrderInfoId));
+        }
         docDB.setDateOfUnloading(documentation.getDateOfUnloading());
         docDB.setTimeOfUnloading(documentation.getTimeOfUnloading());
 //        docDB.setDestinationType(documentation.getDestinationType());
         docDB.setPackagesExtent(documentation.getPackagesExtent());
         docDB.setDescription(documentation.getDescription());
 
-
         documentationJPA.save(docDB);
+
+
+
         return docDB;
+    }
+    public void reloadOrdersExtent(OrderInfo orderInfo){
+        List<Integer> list = new ArrayList<>();
+        list.add(orderInfo.getId());
+        List<DeliveryDocumentation> docList = documentationJPA.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(orderInfo,docList);
+        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
     }
 
     @Override

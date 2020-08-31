@@ -140,7 +140,7 @@
                         <label class="col-form-label" for="editTruckPlace">Место отгрузки</label>
                         <input type="text" class="form-control" list="editTruckList" id="editTruckPlace" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="editTruckList">
-                            <option th:each="agent : ${providerList}"  th:data-value="${agent.id}" th:text="${agent.addressOfCompany}" th:label="${agent.nameOfAgent}">
+                            <option th:each="agent : ${providerList}"  th:data-value="${agent.id}" th:text="${agent.addressOfCompany}" th:label="${agent.nameOfAgent}"></option>
                         </datalist>
                         <input type="hidden" name="contrAgent.id" id="editTruckPlace-hidden">
 

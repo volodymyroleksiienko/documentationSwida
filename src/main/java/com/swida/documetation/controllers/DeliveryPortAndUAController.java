@@ -125,6 +125,7 @@ public class DeliveryPortAndUAController {
         model.addAttribute("fragmentPathTabConfig","deliveryUA");
         model.addAttribute("deliveryDocumentations",docList);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("contractList",orderInfoService.getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo.DISTRIBUTION,mainOrder.getDestinationType()));
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);
@@ -170,7 +171,7 @@ public class DeliveryPortAndUAController {
     @PostMapping("/editDeliveryDocumentation-{contractId}")
     public String editDeliveryDocumentation(@PathVariable("contractId")int contractId,DeliveryDocumentation documentation){
         DeliveryDocumentation docDB = deliveryDocumentationService.editDeliveryDoc(documentation);
-        reloadAllExtentFields(docDB);
+//        reloadAllExtentFields(docDB);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
