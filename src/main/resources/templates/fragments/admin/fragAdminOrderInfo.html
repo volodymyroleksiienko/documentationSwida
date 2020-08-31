@@ -367,8 +367,8 @@
             let arrayOfOrderings = [];
 
             for (let i = 0; i<arrOfTr.length;i++){
-                arrayOfSuppliers[i] =      $(arrOfTr[i]).find('td:eq(0)').text();
-                arrayOfOrderings[i] =      $(arrOfTr[i]).find('td:eq(1)').text();
+                arrayOfSuppliers[i] =      $(arrOfTr[i]).find('td:eq(1)').text();
+                arrayOfOrderings[i] =      $(arrOfTr[i]).find('td:eq(2)').text();
             }
 
             // console.log("s:"+ arrayOfSuppliers+"\n o:"+arrayOfOrderings);
@@ -714,7 +714,7 @@
                             <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="fileXLS">
                             <!-- <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small> -->
                             <label class="col-form-label" for="importSetContract">Привязать контракт</label>
-                            <input type="text" class="form-control" list="contractsList" id="importSetContract" required="required" autocomplete="off">
+                            <input type="text" class="form-control" list="contractsList" id="importSetContract" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="contractsList">
                                 <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c.contrAgent.nameOfAgent}">
                                 </option>

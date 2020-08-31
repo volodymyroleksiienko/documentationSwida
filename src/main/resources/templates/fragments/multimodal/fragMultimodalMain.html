@@ -12,9 +12,9 @@
                 <th scope="col">Материал</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Кубатура</th>
-                <th scope="col">Отгрузка (выехало в порт)</th>
-                <th scope="col">Ожидаемый объем</th>
-                <th scope="col">Срок выполнения</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгрузка (выехало в порт)</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожидаемый объем</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Status</th>
                 <th></th>
             </tr>
@@ -26,10 +26,10 @@
                 <td th:text="${(order.contrAgent!=null)?order.contrAgent.nameOfAgent:''}"></td>
                 <td th:text="${order.breedOfTree.breed}"></td>
                 <td th:text="${order.breedDescription}"></td>
-                <td th:text="${order.extentOfOrder}"></td>
+                <td th:text="${order.extentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.doneExtendOfOrder}"></td>
-                <td th:text="${order.toDoExtentOfOrder}"></td>
-                <td th:text="${order.date}"  class="change-color"></td>
+                <td th:text="${order.toDoExtentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
+                <td th:text="${order.date}"  class="change-color" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.statusOfEntity}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td>
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
@@ -48,10 +48,10 @@
                 <th scope="col">Материал</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Кубатура</th>
-                <th scope="col">Отгрузка (выехало в порт)</th>
-                <th scope="col">Ожидаемый объем</th>
-                <th scope="col">Срок выполнения</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" >Status</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгрузка (выехало в порт)</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожидаемый объем</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Status</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -229,7 +229,7 @@
                             <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="fileXLS">
                              <small id="fileHelp" class="form-text text-muted">Чтобы избежать ошибок со считованием данных, ознакомтесь с требованиями к импортируему файлу <a href="#">здесь</a></small>
                             <label class="col-form-label" for="importSetContract">Привязать контракт</label>
-                            <input type="text" class="form-control" list="contractsList" id="importSetContract" required="required" autocomplete="off">
+                            <input type="text" class="form-control" list="contractsList" id="importSetContract" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="contractsList">
                                 <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c.contrAgent.nameOfAgent}">
                                 </option>

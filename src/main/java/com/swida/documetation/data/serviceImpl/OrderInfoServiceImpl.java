@@ -9,6 +9,7 @@ import com.swida.documetation.data.jpa.OrderInfoJPA;
 import com.swida.documetation.data.jpa.subObjects.DeliveryDocumentationJPA;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -132,5 +133,18 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public void deleteByID(int id) {
         orderInfoJPA.deleteById(id);
+    }
+
+    @Override
+    public void deleteEmptyLeftOverOrders(List<OrderInfo> orderList) {
+        for(OrderInfo order:orderList){
+            if (Float.parseFloat(order.getDoneExtendOfOrder())==0){
+               List<OrderInfo> distributionOrders = orderInfoJPA.findDistributionObj(order.getId());
+               for(OrderInfo distribution:distributionOrders){
+                   orderInfoJPA.deleteById(distribution.getId());
+               }
+                orderInfoJPA.deleteById(order.getId());
+            }
+        }
     }
 }

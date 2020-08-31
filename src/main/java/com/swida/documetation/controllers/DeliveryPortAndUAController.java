@@ -79,7 +79,7 @@ public class DeliveryPortAndUAController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.COUNTRY));
+        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo.DISTRIBUTION,DeliveryDestinationType.COUNTRY));
 
         model.addAttribute("urlSendToArchive","/multimodal/sendToArchiveUA");
 
@@ -102,7 +102,7 @@ public class DeliveryPortAndUAController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.PORT));
+        model.addAttribute("distributeOrderList",orderInfoService.getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo.DISTRIBUTION,DeliveryDestinationType.PORT));
 
         model.addAttribute("urlSendToArchive","/multimodal/sendToArchivePort");
 
@@ -169,15 +169,15 @@ public class DeliveryPortAndUAController {
 
     @PostMapping("/editDeliveryDocumentation-{contractId}")
     public String editDeliveryDocumentation(@PathVariable("contractId")int contractId,DeliveryDocumentation documentation){
-        deliveryDocumentationService.editDeliveryDoc(documentation);
-        reloadAllExtentFields(documentation);
+        DeliveryDocumentation docDB = deliveryDocumentationService.editDeliveryDoc(documentation);
+        reloadAllExtentFields(docDB);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
     @PostMapping("/editPackageProduct-{contractId}")
     public String editPackageProduct(@PathVariable("contractId")int contractId, PackagedProduct product){
-        packagedProductService.editPackageProduct(product);
-        reloadAllExtentFields(product.getDeliveryDocumentation());
+        PackagedProduct productDB = packagedProductService.editPackageProduct(product);
+        reloadAllExtentFields(productDB.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
     @PostMapping("/addPackageProduct-{contractId}")

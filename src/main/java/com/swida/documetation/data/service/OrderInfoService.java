@@ -25,4 +25,5 @@ public interface OrderInfoService {
     void reloadMainOrderExtent(OrderInfo orderInfo);
     void checkLeftOverInfo(int contractId);
     void deleteByID(int id);
+    void deleteEmptyLeftOverOrders(List<OrderInfo> orderList);
 }

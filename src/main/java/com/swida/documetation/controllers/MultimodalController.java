@@ -7,10 +7,7 @@ import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
-import com.swida.documetation.data.enums.ContrAgentType;
-import com.swida.documetation.data.enums.DeliveryDestinationType;
-import com.swida.documetation.data.enums.StatusOfEntity;
-import com.swida.documetation.data.enums.StatusOfOrderInfo;
+import com.swida.documetation.data.enums.*;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
@@ -96,6 +93,9 @@ public class MultimodalController {
         List<ContrAgent> contrAgentList = new ArrayList<>();
         contrAgentList.addAll(contrAgentService.getListByType(ContrAgentType.BUYER_UA));
         contrAgentList.addAll(contrAgentService.getListByType(ContrAgentType.BUYER_FOREIGN));
+        List<OrderInfo> multimodalOrders = orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.LEFT_OVER, DeliveryDestinationType.MULTIMODAL);
+
+        orderInfoService.deleteEmptyLeftOverOrders(multimodalOrders);
 
         model.addAttribute("navTabName","multimodalMain");
         model.addAttribute("tabName","leftOver");
@@ -150,10 +150,10 @@ public class MultimodalController {
     public String importXLS(@RequestParam MultipartFile fileXLS, String contractId) throws IOException, InvalidFormatException {
         ImportOrderDataFromXLS dataFromXLS = new ImportOrderDataFromXLS(fileXLS);
         System.out.println("contractId "+ contractId);
-        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractId);
+        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
 
         deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
-
+        reloadOrdersExtent(orderInfo);
         return "redirect:/multimodal/getMultimodalOrders";
     }
 
@@ -214,7 +214,7 @@ public class MultimodalController {
 
         model.addAttribute("providerList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("navTabName","delivery");
-        model.addAttribute("contractDistributionList",orderInfoService.getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo.DISTRIBUTION, DeliveryDestinationType.MULTIMODAL));
+        model.addAttribute("contractDistributionList",orderInfoService.getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo.DISTRIBUTION,DeliveryDestinationType.MULTIMODAL));
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);
@@ -284,6 +284,11 @@ public class MultimodalController {
         model.addAttribute("navTabName","delivery");
         model.addAttribute("containersList",containerService.selectByStatusOfEntity(StatusOfEntity.ACTIVE));
         model.addAttribute("idOfTruckList",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
+
+        if(orderInfoService.findById(contractId).getStatusOfOrderInfo()!=StatusOfOrderInfo.LEFT_OVER){
+            model.addAttribute("buttonConfig","multimodalMain");
+        }
+
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);
@@ -309,14 +314,17 @@ public class MultimodalController {
         orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
     }
 
-    @PostMapping("/addPackageToDeliveryDoc-{id}")
-    public String addPackageToDeliveryDoc(@PathVariable("id")int contractId, PackagedProduct packagedProduct,
+    @PostMapping("/addPackageToDeliveryDoc-{contractId}")
+    public String addPackageToDeliveryDoc(@PathVariable("contractId")int contractId, PackagedProduct packagedProduct,
                                           String contractName, String containerName, String driverIdOfTruck){
 
-        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractName);
+        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractName));
+        Container container = containerService.findById(Integer.parseInt(containerName));
         DeliveryDocumentation doc = deliveryDocumentationService.getDeliveryDocumentationByIdOfTruck(driverIdOfTruck);
 
+        packagedProduct.setContainer(container);
         packagedProduct.setOrderInfo(orderInfo);
+        packagedProduct.setDeliveryDocumentation(doc);
         packagedProductService.save(packagedProduct);
         doc.getProductList().add(packagedProduct);
         deliveryDocumentationService.save(doc);
@@ -327,20 +335,19 @@ public class MultimodalController {
     @PostMapping("/editPackageToDeliveryDoc-{id}")
     public String editPackageToDeliveryDoc(@PathVariable("id")int contractId, PackagedProduct packagedProduct,
                                           String contractName, String containerName, String driverIdOfTruck){
-
-        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractName);
-
-        //        packagedProduct.setCountOfDesk(packagedProductService.countDesk(packagedProduct));
-        packagedProduct.setExtent(packagedProductService.countExtent(packagedProduct));
-
-        packagedProduct.setOrderInfo(orderInfo);
-        packagedProductService.save(packagedProduct);
+        PackagedProduct productDB = packagedProductService.editPackageProduct(packagedProduct);
+        productDB.setExtent(packagedProductService.countExtent(packagedProduct));
+        if(!containerName.isEmpty()){
+            Container container = containerService.findById(Integer.parseInt(containerName));
+            productDB.setContainer(container);
+        }
+        packagedProductService.save(productDB);
         reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
 
-    @PostMapping("/deletePackage-{id}")
-    public String deletePackage(@PathVariable("id")int contractId, String id){
+    @PostMapping("/deletePackage-{contractId}")
+    public String deletePackage(@PathVariable("contractId")int contractId, String id){
         DeliveryDocumentation documentation = packagedProductService.findById(Integer.parseInt(id)).getDeliveryDocumentation();
         packagedProductService.deleteByID(Integer.parseInt(id));
         reloadAllExtentFields(documentation);
@@ -379,19 +386,24 @@ public class MultimodalController {
             DeliveryDocumentation newDoc = createDeliveryDocLeftOver(documentation,distOrder);
             if(newDoc!=null){
                 deliveryDocumentationService.reloadExtentOfAllPack(newDoc);
+            }else{
+                continue;
             }
-            if (documentation.getProductList()==null){
+            if (documentation.getProductList().size()==0){
                 deliveryDocumentationService.deleteByID(documentation.getId());
                 return null;
             }
         }
+
         reloadOrdersExtent(distOrder);
         for(OrderInfo order:distributedOrder){
             order.setStatusOfEntity(StatusOfEntity.ARCHIVED);
-
             orderInfoService.save(order);
         }
 
+        for(DeliveryDocumentation documentation: docList){
+            reloadAllExtentFields(documentation);
+        }
         return "redirect:/multimodal/getMultimodalOrders";
     }
 
@@ -408,9 +420,14 @@ public class MultimodalController {
                     main.getProductList().remove(product);
                 }else {
                     product.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+                    product.setStatusOfProduct(StatusOfProduct.DELIVERED);
                     packagedProductService.save(product);
                 }
             }
+
+        if (packWithoutContainer.size()==0){
+            return null;
+        }
 
         DeliveryDocumentation newDelivery = new DeliveryDocumentation();
         newDelivery.setProductList(packWithoutContainer);
@@ -433,7 +450,6 @@ public class MultimodalController {
     @ResponseBody
     @PostMapping("/setContainer")
     public  void setContainer(String[] arrayOfPackagesId, String containerId){
-        containerId="2";
         packagedProductService.setContainer(arrayOfPackagesId,containerId);
     }
 

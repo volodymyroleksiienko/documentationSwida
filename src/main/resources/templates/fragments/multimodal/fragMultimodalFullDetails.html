@@ -21,6 +21,7 @@
                 <th scope="col">Выс/Шир</th>
                 <th scope="col">Контракт</th>
                 <th scope="col">№ контейн.</th>
+                <th scope="col">ContainerID</th>
                 <th></th>
             </tr>
             </thead>
@@ -42,6 +43,7 @@
                     <td th:text="${pack.height_width}"></td>
                     <td th:text="${pack.orderInfo?.codeOfOrder}"></td>
                     <td th:text="${pack?.container?.code}"></td>
+                    <td th:text="${pack?.container?.id}"></td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" onclick="editRecord(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                         <!-- <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button> -->
@@ -69,6 +71,7 @@
                 <th scope="col">Выс/Шир</th>
                 <th scope="col">Контракт</th>
                 <th scope="col">№ контейн.</th>
+                <th scope="col">ContainerID</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -84,7 +87,7 @@
            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-placement="left" onclick="location.href='/multimodal/exportAllPackagesByContract-'+this.name" th:name="${contractId}">
                <i class="far fa-file-excel"></i>
            </button>
-            <button type="button" class="buttons btn btn-primary" title="Присвоить контейнер выделенным"  data-toggle="modal" data-placement="left" data-target="#setContainer">
+            <button th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="buttons btn btn-primary" title="Присвоить контейнер выделенным"  data-toggle="modal" data-placement="left" data-target="#setContainer">
                 <i class="far fa-list-alt"></i>
             </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addRecordModal">
@@ -115,7 +118,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordCarNumber">№ машыны</label>
-                                <input type="text" class="form-control" list="editIdList" id="editRecordCarNumber" required="required" autocomplete="off" name="driverIdOfTruck">
+                                <input type="text" class="form-control" list="editIdList" id="editRecordCarNumber" required="required" autocomplete="off" name="driverIdOfTruck" th:disabled="${(buttonConfig!=null && buttonConfig.equals('multimodalMain'))?false:true}">
                                 <datalist id="editIdList">
                                     <option th:each="idValue : ${idOfTruckList}"  th:value="${idValue}">
                                 </datalist>
@@ -178,16 +181,16 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordContractNumber">Контракт</label>
-                                <input type="text" class="form-control" list="editContractssList" id="editRecordContractNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <input type="text" class="form-control" list="editContractssList" id="editRecordContractNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)" th:disabled="${(buttonConfig!=null && buttonConfig.equals('multimodalMain'))?false:true}">
                                 <datalist id="editContractssList">
-                                    <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c.contrAgent.nameOfAgent}">
+                                    <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c?.contrAgent?.nameOfAgent}">
                                     </option>
                                 </datalist>
                                 <input type="number" hidden="hidden"  name="contractName" id="editRecordContractNumber-hidden">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordContainerNumber">№ контейнера</label>
-                                <input type="text" class="form-control" list="selectContainerListToAdd" id="editRecordContainerNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <input type="text" class="form-control" list="selectContainerListToAdd" id="editRecordContainerNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)" th:disabled="${(buttonConfig!=null && buttonConfig.equals('multimodalMain'))?false:true}">
                                 <datalist id="selectContainerListToAdd">
                                     <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}"></option>
                                 </datalist>
@@ -333,7 +336,7 @@
                                 <label class="col-form-label" for="addRecordContractNumber">Контракт</label>
                                 <input type="text" class="form-control" list="contractsList" id="addRecordContractNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="contractsList">
-                                    <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c.contrAgent.nameOfAgent}">
+                                    <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c?.contrAgent?.nameOfAgent}">
                                     </option>
                                 </datalist>
                                 <input type="number" hidden="hidden"  name="contractName" id="addRecordContractNumber-hidden">
