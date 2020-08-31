@@ -100,14 +100,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public void reloadOrderExtent(OrderInfo orderInfo,List<DeliveryDocumentation> docList) {
-        if(docList.size()>0) {
             float fullExtent = 0;
             for (DeliveryDocumentation doc : docList) {
                 fullExtent += Float.parseFloat(doc.getPackagesExtent());
             }
             orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
             save(orderInfo);
-        }
     }
 
     @Override

@@ -171,7 +171,7 @@ public class DeliveryPortAndUAController {
     @PostMapping("/editDeliveryDocumentation-{contractId}")
     public String editDeliveryDocumentation(@PathVariable("contractId")int contractId,DeliveryDocumentation documentation){
         DeliveryDocumentation docDB = deliveryDocumentationService.editDeliveryDoc(documentation);
-//        reloadAllExtentFields(docDB);
+        reloadAllExtentFields(docDB);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 

@@ -24,7 +24,7 @@ public class AdminRestController {
     }
 
     @PostMapping("/createDistribution")
-    public void createDistribution(@RequestParam("suppliersList") String[] arrayOfAgent,
+    public void createDistribution(@RequestParam("suppliersList") String[] arrayOfAgent, String[] codesList,
                                  @RequestParam("orderingsList") String[] arrayOfExtent, @RequestParam("id") String idOfMainOrder){
         System.out.println("main order id "+idOfMainOrder);
         OrderInfo main = orderInfoService.findById(Integer.parseInt(idOfMainOrder));
@@ -35,7 +35,7 @@ public class AdminRestController {
             sumOfExtent+= Float.parseFloat(arrayOfExtent[i]);
 
             OrderInfo order = new OrderInfo();
-            order.setCodeOfOrder(main.getCodeOfOrder());
+            order.setCodeOfOrder(codesList[i]);
             order.setBreedOfTree(main.getBreedOfTree());
             order.setBreedDescription(main.getBreedDescription());
             order.setContrAgent(contrAgentService.getObjectByName(arrayOfAgent[i]));
