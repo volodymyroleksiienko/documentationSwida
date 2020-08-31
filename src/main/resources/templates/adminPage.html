@@ -321,6 +321,8 @@
             let company =       $("#addDistributionCompanyInner").val();
             let amount =        parseFloat($("#addDistributionAmountInner").val());
             let button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+            const mainOrderCode =  $('#sendDistributionModalCode').val();
+
 
             if( code=="" || company=="" || amount=="" ) {
                 alert("Заполните все поля!");
@@ -331,7 +333,7 @@
 
                 console.log(row);
 
-                $("#addDistributionCode").val("");
+                $("#addDistributionCode").val(mainOrderCode);
                 $("#addDistributionCompanyInner").val("");
                 $("#addDistributionAmountInner").val("");
 

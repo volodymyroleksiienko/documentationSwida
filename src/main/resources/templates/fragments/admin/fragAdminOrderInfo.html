@@ -269,6 +269,7 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <input type="text" id="sendDistributionModalId" hidden="" name="id">
+                            <input type="text" id="sendDistributionModalCode" hidden="" name="code">
 
                             <div class="col-3">
                                 <label class="control-label" for="addDistributionCode" style="padding-top: 7px">Код</label>
@@ -277,10 +278,11 @@
 
                             <div class="col-5">
                                 <label class="control-label" for="addDistributionCompanyInner">Поставщик</label>
-                                <input type="text" class="form-control" list="suppliersList" id="addDistributionCompanyInner" required="required" autocomplete="off" name="nameOfAgent">
+                                <input type="text" class="form-control" list="suppliersList" id="addDistributionCompanyInner" required="required" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)">
                                 <datalist id="suppliersList">
-                                    <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                                    <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}" th:text="${b.nameOfAgent}"></option>
                                 </datalist>
+                                <input type="hidden" name="orderInfo.id" id="addDistributionCompanyInner-hidden">
                             </div>
 
                             <div class="col-2">
@@ -337,9 +339,12 @@
             $('#sendDistributionModalId').val(trId);
             // console.log($(trObj).attr('id'));
             let codeOfOrder =           $(trObj).find('th:eq(0)').text();
+            const  mainCode =           $(trObj).find('th:eq(0)').text();
 
             $('#distributionModalHeader').text("Распределение заказа №"+codeOfOrder);
-            $('#addDistributionCode')    .val(codeOfOrder);
+
+            $('#sendDistributionModalCode')     .val(mainCode);
+            $('#addDistributionCode')           .val(codeOfOrder);
 
             $('#createDistributionModal').modal('show');
         }
