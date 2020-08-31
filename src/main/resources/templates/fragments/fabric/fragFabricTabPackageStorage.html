@@ -260,11 +260,12 @@
 
                             <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                                 <div class="col-3">
-                                    <label for="packContractId" class="col-form-label">Код контракта</label>
-                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                    <label class="col-form-label" for="packContractId" >Контракт</label>
+                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                     <datalist id="contractList">
-                                        <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
                                     </datalist>
+                                    <input type="hidden" name="orderInfo.id" id="packContractId-hidden">
                                 </div>
                                 <div class="col-3">
                                     <label for="packDeliveryDestination" class="col-form-label">Пункт назначения</label>
@@ -316,10 +317,13 @@
                             <input type="text" class="form-control" id="selectedPackModalId" hidden="hidden" autocomplete="off" name="packId">
 
                             <label class="col-form-label" for="selectTruck">Машина</label>
-                            <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" name="driverId">
+                            <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="trucksList">
-                                <option th:each="b : ${deliveryList}"  th:value="${b.id}" th:label="${b.driverInfo.idOfTruck}">
+                                <option th:each="b : ${deliveryList}"  th:data-value="${b.id}" th:text="${b.driverInfo.idOfTruck}"></option>
                             </datalist>
+                            <input type="hidden" name="driverId" id="selectTruck-hidden">
+
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -425,7 +429,7 @@
             var time1 = $("#packTimeInput").val();
             var breedID = $("#breedID").val();
             var userID = $("#userID").val();
-            var contractName1 = $("#packContractId").val();
+            var contractName1 = $("#packContractId-hidden").val();
             var deliveryDestination1 = $("#packDeliveryDestination").val();
             var description1 = $("#addDeliveryDescription").val();
 
@@ -765,11 +769,12 @@
 
                             <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                                 <div class="col-3">
-                                    <label for="packContractId" class="col-form-label">Код контракта</label>
-                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" name="orderInfo.codeOfOrder">
+                                    <label class="col-form-label" for="packContractId" >Контракт</label>
+                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                     <datalist id="contractList">
-                                        <option th:each="b : ${contractList}"  th:value="${b.codeOfOrder}">
+                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
                                     </datalist>
+                                    <input type="hidden" name="orderInfo.id" id="packContractId-hidden">
                                 </div>
                                 <div class="col-3">
                                     <label for="packDeliveryDestination" class="col-form-label">Пункт назначения</label>
@@ -992,7 +997,7 @@
             var numberOfTrailer1 = $("#numberOfTrailer").val();
             var date1 = $("#packDateInput").val();
             var time1 = $("#packTimeInput").val();
-            var contractName1 = $("#packContractId").val();
+            var contractName1 = $("#packContractId-hidden").val();
             var deliveryDestination1 = $("#packDeliveryDestination").val();
             var description1 = $("#addDeliveryDescription").val();
             var breedID = $("#breedID").val();

@@ -156,9 +156,6 @@ public class ImportOakOrderDataFromXLS {
             }
         }
 
-//        System.out.println();
-//        System.out.println(descList);
-//        System.out.println();
         return descList;
     }
 

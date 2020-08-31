@@ -435,7 +435,7 @@ public class FabricController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
 
-        model.addAttribute("contractList",orderInfoService.getOrdersListByAgent(contrAgent.getId()));
+        model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));

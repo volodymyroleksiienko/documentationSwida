@@ -21,7 +21,7 @@ public interface OrderInfoJPA extends JpaRepository<OrderInfo,Integer> {
     @Query("select obj from OrderInfo  obj where obj.contrAgent.id=?1 and obj.statusOfEntity='ACTIVE'")
     List<OrderInfo> getOrdersListByAgent(int agentId);
 
-    @Query("select obj from OrderInfo  obj where obj.contrAgent.id=?1 and obj.breedOfTree.id=?2")
+    @Query("select obj from OrderInfo  obj where obj.contrAgent.id=?1 and obj.breedOfTree.id=?2 and obj.statusOfEntity='ACTIVE'")
     List<OrderInfo> getOrdersListByAgentByBreed(int agentId,int breedId);
 
     @Query("select obj from  OrderInfo obj where obj.codeOfOrder=?1")
