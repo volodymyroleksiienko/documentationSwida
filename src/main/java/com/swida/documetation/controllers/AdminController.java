@@ -5,6 +5,7 @@ import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.BreedOfTreeDescription;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
+import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
@@ -12,8 +13,13 @@ import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeDescriptionService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
+import com.swida.documetation.utils.other.GenerateResponseForExport;
+import com.swida.documetation.utils.xlsParsers.ParseOakDeliveryInfoToXLS;
+import com.swida.documetation.utils.xlsParsers.ParserDeliveryDocumentationToXLS;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +29,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.swing.plaf.synth.ColorType;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 
@@ -284,4 +292,21 @@ public class AdminController {
 
         return "informationPage";
     }
+
+    @PostMapping("/downloadExamplePineXls")
+    public ResponseEntity<Resource> downloadExamplePineXls() throws FileNotFoundException {
+        String filePath = System.getProperty("user.dir")+ File.separator +"src"+File.separator
+                +"main"+File.separator+"resources"+File.separator+"static"+File.separator
+                +"exampleXLS"+File.separator+"sosnaImport.xlsx";
+        return new GenerateResponseForExport().generate(filePath,"","");
+    }
+
+    @PostMapping("/downloadExampleOakXls")
+    public ResponseEntity<Resource> downloadExampleOakXls() throws FileNotFoundException {
+        String filePath = System.getProperty("user.dir")+ File.separator +"src"+File.separator
+                +"main"+File.separator+"resources"+File.separator+"static"+File.separator
+                +"exampleXLS"+File.separator+"oakImport.xlsx";
+        return new GenerateResponseForExport().generate(filePath,"","");
+    }
+
 }
