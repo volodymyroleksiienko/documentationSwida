@@ -303,6 +303,7 @@
                                 <th scope="col">Код</th>
                                 <th scope="col">Поставщик</th>
                                 <th scope="col">Заказ, м<sup>3</sup></th>
+                                <th scope="col">Поставщик id</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -316,6 +317,7 @@
                                 <th scope="col">Код</th>
                                 <th scope="col">Поставщик</th>
                                 <th scope="col">Заказ, м<sup>3</sup></th>
+                                <th scope="col">Поставщик id</th>
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -368,7 +370,6 @@
             let idOfMainOrder = $('#sendDistributionModalId').val();
             console.log("id of main  "+idOfMainOrder);
             let arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
-            // console.log("arr length = "+arrOfTr.length);
 
             let arrayOfCodes     = [];
             let arrayOfSuppliers = [];
@@ -376,11 +377,14 @@
 
             for (let i = 0; i<arrOfTr.length;i++){
                 arrayOfCodes[i]     =      $(arrOfTr[i]).find('td:eq(0)').text();
-                arrayOfSuppliers[i] =      $(arrOfTr[i]).find('td:eq(1)').text();
+                arrayOfSuppliers[i] =      $(arrOfTr[i]).find('td:eq(3)').text();
                 arrayOfOrderings[i] =      $(arrOfTr[i]).find('td:eq(2)').text();
             }
 
-            // console.log("s:"+ arrayOfSuppliers+"\n o:"+arrayOfOrderings);
+            console.log("codes: "         +arrayOfCodes);
+            console.log("suppliers ids: " +arrayOfSuppliers);
+            console.log("order extent: "  +arrayOfOrderings);
+
 
             if (arrayOfSuppliers[0]!="No data available in table"){
                 $.ajax({

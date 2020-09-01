@@ -7418,3 +7418,7 @@ tr.shown td.details-control {
   background: url("../img/up.png") no-repeat center center;
   background-size: contain;
   transition: 0.3s; }
+
+.display-none{
+  display: none;
+}

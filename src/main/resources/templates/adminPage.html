@@ -309,7 +309,8 @@
                     "targets": -1,
                     "orderable": false,
                     "width": "30px"
-                }
+                },
+                { className: "display-none", "targets": [ 3 ] }
             ]
 
         });
@@ -317,11 +318,12 @@
 
         // ADD ELEMENTS TO INNER TABLE LIST START
         $("#buttonForAddingDistributionRow").click(function () {
-            let code =          $("#addDistributionCode").val();
-            let company =       $("#addDistributionCompanyInner").val();
-            let amount =        parseFloat($("#addDistributionAmountInner").val());
-            let button =        "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
-            const mainOrderCode =  $('#sendDistributionModalCode').val();
+            let code =               $("#addDistributionCode").val();
+            let company =            $("#addDistributionCompanyInner").val();
+            let amount =             parseFloat($("#addDistributionAmountInner").val());
+            let button =             "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+            let companyId =          $("#addDistributionCompanyInner-hidden").val();
+            const mainOrderCode =    $('#sendDistributionModalCode').val();
 
             let arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
             console.log("arr length = "+arrOfTr.length);
@@ -336,7 +338,7 @@
                 }
             }
 
-            if( code=="" || company=="" || amount=="" ) {
+            if( code == "" || company == "" || Number.isNaN(amount)) {
                 alert("Заполните все поля!");
             } else if (amount<=0.000){
                 alert("Значение не может быть отрицательным либо равным 0!")
@@ -346,7 +348,7 @@
                 alert("Дубликация кода!");
                 $("#addDistributionCode").val(mainOrderCode);
             }else {
-                let row = [code, company, amount, button];
+                let row = [code, company, amount, companyId, button];
 
                 console.log(row);
 
