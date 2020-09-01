@@ -216,7 +216,7 @@ public class AdminController {
         orderInfoDB.setBreedDescription(orderInfo.getBreedDescription());
         orderInfoDB.setDoneExtendOfOrder(orderInfo.getDoneExtendOfOrder());
         orderInfoDB.setCodeOfOrder(orderInfo.getCodeOfOrder());
-        orderInfoDB.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
+        orderInfoDB.setContrAgent(contrAgentService.findById(orderInfo.getContrAgent().getId()));
         orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.MAIN);
         orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
         orderInfoDB.setExtentForDistribution(String.format("%.3f",Float.parseFloat(orderInfoDB.getExtentForDistribution())-differenceExtent).replace(",","."));
@@ -233,7 +233,6 @@ public class AdminController {
     public String addContract(OrderInfo orderInfo){
         orderInfo.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
         orderInfo.setExtentForDistribution(orderInfo.getExtentOfOrder());
-        orderInfo.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
         orderInfo.setStatusOfOrderInfo(StatusOfOrderInfo.MAIN);
         orderInfo.setDoneExtendOfOrder("0.000");
         orderInfoService.save(orderInfo);
@@ -266,7 +265,7 @@ public class AdminController {
         orderInfoDB.setExtentOfOrder(orderInfo.getExtentOfOrder());
         orderInfoDB.setDoneExtendOfOrder(orderInfo.getDoneExtendOfOrder());
         orderInfoDB.setCodeOfOrder(orderInfo.getCodeOfOrder());
-        orderInfoDB.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
+        orderInfoDB.setContrAgent(contrAgentService.findById(orderInfo.getContrAgent().getId()));
         orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.DISTRIBUTION);
         orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
         orderInfoDB.setBreedDescription(orderInfo.getBreedDescription());
