@@ -289,6 +289,7 @@ public class AdminController {
         model.addAttribute("fragmentPathTabConfig","adminDashboard");
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
 
         return "informationPage";
     }

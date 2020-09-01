@@ -58,7 +58,7 @@ public class FabricRestController {
                                     String dateOfUnloading, String timeOfUnloading,String contractName, String deliveryDestination,
                                     String description) {
         ContrAgent userContrAgent = userCompanyService.findById(Integer.parseInt(userID)).getContrAgent();
-        OrderInfo orderInfo = orderInfoService.findByCodeOfOrder(contractName);
+        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractName));
         float extentOfAllPack = 0;
 
         DriverInfo driverInfo = new DriverInfo();
@@ -80,7 +80,7 @@ public class FabricRestController {
         for (int i=0; i<list.length; i++){
             productList.add(packagedProductService.findById(Integer.parseInt(list[i])));
             productList.get(i).setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
-            productList.get(i).setOrderInfo(orderInfo.getMainOrder());
+            productList.get(i).setOrderInfo(orderInfo);
             packagedProductService.save(productList.get(i));
             extentOfAllPack += Float.parseFloat(productList.get(i).getExtent());
             if (i==0) {
@@ -90,7 +90,7 @@ public class FabricRestController {
 
         deliveryDocumentation.setPackagesExtent(String.format("%.3f",extentOfAllPack).replace(",","."));
 
-        deliveryDocumentation.setOrderInfo(orderInfo.getMainOrder());
+        deliveryDocumentation.setOrderInfo(orderInfo);
         deliveryDocumentation.setDestinationType(DeliveryDestinationType.valueOf(deliveryDestination));
         deliveryDocumentation.setDescription(description);
 

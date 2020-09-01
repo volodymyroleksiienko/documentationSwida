@@ -126,6 +126,8 @@ public class DeliveryPortAndUAController {
         model.addAttribute("deliveryDocumentations",docList);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("contractList",orderInfoService.getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo.DISTRIBUTION,mainOrder.getDestinationType()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);

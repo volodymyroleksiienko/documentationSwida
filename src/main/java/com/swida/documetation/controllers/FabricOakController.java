@@ -305,6 +305,11 @@ public class FabricOakController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
 
+        UserCompany company = userCompanyService.findById(userId);
+        ContrAgent contrAgent = company.getContrAgent();
+        model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
+
+
         return "fabricPage";
     }
 
