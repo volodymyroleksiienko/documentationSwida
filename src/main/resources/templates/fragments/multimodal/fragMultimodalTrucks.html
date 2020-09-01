@@ -11,8 +11,8 @@
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
                 <th scope="col">Контракт</th>
-                <th scope="col">Контракт id</th>
-                <th scope="col">Агент id</th>
+                <th scope="col" style="display: none">Контракт id</th>
+                <th scope="col" style="display: none">Агент id</th>
                 <th></th>
             </tr>
             </thead>
@@ -24,8 +24,8 @@
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.addressOfCompany:''}"></td>
                 <td th:text="${doc.packagesExtent}"></td>
                 <td th:text="${doc.orderInfo.codeOfOrder}"></td>
-                <td th:text="${doc.orderInfo.id}"></td>
-                <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.id:''}"></td>
+                <td th:text="${doc.orderInfo.id}" style="display: none"></td>
+                <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.id:''}" style="display: none"></td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editTruck(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
@@ -40,8 +40,8 @@
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
                 <th scope="col">Контракт</th>
-                <th scope="col">Контракт id</th>
-                <th scope="col">Агент id</th>
+                <th scope="col" style="display: none">Контракт id</th>
+                <th scope="col" style="display: none">Агент id</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -84,14 +84,6 @@
                         <label class="col-form-label" for="addTruckNumber">№ машины</label>
                         <input type="text" class="form-control" id="addTruckNumber" required="required" autocomplete="off" name="driverInfo.idOfTruck">
 
-<!--                        <label class="col-form-label" for="addTruckPlace">Место отгрузки</label>-->
-<!--                        <input type="text" class="form-control" list="addTruckList" id="addTruckPlace" required="required" autocomplete="off" name="contrAgent.id">-->
-<!--                        <datalist id="addTruckList">-->
-<!--                            <option th:each="agent : ${providerList}"  th:value="${agent.id}" th:label="${agent.addressOfCompany}">-->
-<!--                        </datalist>-->
-
-<!--                        <label class="col-form-label" for="addTruckPlace">Место отгрузки</label>-->
-<!--                        <input type="text" class="form-control" id="addTruckPlace" required="required" autocomplete="off">-->
 
                         <label class="col-form-label" for="answer">Место отгрузки</label>
                         <input type="text" class="form-control" list="places" id="answer" required="required" autocomplete="off">
