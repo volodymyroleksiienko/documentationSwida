@@ -83,10 +83,11 @@
                         <input type="text" class="form-control" id="editContractCode" required="required" autocomplete="off" name="codeOfOrder">
 
                         <label class="col-form-label" for="editContractBuyer">Покупатель</label>
-                        <input type="text" class="form-control" list="editContractBuyerList" id="editContractBuyer" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <input type="text" class="form-control" list="editContractBuyerList" id="editContractBuyer" required="required" autocomplete="off" name="contrAgent.nameOfAgent" onchange="setHiddenValue(this)">
                         <datalist id="editContractBuyerList">
-                            <option th:each="b : ${contrAgentList}"  th:value="${b.nameOfAgent}" >
+                            <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                         </datalist>
+                        <input type="number" hidden="hidden"  name="agentId" id="editContractBuyer-hidden">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
@@ -198,10 +199,11 @@
                         <input type="text" class="form-control" id="addContractCode" required="required" autocomplete="off" name="codeOfOrder">
 
                         <label class="col-form-label" for="addContractBuyer">Покупатель</label>
-                        <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer" required="required" autocomplete="off" name="contrAgent.nameOfAgent" onchange="setHiddenValue(this)">
                         <datalist id="contrAgentList">
-                            <option th:each="b : ${contrAgentList}"  th:value="${b.nameOfAgent}">
+                            <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                         </datalist>
+                        <input type="number" hidden="hidden"  name="agentId" id="addContractBuyer-hidden">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
