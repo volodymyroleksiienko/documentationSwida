@@ -491,10 +491,11 @@
                         <input type="text" class="form-control" id="editDistributionCode" required="required" autocomplete="off" name="codeOfOrder">
 
                         <label class="col-form-label" for="editDistributionCompany">Поставщик</label>
-                        <input type="text" class="form-control" list="contrAgentProviderList" id="editDistributionCompany" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <input type="text" class="form-control" list="contrAgentProviderList" id="editDistributionCompany" required="required" autocomplete="off" name="contrAgent.nameOfAgent" onchange="setHiddenValue(this)">
                         <datalist id="contrAgentProviderList">
-                            <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                            <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                         </datalist>
+                        <input type="number" hidden="hidden"  name="agentId" id="editDistributionCompany-hidden">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
