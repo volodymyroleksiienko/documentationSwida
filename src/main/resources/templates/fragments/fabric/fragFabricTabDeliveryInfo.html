@@ -39,13 +39,13 @@
                               <td th:text="${(dd.description==null)?'':dd.description}"></td>
                               <td th:text="${dd?.orderInfo?.id}"></td>
                               <td>
-                                  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
+                                  <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
                                       <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                                   </button>
-                                  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addDriverPackage(this)">
+                                  <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addDriverPackage(this)">
                                       <i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i>
                                   </button>
-                                  <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
+                                  <form th:if="${btnConfig?.equals('btnON')}" th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
                                       <button  type="submit" class="btn btn-primary btn-sm">
                                           <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                       </button>
@@ -87,8 +87,8 @@
                                           <td th:text="${ps.longFact}"></td>
                                           <td th:text="${ps.height_width}"></td>
                                           <td style="width: 70px">
-                                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverPackage(this)"><i class="fas fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
+                                              <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                              <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverPackage(this)"><i class="fas fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
                                           </td>
                                       </tr>
                                       </tbody>
@@ -614,9 +614,9 @@
                             <td th:text="${(dd.description==null)?'':dd.description}"></td>
                             <td th:text="${dd?.orderInfo?.id}"></td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverInfo(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackage(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i></button>
-                                <form th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
+                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverInfo(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackage(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить пачку"></i></button>
+                                <form th:if="${btnConfig?.equals('btnON')}" th:action="@{'/fabric/exportDeliveryInfo-'+${dd.id}}" method="post" style="display: contents;">
                                     <button  type="submit" class="btn btn-primary btn-sm">
                                         <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                     </button>
@@ -653,9 +653,9 @@
                                                 <td th:text="${ps.countOfDesk}"></td>
                                                 <td th:text="${ps.extent}"></td>
                                                 <td style="width: 100px; text-align: end">
-                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
-                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakDriverPackage(this)"><i class="fas fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
+                                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDriverPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
+                                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakDriverPackage(this)"><i class="fas fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
                                                 </td>
                                             </tr>
 
@@ -676,8 +676,8 @@
                                                                 <td th:text="${desc.sizeOfWidth}"></td>
                                                                 <td th:text="${desc.countOfDesk}"></td>
                                                                 <td style="text-align: end;">
-                                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakDriverPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
+                                                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakDriverPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakDriverPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
                                                                 </td>
                                                             </tr>
 

@@ -1,5 +1,6 @@
 package com.swida.documetation.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
@@ -19,6 +20,7 @@ import com.swida.documetation.utils.xlsParsers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +70,16 @@ public class FabricController {
         this.driverInfoService = driverInfoService;
     }
 
+    private void btnConfig(int userId, Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasAdminRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+        if(hasAdminRole || userId==userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId()){
+            model.addAttribute("btnConfig","btnON");
+        }
+
+    }
+
     @GetMapping("/index-{userId}")
     public String index(@PathVariable("userId")int userId){
 
@@ -89,6 +101,7 @@ public class FabricController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("orderInfoList",orderInfoService.getOrdersListByAgent(contrAgent.getId()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
 
 
         return "fabricPage";
@@ -107,6 +120,9 @@ public class FabricController {
         model.addAttribute("contrAgentList",contrAgentService.findAll());
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        btnConfig(userId,model);
+
         return "fabricPage";
     }
 
@@ -227,7 +243,8 @@ public class FabricController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        btnConfig(userId,model);
         return "fabricPage";
     }
 
@@ -313,7 +330,8 @@ public class FabricController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        btnConfig(userId,model);
         return "fabricPage";
     }
 
@@ -386,7 +404,8 @@ public class FabricController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        btnConfig(userId,model);
         return "fabricPage";
     }
 
@@ -440,7 +459,8 @@ public class FabricController {
         model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
-
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        btnConfig(userId,model);
         return "fabricPage";
     }
 
@@ -519,12 +539,13 @@ public class FabricController {
         model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
 
         model.addAttribute("urlEditDriver","/fabric/editDeliveryDocumentation-"+userId+"-"+breedId);
         model.addAttribute("urlEditPackage","/fabric/editPackageProduct-"+userId+"-"+breedId);
         model.addAttribute("urlAddPackage","/fabric/addPackageProduct-"+userId+"-"+breedId);
         model.addAttribute("urlDeletePackage","/fabric/deletePackageProduct-"+userId+"-"+breedId);
-
+        btnConfig(userId,model);
         return "fabricPage";
     }
 
@@ -590,7 +611,8 @@ public class FabricController {
         model.addAttribute("contrAgentList",contrAgentService.findAll());
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.RECYCLING));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        btnConfig(userId,model);
         return "fabricPage";
     }
 

@@ -31,8 +31,8 @@
                 <td th:text="${ds.countOfDesk}"></td>
                 <td th:text="${ds.extent}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>
 
@@ -54,7 +54,7 @@
             </tbody>
         </table>
         <!-- BUTTON -->
-        <div class="float-action-button">
+        <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i></i>
             </button>
@@ -306,8 +306,8 @@
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
             </tr>
 
@@ -327,7 +327,7 @@
             </tbody>
         </table>
         <!-- BUTTON -->
-        <div class="float-action-button">
+        <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i></i>
             </button>

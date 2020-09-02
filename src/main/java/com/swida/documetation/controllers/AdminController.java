@@ -202,6 +202,10 @@ public class AdminController {
         model.addAttribute("contrAgentList",contrAgentList);
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
+            UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userId", userCompany.getId());
+        }
 
         return "adminPage";
     }
@@ -250,7 +254,10 @@ public class AdminController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
+            UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userId", userCompany.getId());
+        }
         return "adminPage";
     }
 

@@ -1,4 +1,6 @@
-<th:block xmlns:th="http://www.w3.org/1999/xhtml"  th:fragment="multimodalContracts">
+<th:block xmlns:th="http://www.w3.org/1999/xhtml"
+          xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+          th:fragment="multimodalContracts">
 
     <!-- Контракты  START-->
     <div class="tab-pane fade show active container-fluid" id="contracts">
@@ -33,9 +35,9 @@
                 <td th:text="${order.statusOfEntity}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td>
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
-                    <button th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/exportAllPackagesByContract-'+${order.id}}"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></a>
-                    <button th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
+                    <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
                 </td>
             </tr>
             </tbody>
@@ -57,7 +59,7 @@
             </tfoot>
         </table>
         <!-- BUTTON START-->
-        <div class="float-action-button">
+        <div class="float-action-button" sec:authorize="hasRole('ROLE_ADMIN')">
             <button type="button" class="buttons main-button btn btn-primary" title="Импорт" data-placement="left" onclick="importData()">
                 <i class="fas fa-file-import">&nbsp;</i>
             </button>

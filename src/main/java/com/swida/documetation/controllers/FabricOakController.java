@@ -16,6 +16,7 @@ import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.utils.xlsParsers.ParseTreeStorageToXLS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,7 +59,15 @@ public class FabricOakController {
         this.orderInfoService = orderInfoService;
         this.deskOakService = deskOakService;
     }
+    private void btnConfig(int userId, Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasAdminRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+        if(hasAdminRole || userId==userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId()){
+            model.addAttribute("btnConfig","btnON");
+        }
 
+    }
     //Tree Storage page
     @GetMapping("/getListOfTreeStorage-{userId}-2")
     public String getListOfTreeStorage(@PathVariable("userId")int userId, Model model){
@@ -71,7 +80,7 @@ public class FabricOakController {
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         model.addAttribute("contrAgentList",contrAgentService.findAll());
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        btnConfig(userId,model);
         return "fabricPage";
     }
 
@@ -167,7 +176,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        btnConfig(userId,model);
         return "fabricPage";
     }
     @PostMapping("/addDeskToDrying-{userId}-2")
@@ -217,7 +226,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        btnConfig(userId,model);
         return "fabricPage";
     }
 
@@ -308,7 +317,7 @@ public class FabricOakController {
         UserCompany company = userCompanyService.findById(userId);
         ContrAgent contrAgent = company.getContrAgent();
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
-
+        btnConfig(userId,model);
 
         return "fabricPage";
     }
@@ -339,7 +348,7 @@ public class FabricOakController {
         model.addAttribute("urlEditPackageDescriptionOak","/fabric/editPackageDescriptionOak-"+userId+"-"+breedId);
         model.addAttribute("urlAddPackageDescriptionOak","/fabric/addPackageDescriptionOak-"+userId+"-"+breedId);
         model.addAttribute("urlDeleteDescriptionOak","/fabric/deletePackageDescriptionOak-"+userId+"-"+breedId);
-
+        btnConfig(userId,model);
         return "fabricPage";
     }
 

@@ -17,7 +17,8 @@
 </head>
 <body>
 <!-- NAVIGATION -->
-<div th:replace="~{fragments/admin/fragAdminNavigation :: adminNavigation}"></div>
+<div th:replace="~{fragments/admin/fragAdminNavigation :: adminNavigation}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+<div th:replace="~{fragments/fabric/fragFabricNavigation :: fabricNavigation}" sec:authorize="hasRole('ROLE_SUPER_USER')"></div>
 <!-- NAVIGATION -->
 
 <!-- TABS -->

@@ -23,10 +23,10 @@
                 <td th:text="${ts.contrAgent.nameOfAgent}"></td>
                 <td th:text="${ts.extent}"></td>
                 <td>
-                    <button  type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
                         <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
                     </button>
-                    <button  type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
                         <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                     </button>
                 </td>
@@ -46,7 +46,7 @@
             </tbody>
         </table>
         <!-- BUTTON -->
-        <div class="float-action-button">
+        <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i></i>
             </button>
@@ -287,10 +287,10 @@
                 <td th:text="${ts.contrAgent.nameOfAgent}"></td>
                 <td th:text="${ts.extent}"></td>
                 <td>
-                    <button  type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
                         <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
                     </button>
-                    <button  type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
                         <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                     </button>
                 </td>
@@ -310,7 +310,7 @@
             </tbody>
         </table>
         <!-- BUTTON -->
-        <div class="float-action-button">
+        <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i></i>
             </button>

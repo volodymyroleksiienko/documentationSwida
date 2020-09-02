@@ -38,10 +38,10 @@
                 <td th:text="${ps.longFact}"></td>
                 <td th:text="${ps.height_width}"></td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoDelivery(this)">
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoDelivery(this)">
                         <i class="fas fa-plus" data-toggle="tooltip" title="Добавить к погрузке"></i>
                     </button>
-                    <button  type="button" class="btn btn-primary btn-sm" onclick="packageUnform(this)">
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageUnform(this)">
                         <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                     </button>
                 </td>
@@ -68,7 +68,7 @@
             </tbody>
         </table>
         <!-- BUTTON -->
-        <div class="float-action-button">
+        <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Добавить пачку" data-toggle="modal" data-placement="left" data-target="#addOwnPackageModal">
                 <i class="fa fa-plus"></i>
             </button>
@@ -527,10 +527,10 @@
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}"></td>
                                   <td>
-                                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)">
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)">
                                           <i class="fas fa-plus" data-toggle="tooltip" title="Добавить к погрузке"></i>
                                       </button>
-                                      <button  type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)">
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)">
                                           <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                                       </button>
                                   </td>
@@ -580,7 +580,7 @@
                 </tfoot>
             </table>
             <!-- BUTTON -->
-            <div class="float-action-button">
+            <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
                 <button type="button" class="buttons btn btn-primary" title="Добавить пачку" data-toggle="modal" data-placement="left" data-target="#addOwnOakPackageModal">
                     <i class="fa fa-plus"></i>
                 </button>
