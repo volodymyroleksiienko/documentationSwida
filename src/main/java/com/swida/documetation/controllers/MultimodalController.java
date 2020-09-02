@@ -283,7 +283,6 @@ public class MultimodalController {
         model.addAttribute("distributeOrderList",orderInfoService.findDistributionObj(contractId));
         model.addAttribute("navTabName","delivery");
         model.addAttribute("containersList",containerService.selectByStatusOfEntity(StatusOfEntity.ACTIVE));
-        model.addAttribute("idOfTruckList",deliveryDocumentationService.getAllTruckIdList(deliveryDocumentation));
 
         if(orderInfoService.findById(contractId).getStatusOfOrderInfo()!=StatusOfOrderInfo.LEFT_OVER){
             model.addAttribute("buttonConfig","multimodalMain");
@@ -317,13 +316,16 @@ public class MultimodalController {
     @PostMapping("/addPackageToDeliveryDoc-{contractId}")
     public String addPackageToDeliveryDoc(@PathVariable("contractId")int contractId, PackagedProduct packagedProduct,
                                           String contractName, String containerName, String driverIdOfTruck){
+        if(!containerName.isEmpty()) {
+            Container container = containerService.findById(Integer.parseInt(containerName));
+            packagedProduct.setContainer(container);
+        }
+        if(!contractName.isEmpty()){
+            OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractName));
+            packagedProduct.setOrderInfo(orderInfo);
+        }
+        DeliveryDocumentation doc = deliveryDocumentationService.findById(Integer.parseInt(driverIdOfTruck));
 
-        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractName));
-        Container container = containerService.findById(Integer.parseInt(containerName));
-        DeliveryDocumentation doc = deliveryDocumentationService.getDeliveryDocumentationByIdOfTruck(driverIdOfTruck);
-
-        packagedProduct.setContainer(container);
-        packagedProduct.setOrderInfo(orderInfo);
         packagedProduct.setDeliveryDocumentation(doc);
         packagedProductService.save(packagedProduct);
         doc.getProductList().add(packagedProduct);

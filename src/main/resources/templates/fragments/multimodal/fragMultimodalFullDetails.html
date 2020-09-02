@@ -271,11 +271,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addRecordCarNumber">№ машыны</label>
-                                <input type="text" class="form-control" list="idList" id="addRecordCarNumber" required="required" autocomplete="off" name="driverIdOfTruck" onchange="setHiddenValue(this)">
+                                <input type="text" class="form-control" list="idList" id="addRecordCarNumber" required="required" autocomplete="off"  onchange="setHiddenValue(this)">
                                 <datalist id="idList">
-                                    <option th:each="idValue : ${idOfTruckList}"  th:data-value="${idValue}" th:text="${idValue}"></option>
+                                    <option th:each="doc : ${contractPackagesList}"  th:data-value="${doc.id}" th:text="${doc?.driverInfo?.idOfTruck}"></option>
                                 </datalist>
-                                <input type="number" hidden="hidden"  name="truckNumber" id="addRecordCarNumber-hidden">
+                                <input type="number" hidden="hidden"  name="driverIdOfTruck" id="addRecordCarNumber-hidden">
                             </div>
 
                             <div class="col-6">
