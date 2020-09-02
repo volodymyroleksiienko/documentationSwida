@@ -180,6 +180,7 @@ public class DeliveryPortAndUAController {
     @PostMapping("/editPackageProduct-{contractId}")
     public String editPackageProduct(@PathVariable("contractId")int contractId, PackagedProduct product){
         PackagedProduct productDB = packagedProductService.editPackageProduct(product);
+        packagedProductService.countExtentOak(productDB);
         reloadAllExtentFields(productDB.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
