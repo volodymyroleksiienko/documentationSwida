@@ -390,8 +390,8 @@ public class MultimodalController {
                 continue;
             }
             if (documentation.getProductList().size()==0){
-                deliveryDocumentationService.deleteByID(documentation.getId());
-                return null;
+//                deliveryDocumentationService.deleteByID(documentation.getId());
+//                return null;
             }
         }
 
@@ -440,7 +440,6 @@ public class MultimodalController {
         newDelivery.setContrAgent(main.getContrAgent());
         newDelivery.setBreedOfTree(main.getBreedOfTree());
         newDelivery.setDriverInfo(main.getDriverInfo());
-        newDelivery.setDestinationType(DeliveryDestinationType.MULTIMODAL);
 
         deliveryDocumentationService.save(newDelivery);
         return newDelivery;

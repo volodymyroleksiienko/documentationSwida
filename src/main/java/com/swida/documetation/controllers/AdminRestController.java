@@ -30,6 +30,7 @@ public class AdminRestController {
         OrderInfo main = orderInfoService.findById(Integer.parseInt(idOfMainOrder));
         List<OrderInfo> orderInfoList = new ArrayList<>();
 
+
         float sumOfExtent = 0;
         for (int i=0; i<arrayOfAgent.length; i++){
             sumOfExtent+= Float.parseFloat(arrayOfExtent[i]);
@@ -38,7 +39,7 @@ public class AdminRestController {
             order.setCodeOfOrder(codesList[i]);
             order.setBreedOfTree(main.getBreedOfTree());
             order.setBreedDescription(main.getBreedDescription());
-            order.setContrAgent(contrAgentService.getObjectByName(arrayOfAgent[i]));
+            order.setContrAgent(contrAgentService.findById(Integer.parseInt(arrayOfAgent[i])));
             order.setExtentOfOrder(arrayOfExtent[i]);
             order.setDoneExtendOfOrder("0.000");
             order.setStatusOfOrderInfo(StatusOfOrderInfo.DISTRIBUTION);

@@ -118,7 +118,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordCarNumber">№ машыны</label>
-                                <input type="text" class="form-control" list="editIdList" id="editRecordCarNumber" required="required" autocomplete="off" name="driverIdOfTruck" th:disabled="${(buttonConfig!=null && buttonConfig.equals('multimodalMain'))?false:true}" onchange="setHiddenValue(this)">
+                                <input type="text" class="form-control" list="editIdList" id="editRecordCarNumber" required="required" autocomplete="off" name="driverIdOfTruck" disabled="disabled" onchange="setHiddenValue(this)">
                                 <datalist id="editIdList">
                                     <option th:each="idValue : ${idOfTruckList}"  th:data-value="${idValue}" th:text="${idValue}"></option>
                                 </datalist>
@@ -171,18 +171,18 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordPackNumberMultiModal">№ пачки (Мультимодал)</label>
-                                <input type="text" class="form-control" id="editRecordPackNumberMultiModal" required="required" autocomplete="off" name="codeOfDeliveryCompany">
+                                <input type="text" class="form-control" id="editRecordPackNumberMultiModal" autocomplete="off" name="codeOfDeliveryCompany">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordWidthHeight">Высота/Ширина</label>
-                                <input type="text" class="form-control" id="editRecordWidthHeight" required="required" autocomplete="off" name="height_width">
+                                <input type="text" class="form-control" id="editRecordWidthHeight" autocomplete="off" name="height_width">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editRecordContractNumber">Контракт</label>
-                                <input type="text" class="form-control" list="editContractssList" id="editRecordContractNumber" required="required" autocomplete="off" onchange="setHiddenValue(this)" th:disabled="${(buttonConfig!=null && buttonConfig.equals('multimodalMain'))?false:true}">
+                                <input type="text" class="form-control" list="editContractssList" id="editRecordContractNumber" disabled="disabled" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="editContractssList">
                                     <option  th:each="c : ${distributeOrderList}" th:data-value="${c.id}" th:text="${c.codeOfOrder}" th:label="${c?.contrAgent?.nameOfAgent}">
                                     </option>
