@@ -26,4 +26,10 @@ public interface PackagedProductService {
     void addDescriptionOak(String packId, String width, String count);
     void setContainer(String[] arrayOfPackagesId, String containerId);
     void deleteDescriptionOak(String packId, String deskId);
+
+    //for statistic
+    List<String> getListOfUnicBreedDescription(int breedId);
+    List<String> getListOfUnicSizeOfHeight(int breedId);
+    List<String> getListOfUnicSizeOfWidth(int breedId);
+    List<String> getListOfUnicSizeOfLong(int breedId);
 }

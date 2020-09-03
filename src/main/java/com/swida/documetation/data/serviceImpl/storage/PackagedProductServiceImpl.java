@@ -303,4 +303,24 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         float extent = width*height*longSize*count;
         return String.format("%.3f",extent).replace(',','.');
     }
+
+    @Override
+    public List<String> getListOfUnicBreedDescription(int breedId) {
+        return productJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfHeight(int breedId) {
+        return productJPA.getListOfUnicSizeOfHeight(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfWidth(int breedId) {
+        return productJPA.getListOfUnicSizeOfWidth(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfLong(int breedId) {
+        return productJPA.getListOfUnicSizeOfLong(breedId);
+    }
 }

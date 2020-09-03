@@ -81,4 +81,24 @@ public class DryingStorageServiceImpl implements DryingStorageService {
     public void deleteByID(int id) {
         dryingStorageJPA.deleteById(id);
     }
+
+    @Override
+    public List<String> getListOfUnicBreedDescription(int breedId) {
+        return dryingStorageJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfHeight(int breedId) {
+        return dryingStorageJPA.getListOfUnicSizeOfHeight(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfWidth(int breedId) {
+        return dryingStorageJPA.getListOfUnicSizeOfWidth(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfLong(int breedId) {
+        return dryingStorageJPA.getListOfUnicSizeOfLong(breedId);
+    }
 }

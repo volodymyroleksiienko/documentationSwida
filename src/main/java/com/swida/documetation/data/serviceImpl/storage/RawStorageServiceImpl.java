@@ -57,4 +57,24 @@ public class RawStorageServiceImpl implements RawStorageService {
     public void deleteByID(int id) {
         rawStorageJPA.deleteById(id);
     }
+
+    @Override
+    public List<String> getListOfUnicBreedDescription(int breedId) {
+        return rawStorageJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfHeight(int breedId) {
+        return rawStorageJPA.getListOfUnicSizeOfHeight(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfWidth(int breedId) {
+        return rawStorageJPA.getListOfUnicSizeOfWidth(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfLong(int breedId) {
+        return rawStorageJPA.getListOfUnicSizeOfLong(breedId);
+    }
 }

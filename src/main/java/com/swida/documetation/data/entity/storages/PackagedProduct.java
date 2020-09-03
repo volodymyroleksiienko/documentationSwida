@@ -25,7 +25,7 @@ public class PackagedProduct {
     //Detail of Product
     @ManyToOne
     private BreedOfTree breedOfTree;
-    private String breedDescription;
+    private String breedDescription="";
     private String quality;
 
     //Size of one desk

@@ -55,32 +55,6 @@ public class AdminController {
         this.breedOfTreeDescriptionService = breedOfTreeDescriptionService;
     }
 
-//    Statistics Page
-    @GetMapping("/getPineStatistics")
-    public String getPineStatistics(Model model){
-        model.addAttribute("navTabName","main");
-        model.addAttribute("fragmentPathAdminStatistics","statisticsPine");
-        model.addAttribute("tabName","pineStats");
-        model.addAttribute("fragmentPathTabConfig","statistics");
-        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-
-        return "adminPage";
-    }
-
-    @GetMapping("/getOakStatistics")
-    public String getOakStatistics(Model model){
-        model.addAttribute("navTabName","main");
-        model.addAttribute("fragmentPathAdminStatistics","statisticsOak");
-        model.addAttribute("tabName","oakStats");
-        model.addAttribute("fragmentPathTabConfig","statistics");
-        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-
-        return "adminPage";
-    }
 
 //    User Company Page
     @GetMapping("/getListOfUserCompany")

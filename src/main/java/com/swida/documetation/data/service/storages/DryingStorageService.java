@@ -12,4 +12,10 @@ public interface DryingStorageService {
     List<DryingStorage> findAll();
     List<DryingStorage> getListByUserByBreed(int breedId, int userId);
     void deleteByID(int id);
+
+    //for statistic
+    List<String> getListOfUnicBreedDescription(int breedId);
+    List<String> getListOfUnicSizeOfHeight(int breedId);
+    List<String> getListOfUnicSizeOfWidth(int breedId);
+    List<String> getListOfUnicSizeOfLong(int breedId);
 }

@@ -17,7 +17,7 @@ public class DryStorage {
     private String codeOfProduct;
     @ManyToOne
     private BreedOfTree breedOfTree;
-    private String breedDescription;
+    private String breedDescription="";
 
     private String sizeOfHeight;
     private String sizeOfWidth;
