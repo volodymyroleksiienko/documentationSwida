@@ -437,6 +437,7 @@
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th scope="col">extentForDistribution main order</th>
                 <th scope="col">date main order</th>
+                <th scope="col">Agent id</th>
             </tr>
             </thead>
             <tbody>
@@ -455,6 +456,7 @@
                 </td>
                 <td th:text="${(b.mainOrder!=null)? b.mainOrder.extentForDistribution:''}"></td>
                 <td th:text="${(b.mainOrder!=null)? b.mainOrder.date:''}"></td>
+                <td th:text="${b?.contrAgent?.id}"></td>
             </tr>
             </tbody>
 
@@ -472,6 +474,7 @@
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th scope="col">extentForDistribution main order</th>
                 <th scope="col">date main order</th>
+                <th scope="col">Agent id</th>
             </tr>
             </tfoot>
         </table>
@@ -566,6 +569,7 @@
             var done = $(trObj).find('td:eq(4)').text();
             var left = $(trObj).find('td:eq(5)').text();
             var deadline = $(trObj).find('td:eq(6)').text();
+            var agentId = $(trObj).find('td:eq(10)').text();
 
 
             $('#editDistributionCode').val(contractCode);
@@ -576,6 +580,7 @@
             $('#editDistributionDone').val(done);
             $('#editDistributionLeft').val(left);
             $('#editOrderContractDate').val(deadline);
+            $('#editDistributionCompany-hidden').val(agentId);
 
             $('#editDistributionModal').modal('show');
         }

@@ -11,5 +11,6 @@ public interface TreeStorageService {
     TreeStorage findById(int id);
     List<TreeStorage> findAll();
     List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status);
+    List<String> getListOfUnicBreedDescription();
     void deleteByID(int id);
 }
