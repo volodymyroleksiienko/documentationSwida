@@ -1,3 +1,18 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="statistics">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getPineStatistics"
+                   th:classappend="${tabName.equals('pineStats')} ? 'active':''">Сосна</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/getOakStatistics"
+                   th:classappend="${tabName.equals('oakStats')} ? 'active':''">Дуб</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="adminDashboard">
     <div class="container">
         <ul class="nav nav-tabs">

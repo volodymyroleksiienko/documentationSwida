@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SWIDA</title>
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/buttons.bootstrap4.css}">
     <link th:href="@{../css/all.css}" rel="stylesheet">
     <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
 </head>
@@ -32,6 +30,9 @@
 
     <!-- ALL TABLES START-->
     <div id="myTabContent" class="tab-content">
+        <div th:if="${fragmentPathAdminStatistics!=null}">
+            <div th:replace="~{fragments/admin/fragAdminStatistics :: ${fragmentPathAdminStatistics}}"></div>
+        </div>
         <!--ADMIN DASHBOARD START-->
         <div th:if="${fragmentPathUserCompany!=null}">
             <div th:replace="~{fragments/admin/fragAdminUserCompany :: ${fragmentPathUserCompany}}"></div>
@@ -49,23 +50,13 @@
         <div th:if="${fragmentPathOrderInfo!=null}">
             <div th:replace="~{fragments/admin/fragAdminOrderInfo :: ${fragmentPathOrderInfo}}"></div>
         </div>
-
-
     </div>
     <!-- ALL TABLES end-->
 </div>
 <!-- TABS end-->
 
-<!-- MODALS START-->
-
-
-
-
-<!-- ADD BREED OF TREE MODAL END -->
-<!-- MODALS END-->
 
 <!-- SCRIPTS START-->
-
 <script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
@@ -98,27 +89,6 @@
     }
 </script>
 
-<!--<script type="text/javascript">-->
-<!--    document.querySelector('input[list]').addEventListener('input', function(e) {-->
-<!--        var input = e.target,-->
-<!--            list = input.getAttribute('list'),-->
-<!--            options = document.querySelectorAll('#' + list + ' option'),-->
-<!--            hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),-->
-<!--            label = input.value;-->
-
-<!--        hiddenInput.value = label;-->
-
-<!--        for(var i = 0; i < options.length; i++) {-->
-<!--            var option = options[i];-->
-
-<!--            if(option.innerText === label) {-->
-<!--                hiddenInput.value = option.getAttribute('data-value');-->
-<!--                break;-->
-<!--            }-->
-<!--        }-->
-<!--        console.log("Hidden input value:"+hiddenInput.value);-->
-<!--    });-->
-<!--</script>-->
 
 <script type="text/javascript">
     function setHiddenValue(input) {
@@ -142,7 +112,35 @@
 </script>
 
 <script type="text/javascript">
+    // $('.label.ui.dropdown')
+    //     .dropdown();
+    //
+    // $('.no.label.ui.dropdown')
+    //     .dropdown({
+    //         useLabels: false
+    //     });
+    //
+    // $('.ui.button').on('click', function () {
+    //     $('.ui.dropdown')
+    //         .dropdown('restore defaults')
+    // })
+</script>
+
+<script type="text/javascript">
     $(document).ready( function () {
+        $('.label.ui.dropdown')
+            .dropdown();
+
+        $('.no.label.ui.dropdown')
+            .dropdown({
+                useLabels: false
+            });
+
+        $('.ui.button').on('click', function () {
+            $('.ui.dropdown')
+                .dropdown('restore defaults')
+        })
+
         $('#admin-users-table').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
@@ -205,7 +203,7 @@
                     "targets": -1,
                     "orderable": false,
                     "searchable": false,
-                    "width": "30px"
+                    "width": "70px"
                 },
                 {
                     // "width": "20%",
@@ -234,7 +232,7 @@
                     "targets": -1,
                     "orderable": false,
                     "searchable": false,
-                    "width": "30px"
+                    "width": "70px"
                 },
                 {
                     // "width": "20%",
