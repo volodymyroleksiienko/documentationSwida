@@ -12,6 +12,7 @@
                 <th scope="col">Пароль</th>
                 <th scope="col">Контрагент</th>
                 <th scope="col">Роль</th>
+                <th scope="col">Agent id</th>
                 <th></th>
             </tr>
             </thead>
@@ -24,6 +25,7 @@
                     <td th:text="${uc.password}"></td>
                     <td th:text="${(uc.contrAgent!=null)?uc.contrAgent.nameOfAgent:''}"></td>
                     <td th:text="${uc.role}"></td>
+                    <td th:text="${uc?.contrAgent?.id}"></td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" onclick="editUserCompany(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     </td>
@@ -39,6 +41,7 @@
                 <th scope="col">Пароль</th>
                 <th scope="col">Контрагент</th>
                 <th scope="col">Роль</th>
+                <th scope="col">Agent id</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -81,10 +84,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContractBuyer">Соединить с контрагентом</label>
-                                <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer"  autocomplete="off" name="contrAgent.nameOfAgent">
+                                <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="contrAgentList">
-                                    <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                                    <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                                 </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addContractBuyer-hidden">
                             </div>
 
                             <div class="col-6">
@@ -138,10 +142,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContrAgent">Соединить с контрагентом</label>
-                                <input type="text" class="form-control" list="contrAgentList1" id="addContrAgent" autocomplete="off" name="contrAgent.nameOfAgent">
+                                <input type="text" class="form-control" list="contrAgentList1" id="addContrAgent" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="contrAgentList1">
-                                    <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                                    <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                                 </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addContrAgent-hidden">
                             </div>
 
                             <div class="col-6">
@@ -179,6 +184,7 @@
             var password = $(trObj).find('td:eq(2)').text();
             var contrAgent = $(trObj).find('td:eq(3)').text();
             var role = $(trObj).find('td:eq(4)').text();
+            var agentId = $(trObj).find('td:eq(5)').text();
 
             $('#editUserCompanyName').val(name);
             $('#editUserLocation').val(location);
@@ -186,6 +192,7 @@
             $('#editUserCompanyPassword').val(password);
             $('#addContrAgent').val(contrAgent);
             $('#editUserCompanyRole').val(role);
+            $('#addContrAgent-hidden').val(agentId);
 
             $('#editUserModal').modal('show');
         }

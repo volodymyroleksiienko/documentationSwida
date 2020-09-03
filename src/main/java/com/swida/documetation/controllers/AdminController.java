@@ -98,14 +98,14 @@ public class AdminController {
 
     @PostMapping("/addUser")
     public String addUser(UserCompany userCompany){
-        userCompany.setContrAgent(contrAgentService.getObjectByName(userCompany.getContrAgent().getNameOfAgent()));
+//        userCompany.setContrAgent(contrAgentService.getObjectByName(userCompany.getContrAgent().getNameOfAgent()));
         userCompanyService.save(userCompany);
         return "redirect:/admin/getListOfUserCompany";
     }
 
     @PostMapping("/editUser")
     public String editUser(UserCompany userCompany){
-        userCompany.setContrAgent(contrAgentService.getObjectByName(userCompany.getContrAgent().getNameOfAgent()));
+//        userCompany.setContrAgent(contrAgentService.getObjectByName(userCompany.getContrAgent().getNameOfAgent()));
         userCompanyService.save(userCompany);
         return "redirect:/admin/getListOfUserCompany";
     }
