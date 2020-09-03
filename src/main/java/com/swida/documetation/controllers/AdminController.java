@@ -7,6 +7,7 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTreeDescription;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.ContrAgentType;
+import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfOrderInfo;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -196,6 +197,14 @@ public class AdminController {
         contrAgent.setContrAgentType(getTypeOfContrAgent(id));
         contrAgentService.save(contrAgent);
 
+        return "redirect:/admin/getListOfContrAgents-"+id;
+    }
+
+    @PostMapping("/deleteCompany-{typeId}")
+    public String deleteCompany(@PathVariable("typeId") int id, String agentId){
+        ContrAgent contrAgent = contrAgentService.findById(Integer.parseInt(agentId));
+        contrAgent.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+        contrAgentService.save(contrAgent);
         return "redirect:/admin/getListOfContrAgents-"+id;
     }
 

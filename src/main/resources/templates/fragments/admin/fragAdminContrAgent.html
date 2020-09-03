@@ -67,11 +67,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       TUT         -->
-                <form action="/deleteContragent" method="post">
+                <form th:action="@{'/admin/deleteCompany-'+${companyType}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="contragentId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="contragentId" hidden="hidden" autocomplete="off" name="agentId">
 
                             <p id="deleteContragentModalConfirmation"></p>
                         </div>
@@ -330,11 +329,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       TUT         -->
-                <form action="/deleteContragent" method="post">
+                <form th:action="@{'/admin/deleteCompany-'+${companyType}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="contragentId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="contragentId" hidden="hidden" autocomplete="off" name="agentId">
 
                             <p id="deleteContragentModalConfirmation"></p>
                         </div>
