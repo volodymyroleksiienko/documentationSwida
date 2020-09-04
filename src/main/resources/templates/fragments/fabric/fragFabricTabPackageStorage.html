@@ -44,6 +44,7 @@
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageUnform(this)">
                         <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                     </button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
 
             </tr>
@@ -181,6 +182,137 @@
         </div>
     </div>
     <!--  Create own package end  -->
+
+
+    <!-- Edit package start -->
+    <div class="modal fade" id="editPackageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPackageModalHeader"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/editPackage-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+
+                        <!-- Insert rows -->
+                        <input type="text" class="form-control" id="editPackagesModalId" hidden="hidden" autocomplete="off" name="packageId">
+
+                        <label class="col-form-label" for="editPackageModalCode">Код</label>
+                        <input type="text" class="form-control" id="editPackageModalCode" required="required" autocomplete="off" name="codeOfPackage">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="control-label" for="editPackageModalMaterial">Порода</label>
+                                <th:block th:each="b : ${breedOfTreeList}" >
+                                    <th:block th:if="${b.id==breedId}">
+                                        <input type="text" class="form-control"  id="editPackageModalMaterial" required="required" autocomplete="off" disabled="disabled" th:value="${b.breed}">
+                                    </th:block>
+                                </th:block>
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editPackageModalMaterialDescr">Описание</label>
+                                <input type="text" class="form-control" id="editPackageModalMaterialDescr" autocomplete="off"  name="breedDescription">
+                            </div>
+                        </div>
+                        <!--                        -->
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageHeight">Толщина</label>
+                                <input type="number" min="1" class="form-control" id="editPackageHeight" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageWidth">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="editPackageWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageLength">Длина</label>
+                                <input type="number" min="1" class="form-control" id="editPackageLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageModalCount">Кол-во досок</label>
+                                <input type="number" min="1" step="1" class="form-control" id="editPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageModalExtent">Кубатура</label>
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editPackageModalExtent" required="required" autocomplete="off" placeholder="м3" disabled="disabled">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageModalLengthFact">Длина-ФАКТ</label>
+                                <input type="number" min="1" class="form-control" id="editPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
+                            </div>
+                        </div>
+                        <!--                        -->
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageModalWidthPc">Ширина</label>
+                                <input type="number" min="1" class="form-control" id="editPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInWidth">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageHeightPc">Высота</label>
+                                <input type="number" min="1" class="form-control" id="editPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInHeight">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageModalHeightWidth">Выс./Шир.</label>
+                                <input type="text" class="form-control" id="editPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="height_width">
+                            </div>
+                        </div>
+                        <!-- Insert rows -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editPackage(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editPackagesModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfPackage = $(trObj).find('th:eq(0)').text();
+            $('#editPackageModalHeader').text("Редактировать пачку №"+codeOfPackage);
+
+            var code =                          $(trObj).find('th:eq(0)').text();
+            var material =                      $(trObj).find('td:eq(0)').text();
+            var description =                   $(trObj).find('td:eq(1)').text();
+            var thickness =                     $(trObj).find('td:eq(2)').text();
+            var width =                         $(trObj).find('td:eq(3)').text();
+            var length =                        $(trObj).find('td:eq(4)').text();
+            var count =                         $(trObj).find('td:eq(5)').text();
+            var extent =                        $(trObj).find('td:eq(6)').text();
+            var widthPc =                       $(trObj).find('td:eq(7)').text();
+            var heightPc =                      $(trObj).find('td:eq(8)').text();
+            var lengthFact =                    $(trObj).find('td:eq(9)').text();
+            var heightWidth =                   $(trObj).find('td:eq(10)').text();
+
+            $('#editPackageModalCode')          .val(code);
+            $('#editPackageModalMaterial')      .val(material);
+            $('#editPackageModalMaterialDescr') .val(description);
+            $('#editPackageHeight')             .val(thickness);
+            $('#editPackageWidth')              .val(width);
+            $('#editPackageLength')             .val(length);
+            $('#editPackageModalCount')         .val(count);
+            $('#editPackageModalExtent')        .val(extent);
+            $('#editPackageModalWidthPc')       .val(widthPc);
+            $('#editPackageHeightPc')           .val(heightPc);
+            $('#editPackageModalLengthFact')    .val(lengthFact);
+            $('#editPackageModalHeightWidth')   .val(heightWidth);
+
+
+            $('#editPackageModal').modal('show');
+        }
+    </script>
+    <!--  Edit package end  -->
 
 
     <!-- Send list for transportation modal begin -->
@@ -487,6 +619,9 @@
 
 
 
+
+
+
 <!-- OAK Package Storage-->
 <!-- OAK Package Storage-->
 <!-- OAK Package Storage-->
@@ -527,28 +662,30 @@
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}"></td>
                                   <td>
-                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)">
-                                          <i class="fas fa-plus" data-toggle="tooltip" title="Добавить к погрузке"></i>
-                                      </button>
-                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)">
-                                          <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
-                                      </button>
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить к погрузке"></i></button>
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)"><i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i></button>
+                                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+
                                   </td>
                               </tr>
                               <tr style="display:none" th:id="'parent'+${p.id}">
                                   <td colspan="13" class="child-table">
                                       <table class="table table-hover table-striped parent-table" id="packages">
                                           <thead>
-                                          <tr>
-                                              <th scope="col">Ширина, мм</th>
-                                              <th scope="col">Количество досок</th>
-                                          </tr>
+                                              <tr>
+                                                  <th scope="col">Ширина, мм</th>
+                                                  <th scope="col">Количество досок</th>
+                                                  <th></th>
+                                              </tr>
                                           </thead>
                                           <tbody>
-                                          <tr th:each="l, index : ${p.deskOakList}" th:id="${l.id}">
-                                              <td th:text="${l.sizeOfWidth}"></td>
-                                              <td th:text="${l.countOfDesk}"></td>
-                                          </tr>
+                                              <tr th:each="l, index : ${p.deskOakList}" th:id="${l.id}">
+                                                  <td th:text="${l.sizeOfWidth}"></td>
+                                                  <td th:text="${l.countOfDesk}"></td>
+                                                  <td style="text-align: end">
+                                                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                                  </td>
+                                              </tr>
                                           </tbody>
                                       </table>
                                   </td>
@@ -674,6 +811,161 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Edit package start -->
+    <div class="modal fade" id="editOakPackageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editOakPackageModalHeader"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/editOakPackage-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <input type="text" id="editPackageModalIdOak" hidden="hidden" >
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editPackageModalCodeOak">Код пачки</label>
+                                <input type="text" class="form-control" id="editPackageModalCodeOak" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="editPackageModalQualityOak" style="padding-top: 7px">Качество</label>
+                                <input type="text" class="form-control" id="editPackageModalQualityOak" required="required">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="control-label" for="editPackageModalSizeOak" style="padding-top: 7px">Размер</label>
+                                <input type="number" min="1" class="form-control" id="editPackageModalSizeOak" required="required" placeholder="мм">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageModalLengthOak">Длина</label>
+                                <input type="number" min="1" class="form-control" id="editPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editPackageModalSumLengthOak">Сум. ширина</label>
+                                <input type="number" min="1" class="form-control" id="editPackageModalSumLengthOak" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editPackageModalDeskCountOak">Кол. досок</label>
+                                <input type="text" class="form-control" id="editPackageModalDeskCountOak" required="required" autocomplete="off" disabled="disabled">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="editPackageModalExtentOak" style="padding-top: 7px">Кубатура</label>
+                                <input type="text" class="form-control" id="editPackageModalExtentOak" required="required" disabled="disabled">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editOakPackage(btnObj) {
+            var trObj = btnObj.parentElement.parentElement;
+            var trId =  $(trObj).attr('id');
+            $('#editPackageModalIdOak').val(trId);
+            console.log(  $(trObj).attr('id'));
+            var codeOfPackage = $(trObj).find('th:eq(0)').text();
+            $('#editOakPackageModalHeader').text("Редактировать пачку №"+codeOfPackage);
+
+            var code =                          $(trObj).find('th:eq(0)').text();
+            var quality =                       $(trObj).find('td:eq(1)').text();
+            var size =                          $(trObj).find('td:eq(2)').text();
+            var length =                        $(trObj).find('td:eq(3)').text();
+            var sumLength =                     $(trObj).find('td:eq(4)').text();
+            var count =                         $(trObj).find('td:eq(5)').text();
+            var extent =                        $(trObj).find('td:eq(6)').text();
+
+            $('#editPackageModalCodeOak')       .val(code);
+            $('#editPackageModalQualityOak')    .val(quality);
+            $('#editPackageModalSizeOak')       .val(size);
+            $('#editPackageModalLengthOak')     .val(length);
+            $('#editPackageModalSumLengthOak')  .val(sumLength);
+            $('#editPackageModalDeskCountOak')  .val(count);
+            $('#editPackageModalExtentOak')     .val(extent);
+
+            $('#editOakPackageModal').modal('show');
+        }
+    </script>
+    <!--  Edit package end  -->
+
+    <!-- Edit package content start   -->
+    <div class="modal fade" id="editOakPackageContentModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  th:action="${urlEditPackageDescriptionOak}" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="oakPackageContentId" hidden="" name="rowId">
+                        <input type="number" id="editOakPackageId" hidden="" name="packageId">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label for="editOakPackageContentWidth" class="col-form-label">Ширина, мм</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editOakPackageContentCount">Количество досок</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function editOakPackageItem(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =              $(trObj).attr('id');
+            console.log("row id: "+trId);
+
+            let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
+            let expandedId = $(expandedObj).attr('id');
+            console.log("string-id: "+expandedId);
+            let packageId = expandedId.replace(/\D+/g, "");
+            console.log("parent-id: "+packageId);
+
+            $('#editOakPackageId').val(packageId);
+
+
+            var width =             $(trObj).find('td:eq(0)').text();
+            var count =             $(trObj).find('td:eq(1)').text();
+
+            $('#oakPackageContentId')            .val(trId);
+            $('#editOakPackageContentWidth')     .val(width);
+            $('#editOakPackageContentCount')     .val(count);
+
+            $('#editOakPackageContentModal').modal('show');
+        }
+    </script>
+    <!-- Edit package content end   -->
 
 
     <!-- Send oak list for transportation modal begin MODAL -->

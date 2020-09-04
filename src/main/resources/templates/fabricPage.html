@@ -190,7 +190,7 @@
 <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
 <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
 
-<!--<div th:replace="~{fragments/fabric/fragFabricScripts :: fabricScripts}"></div>-->
+<script type="text/javascript" th:src="@{../js/extent.calculation.js}"></script>
 
 <script type="text/javascript">
     let tdsDate = document.getElementsByClassName('change-color');
@@ -216,28 +216,6 @@
         }
     }
 </script>
-
-<!--<script type="text/javascript">-->
-<!--    document.querySelector('input[list]').addEventListener('input', function(e) {-->
-<!--        var input = e.target,-->
-<!--            list = input.getAttribute('list'),-->
-<!--            options = document.querySelectorAll('#' + list + ' option'),-->
-<!--            hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),-->
-<!--            label = input.value;-->
-
-<!--        hiddenInput.value = label;-->
-
-<!--        for(var i = 0; i < options.length; i++) {-->
-<!--            var option = options[i];-->
-
-<!--            if(option.innerText === label) {-->
-<!--                hiddenInput.value = option.getAttribute('data-value');-->
-<!--                break;-->
-<!--            }-->
-<!--        }-->
-<!--        console.log("Hidden input value:"+hiddenInput.value);-->
-<!--    });-->
-<!--</script>-->
 
 <script type="text/javascript">
     function setHiddenValue(input) {
@@ -537,7 +515,7 @@
                 {
                     "targets": -1,
                     "orderable": false,
-                    "width": "70px"
+                    "width": "100px"
                 }
             ]
 
@@ -610,33 +588,18 @@
 
         //Extent
 
-        function extentCalc(){
-            $("#sendForPackageModalExtent").val('');
-            if ($("#sendForPackageLength").val() != '' && $("#sendForPackageHeight").val() != '' && $("#sendForPackageWidth").val() != '' && $("#sendForPackageModalCount").val() != ''){
-                let res = (($("#sendForPackageLength").val()/1000) * ($("#sendForPackageHeight").val()/1000) * ($("#sendForPackageWidth").val()/1000) * ($("#sendForPackageModalCount").val()));
-                $("#sendForPackageModalExtent").val(res.toFixed(3));
-                console.log("result: "+res.toFixed(3));
-            } else {
-                console.log("fill all");
-            }
-        }
+        // function extentCalc(){
+        //     $("#sendForPackageModalExtent").val('');
+        //     if ($("#sendForPackageLength").val() != '' && $("#sendForPackageHeight").val() != '' && $("#sendForPackageWidth").val() != '' && $("#sendForPackageModalCount").val() != ''){
+        //         let res = (($("#sendForPackageLength").val()/1000) * ($("#sendForPackageHeight").val()/1000) * ($("#sendForPackageWidth").val()/1000) * ($("#sendForPackageModalCount").val()));
+        //         $("#sendForPackageModalExtent").val(res.toFixed(3));
+        //         console.log("result: "+res.toFixed(3));
+        //     } else {
+        //         console.log("fill all");
+        //     }
+        // }
 
-        $("#sendForPackageLength").change(function() {
-            extentCalc();
-        });
 
-        $("#sendForPackageHeight").change(function() {
-            extentCalc();
-        });
-
-        $("#sendForPackageWidth").change(function() {
-            extentCalc();
-        });
-
-        $("#sendForPackageModalCount").change(function() {
-            extentCalc();
-        });
-        // Extent
         //PACKAGES 1 END
 
 
@@ -662,7 +625,7 @@
                 {
                     "targets": -1,
                     "orderable": false,
-                    "width": "70px"
+                    "width": "100px"
                 },
                 {
                     "targets": 0,
@@ -816,10 +779,6 @@
             ]
 
         });
-
-
-
-
 
 
 
