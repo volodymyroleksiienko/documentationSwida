@@ -80,6 +80,7 @@ public class FabricOakController {
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         model.addAttribute("contrAgentList",contrAgentService.findAll());
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
         return "fabricPage";
     }
@@ -176,6 +177,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
         return "fabricPage";
     }
@@ -226,6 +228,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
         return "fabricPage";
     }
@@ -286,6 +289,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
         return "fabricPage";
     }
@@ -313,6 +317,7 @@ public class FabricOakController {
         model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
 
         UserCompany company = userCompanyService.findById(userId);
         ContrAgent contrAgent = company.getContrAgent();
@@ -339,7 +344,7 @@ public class FabricOakController {
         model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
-
+        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
 
         model.addAttribute("urlEditDriver","/fabric/editDeliveryDocumentation-"+userId+"-"+breedId);
         model.addAttribute("urlEditPackage","/fabric/editPackageProduct-"+userId+"-"+breedId);
