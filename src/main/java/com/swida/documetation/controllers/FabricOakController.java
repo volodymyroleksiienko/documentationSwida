@@ -286,7 +286,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        btnConfig(userId,model);
         return "fabricPage";
     }
 

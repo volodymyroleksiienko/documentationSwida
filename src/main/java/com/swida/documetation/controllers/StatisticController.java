@@ -85,7 +85,7 @@ public class StatisticController {
         list.add("палетка");
         list.add("dadsad");
 
-        return treeStorageService.getListOfExtent(1,list).toString();
+        return countExtent(treeStorageService.getListOfExtent(1,list))+"";
     }
 
     private Set<String> getAllBreedDescription(int breedId){
