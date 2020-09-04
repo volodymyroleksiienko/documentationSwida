@@ -7,11 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SWIDA</title>
+
     <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap-multiselect.css}"/>
+
     <link th:href="@{../css/all.css}" rel="stylesheet">
     <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
+
 </head>
 <body>
 <!-- NAVIGATION -->
@@ -64,6 +68,8 @@
 <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
 <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
 
+<script type="text/javascript" th:src="@{../js/bootstrap-multiselect.js}"></script>
+
 <script type="text/javascript">
     let tdsDate = document.getElementsByClassName('change-color');
     const  today = new Date();
@@ -112,34 +118,14 @@
 </script>
 
 <script type="text/javascript">
-    // $('.label.ui.dropdown')
-    //     .dropdown();
-    //
-    // $('.no.label.ui.dropdown')
-    //     .dropdown({
-    //         useLabels: false
-    //     });
-    //
-    // $('.ui.button').on('click', function () {
-    //     $('.ui.dropdown')
-    //         .dropdown('restore defaults')
-    // })
-</script>
-
-<script type="text/javascript">
     $(document).ready( function () {
-        $('.label.ui.dropdown')
-            .dropdown();
-
-        $('.no.label.ui.dropdown')
-            .dropdown({
-                useLabels: false
+            $('#boot-multiselect-demo').multiselect({
+                includeSelectAllOption: true,
+                // buttonWidth: 100%,
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true
             });
 
-        $('.ui.button').on('click', function () {
-            $('.ui.dropdown')
-                .dropdown('restore defaults')
-        })
 
         $('#admin-users-table').DataTable({
             "language": {
