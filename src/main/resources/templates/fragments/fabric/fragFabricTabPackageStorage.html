@@ -38,13 +38,13 @@
                 <td th:text="${ps.longFact}"></td>
                 <td th:text="${ps.height_width}"></td>
                 <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoDelivery(this)">
-                        <i class="fas fa-plus" data-toggle="tooltip" title="Добавить к погрузке"></i>
+                        <i class="fas fa-truck-loading" data-toggle="tooltip" title="Добавить к существующей погрузке"></i>
                     </button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageUnform(this)">
                         <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                     </button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
 
             </tr>
@@ -662,8 +662,8 @@
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}"></td>
                                   <td>
-                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
                                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)"><i class="fas fa-truck-loading" data-toggle="tooltip" title="Добавить к существующей погрузке"></i></button>
                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)"><i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i></button>
                                   </td>
