@@ -265,6 +265,32 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
+    public PackagedProduct editPackageProductOak(PackagedProduct product) {
+        PackagedProduct productDB = productJPA.getOne(product.getId());
+        float oldPackExtent = Float.parseFloat(findById(productDB.getId()).getExtent());
+
+        productDB.setCodeOfPackage(product.getCodeOfPackage());
+        if (product.getBreedOfTree() != null) {
+            productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        }
+        productDB.setSizeOfHeight(product.getSizeOfHeight());
+        productDB.setSizeOfLong(product.getSizeOfLong());
+        productDB.setQuality(product.getQuality());
+
+        productJPA.save(productDB);
+        countExtentOak(productDB);
+
+        if (productDB.getDryStorage()!=null){
+            DryStorage dryStorage = dryStorageService.findById(productDB.getDryStorage().getId());
+
+            float oldExtent = Float.parseFloat(dryStorage.getExtent());
+            dryStorage.setExtent(String.format("%.3f",oldExtent-(Float.parseFloat(productDB.getExtent())-oldPackExtent)).replace(",","."));
+            dryStorageService.save(dryStorage);
+        }
+        return productDB;
+    }
+
+    @Override
     public void addDescriptionOak(String packId, String width, String count) {
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
         deskOak.setCountOfDesk(count);
@@ -273,7 +299,10 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         PackagedProduct product = productJPA.getOne(Integer.parseInt(packId));
         product.getDeskOakList().add(deskOak);
         productJPA.save(product);
+        editPackageProductOak(product);
     }
+
+
 
     @Override
     public void setContainer(String[] arrayOfPackagesId, String containerId) {
@@ -293,6 +322,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         product.getDeskOakList().remove(deskOak);
         productJPA.save(product);
         deskOakService.deleteByID(deskOak.getId());
+        editPackageProductOak(product);
     }
 
     public String countOfExtent(PackagedProduct packagedProduct){

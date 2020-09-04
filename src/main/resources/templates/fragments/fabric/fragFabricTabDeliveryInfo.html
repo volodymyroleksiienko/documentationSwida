@@ -317,6 +317,14 @@
                         <label class="col-form-label" for="addIdOfPack">№ пачки</label>
                         <input type="text" class="form-control" placeholder="" id="addIdOfPack" autocomplete="off" required="required" name="codeOfPackage">
 
+                        <label class="col-form-label" for="addPackDryStorage">Сухой склад</label>
+                        <input type="text" class="form-control" list="dryList" id="addPackDryStorage" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                        <datalist id="dryList">
+                            <option  th:each="c : ${dryStorageList}" th:data-value="${c.id}" th:text="${c.codeOfProduct}" th:label="${c?.extent}">
+                            </option>
+                        </datalist>
+                        <input type="number" hidden="hidden"  name="dryStorageId" id="addPackDryStorage-hidden">
+
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="control-label" for="addDeliveryBreedOfTree">Порода</label>

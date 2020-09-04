@@ -327,6 +327,34 @@ public class FabricOakController {
         return "fabricPage";
     }
 
+    @PostMapping("/editPackOak-{userId}-2")
+    public String editPackOak(@PathVariable("userId")int userId,PackagedProduct product){
+        int breedId=2;
+        packagedProductService.editPackageProductOak(product);
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/addPackOakDesc-{userId}-2")
+    public String addPackOakDesc(@PathVariable("userId")int userId,String packageId, String width,String count){
+        int breedId=2;
+        packagedProductService.addDescriptionOak(packageId,width,count);
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/editPackOakDesc-{userId}-2")
+    public String editPackOakDesc(@PathVariable("userId")int userId,String rowId,String packageId, String width, String count){
+        int breedId=2;
+        deskOakService.editDescription(rowId,width,count);
+        packagedProductService.editPackageProductOak(packagedProductService.findById(Integer.parseInt(packageId)));
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/deletePackOakDesc-{userId}-2")
+    public String deletePackOakDesc(@PathVariable("userId")int userId,String packageId, String id){
+        int breedId=2;
+        packagedProductService.deleteDescriptionOak(packageId,id);
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    }
 
     //Delivery page
     @GetMapping("/getListOfDeliveryDocumentation-{userId}-2")
@@ -345,6 +373,8 @@ public class FabricOakController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
+
 
         model.addAttribute("urlEditDriver","/fabric/editDeliveryDocumentation-"+userId+"-"+breedId);
         model.addAttribute("urlEditPackage","/fabric/editPackageProduct-"+userId+"-"+breedId);

@@ -481,9 +481,13 @@ public class FabricController {
 
         DryStorage dryStorage = product.getDryStorage();
 
-        dryStorage.setCountOfDesk(dryStorage.getCountOfDesk()+ Integer.parseInt(product.getCountOfDesk()));
-        dryStorageService.save(dryStorage);
-        packagedProductService.deleteByID(Integer.parseInt(id));
+       if(breedId!=2) {
+           dryStorage.setCountOfDesk(dryStorage.getCountOfDesk() + Integer.parseInt(product.getCountOfDesk()));
+       }else{
+           dryStorage.setExtent(String.format("%.3f",Float.parseFloat(dryStorage.getExtent())+Float.parseFloat(product.getExtent())).replace(",","."));
+       }
+       dryStorageService.save(dryStorage);
+       packagedProductService.deleteByID(Integer.parseInt(id));
 
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
@@ -494,6 +498,23 @@ public class FabricController {
                                                   PackagedProduct product, String countOfPacks){
 
         packagedProductService.createPackagesWithoutHistory(product,countOfPacks,breedId,userId);
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/editPack-{userId}-{breedId}")
+    public String editPack(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,PackagedProduct product){
+        int oldCountOFDesk = Integer.parseInt(packagedProductService.findById(product.getId()).getCountOfDesk());
+        PackagedProduct productDB = packagedProductService.editPackageProduct(product);
+        productDB.setExtent(packagedProductService.countExtent(productDB));
+        productDB.setCountOfDesk(packagedProductService.countDesk(productDB));
+        packagedProductService.save(productDB);
+        if (productDB.getDryStorage()!=null){
+            DryStorage dryStorage = dryStorageService.findById(productDB.getDryStorage().getId());
+            if(breedId!=2) {
+                dryStorage.setCountOfDesk(dryStorage.getCountOfDesk() - (Integer.parseInt(productDB.getCountOfDesk())-oldCountOFDesk));
+            }
+            dryStorageService.save(dryStorage);
+        }
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
@@ -545,6 +566,7 @@ public class FabricController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
 
         model.addAttribute("urlEditDriver","/fabric/editDeliveryDocumentation-"+userId+"-"+breedId);
         model.addAttribute("urlEditPackage","/fabric/editPackageProduct-"+userId+"-"+breedId);
@@ -581,15 +603,43 @@ public class FabricController {
 
     @PostMapping("/editPackageProduct-{userId}-{breedId}")
     public String editPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, PackagedProduct product){
+        int oldPackCountDesk = Integer.parseInt(packagedProductService.findById(product.getId()).getCountOfDesk());
+        float oldPackExtent = Float.parseFloat(packagedProductService.findById(product.getId()).getExtent());
         PackagedProduct packagedProduct = packagedProductService.editPackageProduct(product);
+        if (packagedProduct.getDryStorage()!=null){
+            DryStorage dryStorage = dryStorageService.findById(packagedProduct.getDryStorage().getId());
+            if(breedId!=2){
+                 int oldDesk = dryStorage.getCountOfDesk();
+                 dryStorage.setCountOfDesk(oldDesk-(Integer.parseInt(packagedProduct.getCountOfDesk())-oldPackCountDesk));
+            }else {
+                float oldExtent = Float.parseFloat(dryStorage.getExtent());
+                packagedProductService.countExtentOak(packagedProduct);
+                dryStorage.setExtent(String.format("%.3f",oldExtent-(Float.parseFloat(packagedProduct.getExtent())-oldPackExtent)).replace(",","."));
+            }
+
+            dryStorageService.save(dryStorage);
+        }
         reloadAllExtentFields(packagedProduct.getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
     @PostMapping("/addPackageProduct-{userId}-{breedId}")
     public String addPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,PackagedProduct product,
-                                    String docId){
-        reloadAllExtentFields(deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product).getDeliveryDocumentation());
+                                    String docId,String dryStorageId){
+        product.setUserCompany(userCompanyService.findById(userId));
+        PackagedProduct productDB = deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
+        if (dryStorageId!=null){
+            DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(dryStorageId));
+            if(breedId!=2) {
+                dryStorage.setCountOfDesk(dryStorage.getCountOfDesk() - Integer.parseInt(productDB.getCountOfDesk()));
+            }else {
+                dryStorage.setExtent(String.format("%.3f",Float.parseFloat(dryStorage.getExtent())-Float.parseFloat(productDB.getExtent())).replace(",","."));
+            }
+            dryStorageService.save(dryStorage);
+            productDB.setDryStorage(dryStorage);
+            packagedProductService.save(productDB);
+        }
+        reloadAllExtentFields(productDB.getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 

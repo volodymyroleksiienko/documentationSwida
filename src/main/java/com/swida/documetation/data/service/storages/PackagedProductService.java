@@ -23,6 +23,7 @@ public interface PackagedProductService {
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);
     void deleteByID(int id);
     PackagedProduct editPackageProduct(PackagedProduct product);
+    PackagedProduct editPackageProductOak(PackagedProduct product);
     void addDescriptionOak(String packId, String width, String count);
     void setContainer(String[] arrayOfPackagesId, String containerId);
     void deleteDescriptionOak(String packId, String deskId);
