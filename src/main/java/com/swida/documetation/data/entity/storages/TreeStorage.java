@@ -19,7 +19,7 @@ public class TreeStorage {
 
 
     private String codeOfProduct;
-    private String breedDescription;
+    private String breedDescription="";
     private String extent;
     private String date;
 

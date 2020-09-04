@@ -63,12 +63,17 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     }
 
     @Override
-    public List<String> getListOfUnicBreedDescription() {
-        return treeStorageJPA.getListOfUnicBreedDescription();
+    public List<String> getListOfUnicBreedDescription(int breedId) {
+        return treeStorageJPA.getListOfUnicBreedDescription(breedId);
     }
 
     @Override
     public void deleteByID(int id) {
         treeStorageJPA.deleteById(id);
+    }
+
+    @Override
+    public List<String> getListOfExtent(int breedId, List<String> breedDesc) {
+        return treeStorageJPA.getListOfExtent(breedId,breedDesc);
     }
 }
