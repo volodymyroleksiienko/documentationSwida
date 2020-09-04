@@ -651,7 +651,7 @@
                 </thead>
                 <tbody>
                       <div th:each="p, index : ${packageOakList}">
-                              <tr class="outer-table">
+                              <tr class="outer-table" th:id="${p.id}">
                                   <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${p.id}"></td>
                                   <td>tut id</td>
                                   <th th:text="${p.codeOfPackage}"></th>
@@ -662,10 +662,10 @@
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}"></td>
                                   <td>
-                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить к погрузке"></i></button>
-                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)"><i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i></button>
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
                                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)"><i class="fas fa-truck-loading" data-toggle="tooltip" title="Добавить к существующей погрузке"></i></button>
+                                      <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)"><i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i></button>
                                   </td>
                               </tr>
                               <tr style="display:none" th:id="'parent'+${p.id}">
@@ -812,6 +812,58 @@
             </div>
         </div>
     </div>
+
+    <!-- Add package content start   -->
+    <div class="modal fade" id="addOakPackageContentModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addOakPackageItemsModalHeader"> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  th:action="${urlAddPackageDescriptionOak}" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="addOakPackageItemsPackId" hidden="" name="packageId">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label for="addOakPackageContentWidth" class="col-form-label">Ширина</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addOakPackageContentCount">Количество досок</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function addOakPackageItems(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =              $(trObj).attr('id');
+            let packageCode =       $(trObj).find('th:eq(0)').text();
+
+            console.log("row id: "+trId);
+
+            $('#addOakPackageItemsModalHeader').text("Добавить позицию к пачке "+ packageCode);
+            $('#addOakPackageItemsPackId').val(trId);
+
+            $('#addOakPackageContentModal').modal('show');
+        }
+    </script>
+    <!-- Add package content end   -->
 
 
     <!-- Edit package start -->
