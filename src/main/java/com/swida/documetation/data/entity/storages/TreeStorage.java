@@ -23,6 +23,9 @@ public class TreeStorage {
     private String extent;
     private String date;
 
+    @OneToOne
+    private TreeStorage recycle;
+
     @ManyToOne
     private BreedOfTree breedOfTree;
     @ManyToOne

@@ -296,8 +296,8 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form  action="/returnItem" method="post">
-                    <div class="modal-body">
+                <form th:action="@{'/fabric/returnRawPackageToTree-'+${userId}+'-'+${breedId}}" method="post">
+                <div class="modal-body">
 
                         <div class="form-group">
                             <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">

@@ -17,6 +17,7 @@ import com.swida.documetation.data.service.subObjects.DeliveryDocumentationServi
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.*;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -137,9 +138,6 @@ public class FabricController {
         UserCompany company = new UserCompany();
         company.setId(userId);
         treeStorage.setUserCompany(company);
-        ContrAgent contrAgent =  new ContrAgent();
-        contrAgent.setNameOfAgent(nameOfAgent);
-        treeStorage.setContrAgent(contrAgent);
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
@@ -173,6 +171,8 @@ public class FabricController {
         recycle.setBreedDescription(treeStorage.getBreedDescription());
 
         treeStorageService.save(recycle);
+        treeStorage.setRecycle(recycle);
+        treeStorageService.save(treeStorage);
         rawStorageService.save(rawStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -281,6 +281,27 @@ public class FabricController {
         rawStorageService.save(rawStorageDB);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
+
+    @PostMapping("/returnRawPackageToTree-{userId}-{breedId}")
+    public String returnRawPackageToTree(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                    String id){
+        RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
+        TreeStorage treeStorage = rawStorage.getTreeStorage();
+        float recycleExtent=0;
+        if(treeStorage.getRecycle()!=null){
+            recycleExtent=Float.parseFloat(treeStorage.getRecycle().getExtent());
+            treeStorageService.deleteByID(treeStorage.getRecycle().getId());
+        }
+        treeStorage.setExtent(
+                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())
+                +Float.parseFloat(rawStorage.getExtent())+recycleExtent).replace(",",".")
+        );
+
+        rawStorageService.deleteByID(rawStorage.getId());
+        treeStorageService.save(treeStorage);
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+
 
     @PostMapping("/exportRawStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,

@@ -82,10 +82,11 @@
                         <input class="form-control" id="addBreedDescription" type="text" placeholder="Описание"  name="breedDescription" >
 
                         <label class="col-form-label" for="addSupplier">Поставщик</label>
-                        <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent">
+                        <input type="text" class="form-control" list="suppliers1" id="addSupplier" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="suppliers1">
-                            <option  th:each="c, index : ${contrAgentList}" th:value="${c.nameOfAgent}">
-                        </datalist>
+                            <option  th:each="c, index : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}"></option>
+                         </datalist>
+                        <input type="hidden" name="contrAgent.id" id="addSupplier-hidden">
 
                         <label class="col-form-label" for="addVolume">Кубатура</label>
                         <input type="text" class="form-control" placeholder="м3" id="addVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent">
