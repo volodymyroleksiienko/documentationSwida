@@ -9,6 +9,8 @@ function extentCalc(extentInput, lengthInput, heightInput, widthInput, countInpu
     }
 }
 
+
+//////////////////////////////////////////////////////////////////////////////
 $("#sendForPackageLength").change(function() {
     let extent = $("#sendForPackageModalExtent");
     let length = $("#sendForPackageLength");
@@ -48,6 +50,7 @@ $("#sendForPackageModalCount").change(function() {
 
     extentCalc(extent, length, height, width, count);
 });
+/////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
 $("#editPackageLength").change(function() {
