@@ -36,12 +36,6 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     @Override
     public void putNewTreeStorageObj(TreeStorage treeStorage) {
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        String nameOfTreeProvider = treeStorage.getContrAgent().getNameOfAgent();
-        if(contrAgentService.existByNameOfProvider(nameOfTreeProvider)==0){
-            contrAgentService.save(treeStorage.getContrAgent());
-        }else {
-            treeStorage.getContrAgent().setId(contrAgentService.getIdByUsername(nameOfTreeProvider));
-        }
         Date date = new Date(System.currentTimeMillis());
         treeStorage.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         treeStorageJPA.save(treeStorage);

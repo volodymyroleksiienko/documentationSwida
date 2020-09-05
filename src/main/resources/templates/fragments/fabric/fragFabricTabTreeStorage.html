@@ -96,7 +96,7 @@
                                 <datalist id="suppliers1">
                                     <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
                                 </datalist>
-                                <input type="number" hidden="hidden"  name="supplierId" id="addSupplier-hidden">
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addSupplier-hidden">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addVolume">Кубатура</label>
@@ -144,7 +144,7 @@
                         <datalist id="suppliers3">
                             <option  th:each="c, index : ${contrAgentList}" th:text="${c.nameOfAgent}" th:data-value="${c.id}"></option>
                         </datalist>
-                        <input type="number" hidden="hidden"  name="supplierId" id="addToRawStorageSupplier-hidden">
+                        <input type="number" hidden="hidden"  name="contrAgent.id" id="addToRawStorageSupplier-hidden">
 
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
@@ -272,7 +272,7 @@
                                 <datalist id="suppliers2">
                                     <option  th:each="c, index : ${contrAgentList}" th:text="${c.nameOfAgent}" th:data-value="${c.id}"></option>
                                 </datalist>
-                                <input type="number" hidden="hidden"  name="supplierId" id="editIncomeSupplier-hidden">
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="editIncomeSupplier-hidden">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editIncomeVolume">Кубатура</label>
@@ -441,7 +441,7 @@
                                 <datalist id="suppliers1oak">
                                     <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
                                 </datalist>
-                                <input type="number" hidden="hidden"  name="supplierId" id="addOakSupplier-hidden">
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addOakSupplier-hidden">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addOakVolume">Кубатура</label>
@@ -489,7 +489,7 @@
                         <datalist id="suppliers3oak">
                             <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
                         </datalist>
-                        <input type="number" hidden="hidden"  name="supplierId" id="addOakToRawStorageSupplier-hidden">
+                        <input type="number" hidden="hidden"  name="contrAgent.id" id="addOakToRawStorageSupplier-hidden">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
@@ -614,7 +614,7 @@
                                 <datalist id="suppliers2oak">
                                     <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
                                 </datalist>
-                                <input type="number" hidden="hidden"  name="supplierId" id="editOakIncomeSupplier-hidden">
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="editOakIncomeSupplier-hidden">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editOakIncomeVolume">Кубатура</label>
