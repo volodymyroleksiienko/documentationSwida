@@ -290,9 +290,11 @@ public class FabricOakController {
         List<DryStorage> dryStorageList = dryStorageService.getListByUserByBreed(breedId,userId);
         for(DryStorage dryStorage :dryStorageList){
             PackagedProduct product = packagedProductService.getProductByDryStorage(dryStorage.getId());
-            dryStorage.setQualityOfPack(product.getQuality());
-            dryStorage.setLongOfPack(product.getSizeOfLong());
-            dryStorageService.save(dryStorage);
+            if(product!=null){
+                dryStorage.setQualityOfPack(product.getQuality());
+                dryStorage.setLongOfPack(product.getSizeOfLong());
+                dryStorageService.save(dryStorage);
+            }
         }
         model.addAttribute("dryStorageList",dryStorageList);
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));

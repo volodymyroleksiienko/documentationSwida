@@ -139,7 +139,7 @@
                             </div>
                         </div>
 
-                        <label class="col-form-label" for="addToRawStorageSupplier">Поставщик</label>
+                        <label class="col-form-label" for="addToRawStorageSupplier">Контракт</label>
                         <input type="text" class="form-control" list="suppliers3" id="addToRawStorageSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
                         <datalist id="suppliers3">
                             <option  th:each="c, index : ${contrAgentList}" th:text="${c.nameOfAgent}" th:data-value="${c.id}"></option>
