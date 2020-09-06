@@ -127,9 +127,9 @@ public class FabricOakController {
 
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setUserCompany(userCompanyService.findById(userId));
-        ContrAgent contrAgent =  new ContrAgent();
-        contrAgent.setNameOfAgent(nameOfAgent);
-        treeStorage.setContrAgent(contrAgent);
+//        ContrAgent contrAgent =  new ContrAgent();
+//        contrAgent.setNameOfAgent(nameOfAgent);
+//        treeStorage.setContrAgent(contrAgent);
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
