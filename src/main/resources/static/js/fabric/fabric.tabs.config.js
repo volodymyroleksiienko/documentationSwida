@@ -191,6 +191,7 @@ $(document).ready( function () {
     var tableForTransportationOak = $('#tableForTransportationOak').DataTable({
         // columns width
         "autoWidth": false,
+        "order": [ 1, "desc" ],
         "bSort": false,
         "searching": false,
         "paging": false,
@@ -203,7 +204,6 @@ $(document).ready( function () {
                 "width": "30px"
             }
         ]
-
     });
 
     $("#buttonForAddingOakRow").click(function () {
@@ -224,6 +224,9 @@ $(document).ready( function () {
             $("#sendForPackageModalCountOak").val("");
 
             tableForTransportationOak.row.add(d).draw();
+
+
+            $('#sendForPackageModalWidthOak').focus();
         }
     });
 

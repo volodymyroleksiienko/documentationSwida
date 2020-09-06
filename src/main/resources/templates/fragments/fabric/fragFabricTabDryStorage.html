@@ -6,51 +6,50 @@
         <table class="table table-hover table-striped" id="drystoragetable">
             <br>
             <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Ширина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кол-во досок, шт</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Ширина, мм</th>
+                    <th scope="col">Длина, мм</th>
+                    <th scope="col">Кол-во досок, шт</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="ds, index : ${dryStorageList}" th:id="${ds.id}">
-                <td th:text="${ds.id}"></td>
-                <th scope="row" th:text="${ds.codeOfProduct}">20-1С3-2605-1-2805</th>
-                <td th:text="${ds.breedOfTree.breed}"></td>
-                <td th:text="${ds.breedDescription}"></td>
-                <td th:text="${ds.sizeOfHeight}"></td>
-                <td th:text="${ds.sizeOfWidth}"></td>
-                <td th:text="${ds.sizeOfLong}"></td>
-                <td th:text="${ds.countOfDesk}"></td>
-                <td th:text="${ds.extent}"></td>
-                <td>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                </td>
-            </tr>
-
-            <tfoot>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Ширина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кол-во досок, шт</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th></th>
-            </tr>
-            </tfoot>
+                <tr th:each="ds, index : ${dryStorageList}" th:id="${ds.id}">
+                    <td th:text="${ds.id}"></td>
+                    <th scope="row" th:text="${ds.codeOfProduct}">20-1С3-2605-1-2805</th>
+                    <td th:text="${ds.breedOfTree.breed}"></td>
+                    <td th:text="${ds.breedDescription}"></td>
+                    <td th:text="${ds.sizeOfHeight}"></td>
+                    <td th:text="${ds.sizeOfWidth}"></td>
+                    <td th:text="${ds.sizeOfLong}"></td>
+                    <td th:text="${ds.countOfDesk}"></td>
+                    <td th:text="${ds.extent}"></td>
+                    <td>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    </td>
+                </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Ширина, мм</th>
+                    <th scope="col">Длина, мм</th>
+                    <th scope="col">Кол-во досок, шт</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th></th>
+                </tr>
+            </tfoot>
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
@@ -354,6 +353,35 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--           OAK DRY STORAGE           -->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryStorageOAK">
@@ -362,51 +390,50 @@
         <table class="table table-hover table-striped" id="drystoragetable">
             <br>
             <thead>
-            <tr>
-                <th></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Примечания</th>
-                <th scope="col">qualityOfPack</th>
-                <th scope="col">longOfPack</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Примечания</th>
+                    <th scope="col">qualityOfPack</th>
+                    <th scope="col">longOfPack</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="rs, index : ${dryStorageList}" th:id="${rs.id}">
-                <td th:text="${rs.id}"></td>
-                <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
-                <td th:text="${rs.breedOfTree.breed}"></td>
-                <td th:text="${rs.breedDescription}"></td>
-                <td th:text="${rs.sizeOfHeight}"></td>
-                <td th:text="${rs.extent}"></td>
-                <td th:text="${rs.description}"></td>
-                <td th:text="${rs?.qualityOfPack}"></td>
-                <td th:text="${rs?.longOfPack}"></td>
-                <td>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                </td>
-            </tr>
-
-            <tfoot>
-            <tr>
-                <th></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Примечания</th>
-                <th scope="col">qualityOfPack</th>
-                <th scope="col">longOfPack</th>
-                <th></th>
-            </tr>
-            </tfoot>
+                <tr th:each="rs, index : ${dryStorageList}" th:id="${rs.id}">
+                    <td th:text="${rs.id}"></td>
+                    <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
+                    <td th:text="${rs.breedOfTree.breed}"></td>
+                    <td th:text="${rs.breedDescription}"></td>
+                    <td th:text="${rs.sizeOfHeight}"></td>
+                    <td th:text="${rs.extent}"></td>
+                    <td th:text="${rs.description}"></td>
+                    <td th:text="${rs?.qualityOfPack}"></td>
+                    <td th:text="${rs?.longOfPack}"></td>
+                    <td>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    </td>
+                </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Примечания</th>
+                    <th scope="col">qualityOfPack</th>
+                    <th scope="col">longOfPack</th>
+                    <th></th>
+                </tr>
+            </tfoot>
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
@@ -421,7 +448,7 @@
 
     <!-- Packing start Сухой склад -> Пачки -->
     <div class="modal fade" id="sendForPackageModalOak">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title " id="sendForPackageModalOakHeader">Формирование пачки</h5>
@@ -431,28 +458,27 @@
                 </div>
                 <form >
                     <div class="modal-body">
+                        <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
+                        <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
+                        <input type="text" hidden="hidden" id="userId" th:value="${userId}">
 
                         <div class="form-group row">
-                            <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
-                            <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
-                            <input type="text" hidden="hidden" id="userId" th:value="${userId}">
-
-                            <div class="col-3">
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
                                 <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off">
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-4">
                                 <label class="control-label" for="sendForPackageModalQualityOak" style="padding-top: 7px">Качество</label>
                                 <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required">
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Размер</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" disabled="disabled">
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label class="col-form-label" for="sendForPackageModalLengthOak">Длина</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
@@ -461,19 +487,20 @@
                         <hr>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
-
-                            <div class="col-5">
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
 
-                            <div class="col-5">
+                            <div class="col-4">
                                 <label class="control-label" for="sendForPackageModalCountOak" style="padding-top: 7px">Количество</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalCountOak" required="required" autocomplete="off" placeholder="шт">
                             </div>
 
-                            <div class="col-2">
-                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+
+                            <div class="col-4" style="display: inline-flex">
+                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px">Добавить</button>
+                                <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreatePackageOak(this)">Сформировать</button>
                             </div>
                         </div>
 
@@ -501,7 +528,6 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreatePackageOak(this)">Сформировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>

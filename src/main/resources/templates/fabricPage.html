@@ -117,5 +117,20 @@
     <script type="text/javascript" th:src="@{../js/set.hidden.value.js}"></script>
     <script type="text/javascript" th:src="@{../js/fabric/fabric.tabs.config.js}"></script>
 
+    <script type="text/javascript">
+        $('#sendForPackageModalWidthOak').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#sendForPackageModalCountOak').focus();
+            }
+        });
+
+        $('#sendForPackageModalCountOak').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#buttonForAddingOakRow').click();
+            }
+        });
+    </script>
+
+
 </body>
 </html>
