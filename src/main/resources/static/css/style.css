@@ -7423,4 +7423,10 @@ tr.shown td.details-control {
   display: none;
 }
 
+.invisible-btn{
+  display: none;
+}
 
+.delete-btns{
+  text-align: end;
+}

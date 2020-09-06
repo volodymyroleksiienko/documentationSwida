@@ -646,7 +646,8 @@
                     <th scope="col">Сум. ширина</th>
                     <th scope="col">Кол. досок</th>
                     <th scope="col">Кубатура</th>
-                    <th></th>
+                    <th scope="col"></th>
+                    <th class="display-none"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -661,13 +662,17 @@
                                   <td th:text="${p.sumWidthOfAllDesk}"></td>
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}"></td>
-                                  <td>
+                                  <td class="delete-btns">
                                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoOakDelivery(this)"><i class="fas fa-truck-loading" data-toggle="tooltip" title="Добавить к существующей погрузке"></i></button>
                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="packageOakUnform(this)"><i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i></button>
                                   </td>
+                                  <td class="invisible-btn">
+                                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"><i class="fas fa-times" data-toggle="tooltip" title="Редактировать"></i></button>
+                                  </td>
                               </tr>
+
                               <tr style="display:none" th:id="'parent'+${p.id}">
                                   <td colspan="13" class="child-table">
                                       <table class="table table-hover table-striped parent-table" id="packages">
@@ -675,14 +680,14 @@
                                               <tr>
                                                   <th scope="col">Ширина, мм</th>
                                                   <th scope="col">Количество досок</th>
-                                                  <th></th>
+                                                  <th class="delete-btns"></th>
                                               </tr>
                                           </thead>
                                           <tbody>
                                               <tr th:each="l, index : ${p.deskOakList}" th:id="${l.id}">
                                                   <td th:text="${l.sizeOfWidth}"></td>
                                                   <td th:text="${l.countOfDesk}"></td>
-                                                  <td style="text-align: end">
+                                                  <td class="delete-btns">
                                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
                                                   </td>
@@ -699,6 +704,7 @@
                                   <td style="display:none"></td>
                                   <td style="display:none"></td>
                                   <td style="display:none"></td>
+                                  <td class="display-none"></td>
                               </tr>
                       </div>
                 </tbody>
@@ -713,7 +719,8 @@
                     <th scope="col">Сум. ширина</th>
                     <th scope="col">Кол. досок</th>
                     <th scope="col">Кубатура</th>
-                    <th></th>
+                    <th scope="col"></th>
+                    <th class="display-none"></th>
                 </tr>
                 </tfoot>
             </table>
