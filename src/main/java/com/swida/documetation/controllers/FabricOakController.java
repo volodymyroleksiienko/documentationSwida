@@ -287,7 +287,14 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
+        List<DryStorage> dryStorageList = dryStorageService.getListByUserByBreed(breedId,userId);
+        for(DryStorage dryStorage :dryStorageList){
+            PackagedProduct product = packagedProductService.getProductByDryStorage(dryStorage.getId());
+            dryStorage.setQualityOfPack(product.getQuality());
+            dryStorage.setLongOfPack(product.getSizeOfLong());
+            dryStorageService.save(dryStorage);
+        }
+        model.addAttribute("dryStorageList",dryStorageList);
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);

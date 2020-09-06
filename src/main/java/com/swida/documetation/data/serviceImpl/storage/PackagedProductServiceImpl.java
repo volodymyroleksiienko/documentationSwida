@@ -182,6 +182,11 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
+    public PackagedProduct getProductByDryStorage(int dryStorageId) {
+        return productJPA.getProductByDryStorage(dryStorageId);
+    }
+
+    @Override
     public PackagedProduct findById(int id) {
         return productJPA.getOne(id);
     }
