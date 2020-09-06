@@ -368,7 +368,7 @@ $(document).ready( function () {
                 "searchable": false
             },
             {
-                "targets": -1,
+                "targets": -2,
                 "orderable": false,
                 "width": "140px"
             },
@@ -393,14 +393,20 @@ $(document).ready( function () {
     $( "#buttonForOakTransportation" ).click(function() {
         modalOakPackagesTable.clear().draw();
 
-        let newData = document.getElementsByClassName("selected");
-        let tBody = document.getElementById('listOfPackagesOakId');
+        let newData =           document.getElementsByClassName("selected");
+        let tBody =             document.getElementById('listOfPackagesOakId');
         tBody.deleteRow(0);
 
         for(let i=0;i<newData.length;i++){
-            let tmp = newData[i];
-            let clone = tmp.cloneNode(true);
-            let tdId = clone.getElementsByClassName("details-control")[0];
+            let tmp =            newData[i];
+            let clone =          tmp.cloneNode(true);
+            let tdId =           clone.getElementsByClassName("details-control")[0];
+
+            let delBtn =         clone.getElementsByClassName("delete-btns")[0];
+            let visibleBtn =     clone.getElementsByClassName("invisible-btn")[0];
+            delBtn.setAttribute("style", "display:none;");
+            visibleBtn.setAttribute("style", "display:block;");
+
             let idOfPackage=tdId.getAttribute("id");
             let idOfPackageParent="parent"+idOfPackage;
             tdId.setAttribute("id",'modal'+idOfPackage);
@@ -408,12 +414,19 @@ $(document).ready( function () {
             console.log(clone);
             console.log("parent: "+idOfPackage+" packageparent: "+idOfPackageParent);
 
-            let insideTr = $(clone).closest('tr').html();
-            let trObj = $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
+            let insideTr =       $(clone).closest('tr').html();
+            let trObj =          $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
 
             let trParent = document.getElementById(idOfPackageParent);
             let trParentClone = trParent.cloneNode(true);
+
             trParentClone.setAttribute("id",'parentmodal'+idOfPackage);
+            console.log(trParentClone);
+
+            let delInnerBtn1 =         trParentClone.getElementsByClassName("delete-btns")[0];
+            delInnerBtn1.setAttribute("style", "display:none;");
+            let delInnerBtn2 =         trParentClone.getElementsByClassName("delete-btns")[1];
+            delInnerBtn2.setAttribute("style", "display:none;");
 
             $('#listOfPackagesOakId').append(trObj);
             $('#listOfPackagesOakId').append(trParentClone);
@@ -439,7 +452,6 @@ $(document).ready( function () {
                 "visible": false,
                 "searchable": false
             },
-
             {
                 "targets": 0,
                 "orderable": false,
@@ -450,7 +462,6 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "30px"
             }
-            // { className: "display-none", "targets": [ -1 ] },
 
         ]
 
