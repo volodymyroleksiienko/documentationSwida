@@ -15,6 +15,7 @@ public interface PackagedProductService {
     PackagedProduct createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
                           String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID);
 
+    PackagedProduct getProductByDryStorage(int dryStorageId);
     PackagedProduct findById(int id);
     String countExtent(PackagedProduct product);
     void countExtentOak(PackagedProduct product);

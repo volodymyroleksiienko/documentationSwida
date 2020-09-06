@@ -29,6 +29,8 @@ public class DryStorage {
     private String description;
     private String date;
 
+    private String qualityOfPack;
+    private String longOfPack;
 
     @ManyToOne
     private UserCompany userCompany;
