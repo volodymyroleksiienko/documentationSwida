@@ -78,6 +78,7 @@ public class FabricOakController {
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
+        model.addAttribute("orderList",orderInfoService.getOrdersListByBreed(breedId));
         model.addAttribute("contrAgentList",contrAgentService.findAll());
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());

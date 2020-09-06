@@ -1,5 +1,6 @@
 package com.swida.documetation.data.entity.storages;
 
+import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
@@ -28,6 +29,8 @@ public class TreeStorage {
 
     @ManyToOne
     private BreedOfTree breedOfTree;
+    @ManyToOne
+    private OrderInfo orderInfo;
     @ManyToOne
     private ContrAgent contrAgent;
     @ManyToOne
