@@ -484,12 +484,13 @@
                             </div>
                         </div>
 
-                        <label class="col-form-label" for="addOakToRawStorageSupplier">Поставщик</label>
-                        <input type="text" class="form-control" list="suppliers3oak" id="addOakToRawStorageSupplier" placeholder="Не заполнено" required="required" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)">
+                        <label class="col-form-label" for="addOakToRawStorageSupplier">Контракт</label>
+                        <input type="text" class="form-control" list="suppliers3oak" id="addOakToRawStorageSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
                         <datalist id="suppliers3oak">
-                            <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
+                            <option  th:each="c, index : ${orderList}" th:text="${c.codeOfOrder}" th:label="${c?.contrAgent?.nameOfAgent}" th:data-value="${c.id}"></option>
                         </datalist>
-                        <input type="number" hidden="hidden"  name="contrAgent.id" id="addOakToRawStorageSupplier-hidden">
+                        <input type="number" hidden="hidden"  name="contractId" id="addOakToRawStorageSupplier-hidden">
+
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">

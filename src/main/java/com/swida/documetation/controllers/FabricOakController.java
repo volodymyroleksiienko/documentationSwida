@@ -1,5 +1,6 @@
 package com.swida.documetation.controllers;
 
+import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
@@ -137,15 +138,17 @@ public class FabricOakController {
 
     @PostMapping("/addDeskFromProvider-{userId}-2")
     public String addDeskFromProvider(@PathVariable("userId")int userId, TreeStorage treeStorage, String sizeOfHeight,
-                                      String description, String nameOfAgent, String extent){
+                                      String description, String nameOfAgent, String extent,String contractId){
        int breedId = 2;
 
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setExtent("0.000");
-        ContrAgent contrAgent =  new ContrAgent();
-        contrAgent.setNameOfAgent(nameOfAgent);
-        treeStorage.setContrAgent(contrAgent);
+
+        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
+        treeStorage.setOrderInfo(orderInfo);
+        treeStorage.setContrAgent(orderInfo.getContrAgent());
+
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
         treeStorageService.putNewTreeStorageObj(treeStorage);
 
@@ -162,6 +165,14 @@ public class FabricOakController {
         rawStorage.setDescription(description);
 
         rawStorageService.save(rawStorage);
+
+        orderInfo.setDoneExtendOfOrder(
+                String.format("%.3f",
+                        Float.parseFloat(orderInfo.getDoneExtendOfOrder())+Float.parseFloat(rawStorageService.findById(rawStorage.getId()).getExtent()))
+                        .replace(",",".")
+        );
+        orderInfoService.save(orderInfo);
+        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -207,12 +218,25 @@ public class FabricOakController {
         int breedId = 2;
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
+        float oldExtent = Float.parseFloat(rawStorageDB.getExtent());
         rawStorageDB.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
         rawStorageDB.setExtent(rawStorage.getExtent());
         rawStorageDB.setSizeOfHeight(rawStorage.getSizeOfHeight());
         rawStorageDB.setDescription(rawStorage.getDescription());
         rawStorageService.save(rawStorageDB);
+
+        TreeStorage treeStorage = rawStorageDB.getTreeStorage();
+        if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
+            OrderInfo orderInfo = treeStorage.getOrderInfo();
+            orderInfo.setDoneExtendOfOrder(
+                    String.format("%.3f",
+                            Float.parseFloat(orderInfo.getDoneExtendOfOrder())-(oldExtent-Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())))
+                            .replace(",",".")
+            );
+            orderInfoService.save(orderInfo);
+            orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+        }
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
