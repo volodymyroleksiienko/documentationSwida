@@ -392,9 +392,11 @@ $(document).ready( function () {
 
     $( "#buttonForOakTransportation" ).click(function() {
         modalOakPackagesTable.clear().draw();
+
         let newData = document.getElementsByClassName("selected");
         let tBody = document.getElementById('listOfPackagesOakId');
         tBody.deleteRow(0);
+
         for(let i=0;i<newData.length;i++){
             let tmp = newData[i];
             let clone = tmp.cloneNode(true);
@@ -402,8 +404,10 @@ $(document).ready( function () {
             let idOfPackage=tdId.getAttribute("id");
             let idOfPackageParent="parent"+idOfPackage;
             tdId.setAttribute("id",'modal'+idOfPackage);
+
             console.log(clone);
             console.log("parent: "+idOfPackage+" packageparent: "+idOfPackageParent);
+
             let insideTr = $(clone).closest('tr').html();
             let trObj = $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
 
@@ -435,6 +439,7 @@ $(document).ready( function () {
                 "visible": false,
                 "searchable": false
             },
+
             {
                 "targets": 0,
                 "orderable": false,
@@ -443,8 +448,9 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "70px"
+                "width": "30px"
             }
+            // { className: "display-none", "targets": [ -1 ] },
 
         ]
 

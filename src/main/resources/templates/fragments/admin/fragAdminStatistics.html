@@ -1,39 +1,75 @@
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="statisticsPine">
-    <div class="tab-pane fade show active container" id="pineStats">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
 
-        <table  style="width: 100%">
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Extent', 'Sqr meters'],
+                ['Кругляк',     11],
+                ['Сырой склад',      2],
+                ['Сушка',  3],
+                ['Сухой склад', 2],
+                ['Пачки',    7],
+                ['Транспортировка',    6],
+                ['Переработка',    1]
+            ]);
+
+            var options = {
+                title: 'Суммарная кубатура: '+123.123+" м3",
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+
+    <div class="tab-pane fade show active container" id="pineStats">
+        <br>
+        <table style="width: 100%">
             <tr>
                 <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Производитель</th>
-                <th scope="col">Стадия</th>
+<!--                <th scope="col">Стадия</th>-->
             </tr>
             <tr>
                 <td>
-                    <div class="example">
-                        <select id="boot-multiselect-demo" multiple="multiple">
-                            <option value="1">вапрол</option>
-                            <option value="2">вапролдд</option>
-                            <option value="3">ждшгнекувап</option>
-                            <option value="4" >укенглдьтрп</option>
-                            <option value="5">укенодолор</option>
-                            <option value="6">щшгнеквсм</option>
-                            <option value="7">некуівапр</option>
-                            <option value="8">дшгнеквапро</option>
-                            <option value="9">дщшгнекуап</option>
-                            <option value="10">лорпавапр</option>
-                        </select>
-                    </div>
+                            <select data-placeholder="Choose a Country" class="multipleChosen" multiple="true">
+                                <option value=""></option>
+                                <option value="United States">United States</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <option value="Afghanistan">Afghanistan</option>
+                                <option value="Albania">Albania</option>
+                                <option value="Algeria">Algeria</option>
+                                <option value="American Samoa">American Samoa</option>
+                                <option value="Andorra">Andorra</option>
+                                <option value="Angola">Angola</option>
+                                <option value="Anguilla">Anguilla</option>
+                                <option value="Antarctica">Antarctica</option>
+                            </select>
                 </td>
                 <td>2</td>
                 <td>3</td>
                 <td>4</td>
                 <td>5</td>
-                <td>6</td>
+                <td style="width: auto; align-items: end;">
+                    <button class="btn btn-primary">
+                        Поиск
+                    </button>
+                </td>
             </tr>
         </table>
+        <div style="display: flex; align-items: center; justify-content: center">
+            <div id="piechart" style="width: 900px; height: 500px; justify-content: center">
+            </div>
+        </div>
     </div>
 
 

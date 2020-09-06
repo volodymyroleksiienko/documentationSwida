@@ -182,9 +182,9 @@ public class FabricController {
                                      String nameOfAgent, TreeStorage treeStorage){
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setUserCompany(userCompanyService.findById(userId));
-        ContrAgent contrAgent =  new ContrAgent();
-        contrAgent.setNameOfAgent(nameOfAgent);
-        treeStorage.setContrAgent(contrAgent);
+//        ContrAgent contrAgent =  new ContrAgent();
+//        contrAgent.setNameOfAgent(nameOfAgent);
+//        treeStorage.setContrAgent(contrAgent);
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
