@@ -317,25 +317,11 @@ $(document).ready( function () {
         tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
         //////////////////////////////////////////////////////////////////////////////////////////////
         let extent = $("#sendForPackageModalExtentOak");
-        let length = parseInt($("#sendForPackageModalLengthOak").val());
-        let height = parseInt($("#sendForPackageModalSizeOak").val());
+        let length = $("#sendForPackageModalLengthOak");
+        let height = $("#sendForPackageModalSizeOak");
 
+        createPackageExtentCalc(tableForTransportationOak, extent, length, height);
 
-        console.log("bw: "+sumWidth+";bc: "+sumCount);
-        sumWidth = 0;
-        sumCount= 0;
-
-        let newData = ( tableForTransportationOak.rows( ).data() );
-        for (let i =newData.length-1; i>=0; i--) {
-            sumWidth = sumWidth + parseInt(newData[i][0]);
-            sumCount = sumCount + parseInt(newData[i][1]);
-            console.log("w: "+sumWidth+";c: "+sumCount);
-        }
-        console.log("W: "+sumWidth+";C: "+sumCount);
-
-        let res = ((length/1000) * (height/1000) * (sumWidth/1000) * sumCount);
-
-        extent.val(res.toFixed(3));
 
     } );
     //    DRYING OAK END
