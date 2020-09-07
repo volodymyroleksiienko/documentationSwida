@@ -311,5 +311,10 @@ public class DeliveryPortAndUAController {
             order.setStatusOfEntity(StatusOfEntity.ARCHIVED);
             orderInfoService.save(order);
         }
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(orderInfoService.findDistributionId(mainOrder.getId()));
+        for(DeliveryDocumentation doc:docList){
+            doc.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+            deliveryDocumentationService.save(doc);
+        }
     }
 }

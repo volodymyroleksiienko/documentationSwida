@@ -404,6 +404,7 @@ public class MultimodalController {
         }
 
         for(DeliveryDocumentation documentation: docList){
+            documentation.setStatusOfEntity(StatusOfEntity.ARCHIVED);
             reloadAllExtentFields(documentation);
         }
         return "redirect:/multimodal/getMultimodalOrders";

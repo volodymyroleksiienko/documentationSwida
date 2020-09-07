@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocumentation,Integer> {
-    @Query("select t from  DeliveryDocumentation  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 ")
+    @Query("select t from  DeliveryDocumentation  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfEntity='ACTIVE'")
     List<DeliveryDocumentation> getListByUserByBreed(int breedId, int userId);
 
     @Query("select t from  DeliveryDocumentation  t where t.orderInfo.id in ?1")
