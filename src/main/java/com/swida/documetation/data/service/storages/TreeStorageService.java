@@ -14,5 +14,5 @@ public interface TreeStorageService {
     List<String> getListOfUnicBreedDescription(int breedId);
     void deleteByID(int id);
 
-    List<String> getListOfExtent(int breedId, List<String> breedDesc);
+    List<String> getListOfExtent(int breedId, String[] breedDesc,int[] providers,StatusOfTreeStorage status);
 }

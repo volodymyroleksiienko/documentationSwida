@@ -19,4 +19,6 @@ public interface DryingStorageService {
     List<String> getListOfUnicSizeOfHeight(int breedId);
     List<String> getListOfUnicSizeOfWidth(int breedId);
     List<String> getListOfUnicSizeOfLong(int breedId);
+
+    List<String> getExtent(int breedId,String[] breedDesc,String[] sizeHeight,String[] sizeWidth,String[] sizeLong,int[] agentId);
 }

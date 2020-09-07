@@ -143,4 +143,8 @@ public class DryingStorageServiceImpl implements DryingStorageService {
     public List<String> getListOfUnicSizeOfLong(int breedId) {
         return dryingStorageJPA.getListOfUnicSizeOfLong(breedId);
     }
+    @Override
+    public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId) {
+        return dryingStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);
+    }
 }

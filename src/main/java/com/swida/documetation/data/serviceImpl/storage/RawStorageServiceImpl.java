@@ -77,4 +77,9 @@ public class RawStorageServiceImpl implements RawStorageService {
     public List<String> getListOfUnicSizeOfLong(int breedId) {
         return rawStorageJPA.getListOfUnicSizeOfLong(breedId);
     }
+
+    @Override
+    public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId) {
+        return rawStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);
+    }
 }

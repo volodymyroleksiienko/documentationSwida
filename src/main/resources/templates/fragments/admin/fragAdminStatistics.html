@@ -30,37 +30,58 @@
 
     <div class="tab-pane fade show active container" id="pineStats">
         <br>
-        <table style="width: 100%">
+        <table style="width: 100%" >
             <tr>
                 <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Производитель</th>
-<!--                <th scope="col">Стадия</th>-->
+                <th scope="col">Стадия</th>
             </tr>
             <tr>
                 <td>
-                            <select data-placeholder="Choose a Country" class="multipleChosen" multiple="true">
-                                <option value=""></option>
-                                <option value="United States">United States</option>
-                                <option value="United Kingdom">United Kingdom</option>
-                                <option value="Afghanistan">Afghanistan</option>
-                                <option value="Albania">Albania</option>
-                                <option value="Algeria">Algeria</option>
-                                <option value="American Samoa">American Samoa</option>
-                                <option value="Andorra">Andorra</option>
-                                <option value="Angola">Angola</option>
-                                <option value="Anguilla">Anguilla</option>
-                                <option value="Antarctica">Antarctica</option>
-                            </select>
+                    <select id="selectDescription" data-placeholder="Choose description" class="multipleChosen" multiple="true">
+                        <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
+                    </select>
                 </td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
+                <td>
+                    <select id="selectSizeOfHeight" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                        <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select id="selectSizeOfWidth" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                        <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select id="selectSizeOfLong" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                        <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select id="selectProvider" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                        <option  th:each="obj : ${providerList}" th:value="${obj.id}" th:text="${obj.nameOfAgent}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select id="selectStage" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                        <option  value="treeStorage">treeStorage</option>
+                        <option  value="rawStorage">rawStorage</option>
+                        <option  value="dryingStorage">dryingStorage</option>
+                        <option  value="dryStorage">dryStorage</option>
+                        <option  value="packagedProduct">packagedProduct</option>
+                        <option  value="deliveryMultimodal">deliveryMultimodal</option>
+                        <option  value="deliveryPort">deliveryPort</option>
+                        <option  value="deliveryCountry">deliveryCountry</option>
+                        <option  value="providerInWork">providerInWork</option>
+
+
+                    </select>
+                </td>
                 <td style="width: auto; align-items: end;">
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" onclick="sendRequestForStatistic(this.id)" th:id="${breedId}">
                         Поиск
                     </button>
                 </td>
@@ -74,6 +95,45 @@
 
 
     </div>
+    <script type="text/javascript">
+        function sendRequestForStatistic(breedId) {
+            var descriptions = $('#selectDescription').val();
+            var sizeOfHeight = $('#selectSizeOfHeight').val();
+            var sizeOfWidth = $('#selectSizeOfWidth').val();
+            var sizeOfLong = $('#selectSizeOfLong').val();
+            var providers = $('#selectProvider').val();
+            var stages = $('#selectStage').val();
+
+            console.log(breedId);
+            $.ajax({
+                method: "post",
+                url: "/admin/getStatisticInfo-"+breedId,
+                contextType: "application/json",
+                data: {
+                    descriptions: descriptions,
+                    sizeOfHeight: sizeOfHeight,
+                    sizeOfWidth: sizeOfWidth,
+                    sizeOfLong: sizeOfLong,
+                    providers: providers,
+                    stages: stages
+                },
+                traditional: true,
+                success: function (statisticInfo) {
+                    console.log(statisticInfo);
+                    // location.reload();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+
+        }
+
+        function getListOfSelected(selectId){
+
+        }
+    </script>
+
 </th:block>
 
 

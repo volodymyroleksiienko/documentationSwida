@@ -142,4 +142,9 @@ public class DryStorageServiceImpl implements DryStorageService {
     public List<String> getListOfUnicSizeOfLong(int breedId) {
         return dryStorageJPA.getListOfUnicSizeOfLong(breedId);
     }
+
+    @Override
+    public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId) {
+        return dryStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);
+    }
 }

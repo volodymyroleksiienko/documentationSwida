@@ -2,17 +2,17 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.enums.ContrAgentType;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.*;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,15 +49,24 @@ public class StatisticController {
         this.driverInfoService = driverInfoService;
     }
 
-    @GetMapping("/getPineStatistics")
-    public String getPineStatistics(Model model){
+    @GetMapping("/getStatistics-{breedId}")
+    public String getPineStatistics(@PathVariable("breedId")int breedId, Model model){
         model.addAttribute("navTabName","main");
         model.addAttribute("fragmentPathAdminStatistics","statisticsPine");
-        model.addAttribute("tabName","pineStats");
-        model.addAttribute("fragmentPathTabConfig","statistics");
+        model.addAttribute("tabName",breedId);
+        model.addAttribute("fragmentPathTabConfig","statisticTab");
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+
+        model.addAttribute("descList",getAllBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList",getAllSizeOfHeight(breedId));
+        if(breedId!=2){
+            model.addAttribute("sizeOfWidthList",getAllSizeOfWidth(breedId));
+            model.addAttribute("sizeOfLongList",getAllSizeOfLong(breedId));
+        }
+        model.addAttribute("providerList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
 
         return "adminPage";
     }
@@ -75,18 +84,18 @@ public class StatisticController {
         return "adminPage";
     }
 
-    @ResponseBody
-    @GetMapping("/getStatistic")
-    public String getStatistic(){
-//        System.out.println(getAllSizeOfHeight(1));
-//        System.out.println(getAllSizeOfWidth(1));
-//        System.out.println(getAllSizeOfLong(1));
-        List<String> list = new ArrayList<>();
-        list.add("палетка");
-        list.add("dadsad");
-
-        return countExtent(treeStorageService.getListOfExtent(1,list))+"";
-    }
+//    @ResponseBody
+//    @GetMapping("/getStatistic")
+//    public String getStatistic(){
+////        System.out.println(getAllSizeOfHeight(1));
+////        System.out.println(getAllSizeOfWidth(1));
+////        System.out.println(getAllSizeOfLong(1));
+//        List<String> list = new ArrayList<>();
+//        list.add("палетка");
+//        list.add("dadsad");
+//
+//        return countExtent(treeStorageService.getListOfExtent(1,list))+"";
+//    }
 
     private Set<String> getAllBreedDescription(int breedId){
         Set<String> list = new TreeSet<>();
@@ -138,4 +147,41 @@ public class StatisticController {
         return extent;
     }
 
+    @ResponseBody
+    @PostMapping("/getStatisticInfo-{breedId}")
+    public JSONObject getStatisticInfo(@PathVariable("breedId")int breedId, String[] descriptions, String[] sizeOfHeight,
+                                   String[]sizeOfWidth,String[] sizeOfLong,int[]providers,String[] stages){
+        JSONObject json = new JSONObject();
+        for(String stg:stages){
+            switch (stg){
+            case "treeStorage":
+                System.out.println(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.TREE));
+                json.put("treeStorage",formatExtent(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.TREE)));
+                break;
+
+            case "rawStorage":
+                System.out.println(rawStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
+                json.put("rawStorage",formatExtent(rawStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
+                break;
+
+            case "dryingStorage":
+                 System.out.println(dryingStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
+                 json.put("dryingStorage",formatExtent(dryingStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
+                 break;
+            case "dryStorage":
+                System.out.println(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
+                json.put("drStorage",formatExtent(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
+                break;
+            }
+
+        }
+
+
+        return json;
+    }
+
+
+    private String formatExtent(List<String> list){
+        return String.format("%.3f",countExtent(list)).replace(",",".");
+    }
 }

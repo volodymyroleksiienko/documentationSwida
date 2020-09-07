@@ -67,7 +67,8 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     }
 
     @Override
-    public List<String> getListOfExtent(int breedId, List<String> breedDesc) {
-        return treeStorageJPA.getListOfExtent(breedId,breedDesc);
+    public List<String> getListOfExtent(int breedId, String[] breedDesc, int[] providers, StatusOfTreeStorage status) {
+        return treeStorageJPA.getListOfExtent(breedId,breedDesc,providers,status);
     }
+
 }
