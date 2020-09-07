@@ -91,11 +91,11 @@ public class FabricOakController {
 
 
     @PostMapping("/cutOfTreeStorage-{userId}-2")
-    public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, int idOfTreeStorageRow,
+    public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, String idOfTreeStorageRow,
                                          RawStorage rawStorage, String usedExtent,String extentOfWaste){
         int breedId = 2;
 
-        TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
+        TreeStorage treeStorage = treeStorageService.findById(Integer.parseInt(idOfTreeStorageRow));
 
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setUserCompany(userCompanyService.findById(userId));
