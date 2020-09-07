@@ -80,7 +80,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "70px"
             },
-            { className: "display-none", "targets": [ 5 ] }
+            { className: "display-none", "targets": [ 5 ] },
         ]
 
     });
@@ -156,7 +156,6 @@ $(document).ready( function () {
     //TOOGLE SELECTED END
 
 
-
     $('#drystoragetable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
@@ -187,12 +186,43 @@ $(document).ready( function () {
     } );
     //TOOGLE SELECTED END
 
+
+    $('#drystoragetableOak').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "order": [ 0, "desc" ],
+        // columns width
+        "autoWidth": false,
+
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "70px"
+            }
+        ]
+    });
+
+    // TOOGLE SELECTED START
+    $('#drystoragetableOak tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
+    //TOOGLE SELECTED END
+
     //    DRYING OAK START
     var tableForTransportationOak = $('#tableForTransportationOak').DataTable({
         // columns width
         "autoWidth": false,
-        "order": [ 1, "desc" ],
-        "bSort": false,
+        "order": [ 0, "desc" ],
+        // "bSort": false,
         "searching": false,
         "paging": false,
         "info": false,
@@ -227,6 +257,7 @@ $(document).ready( function () {
 
 
             $('#sendForPackageModalWidthOak').focus();
+            $('#sendForPackageModalWidthOak').val(parseInt(width)+10);
         }
     });
 

@@ -387,7 +387,7 @@
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryStorageOAK">
     <!-- Сухой склад -->
     <div class="tab-pane fade show active container-fluid" id="drystorage">
-        <table class="table table-hover table-striped" id="drystoragetable">
+        <table class="table table-hover table-striped" id="drystoragetableOak">
             <br>
             <thead>
                 <tr>
@@ -398,8 +398,8 @@
                     <th scope="col">Толщина, мм</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечания</th>
-                    <th scope="col">qualityOfPack</th>
-                    <th scope="col">longOfPack</th>
+                    <th scope="col" class="display-none">qualityOfPack</th>
+                    <th scope="col" class="display-none">longOfPack</th>
                     <th></th>
                 </tr>
             </thead>
@@ -412,8 +412,8 @@
                     <td th:text="${rs.sizeOfHeight}"></td>
                     <td th:text="${rs.extent}"></td>
                     <td th:text="${rs.description}"></td>
-                    <td th:text="${rs?.qualityOfPack}"></td>
-                    <td th:text="${rs?.longOfPack}"></td>
+                    <td th:text="${rs?.qualityOfPack}" class="display-none"></td>
+                    <td th:text="${rs?.longOfPack}" class="display-none"></td>
                     <td>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -429,8 +429,8 @@
                     <th scope="col">Толщина, мм</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечания</th>
-                    <th scope="col">qualityOfPack</th>
-                    <th scope="col">longOfPack</th>
+                    <th scope="col" class="display-none">qualityOfPack</th>
+                    <th scope="col" class="display-none">longOfPack</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -465,17 +465,17 @@
                         <div class="form-group row">
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
-                                <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off" placeholder="Не заполнено">
                             </div>
 
                             <div class="col-4">
                                 <label class="control-label" for="sendForPackageModalQualityOak" style="padding-top: 7px">Качество</label>
-                                <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required">
+                                <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required" placeholder="Не заполнено">
                             </div>
 
                             <div class="col-2">
                                 <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Размер</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" disabled="disabled">
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
 
                             <div class="col-2">
@@ -489,7 +489,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
+                                <input type="number" min="0" step="10" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
 
                             <div class="col-4">
@@ -637,15 +637,21 @@
             var trId =  $(trObj).attr('id');
             $('#sendForDryingModalIdOak').val(trId);
             console.log($(trObj).attr('id'));
+
             var codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
             var size =                  $(trObj).find('td:eq(2)').text();
+            var quality =               $(trObj).find('td:eq(5)').text();
+            var length =                $(trObj).find('td:eq(6)').text();
 
 
             $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfRawStorage);
 
+            $('#sendForPackageModalSizeOak')        .val(size);
+            $('#sendForPackageModalQualityOak')     .val(quality);
+            $('#sendForPackageModalLengthOak')      .val(length);
+
             $('#sendForPackageModalOak').modal('show');
 
-            $('#sendForPackageModalSizeOak').val(size);
 
             // CHECK
             $("#sendForPackageModalSizeOak").change(function(){
@@ -656,7 +662,6 @@
 
                 }
             });
-
 
             $("#sendForPackageModalLengthOak").change(function(){
                 if ((parseInt($('#sendForPackageModalLengthOak').val()))<=0) {
