@@ -9,6 +9,31 @@ function extentCalc(extentInput, lengthInput, heightInput, widthInput, countInpu
     }
 }
 
+function createPackageExtentCalc(table, extentInput, lengthInput, heightInput){
+    extentInput.val('');
+
+    let sumWidth = 0;
+    let sumCount= 0;
+
+    if (lengthInput.val() != '' && heightInput.val() != ''){
+        let newData = ( table.rows( ).data() );
+        for (let i =newData.length-1; i>=0; i--) {
+            sumWidth = sumWidth + parseInt(newData[i][0]);
+            sumCount = sumCount + parseInt(newData[i][1]);
+            console.log("w: "+sumWidth+";c: "+sumCount);
+        }
+        console.log("W: "+sumWidth+";C: "+sumCount);
+        let res = ((lengthInput.val()/1000) * (heightInput.val()/1000) * (sumWidth/1000) * (sumCount));
+        extentInput.val(res.toFixed(3));
+        console.log("result: "+res.toFixed(3));
+    } else {
+        console.log("fill all");
+    }
+
+}
+
+
+
 
 //////////////////////////////////////////////////////////////////////////////
 $("#sendForPackageLength").change(function() {

@@ -187,7 +187,7 @@ $(document).ready( function () {
     //TOOGLE SELECTED END
 
 
-    $('#drystoragetableOak').DataTable({
+    let drystoragetableOak = $('#drystoragetableOak').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
@@ -210,6 +210,7 @@ $(document).ready( function () {
             }
         ]
     });
+
 
     // TOOGLE SELECTED START
     $('#drystoragetableOak tbody').on( 'click', 'tr', function () {
@@ -236,30 +237,59 @@ $(document).ready( function () {
         ]
     });
 
+    $( "#clearTableButton" ).click(function() {
+        clearTable(tableForTransportationOak);
+        $("#sendForPackageModalExtentOak").val('');
+    })
+
+
+    function clearTable(tableName){
+        tableName.clear()
+                 .draw();
+        sumWidth = 0;
+        sumCount = 0;
+        let extent =        $("#sendForPackageModalExtentOak");
+        let length =        $("#sendForPackageModalLengthOak");
+        let height =        $("#sendForPackageModalSizeOak");
+        $('#sendForPackageModalWidthOak').val('');
+        createPackageExtentCalc(tableForTransportationOak, extent, length, height);
+        console.log("Erased!");
+    }
+
+    let sumWidth =      0;
+    let sumCount =      0;
+
     $("#buttonForAddingOakRow").click(function () {
-        var width = $("#sendForPackageModalWidthOak").val();
-        var count = $("#sendForPackageModalCountOak").val();
-        var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+        let width =         $("#sendForPackageModalWidthOak").val();
+        let count =         $("#sendForPackageModalCountOak").val();
+        let extent =        $("#sendForPackageModalExtentOak");
+        let length =        $("#sendForPackageModalLengthOak");
+        let height =        $("#sendForPackageModalSizeOak");
+
+        let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
 
         if( width=="" || count=="" ) {
             alert("Заполните ширину и количество досок!");
-        } else if (width<=0 || count<=0){
-            alert("Значение не может быть отрицательным либо равным 0!")
+        } else if (width<=0 || count<=0) {
+            alert("Значение не может быть отрицательным либо равным 0!");
+        }else if(length.val()=="" || height.val()==""){
+            alert("Заполните размер и длину!");
         } else {
-            var d = [width, count, button];
-
-            console.log(d);
+            let d = [width, count, button];
 
             $("#sendForPackageModalWidthOak").val("");
             $("#sendForPackageModalCountOak").val("");
 
             tableForTransportationOak.row.add(d).draw();
 
-
             $('#sendForPackageModalWidthOak').focus();
+
+            createPackageExtentCalc(tableForTransportationOak, extent, length, height);
+
             $('#sendForPackageModalWidthOak').val(parseInt(width)+10);
         }
     });
+
 
     $("#buttonForAddingDeliveryOakRow").click(function () {
         var width = $("#addDeliveryPackageModalWidthOak").val();
@@ -283,7 +313,30 @@ $(document).ready( function () {
     });
 
     $('#tableForTransportationOak tbody').on( 'click', 'button', function () {
+
         tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        let extent = $("#sendForPackageModalExtentOak");
+        let length = parseInt($("#sendForPackageModalLengthOak").val());
+        let height = parseInt($("#sendForPackageModalSizeOak").val());
+
+
+        console.log("bw: "+sumWidth+";bc: "+sumCount);
+        sumWidth = 0;
+        sumCount= 0;
+
+        let newData = ( tableForTransportationOak.rows( ).data() );
+        for (let i =newData.length-1; i>=0; i--) {
+            sumWidth = sumWidth + parseInt(newData[i][0]);
+            sumCount = sumCount + parseInt(newData[i][1]);
+            console.log("w: "+sumWidth+";c: "+sumCount);
+        }
+        console.log("W: "+sumWidth+";C: "+sumCount);
+
+        let res = ((length/1000) * (height/1000) * (sumWidth/1000) * sumCount);
+
+        extent.val(res.toFixed(3));
+
     } );
     //    DRYING OAK END
 
