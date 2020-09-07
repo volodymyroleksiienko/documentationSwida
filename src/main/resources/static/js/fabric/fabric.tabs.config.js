@@ -282,7 +282,7 @@ $(document).ready( function () {
 
             tableForTransportationOak.row.add(d).draw();
 
-            $('#sendForPackageModalWidthOak').focus();
+            $('#sendForPackageModalCountOak').focus();
 
             createPackageExtentCalc(tableForTransportationOak, extent, length, height);
 

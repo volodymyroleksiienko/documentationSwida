@@ -129,6 +129,30 @@
                 $('#buttonForAddingOakRow').click();
             }
         });
+
+        $('#sendForPackageModalCodeOak').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#sendForPackageModalQualityOak').focus();
+            }
+        });
+
+        $('#sendForPackageModalQualityOak').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#sendForPackageModalSizeOak').focus();
+            }
+        });
+
+        $('#sendForPackageModalSizeOak').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#sendForPackageModalLengthOak').focus();
+            }
+        });
+
+        $('#sendForPackageModalLengthOak').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#sendForPackageModalWidthOak').focus();
+            }
+        });
     </script>
 
 
