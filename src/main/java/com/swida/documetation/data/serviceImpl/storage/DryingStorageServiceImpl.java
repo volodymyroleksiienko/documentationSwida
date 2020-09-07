@@ -1,9 +1,11 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
+import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.DryingStorage;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.jpa.storages.DryingStorageJPA;
 import com.swida.documetation.data.service.storages.DryingStorageService;
+import com.swida.documetation.data.service.storages.RawStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,12 @@ import java.util.List;
 @Service
 public class DryingStorageServiceImpl implements DryingStorageService {
     DryingStorageJPA dryingStorageJPA;
+    private RawStorageService rawStorageService;
 
     @Autowired
-    public DryingStorageServiceImpl(DryingStorageJPA dryingStorageJPA) {
+    public DryingStorageServiceImpl(DryingStorageJPA dryingStorageJPA, RawStorageService rawStorageService) {
         this.dryingStorageJPA = dryingStorageJPA;
+        this.rawStorageService = rawStorageService;
     }
 
     @Override
@@ -75,6 +79,44 @@ public class DryingStorageServiceImpl implements DryingStorageService {
             return dryingStorageJPA.getListByUserByBreedOak(breedId,userId);
         }
         return dryingStorageJPA.getListByUserByBreed(breedId,userId);
+    }
+
+    @Override
+    public void editDryingStorage(DryingStorage dryingStorage) {
+        DryingStorage dryingStorageDB = dryingStorageJPA.getOne(dryingStorage.getId());
+        if (dryingStorageDB.getBreedOfTree().getId()!=2){
+            int difExtentDesk = dryingStorageDB.getCountOfDesk()-dryingStorage.getCountOfDesk();
+
+            dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
+            dryingStorageDB.setBreedDescription(dryingStorage.getBreedDescription());
+
+            dryingStorageDB.setSizeOfHeight(dryingStorage.getSizeOfHeight());
+            dryingStorageDB.setSizeOfWidth(dryingStorage.getSizeOfWidth());
+            dryingStorageDB.setSizeOfLong(dryingStorage.getSizeOfLong());
+            dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
+
+            RawStorage rawStorage = dryingStorageDB.getRawStorage();
+            rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()+difExtentDesk);
+            rawStorageService.save(rawStorage);
+        }else{
+            float difExtent = Float.parseFloat(dryingStorageDB.getExtent())-Float.parseFloat(dryingStorage.getExtent());
+
+            dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
+            dryingStorageDB.setBreedDescription(dryingStorage.getBreedDescription());
+
+            dryingStorageDB.setSizeOfHeight(dryingStorage.getSizeOfHeight());
+            dryingStorageDB.setExtent(dryingStorage.getExtent());
+            dryingStorageDB.setDescription(dryingStorage.getDescription());
+
+            RawStorage rawStorage = dryingStorageDB.getRawStorage();
+            rawStorage.setExtent(
+                    String.format("%.3f",Float.parseFloat(rawStorage.getExtent())+difExtent)
+                    .replace(",",".")
+                    );
+            rawStorageService.save(rawStorage);
+
+        }
+        save(dryingStorageDB);
     }
 
     @Override

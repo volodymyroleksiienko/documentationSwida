@@ -11,6 +11,7 @@ public interface DryStorageService {
     DryStorage createFromDryingStorage(DryingStorage dryingStorage);
     List<DryStorage> findAll();
     List<DryStorage> getListByUserByBreed(int breedId, int userId);
+    void editDryStorage(DryStorage dryStorage);
     void deleteByID(int id);
 
     //for statistic

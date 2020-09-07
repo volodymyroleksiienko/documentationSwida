@@ -326,14 +326,16 @@ public class FabricController {
         }
         if(treeStorage.getRecycle()!=null){
             recycleExtent=Float.parseFloat(treeStorage.getRecycle().getExtent());
-            treeStorageService.deleteByID(treeStorage.getRecycle().getId());
+            treeStorage.getRecycle().setExtent("0.000");
+            treeStorageService.save(treeStorage.getRecycle());
         }
         treeStorage.setExtent(
                 String.format("%.3f",Float.parseFloat(treeStorage.getExtent())
                 +Float.parseFloat(rawStorage.getExtent())+recycleExtent).replace(",",".")
         );
-
-        rawStorageService.deleteByID(rawStorage.getId());
+        rawStorage.setExtent("0.000");
+        rawStorage.setCountOfDesk(0);
+        rawStorageService.save(rawStorage);
         treeStorageService.save(treeStorage);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
@@ -425,17 +427,20 @@ public class FabricController {
     public String editDryingStorageObj(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     DryingStorage dryingStorage ){
 
-        DryingStorage dryingStorageDB = dryingStorageService.findById(dryingStorage.getId());
-        if(dryingStorageDB.getCountOfDesk()!=dryingStorage.getCountOfDesk()){
-            int count = dryingStorageDB.getCountOfDesk()-dryingStorage.getCountOfDesk();
-            RawStorage rawStorage = dryingStorageDB.getRawStorage();
-            rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()+count);
-            rawStorageService.save(rawStorage);
-        }
-        dryingStorageDB.setBreedDescription(dryingStorage.getBreedDescription());
-        dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
-        dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
-        dryingStorageService.save(dryingStorageDB);
+//        DryingStorage dryingStorageDB = dryingStorageService.findById(dryingStorage.getId());
+//        if(dryingStorageDB.getCountOfDesk()!=dryingStorage.getCountOfDesk()){
+//            int count = dryingStorageDB.getCountOfDesk()-dryingStorage.getCountOfDesk();
+//            RawStorage rawStorage = dryingStorageDB.getRawStorage();
+//            rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()+count);
+//            rawStorageService.save(rawStorage);
+//        }
+//        dryingStorageDB.setBreedDescription(dryingStorage.getBreedDescription());
+//        dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
+//        dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
+//        dryingStorageService.save(dryingStorageDB);
+
+        dryingStorageService.editDryingStorage(dryingStorage);
+
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
@@ -471,12 +476,9 @@ public class FabricController {
     }
 
     @PostMapping("/editDryStorageRow-{userId}-{breedId}")
-    public String editDryStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                  String codeOfProduct, String breedDescription){
-        DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
-        dryStorage.setBreedDescription(breedDescription);
-        dryStorage.setCodeOfProduct(codeOfProduct);
-        dryStorageService.save(dryStorage);
+    public String editDryStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DryStorage dryStorage){
+
+        dryStorageService.editDryStorage(dryStorage);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 

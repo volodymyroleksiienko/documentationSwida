@@ -164,16 +164,16 @@
                             <input class="form-control" id="editDryStorageModalMaterialDescr" type="text" name="breedDescription">
 
                             <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
+                            <input type="text" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
 
                             <label class="col-form-label" for="editDryStorageModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
+                            <input type="text" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
 
                             <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
+                            <input type="text" class="form-control" id="editDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
 
                             <label class="col-form-label" for="editDryStorageModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="editDryStorageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="disabled">
+                            <input type="text" class="form-control" id="editDryStorageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
 
                             <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
                             <input type="text" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
@@ -567,17 +567,13 @@
                             <input class="form-control" id="editDryStorageModalMaterialDescr" type="text" name="breedDescription">
 
                             <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
-
-                            <label class="col-form-label" for="editDryStorageModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
-
-                            <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
-
+                            <input type="text" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
 
                             <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
+                            <input type="text" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="мм" name="extent">
+
+                            <label class="col-form-label" for="editDryStorageModalDesc">Примечание</label>
+                            <input type="text" class="form-control" id="editDryStorageModalDesc" autocomplete="off" placeholder="мм" name="description">
 
                         </div>
                         <!-- Insert rows -->
@@ -693,19 +689,19 @@
             var material = $(trObj).find('td:eq(0)').text();
             var description = $(trObj).find('td:eq(1)').text();
             var thickness = $(trObj).find('td:eq(2)').text();
-            var width = $(trObj).find('td:eq(3)').text();
-            var length = $(trObj).find('td:eq(4)').text();
-            var count = $(trObj).find('td:eq(5)').text();
-            var extent = $(trObj).find('td:eq(6)').text();
+            var extent = $(trObj).find('td:eq(3)').text();
+            // var length = $(trObj).find('td:eq(4)').text();
+            var desc = $(trObj).find('td:eq(4)').text();
+            // var extent = $(trObj).find('td:eq(6)').text();
 
             $('#editDryStorageModalCode').val(code);
             $('#editDryStorageModalMaterial').val(material);
             $('#editDryStorageModalMaterialDescr').val(description);
             $('#editDryStorageModalThickness').val(thickness);
-            $('#editDryStorageModalWidth').val(width);
-            $('#editDryStorageModalLength').val(length);
-            $('#editDryStorageModalCount').val(count);
+            // $('#editDryStorageModalWidth').val(width);
+            // $('#editDryStorageModalLength').val(length);
             $('#editDryStorageModalVolume').val(extent);
+            $('#editDryStorageModalDesc').val(desc);
 
 
             $('#editDryStorageModal').modal('show');

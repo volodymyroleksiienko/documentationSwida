@@ -281,25 +281,25 @@ public class FabricOakController {
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
-    @PostMapping("/editDryingStorageObj-{userId}-2")
-    public String editDryingStorageObj(@PathVariable("userId")int userId, DryingStorage dryingStorage,String breedDescription,
-                                       String description){
-        int breedId = 2;
-
-        DryingStorage dryingStorageDB = dryingStorageService.findById(dryingStorage.getId());
-        if(dryingStorageDB.getCountOfDesk()!=dryingStorage.getCountOfDesk()){
-            int count = dryingStorageDB.getCountOfDesk()-dryingStorage.getCountOfDesk();
-            RawStorage rawStorage = dryingStorageDB.getRawStorage();
-            rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()+count);
-            rawStorageService.save(rawStorage);
-        }
-        dryingStorageDB.setDescription(description);
-        dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
-        dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
-        dryingStorageDB.setBreedDescription(breedDescription);
-        dryingStorageService.save(dryingStorageDB);
-        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
-    }
+//    @PostMapping("/editDryingStorageObj-{userId}-2")
+//    public String editDryingStorageObj(@PathVariable("userId")int userId, DryingStorage dryingStorage,String breedDescription,
+//                                       String description){
+//        int breedId = 2;
+//
+//        DryingStorage dryingStorageDB = dryingStorageService.findById(dryingStorage.getId());
+//        if(dryingStorageDB.getCountOfDesk()!=dryingStorage.getCountOfDesk()){
+//            int count = dryingStorageDB.getCountOfDesk()-dryingStorage.getCountOfDesk();
+//            RawStorage rawStorage = dryingStorageDB.getRawStorage();
+//            rawStorage.setCountOfDesk(rawStorage.getCountOfDesk()+count);
+//            rawStorageService.save(rawStorage);
+//        }
+//        dryingStorageDB.setDescription(description);
+//        dryingStorageDB.setCodeOfProduct(dryingStorage.getCodeOfProduct());
+//        dryingStorageDB.setCountOfDesk(dryingStorage.getCountOfDesk());
+//        dryingStorageDB.setBreedDescription(breedDescription);
+//        dryingStorageService.save(dryingStorageDB);
+//        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+//    }
 
 
     //Dry Storage page
@@ -328,15 +328,15 @@ public class FabricOakController {
         return "fabricPage";
     }
 
-    @PostMapping("/editDryStorageRow-{userId}-2")
-    public String editDryStorageRow(@PathVariable("userId")int userId, String id, String codeOfProduct,String breedDescription){
-        int breedId = 2;
-        DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
-        dryStorage.setCodeOfProduct(codeOfProduct);
-        dryStorage.setBreedDescription(breedDescription);
-        dryStorageService.save(dryStorage);
-        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
-    }
+//    @PostMapping("/editDryStorageRow-{userId}-2")
+//    public String editDryStorageRow(@PathVariable("userId")int userId, String id, String codeOfProduct,String breedDescription){
+//        int breedId = 2;
+//        DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
+//        dryStorage.setCodeOfProduct(codeOfProduct);
+//        dryStorage.setBreedDescription(breedDescription);
+//        dryStorageService.save(dryStorage);
+//        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+//    }
 
 
     //Packaged product page
