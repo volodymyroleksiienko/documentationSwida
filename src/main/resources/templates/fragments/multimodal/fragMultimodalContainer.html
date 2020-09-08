@@ -84,24 +84,24 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploading(this.value)">
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера</label>
-                                <input type="number" step="any" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading">
+                                <input type="number" step="any" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт</label>
-                                <input type="number" step="any" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort">
+                                <input type="number" step="any" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" value="80">
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerMeasurement">Взвешивание</label>
-                                <input type="number" step="any" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing">
+                                <input type="number" step="any" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" value="100">
                             </div>
                         </div>
 
@@ -147,7 +147,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerExpotrExtent">Эксп. объем, загрузка, м<sup>3</sup></label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" required="required" autocomplete="off" name="extent">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" required="required" autocomplete="off" name="extent" oninput="countCostOfUploadingEdit(this.value)">
                             </div>
 
                             <div class="col-6">
@@ -194,6 +194,12 @@
         </div>
     </div>
     <script type="text/javascript">
+        function countCostOfUploading(value) {
+            $('#addContainerUnloading').val(value*4);
+        }
+        function countCostOfUploadingEdit(value) {
+            $('#editContainerUnloading').val(value*4);
+        }
         function editContainer(btnObj) {
 
             var trObj =             btnObj.parentElement.parentElement;
