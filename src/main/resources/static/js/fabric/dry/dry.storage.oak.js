@@ -122,8 +122,9 @@ function sendRequestCreatePackageOak(btnObj) {
                 arrayOfDesk: arrOfDesk
             },
             traditional: true,
-            success: function () {
-                location.reload();
+            success: function (extent) {
+                console.log(extent);
+                // location.reload();
             },
             error: function () {
                 alert("Error");

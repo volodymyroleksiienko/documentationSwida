@@ -1,4 +1,5 @@
-<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="multimodalContainers">
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
+          th:fragment="multimodalContainers">
     <!-- Подробно контейнеры  START-->
     <div class="tab-pane fade show active container-fluid" id="multimodal-container">
         <table class="table table-hover table-striped" id="multimodal-container-table">
@@ -15,7 +16,7 @@
                 <th scope="col">Эквивалент в гривне</th>
                 <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Статус</th>
-                <th></th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +31,7 @@
                 <td th:text="${container.equalsToUAH}"></td>
                 <td th:text="${container.date}"></td>
                 <td th:text="${container.statusOfEntity}"></td>
-                <td style="width: 70px; text-align: right">
+                <td style="width: 70px; text-align: right" sec:authorize="hasRole('ROLE_ADMIN')">
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)">
                         <i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i>
@@ -51,7 +52,7 @@
                 <th scope="col">Эквивалент в гривне</th>
                 <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Статус</th>
-                <th></th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
             </tr>
             </tfoot>
         </table>
