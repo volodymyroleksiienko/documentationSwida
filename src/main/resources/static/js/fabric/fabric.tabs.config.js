@@ -125,7 +125,7 @@ $(document).ready( function () {
 
 
 
-    $('#dryingtable').DataTable({
+    let dryingtable = $('#dryingtable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
@@ -148,6 +148,7 @@ $(document).ready( function () {
             }
         ]
     });
+
 
     // TOOGLE SELECTED START
     $('#dryingtable tbody').on( 'click', 'tr', function () {
@@ -313,16 +314,13 @@ $(document).ready( function () {
     });
 
     $('#tableForTransportationOak tbody').on( 'click', 'button', function () {
-
         tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
-        //////////////////////////////////////////////////////////////////////////////////////////////
+
         let extent = $("#sendForPackageModalExtentOak");
         let length = $("#sendForPackageModalLengthOak");
         let height = $("#sendForPackageModalSizeOak");
 
         createPackageExtentCalc(tableForTransportationOak, extent, length, height);
-
-
     } );
     //    DRYING OAK END
 
@@ -365,11 +363,11 @@ $(document).ready( function () {
     $( "#buttonForTransportation" ).click(function() {
 
         modalPackagesTable.clear().draw();
-        var newData = ( table.rows( '.selected' ).data() );
-        var array = [];
+        let newData = ( table.rows( '.selected' ).data() );
+        let array = [];
 
-        for (var i = newData.length - 1; i >= 0; i--) {
 
+        for (let i = newData.length - 1; i >= 0; i--) {
             var id =			newData[i][0];
             var code = 			newData[i][1];
             var material = 		newData[i][2];
@@ -390,7 +388,8 @@ $(document).ready( function () {
 
             modalPackagesTable.row.add(d).draw( false );
         }
-        console.log(array);
+        console.log("arr: "+array);
+
         $('#sendForTransportationModal').modal('show');
     });
 
@@ -462,54 +461,6 @@ $(document).ready( function () {
     //TOOGLE SELECTED END
 
 
-
-    $( "#buttonForOakTransportation" ).click(function() {
-        modalOakPackagesTable.clear().draw();
-
-        let newData =           document.getElementsByClassName("selected");
-        let tBody =             document.getElementById('listOfPackagesOakId');
-        tBody.deleteRow(0);
-
-        for(let i=0;i<newData.length;i++){
-            let tmp =            newData[i];
-            let clone =          tmp.cloneNode(true);
-            let tdId =           clone.getElementsByClassName("details-control")[0];
-
-            let delBtn =         clone.getElementsByClassName("delete-btns")[0];
-            let visibleBtn =     clone.getElementsByClassName("invisible-btn")[0];
-            delBtn.setAttribute("style", "display:none;");
-            visibleBtn.setAttribute("style", "display:block;");
-
-            let idOfPackage=tdId.getAttribute("id");
-            let idOfPackageParent="parent"+idOfPackage;
-            tdId.setAttribute("id",'modal'+idOfPackage);
-
-            console.log(clone);
-            console.log("parent: "+idOfPackage+" packageparent: "+idOfPackageParent);
-
-            let insideTr =       $(clone).closest('tr').html();
-            let trObj =          $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
-
-            let trParent = document.getElementById(idOfPackageParent);
-            let trParentClone = trParent.cloneNode(true);
-
-            trParentClone.setAttribute("id",'parentmodal'+idOfPackage);
-            console.log(trParentClone);
-
-            let delInnerBtn1 =         trParentClone.getElementsByClassName("delete-btns")[0];
-            delInnerBtn1.setAttribute("style", "display:none;");
-            let delInnerBtn2 =         trParentClone.getElementsByClassName("delete-btns")[1];
-            delInnerBtn2.setAttribute("style", "display:none;");
-
-            $('#listOfPackagesOakId').append(trObj);
-            $('#listOfPackagesOakId').append(trParentClone);
-        }
-
-
-        $('#sendOakListForTransportationModal').modal('show');
-    });
-
-
     var modalOakPackagesTable = $('#tableForOakTransportation').DataTable({
         // columns width
         "autoWidth": false,
@@ -544,12 +495,89 @@ $(document).ready( function () {
     $('#tableForOakTransportation tbody').on( 'click', 'button', function () {
         var idOfParent = 'parent'+this.parentElement.parentElement.getElementsByClassName("details-control")[0].getAttribute("id");
         this.parentElement.parentElement.remove();
-        document.getElementById(idOfParent).remove()
+        document.getElementById(idOfParent).remove();
+        let extentS = 0;
+        let extentR = 0;
+
+        $("#listOfPackagesOakId").find("tr").each(function() {
+            extentR = parseFloat($(this).find('td.extentValue').text());
+            console.log(extentR);
+            if (!Number.isNaN(extentR)){
+                extentS = extentS +extentR;
+            }
+        });
+
+        console.log(extentS);
+
+        $("#deliveryOakExtent").val(extentS.toFixed(3));
+
     } );
 
+
+    $( "#buttonForOakTransportation" ).click(function() {
+        modalOakPackagesTable.clear().draw();
+
+        let newData =           document.getElementsByClassName("selected");
+        let tBody =             document.getElementById('listOfPackagesOakId');
+
+        tBody.deleteRow(0);
+
+        let extentS = 0;
+        let extentR = 0;
+
+        for(let i=0;i<newData.length;i++){
+            let tmp =            newData[i];
+            let clone =          tmp.cloneNode(true);
+            let tdId =           clone.getElementsByClassName("details-control")[0];
+
+            let delBtn =         clone.getElementsByClassName("delete-btns")[0];
+            let visibleBtn =     clone.getElementsByClassName("invisible-btn")[0];
+            delBtn.setAttribute("style", "display:none;");
+            visibleBtn.setAttribute("style", "display:block;");
+
+            let idOfPackage=tdId.getAttribute("id");
+            let idOfPackageParent="parent"+idOfPackage;
+            tdId.setAttribute("id",'modal'+idOfPackage);
+
+            console.log(clone);
+            console.log("parent: "+idOfPackage+" packageparent: "+idOfPackageParent);
+
+            let insideTr =       $(clone).closest('tr').html();
+            let trObj =          $.parseHTML("<tr role='row' class='selectMainTrPackage'>"+insideTr+"</tr>");
+
+            let trParent = document.getElementById(idOfPackageParent);
+            let trParentClone = trParent.cloneNode(true);
+
+            trParentClone.setAttribute("id",'parentmodal'+idOfPackage);
+            console.log(trParentClone);
+
+            let delInnerBtn1 =         trParentClone.getElementsByClassName("delete-btns");
+
+            Array.prototype.filter.call(delInnerBtn1, function(testElement){
+                return testElement.setAttribute("style", "display:none;");
+            });
+
+
+            $('#listOfPackagesOakId').append(trObj);
+            $('#listOfPackagesOakId').append(trParentClone);
+        }
+
+        $("#listOfPackagesOakId").find("tr").each(function() {
+            extentR = parseFloat($(this).find('td.extentValue').text());
+            console.log(extentR);
+            if (!Number.isNaN(extentR)){
+                extentS = extentS +extentR;
+            }
+        });
+
+        console.log(extentS);
+
+        $("#deliveryOakExtent").val(extentS.toFixed(3));
+
+        $('#sendOakListForTransportationModal').modal('show');
+    });
+
     //PACKS 2 end
-
-
 
 
 

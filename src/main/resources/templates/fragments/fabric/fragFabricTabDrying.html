@@ -202,70 +202,8 @@
     </script>
     <!-- Export end -->
 
+    <script type="text/javascript" th:src="@{../js/fabric/drying/drying.storage.pine.js}"></script>
 
-
-    <script type="text/javascript">
-        function sendForDrying(btnObj) {
-
-            var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
-            $('#sendForDryingModalId').val(trId);
-            console.log(  $(trObj).attr('id'));
-            var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-            $('#sendForDryingModalHeader').text("Отправить на сухой склад "+codeOfRawStorage);
-
-            var code = $(trObj).find('th:eq(0)').text();
-            var material = $(trObj).find('td:eq(0)').text();
-            var description = $(trObj).find('td:eq(1)').text();
-            var thickness = $(trObj).find('td:eq(2)').text();
-            var width = $(trObj).find('td:eq(3)').text();
-            var length = $(trObj).find('td:eq(4)').text();
-            var count = $(trObj).find('td:eq(5)').text();
-            var extent = $(trObj).find('td:eq(6)').text();
-
-            $('#sendForDryingModalCode').val(code);
-            $('#sendForDryingModalMaterial').val(material);
-            $('#sendForDryingModalMaterialDescr').val(description);
-            $('#sendForDryingModalThickness').val(thickness);
-            $('#sendForDryingModalWidth').val(width);
-            $('#sendForDryingModalLength').val(length);
-            $('#sendForDryingModalCount').val(count);
-            $('#sendForDryingModalVolume').val(extent);
-
-
-            $('#sendForDryingModal').modal('show');
-        }
-        function editRawStorage(btnObj) {
-
-            var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
-            $('#editDryingModalId').val(trId);
-            console.log(  $(trObj).attr('id'));
-            var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-            $('#editDryingModalHeader').text("Редактировать "+codeOfRawStorage);
-
-            var code = $(trObj).find('th:eq(0)').text();
-            var material = $(trObj).find('td:eq(0)').text();
-            var description = $(trObj).find('td:eq(1)').text();
-            var thickness = $(trObj).find('td:eq(2)').text();
-            var width = $(trObj).find('td:eq(3)').text();
-            var length = $(trObj).find('td:eq(4)').text();
-            var count = $(trObj).find('td:eq(5)').text();
-            var extent = $(trObj).find('td:eq(6)').text();
-
-            $('#editDryingModalCode').val(code);
-            $('#editDryingModalMaterial').val(material);
-            $('#editDryingModalMaterialDescr').val(description);
-            $('#editDryingModalThickness').val(thickness);
-            $('#editDryingModalWidth').val(width);
-            $('#editDryingModalLength').val(length);
-            $('#editDryingModalCount').val(count);
-            $('#editDryingModalVolume').val(extent);
-
-
-            $('#editDryingModal').modal('show');
-        }
-    </script>
 </th:block>
 
 
@@ -471,64 +409,8 @@
     </script>
     <!-- Export end -->
 
+    <script type="text/javascript" th:src="@{../js/fabric/drying/drying.storage.oak.js}"></script>
 
-
-    <script type="text/javascript">
-        function sendForDryingOak(btnObj) {
-
-            var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
-            $('#sendForDryStorageModalId').val(trId);
-            console.log(  $(trObj).attr('id'));
-            var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-            $('#sendForDryStorageModalHeader').text("Отправить на сухой склад "+codeOfRawStorage);
-
-            var code =              $(trObj).find('th:eq(0)').text();
-            var material =          $(trObj).find('td:eq(0)').text();
-            var breedDescription =  $(trObj).find('td:eq(1)').text();
-            var thickness =         $(trObj).find('td:eq(2)').text();
-            var extent =            $(trObj).find('td:eq(3)').text();
-            var description =       $(trObj).find('td:eq(4)').text();
-
-            $('#sendForDryStorageModalCode').val(code);
-            $('#sendForDryStorageModalMaterial').val(material);
-            $('#sendForDryStorageModalMaterialDescr').val(breedDescription);
-            $('#sendForDryStorageModalThickness').val(thickness);
-            $('#sendForDryStorageModalVolume').val(extent);
-            $('#sendForDryStorageModalDescription').val(description);
-
-
-            $('#sendForDryStorageModal').modal('show');
-        }
-
-
-        function editRawStorageOak(btnObj) {
-
-            var trObj = btnObj.parentElement.parentElement;
-            var trId =  $(trObj).attr('id');
-            $('#editDryingModalId').val(trId);
-            console.log(  $(trObj).attr('id'));
-            var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-            $('#editDryingModalHeader').text("Редактировать "+codeOfRawStorage);
-
-            var code =              $(trObj).find('th:eq(0)').text();
-            var material =          $(trObj).find('td:eq(0)').text();
-            var breedDescription =  $(trObj).find('td:eq(1)').text();
-            var thickness =         $(trObj).find('td:eq(2)').text();
-            var extent =            $(trObj).find('td:eq(3)').text();
-            var description =       $(trObj).find('td:eq(4)').text();
-
-            $('#editDryingModalCode').val(code);
-            $('#editDryingModalMaterial').val(material);
-            $('#editDryingModalMaterialDescr').val(breedDescription);
-            $('#editDryingModalThickness').val(thickness);
-            $('#editDryingModalVolume').val(extent);
-            $('#editForDryingModalDescription').val(description);
-
-
-            $('#editDryingModalOak').modal('show');
-        }
-    </script>
 </th:block>
 
 

@@ -80,29 +80,44 @@
                             <input type="text" class="form-control" id="sendForDryingModalId" hidden="hidden" autocomplete="off" name="rawStorageId">
 
                             <label class="col-form-label" for="sendForDryingModalCode">Код</label>
-                            <input type="text" class="form-control" id="sendForDryingModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                            <input type="text" class="form-control" id="sendForDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
-                            <label class="control-label" for="sendForDryingModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="sendForDryingModalMaterial" disabled="disabled">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px">
+                                <div class="col-6">
+                                    <label class="control-label" for="sendForDryingModalMaterial">Порода</label>
+                                    <input type="text" class="form-control" id="sendForDryingModalMaterial" disabled="disabled">
+                                </div>
+                                <div class="col-6">
+                                    <label class="control-label" for="sendForDryingModalMaterialDescr">Описание</label>
+                                    <input class="form-control" id="sendForDryingModalMaterialDescr" type="text" placeholder="Не заполнено"  name="breedDescription">
+                                </div>
+                            </div>
 
-                            <label class="control-label" for="sendForDryingModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="sendForDryingModalMaterialDescr" type="text"  name="breedDescription">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
+                                    <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" required="required" placeholder="мм" name="sizeOfHeight">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="sendForDryingModalWidth">Шырина</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalWidth" disabled="disabled" placeholder="мм" name="sizeOfWidth">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalLength" disabled="disabled" placeholder="мм" name="sizeOfLong">
+                                </div>
+                            </div>
 
-                            <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
-
-                            <label class="col-form-label" for="sendForDryingModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalWidth" disabled="disabled" name="sizeOfWidth">
-
-                            <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalLength" disabled="disabled" name="sizeOfLong">
-
-                            <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
-                            <input type="number" class="form-control" id="sendForDryingModalCount" required="required" autocomplete="off" min="1" placeholder="шт" name="countOfDesk">
-
-                            <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="sendForDryingModalVolume" disabled="disabled" name="extent">
-
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalCount" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
+                                    <input type="text" class="form-control" id="sendForDryingModalVolume" disabled="disabled" name="extent">
+                                </div>
+                            </div>
                         </div>
                         <!-- Insert rows -->
                     </div>
@@ -114,6 +129,7 @@
             </div>
         </div>
     </div>
+
     <!-- Сушка edit-->
     <div class="modal fade" id="editDryingModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -132,29 +148,44 @@
                             <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
 
                             <label class="col-form-label" for="editDryingModalCode">Код</label>
-                            <input type="text" class="form-control" id="editDryingModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                            <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
-                            <label class="control-label" for="editDryingModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px">
+                                <div class="col-6">
+                                    <label class="control-label" for="editDryingModalMaterial">Порода</label>
+                                    <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                                </div>
+                                <div class="col-6">
+                                    <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
+                                    <input class="form-control" id="editDryingModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                                </div>
+                            </div>
 
-                            <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="editDryingModalMaterialDescr" type="text" name="breedDescription">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="editDryingModalWidth">Шырина</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="editDryingModalLength">Длина</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                </div>
+                            </div>
 
-                            <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
-
-                            <label class="col-form-label" for="editDryingModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
-
-                            <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                            <input type="text" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
-
-                            <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
-
-                            <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
-
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
+                                    <input type="number" min="1" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
+                                </div>
+                            </div>
                         </div>
                         <!-- Insert rows -->
                     </div>
@@ -226,7 +257,7 @@
                         <label class="col-form-label" for="sendForPackageModalCode">Код</label>
                         <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
 
-                        <div class="form-group row d-flex" style="align-items: flex-end">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px">
                             <div class="col-6">
                                 <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
                                 <input type="text" class="form-control" id="sendForPackageModalMaterial" disabled="disabled">
@@ -238,7 +269,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row d-flex" style="align-items: flex-end">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">

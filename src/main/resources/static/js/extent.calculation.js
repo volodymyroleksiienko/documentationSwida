@@ -35,7 +35,6 @@ function createPackageExtentCalc(table, extentInput, lengthInput, heightInput){
 
 
 
-
 //////////////////////////////////////////////////////////////////////////////
 $("#sendForPackageLength").change(function() {
     let extent = $("#sendForPackageModalExtent");

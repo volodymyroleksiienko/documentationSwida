@@ -60,7 +60,7 @@ public class StatisticController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
 
-        model.addAttribute("descList",getAllBreedDescription(breedId));
+//        model.addAttribute("descList",getAllBreedDescription(breedId));
         model.addAttribute("sizeOfHeightList",getAllSizeOfHeight(breedId));
         if(breedId!=2){
             model.addAttribute("sizeOfWidthList",getAllSizeOfWidth(breedId));
