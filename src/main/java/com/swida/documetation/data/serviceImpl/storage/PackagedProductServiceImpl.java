@@ -6,6 +6,7 @@ import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -357,5 +358,15 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     @Override
     public List<String> getListOfUnicSizeOfLong(int breedId) {
         return productJPA.getListOfUnicSizeOfLong(breedId);
+    }
+
+    @Override
+    public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId, StatusOfProduct statusProduct) {
+        return productJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId,statusProduct);
+    }
+
+    @Override
+    public List<String> getExtentByOrder(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId, DeliveryDestinationType type) {
+        return productJPA.getExtentByOrder(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId,type);
     }
 }

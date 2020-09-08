@@ -13,6 +13,7 @@
                 <th scope="col">Взвешивание, грн</th>
                 <th scope="col">Курс, $</th>
                 <th scope="col">Эквивалент в гривне</th>
+                <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Статус</th>
                 <th></th>
             </tr>
@@ -27,6 +28,7 @@
                 <td th:text="${container.costOfWeighing}"></td>
                 <td th:text="${container.exchangeRate}"></td>
                 <td th:text="${container.equalsToUAH}"></td>
+                <td th:text="${container.date}"></td>
                 <td th:text="${container.statusOfEntity}"></td>
                 <td style="width: 70px; text-align: right">
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -47,6 +49,7 @@
                 <th scope="col">Взвешивание, грн</th>
                 <th scope="col">Курс, $</th>
                 <th scope="col">Эквивалент в гривне</th>
+                <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Статус</th>
                 <th></th>
             </tr>
@@ -81,24 +84,24 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploading(this.value)">
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера</label>
-                                <input type="number" step="any" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading">
+                                <input type="number" step="any" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт</label>
-                                <input type="number" step="any" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort">
+                                <input type="number" step="any" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" value="80">
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerMeasurement">Взвешивание</label>
-                                <input type="number" step="any" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing">
+                                <input type="number" step="any" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" value="100">
                             </div>
                         </div>
 
@@ -109,8 +112,8 @@
                             </div>
 
                             <div class="col-6">
-                                <label class="col-form-label" for="addUah">Эквивалент в гривне</label>
-                                <input type="number" step="any" class="form-control" id="addUah" required="required" placeholder="uah" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="equalsToUAH">
+                                <label class="col-form-label" for="addContainerDate">Срок выполнения</label>
+                                <input class="form-control" type="date" id="addContainerDate"  name="date">
                             </div>
                         </div>
                     </div>
@@ -144,7 +147,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerExpotrExtent">Эксп. объем, загрузка, м<sup>3</sup></label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" required="required" autocomplete="off" name="extent">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" required="required" autocomplete="off" name="extent" oninput="countCostOfUploadingEdit(this.value)">
                             </div>
 
                             <div class="col-6">
@@ -173,7 +176,12 @@
 
                             <div class="col-6">
                                 <label class="col-form-label" for="editUah">Эквивалент в гривне</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editUah" required="required" autocomplete="off" name="equalsToUAH">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editUah" disabled="disabled" required="required" autocomplete="off" name="equalsToUAH">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="col-form-label" for="editContainerDate">Срок выполнения</label>
+                                <input class="form-control" type="date" id="editContainerDate"  name="date">
                             </div>
                         </div>
                     </div>
@@ -186,6 +194,12 @@
         </div>
     </div>
     <script type="text/javascript">
+        function countCostOfUploading(value) {
+            $('#addContainerUnloading').val(value*4);
+        }
+        function countCostOfUploadingEdit(value) {
+            $('#editContainerUnloading').val(value*4);
+        }
         function editContainer(btnObj) {
 
             var trObj =             btnObj.parentElement.parentElement;
@@ -201,6 +215,7 @@
             var measurement =       $(trObj).find('td:eq(4)').text();
             var currency =          $(trObj).find('td:eq(5)').text();
             var uah =               $(trObj).find('td:eq(6)').text();
+            var date =               $(trObj).find('td:eq(7)').text();
 
             $('#editContainerNumber')           .val(cantainerNumber);
             $('#editContainerExpotrExtent')     .val(exportExtent);
@@ -209,6 +224,7 @@
             $('#editContainerMeasurement')      .val(measurement);
             $('#editContainerCurrency')         .val(currency);
             $('#editUah')                       .val(uah);
+            $('#editContainerDate')             .val(date);
 
             $('#editContainerModal').modal('show');
         }

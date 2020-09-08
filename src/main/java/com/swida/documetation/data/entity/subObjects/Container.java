@@ -20,6 +20,8 @@ public class Container {
     private String exchangeRate;
     private String equalsToUAH;
 
+    private String date;
+
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity=StatusOfEntity.ACTIVE;
 

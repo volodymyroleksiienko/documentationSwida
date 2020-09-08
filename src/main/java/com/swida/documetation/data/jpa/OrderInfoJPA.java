@@ -35,4 +35,10 @@ public interface OrderInfoJPA extends JpaRepository<OrderInfo,Integer> {
 
     @Query("select obj from  OrderInfo obj where obj.mainOrder.id=?1")
     List<OrderInfo> findDistributionObj(int mainId);
+
+    @Query("select obj.breedDescription from OrderInfo obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' group by obj.breedDescription")
+    List<String> getListOfUnicBreedDescription(int breedId);
+
+    @Query("select obj.toDoExtentOfOrder from  OrderInfo obj where  obj.breedOfTree.id=?1 and obj.contrAgent.id in ?2 and obj.statusOfEntity='ACTIVE' and obj.toDoExtentOfOrder<>'0.000' and  obj.toDoExtentOfOrder not like '-%'")
+    List<String> getExtentProviderInWork(int breedId,int[] agentId);
 }

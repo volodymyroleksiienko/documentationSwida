@@ -149,4 +149,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
         }
     }
+
+    @Override
+    public List<String> getListOfUnicBreedDescription(int breedId) {
+        return orderInfoJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public List<String> getExtentProviderInWork(int breedId, int[] agentId) {
+        return orderInfoJPA.getExtentProviderInWork(breedId,agentId);
+    }
 }
