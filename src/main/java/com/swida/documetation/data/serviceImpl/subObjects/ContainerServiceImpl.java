@@ -20,6 +20,12 @@ public class ContainerServiceImpl implements ContainerService {
 
     @Override
     public void save(Container container) {
+        container.setEqualsToUAH(
+                String.format("%.3f",
+                        (Float.parseFloat(container.getCostOfDeliveryToPort())+Float.parseFloat(container.getCostOfUploading()))
+                                *Float.parseFloat(container.getExchangeRate())+Float.parseFloat(container.getCostOfWeighing())
+                ).replace(",",".")
+        );
         containerJPA.save(container);
     }
 
