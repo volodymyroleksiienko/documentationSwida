@@ -2,6 +2,8 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.enums.ContrAgentType;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
+import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -33,6 +35,7 @@ public class StatisticController {
     private UserCompanyService userCompanyService;
     private OrderInfoService orderInfoService;
     private DriverInfoService driverInfoService;
+    private float mainExtent = 0;
 
     @Autowired
     public StatisticController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService, OrderInfoService orderInfoService, DriverInfoService driverInfoService) {
@@ -105,6 +108,7 @@ public class StatisticController {
         list.addAll(dryingStorageService.getListOfUnicBreedDescription(breedId));
         System.out.println(packagedProductService.getListOfUnicBreedDescription(breedId));
         list.addAll(packagedProductService.getListOfUnicBreedDescription(breedId));
+        list.addAll(orderInfoService.getListOfUnicBreedDescription(breedId));
         return list;
     }
 
@@ -142,7 +146,7 @@ public class StatisticController {
     private float countExtent(List<String> list){
         float extent = 0;
         for(String ex:list){
-            extent += Float.parseFloat(ex);
+            extent += Float.parseFloat(ex.replace(",","."));
         }
         return extent;
     }
@@ -151,7 +155,19 @@ public class StatisticController {
     @PostMapping("/getStatisticInfo-{breedId}")
     public JSONObject getStatisticInfo(@PathVariable("breedId")int breedId, String[] descriptions, String[] sizeOfHeight,
                                    String[]sizeOfWidth,String[] sizeOfLong,int[]providers,String[] stages){
+        mainExtent=0;
         JSONObject json = new JSONObject();
+        json.put("treeStorage","0.000");
+        json.put("rawStorage","0.000");
+        json.put("dryingStorage","0.000");
+        json.put("dryStorage","0.000");
+        json.put("packagedProduct","0.000");
+        json.put("deliveryMultimodal","0.000");
+        json.put("deliveryPort","0.000");
+        json.put("deliveryCountry","0.000");
+        json.put("providerInWork","0.000");
+        json.put("recycleStorage","0.000");
+
         for(String stg:stages){
             switch (stg){
             case "treeStorage":
@@ -168,20 +184,55 @@ public class StatisticController {
                  System.out.println(dryingStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
                  json.put("dryingStorage",formatExtent(dryingStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
                  break;
+
             case "dryStorage":
                 System.out.println(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
-                json.put("drStorage",formatExtent(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
+                json.put("dryStorage",formatExtent(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
                 break;
+
+            case "packagedProduct":
+                System.out.println(packagedProductService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,StatusOfProduct.ON_STORAGE));
+                json.put("packagedProduct",formatExtent(packagedProductService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,StatusOfProduct.ON_STORAGE)));
+                break;
+
+            case "deliveryMultimodal":
+                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.MULTIMODAL));
+                json.put("deliveryMultimodal",formatExtent(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,DeliveryDestinationType.MULTIMODAL)));
+                break;
+
+            case "deliveryPort":
+                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.PORT));
+                json.put("deliveryPort",formatExtent(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,DeliveryDestinationType.PORT)));
+                break;
+
+            case "deliveryCountry":
+                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.COUNTRY));
+                json.put("deliveryCountry",formatExtent(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,DeliveryDestinationType.COUNTRY)));
+                break;
+
+            case "providerInWork":
+                System.out.println(orderInfoService.getExtentProviderInWork(breedId,providers));
+                json.put("providerInWork",formatExtent(orderInfoService.getExtentProviderInWork(breedId,providers)));
+                break;
+
+            case "recycleStorage":
+                System.out.println(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.RECYCLING));
+                json.put("recycleStorage",formatExtent(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.RECYCLING)));
+                break;
+
             }
 
         }
-
+        json.put("mainExtent",
+                String.format("%.3f",mainExtent).replace(",","."));
 
         return json;
     }
 
 
     private String formatExtent(List<String> list){
-        return String.format("%.3f",countExtent(list)).replace(",",".");
+        float extent = countExtent(list);
+        mainExtent+=extent;
+        return String.format("%.3f",extent).replace(",",".");
     }
 }

@@ -27,4 +27,7 @@ public interface OrderInfoService {
     void checkLeftOverInfo(int contractId);
     void deleteByID(int id);
     void deleteEmptyLeftOverOrders(List<OrderInfo> orderList);
+
+    List<String> getListOfUnicBreedDescription(int breedId);
+    List<String> getExtentProviderInWork(int breedId,int[] agentId);
 }

@@ -2,6 +2,7 @@ package com.swida.documetation.data.service.storages;
 
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 
 import java.util.List;
@@ -34,4 +35,8 @@ public interface PackagedProductService {
     List<String> getListOfUnicSizeOfHeight(int breedId);
     List<String> getListOfUnicSizeOfWidth(int breedId);
     List<String> getListOfUnicSizeOfLong(int breedId);
+
+    List<String> getExtent(int breedId,String[] breedDesc,String[] sizeHeight,String[] sizeWidth,String[] sizeLong,int[] agentId,StatusOfProduct statusProduct);
+    List<String> getExtentByOrder(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId, DeliveryDestinationType type);
+
 }
