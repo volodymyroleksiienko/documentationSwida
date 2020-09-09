@@ -5,10 +5,7 @@ import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
-import com.swida.documetation.data.enums.ContrAgentType;
-import com.swida.documetation.data.enums.DeliveryDestinationType;
-import com.swida.documetation.data.enums.StatusOfEntity;
-import com.swida.documetation.data.enums.StatusOfOrderInfo;
+import com.swida.documetation.data.enums.*;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
@@ -315,6 +312,11 @@ public class DeliveryPortAndUAController {
         for(DeliveryDocumentation doc:docList){
             doc.setStatusOfEntity(StatusOfEntity.ARCHIVED);
             deliveryDocumentationService.save(doc);
+            for(PackagedProduct product:doc.getProductList()){
+                product.setStatusOfEntity(StatusOfEntity.ARCHIVED);
+                product.setStatusOfProduct(StatusOfProduct.DELIVERED);
+                packagedProductService.save(product);
+            }
         }
     }
 }
