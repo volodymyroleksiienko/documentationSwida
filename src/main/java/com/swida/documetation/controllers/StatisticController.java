@@ -67,8 +67,8 @@ public class StatisticController {
         model.addAttribute("sizeOfHeightList",getAllSizeOfHeight(breedId));
         if(breedId!=2){
             model.addAttribute("sizeOfWidthList",getAllSizeOfWidth(breedId));
-            model.addAttribute("sizeOfLongList",getAllSizeOfLong(breedId));
         }
+        model.addAttribute("sizeOfLongList",getAllSizeOfLong(breedId));
         model.addAttribute("providerList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
 
         return "adminPage";
@@ -134,9 +134,11 @@ public class StatisticController {
 
     private Set<String> getAllSizeOfLong(int breedId){
         Set<String> list = new TreeSet<>();
-        list.addAll(rawStorageService.getListOfUnicSizeOfLong(breedId));
-        list.addAll(dryStorageService.getListOfUnicSizeOfLong(breedId));
-        list.addAll(dryingStorageService.getListOfUnicSizeOfLong(breedId));
+        if(breedId!=2) {
+            list.addAll(rawStorageService.getListOfUnicSizeOfLong(breedId));
+            list.addAll(dryStorageService.getListOfUnicSizeOfLong(breedId));
+            list.addAll(dryingStorageService.getListOfUnicSizeOfLong(breedId));
+        }
         System.out.println(packagedProductService.getListOfUnicSizeOfLong(breedId));
         list.addAll(packagedProductService.getListOfUnicSizeOfLong(breedId));
         return list;
