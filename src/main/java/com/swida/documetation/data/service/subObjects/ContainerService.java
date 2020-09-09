@@ -10,5 +10,6 @@ public interface ContainerService {
     Container findById(int id);
     List<Container> findAll();
     List<Container> selectByStatusOfEntity(StatusOfEntity status);
+    String getExtentInContainer(int containerId);
     void deleteByID(int id);
 }

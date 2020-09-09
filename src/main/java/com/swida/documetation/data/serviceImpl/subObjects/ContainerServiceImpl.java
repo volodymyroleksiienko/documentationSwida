@@ -1,7 +1,9 @@
 package com.swida.documetation.data.serviceImpl.subObjects;
 
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.enums.StatusOfEntity;
+import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
 import com.swida.documetation.data.jpa.subObjects.ContainerJPA;
 import com.swida.documetation.data.service.subObjects.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +14,44 @@ import java.util.List;
 @Service
 public class ContainerServiceImpl implements ContainerService {
     private ContainerJPA containerJPA;
+    private PackagedProductJPA productJPA;
 
     @Autowired
-    public ContainerServiceImpl(ContainerJPA containerJPA) {
+    public ContainerServiceImpl(ContainerJPA containerJPA, PackagedProductJPA productJPA) {
         this.containerJPA = containerJPA;
+        this.productJPA = productJPA;
     }
 
     @Override
     public void save(Container container) {
+        float costOfDeliveryPort = Float.parseFloat(container.getCostOfDeliveryToPort());
+        float exchangeRate = Float.parseFloat(container.getExchangeRate());
+        float costOfWeighing = Float.parseFloat(container.getCostOfWeighing());
+        float coefUploading = Float.parseFloat(container.getCoefUploading());
+        container.setExtent(getExtentInContainer(container.getId()));
+        float extent = Float.parseFloat(container.getExtent());
+        float costOfUploading = coefUploading * extent;
+
+        container.setCostOfUploading(
+                String.format("%.3f",costOfUploading).replace(",",".")
+        );
         container.setEqualsToUAH(
                 String.format("%.3f",
-                        (Float.parseFloat(container.getCostOfDeliveryToPort())+Float.parseFloat(container.getCostOfUploading()))
-                                *Float.parseFloat(container.getExchangeRate())+Float.parseFloat(container.getCostOfWeighing())
+                        (costOfDeliveryPort+(coefUploading*extent))
+                                *exchangeRate+costOfWeighing
                 ).replace(",",".")
         );
         containerJPA.save(container);
+    }
+
+    @Override
+    public String getExtentInContainer(int containerId) {
+        List<String> extentList = productJPA.getExtentInContainer(containerId);
+        float extent = 0;
+        for(String ex:extentList){
+            extent+=Float.parseFloat(ex);
+        }
+        return String.format("%.3f",extent).replace(",",".");
     }
 
     @Override

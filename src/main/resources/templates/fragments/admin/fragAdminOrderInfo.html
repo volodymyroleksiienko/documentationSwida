@@ -25,7 +25,7 @@
             <tr th:each="b : ${orderInfoList}" th:id="${b.id}">
                 <td th:text="${b.id}"></td>
                 <th scope="row" th:text="${b.codeOfOrder}"></th>
-                <td th:text="${b.breedOfTree.breed}"></td>
+                <td th:text="${b?.breedOfTree?.breed}"></td>
                 <td th:text="${b.breedDescription}"></td>
                 <td th:text="${(b.contrAgent!=null)?b.contrAgent.nameOfAgent:''}"></td>
                 <td th:text="${b.extentOfOrder}"></td>
@@ -444,7 +444,7 @@
             <tr th:each="b : ${orderInfoList}" th:id="${b.id}">
                 <td th:text="${b.id}"></td>
                 <th scope="row" th:text="${b.codeOfOrder}"></th>
-                <td th:text="${b.breedOfTree.breed}"></td>
+                <td th:text="${b?.breedOfTree?.breed}"></td>
                 <td th:text="${b.breedDescription}"></td>
                 <td th:text="${(b.contrAgent!=null)?b.contrAgent.nameOfAgent:''}"></td>
                 <td th:text="${b.extentOfOrder}"></td>

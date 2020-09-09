@@ -16,6 +16,9 @@ public interface PackagedProductJPA extends JpaRepository<PackagedProduct,Intege
     @Query("select obj from PackagedProduct obj where obj.dryStorage.id=?1 group by obj.dryStorage.id order by obj.id ")
     PackagedProduct getProductByDryStorage(int dryStorageId);
 
+    @Query("select obj.extent from PackagedProduct obj where obj.container.id=?1")
+    List<String> getExtentInContainer(int containerId);
+
     //selects for statistic
 
     @Query("select obj.breedDescription from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.breedDescription")

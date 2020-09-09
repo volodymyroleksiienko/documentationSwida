@@ -40,4 +40,23 @@ public class DeliveryDocumentation {
     private DeliveryDestinationType destinationType;
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
+
+    @Override
+    public String toString() {
+        return "DeliveryDocumentation{" +
+                "id=" + id +
+                ", dateOfUnloading='" + dateOfUnloading + '\'' +
+                ", timeOfUnloading='" + timeOfUnloading + '\'' +
+                ", clientName='" + clientName + '\'' +
+                ", description='" + description + '\'' +
+                ", packagesExtent='" + packagesExtent + '\'' +
+                ", orderInfo=" + orderInfo +
+                ", breedOfTree=" + breedOfTree +
+                ", driverInfo=" + driverInfo +
+                ", contrAgent=" + contrAgent +
+                ", userCompany=" + userCompany +
+                ", destinationType=" + destinationType +
+                ", statusOfEntity=" + statusOfEntity +
+                '}';
+    }
 }

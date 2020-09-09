@@ -8,12 +8,15 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">№ контейнера</th>
-                <th scope="col">Экспортный объем, загрузка, м<sup>3</sup></th>
-                <th scope="col">Загрузка контейнера, $</th>
-                <th scope="col">Вывоз контейнера в порт, $</th>
+                <th scope="col">№ контракта</th>
+                <th scope="col">Покупатель</th>
+                <th scope="col">Экспорт м<sup>3</sup></th>
+                <th scope="col">Цена за м<sup>3</sup></th>
+                <th scope="col">Загрузка $</th>
+                <th scope="col">Вывоз в порт, $</th>
                 <th scope="col">Взвешивание, грн</th>
                 <th scope="col">Курс, $</th>
-                <th scope="col">Эквивалент в гривне</th>
+                <th scope="col">Эквивалент &#8372;</th>
                 <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Статус</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
@@ -23,7 +26,10 @@
             <tr th:each="container : ${containerList}" th:id="${container.id}">
                 <td th:text="${container.id}"></td>
                 <td scope="row" th:text="${container.code}"></td>
+                <td th:text="${container?.codeOfOrderInfo}"></td>
+                <td th:text="${container?.contrAgent?.nameOfAgent}"></td>
                 <td th:text="${container.extent}"></td>
+                <td th:text="${container?.coefUploading}"></td>
                 <td th:text="${container.costOfUploading}"></td>
                 <td th:text="${container.costOfDeliveryToPort}"></td>
                 <td th:text="${container.costOfWeighing}"></td>
@@ -44,12 +50,15 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">№ контейнера</th>
-                <th scope="col">Экспортный объем, загрузка, м<sup>3</sup></th>
-                <th scope="col">Загрузка контейнера, $</th>
-                <th scope="col">Вывоз контейнера в порт, $</th>
+                <th scope="col">№ контракта</th>
+                <th scope="col">Покупатель</th>
+                <th scope="col">Экспорт м<sup>3</sup></th>
+                <th scope="col">Цена за м<sup>3</sup></th>
+                <th scope="col">Загрузка $</th>
+                <th scope="col">Вывоз в порт, $</th>
                 <th scope="col">Взвешивание, грн</th>
                 <th scope="col">Курс, $</th>
-                <th scope="col">Эквивалент в гривне</th>
+                <th scope="col">Эквивалент &#8372;</th>
                 <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Статус</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>

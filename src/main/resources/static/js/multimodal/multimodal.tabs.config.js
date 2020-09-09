@@ -74,6 +74,7 @@ $(document).ready( function () {
     $('#setContainerRequest').on( 'click', function () {
         let newData = document.getElementsByClassName("selected");
         let container = document.getElementById("selectContainer-hidden").value;
+        let containerName = document.getElementById("selectContainer").value;
         console.log("id of container: "+container);
 
         let arrayOfId = [];
@@ -89,6 +90,7 @@ $(document).ready( function () {
             data: {
                 arrayOfPackagesId: arrayOfId,
                 containerId: container,
+                containerName:containerName
             },
             traditional: true,
             success: function () {

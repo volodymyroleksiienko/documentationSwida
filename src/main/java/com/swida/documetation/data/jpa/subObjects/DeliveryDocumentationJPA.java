@@ -12,7 +12,7 @@ public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocument
     @Query("select t from  DeliveryDocumentation  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfEntity='ACTIVE'")
     List<DeliveryDocumentation> getListByUserByBreed(int breedId, int userId);
 
-    @Query("select t from  DeliveryDocumentation  t where t.orderInfo.id in ?1")
+    @Query("select t from  DeliveryDocumentation  t where t.orderInfo.id in ?1 and t.packagesExtent<>'0.000'")
     List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId);
 
 

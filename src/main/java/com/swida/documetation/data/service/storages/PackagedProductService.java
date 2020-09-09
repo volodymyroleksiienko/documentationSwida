@@ -27,7 +27,9 @@ public interface PackagedProductService {
     PackagedProduct editPackageProduct(PackagedProduct product);
     PackagedProduct editPackageProductOak(PackagedProduct product);
     void addDescriptionOak(String packId, String width, String count);
-    void setContainer(String[] arrayOfPackagesId, String containerId);
+
+    void setContainer(String[] arrayOfPackagesId, String containerId,String containerName);
+
     void deleteDescriptionOak(String packId, String deskId);
 
     //for statistic

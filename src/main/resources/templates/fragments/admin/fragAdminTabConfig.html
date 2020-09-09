@@ -67,12 +67,12 @@
                    th:classappend="${tabName.equals('contracts')} ? 'active':''">Контракты</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/multimodal/getListOfALLContainers"
-                   th:classappend="${tabName.equals('containers')} ? 'active':''">Контейнеры</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="/multimodal/getLeftOverInfo"
                    th:classappend="${tabName.equals('leftOver')} ? 'active':''">Остаток</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/multimodal/getListOfALLContainers"
+                   th:classappend="${tabName.equals('containers')} ? 'active':''">Контейнеры</a>
             </li>
         </ul>
     </div>

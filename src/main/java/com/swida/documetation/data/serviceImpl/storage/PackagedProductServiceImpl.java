@@ -17,6 +17,7 @@ import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContainerService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -311,14 +312,35 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
 
     @Override
-    public void setContainer(String[] arrayOfPackagesId, String containerId) {
-        Container container = containerService.findById(Integer.parseInt(containerId));
+    public void setContainer(String[] arrayOfPackagesId, String containerId,String containerName) {
+        if (arrayOfPackagesId.length==0){
+            return;
+        }
+        Container container;
+        if (StringUtils.isNumeric(containerId)) {
+            container = containerService.findById(Integer.parseInt(containerId));
+        }else {
+            container = new Container();
+            container.setCode(containerName);
+            container.setContrAgent(
+                    productJPA.getOne(Integer.parseInt(arrayOfPackagesId[0]))
+                    .getDeliveryDocumentation().getOrderInfo().getContrAgent()
+            );
+            container.setCodeOfOrderInfo(
+                    productJPA.getOne(Integer.parseInt(arrayOfPackagesId[0]))
+                            .getDeliveryDocumentation().getOrderInfo().getMainOrder().getCodeOfOrder()
+            );
+            containerService.save(container);
+        }
         for (String id:arrayOfPackagesId) {
             PackagedProduct product = productJPA.getOne(Integer.parseInt(id));
             product.setContainer(container);
             productJPA.save(product);
         }
+        containerService.save(container);
     }
+
+
 
     @Override
     public void deleteDescriptionOak(String packId, String deskId) {

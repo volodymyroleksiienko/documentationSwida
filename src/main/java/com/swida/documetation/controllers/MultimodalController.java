@@ -244,7 +244,7 @@ public class MultimodalController {
         docDB.setDateOfUnloading(docWeb.getDateOfUnloading());
         docDB.getDriverInfo().setIdOfTruck(docWeb.getDriverInfo().getIdOfTruck());
         docDB.setContrAgent(contrAgentService.findById(docWeb.getContrAgent().getId()));
-        docDB.setOrderInfo(orderInfoService.findById(docWeb.getOrderInfo().getId()));
+//        docDB.setOrderInfo(orderInfoService.findById(docWeb.getOrderInfo().getId()));
         docDB.setPackagesExtent(docWeb.getPackagesExtent());
         deliveryDocumentationService.save(docDB);
         reloadAllExtentFields(docDB);
@@ -263,12 +263,15 @@ public class MultimodalController {
             newDoc.setUserCompany(docDB.getUserCompany());
             newDoc.setDestinationType(DeliveryDestinationType.MULTIMODAL);
 
-            newDoc.setOrderInfo(docWeb.getOrderInfo());
-            List<PackagedProduct> productList = docDB.getProductList();
-            for(PackagedProduct product:productList){
-                if(product.getContainer()==null){
-                    newDoc.getProductList().add(product);
-                    docDB.getProductList().remove(product);
+            newDoc.setOrderInfo(orderInfoService.findById(docWeb.getOrderInfo().getId()));
+            newDoc.setProductList(new ArrayList<>());
+
+            List<PackagedProduct> productList = new ArrayList<>();
+            productList.addAll(docDB.getProductList());
+            for(int i=0; i<productList.size();i++){
+                if(productList.get(i).getContainer()==null){
+                    newDoc.getProductList().add(productList.get(i));
+                    docDB.getProductList().remove(productList.get(i));
                 }
             }
             deliveryDocumentationService.save(newDoc);
@@ -477,8 +480,8 @@ public class MultimodalController {
 // REST REST REST
     @ResponseBody
     @PostMapping("/setContainer")
-    public  void setContainer(String[] arrayOfPackagesId, String containerId){
-        packagedProductService.setContainer(arrayOfPackagesId,containerId);
+    public  void setContainer(String[] arrayOfPackagesId, String containerId, String containerName){
+        packagedProductService.setContainer(arrayOfPackagesId,containerId,containerName);
     }
 
 }
