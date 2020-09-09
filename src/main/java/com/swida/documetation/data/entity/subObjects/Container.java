@@ -1,5 +1,6 @@
 package com.swida.documetation.data.entity.subObjects;
 
+import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
@@ -30,4 +31,6 @@ public class Container {
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity=StatusOfEntity.ACTIVE;
 
+    @Enumerated(EnumType.STRING)
+    private DeliveryDestinationType destinationType = DeliveryDestinationType.MULTIMODAL;
 }

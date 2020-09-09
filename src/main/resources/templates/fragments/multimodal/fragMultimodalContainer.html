@@ -18,6 +18,7 @@
                 <th scope="col">Курс, $</th>
                 <th scope="col">Эквивалент &#8372;</th>
                 <th scope="col">Дата вывоза в порт</th>
+                <th scope="col">Состояние</th>
                 <th scope="col">Статус</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
             </tr>
@@ -36,6 +37,7 @@
                 <td th:text="${container.exchangeRate}"></td>
                 <td th:text="${container.equalsToUAH}"></td>
                 <td th:text="${container.date}"></td>
+                <td th:text="${container.destinationType}"></td>
                 <td th:text="${container.statusOfEntity}"></td>
                 <td style="width: 70px; text-align: right" sec:authorize="hasRole('ROLE_ADMIN')">
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -60,6 +62,7 @@
                 <th scope="col">Курс, $</th>
                 <th scope="col">Эквивалент &#8372;</th>
                 <th scope="col">Дата вывоза в порт</th>
+                <th scope="col">Состояние</th>
                 <th scope="col">Статус</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
             </tr>
