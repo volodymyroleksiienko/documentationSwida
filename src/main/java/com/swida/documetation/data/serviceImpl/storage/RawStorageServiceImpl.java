@@ -80,6 +80,9 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId) {
+        if(breedId==2){
+            return rawStorageJPA.getExtentOak(breedId,breedDesc,sizeHeight,agentId);
+        }
         return rawStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);
     }
 }

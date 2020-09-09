@@ -37,8 +37,14 @@ public interface PackagedProductJPA extends JpaRepository<PackagedProduct,Intege
     @Query("select obj.extent from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.breedDescription in ?2 and obj.sizeOfHeight in ?3 and obj.sizeOfWidth in ?4 and obj.sizeOfLong in ?5 and obj.userCompany.contrAgent.id in ?6 and obj.statusOfProduct=?7 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%'")
     List<String> getExtent(int breedId,String[] breedDesc,String[] sizeHeight,String[] sizeWidth,String[] sizeLong,int[] agentId,StatusOfProduct statusProduct);
 
+    @Query("select obj.extent from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.breedDescription in ?2 and obj.sizeOfHeight in ?3 and obj.sizeOfLong in ?4 and obj.userCompany.contrAgent.id in ?5 and obj.statusOfProduct=?6 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%'")
+    List<String> getExtentOak(int breedId,String[] breedDesc,String[] sizeHeight,String[] sizeLong,int[] agentId,StatusOfProduct statusProduct);
+
 
     @Query("select obj.extent from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.breedDescription in ?2 and obj.sizeOfHeight in ?3 and obj.sizeOfWidth in ?4 and obj.sizeOfLong in ?5 and obj.userCompany.contrAgent.id in ?6 and obj.orderInfo.destinationType=?7 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%'")
     List<String> getExtentByOrder(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId, DeliveryDestinationType type);
+
+    @Query("select obj.extent from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.breedDescription in ?2 and obj.sizeOfHeight in ?3 and obj.sizeOfLong in ?4 and obj.userCompany.contrAgent.id in ?5 and obj.orderInfo.destinationType=?6 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%'")
+    List<String> getExtentByOrderOak(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeLong, int[] agentId, DeliveryDestinationType type);
 
 }

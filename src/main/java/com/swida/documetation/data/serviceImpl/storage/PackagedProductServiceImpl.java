@@ -384,11 +384,17 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
     @Override
     public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId, StatusOfProduct statusProduct) {
-        return productJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId,statusProduct);
+      if(breedId==2){
+          return productJPA.getExtentOak(breedId,breedDesc,sizeHeight,sizeLong,agentId,statusProduct);
+      }
+      return productJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId,statusProduct);
     }
 
     @Override
     public List<String> getExtentByOrder(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId, DeliveryDestinationType type) {
+        if(breedId==2){
+            return productJPA.getExtentByOrderOak(breedId,breedDesc,sizeHeight,sizeLong,agentId,type);
+        }
         return productJPA.getExtentByOrder(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId,type);
     }
 }

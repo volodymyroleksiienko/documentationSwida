@@ -145,6 +145,9 @@ public class DryStorageServiceImpl implements DryStorageService {
 
     @Override
     public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId) {
+        if(breedId==2){
+            return dryStorageJPA.getExtentOak(breedId,breedDesc,sizeHeight,agentId);
+        }
         return dryStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);
     }
 }
