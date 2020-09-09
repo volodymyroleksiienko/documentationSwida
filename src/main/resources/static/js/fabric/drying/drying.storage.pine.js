@@ -45,6 +45,7 @@ var width = $(trObj).find('td:eq(3)').text();
 var length = $(trObj).find('td:eq(4)').text();
 var count = $(trObj).find('td:eq(5)').text();
 var extent = $(trObj).find('td:eq(6)').text();
+var date = $(trObj).find('td:eq(7)').text();
 
 $('#editDryingModalCode').val(code);
 $('#editDryingModalMaterial').val(material);
@@ -54,6 +55,7 @@ $('#editDryingModalWidth').val(width);
 $('#editDryingModalLength').val(length);
 $('#editDryingModalCount').val(count);
 $('#editDryingModalVolume').val(extent);
+$('#editDryingDate').val(date);
 
 
 $('#editDryingModal').modal('show');

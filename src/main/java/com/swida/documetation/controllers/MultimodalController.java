@@ -249,6 +249,32 @@ public class MultimodalController {
         deliveryDocumentationService.save(docDB);
         reloadAllExtentFields(docDB);
         reloadOrdersExtent(oldOrder);
+
+        if(docDB.getOrderInfo().getId()!=docWeb.getOrderInfo().getId()){
+            DeliveryDocumentation newDoc = new DeliveryDocumentation();
+            newDoc.setDateOfUnloading(docDB.getDateOfUnloading());
+            newDoc.setTimeOfUnloading(docDB.getTimeOfUnloading());
+            newDoc.setClientName(docDB.getClientName());
+            newDoc.setDescription(docDB.getDescription());
+
+            newDoc.setBreedOfTree(docDB.getBreedOfTree());
+            newDoc.setDriverInfo(docDB.getDriverInfo());
+            newDoc.setContrAgent(docDB.getContrAgent());
+            newDoc.setUserCompany(docDB.getUserCompany());
+            newDoc.setDestinationType(DeliveryDestinationType.MULTIMODAL);
+
+            newDoc.setOrderInfo(docWeb.getOrderInfo());
+            List<PackagedProduct> productList = docDB.getProductList();
+            for(PackagedProduct product:productList){
+                if(product.getContainer()==null){
+                    newDoc.getProductList().add(product);
+                    docDB.getProductList().remove(product);
+                }
+            }
+            deliveryDocumentationService.save(newDoc);
+            reloadAllExtentFields(docDB);
+            reloadAllExtentFields(newDoc);
+        }
         return "redirect:/multimodal/getTrucksByContract-"+contractId;
     }
 

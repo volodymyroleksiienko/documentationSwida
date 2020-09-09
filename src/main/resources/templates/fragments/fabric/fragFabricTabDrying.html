@@ -16,6 +16,7 @@
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th scope="col">Дата выхода</th>
                 <th></th>
             </tr>
             </thead>
@@ -30,6 +31,7 @@
                 <td th:text="${ds.sizeOfLong}"></td>
                 <td th:text="${ds.countOfDesk}"></td>
                 <td th:text="${ds.extent}"></td>
+                <td th:text="${ds.dateDrying}"></td>
                 <td>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -49,6 +51,7 @@
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th scope="col">Дата выхода</th>
                 <th></th>
             </tr>
             </tbody>
@@ -153,6 +156,8 @@
                             <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
                             <input type="text" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
 
+                            <label class="col-form-label" for="editDryingDate">Дата выхода</label>
+                            <input class="form-control" type="date" id="editDryingDate"  name="dateDrying">
                         </div>
                         <!-- Insert rows -->
                     </div>
@@ -231,6 +236,7 @@
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
+                <th scope="col">Дата выхода</th>
                 <th></th>
             </tr>
             </thead>
@@ -243,6 +249,7 @@
                 <td th:text="${rs.sizeOfHeight}"></td>
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
+                <td th:text="${rs.dateDrying}"></td>
                 <td>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -259,6 +266,7 @@
                     <th scope="col">Толщина, мм</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечания</th>
+                    <th scope="col">Дата выхода</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -356,6 +364,9 @@
 
                             <label class="col-form-label" for="editForDryingModalDescription">Примечания</label>
                             <input type="text" class="form-control" id="editForDryingModalDescription"  name="description">
+
+                            <label class="col-form-label" for="editDryingDateOak">Дата выхода</label>
+                            <input class="form-control" type="date" id="editDryingDateOak"  name="dateDrying">
 
                         </div>
                         <!-- Insert rows -->
