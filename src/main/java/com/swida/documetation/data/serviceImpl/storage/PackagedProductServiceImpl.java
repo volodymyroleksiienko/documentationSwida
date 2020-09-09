@@ -256,6 +256,14 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         }
         productDB.setBreedDescription(product.getBreedDescription());
 
+        if(product.getContainer()!=null && productDB.getContainer().getId()!=product.getContainer().getId()){
+            containerService.save(productDB.getContainer());
+            productDB.setContainer(product.getContainer());
+            containerService.save(
+                containerService.findById(product.getContainer().getId())
+            );
+        }
+
         productDB.setSizeOfHeight(product.getSizeOfHeight());
         productDB.setSizeOfWidth(product.getSizeOfWidth());
         productDB.setSizeOfLong(product.getSizeOfLong());

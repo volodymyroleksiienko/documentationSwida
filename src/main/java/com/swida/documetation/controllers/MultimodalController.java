@@ -366,12 +366,13 @@ public class MultimodalController {
     @PostMapping("/editPackageToDeliveryDoc-{id}")
     public String editPackageToDeliveryDoc(@PathVariable("id")int contractId, PackagedProduct packagedProduct,
                                           String contractName, String containerName, String driverIdOfTruck){
+        if(containerName.isEmpty()){
+            packagedProduct.setContainer(null);
+        }else {
+            packagedProduct.setContainer(containerService.findById(Integer.parseInt(containerName)));
+        }
         PackagedProduct productDB = packagedProductService.editPackageProduct(packagedProduct);
         productDB.setExtent(packagedProductService.countExtent(packagedProduct));
-        if(!containerName.isEmpty()){
-            Container container = containerService.findById(Integer.parseInt(containerName));
-            productDB.setContainer(container);
-        }
         packagedProductService.save(productDB);
         reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;

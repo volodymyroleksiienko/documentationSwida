@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -91,7 +92,10 @@ public class ParseMultimodalPackagesByContract {
                     row.createCell(3).setCellValue(Integer.parseInt(product.getSizeOfWidth()));
                     row.createCell(4).setCellValue(Integer.parseInt(product.getSizeOfLong()));
                     row.createCell(5).setCellValue(Integer.parseInt(product.getCountOfDesk()));
-                    row.createCell(6).setCellValue(product.getExtent().replace(".",","));
+
+                    BigDecimal roundfinalPrice = new BigDecimal(Float.parseFloat(product.getExtent())).setScale(2,BigDecimal.ROUND_HALF_UP);
+                    row.createCell(6).setCellValue(roundfinalPrice.floatValue());
+
                     row.createCell(7).setCellValue(Integer.parseInt(product.getCountDeskInHeight()));
                     row.createCell(8).setCellValue(Integer.parseInt(product.getCountDeskInWidth()));
                     row.createCell(9).setCellValue(product.getCodeOfDeliveryCompany());
