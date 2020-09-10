@@ -147,8 +147,8 @@ function createOakPackageForm() {
     var size1 =         $("#sendForPackageModalSizeOak").val();
     var length1 =       $("#sendForPackageModalLengthOak").val();
 
-    var breedID = $("#breedID").val();
-    var userID = $("#userID").val();
+    var breedID =       $("#breedID").val();
+    var userID =        $("#userID").val();
 
     var arrOfDesk = [];
 

@@ -42,6 +42,9 @@ function sendForDryingOak(btnObj) {
         event.preventDefault();
     });
 }
+
+
+
 function editRawStorageOak(btnObj) {
 
     var trObj = btnObj.parentElement.parentElement;
@@ -75,8 +78,10 @@ function sendForPackagesStorageOak(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#sendForDryingModalIdOak').val(trId);
     console.log($(trObj).attr('id'));
+
     var codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
     var size =                  $(trObj).find('td:eq(2)').text();
+
 
 
     $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfRawStorage);
@@ -106,6 +111,53 @@ function sendForPackagesStorageOak(btnObj) {
     });
     // CHECK
 }
+
+// function sendForPackagesStorageOak(btnObj) {
+//
+//     var trObj = btnObj.parentElement.parentElement;
+//     var trId =  $(trObj).attr('id');
+//     $('#sendForDryingModalIdOak').val(trId);
+//     console.log("Row id: "+$(trObj).attr('id'));
+//
+//     var codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
+//     var size =                  $(trObj).find('td:eq(2)').text();
+//     var quality =               $(trObj).find('td:eq(5)').text();
+//     var length =                $(trObj).find('td:eq(6)').text();
+//
+//
+//     $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfRawStorage);
+//
+//     $('#sendForPackageModalSizeOak')        .val(size);
+//     $('#sendForPackageModalQualityOak')     .val(quality);
+//     $('#sendForPackageModalLengthOak')      .val(length);
+//
+//     $('#sendForPackageModalOak').modal('show');
+//
+//
+//     // CHECK
+//
+//     $("#sendForPackageModalSizeOak").change(function(){
+//         if ((parseInt($('#sendForPackageModalSizeOak').val()))<=0) {
+//             alert("Введите правильное значение");
+//             $('#sendForPackageModalSizeOak').val("1");
+//         }else{
+//
+//         }
+//     });
+//
+//     $("#sendForPackageModalLengthOak").change(function(){
+//         if ((parseInt($('#sendForPackageModalLengthOak').val()))<=0) {
+//             alert("Введите правильное значение");
+//             $('#sendForPackageModalLengthOak').val("1");
+//         }else{
+//
+//         }
+//     });
+//     // CHECK
+//
+// }
+
+
 
 
 // ADD Package OAK
@@ -167,6 +219,7 @@ function sendRequestCreatePackageOak(btnObj) {
         alert("Заполните все поля!");
     }
 }
+
 
 function returnToIncome(btnObj) {
     let trObj = btnObj.parentElement.parentElement;

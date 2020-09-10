@@ -98,7 +98,7 @@
                         <input type="text" class="form-control" id="sendForPackagesModalId" hidden="hidden" autocomplete="off" >
 
                         <label class="col-form-label" for="sendForPackageModalCode">Код</label>
-                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfPackage">
+                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfPackage">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalMaterialDescr">Описание</label>
-                                <input type="text" class="form-control" id="sendForPackageModalMaterialDescr" autocomplete="off"  name="breedDescription">
+                                <input type="text" class="form-control" id="sendForPackageModalMaterialDescr" autocomplete="off" placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
 <!--                        -->
@@ -141,7 +141,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalExtent">Кубатура</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalExtent" required="required" autocomplete="off" placeholder="м3" disabled="disabled">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalExtent" required="required" autocomplete="off" placeholder="м3" disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
@@ -151,11 +151,11 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
+                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInWidth">
                             </div>
                             <div class="col-6">
-                                <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
+                                <label class="col-form-label" for="sendForPackageHeightPc">Высота, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInHeight">
                             </div>
                         </div>
@@ -201,7 +201,7 @@
                         <input type="text" class="form-control" id="editPackagesModalId" hidden="hidden" autocomplete="off" name="id">
 
                         <label class="col-form-label" for="editPackageModalCode">Код</label>
-                        <input type="text" class="form-control" id="editPackageModalCode" required="required" autocomplete="off" name="codeOfPackage">
+                        <input type="text" class="form-control" id="editPackageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfPackage">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
@@ -214,7 +214,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editPackageModalMaterialDescr">Описание</label>
-                                <input type="text" class="form-control" id="editPackageModalMaterialDescr" autocomplete="off"  name="breedDescription">
+                                <input type="text" class="form-control" id="editPackageModalMaterialDescr" autocomplete="off" placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
                         <!--                        -->
@@ -240,7 +240,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalExtent">Кубатура</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editPackageModalExtent" required="required" autocomplete="off" placeholder="м3" disabled="disabled">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editPackageModalExtent" required="required" autocomplete="off" placeholder="м3" disabled="disabled">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalLengthFact">Длина-ФАКТ</label>
@@ -251,11 +251,11 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
-                                <label class="col-form-label" for="editPackageModalWidthPc">Ширина</label>
+                                <label class="col-form-label" for="editPackageModalWidthPc">Ширина, шт.</label>
                                 <input type="number" min="1" class="form-control" id="editPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInWidth">
                             </div>
                             <div class="col-4">
-                                <label class="col-form-label" for="editPackageHeightPc">Высота</label>
+                                <label class="col-form-label" for="editPackageHeightPc">Высота, шт.</label>
                                 <input type="number" min="1" class="form-control" id="editPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInHeight">
                             </div>
                             <div class="col-4">
@@ -288,6 +288,89 @@
                 </div>
                 <form th:action="@{'/fabric/createDeliveryDoc-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
+                        <!-- Insert rows -->
+                        <div class="form-group container">
+                            <input type="text" class="form-control" id="addRawStorageId" hidden="hidden" autocomplete="off">
+                            <input type="text" hidden="hidden" id="breedID" th:value="${breedId}">
+                            <input type="text" hidden="hidden" id="userID" th:value="${userId}">
+
+                            <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                                <div class="col-3">
+                                    <label class="col-form-label" for="addIdOfTruck">№ выгрузки</label>
+                                    <input type="text" class="form-control" id="addIdOfTruck" placeholder="Не заполнено" autocomplete="off" required="required">
+                                </div>
+                                <div class="col-6">
+                                    <label for="driverCredentionals" class="col-form-label">Имя, Фамилия водителя</label>
+                                    <input type="text" class="form-control" id="driverCredentionals" required="required" placeholder="Не заполнено" autocomplete="off">
+                                </div>
+                                <div class="col-3">
+                                    <label for="driverPhone" class="col-form-label">Телефон</label>
+                                    <input type="text" class="form-control" id="driverPhone" required="required" placeholder="Не заполнено" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                                <div class="col-3">
+                                    <label for="numberOfTruck" class="col-form-label">Номер фуры</label>
+                                    <input type="text" class="form-control" id="numberOfTruck" required="required" placeholder="Не заполнено" autocomplete="off">
+                                </div>
+                                <div class="col-3">
+                                    <label for="numberOfTrailer" class="col-form-label">Номер прицепа</label>
+                                    <input type="text" class="form-control" id="numberOfTrailer" required="required" placeholder="Не заполнено" autocomplete="off">
+                                </div>
+                                <div class="col-3">
+                                    <label for="packDateInput" class="col-form-label">Дата выгрузки</label>
+                                    <input class="form-control" type="date" id="packDateInput" required="required" name="dateOfUnloading">
+                                </div>
+                                <div class="col-3">
+                                    <label for="packTimeInput" class="col-form-label">Время выгрузки</label>
+                                    <input type="text" class="form-control" id="packTimeInput" required="required" autocomplete="off" placeholder="Не заполнено" value="9:00" name="timeOfUnloading">
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                                <div class="col-3">
+                                    <label class="col-form-label" for="packContractId" >Контракт</label>
+                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" placeholder="Не заполнено" onchange="setHiddenValue(this)">
+                                    <datalist id="contractList">
+                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
+                                    </datalist>
+                                    <input type="hidden" name="orderInfo.id" id="packContractId-hidden">
+                                </div>
+                                <div class="col-3">
+                                    <label for="packDeliveryDestination" class="col-form-label">Пункт назначения</label>
+                                    <input type="text" class="form-control" list="destinationType" id="packDeliveryDestination" placeholder="Не заполнено" required="required" autocomplete="off" name="destinationType">
+                                    <datalist id="destinationType">
+                                        <option value="MULTIMODAL">
+                                        <option value="PORT">
+                                        <option value="COUNTRY">
+                                    </datalist>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="addDeliveryDescription">Примечания</label>
+                                    <input type="text" class="form-control" id="addDeliveryDescription" value="-" placeholder="Не заполнено" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+
+                                </div>
+
+                                <div class="col-3">
+                                    <label class="col-form-label" for="deliveryExtent">Суммарная кубатура</label>
+                                    <input type="text" class="form-control" id="deliveryExtent"  autocomplete="off" disabled="disabled">
+                                </div>
+                                <div class="col-3" style="text-align: right">
+                                    <button type="button" class="btn btn-primary" style="width: 100%;" onclick="sendRequestToCreateDeleviry()">Отправить</button>
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            document.querySelector("#packDateInput").valueAsDate = new Date();
+                        </script>
+
+                        <!-- Insert rows -->
                         <!-- Selected row -->
                         <table class="table table-hover table-striped" id="tableForTransportation">
                             <thead>
@@ -310,79 +393,9 @@
                             </tbody>
                         </table>
                         <!-- Selected row -->
-
-                        <!-- Insert rows -->
-                        <div class="form-group container">
-                            <input type="text" class="form-control" id="addRawStorageId" hidden="hidden" autocomplete="off">
-                            <input type="text" hidden="hidden" id="breedID" th:value="${breedId}">
-                            <input type="text" hidden="hidden" id="userID" th:value="${userId}">
-
-                            <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
-                                <div class="col-3">
-                                    <label class="col-form-label" for="addIdOfTruck">№ выгрузки</label>
-                                    <input type="text" class="form-control" placeholder="" id="addIdOfTruck" pattern="[0-9]*\.?[0-9]*" autocomplete="off" required="required">
-                                </div>
-                                <div class="col-6">
-                                    <label for="driverCredentionals" class="col-form-label">Имя, Фамилия водителя</label>
-                                    <input type="text" class="form-control" id="driverCredentionals" required="required" autocomplete="off">
-                                </div>
-                                <div class="col-3">
-                                    <label for="driverPhone" class="col-form-label">Телефон</label>
-                                    <input type="text" class="form-control" id="driverPhone" required="required" autocomplete="off">
-                                </div>
-                            </div>
-
-                            <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
-                                <div class="col-3">
-                                    <label for="numberOfTruck" class="col-form-label">Номер фуры</label>
-                                    <input type="text" class="form-control" id="numberOfTruck" required="required" autocomplete="off">
-                                </div>
-                                <div class="col-3">
-                                    <label for="numberOfTrailer" class="col-form-label">Номер прицепа</label>
-                                    <input type="text" class="form-control" id="numberOfTrailer" required="required" autocomplete="off">
-                                </div>
-                                <div class="col-3">
-                                    <label for="packDateInput" class="col-form-label">Дата выгрузки</label>
-                                    <input class="form-control" type="date" id="packDateInput" required="required" name="dateOfUnloading">
-                                </div>
-                                <div class="col-3">
-                                    <label for="packTimeInput" class="col-form-label">Время выгрузки</label>
-                                    <input type="text" class="form-control" id="packTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
-                                </div>
-                            </div>
-
-                            <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
-                                <div class="col-3">
-                                    <label class="col-form-label" for="packContractId" >Контракт</label>
-                                    <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" onchange="setHiddenValue(this)">
-                                    <datalist id="contractList">
-                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
-                                    </datalist>
-                                    <input type="hidden" name="orderInfo.id" id="packContractId-hidden">
-                                </div>
-                                <div class="col-3">
-                                    <label for="packDeliveryDestination" class="col-form-label">Пункт назначения</label>
-                                    <input type="text" class="form-control" list="destinationType" id="packDeliveryDestination" required="required" autocomplete="off" name="destinationType">
-                                    <datalist id="destinationType">
-                                        <option value="MULTIMODAL">
-                                        <option value="PORT">
-                                        <option value="COUNTRY">
-                                    </datalist>
-                                </div>
-                                <div class="col-6">
-                                    <label class="col-form-label" for="addDeliveryDescription">Примечания</label>
-                                    <input type="text" class="form-control" placeholder="" id="addDeliveryDescription"  autocomplete="off">
-                                </div>
-                            </div>
-
-                        </div>
-                        <script type="text/javascript">
-                            document.querySelector("#packDateInput").valueAsDate = new Date();
-                        </script>
-                        <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="sendRequestToCreateDeleviry()">Отправить</button>
+<!--                        <button type="button" class="btn btn-primary" onclick="sendRequestToCreateDeleviry()">Отправить</button>-->
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -401,26 +414,22 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       TUT         -->
                 <form th:action="@{'/fabric/addPackToExistDeliveryDoc-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <!--       TUT                 -->
+
+                        <input type="text" class="form-control" id="selectedPackModalId" hidden="hidden" autocomplete="off" name="packId">
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="selectedPackModalId" hidden="hidden" autocomplete="off" name="packId">
-
                             <label class="col-form-label" for="selectTruck">Машина</label>
                             <input type="text" class="form-control" list="trucksList" id="selectTruck" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="trucksList">
                                 <option th:each="b : ${deliveryList}"  th:data-value="${b.id}" th:text="${b.driverInfo.idOfTruck}"></option>
                             </datalist>
                             <input type="hidden" name="driverId" id="selectTruck-hidden">
-
-
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -439,11 +448,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       TUT         -->
                 <form th:action="@{'/fabric/unformPackagedProduct-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                <!--       TUT                 -->
-
                         <div class="form-group">
                             <input type="text" class="form-control" id="unformPackModalId" hidden="hidden" autocomplete="off" name="id">
 
@@ -453,7 +459,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Расформировать</button>
+                        <button type="submit" class="btn btn-primary">Расформировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -480,9 +486,7 @@
 
 
 
-<!-- OAK Package Storage-->
-<!-- OAK Package Storage-->
-<!-- OAK Package Storage-->
+
 <!-- OAK Package Storage-->
 
 <th:block xmlns="http://www.w3.org/1999/xhtml"
@@ -595,8 +599,9 @@
         </div>
 
     <!-- Create own package start -->
+    <!-- Packing start Сухой склад -> Пачки -->
     <div class="modal fade" id="addOwnOakPackageModal">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title ">Создание пачки</h5>
@@ -604,27 +609,30 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form >
                     <div class="modal-body">
 
-                        <div class="form-group row">
-                            <input type="text" id="createPackageModalIdOak" hidden="hidden" >
-                            <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
-                            <input type="text" hidden="hidden" id="userId" th:value="${userId}">
+                        <input type="text" id="createPackageModalIdOak" hidden="hidden" >
+                        <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
+                        <input type="text" hidden="hidden" id="userId" th:value="${userId}">
 
-                            <div class="col-3">
+                        <div class="form-group row">
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
-                                <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off" placeholder="Не заполнено">
                             </div>
-                            <div class="col-3">
+
+                            <div class="col-4">
                                 <label class="control-label" for="sendForPackageModalQualityOak" style="padding-top: 7px">Качество</label>
-                                <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required">
+                                <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required" placeholder="Не заполнено">
                             </div>
-                            <div class="col-3">
+
+                            <div class="col-2">
                                 <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Размер</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" placeholder="мм">
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
-                            <div class="col-3">
+
+                            <div class="col-2">
                                 <label class="col-form-label" for="sendForPackageModalLengthOak">Длина</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
@@ -633,17 +641,24 @@
                         <hr>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
-
-                            <div class="col-5">
+                            <div class="col-3">
                                 <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
+                                <input type="number" min="0" step="10" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
-                            <div class="col-5">
+
+                            <div class="col-3">
                                 <label class="control-label" for="sendForPackageModalCountOak" style="padding-top: 7px">Количество</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalCountOak" required="required" autocomplete="off" placeholder="шт">
                             </div>
+
                             <div class="col-2">
-                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                                <label class="control-label" for="sendForPackageModalExtentOak" style="padding-top: 7px">Кубатура</label>
+                                <input type="text" disabled="disabled" class="form-control" id="sendForPackageModalExtentOak"  autocomplete="off" placeholder="м3">
+                            </div>
+
+                            <div class="col-4" style="display: inline-flex">
+                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px;">Добавить</button>
+                                <button type="button" class="btn btn-primary" id="createPackageOak" style="width: 100%;" onclick="createOakPackageForm()">Создать</button>
                             </div>
                         </div>
 
@@ -670,13 +685,13 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="createPackageOak" onclick="createOakPackageForm()">Создать</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-secondary" id="clearTableButton" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <!--Packing end-->
 
     <!-- Add package content start   -->
     <div class="modal fade" id="addOakPackageContentModal">
@@ -842,7 +857,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Удалить</button>
+                        <button type="submit" class="btn btn-primary">Удалить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -901,7 +916,7 @@
                                 </div>
                                 <div class="col-3">
                                     <label for="packTimeInput" class="col-form-label">Время выгрузки</label>
-                                    <input type="text" class="form-control" id="packTimeInput" placeholder="Не заполнено" required="required" autocomplete="off" name="timeOfUnloading">
+                                    <input type="text" class="form-control" id="packTimeInput" placeholder="Не заполнено" required="required" value="9:00" autocomplete="off" name="timeOfUnloading">
                                 </div>
                             </div>
 
@@ -924,7 +939,7 @@
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="addDeliveryDescription">Примечания</label>
-                                    <input type="text" class="form-control" placeholder="Не заполнено" id="addDeliveryDescription"  autocomplete="off">
+                                    <input type="text" class="form-control" placeholder="Не заполнено" value="-" id="addDeliveryDescription" autocomplete="off">
                                 </div>
                             </div>
 

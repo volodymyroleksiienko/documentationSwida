@@ -3,7 +3,7 @@ function showCutOakModal(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
     $('#idOfOakTreeStorageRow').val(trId);
-    console.log(  $(trObj).attr('id'));
+    console.log("row id:" + $(trObj).attr('id'));
     var codeOfTreeStorage = $(trObj).find('th:eq(0)').text();
     var description = $(trObj).find('td:eq(1)').text();
 
@@ -17,6 +17,7 @@ function showCutOakModal(btnObj) {
 function showEditOakModal(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
+    console.log("row id:" + $(trObj).attr('id'));
     $('#incomeOakTreeStorageId').val(trId);
 
     var code = $(trObj).find('th:eq(0)').text();

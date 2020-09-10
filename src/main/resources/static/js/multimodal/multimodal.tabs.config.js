@@ -62,7 +62,8 @@ $(document).ready( function () {
                 "orderable": false,
                 "searchable": false,
                 "width": "70px"
-            }
+            },
+            { className: "display-none", "targets": [ 16 ] }
         ]
     });
 
@@ -171,7 +172,8 @@ $(document).ready( function () {
                 "targets": 0,
                 "orderable": false,
                 "width": "30px"
-            }
+            },
+            { className: "display-none", "targets": [ 11 ] }
 
         ]
 
@@ -193,6 +195,13 @@ $(document).ready( function () {
                 "visible": false,
                 "searchable": false
             },
+            {
+                "targets": -1,
+                "orderable": false,
+                "searchable": false,
+                "width": "100px"
+            },
+            { className: "display-none", "targets": [ 11 ] }
         ]
 
     });
@@ -215,7 +224,7 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "searchable": false,
-                "width": "30px"
+                "width": "70px"
             }
         ]
     });

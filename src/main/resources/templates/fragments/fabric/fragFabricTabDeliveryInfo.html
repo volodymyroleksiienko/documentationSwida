@@ -8,7 +8,7 @@
             <br>
             <thead>
             <tr>
-                <th></th>
+                <th style="width: 30px"></th>
                 <th scope="col">№ выгрузки</th>
                 <th scope="col">А/М</th>
                 <th scope="col">П/П</th>
@@ -26,7 +26,7 @@
             <tbody>
                   <div th:each="dd, index : ${deliveryDocumentations}">
                           <tr>
-                              <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                              <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
                               <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>
@@ -111,7 +111,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <th></th>
+                <th style="width: 30px"></th>
                 <th scope="col">№ выгрузки</th>
                 <th scope="col">А/М</th>
                 <th scope="col">П/П</th>
@@ -148,26 +148,26 @@
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label class="col-form-label" for="editIdOfTruck">№ выгрузки</label>
-                                <input type="text" class="form-control"  id="editIdOfTruck"  autocomplete="off" required="required" name="driverInfo.idOfTruck">
+                                <input type="text" class="form-control"  id="editIdOfTruck"  autocomplete="off" placeholder="Не заполнено" required="required" name="driverInfo.idOfTruck">
                             </div>
                             <div class="col-6">
                                 <label for="editDriverCredentionals" class="col-form-label">Имя, Фамилия водителя</label>
-                                <input type="text" class="form-control" id="editDriverCredentionals" required="required" autocomplete="off" name="driverInfo.fullName">
+                                <input type="text" class="form-control" id="editDriverCredentionals" required="required" placeholder="Не заполнено" autocomplete="off" name="driverInfo.fullName">
                             </div>
                             <div class="col-3">
                                 <label for="editDriverPhone" class="col-form-label">Телефон</label>
-                                <input type="text" class="form-control" id="editDriverPhone" required="required" autocomplete="off" name="driverInfo.phone">
+                                <input type="text" class="form-control" id="editDriverPhone" required="required" placeholder="Не заполнено" autocomplete="off" name="driverInfo.phone">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label for="editNumberOfTruck" class="col-form-label">Номер фуры</label>
-                                <input type="text" class="form-control" id="editNumberOfTruck" required="required" autocomplete="off" name="driverInfo.numberOfTruck">
+                                <input type="text" class="form-control" id="editNumberOfTruck" required="required" placeholder="Не заполнено" autocomplete="off" name="driverInfo.numberOfTruck">
                             </div>
                             <div class="col-3">
                                 <label for="editNumberOfTrailer" class="col-form-label">Номер прицепа</label>
-                                <input type="text" class="form-control" id="editNumberOfTrailer" required="required" autocomplete="off" name="driverInfo.numberOfTrailer">
+                                <input type="text" class="form-control" id="editNumberOfTrailer" required="required" placeholder="Не заполнено" autocomplete="off" name="driverInfo.numberOfTrailer">
                             </div>
                             <div class="col-3">
                                 <label for="editPackDateInput" class="col-form-label">Дата выгрузки</label>
@@ -175,14 +175,14 @@
                             </div>
                             <div class="col-3">
                                 <label for="editPackTimeInput" class="col-form-label">Время выгрузки</label>
-                                <input type="text" class="form-control" id="editPackTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
+                                <input type="text" class="form-control" id="editPackTimeInput" required="required" placeholder="Не заполнено" autocomplete="off" name="timeOfUnloading">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label class="col-form-label" for="editPackContractId" >Контракт</label>
-                                <input type="text" class="form-control" list="contractList" id="editPackContractId" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <input type="text" class="form-control" list="contractList" id="editPackContractId" required="required" placeholder="Не заполнено" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="contractList">
                                     <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
                                 </datalist>
@@ -190,11 +190,11 @@
                             </div>
                             <div class="col-3">
                                 <label for="editPackDeliveryDestination" class="col-form-label">Кубатура</label>
-                                <input type="number" class="form-control"  id="editPackDeliveryDestination" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="packagesExtent" disabled="disabled">
+                                <input type="number" class="form-control"  id="editPackDeliveryDestination" required="required" pattern="[0-9]*\.?[0-9]*" placeholder="м3" autocomplete="off" name="packagesExtent" disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
-                                <input type="text" class="form-control" placeholder="" id="editDeliveryDescription"  autocomplete="off" name="description">
+                                <input type="text" class="form-control" id="editDeliveryDescription" placeholder="Не заполнено" autocomplete="off" name="description">
                             </div>
                         </div>
 
@@ -202,7 +202,7 @@
 
                     <!-- Insert rows -->
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -226,7 +226,7 @@
                         <input type="text" id="packageId" hidden="" name="id">
 
                         <label class="col-form-label" for="editIdOfPack">№ пачки</label>
-                        <input type="text" class="form-control" placeholder="" id="editIdOfPack" autocomplete="off" required="required" name="codeOfPackage">
+                        <input type="text" class="form-control" id="editIdOfPack" placeholder="Не заполнено" autocomplete="off" required="required" name="codeOfPackage">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
@@ -238,48 +238,48 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editBreedDescriptionDelivery">Описание</label>
-                                <input type="text" class="form-control" id="editBreedDescriptionDelivery" autocomplete="off"  name="breedDescription">
+                                <input type="text" class="form-control" id="editBreedDescriptionDelivery" autocomplete="off" placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackThickness">Толщина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackWidth">Ширина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackLength">Длина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackCount">Кол-во досок</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackExtent">Кубатура</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*"  placeholder="м3" class="form-control" id="editDeliveryPackExtent" required="required" autocomplete="off" name="extent">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*"  placeholder="м3" class="form-control" id="editDeliveryPackExtent" required="required" autocomplete="off" name="extent">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackHeightPc">Высота, шт.</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackWidthPc">Ширина, шт.</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackLengthFact">Длина - ФАКТ</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDeliveryPackLengthFact" required="required" autocomplete="off" name="longFact">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackLengthFact" required="required" autocomplete="off" name="longFact">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackWidthHeight">Высота/Ширина</label>
@@ -315,10 +315,10 @@
                         <input type="number" id="driverDeliveryId" hidden="" name="docId">
 
                         <label class="col-form-label" for="addIdOfPack">№ пачки</label>
-                        <input type="text" class="form-control" placeholder="" id="addIdOfPack" autocomplete="off" required="required" name="codeOfPackage">
+                        <input type="text" class="form-control" placeholder="Не заполнено" id="addIdOfPack" autocomplete="off" required="required" name="codeOfPackage">
 
                         <label class="col-form-label" for="addPackDryStorage">Сухой склад</label>
-                        <input type="text" class="form-control" list="dryList" id="addPackDryStorage" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                        <input type="text" class="form-control" list="dryList" id="addPackDryStorage" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="dryList">
                             <option  th:each="c : ${dryStorageList}" th:data-value="${c.id}" th:text="${c.codeOfProduct}" th:label="${c?.extent}">
                             </option>
@@ -335,48 +335,48 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addBreedDescriptionDelivery">Описание</label>
-                                <input type="text" class="form-control" id="addBreedDescriptionDelivery" autocomplete="off"  name="breedDescription">
+                                <input type="text" class="form-control" id="addBreedDescriptionDelivery" placeholder="Не заполнено" autocomplete="off"  name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackThickness">Толщина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="addDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackWidth">Ширина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="addDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackLength">Длина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="addDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackCount">Кол-во досок</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="addDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackExtent">Кубатура</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*"  placeholder="м3" class="form-control" id="addDeliveryPackExtent" required="required" autocomplete="off" name="extent">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control" id="addDeliveryPackExtent" required="required" autocomplete="off" name="extent">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackHeightPc">Высота, шт.</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="addDeliveryPackHeightPc" required="required" autocomplete="off" name="countDeskInHeight">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackWidthPc">Ширина, шт.</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="addDeliveryPackWidthPc" required="required" autocomplete="off" name="countDeskInWidth">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackLengthFact">Длина - ФАКТ</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDeliveryPackLengthFact" required="required" autocomplete="off" name="longFact">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="addDeliveryPackLengthFact" required="required" autocomplete="off" name="longFact">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackWidthHeight">Высота/Ширина</label>
@@ -485,7 +485,7 @@
                 <br>
                 <thead>
                     <tr>
-                        <th></th>
+                        <th style="width: 30px"></th>
                         <th scope="col">№ выгрузки</th>
                         <th scope="col">А/М</th>
                         <th scope="col">П/П</th>
@@ -505,7 +505,7 @@
                     <div th:each="dd, index : ${deliveryDocumentations}">
 
                         <tr>
-                            <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                            <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
                             <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                             <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
                             <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>
@@ -534,7 +534,7 @@
                                 <table class="table table-hover table-striped parent-table" id="packages">
                                     <thead>
                                         <tr>
-                                            <th></th>
+                                            <th style="width: 30px"></th>
                                             <th scope="col">№ пачки</th>
                                             <th scope="col">Качество</th>
                                             <th scope="col">Размер</th>
@@ -548,7 +548,7 @@
                                     <tbody>
                                         <div th:each="ps, index : ${dd.getProductList()}">
                                             <tr th:id="${ps.id}">
-                                                <td  class="details-control" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}" style="width: 30px;"></td>
+                                                <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}" style="width: 30px;"></td>
                                                 <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
                                                 <td th:text="${ps.quality}"></td>
                                                 <td th:text="${ps.sizeOfHeight}"></td>
@@ -622,7 +622,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th></th>
+                    <th style="width: 30px"></th>
                     <th scope="col">№ выгрузки</th>
                     <th scope="col">А/М</th>
                     <th scope="col">П/П</th>
@@ -659,41 +659,41 @@
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label class="col-form-label" for="editOakIdOfTruck">№ выгрузки</label>
-                                <input type="text" class="form-control"  id="editOakIdOfTruck"  autocomplete="off" required="required" name="driverInfo.idOfTruck">
+                                <input type="text" class="form-control"  id="editOakIdOfTruck" placeholder="Не заполнено" autocomplete="off" required="required" name="driverInfo.idOfTruck">
                             </div>
                             <div class="col-6">
                                 <label for="editOakDriverCredentionals" class="col-form-label">Имя, Фамилия водителя</label>
-                                <input type="text" class="form-control" id="editOakDriverCredentionals" required="required" autocomplete="off" name="driverInfo.fullName">
+                                <input type="text" class="form-control" id="editOakDriverCredentionals" placeholder="Не заполнено" required="required" autocomplete="off" name="driverInfo.fullName">
                             </div>
                             <div class="col-3">
                                 <label for="editOakDriverPhone" class="col-form-label">Телефон</label>
-                                <input type="text" class="form-control" id="editOakDriverPhone" required="required" autocomplete="off" name="driverInfo.phone">
+                                <input type="text" class="form-control" id="editOakDriverPhone" required="required" placeholder="Не заполнено" autocomplete="off" name="driverInfo.phone">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label for="editOakNumberOfTruck" class="col-form-label">Номер фуры</label>
-                                <input type="text" class="form-control" id="editOakNumberOfTruck" required="required" autocomplete="off" name="driverInfo.numberOfTruck">
+                                <input type="text" class="form-control" id="editOakNumberOfTruck" required="required" placeholder="Не заполнено" autocomplete="off" name="driverInfo.numberOfTruck">
                             </div>
                             <div class="col-3">
                                 <label for="editOakNumberOfTrailer" class="col-form-label">Номер прицепа</label>
-                                <input type="text" class="form-control" id="editOakNumberOfTrailer" required="required" autocomplete="off" name="driverInfo.numberOfTrailer">
+                                <input type="text" class="form-control" id="editOakNumberOfTrailer" required="required" placeholder="Не заполнено" autocomplete="off" name="driverInfo.numberOfTrailer">
                             </div>
                             <div class="col-3">
                                 <label for="editOakPackDateInput" class="col-form-label">Дата выгрузки</label>
-                                <input class="form-control" type="date" id="editOakPackDateInput" required="required" name="dateOfUnloading">
+                                <input class="form-control" type="date" id="editOakPackDateInput" required="required" placeholder="Не заполнено" name="dateOfUnloading">
                             </div>
                             <div class="col-3">
                                 <label for="editOakPackTimeInput" class="col-form-label">Время выгрузки</label>
-                                <input type="text" class="form-control" id="editOakPackTimeInput" required="required" autocomplete="off" name="timeOfUnloading">
+                                <input type="text" class="form-control" id="editOakPackTimeInput" required="required" placeholder="Не заполнено" autocomplete="off" name="timeOfUnloading">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-3">
                                 <label class="col-form-label" for="editOakPackContractId" >Контракт</label>
-                                <input type="text" class="form-control" list="contractOakList" id="editOakPackContractId" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <input type="text" class="form-control" list="contractOakList" id="editOakPackContractId" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="contractOakList">
                                     <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
                                 </datalist>
@@ -701,11 +701,11 @@
                             </div>
                             <div class="col-3">
                                 <label for="editOakPackDeliveryDestination" class="col-form-label">Кубатура</label>
-                                <input type="text" class="form-control"  id="editOakPackDeliveryDestination" required="required" autocomplete="off" name="packagesExtent">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control"  id="editOakPackDeliveryDestination" required="required" autocomplete="off" name="packagesExtent">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
-                                <input type="text" class="form-control" placeholder="" id="editOakDeliveryDescription"  autocomplete="off" name="description">
+                                <input type="text" class="form-control" placeholder="Не заполнено" id="editOakDeliveryDescription"  autocomplete="off" name="description">
                             </div>
                         </div>
                     </div>
@@ -736,42 +736,42 @@
                         <input type="number" id="driverOakPackageId" hidden="" name="id">
 
                         <label class="col-form-label" for="editOakIdOfPack">№ пачки</label>
-                        <input type="text" class="form-control"  id="editOakIdOfPack"  autocomplete="off" required="required" name="codeOfPackage">
+                        <input type="text" class="form-control"  id="editOakIdOfPack" placeholder="Не заполнено"  autocomplete="off" required="required" name="codeOfPackage">
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-4">
                                 <label for="editOakQuality" class="col-form-label">Качество</label>
-                                <input type="text" class="form-control" id="editOakQuality" required="required" autocomplete="off" name="quality">
+                                <input type="text" class="form-control" id="editOakQuality" placeholder="Не заполнено" required="required" autocomplete="off" name="quality">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editOakPackSize">Размер</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control"  id="editOakPackSize"  autocomplete="off" required="required" name="sizeOfHeight">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" min="1" placeholder="мм" class="form-control"  id="editOakPackSize"  autocomplete="off" required="required" name="sizeOfHeight">
                             </div>
                             <div class="col-4">
                                 <label for="editOakPackLength" class="col-form-label">Длина</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackLength" required="required" autocomplete="off" name="sizeOfLong">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" min="1" placeholder="мм" class="form-control" id="editOakPackLength" required="required" autocomplete="off" name="sizeOfLong">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-4">
                                 <label for="editOakPackSummaryLen" class="col-form-label">Сумарная ширина</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackSummaryLen" required="required" autocomplete="off" name="sumWidthOfAllDesk">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" min="1" class="form-control" id="editOakPackSummaryLen" required="required" autocomplete="off" name="sumWidthOfAllDesk">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editOakPackDescCount">Количество досок</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakPackDescCount"  autocomplete="off" required="required" name="countOfDesk">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" min="1" class="form-control"  id="editOakPackDescCount"  autocomplete="off" required="required" name="countOfDesk">
                             </div>
                             <div class="col-4">
                                 <label for="editOakPackExtent" class="col-form-label">Кубатура</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="м3" step="any" class="form-control" id="editOakPackExtent" required="required" autocomplete="off" name="extent">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="м3" step="any" min="0" class="form-control" id="editOakPackExtent" required="required" autocomplete="off" name="extent">
                             </div>
                         </div>
                     </div>
                     <!-- Insert rows -->
 
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -798,11 +798,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
                                 <label for="editOakDeliveryPackageContentWidth" class="col-form-label">Ширина, мм</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakDeliveryPackageContentWidth" required="required" autocomplete="off" name="width">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" min="1" placeholder="мм" class="form-control" id="editOakDeliveryPackageContentWidth" required="required" autocomplete="off" name="width">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editOakDeliveryPackageContentCount">Количество досок</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakDeliveryPackageContentCount"  autocomplete="off" required="required" name="count">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" min="1" placeholder="шт" class="form-control"  id="editOakDeliveryPackageContentCount"  autocomplete="off" required="required" name="count">
                             </div>
                         </div>
                     </div>
@@ -837,12 +837,12 @@
 
                             <div class="col-4">
                                 <label class="col-form-label" for="addDeliveryPackageModalCodeOak">Код пачки</label>
-                                <input type="text" class="form-control" id="addDeliveryPackageModalCodeOak" required="required" autocomplete="off">
+                                <input type="text" class="form-control" id="addDeliveryPackageModalCodeOak" placeholder="Не заполнено" required="required" autocomplete="off">
                             </div>
 
                             <div class="col-4">
                                 <label class="control-label" for="addDeliveryPackageModalQualityOak" style="padding-top: 7px">Качество</label>
-                                <input type="text" class="form-control" id="addDeliveryPackageModalQualityOak" required="required">
+                                <input type="text" class="form-control" id="addDeliveryPackageModalQualityOak" placeholder="Не заполнено" required="required">
                             </div>
 
                             <div class="col-2">
@@ -924,11 +924,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
                                 <label for="addOakDeliveryPackageContentWidth" class="col-form-label">Ширина</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addOakDeliveryPackageContentWidth" required="required" autocomplete="off" name="width">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" min="1" placeholder="мм" class="form-control" id="addOakDeliveryPackageContentWidth" required="required" autocomplete="off" name="width">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addOakDeliveryPackageContentCount">Количество досок</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakDeliveryPackageContentCount"  autocomplete="off" required="required" name="count">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" min="1" placeholder="шт" class="form-control"  id="addOakDeliveryPackageContentCount"  autocomplete="off" required="required" name="count">
                             </div>
                         </div>
                     </div>

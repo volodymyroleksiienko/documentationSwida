@@ -77,38 +77,35 @@
                         <input type="text" class="form-control" id="sendForPackagesModalId" hidden="hidden" autocomplete="off" name="id">
 
                         <label class="col-form-label" for="sendForPackageModalCode">Код</label>
-                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                        <input type="text" class="form-control" id="sendForPackageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
                                 <input type="text" class="form-control" id="sendForPackageModalMaterial" disabled="disabled">
                             </div>
-
                             <div class="col-6">
                                 <label class="control-label" for="sendForPackageModalMaterialDescr">Описание</label>
-                                <input class="form-control" id="sendForPackageModalMaterialDescr" type="text" name="breedDescription">
+                                <input class="form-control" id="sendForPackageModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">
                             </div>
-
                             <div class="col-6">
-                                <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
+                                <label class="col-form-label" for="sendForPackageHeightPc">Высота, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="height">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
+                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="width">
                             </div>
-
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
                                 <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
@@ -150,36 +147,47 @@
                 <form th:action="@{'/fabric/editDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
-                        <!-- Insert rows -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="editDryStorageModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryStorageModalId" hidden="hidden" autocomplete="off" name="id">
 
-                            <label class="col-form-label" for="editDryStorageModalCode">Код</label>
-                            <input type="text" class="form-control" id="editDryStorageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                        <label class="col-form-label" for="editDryStorageModalCode">Код</label>
+                        <input type="text" class="form-control" id="editDryStorageModalCode" required="required"  autocomplete="off" name="codeOfProduct">
 
-                            <label class="control-label" for="editDryStorageModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="editDryStorageModalMaterial" disabled="disabled">
-
-                            <label class="control-label" for="editDryStorageModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="editDryStorageModalMaterialDescr" type="text" name="breedDescription">
-
-                            <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
-
-                            <label class="col-form-label" for="editDryStorageModalWidth">Шырина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
-
-                            <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
-
-                            <label class="col-form-label" for="editDryStorageModalCount">Количество досок</label>
-                            <input type="text" class="form-control" id="editDryStorageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
-
-                            <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="мм" disabled="disabled">
-
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="control-label" for="editDryStorageModalMaterial">Порода</label>
+                                <input type="text" class="form-control" id="editDryStorageModalMaterial" disabled="disabled">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="editDryStorageModalMaterialDescr">Описание</label>
+                                <input class="form-control" id="editDryStorageModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                            </div>
                         </div>
-                        <!-- Insert rows -->
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalWidth">Шырина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDryStorageModalCount">Количество досок</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="м3" disabled="disabled">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Редактировать</button>
@@ -441,30 +449,36 @@
                 <form th:action="@{'/fabric/editDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
-                        <!-- Insert rows -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="editDryStorageModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryStorageModalId" hidden="hidden" autocomplete="off" name="id">
 
-                            <label class="col-form-label" for="editDryStorageModalCode">Код</label>
-                            <input type="text" class="form-control" id="editDryStorageModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                        <label class="col-form-label" for="editDryStorageModalCode">Код</label>
+                        <input type="text" class="form-control" id="editDryStorageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
-                            <label class="control-label" for="editDryStorageModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="editDryStorageModalMaterial" disabled="disabled">
-
-                            <label class="control-label" for="editDryStorageModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="editDryStorageModalMaterialDescr" type="text" name="breedDescription">
-
-                            <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
-
-                            <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="мм" name="extent">
-
-                            <label class="col-form-label" for="editDryStorageModalDesc">Примечание</label>
-                            <input type="text" class="form-control" id="editDryStorageModalDesc" autocomplete="off" placeholder="мм" name="description">
-
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="control-label" for="editDryStorageModalMaterial">Порода</label>
+                                <input type="text" class="form-control" id="editDryStorageModalMaterial" disabled="disabled">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="editDryStorageModalMaterialDescr">Описание</label>
+                                <input class="form-control" id="editDryStorageModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                            </div>
                         </div>
-                        <!-- Insert rows -->
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="м3" name="extent">
+                            </div>
+                        </div>
+
+                        <label class="col-form-label" for="editDryStorageModalDesc">Примечание</label>
+                        <input type="text" class="form-control" id="editDryStorageModalDesc" autocomplete="off" placeholder="Не заполнено" name="description">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button submit" class="btn btn-primary">Редактировать</button>

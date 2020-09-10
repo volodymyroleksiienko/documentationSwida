@@ -366,6 +366,7 @@ $(document).ready( function () {
         let newData = ( table.rows( '.selected' ).data() );
         let array = [];
 
+        let extentS = 0.0;
 
         for (let i = newData.length - 1; i >= 0; i--) {
             var id =			newData[i][0];
@@ -377,6 +378,7 @@ $(document).ready( function () {
             var length = 		newData[i][6];
             var count = 		newData[i][7];
             var extent = 		newData[i][8];
+            extentS =           extentS+parseFloat(extent);
             var heightPc = 		newData[i][9];
             var widthPc = 		newData[i][10];
             var wh = heightPc.toString()+"/"+widthPc.toString();
@@ -390,6 +392,7 @@ $(document).ready( function () {
         }
         console.log("arr: "+array);
 
+        $("#deliveryExtent").val(extentS.toFixed(3));
         $('#sendForTransportationModal').modal('show');
     });
 
@@ -409,6 +412,9 @@ $(document).ready( function () {
                 "visible": true,
                 "searchable": true
             },
+            {
+             className: "display-none", "targets": [ 0 ]
+            }
         ]
 
     });
@@ -416,6 +422,20 @@ $(document).ready( function () {
 
     $('#tableForTransportation tbody').on( 'click', 'button', function () {
         modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
+
+        let newData = ( modalPackagesTable.rows( ).data() );
+
+        let extentS = 0.0;
+
+        for (let i = newData.length - 1; i >= 0; i--) {
+            var extent = 		newData[i][8];
+            extentS = extentS+parseFloat(extent);
+            console.log(extentS);
+        }
+
+        console.log(extentS);
+
+        $("#deliveryExtent").val(extentS.toFixed(3));
     } );
     //PACKAGES 1 END
 
@@ -496,6 +516,7 @@ $(document).ready( function () {
         var idOfParent = 'parent'+this.parentElement.parentElement.getElementsByClassName("details-control")[0].getAttribute("id");
         this.parentElement.parentElement.remove();
         document.getElementById(idOfParent).remove();
+
         let extentS = 0;
         let extentR = 0;
 
@@ -606,7 +627,9 @@ $(document).ready( function () {
                 "targets": 0,
                 "orderable": false,
                 "width": "30px"
-            }
+            },
+
+            { className: "display-none", "targets": [ 11 ] }
 
         ]
 
@@ -638,7 +661,8 @@ $(document).ready( function () {
                 "targets": 0,
                 "orderable": false,
                 "width": "30px"
-            }
+            },
+            { className: "display-none", "targets": [ 11 ] }
         ]
 
     });

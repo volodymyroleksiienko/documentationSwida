@@ -51,8 +51,8 @@ function addPackageIntoDelivery(btnObj) {
 }
 
 function packageUnform(btnObj) {
-    var trObj = btnObj.parentElement.parentElement;
-    var trId =  $(trObj).attr('id');
+    var trObj =     btnObj.parentElement.parentElement;
+    var trId =      $(trObj).attr('id');
     $('#unformPackModalId').val(trId);
     console.log(  $(trObj).attr('id'));
     var codeOfPackage = $(trObj).find('th:eq(0)').text();
@@ -81,28 +81,29 @@ $('#transportationtable tbody').on('click', 'td.details-control', function () {
 function sendRequestToCreateDeleviry() {
     var arrOfTr = document.getElementById("listOfPackageId").getElementsByTagName("tr");
     console.log("arr length = "+arrOfTr.length);
-    var idOfTruck1 = $("#addIdOfTruck").val();
-    var name1 = $("#driverCredentionals").val();
-    var phone1 = $("#driverPhone").val();
-    var numberOfTruck1 = $("#numberOfTruck").val();
-    var numberOfTrailer1 = $("#numberOfTrailer").val();
-    var date1 = $("#packDateInput").val();
-    var time1 = $("#packTimeInput").val();
-    var breedID = $("#breedID").val();
-    var userID = $("#userID").val();
-    var contractName1 = $("#packContractId-hidden").val();
-    var deliveryDestination1 = $("#packDeliveryDestination").val();
-    var description1 = $("#addDeliveryDescription").val();
+
+    var idOfTruck1 =            $("#addIdOfTruck").val();
+    var name1 =                 $("#driverCredentionals").val();
+    var phone1 =                $("#driverPhone").val();
+    var numberOfTruck1 =        $("#numberOfTruck").val();
+    var numberOfTrailer1 =      $("#numberOfTrailer").val();
+    var date1 =                 $("#packDateInput").val();
+    var time1 =                 $("#packTimeInput").val();
+    var breedID =               $("#breedID").val();
+    var userID =                $("#userID").val();
+    var contractName1 =         $("#packContractId-hidden").val();
+    var deliveryDestination1 =  $("#packDeliveryDestination").val();
+    var description1 =          $("#addDeliveryDescription").val();
 
 
     var arrayOfId = [];
 
     for (var i = 0; i<arrOfTr.length;i++){
         arrayOfId[i] = $(arrOfTr[i]).find('td:eq(0)').text();
+        // console.log(arrayOfId[i]);
     }
 
     if (arrayOfId[0]!="No data available in table" && idOfTruck1 != "" && name1 != "" && phone1 != "" && numberOfTruck1 != "" && numberOfTrailer1 != "" && date1 != "" && time1 != "" && contractName1 != "" && deliveryDestination1!="" && description1!=""){
-
         $.ajax({
             method: "post",
             url: "/createDeliveryDoc-"+userID+"-"+breedID,
@@ -127,8 +128,8 @@ function sendRequestToCreateDeleviry() {
             error: function () {
                 alert("Error");
             }
-        });}
-    else {
+        });
+    } else {
         alert("Заполните все поля!");
     }
 

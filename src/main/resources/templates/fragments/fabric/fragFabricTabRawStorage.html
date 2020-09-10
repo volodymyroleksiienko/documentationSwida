@@ -94,33 +94,40 @@
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
-                                <div class="col-4">
+                                <div class="col-6">
                                     <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
-                                    <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" required="required" placeholder="мм" name="sizeOfHeight">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryingModalThickness" disabled="disabled" required="required" placeholder="мм" name="sizeOfHeight">
                                 </div>
-                                <div class="col-4">
-                                    <label class="col-form-label" for="sendForDryingModalWidth">Шырина</label>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="sendForDryingModalWidth">Ширина</label>
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalWidth" disabled="disabled" placeholder="мм" name="sizeOfWidth">
                                 </div>
-                                <div class="col-4">
+
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
                                     <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalLength" disabled="disabled" placeholder="мм" name="sizeOfLong">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalCount" autocomplete="off" placeholder="шт" name="countOfDesk">
                                 </div>
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
-                                    <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalCount" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                    <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control" id="sendForDryingModalVolume"  disabled="disabled" name="extent">
                                 </div>
                                 <div class="col-6">
-                                    <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                                    <input type="text" class="form-control" id="sendForDryingModalVolume" disabled="disabled" name="extent">
-                                </div>
-                                <div class="col-12">
                                     <label class="col-form-label" for="addDryingDate">Дата выхода</label>
-                                    <input class="form-control" type="date" id="addDryingDate"  name="date">
+                                    <input class="form-control" type="date" id="addDryingDate"  name="date" required="required">
                                 </div>
+                                <script type="text/javascript">
+                                    document.querySelector("#addDryingDate").valueAsDate = new Date();
+                                </script>
                             </div>
                         </div>
                         <!-- Insert rows -->
@@ -171,7 +178,7 @@
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
                                 </div>
                                 <div class="col-4">
-                                    <label class="col-form-label" for="editDryingModalWidth">Шырина</label>
+                                    <label class="col-form-label" for="editDryingModalWidth">Ширина</label>
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
                                 </div>
                                 <div class="col-4">
@@ -187,7 +194,7 @@
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
-                                    <input type="number" min="1" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
                                 </div>
                             </div>
                         </div>
@@ -280,14 +287,14 @@
                             </div>
 
                             <div class="col-6">
-                                <label class="col-form-label" for="sendForPackageHeightPc">Высота</label>
+                                <label class="col-form-label" for="sendForPackageHeightPc">Высота, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="height">
                             </div>
                         </div>
 
-                        <div class="form-group row d-flex" style="align-items: flex-end">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина</label>
+                                <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="width">
                             </div>
 
@@ -311,7 +318,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сформировать</button>
+                        <button type="submit" class="btn btn-primary">Сформировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -445,25 +452,43 @@
                             <input type="text" class="form-control" id="sendForDryingModalId" hidden="hidden" autocomplete="off" name="rawStorageId">
 
                             <label class="col-form-label" for="sendForDryingModalCode">Код</label>
-                            <input type="text" class="form-control" id="sendForDryingModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                            <input type="text" class="form-control" id="sendForDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
-                            <label class="control-label" for="sendForDryingModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="sendForDryingModalMaterial" disabled="disabled">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="control-label" for="sendForDryingModalMaterial">Порода</label>
+                                    <input type="text" class="form-control" id="sendForDryingModalMaterial" disabled="disabled">
+                                </div>
+                                <div class="col-6">
+                                    <label class="control-label" for="sendForDryingModalMaterialDescr">Описание</label>
+                                    <input class="form-control" id="sendForDryingModalMaterialDescr" type="text" placeholder="Не заполнено"  name="breedDescription">
+                                </div>
+                            </div>
 
-                            <label class="control-label" for="sendForDryingModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="sendForDryingModalMaterialDescr" type="text"  name="breedDescription">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" placeholder="м3" id="sendForDryingModalVolume"  name="extentOfDrying" required="required">
+                                </div>
+                            </div>
 
-                            <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
-
-                            <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="sendForDryingModalVolume"  name="extentOfDrying" required="required">
-
-                            <label class="col-form-label" for="sendForDryingModalDescription">Примечания</label>
-                            <input type="text" class="form-control" id="sendForDryingModalDescription"  name="description">
-
-                            <label class="col-form-label" for="addDryingDateOak">Дата выхода</label>
-                            <input class="form-control" type="date" id="addDryingDateOak"  name="date">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="addDryingDateOak">Дата выхода</label>
+                                    <input class="form-control" type="date" id="addDryingDateOak"  name="date" required="required">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="sendForDryingModalDescription">Примечания</label>
+                                    <input type="text" class="form-control" id="sendForDryingModalDescription" placeholder="Не заполнено" name="description">
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                document.querySelector("#addDryingDateOak").valueAsDate = new Date();
+                            </script>
 
                         </div>
                         <!-- Insert rows -->
@@ -496,22 +521,32 @@
                             <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
 
                             <label class="col-form-label" for="editDryingModalCode">Код</label>
-                            <input type="text" class="form-control" id="editDryingModalCode" required="required" autocomplete="off" name="codeOfProduct">
+                            <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
-                            <label class="control-label" for="editDryingModalMaterial">Порода</label>
-                            <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="control-label" for="editDryingModalMaterial">Порода</label>
+                                    <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                                </div>
+                                <div class="col-6">
+                                    <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
+                                    <input class="form-control" id="editDryingModalMaterialDescr" placeholder="Не заполнено" type="text" name="breedDescription">
+                                </div>
+                            </div>
 
-                            <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
-                            <input class="form-control" id="editDryingModalMaterialDescr" type="text" name="breedDescription">
-
-                            <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
-                            <input type="text" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
-
-                            <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
-                            <input type="text" class="form-control" id="editDryingModalVolume" required="required"  autocomplete="off" placeholder="мм" name="extent">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required"  autocomplete="off" placeholder="мм" name="extent">
+                                </div>
+                            </div>
 
                             <label class="col-form-label" for="editForDryingModalDescription">Примечания</label>
-                            <input type="text" class="form-control" id="editForDryingModalDescription"  name="description">
+                            <input type="text" class="form-control" id="editForDryingModalDescription" placeholder="Не заполнено" name="description">
 
                         </div>
                         <!-- Insert rows -->
@@ -528,7 +563,7 @@
 
     <!-- Сырой склад -> Пачки -->
     <div class="modal fade" id="sendFromRawToPackageOakModal">
-            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title " id="sendForPackageModalOakHeader">Формирование пачки</h5>
@@ -538,28 +573,24 @@
                     </div>
                     <form >
                         <div class="modal-body">
+                            <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
+                            <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
+                            <input type="text" hidden="hidden" id="userId" th:value="${userId}">
 
                             <div class="form-group row">
-                                <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
-                                <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
-                                <input type="text" hidden="hidden" id="userId" th:value="${userId}">
-
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label class="col-form-label" for="sendForPackageModalCodeOak">Код пачки</label>
-                                    <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off">
+                                    <input type="text" class="form-control" id="sendForPackageModalCodeOak" required="required" autocomplete="off" placeholder="Не заполнено">
                                 </div>
-
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label class="control-label" for="sendForPackageModalQualityOak" style="padding-top: 7px">Качество</label>
-                                    <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required">
+                                    <input type="text" class="form-control" id="sendForPackageModalQualityOak" required="required" placeholder="Не заполнено">
                                 </div>
-
-                                <div class="col-3">
+                                <div class="col-2">
                                     <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Размер</label>
-                                    <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" disabled="disabled">
+                                    <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" autocomplete="off" placeholder="мм">
                                 </div>
-
-                                <div class="col-3">
+                                <div class="col-2">
                                     <label class="col-form-label" for="sendForPackageModalLengthOak">Длина</label>
                                     <input type="number" min="1" class="form-control" id="sendForPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
                                 </div>
@@ -568,29 +599,31 @@
                             <hr>
 
                             <div class="form-group row d-flex" style="align-items: flex-end">
-
-                                <div class="col-5">
+                                <div class="col-3">
                                     <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
-                                    <input type="number" min="1" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
+                                    <input type="number" min="0" step="10" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
                                 </div>
-
-                                <div class="col-5">
+                                <div class="col-3">
                                     <label class="control-label" for="sendForPackageModalCountOak" style="padding-top: 7px">Количество</label>
                                     <input type="number" min="1" class="form-control" id="sendForPackageModalCountOak" required="required" autocomplete="off" placeholder="шт">
                                 </div>
-
                                 <div class="col-2">
-                                    <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                                    <label class="control-label" for="sendForPackageModalExtentOak" style="padding-top: 7px">Кубатура</label>
+                                    <input type="text" disabled="disabled" class="form-control" id="sendForPackageModalExtentOak"  autocomplete="off" placeholder="м3">
+                                </div>
+                                <div class="col-4" style="display: inline-flex">
+                                    <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px">Добавить</button>
+                                    <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreatePackageOak(this)">Сформировать</button>
                                 </div>
                             </div>
 
                             <table class="table table-hover table-striped" id="tableForTransportationOak">
                                 <thead>
-                                <tr>
-                                    <th scope="col">Толщина, мм</th>
-                                    <th scope="col">Количество досок, шт</th>
-                                    <th></th>
-                                </tr>
+                                    <tr>
+                                        <th scope="col">Толщина, мм</th>
+                                        <th scope="col">Количество досок, шт</th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
 
                                 <tbody id="listOfPackageId">
@@ -598,24 +631,21 @@
                                 </tbody>
 
                                 <tfoot>
-                                <th scope="col">Толщина, мм</th>
-                                <th scope="col">Количество досок, шт</th>
-                                <th></th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Количество досок, шт</th>
+                                    <th></th>
                                 </tfoot>
 
                             </table>
-
-
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreatePackageOak(this)">Сформировать</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        </div>
+                            <button type="button" class="btn btn-secondary" id="clearTableButton" data-dismiss="modal">Отмена</button>                        </div>
                     </form>
                 </div>
             </div>
         </div>
     <!-- Сырой склад -> Пачки end-->
+
 
     <!-- Export start-->
     <div class="modal fade" id="exportModal">
@@ -687,5 +717,6 @@
     <!--  Modal return confirmation end -->
 
     <script type="text/javascript" th:src="@{../js/fabric/raw/raw.storage.oak.js}"></script>
+<!--    <script type="text/javascript" th:src="@{../js/fabric/dry/dry.storage.oak.js}"></script>-->
 
 </th:block>
