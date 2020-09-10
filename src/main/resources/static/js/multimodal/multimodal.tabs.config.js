@@ -39,7 +39,8 @@ $(document).ready( function () {
                 "orderable": false,
                 "searchable": false,
                 "width": "80px"
-            }
+            },
+            { className: "display-none", "targets": [ 14 ] }
         ]
     });
 

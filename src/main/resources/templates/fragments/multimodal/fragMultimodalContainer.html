@@ -98,64 +98,73 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContractNumber" >№ контракта</label>
-                                <input type="text" class="form-control" list="addContractsList" id="addContractNumber" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
-                                <datalist id="addContractsList">
-                                    <option th:each="contract : ${contractDistributionList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract.date}"></option>
-                                </datalist>
-                                <input type="hidden" name="orderInfo.id" id="addContractNumber-hidden">
+                                <input type="text" class="form-control"  id="addContractNumber" placeholder="Не заполнено" required="required" autocomplete="off">
+
                             </div>
                         </div>
 
-                        <label class="col-form-label" for="addContainerBuyer">Покупатель</label>
-                        <input type="text" class="form-control" list="addContainerBuyersList" id="addContainerBuyer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
-                        <datalist id="addContainerBuyersList">
-                            <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
-                        </datalist>
-                        <input type="number" hidden="hidden"  name="contrAgent.id" id="addContainerBuyer-hidden">
-
-                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerBuyer">Покупатель</label>
+                                <input type="text" class="form-control" list="addContainerBuyersList" id="addContainerBuyer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <datalist id="addContainerBuyersList">
+                                    <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addContainerBuyer-hidden">
+                            </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка</label>
                                 <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploading(this.value)">
                             </div>
+                        </div>
+
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerUnloadingPrice">Цена за м<sup>3</sup> ($)</label>
                                 <input type="number" step="any" min="0" class="form-control" id="addContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера ($)</label>
+                                <input type="number" step="any" min="0" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" value="0:00" disabled="disabled" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
-                                <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
-                            </div>
-                            <div class="col-6">
                                 <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт ($)</label>
                                 <input type="number" step="any" min="0" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" value="80">
                             </div>
-                        </div>
-
-
-                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerMeasurement">Взвешивание (&#8372;)</label>
                                 <input type="number" step="any" min="0" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" value="100">
                             </div>
+                        </div>
+
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerCurrency">Курс ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="exchangeRate">
+                                <input type="number" step="any" min="0" class="form-control" id="addContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" value="0.00" autocomplete="off" name="exchangeRate">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerUahCurrency">Эквивалент (&#8372;)</label>
+                                <input type="number" step="any" min="0" class="form-control" id="addContainerUahCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" disabled="disabled" autocomplete="off" name="equalsToUAH">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="addContainerUahCurrency">Эквивалент (&#8372;)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerUahCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="equalsToUAH">
-                            </div>
-
-                            <div class="col-6">
                                 <label class="col-form-label" for="addContainerDate">Дата вывоза в порт</label>
                                 <input class="form-control" type="date" id="addContainerDate"  name="date">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addContainerState">Состояние</label>
+                                <input type="text" list="containerStateList" class="form-control" id="addContainerState"  placeholder="Не заполнено" required="required" autocomplete="off" name="statusOfEntity">
+                                <datalist id="containerStateList">
+                                    <option value="MULTIMODAL">
+                                    <option value="PORT">
+                                </datalist>
                             </div>
                             <script type="text/javascript">
                                 document.querySelector("#addContainerDate").valueAsDate = new Date();
@@ -192,64 +201,71 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContractNumber" >№ контракта</label>
-                                <input type="text" class="form-control" list="editContractsList" id="editContractNumber" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
-                                <datalist id="editContractsList">
-                                    <option th:each="contract : ${contractDistributionList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract.date}"></option>
-                                </datalist>
-                                <input type="hidden" name="orderInfo.id" id="editContractNumber-hidden">
+                                <input type="text" class="form-control"  id="editContractNumber" placeholder="Не заполнено" required="required" autocomplete="off">
                             </div>
                         </div>
 
-                        <label class="col-form-label" for="editContainerBuyer">Покупатель</label>
-                        <input type="text" class="form-control" list="editContainerBuyersList" id="editContainerBuyer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
-                        <datalist id="editContainerBuyersList">
-                            <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
-                        </datalist>
-                        <input type="number" hidden="hidden"  name="contrAgent.id" id="editContainerBuyer-hidden">
-
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerBuyer">Покупатель</label>
+                                <input type="text" class="form-control" list="editContainerBuyersList" id="editContainerBuyer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <datalist id="editContainerBuyersList">
+                                    <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="editContainerBuyer-hidden">
+                            </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerExpotrExtent">Эксп. объем, загрузка, м<sup>3</sup></label>
                                 <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploadingEdit(this.value)">
                             </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerUnloadingPrice">Цена за м<sup>3</sup> ($)</label>
                                 <input type="number" step="any" min="0" class="form-control" id="editContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="coefUploading" >
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера ($)</label>
+                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerUnloading" placeholder="usd" required="required" autocomplete="off" name="costOfUploading">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
-                                <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера ($)</label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerUnloading" placeholder="usd" required="required" autocomplete="off" name="costOfUploading">
-                            </div>
-                            <div class="col-6">
                                 <label class="col-form-label" for="editContainerDelivery">Вывоз контейнера в порт ($)</label>
                                 <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerDelivery" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort">
                             </div>
-                        </div>
-
-
-                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerMeasurement">Взвешивание (&#8372;)</label>
                                 <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerMeasurement" placeholder="uah" required="required" autocomplete="off" name="costOfWeighing">
                             </div>
+                        </div>
+
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerCurrency">Курс ($)</label>
                                 <input type="number" step="any" min="0" class="form-control" id="editContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="exchangeRate">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editUah">Эквивалент (&#8372;)</label>
+                                <input type="number" step="any" min="0" class="form-control" id="editUah" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="equalsToUAH">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="editUah">Эквивалент (&#8372;)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="editUah" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="equalsToUAH">
-                            </div>
-
-                            <div class="col-6">
                                 <label class="col-form-label" for="editContainerDate">Дата вывоза в порт</label>
                                 <input class="form-control" type="date" id="editContainerDate"  name="date">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContainerState">Состояние</label>
+                                <input type="text" list="containerStateList2" class="form-control" id="editContainerState"  placeholder="Не заполнено" required="required" autocomplete="off" name="statusOfEntity">
+                                <datalist id="containerStateList2">
+                                    <option value="MULTIMODAL">
+                                    <option value="PORT">
+                                </datalist>
                             </div>
                             <script type="text/javascript">
                                 document.querySelector("#addContainerDate").valueAsDate = new Date();
@@ -290,10 +306,14 @@
             let currency =              $(trObj).find('td:eq(8)').text();
             let uah =                   $(trObj).find('td:eq(9)').text();
             let date =                  $(trObj).find('td:eq(10)').text();
+            let state =                 $(trObj).find('td:eq(11)').text();
+            let buyerId =               $(trObj).find('td:eq(12)').text();
+
 
             $('#editContainerNumber')           .val(cantainerNumber);
             $('#editContractNumber')            .val(contractNumber);
             $('#editContainerBuyer')            .val(buyer);
+            $('#editContainerBuyer-hidden')     .val(buyerId);
             $('#editContainerExpotrExtent')     .val(exportExtent);
             $('#editContainerUnloadingPrice')   .val(unloadingPrice);
             $('#editContainerUnloading')        .val(unloading);
@@ -302,6 +322,7 @@
             $('#editContainerCurrency')         .val(currency);
             $('#editUah')                       .val(uah);
             $('#editContainerDate')             .val(date);
+            $('#editContainerState')            .val(state);
 
             $('#editContainerModal').modal('show');
         }
