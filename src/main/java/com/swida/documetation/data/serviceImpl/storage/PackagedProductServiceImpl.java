@@ -332,7 +332,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             container.setCode(containerName);
             container.setContrAgent(
                     productJPA.getOne(Integer.parseInt(arrayOfPackagesId[0]))
-                    .getDeliveryDocumentation().getOrderInfo().getContrAgent()
+                    .getDeliveryDocumentation().getOrderInfo().getMainOrder().getContrAgent()
             );
             container.setCodeOfOrderInfo(
                     productJPA.getOne(Integer.parseInt(arrayOfPackagesId[0]))

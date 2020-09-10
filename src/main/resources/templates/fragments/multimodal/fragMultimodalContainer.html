@@ -20,6 +20,7 @@
                 <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Состояние</th>
                 <th scope="col">Статус</th>
+                <th scope="col">Agent id</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
             </tr>
             </thead>
@@ -39,6 +40,7 @@
                 <td th:text="${container.date}"></td>
                 <td th:text="${container.destinationType}"></td>
                 <td th:text="${container.statusOfEntity}"></td>
+                <td th:text="${container?.contrAgent?.id}"></td>
                 <td style="width: 70px; text-align: right" sec:authorize="hasRole('ROLE_ADMIN')">
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
@@ -62,6 +64,7 @@
                 <th scope="col">Дата вывоза в порт</th>
                 <th scope="col">Состояние</th>
                 <th scope="col">Статус</th>
+                <th scope="col">Agent id</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
             </tr>
             </tfoot>
@@ -211,7 +214,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerUnloadingPrice">Цена за м<sup>3</sup> ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="editContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
+                                <input type="number" step="any" min="0" class="form-control" id="editContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="coefUploading" >
                             </div>
                         </div>
 

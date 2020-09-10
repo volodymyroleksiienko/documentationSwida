@@ -162,6 +162,9 @@ public class MultimodalController {
 //    All Containers
     @GetMapping("/getListOfALLContainers")
     public String getListOfALLContainers(Model model){
+        List<ContrAgent> contrAgentList = new ArrayList<>();
+        contrAgentList.addAll(contrAgentService.getListByType(ContrAgentType.BUYER_UA));
+        contrAgentList.addAll(contrAgentService.getListByType(ContrAgentType.BUYER_FOREIGN));
 
         model.addAttribute("navTabName","multimodalMain");
         model.addAttribute("tabName","containers");
@@ -171,6 +174,7 @@ public class MultimodalController {
         model.addAttribute("containerList",containerService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("navTabName","delivery");
+        model.addAttribute("contrAgentList",contrAgentList);
         UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if (userCompany!=null){
             model.addAttribute("userCompanyName",userCompany);
@@ -211,6 +215,7 @@ public class MultimodalController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("deliveryDocumentationList",deliveryDocumentationService
                 .getListByDistributionContractsId(orderInfoService.findDistributionId(contractId)));
+
 
         model.addAttribute("providerList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("navTabName","delivery");

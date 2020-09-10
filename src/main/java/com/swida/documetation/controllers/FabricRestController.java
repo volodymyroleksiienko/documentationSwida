@@ -115,7 +115,7 @@ public class FabricRestController {
             idOfDryStorage="";
         }
         PackagedProduct product = packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
-        return product.getDryStorage().getExtent();
+        return (product.getDryStorage()!=null)?product.getDryStorage().getExtent():"0.000";
     }
 
     public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation ){

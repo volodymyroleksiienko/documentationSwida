@@ -743,9 +743,9 @@ public class FabricController {
         UserCompany company = new UserCompany();
         company.setId(userId);
         treeStorage.setUserCompany(company);
-        ContrAgent contrAgent =  new ContrAgent();
-        contrAgent.setNameOfAgent(nameOfAgent);
-        treeStorage.setContrAgent(contrAgent);
+//        ContrAgent contrAgent =  new ContrAgent();
+//        contrAgent.setNameOfAgent(nameOfAgent);
+//        treeStorage.setContrAgent(contrAgent);
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
@@ -772,9 +772,9 @@ public class FabricController {
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setUserCompany(userCompanyService.findById(userId));
-        ContrAgent contrAgent =  new ContrAgent();
-        contrAgent.setNameOfAgent(nameOfAgent);
-        treeStorage.setContrAgent(contrAgent);
+//        ContrAgent contrAgent =  new ContrAgent();
+//        contrAgent.setNameOfAgent(nameOfAgent);
+//        treeStorage.setContrAgent(contrAgent);
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
     }
