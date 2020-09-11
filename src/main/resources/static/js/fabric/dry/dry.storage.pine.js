@@ -25,7 +25,9 @@ function sendForPackagesStorage(btnObj) {
     $('#sendForPackageModalCount')			.val(count);
     $('#sendForPackageModalVolume')			.val(extent);
 
+    $("#sendForPackageHeightPc").focus();
     $('#sendForPackageModal').modal('show');
+
 
     // CHECK
     $("#sendForPackageHeightPc").change(function(){
