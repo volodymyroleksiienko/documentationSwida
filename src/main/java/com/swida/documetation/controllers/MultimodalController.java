@@ -124,11 +124,9 @@ public class MultimodalController {
 
         orderInfoDB.setExtentOfOrder(orderInfo.getExtentOfOrder());
         orderInfoDB.setBreedDescription(orderInfo.getBreedDescription());
-        orderInfoDB.setDoneExtendOfOrder(orderInfo.getDoneExtendOfOrder());
         orderInfoDB.setCodeOfOrder(orderInfo.getCodeOfOrder());
-        orderInfoDB.setContrAgent(contrAgentService.getObjectByName(orderInfo.getContrAgent().getNameOfAgent()));
+        orderInfoDB.setContrAgent(contrAgentService.findById(orderInfo.getContrAgent().getId()));
         orderInfoDB.setStatusOfOrderInfo(StatusOfOrderInfo.MAIN);
-        orderInfoDB.setBreedOfTree(breedOfTreeService.getObjectByName(orderInfo.getBreedOfTree().getBreed()));
         orderInfoDB.setExtentForDistribution(String.format("%.3f",Float.parseFloat(orderInfoDB.getExtentForDistribution())-differenceExtent).replace(",","."));
         orderInfoDB.setDate(orderInfo.getDate());
 

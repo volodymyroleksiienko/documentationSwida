@@ -19,6 +19,7 @@
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -33,6 +34,7 @@
                 <td th:text="${order.toDoExtentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.date}"  class="change-color" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.statusOfEntity}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
+                <td th:text="${order?.contrAgent?.id}"></td>
                 <td style="text-align: right;">
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
                     <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -54,6 +56,7 @@
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожидаемый объем</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
+                <th></th>
                 <th></th>
             </tr>
             </tfoot>
@@ -79,7 +82,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/admin/editMultimodalContarct" method="post">
+                <form action="/multimodal/editMultimodalContarct" method="post">
                     <div class="modal-body">
                         <input type="text" id="editContractId" hidden="" name="id">
 
@@ -87,10 +90,11 @@
                         <input type="text" class="form-control" id="editContractNumber" required="required" autocomplete="off" placeholder="Не заполнено" name="codeOfOrder">
 
                         <label class="col-form-label" for="editContractBuyers">Покупатель</label>
-                        <input type="text" class="form-control" list="companiesList" id="editContractBuyers" required="required" placeholder="Не заполнено" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <input type="text" class="form-control" list="companiesList" id="editContractBuyers" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="companiesList">
-                            <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
+                            <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                         </datalist>
+                        <input type="number" hidden="hidden"  name="contrAgent.id" id="editContractBuyers-hidden">
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
@@ -103,7 +107,7 @@
 
                             <div class="col-6">
                                 <label class="col-form-label" for="editContractMaterialDescription">Описание</label>
-                                <input type="text" class="form-control" id="editContractMaterialDescription" disabled="disabled" required="required" autocomplete="off" name="breedDescription">
+                                <input type="text" class="form-control" id="editContractMaterialDescription" required="required" autocomplete="off" name="breedDescription">
                             </div>
                         </div>
 
@@ -122,12 +126,12 @@
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContractExpectedExtent">Ожидаемый объем, м<sup>3</sup></label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" placeholder="м3" id="editContractExpectedExtent" required="required" autocomplete="off" name="toDoExtentOfOrder">
+                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" placeholder="м3" id="editContractExpectedExtent" required="required" disabled="disabled" autocomplete="off" name="toDoExtentOfOrder">
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="editContractTerms">Срок выполнения</label>
-                                <input type="date" class="form-control" id="editContractTerms" required="required">
+                                <input type="date" class="form-control" id="editContractTerms" required="required" name="date">
                             </div>
                         </div>
                     </div>
@@ -155,9 +159,11 @@
             var sent =              $(trObj).find('td:eq(4)').text();
             var expected =          $(trObj).find('td:eq(5)').text();
             var terms =             $(trObj).find('td:eq(6)').text();
+            var agentId =           $(trObj).find('td:eq(8)').text();
 
             $('#editContractNumber')              .val(contractNumber);
             $('#editContractBuyers')              .val(buyer);
+            $('#editContractBuyers-hidden')       .val(agentId);
             $('#editContractMaterial')            .val(material);
             $('#editContractMaterialDescription') .val(description);
             $('#editContractExtent')              .val(extent);
