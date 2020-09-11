@@ -114,7 +114,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка</label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploading(this.value)">
+                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploading()">
                             </div>
                         </div>
 
@@ -122,22 +122,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerUnloadingPrice">Цена за м<sup>3</sup> ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
+                                <input type="number" step="0.10" min="0" class="form-control" id="addContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" oninput="countCostOfUploading()" >
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerUnloading">Загрузка контейнера ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" value="0:00" disabled="disabled" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" >
+                                <input type="number" step="0.10" min="0" class="form-control" id="addContainerUnloading" pattern="[0-9]*\.?[0-9]*" value="0:00" disabled="disabled" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" oninput="countCostOfUploading()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" value="80">
+                                <input type="number" step="0.10" min="0" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" value="80.00" oninput="countCostOfUploading()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerMeasurement">Взвешивание (&#8372;)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" value="100">
+                                <input type="number"step="0.10" min="0" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" value="100.00" oninput="countCostOfUploading()">
                             </div>
                         </div>
 
@@ -145,11 +145,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerCurrency">Курс ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" value="0.00" autocomplete="off" name="exchangeRate">
+                                <input type="number" step="0.10" min="0" class="form-control" id="addContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" value="0.00" autocomplete="off" name="exchangeRate" oninput="countCostOfUploading()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerUahCurrency">Эквивалент (&#8372;)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="addContainerUahCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" disabled="disabled" autocomplete="off" name="equalsToUAH">
+                                <input type="number"  min="0" class="form-control" id="addContainerUahCurrency" placeholder="uah" required="required" disabled="disabled" autocomplete="off" name="equalsToUAH">
                             </div>
                         </div>
 
@@ -216,29 +216,29 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerExpotrExtent">Эксп. объем, загрузка, м<sup>3</sup></label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploadingEdit(this.value)">
+                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploadingEdit()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerUnloadingPrice">Цена за м<sup>3</sup> ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="editContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="coefUploading" >
+                                <input type="number" step="0.10" min="0" class="form-control" id="editContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="coefUploading" oninput="countCostOfUploadingEdit()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера ($)</label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerUnloading" placeholder="usd" required="required" autocomplete="off" name="costOfUploading">
+                                <input type="number" step="0.10" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerUnloading" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" oninput="countCostOfUploadingEdit()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerDelivery">Вывоз контейнера в порт ($)</label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerDelivery" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort">
+                                <input type="number" step="0.10" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerDelivery" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" oninput="countCostOfUploadingEdit()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerMeasurement">Взвешивание (&#8372;)</label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerMeasurement" placeholder="uah" required="required" autocomplete="off" name="costOfWeighing">
+                                <input type="number" step="0.10" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerMeasurement" placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" oninput="countCostOfUploadingEdit()">
                             </div>
                         </div>
 
@@ -246,11 +246,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerCurrency">Курс ($)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="editContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="exchangeRate">
+                                <input type="number" step="0.10" min="0" class="form-control" id="editContainerCurrency" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="exchangeRate" oninput="countCostOfUploadingEdit()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editUah">Эквивалент (&#8372;)</label>
-                                <input type="number" step="any" min="0" class="form-control" id="editUah" pattern="[0-9]*\.?[0-9]*" placeholder="uah" required="required" autocomplete="off" name="equalsToUAH">
+                                <input type="number" class="form-control" id="editUah"  placeholder="uah" required="required" autocomplete="off" name="equalsToUAH">
                             </div>
                         </div>
 
@@ -281,14 +281,32 @@
         </div>
     </div>
     <script type="text/javascript">
-        function countCostOfUploading(value) {
-            $('#addContainerUnloading').val(value*4);
-        }
-        function countCostOfUploadingEdit(value) {
-            $('#editContainerUnloading').val(value*4);
-        }
-        function editContainer(btnObj) {
+        function countCostOfUploading() {
+            let price =         parseFloat($('#addContainerUnloadingPrice').val());
+            let extent =        parseFloat($('#addContainerExpotrExtent').val());
+            let unloading =     parseFloat($('#addContainerUnloading').val());
+            let delivery =      parseFloat($('#addContainerDelivery').val());
+            let measurement =   parseFloat($('#addContainerMeasurement').val());
+            let currency =      parseFloat($('#addContainerCurrency').val());
 
+            $('#addContainerUnloading').val((extent*price).toFixed(2));
+            $('#addContainerUahCurrency').val(((unloading*currency)+(delivery*currency)+measurement).toFixed(2));
+        }
+
+
+        function countCostOfUploadingEdit() {
+            let price =         parseFloat($('#editContainerUnloadingPrice').val());
+            let extent =        parseFloat($('#editContainerExpotrExtent').val());
+            let unloading =     parseFloat($('#editContainerUnloading').val());
+            let delivery =      parseFloat($('#editContainerDelivery').val());
+            let measurement =   parseFloat($('#editContainerMeasurement').val());
+            let currency =      parseFloat($('#editContainerCurrency').val());
+
+            $('#editContainerUnloading').val((extent*price).toFixed(2));
+            $('#editContainerUahCurrency').val(((unloading*currency)+(delivery*currency)+measurement).toFixed(2));
+        }
+
+        function editContainer(btnObj) {
             let trObj =             btnObj.parentElement.parentElement;
             let trId =              $(trObj).attr('id');
             $('#editContainerId').val(trId);
@@ -307,7 +325,8 @@
             let uah =                   $(trObj).find('td:eq(9)').text();
             let date =                  $(trObj).find('td:eq(10)').text();
             let state =                 $(trObj).find('td:eq(11)').text();
-            let buyerId =               $(trObj).find('td:eq(12)').text();
+            let buyerId =               $(trObj).find('td:eq(13)').text();
+            console.log(buyerId);
 
 
             $('#editContainerNumber')           .val(cantainerNumber);
