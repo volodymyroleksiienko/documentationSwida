@@ -423,7 +423,7 @@ $(document).ready( function () {
     $('#tableForTransportation tbody').on( 'click', 'button', function () {
         modalPackagesTable.row( $(this).parents('tr') ).remove().draw();
 
-        let newData = ( modalPackagesTable.rows( ).data() );
+        let newData = (modalPackagesTable.rows( ).data() );
 
         let extentS = 0.0;
 

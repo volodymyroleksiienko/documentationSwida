@@ -123,13 +123,33 @@
                 </div>
                 <form th:action="@{'/multimodal/editTrucksByContract-'+${contractId}}" method="post">
                     <div class="modal-body">
-                        <input type="text" id="editTruckId" hidden="" name="id">
+                        <input type="text" id="editTruckId" hidden="hidden" name="id">
 
-                        <label class="col-form-label" for="editTruckDateOfUploading">Дата загрузки</label>
-                        <input type="date" class="form-control" id="editTruckDateOfUploading" required="required" name="dateOfUnloading">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editTruckDateOfUploading">Дата загрузки</label>
+                                <input type="date" class="form-control" id="editTruckDateOfUploading" required="required" name="dateOfUnloading">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editTruckNumber">№ машины</label>
+                                <input type="text" class="form-control" id="editTruckNumber" placeholder="Не заполнено" required="required" autocomplete="off" name="driverInfo.idOfTruck">
+                            </div>
+                        </div>
 
-                        <label class="col-form-label" for="editTruckNumber">№ машины</label>
-                        <input type="text" class="form-control" id="editTruckNumber" placeholder="Не заполнено" required="required" autocomplete="off" name="driverInfo.idOfTruck">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editTruckExpotrExtent">Эксп. объем, привоз, м<sup>3</sup></label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editTruckExpotrExtent" placeholder="м3" required="required" autocomplete="off" name="packagesExtent">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editContractCode" >Контракт</label>
+                                <input type="text" class="form-control" list="editContractsList" id="editContractCode" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <datalist id="editContractsList">
+                                    <option th:each="contract : ${contractDistributionList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract.date}"></option>
+                                </datalist>
+                                <input type="hidden" name="orderInfo.id" id="editContractCode-hidden">
+                            </div>
+                        </div>
 
                         <label class="col-form-label" for="editTruckPlace">Место отгрузки</label>
                         <input type="text" class="form-control" list="editTruckList" placeholder="Не заполнено" id="editTruckPlace" required="required" autocomplete="off" onchange="setHiddenValue(this)">
@@ -137,16 +157,6 @@
                             <option th:each="agent : ${providerList}"  th:data-value="${agent.id}" th:text="${agent.addressOfCompany}" th:label="${agent.nameOfAgent}"></option>
                         </datalist>
                         <input type="hidden" name="contrAgent.id" id="editTruckPlace-hidden">
-
-                        <label class="col-form-label" for="editTruckExpotrExtent">Экспортный объем, привоз, м<sup>3</sup></label>
-                        <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editTruckExpotrExtent" placeholder="м3" required="required" autocomplete="off" name="packagesExtent">
-
-                        <label class="col-form-label" for="editContractCode" >Контракт</label>
-                        <input type="text" class="form-control" list="editContractsList" id="editContractCode" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
-                        <datalist id="editContractsList">
-                            <option th:each="contract : ${contractDistributionList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract.date}"></option>
-                        </datalist>
-                        <input type="hidden" name="orderInfo.id" id="editContractCode-hidden">
 
                     </div>
                     <div class="modal-footer">

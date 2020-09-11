@@ -182,15 +182,17 @@ $(document).ready( function () {
         let button =             "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
         let companyId =          $("#addDistributionCompanyInner-hidden").val();
         const mainOrderCode =    $('#sendDistributionModalCode').val();
+        let maxExtent =          parseFloat($('#maxExtentValue').val());
 
         let arrOfTr = document.getElementById("listOfDistributionsId").getElementsByTagName("tr");
         console.log("arr length = "+arrOfTr.length);
 
         let arrayOfCodes     = [];
+
         let res = false;
 
         for (let i = 0; i<arrOfTr.length;i++){
-            arrayOfCodes[i] = $(arrOfTr[i]).find('td:eq(0)').text();
+            arrayOfCodes[i] =   $(arrOfTr[i]).find('td:eq(0)').text();
             if (code == arrayOfCodes[i]){
                 res = true;
             }
@@ -206,13 +208,15 @@ $(document).ready( function () {
             alert("Дубликация кода!");
             $("#addDistributionCode").val(mainOrderCode);
         }else {
-            let row = [code, company, amount, companyId, button];
+            let row = [code, company, amount.toFixed(3), companyId, button];
 
             console.log(row);
 
-            $("#addDistributionCode").val(mainOrderCode);
-            $("#addDistributionCompanyInner").val("");
-            $("#addDistributionAmountInner").val("");
+            $("#addDistributionCode")           .val(mainOrderCode);
+            $("#addDistributionCompanyInner")   .val("");
+            $("#addDistributionAmountInner")    .val((maxExtent-amount).toFixed(3));
+            $("#addDistributionAmountInner")    .attr({"max" : (maxExtent-amount).toFixed(3), "min": 0.000});
+            $('#maxExtentValue').val(maxExtent-amount);
 
             tableOfDistribution.row.add(row).draw();
         }
@@ -221,6 +225,15 @@ $(document).ready( function () {
 
     // DELETE BUTTON START
     $('#tableOfDistribution tbody').on( 'click', 'button', function () {
+        let maxExtent =          parseFloat($('#maxExtentValue').val());
+
+        let  extent =            parseFloat($(this).parents('tr').find('td:eq(2)').text());
+        console.log("ext: "+ extent);
+        let rowExtent =          parseFloat($('#addDistributionAmountInner').val());
+
+        $("#addDistributionAmountInner")    .val((rowExtent+extent).toFixed(3));
+        $('#maxExtentValue')                .val((maxExtent+extent).toFixed(3));
+
         tableOfDistribution.row( $(this).parents('tr') ).remove().draw();
     } );
     // DELETE BUTTON END

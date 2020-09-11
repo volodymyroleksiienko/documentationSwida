@@ -84,10 +84,10 @@
                         <input type="text" id="editContractId" hidden="" name="id">
 
                         <label class="col-form-label" for="editContractNumber">№ контракта</label>
-                        <input type="text" class="form-control" id="editContractNumber" required="required" autocomplete="off" name="codeOfOrder">
+                        <input type="text" class="form-control" id="editContractNumber" required="required" autocomplete="off" placeholder="Не заполнено" name="codeOfOrder">
 
                         <label class="col-form-label" for="editContractBuyers">Покупатель</label>
-                        <input type="text" class="form-control" list="companiesList" id="editContractBuyers" required="required" autocomplete="off" name="contrAgent.nameOfAgent">
+                        <input type="text" class="form-control" list="companiesList" id="editContractBuyers" required="required" placeholder="Не заполнено" autocomplete="off" name="contrAgent.nameOfAgent">
                         <datalist id="companiesList">
                             <option th:each="b : ${contrAgentProviderList}"  th:value="${b.nameOfAgent}">
                         </datalist>
@@ -109,20 +109,20 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="editContractExtent">Кубатура</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContractExtent" required="required" autocomplete="off" name="extentOfOrder">
+                                <label class="col-form-label" for="editContractExtent">Кубатура, м<sup>3</sup></label>
+                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" placeholder="м3" id="editContractExtent" required="required" autocomplete="off" name="extentOfOrder">
                             </div>
 
                             <div class="col-6">
-                                <label class="col-form-label" for="editContractTarnsported">Отгрузка (выехало в порт)</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" disabled="disabled" id="editContractTarnsported" required="required" autocomplete="off" name="doneExtendOfOrder">
+                                <label class="col-form-label" for="editContractTarnsported">Отгрузка (выехало в порт), м<sup>3</sup></label>
+                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" placeholder="м3" disabled="disabled" id="editContractTarnsported" required="required" autocomplete="off" name="doneExtendOfOrder">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="editContractExpectedExtent">Ожидаемый объем</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContractExpectedExtent" required="required" autocomplete="off" name="toDoExtentOfOrder">
+                                <label class="col-form-label" for="editContractExpectedExtent">Ожидаемый объем, м<sup>3</sup></label>
+                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" placeholder="м3" id="editContractExpectedExtent" required="required" autocomplete="off" name="toDoExtentOfOrder">
                             </div>
 
                             <div class="col-6">
@@ -156,14 +156,14 @@
             var expected =          $(trObj).find('td:eq(5)').text();
             var terms =             $(trObj).find('td:eq(6)').text();
 
-            $('#editContractNumber').val(contractNumber);
-            $('#editContractBuyers').val(buyer);
-            $('#editContractMaterial').val(material);
-            $('#editContractMaterialDescription').val(description);
-            $('#editContractExtent').val(extent);
-            $('#editContractTarnsported').val(sent);
-            $('#editContractExpectedExtent').val(expected);
-            $('#editContractTerms').val(terms);
+            $('#editContractNumber')              .val(contractNumber);
+            $('#editContractBuyers')              .val(buyer);
+            $('#editContractMaterial')            .val(material);
+            $('#editContractMaterialDescription') .val(description);
+            $('#editContractExtent')              .val(extent);
+            $('#editContractTarnsported')         .val(sent);
+            $('#editContractExpectedExtent')      .val(expected);
+            $('#editContractTerms')               .val(terms);
 
             $('#editContractModal').modal('show');
         }

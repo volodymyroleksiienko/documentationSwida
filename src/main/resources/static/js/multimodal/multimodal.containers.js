@@ -67,13 +67,13 @@ function editContainer(btnObj) {
     $('#editContractNumber')            .val(contractNumber);
     $('#editContainerBuyer')            .val(buyer);
     $('#editContainerBuyer-hidden')     .val(buyerId);
-    $('#editContainerExpotrExtent')     .val(exportExtent);
-    $('#editContainerUnloadingPrice')   .val(unloadingPrice);
-    $('#editContainerUnloading')        .val(unloading);
-    $('#editContainerDelivery')         .val(delivery);
-    $('#editContainerMeasurement')      .val(measurement);
-    $('#editContainerCurrency')         .val(currency);
-    $('#editUah')                       .val(uah);
+    $('#editContainerExpotrExtent')     .val(parseFloat(exportExtent).toFixed(3));
+    $('#editContainerUnloadingPrice')   .val(parseFloat(unloadingPrice).toFixed(2));
+    $('#editContainerUnloading')        .val(parseFloat(unloading).toFixed(2));
+    $('#editContainerDelivery')         .val(parseFloat(delivery).toFixed(2));
+    $('#editContainerMeasurement')      .val(parseFloat(measurement).toFixed(2));
+    $('#editContainerCurrency')         .val(parseFloat(currency).toFixed(2));
+    $('#editUah')                       .val(parseFloat(uah).toFixed(2));
     $('#editContainerDate')             .val(date);
     $('#editContainerState')            .val(state);
 

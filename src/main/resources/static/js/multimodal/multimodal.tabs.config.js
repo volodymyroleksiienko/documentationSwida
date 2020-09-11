@@ -45,7 +45,7 @@ $(document).ready( function () {
     });
 
     // Contracts table config
-    $('#info-detailed-table').DataTable({
+    let infoDetailedTab = $('#info-detailed-table').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
@@ -67,6 +67,25 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ 16 ] }
         ]
     });
+
+     $('#setContainerButton').click(function () {
+         let newData = ( infoDetailedTab.rows( '.selected' ).data() );
+             let extentS = 0.0;
+
+             for (let i = newData.length - 1; i >= 0; i--) {
+                 var extent = 		newData[i][8];
+                 extentS = extentS+parseFloat(extent);
+                 console.log(extentS);
+             }
+
+             console.log(extentS);
+
+             $("#selectContainerExtent").val(extentS.toFixed(3));
+
+
+             $('#setContainer').modal('show');
+
+     })
 
     // Selecting rows
     $('#info-detailed-table tbody').on( 'click', 'tr', function () {

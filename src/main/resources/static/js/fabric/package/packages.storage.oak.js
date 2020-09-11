@@ -1,5 +1,3 @@
-
-
 function editOakPackage(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId = $(trObj).find('td:eq(0)').attr('id');

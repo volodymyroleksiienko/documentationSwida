@@ -91,7 +91,7 @@
            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-placement="left" onclick="location.href='/multimodal/exportAllPackagesByContract-'+this.name" th:name="${contractId}">
                <i class="far fa-file-excel"></i>
            </button>
-            <button th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="buttons btn btn-primary" title="Присвоить контейнер выделенным"  data-toggle="modal" data-placement="left" data-target="#setContainer">
+            <button th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="buttons btn btn-primary" title="Присвоить контейнер выделенным"  data-toggle="modal" data-placement="left" id="setContainerButton" >
                 <i class="far fa-list-alt"></i>
             </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить" data-toggle="modal" data-placement="left" data-target="#addRecordModal">
@@ -136,15 +136,15 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-3">
-                                <label class="col-form-label" for="editRecordThickness">Толщина</label>
+                                <label class="col-form-label" for="editRecordThickness">Толщина, мм</label>
                                 <input type="number" min="1" class="form-control" id="editRecordThickness" required="required" placeholder="мм" autocomplete="off" name="sizeOfHeight">
                             </div>
                             <div class="col-3">
-                                <label class="col-form-label" for="editRecordWidth">Ширина</label>
+                                <label class="col-form-label" for="editRecordWidth">Ширина, мм</label>
                                 <input type="number" min="1" class="form-control" id="editRecordWidth" required="required" placeholder="мм" autocomplete="off" name="sizeOfWidth">
                             </div>
                             <div class="col-3">
-                                <label class="col-form-label" for="editRecordLength">Длина</label>
+                                <label class="col-form-label" for="editRecordLength">Длина, мм</label>
                                 <input type="number" min="1" class="form-control" id="editRecordLength" required="required" placeholder="мм" autocomplete="off" name="sizeOfLong">
                             </div>
                             <div class="col-3">
@@ -155,7 +155,7 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-3">
-                                <label class="col-form-label" for="editRecordExtent">Кубатура</label>
+                                <label class="col-form-label" for="editRecordExtent">Кубатура , м<sup>3</sup></label>
                                 <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editRecordExtent" placeholder="м3" required="required" autocomplete="off" name="extent">
                             </div>
                             <div class="col-3">
@@ -167,7 +167,7 @@
                                 <input type="number" min="1" class="form-control" id="editRecordWidthPc" required="required" placeholder="шт" autocomplete="off" name="countDeskInWidth">
                             </div>
                             <div class="col-3">
-                                <label class="col-form-label" for="editRecordLengthFact">Длина - ФАКТ</label>
+                                <label class="col-form-label" for="editRecordLengthFact">Длина - ФАКТ, мм</label>
                                 <input type="number" min="1" class="form-control" id="editRecordLengthFact" placeholder="мм" autocomplete="off" name="longFact">
                             </div>
                         </div>
@@ -319,11 +319,11 @@
                                 <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addRecordExtent" required="required" placeholder="м3" autocomplete="off" name="extent">
                             </div>
                             <div class="col-3">
-                                <label class="col-form-label" for="addRecordHeightPc">Высота</label>
+                                <label class="col-form-label" for="addRecordHeightPc">Высота, шт.</label>
                                 <input type="number" min="1" class="form-control" id="addRecordHeightPc" required="required" placeholder="шт" autocomplete="off" name="countDeskInHeight">
                             </div>
                             <div class="col-3">
-                                <label class="col-form-label" for="addRecordWidthPc">Ширина</label>
+                                <label class="col-form-label" for="addRecordWidthPc">Ширина, шт.</label>
                                 <input type="number" min="1" class="form-control" id="addRecordWidthPc" required="required" placeholder="шт" autocomplete="off" name="countDeskInWidth">
                             </div>
                             <div class="col-3">
@@ -402,7 +402,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Удалить</button>
+                        <button type="submit" class="btn btn-primary">Удалить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -436,12 +436,20 @@
                 <form>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="col-form-label" for="selectContainer">Контейнер</label>
-                            <input type="text" class="form-control" list="selectContainersList" id="selectContainer" required="required" autocomplete="off" onchange="setHiddenValue(this)">
-                            <datalist id="selectContainersList">
-                                <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}"></option>
-                            </datalist>
-                            <input type="hidden" name="container.id" id="selectContainer-hidden">
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="selectContainerExtent">Кубатура, м<sup>3</sup></label>
+                                    <input type="text" class="form-control" id="selectContainerExtent" autocomplete="off" disabled="disabled" value="0.000" name="containerExtent">
+                                </div>
+                                <div class="col-8">
+                                    <label class="col-form-label" for="selectContainer">Контейнер</label>
+                                    <input type="text" class="form-control" list="selectContainersList" id="selectContainer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                    <datalist id="selectContainersList">
+                                        <option th:each="container : ${containersList}"  th:data-value="${container.id}" th:text="${container.code}"></option>
+                                    </datalist>
+                                    <input type="hidden" name="container.id" id="selectContainer-hidden">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

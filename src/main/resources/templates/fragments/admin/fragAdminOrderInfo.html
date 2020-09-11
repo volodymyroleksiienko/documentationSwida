@@ -274,15 +274,16 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <input type="text" id="sendDistributionModalId" hidden="" name="id">
                             <input type="text" id="sendDistributionModalCode" hidden="" name="code">
+                            <input type="text" id="maxExtentValue" hidden="" name="maxExtent">
 
                             <div class="col-3">
                                 <label class="control-label" for="addDistributionCode" style="padding-top: 7px">Код</label>
-                                <input type="text" class="form-control" id="addDistributionCode" required="required" autocomplete="off"  name="extent">
+                                <input type="text" class="form-control" id="addDistributionCode" required="required" placeholder="Не заполнено" autocomplete="off"  name="extent">
                             </div>
 
                             <div class="col-5">
                                 <label class="control-label" for="addDistributionCompanyInner">Поставщик</label>
-                                <input type="text" class="form-control" list="suppliersList" id="addDistributionCompanyInner" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                                <input type="text" class="form-control" list="suppliersList" id="addDistributionCompanyInner" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="suppliersList">
                                     <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}" th:text="${b.nameOfAgent}"></option>
                                 </datalist>
@@ -290,8 +291,8 @@
                             </div>
 
                             <div class="col-2">
-                                <label class="control-label" for="addDistributionAmountInner" style="padding-top: 7px">Заказ</label>
-                                <input type="number" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDistributionAmountInner" required="required" autocomplete="off" placeholder="м3" name="extent">
+                                <label class="control-label" for="addDistributionAmountInner" style="padding-top: 7px">Заказ, м<sup>3</sup></label>
+                                <input type="number" step="0.1" min="0.000" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDistributionAmountInner" required="required" autocomplete="off" placeholder="м3" name="extent">
                             </div>
 
                             <div class="col-2">
@@ -346,12 +347,18 @@
             // console.log($(trObj).attr('id'));
             let codeOfOrder =           $(trObj).find('th:eq(0)').text();
             const  mainCode =           $(trObj).find('th:eq(0)').text();
+            const possibleExtent =      parseFloat($(trObj).find('td:eq(9)').text());
 
             $('#distributionModalHeader').text("Распределение заказа №"+codeOfOrder);
 
             $('#sendDistributionModalCode')     .val(mainCode);
             $('#addDistributionCode')           .val(codeOfOrder);
 
+
+            $('#maxExtentValue')                .val(possibleExtent.toFixed(3));
+            $('#addDistributionAmountInner')    .val(possibleExtent.toFixed(3));
+
+            $('#addDistributionAmountInner')    .attr({"max" : possibleExtent.toFixed(3)});
             $('#createDistributionModal').modal('show');
         }
         // SHOW MODAL END
