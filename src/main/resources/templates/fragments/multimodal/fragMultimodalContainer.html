@@ -114,7 +114,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerExpotrExtent">Экспортный объем, загрузка</label>
-                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" disabled="disabled" autocomplete="off" name="extent" oninput="countCostOfUploading()">
+                                <input type="number" step="any" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addContainerExpotrExtent" placeholder="m3" required="required" autocomplete="off" name="extent" oninput="countCostOfUploading()">
                             </div>
                         </div>
 
@@ -250,7 +250,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editUah">Эквивалент (&#8372;)</label>
-                                <input type="number" class="form-control" id="editUah"  placeholder="uah" required="required" autocomplete="off" name="equalsToUAH">
+                                <input type="number" class="form-control" id="editUah" disabled="disabled" placeholder="uah" required="required" autocomplete="off" name="equalsToUAH">
                             </div>
                         </div>
 
@@ -303,7 +303,7 @@
             let currency =      parseFloat($('#editContainerCurrency').val());
 
             $('#editContainerUnloading').val((extent*price).toFixed(2));
-            $('#editContainerUahCurrency').val(((unloading*currency)+(delivery*currency)+measurement).toFixed(2));
+            $('#editUah').val(((unloading*currency)+(delivery*currency)+measurement).toFixed(2));
         }
         function editContainer(btnObj) {
 
