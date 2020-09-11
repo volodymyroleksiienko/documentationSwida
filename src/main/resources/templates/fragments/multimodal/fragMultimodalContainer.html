@@ -160,7 +160,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerState">Состояние</label>
-                                <input type="text" list="containerStateList" class="form-control" id="addContainerState"  placeholder="Не заполнено" required="required" autocomplete="off" name="destinationType">
+                                <input type="text" list="containerStateList" class="form-control" id="addContainerState"  placeholder="Не заполнено" required="required" autocomplete="off" name="destinationType" value="MULTIMODAL">
                                 <datalist id="containerStateList">
                                     <option value="MULTIMODAL">
                                     <option value="PORT">
@@ -223,7 +223,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerUnloadingPrice">Цена за м<sup>3</sup> ($)</label>
-                                <input type="number" step="0.10" min="0.00" class="form-control" id="editContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="coefUploading" oninput="countCostOfUploadingEdit()">
+                                <input type="number" step="0.10" min="0.00" class="form-control" id="editContainerUnloadingPrice" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="coefUploading"  oninput="countCostOfUploadingEdit()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера ($)</label>

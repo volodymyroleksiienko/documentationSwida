@@ -6,16 +6,17 @@ function countCostOfUploading() {
     let measurement =   parseFloat($('#addContainerMeasurement').val());
     let currency =      parseFloat($('#addContainerCurrency').val());
 
-    if (extent!='' && price!='') {
-        $('#addContainerUnloading').val((extent * price).toFixed(2));
+    if (!Number.isNaN(extent) && !Number.isNaN(price)) {
+        $('#addContainerUnloading').val((extent*price).toFixed(2));
     }else {
-        console.log('fill all 1');
+        $('#addContainerUnloading').val('0.00');
+        $('#addContainerUahCurrency').val('0.00');
     }
 
-    if (unloading!='' && currency!='' && delivery!='' && measurement!='') {
-        $('#addContainerUahCurrency').val(((unloading * currency) + (delivery * currency) + measurement).toFixed(2));
+    if (!Number.isNaN(extent) && !Number.isNaN(price) && !Number.isNaN(unloading) && !Number.isNaN(currency) && !Number.isNaN(delivery) && !Number.isNaN(measurement)) {
+        $('#addContainerUahCurrency').val(((price*extent*currency)+(delivery*currency)+measurement).toFixed(2));
     }else {
-        console.log('fill all 2');
+        $('#addContainerUahCurrency').val('0.00');
     }
 }
 
@@ -28,16 +29,18 @@ function countCostOfUploadingEdit() {
     let measurement =   parseFloat($('#editContainerMeasurement').val());
     let currency =      parseFloat($('#editContainerCurrency').val());
 
-    if (extent!='' && price!='') {
+
+    if (!Number.isNaN(extent) && !Number.isNaN(price)) {
         $('#editContainerUnloading').val((extent*price).toFixed(2));
     }else {
-        console.log('fill all 1');
+        $('#editContainerUnloading').val('0.00');
+        $('#editUah').val('0.00');
     }
 
-    if (unloading!='' && currency!='' && delivery!='' && measurement!='') {
-        $('#editUah').val(((unloading*currency)+(delivery*currency)+measurement).toFixed(2));
+    if (!Number.isNaN(extent) && !Number.isNaN(price) && !Number.isNaN(unloading) && !Number.isNaN(currency) && !Number.isNaN(delivery) && !Number.isNaN(measurement)) {
+        $('#editUah').val(((price*extent*currency)+(delivery*currency)+measurement).toFixed(2));
     }else {
-        console.log('fill all 2');
+        $('#editUah').val('0.00');
     }
 }
 function editContainer(btnObj) {
@@ -67,7 +70,7 @@ function editContainer(btnObj) {
     $('#editContractNumber')            .val(contractNumber);
     $('#editContainerBuyer')            .val(buyer);
     $('#editContainerBuyer-hidden')     .val(buyerId);
-    $('#editContainerExpotrExtent')     .val(parseFloat(exportExtent).toFixed(3));
+    $('#editContainerExpotrExtent')     .val(parseFloat(exportExtent).toFixed(2));
     $('#editContainerUnloadingPrice')   .val(parseFloat(unloadingPrice).toFixed(2));
     $('#editContainerUnloading')        .val(parseFloat(unloading).toFixed(2));
     $('#editContainerDelivery')         .val(parseFloat(delivery).toFixed(2));
