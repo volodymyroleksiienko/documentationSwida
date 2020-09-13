@@ -15,6 +15,7 @@
             <tr style="vertical-align: top;">
                 <td style="width: 15%">
                     <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <option value>без описания</option>
                         <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
                 </td>
