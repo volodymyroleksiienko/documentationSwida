@@ -157,6 +157,12 @@ public class StatisticController {
     @PostMapping("/getStatisticInfo-{breedId}")
     public JSONObject getStatisticInfo(@PathVariable("breedId")int breedId, String[] descriptions, String[] sizeOfHeight,
                                    String[]sizeOfWidth,String[] sizeOfLong,int[]providers,String[] stages){
+        for(int i=0;i<descriptions.length;i++){
+            if(descriptions[i].equals("noDesc")){
+                descriptions[i] = "";
+            }
+        }
+
         mainExtent=0;
         JSONObject json = new JSONObject();
         json.put("treeStorage","0.000");
