@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl;
 
 import com.swida.documetation.data.entity.OrderInfo;
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
@@ -24,9 +25,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private DeliveryDocumentationJPA deliveryDocumentationJPA;
 
     @Autowired
-    public OrderInfoServiceImpl(OrderInfoJPA orderInfoJPA) {
+    public OrderInfoServiceImpl(OrderInfoJPA orderInfoJPA,DeliveryDocumentationJPA deliveryDocumentationJPA) {
         this.orderInfoJPA = orderInfoJPA;
-
+        this.deliveryDocumentationJPA = deliveryDocumentationJPA;
     }
 
     @Override
@@ -122,6 +123,26 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         }
         orderInfo.setDoneExtendOfOrder(String.format("%.3f", fullExtent).replace(',', '.'));
         save(orderInfo);
+    }
+
+    @Override
+    public void reloadExtentInContainer(OrderInfo mainOrder) {
+        float extent = 0;
+        List<DeliveryDocumentation> docList = deliveryDocumentationJPA.getListByDistributionContractsId(
+                orderInfoJPA.findDistributionId(mainOrder.getId())
+        );
+
+        for(DeliveryDocumentation doc:docList){
+            for (PackagedProduct product:doc.getProductList()){
+                if(product.getContainer()!=null){
+                    extent += Float.parseFloat(product.getExtent());
+                }
+            }
+        }
+        mainOrder.setExtentInContainer(
+                String.format("%.3f",extent).replace(",",".")
+        );
+        orderInfoJPA.save(mainOrder);
     }
 
     @Override
