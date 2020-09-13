@@ -3,7 +3,7 @@
 
     <div class="tab-pane fade show active container-fluid" id="pineStats">
         <br>
-        <table style="width: 100%" >
+        <table style="width: 100%;" >
             <tr>
                 <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
@@ -39,7 +39,7 @@
                         <option  th:each="obj : ${providerList}" th:value="${obj.id}" th:text="${obj.nameOfAgent}"></option>
                     </select>
                 </td>
-                <td style="width: 20%">
+                <td style="width: 5%">
                     <select id="selectStage" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  value="treeStorage">Кругляк</option>
                         <option  value="rawStorage">Сырой склад</option>
@@ -123,16 +123,17 @@
                     let  data = new google.visualization.DataTable();
                     data.addColumn('string', 'Place');
                     data.addColumn('number', 'Extent');
-                    data.addRow(['Кругляк', parseFloat(statisticInfo["treeStorage"])]);
-                    data.addRow(['Сырой склад', parseFloat(statisticInfo["rawStorage"])]);
-                    data.addRow(['Сушка', parseFloat(statisticInfo["dryingStorage"])]);
-                    data.addRow(['Сухой склад', parseFloat(statisticInfo["dryStorage"])]);
-                    data.addRow(['Пачки', parseFloat(statisticInfo["packagedProduct"])]);
-                    data.addRow(['Переработка', parseFloat(statisticInfo["recycleStorage"])]);
-                    data.addRow(['Доставка (Мультимодал)', parseFloat(statisticInfo["deliveryMultimodal"])]);
-                    data.addRow(['Доставка (Порты)', parseFloat(statisticInfo["deliveryPort"])]);
-                    data.addRow(['Доставка (Страна)', parseFloat(statisticInfo["deliveryCountry"])]);
-                    data.addRow(['Внешние подрядчики (в работе)', parseFloat(statisticInfo["providerInWork"])]);
+
+                    data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
+                    data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
+                    data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
+                    data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
+                    data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
+                    data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
+                    data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
+                    data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
+                    data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
+                    data.addRow(['Внешние подрядчики (в работе): '+ statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
 
                     var options = {
                         title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
