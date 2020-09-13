@@ -162,7 +162,8 @@ $(document).ready( function () {
                 "orderable": false,
                 "searchable": false,
                 "width": "140px"
-            }
+            },
+            { className: "display-none", "targets": [ -2 ] }
         ]
     });
 
