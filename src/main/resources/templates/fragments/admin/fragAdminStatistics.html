@@ -7,7 +7,7 @@
             <tr>
                 <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
-                <th scope="col">Ширина, мм</th>
+                <th scope="col" th:if="${breedId!=2}">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Производитель</th>
                 <th scope="col">Стадия</th>
@@ -24,7 +24,7 @@
                         <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
                 </td>
-                <td style="width: 15%">
+                <td style="width: 15%" th:if="${breedId!=2}">
                     <select id="selectSizeOfWidth" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
