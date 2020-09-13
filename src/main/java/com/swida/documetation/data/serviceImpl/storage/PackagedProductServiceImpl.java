@@ -9,6 +9,7 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
+import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
 import com.swida.documetation.data.service.storages.DryStorageService;
@@ -37,12 +38,13 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     private BreedOfTreeService breedOfTreeService;
     private UserCompanyService userCompanyService;
     private ContainerService containerService;
+    private OrderInfoService orderInfoService;
 
     @Autowired
     public PackagedProductServiceImpl(DryStorageService dryStorageService, PackagedProductJPA productJPA,
                                       DescriptionDeskOakService deskOakService, RawStorageService rawStorageService,
                                       BreedOfTreeService breedOfTreeService,UserCompanyService userCompanyService,
-                                      ContainerService containerService) {
+                                      ContainerService containerService,OrderInfoService orderInfoService) {
         this.dryStorageService = dryStorageService;
         this.productJPA = productJPA;
         this.deskOakService = deskOakService;
@@ -50,6 +52,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         this.breedOfTreeService = breedOfTreeService;
         this.userCompanyService = userCompanyService;
         this.containerService = containerService;
+        this.orderInfoService = orderInfoService;
     }
 
     @Override
@@ -256,12 +259,23 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         }
         productDB.setBreedDescription(product.getBreedDescription());
 
-        if(product.getContainer()!=null && productDB.getContainer().getId()!=product.getContainer().getId()){
+        if(product.getContainer()!=null && productDB.getContainer()==null){
+            productDB.setContainer(product.getContainer());
+            containerService.save(
+                    containerService.findById(product.getContainer().getId())
+            );
+            orderInfoService.reloadExtentInContainer(productDB.getDeliveryDocumentation().getOrderInfo().getMainOrder());
+        } else if(product.getContainer()!=null && productDB.getContainer().getId()!=product.getContainer().getId()){
             containerService.save(productDB.getContainer());
             productDB.setContainer(product.getContainer());
             containerService.save(
                 containerService.findById(product.getContainer().getId())
             );
+            orderInfoService.reloadExtentInContainer(productDB.getDeliveryDocumentation().getOrderInfo().getMainOrder());
+        } else if (product.getContainer()==null){
+            productDB.setContainer(null);
+            orderInfoService.reloadExtentInContainer(productDB.getDeliveryDocumentation().getOrderInfo().getMainOrder());
+
         }
 
         productDB.setSizeOfHeight(product.getSizeOfHeight());
@@ -326,7 +340,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             return;
         }
         Container container;
-        if (StringUtils.isNumeric(containerId)) {
+        if(containerId.isEmpty()){
+            container=null;
+        }else if (StringUtils.isNumeric(containerId) && containerService.findById(Integer.parseInt(containerId))!=null) {
             container = containerService.findById(Integer.parseInt(containerId));
         }else {
             container = new Container();
@@ -345,8 +361,11 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             PackagedProduct product = productJPA.getOne(Integer.parseInt(id));
             product.setContainer(container);
             productJPA.save(product);
+            orderInfoService.reloadExtentInContainer(product.getDeliveryDocumentation().getOrderInfo().getMainOrder());
         }
-        containerService.save(container);
+        if(!containerId.isEmpty()){
+            containerService.save(container);
+        }
     }
 
 

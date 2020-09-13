@@ -24,6 +24,7 @@ public interface OrderInfoService {
     void changeDestinationTypeOfDistributed(OrderInfo main);
     void reloadOrderExtent(OrderInfo orderInfo, List<DeliveryDocumentation> docList);
     void reloadMainOrderExtent(OrderInfo orderInfo);
+    void reloadExtentInContainer(OrderInfo mainOrder);
     void checkLeftOverInfo(int contractId);
     void deleteByID(int id);
     void deleteEmptyLeftOverOrders(List<OrderInfo> orderList);

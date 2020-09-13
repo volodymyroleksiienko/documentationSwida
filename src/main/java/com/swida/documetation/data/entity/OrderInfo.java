@@ -23,6 +23,7 @@ public class OrderInfo {
     private String doneExtendOfOrder="0.000";
     private String toDoExtentOfOrder="0.000";
     private String extentForDistribution="0.000";
+    private String extentInContainer="0.000";
     private String date;
 
 

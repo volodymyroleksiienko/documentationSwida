@@ -14,7 +14,8 @@
                 <th scope="col">Материал</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Кубатура</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгрузка (выехало в порт)</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Выполнено</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгружено</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожидаемый объем</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
@@ -31,6 +32,7 @@
                 <td th:text="${order.breedDescription}"></td>
                 <td th:text="${order.extentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.doneExtendOfOrder}"></td>
+                <td th:text="${order.extentInContainer}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.toDoExtentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.date}"  class="change-color" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.statusOfEntity}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
@@ -52,7 +54,8 @@
                 <th scope="col">Материал</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Кубатура</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгрузка (выехало в порт)</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Выполнено</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгружено</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожидаемый объем</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
@@ -158,8 +161,8 @@
             var extent =            $(trObj).find('td:eq(3)').text();
             var sent =              $(trObj).find('td:eq(4)').text();
             var expected =          $(trObj).find('td:eq(5)').text();
-            var terms =             $(trObj).find('td:eq(6)').text();
-            var agentId =           $(trObj).find('td:eq(8)').text();
+            var terms =             $(trObj).find('td:eq(7)').text();
+            var agentId =           $(trObj).find('td:eq(9)').text();
 
             $('#editContractNumber')              .val(contractNumber);
             $('#editContractBuyers')              .val(buyer);
