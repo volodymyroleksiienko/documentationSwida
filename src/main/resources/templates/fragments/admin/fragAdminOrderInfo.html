@@ -19,6 +19,7 @@
                 <th scope="col">Срок выполнения</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th scope="col">extentForDistribution</th>
+                <th scope="col">Agent id</th>
             </tr>
             </thead>
             <tbody>
@@ -38,6 +39,7 @@
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
                 <td th:text="${b.extentForDistribution}"></td>
+                <td th:text="${container?.contrAgent?.id}"></td>
             </tr>
             </tbody>
             <tfoot>
@@ -54,6 +56,7 @@
                 <th scope="col">Срок выполнения</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                 <th scope="col">extentForDistribution</th>
+                <th scope="col">Agent id</th>
             </tr>
             </tfoot>
         </table>
@@ -82,10 +85,10 @@
                         <input type="text" id="editContractId" hidden="" name="id">
 
                         <label class="col-form-label" for="editContractCode">Код</label>
-                        <input type="text" class="form-control" id="editContractCode" required="required" autocomplete="off" name="codeOfOrder">
+                        <input type="text" class="form-control" id="editContractCode" placeholder="Не заполнено" required="required" autocomplete="off" name="codeOfOrder">
 
                         <label class="col-form-label" for="editContractBuyer">Покупатель</label>
-                        <input type="text" class="form-control" list="editContractBuyerList" id="editContractBuyer" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                        <input type="text" class="form-control" list="editContractBuyerList" id="editContractBuyer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="editContractBuyerList">
                             <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                         </datalist>
@@ -94,7 +97,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="control-label" for="editContractBreedOfTree">Порода</label>
-                                <input type="text" class="form-control" list="editBreedOfTreeList" id="editContractBreedOfTree" required="required" autocomplete="off" name="breedOfTree.breed">
+                                <input type="text" class="form-control" list="editBreedOfTreeList" placeholder="Не заполнено" id="editContractBreedOfTree" required="required" autocomplete="off" name="breedOfTree.breed">
                                 <datalist id="editBreedOfTreeList">
                                     <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
                                 </datalist>
@@ -102,26 +105,26 @@
 
                             <div class="col-6">
                                 <label class="col-form-label" for="editBreedDescriptionContract">Описание</label>
-                                <input type="text" class="form-control" id="editBreedDescriptionContract" autocomplete="off"  name="breedDescription">
+                                <input type="text" class="form-control" id="editBreedDescriptionContract" autocomplete="off" placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
 
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="editContractOrder">Заказ</label>
-                                <input type="number" step="any" class="form-control" id="editContractOrder" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="extentOfOrder">
+                                <label class="col-form-label" for="editContractOrder">Заказ  м<sup>3</sup></label>
+                                <input type="number" step="any" min="0" class="form-control" id="editContractOrder" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="extentOfOrder">
                             </div>
 
                             <div class="col-6">
-                                <label class="col-form-label" for="editContractDone">Отгружено</label>
+                                <label class="col-form-label" for="editContractDone">Отгружено  м<sup>3</sup></label>
                                 <input type="number" step="any" class="form-control" id="editContractDone" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="doneExtendOfOrder">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="editContractLeft">Остаток</label>
+                                <label class="col-form-label" for="editContractLeft">Остаток  м<sup>3</sup></label>
                                 <input type="number" step="any" class="form-control" id="editContractLeft" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" disabled="disabled" placeholder="м3">
                             </div>
 
@@ -131,7 +134,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="editOrderDeliveryDestination" class="col-form-label">Пункт назначения</label>
-                                <input type="text" class="form-control" list="editDestinationType" id="editOrderDeliveryDestination" required="required" autocomplete="off" name="destinationType">
+                                <input type="text" class="form-control" list="editDestinationType" placeholder="Не заполнено" id="editOrderDeliveryDestination" required="required" autocomplete="off" name="destinationType">
                                 <datalist id="editDestinationType">
                                     <option value="MULTIMODAL">
                                     <option value="PORT">
@@ -141,7 +144,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -161,6 +164,7 @@
             var breedOfTree =       $(trObj).find('td:eq(0)').text();
             var breedDescription =  $(trObj).find('td:eq(1)').text();
             var buyer =             $(trObj).find('td:eq(2)').text();
+            var buyerId =           $(trObj).find('td:eq(10)').text();
             var amount =            $(trObj).find('td:eq(3)').text();
             var done =              $(trObj).find('td:eq(4)').text();
             var left =              $(trObj).find('td:eq(5)').text();
@@ -169,15 +173,16 @@
 
             console.log("date on modal " + deadline);
 
-            $('#editContractCode').val(contractCode);
-            $('#editContractBreedOfTree').val(breedOfTree);
-            $('#editBreedDescriptionContract').val(breedDescription);
-            $('#editContractBuyer').val(buyer);
-            $('#editContractOrder').val(amount);
-            $('#editContractDone').val(done);
-            $('#editContractLeft').val(left);
-            $('#editOrderDeliveryDestination').val(destination);
-            $('#editContractDate').val(deadline);
+            $('#editContractCode')              .val(contractCode);
+            $('#editContractBreedOfTree')       .val(breedOfTree);
+            $('#editBreedDescriptionContract')  .val(breedDescription);
+            $('#editContractBuyer')             .val(buyer);
+            $('#editContractBuyer-hidden')      .val(buyerId);
+            $('#editContractOrder')             .val(amount);
+            $('#editContractDone')              .val(done);
+            $('#editContractLeft')              .val(left);
+            $('#editOrderDeliveryDestination')  .val(destination);
+            $('#editContractDate')              .val(deadline);
 
             $('#editContractModal').modal('show');
         }
@@ -198,10 +203,10 @@
                     <div class="modal-body">
 
                         <label class="col-form-label" for="addContractCode">Код</label>
-                        <input type="text" class="form-control" id="addContractCode" required="required" autocomplete="off" name="codeOfOrder">
+                        <input type="text" class="form-control" id="addContractCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfOrder">
 
                         <label class="col-form-label" for="addContractBuyer">Покупатель</label>
-                        <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer" required="required" autocomplete="off" onchange="setHiddenValue(this)">
+                        <input type="text" class="form-control" list="contrAgentList" id="addContractBuyer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="contrAgentList">
                             <option th:each="b : ${contrAgentList}" th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
                         </datalist>
@@ -210,7 +215,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="control-label" for="addContractBreedOfTree">Порода</label>
-                                <input type="text" class="form-control" list="addBreedOfTreeList" id="addContractBreedOfTree" required="required" autocomplete="off" name="breedOfTree.breed">
+                                <input type="text" class="form-control" list="addBreedOfTreeList" id="addContractBreedOfTree" placeholder="Не заполнено" required="required" autocomplete="off" name="breedOfTree.breed">
                                 <datalist id="addBreedOfTreeList">
                                     <option th:each="b : ${breedOfTreeList}"  th:value="${b.breed}">
                                 </datalist>
@@ -218,13 +223,13 @@
 
                             <div class="col-6">
                                 <label class="col-form-label" for="addBreedDescriptionContract">Описание</label>
-                                <input type="text" class="form-control" id="addBreedDescriptionContract" autocomplete="off"  name="breedDescription">
+                                <input type="text" class="form-control" id="addBreedDescriptionContract" placeholder="Не заполнено" autocomplete="off"  name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
-                                <label class="col-form-label" for="addContractOrder">Заказ</label>
+                                <label class="col-form-label" for="addContractOrder">Заказ  м<sup>3</sup></label>
                                 <input type="number" step="any" class="form-control" id="addContractOrder" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" placeholder="м3" name="extentOfOrder">
                             </div>
 
@@ -234,7 +239,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="addOrderDeliveryDestination" class="col-form-label">Пункт назначения</label>
-                                <input type="text" class="form-control" list="destinationType" id="addOrderDeliveryDestination" required="required" autocomplete="off" name="destinationType">
+                                <input type="text" class="form-control" list="destinationType" placeholder="Не заполнено" id="addOrderDeliveryDestination" required="required" autocomplete="off" name="destinationType">
                                 <datalist id="destinationType">
                                     <option value="MULTIMODAL">
                                     <option value="PORT">
@@ -242,11 +247,9 @@
                                 </datalist>
                             </div>
                         </div>
-
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -340,14 +343,13 @@
     <script type="text/javascript">
         // SHOW MODAL START
         function distributeContract(btnObj) {
-            // tableOfDistribution.clear().draw();
             let trObj = btnObj.parentElement.parentElement;
             let trId =  $(trObj).attr('id');
             $('#sendDistributionModalId').val(trId);
             // console.log($(trObj).attr('id'));
             let codeOfOrder =           $(trObj).find('th:eq(0)').text();
             const  mainCode =           $(trObj).find('th:eq(0)').text();
-            const possibleExtent =      parseFloat($(trObj).find('td:eq(9)').text());
+            const possibleExtent =      parseFloat($(trObj).find('td:eq(9)').text()).toFixed(3);
 
             $('#distributionModalHeader').text("Распределение заказа №"+codeOfOrder);
 
@@ -355,24 +357,13 @@
             $('#addDistributionCode')           .val(codeOfOrder);
 
 
-            $('#maxExtentValue')                .val(possibleExtent.toFixed(3));
-            $('#addDistributionAmountInner')    .val(possibleExtent.toFixed(3));
+            $('#maxExtentValue')                .val(possibleExtent);
+            $('#addDistributionAmountInner')    .val(possibleExtent);
 
-            $('#addDistributionAmountInner')    .attr({"max" : possibleExtent.toFixed(3)});
+            $('#addDistributionAmountInner')    .attr({"max" : possibleExtent});
             $('#createDistributionModal').modal('show');
         }
         // SHOW MODAL END
-
-        // CHECK IF 0 OR LESS THAN 0
-        $('#addDistributionAmountInner').change(function(){
-            if ((parseFloat($('#addDistributionAmountInner').toFixed(2).val()))<=0.0) {
-                alert("Введите правильное значение");
-                $('#addDistributionAmountInner').val("1.0");
-            }else{
-
-            }
-        });
-        // END CHECK
 
         // AJAX REQUEST START
         function sendRequestForDistribution(btnObj) {
@@ -395,7 +386,7 @@
             console.log("order extent: "  +arrayOfOrderings);
 
 
-            if (arrayOfSuppliers[0]!="No data available in table"){
+            if (arrayOfSuppliers[0]!=="No data available in table"){
                 $.ajax({
                     method: "post",
                     url: "/createDistribution",
@@ -423,6 +414,9 @@
     </script>
     <!-- CREATE DISTRIBUTION END -->
 </th:block>
+
+
+
 
 
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="orders" xmlns:sec="http://www.thymeleaf.org">
@@ -498,9 +492,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/admin/editOrder" method="post">
+                <form action="/admin/editOrder" method="post" id="editDistributionModalForm">
                     <div class="modal-body">
                         <input type="text" id="editDistributionId" hidden="" name="id">
+                        <input type="text" id="mainDeadline" hidden="" name="deadline">
+                        <input type="text" id="mainPossibleExtent" hidden="" name="maxExtent">
 
                         <label class="col-form-label" for="editDistributionCode">Код</label>
                         <input type="text" class="form-control" id="editDistributionCode" required="required" autocomplete="off" name="codeOfOrder">
@@ -530,7 +526,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="editDistributionOrder">Заказ</label>
-                                <input type="number" step="any" class="form-control" id="editDistributionOrder" pattern="[0-9]*\.?[0-9]*" required="required" autocomplete="off" placeholder="м3" name="extentOfOrder">
+                                <input type="number" step="any" min="0.00" class="form-control" id="editDistributionOrder" pattern="[0-9]*\.?[0-9]*" required="required" autocomplete="off" placeholder="м3" name="extentOfOrder">
                             </div>
 
                             <div class="col-6">
@@ -552,7 +548,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -561,7 +557,6 @@
     </div>
     <script type="text/javascript">
         function editDistribution(btnObj) {
-
             var trObj = btnObj.parentElement.parentElement;
             var trId =  $(trObj).attr('id');
             $('#editDistributionId').val(trId);
@@ -569,28 +564,56 @@
             var contractCode = $(trObj).find('th:eq(0)').text();
             $('#editDistributionModalHeader').text("Редактировать заказ №"+contractCode);
 
-            var breedOfTree = $(trObj).find('td:eq(0)').text();
-            var breedDescription = $(trObj).find('td:eq(1)').text();
-            var company = $(trObj).find('td:eq(2)').text();
-            var amount = $(trObj).find('td:eq(3)').text();
-            var done = $(trObj).find('td:eq(4)').text();
-            var left = $(trObj).find('td:eq(5)').text();
-            var deadline = $(trObj).find('td:eq(6)').text();
-            var agentId = $(trObj).find('td:eq(10)').text();
+            var breedOfTree =       $(trObj).find('td:eq(0)').text();
+            var breedDescription =  $(trObj).find('td:eq(1)').text();
+            var company =           $(trObj).find('td:eq(2)').text();
+            var amount =            parseFloat($(trObj).find('td:eq(3)').text());
+            var done =              $(trObj).find('td:eq(4)').text();
+            var left =              $(trObj).find('td:eq(5)').text();
+            var deadline =          $(trObj).find('td:eq(6)').text();
+            var agentId =           $(trObj).find('td:eq(10)').text();
+
+            let mainDeadline =          $(trObj).find('td:eq(9)').text();
+            let mainPossibleExtent =    parseFloat($(trObj).find('td:eq(8)').text());
+
+            $('#mainDeadline')            .val(mainDeadline);
+            $('#mainPossibleExtent')      .val((mainPossibleExtent+amount).toFixed(3));
 
 
-            $('#editDistributionCode').val(contractCode);
-            $('#editDistributionBreedOfTree').val(breedOfTree);
-            $('#editBreedDescription').val(breedDescription);
-            $('#editDistributionCompany').val(company);
-            $('#editDistributionOrder').val(amount);
-            $('#editDistributionDone').val(done);
-            $('#editDistributionLeft').val(left);
-            $('#editOrderContractDate').val(deadline);
+            $('#editDistributionCode')          .val(contractCode);
+            $('#editDistributionBreedOfTree')   .val(breedOfTree);
+            $('#editBreedDescription')          .val(breedDescription);
+            $('#editDistributionCompany')       .val(company);
+            $('#editDistributionOrder')         .val(amount);
+            $('#editDistributionDone')          .val(done);
+            $('#editDistributionLeft')          .val(left);
+            $('#editOrderContractDate')         .val(deadline);
             $('#editDistributionCompany-hidden').val(agentId);
 
             $('#editDistributionModal').modal('show');
         }
+
+        document.querySelector("#editDistributionModalForm").addEventListener("submit", function(e){
+            let mainVal = new Date($('#mainDeadline').val());
+            let newVal =  new Date($('#editOrderContractDate').val());
+
+            let maxExtent = parseFloat($('#mainPossibleExtent').val());
+            let newExtent = parseFloat($('#editDistributionOrder').val());
+
+            console.log("main: "+mainVal.getTime()+"; new: "+newVal.getTime());
+            console.log("maxExt: "+maxExtent+"; newExt: "+newExtent);
+
+            if(newVal.getTime()>mainVal.getTime()) {
+                alert("Дата не может быть познее значения главного заказа!");
+                $('#editOrderContractDate').val($('#mainDeadline').val());
+                e.preventDefault();
+            }else if (newExtent>maxExtent){
+                alert("Кубатура превышает допустимую, максимально возможное число: "+maxExtent.toFixed(3)+" м3");
+                e.preventDefault();
+            }else {
+                return true;
+            }
+        });
     </script>
     <!-- EDIT DISTRIBUTION MODAL END -->
 

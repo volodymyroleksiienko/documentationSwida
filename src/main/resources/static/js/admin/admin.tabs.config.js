@@ -114,17 +114,17 @@ $(document).ready( function () {
         "autoWidth": false,
         "columnDefs": [
             {
-                // "targets": [ 0, -1 ],
                 "targets": [ 0 ],
                 "visible": false,
                 "searchable": false,
             },
             {
-                "targets": -2,
+                "targets": -3,
                 "orderable": false,
                 "searchable": false,
                 "width": "70px"
-            }
+            },
+            { className: "display-none", "targets": [ -1, -2 ] }
         ]
     });
     // Contracts table end
@@ -145,11 +145,12 @@ $(document).ready( function () {
                 "searchable": false,
             },
             {
-                "targets": -2,
+                "targets": -4,
                 "orderable": false,
                 "searchable": false,
                 "width": "30px"
-            }
+            },
+            { className: "display-none", "targets": [ -1, -2, -3 ] }
         ]
     });
     // Distribution table end
@@ -173,6 +174,10 @@ $(document).ready( function () {
 
     });
     // Modal inner table end
+
+    $( "#createDistributionModal" ).on('show.bs.modal', function(){
+        tableOfDistribution.clear().draw();
+    });
 
     // ADD ELEMENTS TO INNER TABLE LIST START
     $("#buttonForAddingDistributionRow").click(function () {
@@ -198,15 +203,20 @@ $(document).ready( function () {
             }
         }
 
-        if( code == "" || company == "" || Number.isNaN(amount)) {
+        if( Number.isNaN(code) || Number.isNaN(company) || Number.isNaN(amount)) {
             alert("Заполните все поля!");
-        } else if (amount<=0.000){
-            alert("Значение не может быть отрицательным либо равным 0!")
-        } else if(code == mainOrderCode){
+        } else if(code === mainOrderCode){
             alert("Значение не может быть идентичным главному заказу!");
-        } else if(res == true){
+        } else if(res === true) {
             alert("Дубликация кода!");
             $("#addDistributionCode").val(mainOrderCode);
+        } else if (amount<=0.000){
+            alert("Значение не может быть отрицательным либо равным 0!")
+            $("#addDistributionAmountInner").val(maxExtent.toFixed(3));
+        }else if(amount>maxExtent){
+            alert("Значение кубатуры больше максимально возможной!");
+            console.log("max: "+maxExtent+"; my: "+amount);
+            $("#addDistributionAmountInner").val(maxExtent.toFixed(3));
         }else {
             let row = [code, company, amount.toFixed(3), companyId, button];
 
@@ -214,8 +224,8 @@ $(document).ready( function () {
 
             $("#addDistributionCode")           .val(mainOrderCode);
             $("#addDistributionCompanyInner")   .val("");
-            $("#addDistributionAmountInner")    .val((maxExtent-amount).toFixed(3));
-            $("#addDistributionAmountInner")    .attr({"max" : (maxExtent-amount).toFixed(3), "min": 0.000});
+            $("#addDistributionAmountInner")    .val((maxExtent-amount).toFixed(3))
+                                                .attr({"max" : (maxExtent-amount).toFixed(3), "min": 0.000});
             $('#maxExtentValue').val(maxExtent-amount);
 
             tableOfDistribution.row.add(row).draw();
@@ -226,12 +236,12 @@ $(document).ready( function () {
     // DELETE BUTTON START
     $('#tableOfDistribution tbody').on( 'click', 'button', function () {
         let maxExtent =          parseFloat($('#maxExtentValue').val());
-
         let  extent =            parseFloat($(this).parents('tr').find('td:eq(2)').text());
         console.log("ext: "+ extent);
         let rowExtent =          parseFloat($('#addDistributionAmountInner').val());
 
-        $("#addDistributionAmountInner")    .val((rowExtent+extent).toFixed(3));
+        $("#addDistributionAmountInner")    .val((rowExtent+extent).toFixed(3))
+                                            .attr({"max" : (rowExtent+extent).toFixed(3), "min": 0.000});
         $('#maxExtentValue')                .val((maxExtent+extent).toFixed(3));
 
         tableOfDistribution.row( $(this).parents('tr') ).remove().draw();

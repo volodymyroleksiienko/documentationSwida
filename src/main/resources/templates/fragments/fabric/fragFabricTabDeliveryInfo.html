@@ -548,7 +548,7 @@
                                     <tbody>
                                         <div th:each="ps, index : ${dd.getProductList()}">
                                             <tr th:id="${ps.id}">
-                                                <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}" style="width: 30px;"></td>
+                                                <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}"></td>
                                                 <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
                                                 <td th:text="${ps.quality}"></td>
                                                 <td th:text="${ps.sizeOfHeight}"></td>
@@ -935,7 +935,7 @@
                     <!-- Insert rows -->
 
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
