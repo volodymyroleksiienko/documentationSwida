@@ -46,10 +46,10 @@
                         <option  value="dryingStorage">Сушка</option>
                         <option  value="dryStorage">Сухой склад</option>
                         <option  value="packagedProduct">Пачки</option>
-                        <option  value="deliveryMultimodal">deliveryMultimodal</option>
-                        <option  value="deliveryPort">deliveryPort</option>
-                        <option  value="deliveryCountry">deliveryCountry</option>
-                        <option  value="providerInWork">providerInWork</option>
+                        <option  value="deliveryMultimodal">Доставка (Мультимодал)</option>
+                        <option  value="deliveryPort">Доставка (Порты)</option>
+                        <option  value="deliveryCountry">Доставка (Страна)</option>
+                        <option  value="providerInWork">Внешние подрядчики (в работе)</option>
                         <option  value="recycleStorage">Переработка</option>
                     </select>
                 </td>
@@ -75,15 +75,14 @@
 
         function drawChart() {
 
-            data = new google.visualization.DataTable();
+            let data = new google.visualization.DataTable();
             data.addColumn('string', 'Place');
             data.addColumn('number', 'Extent');
-            data.addRow(['x', 1]);
-            data.addRow(['y', 2]);
-            data.addRow(['z', 3]);
+            data.addRow(['Выбрано', 1]);
 
 
-            var options = {
+
+            let options = {
                 title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
                 pieHole: 0.4,
                 // is3D: true,
@@ -121,12 +120,19 @@
 
                     summary = parseFloat(statisticInfo["mainExtent"]);
 
-                    data = new google.visualization.DataTable();
+                    let  data = new google.visualization.DataTable();
                     data.addColumn('string', 'Place');
                     data.addColumn('number', 'Extent');
-                    data.addRow(['x', parseFloat(statisticInfo["dryStorage"])]);
-                    console.log(parseFloat(statisticInfo["dryStorage"]));
-                    data.addRow(['y', 2]);
+                    data.addRow(['Кругляк', parseFloat(statisticInfo["treeStorage"])]);
+                    data.addRow(['Сырой склад', parseFloat(statisticInfo["rawStorage"])]);
+                    data.addRow(['Сушка', parseFloat(statisticInfo["dryingStorage"])]);
+                    data.addRow(['Сухой склад', parseFloat(statisticInfo["dryStorage"])]);
+                    data.addRow(['Пачки', parseFloat(statisticInfo["packagedProduct"])]);
+                    data.addRow(['Переработка', parseFloat(statisticInfo["recycleStorage"])]);
+                    data.addRow(['Доставка (Мультимодал)', parseFloat(statisticInfo["deliveryMultimodal"])]);
+                    data.addRow(['Доставка (Порты)', parseFloat(statisticInfo["deliveryPort"])]);
+                    data.addRow(['Доставка (Страна)', parseFloat(statisticInfo["deliveryCountry"])]);
+                    data.addRow(['Внешние подрядчики (в работе)', parseFloat(statisticInfo["providerInWork"])]);
 
                     var options = {
                         title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
