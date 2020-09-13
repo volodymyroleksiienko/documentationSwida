@@ -32,6 +32,9 @@ public class RawStorageServiceImpl implements RawStorageService {
         rs.setExtent(String.format("%.3f", Float.parseFloat(rs.getExtent())).replace(',', '.'));
         Date date = new Date(System.currentTimeMillis());
         rs.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        if(rs.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            rs.setBreedDescription("");
+        }
         rawStorageJPA.save(rs);
     }
 

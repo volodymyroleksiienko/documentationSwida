@@ -37,6 +37,9 @@ public class DryingStorageServiceImpl implements DryingStorageService {
         }
         Date date = new Date(System.currentTimeMillis());
         ds.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        if(ds.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            ds.setBreedDescription("");
+        }
         dryingStorageJPA.save(ds);
     }
 

@@ -29,7 +29,6 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     public void save(TreeStorage ts) {
         if(ts.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             ts.setBreedDescription("");
-            System.out.println("whiteSpaceee");
         }
         Date date = new Date(System.currentTimeMillis());
         ts.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
@@ -41,7 +40,6 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     public void putNewTreeStorageObj(TreeStorage treeStorage) {
         if(treeStorage.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             treeStorage.setBreedDescription("");
-            System.out.println("whiteSpaceee");
         }
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
         Date date = new Date(System.currentTimeMillis());

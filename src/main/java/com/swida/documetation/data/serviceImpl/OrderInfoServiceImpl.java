@@ -36,6 +36,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfo.setDoneExtendOfOrder(String.format("%.3f", Float.parseFloat(orderInfo.getDoneExtendOfOrder())).replace(',', '.'));
         orderInfo.setToDoExtentOfOrder(String.format("%.3f",Float.parseFloat(orderInfo.getExtentOfOrder())
             -Float.parseFloat(orderInfo.getDoneExtendOfOrder())).replace(",","."));
+        if(orderInfo.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            orderInfo.setBreedDescription("");
+        }
         orderInfoJPA.save(orderInfo);
     }
 

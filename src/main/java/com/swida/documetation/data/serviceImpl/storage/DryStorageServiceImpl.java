@@ -38,6 +38,9 @@ public class DryStorageServiceImpl implements DryStorageService {
         }
         Date date = new Date(System.currentTimeMillis());
         ds.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        if(ds.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            ds.setBreedDescription("");
+        }
         dryStorageJPA.save(ds);
     }
 
@@ -113,6 +116,9 @@ public class DryStorageServiceImpl implements DryStorageService {
                     String.format("%.3f",Float.parseFloat(dryingStorage.getExtent())+difExtent)
                             .replace(",",".")
             );
+        }
+        if(dryingStorage.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            dryingStorage.setBreedDescription("");
         }
         dryingStorageService.save(dryingStorage);
         save(dryStorageDB);

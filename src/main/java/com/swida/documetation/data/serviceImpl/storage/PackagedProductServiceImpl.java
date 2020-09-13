@@ -100,6 +100,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             dryStorage.setCountOfDesk(dryStorage.getCountOfDesk()-Integer.parseInt(product.getCountOfDesk()));
             Date date = new Date(System.currentTimeMillis());
             product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+            if(product.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+                product.setBreedDescription("");
+            }
             productJPA.save(product);
         }
         dryStorageService.save(dryStorage);
@@ -181,6 +184,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         deskOakService.saveAll(deskOakList);
         Date date = new Date(System.currentTimeMillis());
         product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        if(product.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            product.setBreedDescription("");
+        }
         productJPA.save(product);
 
         return product;
@@ -224,6 +230,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         product.setSumWidthOfAllDesk(String.valueOf(sumWidth));
         product.setCountOfDesk(String.valueOf(countOfAllDesk));
         product.setExtent(String.format("%.3f",extent).replace(',','.'));
+        if(product.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            product.setBreedDescription("");
+        }
         productJPA.save(product);
     }
 
@@ -290,6 +299,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
         productDB.setLongFact(product.getLongFact());
         productDB.setHeight_width(product.getHeight_width());
+        if(productDB.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            productDB.setBreedDescription("");
+        }
         productJPA.save(productDB);
         return productDB;
     }
@@ -306,7 +318,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productDB.setSizeOfHeight(product.getSizeOfHeight());
         productDB.setSizeOfLong(product.getSizeOfLong());
         productDB.setQuality(product.getQuality());
-
+        if(productDB.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            productDB.setBreedDescription("");
+        }
         productJPA.save(productDB);
         countExtentOak(productDB);
 
