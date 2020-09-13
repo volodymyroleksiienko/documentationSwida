@@ -6,14 +6,17 @@
         <p class="text-muted" style="font-size: 14px; position: fixed; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>
         <table style="width: 100%;" >
             <tr>
+                <th th:if="${breedId==2}"></th>
                 <th scope="col">Описание</th>
                 <th scope="col">Толщина, мм</th>
                 <th scope="col" th:if="${breedId!=2}">Ширина, мм</th>
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Производитель</th>
                 <th scope="col">Стадия</th>
+                <th th:if="${breedId==2}"></th>
             </tr>
             <tr style="vertical-align: top;">
+                <td style="width: 7.5%" th:if="${breedId==2}"></td>
                 <td style="width: 15%">
                     <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option value="noDesc">без описания</option>
@@ -59,6 +62,7 @@
                         Поиск
                     </button>
                 </td>
+                <td style="width: 7.5%" th:if="${breedId==2}"></td>
             </tr>
         </table>
         <div style="display: flex; align-items: center; justify-content: center">
