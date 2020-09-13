@@ -175,7 +175,7 @@ $(document).ready( function () {
     });
     // Modal inner table end
 
-    $( "#createDistributionModal" ).on('show.bs.modal', function(){
+    $('#createDistributionModal').on('show.bs.modal', function(){
         tableOfDistribution.clear().draw();
     });
 
@@ -198,7 +198,7 @@ $(document).ready( function () {
 
         for (let i = 0; i<arrOfTr.length;i++){
             arrayOfCodes[i] =   $(arrOfTr[i]).find('td:eq(0)').text();
-            if (code == arrayOfCodes[i]){
+            if (code === arrayOfCodes[i]){
                 res = true;
             }
         }

@@ -11,10 +11,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/datatables.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{../css/dataTables.bootstrap4.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap-multiselect.css}"/>
-
     <link th:href="@{../css/all.css}" rel="stylesheet">
     <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/component-chosen.css}">
 
 </head>
 <body>
@@ -68,11 +67,15 @@
 <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
 <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
 
-<script type="text/javascript" th:src="@{../js/bootstrap-multiselect.js}"></script>
+<!--<script type="text/javascript" th:src="@{../js/bootstrap-multiselect.js}"></script>-->
 <script type="text/javascript" th:src="@{../js/extent.calculation.js}"></script>
 <script type="text/javascript" th:src="@{../js/deadlines.checkout.js}"></script>
 <script type="text/javascript" th:src="@{../js/set.hidden.value.js}"></script>
 <script type="text/javascript" th:src="@{../js/admin/admin.tabs.config.js}"></script>
+<script type="text/javascript" th:src="@{../js/admin/choosen.js}"></script>
+<script type="text/javascript">
+    $('.form-control-chosen').chosen();
+</script>
 <!-- SCRIPTS  END-->
 </body>
 </html>

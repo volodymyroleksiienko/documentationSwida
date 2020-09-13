@@ -1,34 +1,7 @@
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="statisticsPine">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-                ['Extent', 'Sqr meters'],
-                ['Кругляк',     11],
-                ['Сырой склад',      2],
-                ['Сушка',  3],
-                ['Сухой склад', 2],
-                ['Пачки',    7],
-                ['Транспортировка',    6],
-                ['Переработка',    1]
-            ]);
-
-            var options = {
-                title: 'Суммарная кубатура: '+123.123+" м3",
-                pieHole: 0.4,
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-            chart.draw(data, options);
-        }
-    </script>
-
-    <div class="tab-pane fade show active container" id="pineStats">
+    <div class="tab-pane fade show active container-fluid" id="pineStats">
         <br>
         <table style="width: 100%" >
             <tr>
@@ -39,46 +12,44 @@
                 <th scope="col">Производитель</th>
                 <th scope="col">Стадия</th>
             </tr>
-            <tr>
-                <td>
-                    <select id="selectDescription" data-placeholder="Choose description" class="multipleChosen" multiple="true">
+            <tr style="vertical-align: top;">
+                <td style="width: 15%">
+                    <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
                 </td>
-                <td>
-                    <select id="selectSizeOfHeight" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                <td style="width: 15%">
+                    <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
                 </td>
-                <td>
-                    <select id="selectSizeOfWidth" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                <td style="width: 15%">
+                    <select id="selectSizeOfWidth" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
                 </td>
-                <td>
-                    <select id="selectSizeOfLong" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                <td style="width: 15%">
+                    <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
                 </td>
-                <td>
-                    <select id="selectProvider" data-placeholder="Choose height" class="multipleChosen" multiple="true">
+                <td style="width: 20%">
+                    <select id="selectProvider" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${providerList}" th:value="${obj.id}" th:text="${obj.nameOfAgent}"></option>
                     </select>
                 </td>
-                <td>
-                    <select id="selectStage" data-placeholder="Choose height" class="multipleChosen" multiple="true">
-                        <option  value="treeStorage">treeStorage</option>
-                        <option  value="rawStorage">rawStorage</option>
-                        <option  value="dryingStorage">dryingStorage</option>
-                        <option  value="dryStorage">dryStorage</option>
-                        <option  value="packagedProduct">packagedProduct</option>
+                <td style="width: 20%">
+                    <select id="selectStage" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <option  value="treeStorage">Кругляк</option>
+                        <option  value="rawStorage">Сырой склад</option>
+                        <option  value="dryingStorage">Сушка</option>
+                        <option  value="dryStorage">Сухой склад</option>
+                        <option  value="packagedProduct">Пачки</option>
                         <option  value="deliveryMultimodal">deliveryMultimodal</option>
                         <option  value="deliveryPort">deliveryPort</option>
                         <option  value="deliveryCountry">deliveryCountry</option>
                         <option  value="providerInWork">providerInWork</option>
-                        <option  value="recycleStorage">recycleStorage</option>
-
-
+                        <option  value="recycleStorage">Переработка</option>
                     </select>
                 </td>
                 <td style="width: auto; align-items: end;">
@@ -95,8 +66,31 @@
     </div>
 
 
-    </div>
     <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        let summary = 0.000;
+
+        function drawChart() {
+
+            data = new google.visualization.DataTable();
+            data.addColumn('string', 'Place');
+            data.addColumn('number', 'Extent');
+            data.addRow(['x', 1]);
+
+
+            var options = {
+                title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
+                pieHole: 0.4,
+                // is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+
         function sendRequestForStatistic(breedId) {
             var descriptions = $('#selectDescription').val();
             var sizeOfHeight = $('#selectSizeOfHeight').val();
@@ -121,14 +115,36 @@
                 traditional: true,
                 success: function (statisticInfo) {
                     console.log(statisticInfo);
+
+                    summary = parseFloat(statisticInfo["mainExtent"]);
+
+                    data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Place');
+                    data.addColumn('number', 'Extent');
+                    data.addRow(['x', parseFloat(statisticInfo["dryStorage"])]);
+                    console.log(parseFloat(statisticInfo["dryStorage"]));
+                    data.addRow(['y', 2]);
+
+                    var options = {
+                        title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
+                        pieHole: 0.4,
+                        // is3D: true,
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                    chart.draw(data, options);
+                    // drawChart();
                     // location.reload();
                 },
                 error: function () {
                     alert("Error");
                 }
             });
-
         }
+
+
+
 
         function getListOfSelected(selectId){
 
