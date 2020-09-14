@@ -1,7 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
@@ -18,7 +18,10 @@ import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.other.PackageProductToJson;
 import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
 import com.swida.documetation.utils.xlsParsers.ParseMultimodalPackagesByContract;
+
 import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -388,7 +391,7 @@ public class MultimodalController {
 // REST REST REST
     @ResponseBody
     @PostMapping("/editPackageMultimodal")
-    public String editPackageMultimodal( PackagedProduct packagedProduct, String containerName) throws JsonProcessingException {
+    public JSONObject editPackageMultimodal(PackagedProduct packagedProduct, String containerName) throws JsonProcessingException, ParseException {
         if(containerName.isEmpty()){
             packagedProduct.setContainer(null);
         }else {
@@ -398,9 +401,13 @@ public class MultimodalController {
         productDB.setExtent(packagedProductService.countExtent(packagedProduct));
         packagedProductService.save(productDB);
         reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
-        ObjectMapper mapper = new ObjectMapper();
-        return  mapper.writeValueAsString(new PackageProductToJson(productDB));
+        Gson  gson = new Gson();
+        JSONParser parser = new JSONParser();
+        JSONObject json = (JSONObject) parser.parse(gson.toJson(new PackageProductToJson(productDB)));
+        return   json;
     }
+
+
 // REST REST REST
 
     @PostMapping("/deletePackage-{contractId}")
