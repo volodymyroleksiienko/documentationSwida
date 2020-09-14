@@ -92,6 +92,7 @@ $(document).ready( function () {
         $(this).toggleClass('selected');
     } );
 
+
     $('#setContainerRequest').on( 'click', function () {
         let newData = document.getElementsByClassName("selected");
         let container = document.getElementById("selectContainer-hidden").value;

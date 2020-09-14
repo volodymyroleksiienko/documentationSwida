@@ -48,7 +48,7 @@
                     <td th:text="${pack?.container?.code}"></td>
                     <td th:text="${pack?.container?.id}"></td>
                     <td>
-                        <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="editRecord(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                        <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="editRecord(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                         <!-- <button type="button" class="btn btn-primary btn-sm" onclick="exportData(this)"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></button> -->
                         <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="deleteRecord(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
                     </td>
@@ -115,7 +115,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/multimodal/editPackageToDeliveryDoc-'+${contractId}}" method="post">
+                <form th:action="@{'/multimodal/editPackageToDeliveryDoc-'+${contractId}}" method="post" id="fullDetailsForm">
                     <div class="modal-body">
                         <input type="text" id="editRecordtId" hidden="" name="id">
 
@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" id="saveAndGoNextButton" class="btn btn-primary">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -221,12 +221,15 @@
     <script type="text/javascript">
         function editRecord(btnObj) {
 
-            var trObj =             btnObj.parentElement.parentElement;
-            var trId =              $(trObj).attr('id');
-            $('#editRecordtId').val(trId);
-            console.log("row id: " + $(trObj).attr('id'));
-            // var contractNumber =    $(trObj).find('th:eq(0)').text();
-            // $('#editContractModalHeader').text("Редактировать контракт №"+contractNumber);
+            // var trObj =             btnObj.parentElement.parentElement;
+            // var trId =              $(trObj).attr('id');
+            // $('#editRecordtId').val(trId);
+            // console.log("row id: " + $(trObj).attr('id'));
+
+            $('#editRecordtId').val(btnObj);
+            console.log("row in edit id: " + btnObj);
+
+            let trObj = document.getElementById(btnObj);
 
             var carNumber =         $(trObj).find('td:eq(0)').text();
             var pack =              $(trObj).find('td:eq(1)').text();
@@ -261,7 +264,48 @@
             $('#editRecordContainerNumber')     .val(container);
 
             $('#editDetailsModal').modal('show');
+
         }
+
+        document.querySelector("#saveAndGoNextButton").addEventListener("click", function(){
+            let newData = [];
+
+            let currentId = $('#editRecordtId').val();
+            console.log("current id: "+ currentId);
+
+            $("#info-detailed-table tr").each(function() {
+                newData.push(this.id);
+            });
+
+            newData.shift();
+            newData.pop();
+
+
+            // console.log(newData);
+            // e.preventDefault();
+
+            for (let i = newData.length - 1; i >= 0; i--) {
+                if (currentId===newData[i]){
+                    break;
+                }
+                console.log('inside loop: '+newData[i]);
+                editRecord(newData[i]);
+
+                // delete newData[i];
+
+                // e.preventDefault();
+            }
+
+            // let x;
+            //
+            // for (x of newData) {
+            //     if (currentId===x){
+            //         break;
+            //     }
+            //     console.log('inside loop: '+x);
+            //     editRecord(x);
+            // }
+        });
     </script>
     <!-- EDIT CONTRACTS MODAL END -->
 

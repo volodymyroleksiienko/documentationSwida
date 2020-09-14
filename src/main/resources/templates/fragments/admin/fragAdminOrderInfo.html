@@ -288,7 +288,7 @@
                                 <label class="control-label" for="addDistributionCompanyInner">Поставщик</label>
                                 <input type="text" class="form-control" list="suppliersList" id="addDistributionCompanyInner" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                 <datalist id="suppliersList">
-                                    <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}" th:text="${b.nameOfAgent}"></option>
+                                    <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}" th:text="${b.nameOfAgent}" th:label="${b.addressOfCompany}"></option>
                                 </datalist>
                                 <input type="hidden" name="orderInfo.contrAgent.id" id="addDistributionCompanyInner-hidden">
                             </div>
@@ -504,7 +504,7 @@
                         <label class="col-form-label" for="editDistributionCompany">Поставщик</label>
                         <input type="text" class="form-control" list="contrAgentProviderList" id="editDistributionCompany" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                         <datalist id="contrAgentProviderList">
-                            <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}"  th:text="${b.nameOfAgent}"></option>
+                            <option th:each="b : ${contrAgentProviderList}"  th:data-value="${b.id}"  th:text="${b.nameOfAgent}" th:label="${b.addressOfCompany}"></option>
                         </datalist>
                         <input type="number" hidden="hidden"  name="contrAgent.id" id="editDistributionCompany-hidden">
 
