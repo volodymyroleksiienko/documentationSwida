@@ -14,7 +14,9 @@ public class PackageProductToJson {
         id = packagedProduct.getId();
         codeOfPackage = packagedProduct.getCodeOfPackage();
         codeOfDeliveryCompany = packagedProduct.getCodeOfDeliveryCompany();
-        breedOfTree = packagedProduct.getBreedOfTree();
+        if(packagedProduct.getBreedOfTree()!=null){
+            breedOfTree = packagedProduct.getBreedOfTree();
+        }
         breedDescription = packagedProduct.getBreedDescription();
         quality =packagedProduct.getQuality();
         sizeOfHeight = packagedProduct.getSizeOfHeight();
@@ -31,10 +33,16 @@ public class PackageProductToJson {
         extent = packagedProduct.getExtent();
         height_width = packagedProduct.getHeight_width();
         date = packagedProduct.getDate();
-        orderInfoName = packagedProduct.getOrderInfo().getCodeOfOrder();
-        containerName = packagedProduct.getContainer().getCode();
-        containerId = packagedProduct.getContainer().getId();
-        idOFTruck = packagedProduct.getDeliveryDocumentation().getDriverInfo().getIdOfTruck();
+        if (packagedProduct.getContainer()!=null){
+            containerName = packagedProduct.getContainer().getCode();
+            containerId = packagedProduct.getContainer().getId();
+        }
+        if(packagedProduct.getOrderInfo()!=null) {
+            orderInfoName = packagedProduct.getOrderInfo().getCodeOfOrder();
+        }
+        if(packagedProduct.getDeliveryDocumentation()!=null && packagedProduct.getDeliveryDocumentation().getDriverInfo()!=null) {
+            idOFTruck = packagedProduct.getDeliveryDocumentation().getDriverInfo().getIdOfTruck();
+        }
         statusOfEntity = packagedProduct.getStatusOfEntity();
     }
 
