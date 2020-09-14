@@ -376,7 +376,7 @@ public class MultimodalController {
     @PostMapping("/editPackageToDeliveryDoc-{id}")
     public String editPackageToDeliveryDoc(@PathVariable("id")int contractId, PackagedProduct packagedProduct,
                                           String contractName, String containerName, String driverIdOfTruck){
-        if(containerName.isEmpty()){
+        if(containerName.isEmpty() || containerName.equals("0")){
             packagedProduct.setContainer(null);
         }else {
             packagedProduct.setContainer(containerService.findById(Integer.parseInt(containerName)));
@@ -392,7 +392,7 @@ public class MultimodalController {
     @ResponseBody
     @PostMapping("/editPackageMultimodal")
     public JSONObject editPackageMultimodal(PackagedProduct packagedProduct, String containerName) throws JsonProcessingException, ParseException {
-        if(containerName.isEmpty()){
+        if(containerName.isEmpty() || containerName.equals("0")){
             packagedProduct.setContainer(null);
         }else {
             packagedProduct.setContainer(containerService.findById(Integer.parseInt(containerName)));
