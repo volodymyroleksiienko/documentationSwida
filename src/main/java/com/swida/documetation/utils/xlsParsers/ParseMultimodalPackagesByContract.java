@@ -12,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +35,7 @@ public class ParseMultimodalPackagesByContract {
 
 
         sheet.setColumnWidth(0,3000);
-        sheet.setColumnWidth(1,4500);
+        sheet.setColumnWidth(1,3500);
         sheet.setColumnWidth(2,2000);
         sheet.setColumnWidth(3,2000);
         sheet.setColumnWidth(4,1500);
@@ -46,7 +47,7 @@ public class ParseMultimodalPackagesByContract {
         sheet.setColumnWidth(10,2000);
         sheet.setColumnWidth(11,2300);
         sheet.setColumnWidth(12,2300);
-        sheet.setColumnWidth(13,2500);
+        sheet.setColumnWidth(13,3500);
 
 
         int rowCount = 0;
@@ -93,11 +94,17 @@ public class ParseMultimodalPackagesByContract {
                     row.createCell(4).setCellValue(Integer.parseInt(product.getSizeOfLong()));
                     row.createCell(5).setCellValue(Integer.parseInt(product.getCountOfDesk()));
 
-                    BigDecimal roundfinalPrice = new BigDecimal(Float.parseFloat(product.getExtent())).setScale(2,BigDecimal.ROUND_HALF_UP);
-                    row.createCell(6).setCellValue(roundfinalPrice.floatValue());
+                    BigDecimal roundfinalPrice = new BigDecimal(Float.parseFloat(product.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                    row.createCell(6).setCellValue(roundfinalPrice.doubleValue());
 
-                    row.createCell(7).setCellValue(Integer.parseInt(product.getCountDeskInHeight()));
-                    row.createCell(8).setCellValue(Integer.parseInt(product.getCountDeskInWidth()));
+                    try {
+                        row.createCell(7).setCellValue(Integer.parseInt(product.getCountDeskInHeight()));
+                        row.createCell(8).setCellValue(Integer.parseInt(product.getCountDeskInWidth()));
+                    }catch (Exception e){
+                        row.createCell(7).setCellValue(product.getCountDeskInHeight());
+                        row.createCell(8).setCellValue(product.getCountDeskInWidth());
+                    }
+
                     row.createCell(9).setCellValue(product.getCodeOfDeliveryCompany());
                     row.createCell(10).setCellValue(product.getLongFact());
                     row.createCell(11).setCellValue(product.getHeight_width());
@@ -118,8 +125,10 @@ public class ParseMultimodalPackagesByContract {
             rowFooter.createCell(i).setCellValue("");
             rowFooter.getCell(i).setCellStyle(style);
         }
+
+        BigDecimal extent = new BigDecimal(sumExtent).setScale(3,BigDecimal.ROUND_HALF_UP);
         rowFooter.getCell(5).setCellValue(sumCount);
-        rowFooter.getCell(6).setCellValue(String.format("%6.3f",sumExtent));
+        rowFooter.getCell(6).setCellValue(extent.doubleValue());
 
 
         try {

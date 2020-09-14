@@ -267,11 +267,19 @@
 
         }
 
+        function sendRequestEditPackageMultimodal(trId){
+            let trObj = document.getElementById(trId);
+
+
+        }
+
         document.querySelector("#saveAndGoNextButton").addEventListener("click", function(){
             let newData = [];
 
             let currentId = $('#editRecordtId').val();
             console.log("current id: "+ currentId);
+
+            sendRequestEditPackageMultimodal(currentId);
 
             $("#info-detailed-table tr").each(function() {
                 newData.push(this.id);
@@ -284,12 +292,12 @@
             // console.log(newData);
             // e.preventDefault();
 
-            for (let i = newData.length - 1; i >= 0; i--) {
+            for (let i = newData.length - 2; i >= 0; i--) {
                 if (currentId===newData[i]){
+                    editRecord(newData[i+1]);
+                    console.log('inside loop: '+newData[i+1]);
                     break;
                 }
-                console.log('inside loop: '+newData[i]);
-                editRecord(newData[i]);
 
                 // delete newData[i];
 

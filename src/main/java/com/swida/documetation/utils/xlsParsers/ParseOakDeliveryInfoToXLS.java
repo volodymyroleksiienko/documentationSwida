@@ -102,7 +102,7 @@ public class ParseOakDeliveryInfoToXLS {
             Row row = sheet.createRow(countRow++);
             row.setHeight((short)400);
             row.createCell(0).setCellValue(packagedProduct.getQuality());
-            row.createCell(1).setCellValue(packagedProduct.getSizeOfHeight());
+            row.createCell(1).setCellValue(Integer.parseInt(packagedProduct.getSizeOfHeight()));
             row.createCell(2).setCellValue(packagedProduct.getCodeOfPackage());
             row.createCell(3).setCellValue(packagedProduct.getSizeOfLong());
 

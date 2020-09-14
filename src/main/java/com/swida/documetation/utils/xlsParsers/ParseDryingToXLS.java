@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,11 +72,13 @@ public class ParseDryingToXLS {
                     row.createCell(0).setCellValue(rs.getCodeOfProduct());
                     row.createCell(1).setCellValue(rs.getBreedOfTree().getBreed());
                     row.createCell(2).setCellValue(rs.getBreedDescription());
-                    row.createCell(3).setCellValue(rs.getSizeOfHeight());
-                    row.createCell(4).setCellValue(rs.getSizeOfWidth());
-                    row.createCell(5).setCellValue(rs.getSizeOfLong());
+                    row.createCell(3).setCellValue(Integer.parseInt(rs.getSizeOfHeight()));
+                    row.createCell(4).setCellValue(Integer.parseInt(rs.getSizeOfWidth()));
+                    row.createCell(5).setCellValue(Integer.parseInt(rs.getSizeOfLong()));
                     row.createCell(6).setCellValue(rs.getCountOfDesk());
-                    row.createCell(7).setCellValue(rs.getExtent());
+
+                    BigDecimal extent = new BigDecimal(Float.parseFloat(rs.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                    row.createCell(7).setCellValue(extent.doubleValue());
                     row.getCell(0).setCellStyle(style);
                     row.getCell(1).setCellStyle(style);
                     row.getCell(2).setCellStyle(style);
@@ -142,8 +145,10 @@ public class ParseDryingToXLS {
                     row.createCell(0).setCellValue(rs.getCodeOfProduct());
                     row.createCell(1).setCellValue(rs.getBreedOfTree().getBreed());
                     row.createCell(2).setCellValue(rs.getBreedDescription());
-                    row.createCell(3).setCellValue(rs.getSizeOfHeight());
-                    row.createCell(4).setCellValue(rs.getExtent());
+                    row.createCell(3).setCellValue(Integer.parseInt(rs.getSizeOfHeight()));
+
+                    BigDecimal extent = new BigDecimal(Float.parseFloat(rs.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                    row.createCell(4).setCellValue(extent.doubleValue());
                     row.createCell(5).setCellValue(rs.getDescription());
                     row.getCell(0).setCellStyle(style);
                     row.getCell(1).setCellStyle(style);
