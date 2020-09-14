@@ -246,6 +246,7 @@
             var wh =                $(trObj).find('td:eq(12)').text();
             var contract =          $(trObj).find('td:eq(13)').text();
             var container =         $(trObj).find('td:eq(14)').text();
+            var containerId =       $(trObj).find('td:eq(15)').text();
 
             $('#editRecordCarNumber')           .val(carNumber);
             $('#editRecordPackNumber')          .val(pack);
@@ -262,6 +263,8 @@
             $('#editRecordWidthHeight')         .val(wh);
             $('#editRecordContractNumber')      .val(contract);
             $('#editRecordContainerNumber')     .val(container);
+            $('#editRecordContainerNumber-hidden').val(containerId);
+
 
             $('#editDetailsModal').modal('show');
 
@@ -343,21 +346,7 @@
                     console.log('inside loop: '+newData[i+1]);
                     break;
                 }
-
-                // delete newData[i];
-
-                // e.preventDefault();
             }
-
-            // let x;
-            //
-            // for (x of newData) {
-            //     if (currentId===x){
-            //         break;
-            //     }
-            //     console.log('inside loop: '+x);
-            //     editRecord(x);
-            // }
         });
     </script>
     <!-- EDIT CONTRACTS MODAL END -->
