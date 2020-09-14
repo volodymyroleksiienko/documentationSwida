@@ -19,7 +19,7 @@ $(document).ready( function () {
     });
 
 
-    $('#multimodal-container-table').DataTable({
+    let containersTab = $('#multimodal-container-table').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
@@ -43,6 +43,10 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ 14 ] }
         ]
     });
+    // Selecting rows
+    $('#multimodal-container-table tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
 
     // Contracts table config
     let infoDetailedTab = $('#info-detailed-table').DataTable({
@@ -68,6 +72,11 @@ $(document).ready( function () {
         ]
     });
 
+    // Selecting rows
+    $('#info-detailed-table tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
+
      $('#setContainerButton').click(function () {
          let newData = ( infoDetailedTab.rows( '.selected' ).data() );
              let extentS = 0.0;
@@ -87,10 +96,10 @@ $(document).ready( function () {
 
      })
 
-    // Selecting rows
-    $('#info-detailed-table tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-    } );
+    $('#setContainerCurrencyButton').click(function () {
+        $('#setContainerCurrency').modal('show');
+    })
+
 
 
     $('#setContainerRequest').on( 'click', function () {
@@ -113,6 +122,38 @@ $(document).ready( function () {
                 arrayOfPackagesId: arrayOfId,
                 containerId: container,
                 containerName:containerName
+            },
+            traditional: true,
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                alert("Error");
+            }
+        })
+    });
+
+    $('#setContainerCurrencyRequest').on( 'click', function () {
+        let containers = ( containersTab.rows( '.selected' ).data() );
+        let arrayOfContainerId = [];
+        let currencyValue = $('#selectContainerCurrency').val();
+
+        for (let i = containers.length - 1; i >= 0; i--) {
+            arrayOfContainerId[i] = containers[i][0];
+        }
+
+        console.log("ids of containers: "+arrayOfContainerId);
+        console.log("currency: "+currencyValue);
+
+
+
+        $.ajax({
+            method: "post",
+            url: "/multimodal/setContainersCurrency",
+            contextType: "application/json",
+            data: {
+                arrayOfContainerIds: arrayOfContainerId,
+                currency: currencyValue,
             },
             traditional: true,
             success: function () {
@@ -318,8 +359,6 @@ $(document).ready( function () {
         tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
     } );
     //    Delivery Ukraine and Ports end
-
-
 
 
 });

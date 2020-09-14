@@ -71,6 +71,9 @@
         </table>
         <!-- BUTTON START-->
         <div class="float-action-button">
+            <button type="button" class="buttons btn btn-primary" title="Присвоить курс доллара"  data-toggle="modal" data-placement="left" id="setContainerCurrencyButton" >
+                <i class="fas fa-money-bill-wave"></i>
+            </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить контейнер" data-toggle="modal" data-placement="left" data-target="#addContainerModal">
                 <i class="fa fa-plus"></i>
             </button>
@@ -313,6 +316,41 @@
         </div>
     </div>
     <!-- CONFIRMATION MODAL END -->
+
+    <!-- SET CONTAINER MODAL START -->
+    <div class="modal fade" id="setContainerCurrency">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Присвоить курс доллара</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label class="col-form-label" for="selectContainerCurrency">Курс $</label>
+                                <input class="form-control" type="number" min="0.0" step="any" placeholder="Не заполнено" id="selectContainerCurrency" autocomplete="off" autofocus name="currencyUsd">
+
+                                <div style="text-align: center; margin-top: 25px;" id='kurs-com-ua-informer-valyuta-250x170-usd-blue-container'><a href="//old.kurs.com.ua/informer" id="kurs-com-ua-informer-valyuta-250x170-usd-blue" title="Курс валют информер Украина" rel="nofollow" target="_blank">Информер курса валют</a></div>
+                                <script type='text/javascript'>
+                                    (function() {var iframe = '<ifr'+'ame src="//old.kurs.com.ua/informer/valyuta/usd/comm,banks,mezhbank,nbu?color=blue" width="350" height="150" frameborder="0" vspace="0" scrolling="no" hspace="0"></ifr'+'ame>';var container = document.getElementById('kurs-com-ua-informer-valyuta-250x170-usd-blue');container.parentNode.innerHTML = iframe;})();
+                                </script>
+                                <noscript><img src='//old.kurs.com.ua/static/images/informer/kurs.png' width='52' height='26' alt='kurs.com.ua: курс валют в Украине!' title='Курс валют' border='0' /></noscript>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="setContainerCurrencyRequest">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- SET CONTAINER MODAL END -->
 
     <script type="text/javascript" th:src="@{../js/multimodal/multimodal.containers.js}"></script>
 
