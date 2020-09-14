@@ -28,7 +28,13 @@ public class PackageProductToJson {
         sumHeightOfPackage = packagedProduct.getSumHeightOfPackage();
         sumWidthOfPackage = packagedProduct.getSumWidthOfPackage();
         countOfDesk = packagedProduct.getCountOfDesk();
-
+        extent = packagedProduct.getExtent();
+        height_width = packagedProduct.getHeight_width();
+        date = packagedProduct.getDate();
+        orderInfo = packagedProduct.getOrderInfo();
+        container = packagedProduct.getContainer();
+        deliveryDocumentation= packagedProduct.getDeliveryDocumentation();
+        statusOfEntity = packagedProduct.getStatusOfEntity();
     }
 
     private int id;

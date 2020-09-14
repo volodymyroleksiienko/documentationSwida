@@ -15,6 +15,7 @@ import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.subObjects.*;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
+import com.swida.documetation.utils.other.PackageProductToJson;
 import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
 import com.swida.documetation.utils.xlsParsers.ParseMultimodalPackagesByContract;
 import net.minidev.json.JSONObject;
@@ -398,7 +399,7 @@ public class MultimodalController {
         packagedProductService.save(productDB);
         reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
         ObjectMapper mapper = new ObjectMapper();
-        return  mapper.writeValueAsString(productDB);
+        return  mapper.writeValueAsString(new PackageProductToJson(productDB));
     }
 // REST REST REST
 
