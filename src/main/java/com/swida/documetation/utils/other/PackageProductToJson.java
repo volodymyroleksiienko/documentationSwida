@@ -32,7 +32,8 @@ public class PackageProductToJson {
         height_width = packagedProduct.getHeight_width();
         date = packagedProduct.getDate();
         orderInfo = packagedProduct.getOrderInfo();
-        container = packagedProduct.getContainer();
+        containerName = packagedProduct.getContainer().getCode();
+        containerId = packagedProduct.getContainer().getId();
         deliveryDocumentation= packagedProduct.getDeliveryDocumentation();
         statusOfEntity = packagedProduct.getStatusOfEntity();
     }
@@ -68,7 +69,8 @@ public class PackageProductToJson {
 
 
     private OrderInfo orderInfo;
-    private Container container;
+    private String containerName;
+    private int containerId;
     private DeliveryDocumentation deliveryDocumentation;
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }
