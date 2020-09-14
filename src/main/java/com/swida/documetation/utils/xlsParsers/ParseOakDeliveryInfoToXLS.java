@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -89,7 +90,7 @@ public class ParseOakDeliveryInfoToXLS {
         sheet.addMergedRegion(new CellRangeAddress(4, 4, 4, lastIndex));
 
         for(int i=0;i<unicWidthList.size();i++){
-            rowHeader2.createCell(i+4).setCellValue(unicWidthList.get(i));
+            rowHeader2.createCell(i+4).setCellValue(Integer.parseInt(unicWidthList.get(i)));
         }
         rowHeader2.createCell(lastIndex).setCellValue("m3");
         rowHeader2.createCell(lastIndex-1).setCellValue("К-во");
@@ -104,7 +105,7 @@ public class ParseOakDeliveryInfoToXLS {
             row.createCell(0).setCellValue(packagedProduct.getQuality());
             row.createCell(1).setCellValue(Integer.parseInt(packagedProduct.getSizeOfHeight()));
             row.createCell(2).setCellValue(packagedProduct.getCodeOfPackage());
-            row.createCell(3).setCellValue(packagedProduct.getSizeOfLong());
+            row.createCell(3).setCellValue(Integer.parseInt(packagedProduct.getSizeOfLong()));
 
             for(int i=0;i<unicWidthList.size();i++){
                 row.createCell(i+4);
@@ -113,13 +114,15 @@ public class ParseOakDeliveryInfoToXLS {
 
             for(DescriptionDeskOak deskOak: packagedProduct.getDeskOakList()){
                 row.getCell(getIndexOfWidthColumn(deskOak.getSizeOfWidth())+4)
-                        .setCellValue(deskOak.getCountOfDesk());
+                        .setCellValue(Integer.parseInt(deskOak.getCountOfDesk()));
             }
 
 
-            row.createCell(lastIndex-2).setCellValue(packagedProduct.getSumWidthOfAllDesk());
-            row.createCell(lastIndex-1).setCellValue(packagedProduct.getCountOfDesk());
-            row.createCell(lastIndex).setCellValue(packagedProduct.getExtent());
+            row.createCell(lastIndex-2).setCellValue(Integer.parseInt(packagedProduct.getSumWidthOfAllDesk()));
+            row.createCell(lastIndex-1).setCellValue(Integer.parseInt(packagedProduct.getCountOfDesk()));
+
+            BigDecimal extent = new BigDecimal(Float.parseFloat(packagedProduct.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+            row.createCell(lastIndex).setCellValue(extent.doubleValue());
         }
 
 
@@ -127,9 +130,12 @@ public class ParseOakDeliveryInfoToXLS {
         rowFooter.setHeight((short)400);
         createEmptyRow(rowFooter,0,3);
 
-        rowFooter.createCell(lastIndex-2).setCellValue(mainSumWidthOfAllDesk);
-        rowFooter.createCell(lastIndex-1).setCellValue(countOfAllDesk);
-        rowFooter.createCell(lastIndex).setCellValue(mainExtent);
+        rowFooter.createCell(lastIndex-2).setCellValue(Integer.parseInt(mainSumWidthOfAllDesk));
+        rowFooter.createCell(lastIndex-1).setCellValue(Integer.parseInt(countOfAllDesk));
+
+        rowFooter.createCell(lastIndex).setCellValue(
+                new BigDecimal(Float.parseFloat(mainExtent)).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue()
+        );
 
 
         for(int i=0;i<unicWidthList.size();i++){
@@ -224,7 +230,7 @@ public class ParseOakDeliveryInfoToXLS {
 
         mainSumWidthOfAllDesk = String.valueOf(sumW);
         countOfAllDesk = String.valueOf(count);
-        mainExtent = String.format("%6.3f",extent);
+        mainExtent = String.format("%.3f",extent).replace(",",".");
     }
 
     private void createEmptyRow(Row row,int first,int last){

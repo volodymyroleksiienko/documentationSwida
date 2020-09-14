@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,13 +105,21 @@ public class ParserDeliveryDocumentationToXLS {
                 row.getCell(1).setCellValue(product.getCodeOfPackage());
                 row.getCell(2).setCellValue(product.getBreedOfTree().getBreed());
                 row.getCell(3).setCellValue(product.getBreedDescription());
-                row.getCell(4).setCellValue(product.getSizeOfHeight());
-                row.getCell(5).setCellValue(product.getSizeOfWidth());
-                row.getCell(6).setCellValue(product.getSizeOfLong());
-                row.getCell(7).setCellValue(product.getCountOfDesk());
-                row.getCell(8).setCellValue(product.getExtent());
-                row.getCell(9).setCellValue(product.getCountDeskInHeight());
-                row.getCell(10).setCellValue(product.getCountDeskInWidth());
+                row.getCell(4).setCellValue(Integer.parseInt(product.getSizeOfHeight()));
+                row.getCell(5).setCellValue(Integer.parseInt(product.getSizeOfWidth()));
+                row.getCell(6).setCellValue(Integer.parseInt(product.getSizeOfLong()));
+                row.getCell(7).setCellValue(Integer.parseInt(product.getCountOfDesk()));
+
+                BigDecimal extent = new BigDecimal(Float.parseFloat(product.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                row.getCell(8).setCellValue(extent.doubleValue());
+
+                try {
+                    row.getCell(9).setCellValue(Integer.parseInt(product.getCountDeskInHeight()));
+                    row.getCell(10).setCellValue(Integer.parseInt(product.getCountDeskInWidth()));
+                }catch (Exception e){
+                    row.getCell(9).setCellValue(product.getCountDeskInHeight());
+                    row.getCell(10).setCellValue(product.getCountDeskInWidth());
+                }
                 row.getCell(11).setCellValue(product.getLongFact());
                 row.getCell(12).setCellValue(product.getHeight_width());
             }else{
@@ -120,13 +129,21 @@ public class ParserDeliveryDocumentationToXLS {
                 row.createCell(1).setCellValue(product.getCodeOfPackage());
                 row.createCell(2).setCellValue(product.getBreedOfTree().getBreed());
                 row.createCell(3).setCellValue(product.getBreedDescription());
-                row.createCell(4).setCellValue(product.getSizeOfHeight());
-                row.createCell(5).setCellValue(product.getSizeOfWidth());
-                row.createCell(6).setCellValue(product.getSizeOfLong());
-                row.createCell(7).setCellValue(product.getCountOfDesk());
-                row.createCell(8).setCellValue(product.getExtent());
-                row.createCell(9).setCellValue(product.getCountDeskInHeight());
-                row.createCell(10).setCellValue(product.getCountDeskInWidth());
+                row.createCell(4).setCellValue(Integer.parseInt(product.getSizeOfHeight()));
+                row.createCell(5).setCellValue(Integer.parseInt(product.getSizeOfWidth()));
+                row.createCell(6).setCellValue(Integer.parseInt(product.getSizeOfLong()));
+                row.createCell(7).setCellValue(Integer.parseInt(product.getCountOfDesk()));
+
+                BigDecimal extent = new BigDecimal(Float.parseFloat(product.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                row.createCell(8).setCellValue(extent.doubleValue());
+
+                try {
+                    row.createCell(9).setCellValue(Integer.parseInt(product.getCountDeskInHeight()));
+                    row.createCell(10).setCellValue(Integer.parseInt(product.getCountDeskInWidth()));
+                }catch (Exception e){
+                    row.createCell(9).setCellValue(product.getCountDeskInHeight());
+                    row.createCell(10).setCellValue(product.getCountDeskInWidth());
+                }
                 row.createCell(11).setCellValue(product.getLongFact());
                 row.createCell(12).setCellValue(product.getHeight_width());
             }
@@ -157,7 +174,9 @@ public class ParserDeliveryDocumentationToXLS {
             rowFooter.getCell(i).setCellStyle(style);
         }
         rowFooter.getCell(7).setCellValue(sumCount);
-        rowFooter.getCell(8).setCellValue(String.format("%6.3f",sumExtent));
+        rowFooter.getCell(8).setCellValue(
+                new BigDecimal(sumExtent).setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue()
+        );
 
 
         try {
