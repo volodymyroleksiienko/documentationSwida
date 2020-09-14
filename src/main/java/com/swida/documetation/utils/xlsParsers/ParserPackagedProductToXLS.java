@@ -12,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -76,13 +77,21 @@ public class ParserPackagedProductToXLS {
                     row.createCell(0).setCellValue(product.getCodeOfPackage());
                     row.createCell(1).setCellValue(product.getBreedOfTree().getBreed());
                     row.createCell(2).setCellValue(product.getBreedDescription());
-                    row.createCell(3).setCellValue(product.getSizeOfHeight());
-                    row.createCell(4).setCellValue(product.getSizeOfWidth());
-                    row.createCell(5).setCellValue(product.getSizeOfLong());
-                    row.createCell(6).setCellValue(product.getCountOfDesk());
-                    row.createCell(7).setCellValue(product.getExtent());
-                    row.createCell(8).setCellValue(product.getCountDeskInHeight());
-                    row.createCell(9).setCellValue(product.getCountDeskInWidth());
+                    row.createCell(3).setCellValue(Integer.parseInt(product.getSizeOfHeight()));
+                    row.createCell(4).setCellValue(Integer.parseInt(product.getSizeOfWidth()));
+                    row.createCell(5).setCellValue(Integer.parseInt(product.getSizeOfLong()));
+                    row.createCell(6).setCellValue(Integer.parseInt(product.getCountOfDesk()));
+
+                    BigDecimal extent = new BigDecimal(Float.parseFloat(product.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                    row.createCell(7).setCellValue(extent.doubleValue());
+
+                    try {
+                        row.createCell(8).setCellValue(Integer.parseInt(product.getCountDeskInHeight()));
+                        row.createCell(9).setCellValue(Integer.parseInt(product.getCountDeskInWidth()));
+                    }catch (Exception e){
+                        row.createCell(8).setCellValue(product.getCountDeskInHeight());
+                        row.createCell(9).setCellValue(product.getCountDeskInWidth());
+                    }
                     row.createCell(10).setCellValue(product.getLongFact());
                     row.createCell(11).setCellValue(product.getHeight_width());
                     row.getCell(0).setCellStyle(style);

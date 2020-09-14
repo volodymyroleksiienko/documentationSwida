@@ -12,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,7 +64,9 @@ public class ParseTreeStorageToXLS {
                    row.createCell(1).setCellValue(ts.getBreedOfTree().getBreed());
                    row.createCell(2).setCellValue(ts.getBreedDescription());
                    row.createCell(3).setCellValue(ts.getContrAgent().getNameOfAgent());
-                   row.createCell(4).setCellValue(ts.getExtent());
+
+                   BigDecimal extent = new BigDecimal(Float.parseFloat(ts.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                   row.createCell(4).setCellValue(extent.doubleValue());
                    row.getCell(0).setCellStyle(style);
                    row.getCell(1).setCellStyle(style);
                    row.getCell(2).setCellStyle(style);
