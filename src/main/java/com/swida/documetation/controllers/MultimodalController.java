@@ -517,4 +517,9 @@ public class MultimodalController {
         packagedProductService.setContainer(arrayOfPackagesId,containerId,containerName);
     }
 
+    @ResponseBody
+    @PostMapping("/setContainersCurrency")
+    public void setContainersCurrency(String[] arrayOfContainerIds, String currency){
+        containerService.setContainerCurrency(arrayOfContainerIds,currency);
+    }
 }

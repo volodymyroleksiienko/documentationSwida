@@ -11,5 +11,6 @@ public interface ContainerService {
     List<Container> findAll();
     List<Container> selectByStatusOfEntity(StatusOfEntity status);
     String getExtentInContainer(int containerId);
+    void setContainerCurrency(String[] containerId, String currency);
     void deleteByID(int id);
 }

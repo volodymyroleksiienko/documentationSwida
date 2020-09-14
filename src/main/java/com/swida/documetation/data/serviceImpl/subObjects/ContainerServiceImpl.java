@@ -55,6 +55,15 @@ public class ContainerServiceImpl implements ContainerService {
     }
 
     @Override
+    public void setContainerCurrency(String[] containerId, String currency) {
+        for(String id:containerId){
+            Container container = containerJPA.getOne(Integer.parseInt(id));
+            container.setExchangeRate(currency.replace(",","."));
+            save(container);
+        }
+    }
+
+    @Override
     public Container findById(int id) {
         return containerJPA.getOne(id);
     }
