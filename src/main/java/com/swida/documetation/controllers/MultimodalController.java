@@ -1,5 +1,7 @@
 package com.swida.documetation.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
@@ -15,6 +17,7 @@ import com.swida.documetation.data.service.subObjects.*;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
 import com.swida.documetation.utils.xlsParsers.ParseMultimodalPackagesByContract;
+import net.minidev.json.JSONObject;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -380,6 +383,24 @@ public class MultimodalController {
         reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
+
+// REST REST REST
+    @ResponseBody
+    @PostMapping("/editPackageMultimodal")
+    public String editPackageMultimodal( PackagedProduct packagedProduct, String containerName) throws JsonProcessingException {
+        if(containerName.isEmpty()){
+            packagedProduct.setContainer(null);
+        }else {
+            packagedProduct.setContainer(containerService.findById(Integer.parseInt(containerName)));
+        }
+        PackagedProduct productDB = packagedProductService.editPackageProduct(packagedProduct);
+        productDB.setExtent(packagedProductService.countExtent(packagedProduct));
+        packagedProductService.save(productDB);
+        reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
+        ObjectMapper mapper = new ObjectMapper();
+        return  mapper.writeValueAsString(productDB);
+    }
+// REST REST REST
 
     @PostMapping("/deletePackage-{contractId}")
     public String deletePackage(@PathVariable("contractId")int contractId, String id){

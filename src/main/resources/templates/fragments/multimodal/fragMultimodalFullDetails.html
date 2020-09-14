@@ -283,17 +283,39 @@
             var fact =              $('#editRecordLengthFact').val();
             var wh =                $('#editRecordWidthHeight').val();
             var contract =          $('#editRecordContractNumber').val();
-            var container =         $('#editRecordContainerNumber').val();
+            var container =         $('#editRecordContainerNumber-hidden').val();
 
 
 
-
-
-
-
-
-
-
+            $.ajax({
+                method: "post",
+                url: "/multimodal/editPackageMultimodal",
+                contextType: "application/json",
+                data: {
+                    id:trId,
+                    codeOfPackage:pack,
+                    breedDescription: description,
+                    sizeOfHeight:thickness,
+                    sizeOfWidth: width,
+                    sizeOfLong: length,
+                    countOfDesk: count,
+                    extent: extent,
+                    countDeskInHeight:heightPc,
+                    countDeskInWidth:widthPc,
+                    codeOfDeliveryCompany:packMM,
+                    longFact:fact,
+                    height_width:wh,
+                    containerName:container
+                },
+                traditional: true,
+                success: function (product) {
+                    console.log(product);
+                    // location.reload();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            })
         }
 
         document.querySelector("#saveAndGoNextButton").addEventListener("click", function(){
