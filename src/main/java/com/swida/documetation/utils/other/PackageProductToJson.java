@@ -31,10 +31,10 @@ public class PackageProductToJson {
         extent = packagedProduct.getExtent();
         height_width = packagedProduct.getHeight_width();
         date = packagedProduct.getDate();
-        orderInfo = packagedProduct.getOrderInfo();
+        orderInfoName = packagedProduct.getOrderInfo().getCodeOfOrder();
         containerName = packagedProduct.getContainer().getCode();
         containerId = packagedProduct.getContainer().getId();
-        deliveryDocumentation= packagedProduct.getDeliveryDocumentation();
+        idOFTruck = packagedProduct.getDeliveryDocumentation().getDriverInfo().getIdOfTruck();
         statusOfEntity = packagedProduct.getStatusOfEntity();
     }
 
@@ -68,9 +68,9 @@ public class PackageProductToJson {
     private String date;
 
 
-    private OrderInfo orderInfo;
+    private String orderInfoName;
     private String containerName;
     private int containerId;
-    private DeliveryDocumentation deliveryDocumentation;
+    private String idOFTruck;
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }
