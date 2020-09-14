@@ -265,6 +265,7 @@
             $('#editRecordContainerNumber')     .val(container);
             $('#editRecordContainerNumber-hidden').val(containerId);
 
+            $('#editRecordPackNumberMultiModal').focus();
 
             $('#editDetailsModal').modal('show');
 
@@ -287,8 +288,6 @@
             var wh =                $('#editRecordWidthHeight').val();
             var contract =          $('#editRecordContractNumber').val();
             var container =         $('#editRecordContainerNumber-hidden').val();
-
-
 
             $.ajax({
                 method: "post",
@@ -313,6 +312,28 @@
                 traditional: true,
                 success: function (product) {
                     console.log(product);
+
+                    let rowId =  product["id"];
+                    console.log("id: "+rowId);
+
+                    let trObj = document.getElementById(rowId);
+                    console.log(trObj);
+
+                    $(trObj).find('td:eq(1)').text(product["codeOfPackage"]);
+                    $(trObj).find('td:eq(2)').text(product["breedDescription"]);
+                    $(trObj).find('td:eq(3)').text(product["sizeOfHeight"]);
+                    $(trObj).find('td:eq(4)').text(product["sizeOfWidth"]);
+                    $(trObj).find('td:eq(5)').text(product["sizeOfLong"]);
+                    $(trObj).find('td:eq(6)').text(product["countOfDesk"]);
+                    $(trObj).find('td:eq(7)').text(product["extent"]);
+                    $(trObj).find('td:eq(8)').text(product["countDeskInHeight"]);
+                    $(trObj).find('td:eq(9)').text(product["countDeskInWidth"]);
+                    $(trObj).find('td:eq(10)').text(product["codeOfDeliveryCompany"]);
+                    $(trObj).find('td:eq(11)').text(product["longFact"]);
+                    $(trObj).find('td:eq(12)').text(product["height_width"]);
+                    $(trObj).find('td:eq(14)').text(product["containerName"]);
+                    $(trObj).find('td:eq(15)').text(product["containerId"]);
+
                     // location.reload();
                 },
                 error: function () {

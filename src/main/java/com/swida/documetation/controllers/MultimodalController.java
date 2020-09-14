@@ -401,7 +401,7 @@ public class MultimodalController {
         productDB.setExtent(packagedProductService.countExtent(packagedProduct));
         packagedProductService.save(productDB);
         reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
-        Gson  gson = new Gson();
+        Gson gson = new Gson();
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(gson.toJson(new PackageProductToJson(productDB)));
         return   json;
