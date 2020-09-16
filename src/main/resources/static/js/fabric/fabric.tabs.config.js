@@ -9,10 +9,11 @@ $(document).ready( function () {
         "autoWidth": false,
         "columnDefs": [
             {
-                "targets": [ 0, -1],
+                "targets": [ 0 ],
                 "visible": false,
                 "searchable": false,
-            }
+            },
+            { className: "display-none", "targets": [ -1, -2, -3 ] }
         ]
     });
     // Distribution table end

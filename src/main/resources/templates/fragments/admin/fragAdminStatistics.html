@@ -83,13 +83,16 @@
             let data = new google.visualization.DataTable();
             data.addColumn('string', 'Place');
             data.addColumn('number', 'Extent');
-            data.addRow(['Выбрано', 1]);
-
-
+            data.addRow(['Выбрано', 100]);
 
             let options = {
                 title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
                 pieHole: 0.4,
+                sliceVisibilityThreshold: .00001,
+                // pieSliceTextStyle: {
+                //     color: 'white',
+                // },
+
                 // is3D: true,
             };
 

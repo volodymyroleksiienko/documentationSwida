@@ -85,7 +85,7 @@
                         <input type="text" id="editContractId" hidden="" name="id">
 
                         <label class="col-form-label" for="editContractCode">Код</label>
-                        <input type="text" class="form-control" id="editContractCode" placeholder="Не заполнено" required="required" autocomplete="off" name="codeOfOrder">
+                        <input type="text" class="form-control" id="editContractCode" placeholder="Не заполнено"  autofocus required="required" autocomplete="off" name="codeOfOrder">
 
                         <label class="col-form-label" for="editContractBuyer">Покупатель</label>
                         <input type="text" class="form-control" list="editContractBuyerList" id="editContractBuyer" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
@@ -184,8 +184,7 @@
             $('#editOrderDeliveryDestination')  .val(destination);
             $('#editContractDate')              .val(deadline);
 
-            $('#editContractModal').modal('show');
-        }
+            $('#editContractModal').modal('show');}
     </script>
     <!-- EDIT CONTRACT MODAL END -->
 

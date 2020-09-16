@@ -90,7 +90,7 @@
                         <input type="text" id="editContractId" hidden="" name="id">
 
                         <label class="col-form-label" for="editContractNumber">№ контракта</label>
-                        <input type="text" class="form-control" id="editContractNumber" required="required" autocomplete="off" placeholder="Не заполнено" name="codeOfOrder">
+                        <input type="text" class="form-control" id="editContractNumber" autofocus="autofocus" required="required" autocomplete="off" placeholder="Не заполнено" name="codeOfOrder">
 
                         <label class="col-form-label" for="editContractBuyers">Покупатель</label>
                         <input type="text" class="form-control" list="companiesList" id="editContractBuyers" required="required" autocomplete="off" onchange="setHiddenValue(this)">
@@ -175,6 +175,7 @@
             $('#editContractTerms')               .val(terms);
 
             $('#editContractModal').modal('show');
+            // document.getElementById('editContractNumber').focus();
         }
     </script>
     <!-- EDIT CONTRACTS MODAL END -->
@@ -238,7 +239,7 @@
                         <div class="form-group">
                             <label for="inputFile">Выберите файл</label>
                             <input type="file" required="required" class="form-control-file" id="inputFile" aria-describedby="fileHelp" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="fileXLS">
-                             <small id="fileHelp" class="form-text text-muted">Чтобы избежать ошибок со считованием данных, ознакомтесь с требованиями к импортируему файлу <a href="#">здесь</a></small>
+                             <small id="fileHelp" class="form-text text-muted">Чтобы избежать ошибок со считованием данных, ознакомтесь с требованиями к импортируему файлу <a href="/admin/getInformation">здесь</a></small>
                             <label class="col-form-label" for="importSetContract">Привязать контракт</label>
                             <input type="text" class="form-control" list="contractsList" id="importSetContract" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                             <datalist id="contractsList">

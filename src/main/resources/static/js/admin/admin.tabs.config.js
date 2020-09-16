@@ -18,7 +18,8 @@ $(document).ready( function () {
                 "orderable": false,
                 "searchable": false,
                 "width": "30px"
-            }
+            },
+            { className: "display-none", "targets": [ -2 ] }
         ]
     });
 
@@ -54,20 +55,12 @@ $(document).ready( function () {
         "autoWidth": false,
         "columnDefs": [
             {
-                "targets": [  ],
-                "visible": false,
-                "searchable": false,
-            },
-            {
                 "targets": -1,
                 "orderable": false,
                 "searchable": false,
                 "width": "70px"
             },
-            {
-                // "width": "20%",
-                // "targets": 6
-            }
+            { className: "display-none", "targets": [ 0 ] }
         ]
 
     });
@@ -83,20 +76,12 @@ $(document).ready( function () {
         "autoWidth": false,
         "columnDefs": [
             {
-                "targets": [  ],
-                "visible": false,
-                "searchable": false,
-            },
-            {
                 "targets": -1,
                 "orderable": false,
                 "searchable": false,
                 "width": "70px"
             },
-            {
-                // "width": "20%",
-                // "targets": 6
-            }
+            { className: "display-none", "targets": [ 0 ] }
         ]
 
     });
