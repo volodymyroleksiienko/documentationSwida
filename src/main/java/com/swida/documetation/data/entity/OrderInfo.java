@@ -24,6 +24,7 @@ public class OrderInfo {
     private String toDoExtentOfOrder="0.000";
     private String extentForDistribution="0.000";
     private String extentInContainer="0.000";
+    private String extentWithoutContainer="0.000";
     private String date;
 
 

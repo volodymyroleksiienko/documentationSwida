@@ -136,11 +136,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerDelivery">Вывоз контейнера в порт ($)</label>
-                                <input type="number" step="0.01" min="0" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" value="80.00" oninput="countCostOfUploading()">
+                                <input type="number" step="1" min="0" class="form-control" id="addContainerDelivery" pattern="[0-9]*\.?[0-9]*" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" value="80.00" oninput="countCostOfUploading()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addContainerMeasurement">Взвешивание (&#8372;)</label>
-                                <input type="number"step="0.01" min="0" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" value="100.00" oninput="countCostOfUploading()">
+                                <input type="number"step="1" min="0" class="form-control" id="addContainerMeasurement"pattern="[0-9]*\.?[0-9]*"  placeholder="uah" required="required" autocomplete="off" name="costOfWeighing" value="100.00" oninput="countCostOfUploading()">
                             </div>
                         </div>
 
@@ -230,14 +230,14 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerUnloading">Загрузка контейнера ($)</label>
-                                <input type="number" step="0.01" min="0.00" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerUnloading" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" disabled="disabled" oninput="countCostOfUploadingEdit()">
+                                <input type="number" step="1" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerUnloading" placeholder="usd" required="required" autocomplete="off" name="costOfUploading" disabled="disabled" oninput="countCostOfUploadingEdit()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerDelivery">Вывоз контейнера в порт ($)</label>
-                                <input type="number" step="0.01" min="0.00" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerDelivery" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" oninput="countCostOfUploadingEdit()">
+                                <input type="number" step="1" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editContainerDelivery" placeholder="usd" required="required" autocomplete="off" name="costOfDeliveryToPort" oninput="countCostOfUploadingEdit()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editContainerMeasurement">Взвешивание (&#8372;)</label>

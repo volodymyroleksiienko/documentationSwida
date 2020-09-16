@@ -32,11 +32,18 @@ public class ContainerServiceImpl implements ContainerService {
         float extent = Float.parseFloat(container.getExtent());
         float costOfUploading = coefUploading * extent;
 
+        container.setExchangeRate(
+                String.format("%.2f",exchangeRate).replace(",",".")
+        );
+        container.setCoefUploading(
+                String.format("%.2f",coefUploading).replace(",",".")
+        );
+
         container.setCostOfUploading(
-                String.format("%.3f",costOfUploading).replace(",",".")
+                String.format("%.2f",costOfUploading).replace(",",".")
         );
         container.setEqualsToUAH(
-                String.format("%.3f",
+                String.format("%.2f",
                         (costOfDeliveryPort+(coefUploading*extent))
                                 *exchangeRate+costOfWeighing
                 ).replace(",",".")

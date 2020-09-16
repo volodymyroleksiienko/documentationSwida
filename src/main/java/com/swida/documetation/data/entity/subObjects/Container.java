@@ -19,8 +19,8 @@ public class Container {
     private String costOfUploading;
     private String costOfDeliveryToPort= "80";
     private String costOfWeighing = "100";
-    private String coefUploading = "4.000";
-    private String exchangeRate = "0.000";
+    private String coefUploading = "4.00";
+    private String exchangeRate = "0.00";
     private String equalsToUAH;
 
     private String date;

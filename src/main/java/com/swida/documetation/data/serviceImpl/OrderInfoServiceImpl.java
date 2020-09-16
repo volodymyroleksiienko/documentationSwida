@@ -39,6 +39,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         if(orderInfo.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             orderInfo.setBreedDescription("");
         }
+        if(orderInfo.getStatusOfOrderInfo()==StatusOfOrderInfo.MAIN){
+            orderInfo.setExtentWithoutContainer(
+                    String.format("%.3f",
+                            Float.parseFloat(orderInfo.getDoneExtendOfOrder())-Float.parseFloat(orderInfo.getExtentInContainer())).replace(",",".")
+            );
+        }
         orderInfoJPA.save(orderInfo);
     }
 
@@ -144,6 +150,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         }
         mainOrder.setExtentInContainer(
                 String.format("%.3f",extent).replace(",",".")
+        );
+        mainOrder.setExtentWithoutContainer(
+                String.format("%.3f",
+                        Float.parseFloat(mainOrder.getDoneExtendOfOrder())-extent).replace(",",".")
         );
         orderInfoJPA.save(mainOrder);
     }

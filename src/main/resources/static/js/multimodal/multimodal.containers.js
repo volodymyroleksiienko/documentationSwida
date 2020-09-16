@@ -73,8 +73,8 @@ function editContainer(btnObj) {
     $('#editContainerExpotrExtent')     .val(parseFloat(exportExtent).toFixed(2));
     $('#editContainerUnloadingPrice')   .val(parseFloat(unloadingPrice).toFixed(2));
     $('#editContainerUnloading')        .val(parseFloat(unloading).toFixed(2));
-    $('#editContainerDelivery')         .val(parseFloat(delivery).toFixed(2));
-    $('#editContainerMeasurement')      .val(parseFloat(measurement).toFixed(2));
+    $('#editContainerDelivery')         .val(parseInt(delivery));
+    $('#editContainerMeasurement')      .val(parseInt(measurement));
     $('#editContainerCurrency')         .val(parseFloat(currency).toFixed(2));
     $('#editUah')                       .val(parseFloat(uah).toFixed(2));
     $('#editContainerDate')             .val(date);
