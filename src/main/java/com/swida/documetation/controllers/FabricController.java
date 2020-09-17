@@ -7,6 +7,7 @@ import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
+import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.OrderInfoService;
@@ -120,7 +121,7 @@ public class FabricController {
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("orderList",orderInfoService.getOrdersListByBreed(breedId));
-        model.addAttribute("contrAgentList",contrAgentService.findAll());
+        model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());

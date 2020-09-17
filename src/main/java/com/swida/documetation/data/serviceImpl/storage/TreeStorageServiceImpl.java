@@ -30,9 +30,7 @@ public class TreeStorageServiceImpl implements TreeStorageService {
         if(ts.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             ts.setBreedDescription("");
         }
-        Date date = new Date(System.currentTimeMillis());
-        ts.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
-        ts.setExtent(String.format("%.3f", Float.parseFloat(ts.getExtent())).replace(',', '.'));
+       ts.setExtent(String.format("%.3f", Float.parseFloat(ts.getExtent())).replace(',', '.'));
         treeStorageJPA.save(ts);
     }
 
@@ -42,8 +40,6 @@ public class TreeStorageServiceImpl implements TreeStorageService {
             treeStorage.setBreedDescription("");
         }
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        Date date = new Date(System.currentTimeMillis());
-        treeStorage.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
         treeStorageJPA.save(treeStorage);
     }
 

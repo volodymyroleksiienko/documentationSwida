@@ -30,7 +30,7 @@
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.id:''}"></td>
                 <td>
                     <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="editTruck(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="deleteTruck(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
+                    <button th:if="${doc.userCompany==null}" sec:authorize="hasRole('ROLE_ADMIN')"  type="button" class="btn btn-primary btn-sm" onclick="deleteTruck(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
                 </td>
             </tr>
             </tbody>
@@ -210,10 +210,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/multimodal/deleteTruck" method="post">
+                <form th:action="@{'/multimodal/deleteTruckByContract-' + ${contractId}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="deleteTruckModalId" hidden="hidden" autocomplete="off" name="truckId">
+                            <input type="text" class="form-control" id="deleteTruckModalId" hidden="hidden" autocomplete="off" name="id">
                             <input type="text" class="form-control" id="deleteTruckContractModalId" hidden="hidden" autocomplete="off" name="contractId">
 
                             <p id="deleteModalConfirmation">

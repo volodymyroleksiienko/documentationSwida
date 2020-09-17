@@ -124,7 +124,7 @@ function sendRequestCreatePackageOak(btnObj) {
             traditional: true,
             success: function (extent) {
                 console.log(extent);
-                // location.reload();
+                location.reload();
             },
             error: function () {
                 alert("Error");
