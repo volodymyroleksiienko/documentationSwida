@@ -4,12 +4,12 @@
 
     <!-- Контракты  START-->
     <div class="tab-pane fade show active container-fluid" id="contracts">
-        <table class="table table-hover table-striped" id="contracts-table">
+        <table class="table table-hover table-striped" id="contracts-table" style="font-size: 0.8em;">
             <br>
             <thead>
             <tr>
                 <th>id</th>
-                <th scope="col">№ контракта</th>
+                <th scope="col">№ контр.</th>
                 <th scope="col">Покупатель</th>
                 <th scope="col">Материал</th>
                 <th scope="col">Описание</th>
@@ -17,7 +17,7 @@
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Выполнено</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгружено</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Остаток</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожидаемый объем</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожид. объем</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
                 <th></th>
@@ -39,7 +39,7 @@
                 <td th:text="${order.date}"  class="change-color" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order.statusOfEntity}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
                 <td th:text="${order?.contrAgent?.id}"></td>
-                <td style="text-align: right;">
+                <td style="text-align: right; width: 140px !important; display: block;">
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
                     <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/exportAllPackagesByContract-'+${order.id}}"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></a>
@@ -51,7 +51,7 @@
             <tfoot>
             <tr>
                 <th>id</th>
-                <th scope="col">№ контракта</th>
+                <th scope="col">№ контр.</th>
                 <th scope="col">Покупатель</th>
                 <th scope="col">Материал</th>
                 <th scope="col">Описание</th>
@@ -59,7 +59,7 @@
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Выполнено</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгружено</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Остаток</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожидаемый объем</th>
+                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожид. объем</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
                 <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
                 <th></th>
@@ -142,7 +142,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -206,7 +206,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">В архив</button>
+                        <button type="submit" class="btn btn-primary">В архив</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -253,7 +253,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" id="importButton" class="btn btn-primary">Импорт</button>
+                        <button type="submit" id="importButton" class="btn btn-primary">Импорт</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
