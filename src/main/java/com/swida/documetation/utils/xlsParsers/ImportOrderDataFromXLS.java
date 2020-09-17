@@ -61,7 +61,7 @@ public class ImportOrderDataFromXLS {
             product.setSizeOfWidth(parseDataToMM(dataFormatter.formatCellValue(row.getCell(startCell+3))));
             product.setSizeOfLong(parseDataToMM(dataFormatter.formatCellValue(row.getCell(startCell+4))));
             product.setCountOfDesk(dataFormatter.formatCellValue(row.getCell(startCell+5)));
-            product.setExtent(dataFormatter.formatCellValue(row.getCell(startCell+6)));
+            product.setExtent(String.format("%.3f",row.getCell(startCell+6).getNumericCellValue()).replace(",","."));
 
             product.setCountDeskInHeight(dataFormatter.formatCellValue(row.getCell(startCell+7)));
             product.setCountDeskInWidth(dataFormatter.formatCellValue(row.getCell(startCell+8)));
