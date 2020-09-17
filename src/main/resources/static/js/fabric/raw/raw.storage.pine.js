@@ -123,6 +123,7 @@ function sendForPackagesStorage(btnObj) {
     $('#sendForPackageModalVolume')			.val(extent);
 
     $('#sendFromRawToPackageModal').modal('show');
+    $('#sendForPackageHeightPc').focus();
 
     // CHECK
     $("#sendForPackageHeightPc").change(function(){

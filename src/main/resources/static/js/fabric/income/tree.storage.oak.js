@@ -20,19 +20,21 @@ function showEditOakModal(btnObj) {
     console.log("row id:" + $(trObj).attr('id'));
     $('#incomeOakTreeStorageId').val(trId);
 
-    var code = $(trObj).find('th:eq(0)').text();
-    var breed = $(trObj).find('td:eq(0)').text();
-    var desc = $(trObj).find('td:eq(1)').text();
-    var provider = $(trObj).find('td:eq(2)').text();
-    var providerId = $(trObj).find('td:eq(3)').text();
-    var extent = $(trObj).find('td:eq(4)').text();
+    var code =      $(trObj).find('th:eq(0)').text();
+    var breed =     $(trObj).find('td:eq(0)').text();
+    var desc =      $(trObj).find('td:eq(1)').text();
+    var provider =  $(trObj).find('td:eq(2)').text();
+    var providerId= $(trObj).find('td:eq(3)').text();
+    var extent =    $(trObj).find('td:eq(4)').text();
+    var date =      $(trObj).find('td:eq(5)').text();
 
-    $('#editOakIncomeCode').val(code);
-    $('#editOakIncomeMaterial').val(breed);
-    $('#editOakIncomeMaterialDesc').val(desc);
-    $('#editOakIncomeSupplier').val(provider);
-    $('#editOakIncomeSupplier-hidden').val(providerId);
-    $('#editOakIncomeVolume').val(extent);
+    $('#editOakIncomeCode')             .val(code);
+    $('#editOakIncomeMaterial')         .val(breed);
+    $('#editOakIncomeMaterialDesc')     .val(desc);
+    $('#editOakIncomeSupplier')         .val(provider);
+    $('#editOakIncomeSupplier-hidden')  .val(providerId);
+    $('#editOakIncomeVolume')           .val(extent);
+    $('#editOakIncomeDate')             .val(date);
 
     $('#editOakIncome').modal('show');
 }

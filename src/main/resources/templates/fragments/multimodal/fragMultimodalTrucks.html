@@ -13,8 +13,8 @@
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
                 <th scope="col">Контракт</th>
-                <th scope="col" style="display: none">Контракт id</th>
-                <th scope="col" style="display: none">Агент id</th>
+                <th scope="col">Контракт id</th>
+                <th scope="col">Агент id</th>
                 <th></th>
             </tr>
             </thead>
@@ -26,10 +26,11 @@
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.addressOfCompany:''}"></td>
                 <td th:text="${doc.packagesExtent}"></td>
                 <td th:text="${doc.orderInfo.codeOfOrder}"></td>
-                <td th:text="${doc.orderInfo.id}" style="display: none"></td>
-                <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.id:''}" style="display: none"></td>
+                <td th:text="${doc.orderInfo.id}"></td>
+                <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.id:''}"></td>
                 <td>
                     <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="editTruck(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                    <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="deleteTruck(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
                 </td>
             </tr>
             </tbody>
@@ -42,8 +43,8 @@
                 <th scope="col">Место отгрузки</th>
                 <th scope="col">Экспортный объем, привоз, м<sup>3</sup></th>
                 <th scope="col">Контракт</th>
-                <th scope="col" style="display: none">Контракт id</th>
-                <th scope="col" style="display: none">Агент id</th>
+                <th scope="col">Контракт id</th>
+                <th scope="col">Агент id</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -169,7 +170,6 @@
     </div>
     <script type="text/javascript">
         function editTruck(btnObj) {
-
             let trObj =             btnObj.parentElement.parentElement;
             let trId =              $(trObj).attr('id');
             $('#editTruckId').val(trId);
@@ -196,6 +196,52 @@
 
             $('#editTruckModal').modal('show');
         }
+
     </script>
     <!-- EDIT TRUCK MODAL END -->
+
+    <!-- CONFIRMATION MODAL START -->
+    <div class="modal fade" id="deleteConfirmationModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/multimodal/deleteTruck" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deleteTruckModalId" hidden="hidden" autocomplete="off" name="truckId">
+                            <input type="text" class="form-control" id="deleteTruckContractModalId" hidden="hidden" autocomplete="off" name="contractId">
+
+                            <p id="deleteModalConfirmation">
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function deleteTruck(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
+            $('#deleteTruckModalId').val(trId);
+            console.log(  $(trObj).attr('id'));
+            let carNumber =         $(trObj).find('td:eq(1)').text();
+            let contractNumber =    $(trObj).find('td:eq(5)').text();
+            $('#deleteTruckContractModalId').val(contractNumber);
+
+            $('#deleteModalConfirmation').text("Вы уверены, что хотите удалить машину №"+carNumber+" ?");
+            $('#deleteConfirmationModal').modal('show');
+        }
+    </script>
+    <!-- CONFIRMATION MODAL END -->
 </th:block>

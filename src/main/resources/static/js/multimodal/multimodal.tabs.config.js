@@ -14,7 +14,14 @@ $(document).ready( function () {
                 "targets": [ 0 ],
                 "visible": false,
                 "searchable": false,
-            }
+            },
+            {
+                "targets": -1,
+                "orderable": false,
+                "searchable": false,
+                "width": "70px"
+            },
+            { className: "display-none", "targets": [ -2, -3 ] }
         ]
     });
 

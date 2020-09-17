@@ -14,19 +14,21 @@ function showEditModal(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#incomeTreeStorageId').val(trId);
 
-    var code = $(trObj).find('th:eq(0)').text();
-    var breed = $(trObj).find('td:eq(0)').text();
-    var desc = $(trObj).find('td:eq(1)').text();
-    var provider = $(trObj).find('td:eq(2)').text();
-    var providerId = $(trObj).find('td:eq(3)').text();
-    var extent = $(trObj).find('td:eq(4)').text();
+    var code =          $(trObj).find('th:eq(0)').text();
+    var breed =         $(trObj).find('td:eq(0)').text();
+    var desc =          $(trObj).find('td:eq(1)').text();
+    var provider =      $(trObj).find('td:eq(2)').text();
+    var providerId =    $(trObj).find('td:eq(3)').text();
+    var extent =        $(trObj).find('td:eq(4)').text();
+    var date =          $(trObj).find('td:eq(5)').text();
 
-    $('#editIncomeCode').val(code);
-    $('#editIncomeMaterial').val(breed);
-    $('#editIncomeMaterialDesc').val(desc);
-    $('#editIncomeSupplier').val(provider);
-    $('#editIncomeSupplier-hidden').val(providerId);
-    $('#editIncomeVolume').val(extent);
+    $('#editIncomeCode')            .val(code);
+    $('#editIncomeMaterial')        .val(breed);
+    $('#editIncomeMaterialDesc')    .val(desc);
+    $('#editIncomeSupplier')        .val(provider);
+    $('#editIncomeSupplier-hidden') .val(providerId);
+    $('#editIncomeVolume')          .val(extent);
+    $('#editIncomeDate')            .val(date);
 
     $('#editIncome').modal('show');
 }
