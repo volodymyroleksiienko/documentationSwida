@@ -7,6 +7,7 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
+import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.OrderInfoService;
@@ -80,7 +81,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
         model.addAttribute("orderList",orderInfoService.getOrdersListByBreed(breedId));
-        model.addAttribute("contrAgentList",contrAgentService.findAll());
+        model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
@@ -118,7 +119,7 @@ public class FabricOakController {
         recycle.setBreedDescription(treeStorage.getBreedDescription());
 
         treeStorageService.save(recycle);
-
+        treeStorage.setRecycle(recycle);
         treeStorageService.save(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }

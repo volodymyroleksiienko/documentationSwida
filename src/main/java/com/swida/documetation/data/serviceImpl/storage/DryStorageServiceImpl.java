@@ -102,7 +102,7 @@ public class DryStorageServiceImpl implements DryStorageService {
 
             dryingStorage.setCountOfDesk(dryingStorage.getCountOfDesk()+difExtentDesk);
         }else{
-            float difExtent = Float.parseFloat(dryStorageDB.getExtent())-Float.parseFloat(dryingStorage.getExtent());
+            float difExtent = Float.parseFloat(dryStorageDB.getExtent())-Float.parseFloat(dryStorage.getExtent());
 
             dryStorageDB.setCodeOfProduct(dryStorage.getCodeOfProduct());
             dryStorageDB.setBreedDescription(dryStorage.getBreedDescription());

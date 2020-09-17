@@ -291,10 +291,10 @@ public class MultimodalController {
         return "redirect:/multimodal/getTrucksByContract-"+contractId;
     }
 
-//    no button
     @PostMapping("/deleteTruckByContract-{id}")
     public String deleteTruckByContract(@PathVariable("id")int contractId, String id){
         DeliveryDocumentation doc = deliveryDocumentationService.findById(Integer.parseInt(id));
+        OrderInfo mainOrder = doc.getOrderInfo();
         List<PackagedProduct> products = doc.getProductList();
 
         driverInfoService.deleteByID(doc.getDriverInfo().getId());
@@ -302,7 +302,7 @@ public class MultimodalController {
             packagedProductService.deleteByID(product.getId());
         }
         deliveryDocumentationService.deleteByID(doc.getId());
-
+        reloadOrdersExtent(mainOrder);
         return "redirect:/multimodal/getTrucksByContract-"+contractId;
     }
 
