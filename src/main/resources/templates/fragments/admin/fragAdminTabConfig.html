@@ -60,7 +60,7 @@
 
 
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="multimodalMain">
-    <div class="container" style="padding-right: 0">
+    <div class="container-fluid">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link" href="/multimodal/getMultimodalOrders"
@@ -70,7 +70,7 @@
                 <a class="nav-link" href="/multimodal/getListOfALLContainers"
                    th:classappend="${tabName.equals('containers')} ? 'active':''">Контейнеры</a>
             </li>
-            <li class="nav-item" style="position: absolute; right: 13%;">
+            <li class="nav-item" style="position: absolute; right: 10%;">
                 <a class="nav-link" href="/multimodal/getLeftOverInfo"
                    th:classappend="${tabName.equals('leftOver')} ? 'active':''">Остаток</a>
             </li>

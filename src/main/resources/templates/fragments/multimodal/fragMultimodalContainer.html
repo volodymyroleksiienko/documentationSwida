@@ -41,7 +41,7 @@
                 <td th:text="${container.destinationType}"></td>
                 <td th:text="${container.statusOfEntity}"></td>
                 <td th:text="${container?.contrAgent?.id}"></td>
-                <td style="width: 70px; text-align: right" sec:authorize="hasRole('ROLE_ADMIN')">
+                <td style="width: 70px; text-align: right; display: block" sec:authorize="hasRole('ROLE_ADMIN')">
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContainer(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
                 </td>
