@@ -7,14 +7,14 @@ function sendForPackagesStorageOak(btnObj) {
     $('#sendForDryingModalIdOak').val(trId);
     console.log("Row id: "+$(trObj).attr('id'));
 
-    var codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
+    var codeOfDryStorage =      $(trObj).find('th:eq(0)').text();
     var size =                  $(trObj).find('td:eq(2)').text();
     var quality =               $(trObj).find('td:eq(5)').text();
     var length =                $(trObj).find('td:eq(6)').text();
     let maxExtent =             $(trObj).find('td:eq(3)').text();
 
 
-    $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfRawStorage);
+    $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfDryStorage);
     $('#sendForPackageModalSizeOak')        .val(size);
 
     $('#sendForPackagesMaxExtent')          .val(maxExtent);
@@ -54,8 +54,8 @@ function editDryStorageOak(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#editDryStorageModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-    $('#editDryStorageModalHeader').text("Редактировать "+codeOfRawStorage);
+    var codeOfDryStorage = $(trObj).find('th:eq(0)').text();
+    $('#editDryStorageModalHeader').text("Редактировать "+codeOfDryStorage);
 
     var code =          $(trObj).find('th:eq(0)').text();
     var material =      $(trObj).find('td:eq(0)').text();

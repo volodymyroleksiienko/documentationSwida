@@ -19,7 +19,7 @@ $(document).ready( function () {
     // Distribution table end
     console.log("load on ready");
     // Modal inner table start
-    var tableOfDistribution = $('#tableOfDistribution').DataTable({
+    let tableOfDistribution = $('#tableOfDistribution').DataTable({
         "autoWidth": false,
         "bSort": false,
         "searching": false,
@@ -32,9 +32,9 @@ $(document).ready( function () {
 
     // ADD ELEMENTS TO INNER TABLE LIST START
     $("#buttonForAddingDistributionRow").click(function () {
-        var company = $("#addDistributionCompanyInner").val();
-        var amount = parseFloat($("#addDistributionAmountInner").val());
-        var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
+        let company = $("#addDistributionCompanyInner").val();
+        let amount = parseFloat($("#addDistributionAmountInner").val());
+        let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
 
         if( company=="" || amount=="" ) {
             alert("Заполните все поля!");
@@ -312,23 +312,23 @@ $(document).ready( function () {
     //     tableForTransportationOak.clear().draw();
     // })
 
-
+////////////////////////////////////////////////////////////////////////////
     // ADD Package OAK
     $("#createPackageOak").click(function () {
     // function sendRequestCreatePackageOak(btnObj) {
-        var breedID = $("#breedId").val();
-        var userID = $("#userId").val();
-        var idOfDryStorageOak = $("#sendForDryingModalIdOak").val();
+        let breedID = $("#breedId").val();
+        let userID = $("#userId").val();
+        let idOfDryStorageOak = $("#sendForDryingModalIdOak").val();
         console.log("id " + idOfDryStorageOak);
-        var codeOfPackage1 = $('#sendForPackageModalCodeOak').val();
-        var quality1 = $('#sendForPackageModalQualityOak').val();
-        var sizeOfHeight1 = $('#sendForPackageModalSizeOak').val();
-        var long1 = $('#sendForPackageModalLengthOak').val();
+        let codeOfPackage1 = $('#sendForPackageModalCodeOak').val();
+        let quality1 = $('#sendForPackageModalQualityOak').val();
+        let sizeOfHeight1 = $('#sendForPackageModalSizeOak').val();
+        let long1 = $('#sendForPackageModalLengthOak').val();
 
-        var tableBody = document.getElementById('listOfPackageId');
-        var listTr = tableBody.getElementsByTagName('tr');
+        let tableBody = document.getElementById('listOfPackageId');
+        let listTr = tableBody.getElementsByTagName('tr');
 
-        var arrOfDesk = [];
+        let arrOfDesk = [];
 
         //fix one dimension array on controller
         arrOfDesk[0] = [];
@@ -338,9 +338,9 @@ $(document).ready( function () {
 
 
         if (codeOfPackage1 != "" && quality1 != "" && sizeOfHeight1 != "" && long1 != "" ) {
-            for (var i = 1; i <= listTr.length; i++) {
-                var width = $(listTr[i - 1]).find('td:eq(0)').text();
-                var count = $(listTr[i - 1]).find('td:eq(1)').text();
+            for (let i = 1; i <= listTr.length; i++) {
+                let width = $(listTr[i - 1]).find('td:eq(0)').text();
+                let count = $(listTr[i - 1]).find('td:eq(1)').text();
 
                 arrOfDesk[i] = [];
                 arrOfDesk[i][0] = width;
@@ -374,7 +374,7 @@ $(document).ready( function () {
 
                         $('#sendForPackageModalCodeOak').val('');
                         $('#sendForPackageModalCodeOak').focus();
-                        $('#sendForPackageModalQualityOak').val('');
+                        // $('#sendForPackageModalQualityOak').val('');
                         $('#sendForPackageModalWidthOak').val('');
                         $('#sendForPackageModalCountOak').val('');
                         $('#sendForPackageModalExtentOak').val('0.000');
@@ -397,11 +397,11 @@ $(document).ready( function () {
 
 
     $("#buttonForAddingDeliveryOakRow").click(function () {
-        var width = $("#addDeliveryPackageModalWidthOak").val();
-        var count = $("#addDeliveryPackageModalCountOak").val();
-        var button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
+        let width = $("#addDeliveryPackageModalWidthOak").val();
+        let count = $("#addDeliveryPackageModalCountOak").val();
+        let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
 
-        if( width=="" || count=="" ) {
+        if( width==="" || count==="" ) {
             alert("Заполните ширину и количество досок!");
         } else if (width<=0 || count<=0){
             alert("Значение не может быть отрицательным либо равным 0!")

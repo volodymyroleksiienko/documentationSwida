@@ -384,12 +384,12 @@
                         <hr>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
                                 <input type="number" min="0" step="10" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-2">
                                 <label class="control-label" for="sendForPackageModalCountOak" style="padding-top: 7px">Количество</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalCountOak" required="required" autocomplete="off" placeholder="шт">
                             </div>
@@ -399,16 +399,16 @@
                                 <input type="text" disabled="disabled" class="form-control" id="sendForPackageModalExtentOak"  autocomplete="off" placeholder="м3">
                             </div>
 
-                            <div class="col-4" style="display: inline-flex">
-                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px">Добавить</button>
-                                <button type="button" class="btn btn-primary" id="createPackageOak">Сформировать</button>
+                            <div class="col-6" style="display: inline-flex; text-align: right;justify-content: flex-end;">
+                                <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px; width: 50%;">Добавить ширину</button>
+                                <button type="button" class="btn btn-primary" id="createPackageOak" style="width: 50%;">Сформировать пачку</button>
                             </div>
                         </div>
 
                         <table class="table table-hover table-striped" id="tableForTransportationOak">
                             <thead>
                             <tr>
-                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Ширина, мм</th>
                                 <th scope="col">Количество досок, шт</th>
                                 <th></th>
                             </tr>
@@ -419,7 +419,7 @@
                             </tbody>
 
                             <tfoot>
-                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Ширина, мм</th>
                                 <th scope="col">Количество досок, шт</th>
                                 <th></th>
                             </tfoot>

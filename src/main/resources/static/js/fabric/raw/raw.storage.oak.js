@@ -74,13 +74,14 @@ function editRawStorageOak(btnObj) {
 
 
 function sendForPackagesStorageOak(btnObj) {
-    var trObj = btnObj.parentElement.parentElement;
-    var trId =  $(trObj).attr('id');
+    let trObj = document.getElementById(btnObj);
+    let trId =  btnObj;
     $('#sendForDryingModalIdOak').val(trId);
-    console.log($(trObj).attr('id'));
+    console.log("Row id: "+$(trObj).attr('id'));
 
-    var codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
-    var size =                  $(trObj).find('td:eq(2)').text();
+    let codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
+    let size =                  $(trObj).find('td:eq(2)').text();
+    let maxExtent =             $(trObj).find('td:eq(3)').text();
 
 
 
@@ -88,7 +89,9 @@ function sendForPackagesStorageOak(btnObj) {
 
     $('#sendFromRawToPackageOakModal').modal('show');
 
-    $('#sendForPackageModalSizeOak').val(size);
+    $('#sendForPackageModalSizeOak')    .val(size);
+    $('#sendForPackagesMaxExtent')      .val(maxExtent);
+
 
     // CHECK
     $("#sendForPackageModalSizeOak").change(function(){

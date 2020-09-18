@@ -405,7 +405,7 @@
                 <td>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
 
                 </td>
@@ -552,7 +552,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Редактировать</button>
+                        <button type="submit" class="btn btn-primary">Редактировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -576,6 +576,7 @@
                             <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
                             <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
                             <input type="text" hidden="hidden" id="userId" th:value="${userId}">
+                            <input type="text" class="form-control" id="sendForPackagesMaxExtent" hidden="hidden" autocomplete="off">
 
                             <div class="form-group row">
                                 <div class="col-4">
@@ -613,14 +614,14 @@
                                 </div>
                                 <div class="col-4" style="display: inline-flex">
                                     <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px">Добавить</button>
-                                    <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreatePackageOak(this)">Сформировать</button>
+                                    <button type="button" class="btn btn-primary" id="createPackageOak">Сформировать</button>
                                 </div>
                             </div>
 
                             <table class="table table-hover table-striped" id="tableForTransportationOak">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Толщина, мм</th>
+                                        <th scope="col">Ширина, мм</th>
                                         <th scope="col">Количество досок, шт</th>
                                         <th></th>
                                     </tr>
@@ -631,7 +632,7 @@
                                 </tbody>
 
                                 <tfoot>
-                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
                                     <th scope="col">Количество досок, шт</th>
                                     <th></th>
                                 </tfoot>
