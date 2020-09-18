@@ -858,18 +858,24 @@
                         <hr>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
-                            <div class="col-5">
+                            <div class="col-2">
                                 <label class="col-form-label" for="addDeliveryPackageModalWidthOak">Ширина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalWidthOak" required="required" autocomplete="off">
-                            </div>
-
-                            <div class="col-5">
-                                <label class="control-label" for="addDeliveryPackageModalCountOak" style="padding-top: 7px">Количество</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control" id="addDeliveryPackageModalCountOak" required="required" autocomplete="off">
+                                <input type="number" min="0" step="10" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalWidthOak" required="required" autocomplete="off">
                             </div>
 
                             <div class="col-2">
-                                <button id="buttonForAddingDeliveryOakRow" type="button" class="btn btn-primary" style="width: 100%">Добавить</button>
+                                <label class="control-label" for="addDeliveryPackageModalCountOak" style="padding-top: 7px">Количество</label>
+                                <input type="number" min="1" step="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control" id="addDeliveryPackageModalCountOak" required="required" autocomplete="off">
+                            </div>
+
+                            <div class="col-2">
+                                <label class="control-label" for="addDeliveryPackageModalExtentOak" style="padding-top: 7px">Кубатура</label>
+                                <input type="text" disabled="disabled" class="form-control" id="addDeliveryPackageModalExtentOak"  autocomplete="off" placeholder="м3">
+                            </div>
+
+                            <div class="col-6" style="display: inline-flex; text-align: right;justify-content: flex-end;">
+                                <button id="buttonForAddingDeliveryOakRow" type="button" class="btn btn-primary" style="width: 50%; margin-right: 5px">Добавить ширину</button>
+                                <button type="button" class="btn btn-primary" style="width: 50%" onclick="sendRequestCreateDeliveryPackageOak(this)">Сформировать пачку</button>
                             </div>
                         </div>
 
@@ -897,7 +903,6 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreateDeliveryPackageOak(this)">Готово</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>

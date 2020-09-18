@@ -397,23 +397,35 @@ $(document).ready( function () {
 
 
     $("#buttonForAddingDeliveryOakRow").click(function () {
-        let width = $("#addDeliveryPackageModalWidthOak").val();
-        let count = $("#addDeliveryPackageModalCountOak").val();
+        let width =         $("#addDeliveryPackageModalWidthOak").val();
+        let count =         $("#addDeliveryPackageModalCountOak").val();
+        let extent =        $("#addDeliveryPackageModalExtentOak");
+        let length =        $("#addDeliveryPackageModalLengthOak");
+        let height =        $("#addDeliveryPackageModalSizeOak");
         let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
 
         if( width==="" || count==="" ) {
             alert("Заполните ширину и количество досок!");
         } else if (width<=0 || count<=0){
             alert("Значение не может быть отрицательным либо равным 0!")
+        }else if(length.val()==="" || height.val()==="") {
+            alert("Заполните размер и длину!");
         } else {
-            var d = [width, count, button];
-
+            let d = [width, count, button];
             console.log(d);
+
+            $("#addDeliveryPackageModalLengthOak").attr("disabled", "disabled");
+            $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
 
             $("#addDeliveryPackageModalWidthOak").val("");
             $("#addDeliveryPackageModalCountOak").val("");
 
             tableForTransportationOak.row.add(d).draw();
+
+            $('#addDeliveryPackageModalCountOak').focus();
+
+            createPackageExtentCalc(tableForTransportationOak, extent, length, height);
+            $('#addDeliveryPackageModalWidthOak').val(parseInt(width)+10);
         }
     });
 
@@ -423,17 +435,25 @@ $(document).ready( function () {
         if ( ! tableForTransportationOak.data().any() ) {
             $("#sendForPackageModalLengthOak").removeAttr("disabled");
             $("#sendForPackageModalSizeOak").removeAttr("disabled");
+
+            $("#addDeliveryPackageModalLengthOak").removeAttr("disabled");
+            $("#addDeliveryPackageModalSizeOak").removeAttr("disabled");
         }
 
         let extent = $("#sendForPackageModalExtentOak");
         let length = $("#sendForPackageModalLengthOak");
         let height = $("#sendForPackageModalSizeOak");
 
+        let extentD = $("#addDeliveryPackageModalExtentOak");
+        let lengthD = $("#addDeliveryPackageModalLengthOak");
+        let heightD = $("#addDeliveryPackageModalSizeOak");
+
         let maxExtent =  parseFloat($("#sendForPackagesMaxExtent").val());
 
         let befDel =  parseFloat($("#sendForPackageModalExtentOak").val());
 
         createPackageExtentCalc(tableForTransportationOak, extent, length, height);
+        createPackageExtentCalc(tableForTransportationOak, extentD, lengthD, heightD);
 
         let aftDel =  parseFloat($("#sendForPackageModalExtentOak").val());
 
@@ -451,6 +471,7 @@ $(document).ready( function () {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "iDisplayLength": 50,
         "order": [ 0, "desc" ],
         // columns width
         "autoWidth": false,
@@ -567,6 +588,7 @@ $(document).ready( function () {
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         // columns width
+        "iDisplayLength": 50,
         "autoWidth": false,
         "bSort":false,
         "info": false,
