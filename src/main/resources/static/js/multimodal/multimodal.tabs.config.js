@@ -152,8 +152,6 @@ $(document).ready( function () {
         console.log("ids of containers: "+arrayOfContainerId);
         console.log("currency: "+currencyValue);
 
-
-
         $.ajax({
             method: "post",
             url: "/multimodal/setContainersCurrency",

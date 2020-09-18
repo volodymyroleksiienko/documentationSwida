@@ -311,7 +311,7 @@
                     <td th:text="${rs?.qualityOfPack}" class="display-none"></td>
                     <td th:text="${rs?.longOfPack}" class="display-none"></td>
                     <td>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     </td>
                 </tr>
@@ -357,6 +357,7 @@
                         <input type="text" id="sendForDryingModalIdOak" hidden="hidden" >
                         <input type="text" hidden="hidden" id="breedId" th:value="${breedId}">
                         <input type="text" hidden="hidden" id="userId" th:value="${userId}">
+                        <input type="text" class="form-control" id="sendForPackagesMaxExtent" hidden="hidden" autocomplete="off">
 
                         <div class="form-group row">
                             <div class="col-4">
@@ -400,7 +401,7 @@
 
                             <div class="col-4" style="display: inline-flex">
                                 <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px">Добавить</button>
-                                <button type="button" class="btn btn-primary" id="createPackageOak" onclick="sendRequestCreatePackageOak(this)">Сформировать</button>
+                                <button type="button" class="btn btn-primary" id="createPackageOak">Сформировать</button>
                             </div>
                         </div>
 

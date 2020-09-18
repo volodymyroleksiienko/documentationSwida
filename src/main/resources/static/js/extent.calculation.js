@@ -30,7 +30,7 @@ function createPackageExtentCalc(table, extentInput, lengthInput, heightInput){
     } else {
         console.log("fill all");
     }
-
+    return res;
 }
 
 

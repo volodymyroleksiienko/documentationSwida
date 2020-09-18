@@ -143,13 +143,13 @@
                     data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
                     data.addRow(['Внешние подрядчики (в работе): '+ statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
 
-                    var options = {
+                    let options = {
                         title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
                         pieHole: 0.4,
                         // is3D: true,
                     };
 
-                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    let chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
                     chart.draw(data, options);
                     // drawChart();
