@@ -283,7 +283,7 @@ $(document).ready( function () {
         }else if(length.val()==="" || height.val()==="") {
             alert("Заполните размер и длину!");
         }else if(resExtent>maxExtent){
-            alert("Объём превышает допустимый на "+(resExtent-maxExtent).toFixed(3)+" m3! Максимаотное количество досок: "+Math.floor(maxExtent/((parseFloat(width)/1000)*(parseFloat(length.val())/1000)*(parseFloat(height.val())/1000))));
+            alert("Объём превышает допустимый на "+(resExtent-maxExtent).toFixed(3)+" m3! Максимальное количество досок: "+Math.floor(maxExtent/((parseFloat(width)/1000)*(parseFloat(length.val())/1000)*(parseFloat(height.val())/1000))));
             $("#sendForPackageModalCountOak").val("");
         } else {
             let d = [width, count, button];
