@@ -33,6 +33,9 @@ $(document).ready( function () {
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "order": [ 0, "desc" ],
         // "bSort": false,
+        "select": {
+            "style": 'os'
+        },
         "info": false,
         "autoWidth": false,
         "columnDefs": [
@@ -62,6 +65,9 @@ $(document).ready( function () {
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "order": [ 3, "asc" ],
+        "select": {
+            "style": 'os'
+        },
         "autoWidth": false,
         "columnDefs": [
             {

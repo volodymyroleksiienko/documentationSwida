@@ -475,6 +475,9 @@ $(document).ready( function () {
         "order": [ 0, "desc" ],
         // columns width
         "autoWidth": false,
+        // "select": {
+        //     "style": 'os'
+        // },
         // 'select': true,
         // id column visibility
         "columnDefs": [
@@ -589,6 +592,9 @@ $(document).ready( function () {
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         // columns width
         "iDisplayLength": 50,
+        // "select": {
+        //     "style": 'os'
+        // },
         "autoWidth": false,
         "bSort":false,
         "info": false,
