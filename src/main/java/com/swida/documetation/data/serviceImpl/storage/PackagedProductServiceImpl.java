@@ -194,7 +194,12 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
     @Override
     public PackagedProduct getProductByDryStorage(int dryStorageId) {
-        return productJPA.getProductByDryStorage(dryStorageId);
+        List<PackagedProduct> productList = productJPA.getProductByDryStorage(dryStorageId);
+        if (productList.size()==0){
+            return null;
+        }else{
+            return productList.get(0);
+        }
     }
 
     @Override

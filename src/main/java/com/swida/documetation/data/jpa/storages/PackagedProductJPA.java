@@ -13,8 +13,8 @@ public interface PackagedProductJPA extends JpaRepository<PackagedProduct,Intege
     @Query("select r from  PackagedProduct  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.statusOfProduct=?3")
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);
 
-    @Query("select obj from PackagedProduct obj where obj.dryStorage.id=?1 group by obj.dryStorage.id order by obj.id ")
-    PackagedProduct getProductByDryStorage(int dryStorageId);
+    @Query("select obj from PackagedProduct obj where obj.dryStorage.id=?1 order by obj.id DESC")
+    List<PackagedProduct> getProductByDryStorage(int dryStorageId);
 
     @Query("select obj.extent from PackagedProduct obj where obj.container.id=?1")
     List<String> getExtentInContainer(int containerId);
