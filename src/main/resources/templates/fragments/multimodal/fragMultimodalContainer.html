@@ -12,12 +12,12 @@
                 <th scope="col">Покупатель</th>
                 <th scope="col">Экспорт м<sup>3</sup></th>
                 <th scope="col">Цена за м<sup>3</sup></th>
-                <th scope="col">Загрузка $</th>
+                <th scope="col">Загрузка, $</th>
                 <th scope="col">Вывоз в порт, $</th>
-                <th scope="col">Взвешивание, грн</th>
+                <th scope="col">Взвеш., грн</th>
                 <th scope="col">Курс, $</th>
-                <th scope="col">Эквивалент &#8372;</th>
-                <th scope="col">Дата вывоза в порт</th>
+                <th scope="col" class="summary" style="width: 8%">Эквивалент &#8372;</th>
+                <th scope="col">Дата вывоза</th>
                 <th scope="col">Состояние</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Agent id</th>
@@ -56,12 +56,12 @@
                 <th scope="col">Покупатель</th>
                 <th scope="col">Экспорт м<sup>3</sup></th>
                 <th scope="col">Цена за м<sup>3</sup></th>
-                <th scope="col">Загрузка $</th>
+                <th scope="col">Загрузка, $</th>
                 <th scope="col">Вывоз в порт, $</th>
-                <th scope="col">Взвешивание, &#8372;</th>
+                <th scope="col">Взвеш., &#8372;</th>
                 <th scope="col">Курс, $</th>
-                <th scope="col">Эквивалент &#8372;</th>
-                <th scope="col">Дата вывоза в порт</th>
+                <th scope="col" class="summary" style="width: 8%">Эквивалент &#8372;</th>
+                <th scope="col">Дата вывоза</th>
                 <th scope="col">Состояние</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Agent id</th>
@@ -331,8 +331,17 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="form-group">
-                                <label class="col-form-label" for="selectContainerCurrency">Курс $</label>
-                                <input class="form-control" type="number" min="0.0" step="any" placeholder="Не заполнено" id="selectContainerCurrency" autocomplete="off" autofocus name="currencyUsd">
+                                <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                    <input type="text" id="summaryIfNaN" hidden="">
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="selectContainerCurrency">Курс доллара</label>
+                                        <input class="form-control" type="number" min="0.0" step="any" placeholder="Не заполнено" id="selectContainerCurrency" autocomplete="off" autofocus name="currencyUsd">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="selectedContainersEquivalent">Сумма эквивалентов, &#8372;</label>
+                                        <input class="form-control" type="number" placeholder="Не заполнено" id="selectedContainersEquivalent" autocomplete="off" disabled="disabled">
+                                    </div>
+                                </div>
 
                                 <div style="text-align: center; margin-top: 25px;" id='kurs-com-ua-informer-valyuta-250x170-usd-blue-container'><a href="//old.kurs.com.ua/informer" id="kurs-com-ua-informer-valyuta-250x170-usd-blue" title="Курс валют информер Украина" rel="nofollow" target="_blank">Информер курса валют</a></div>
                                 <script type='text/javascript'>

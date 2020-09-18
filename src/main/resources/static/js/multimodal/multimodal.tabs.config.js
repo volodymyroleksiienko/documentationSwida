@@ -53,6 +53,44 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ 14 ] }
         ]
     });
+
+    containersTab.on( 'select', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            let newData = containersTab.rows( '.selected' ).data();
+
+            if (newData.length>0) {
+                let summary = 0;
+                for (let i = newData.length - 1; i >= 0; i--) {
+                    summary = summary + parseFloat(newData[i][10]);
+                }
+                document.getElementsByClassName('summary')[0].innerHTML = (summary.toFixed(2) + " &#8372;")
+                document.getElementsByClassName('summary')[1].innerHTML = (summary.toFixed(2) + " &#8372;")
+                console.log(summary);
+            }else {
+                document.getElementsByClassName('summary')[0].innerHTML = "Эквивалент &#8372;"
+                document.getElementsByClassName('summary')[1].innerHTML = "Эквивалент &#8372;"
+            }
+        }
+    } );
+
+    containersTab.on( 'deselect', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            let newData = containersTab.rows( '.selected' ).data();
+            if (newData.length>0) {
+                let summary = 0;
+                for (let i = newData.length - 1; i >= 0; i--) {
+                    summary = summary + parseFloat(newData[i][10]);
+                }
+                document.getElementsByClassName('summary')[0].innerHTML = (summary.toFixed(2) + " &#8372;")
+                document.getElementsByClassName('summary')[1].innerHTML = (summary.toFixed(2) + " &#8372;")
+                console.log(summary);
+            }else {
+                document.getElementsByClassName('summary')[0].innerHTML = "Эквивалент &#8372;"
+                document.getElementsByClassName('summary')[1].innerHTML = "Эквивалент &#8372;"
+            }
+        }
+    } );
+
     // Selecting rows
     $('#multimodal-container-table tbody').on( 'click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -111,9 +149,40 @@ $(document).ready( function () {
 
     $('#setContainerCurrencyButton').click(function () {
         $('#setContainerCurrency').modal('show');
+        let summary = 0;
+        let newData = containersTab.rows( '.selected' ).data();
+        for (let i = newData.length - 1; i >= 0; i--) {
+            summary = summary + parseFloat(newData[i][10]);
+        }
+        $('#selectedContainersEquivalent').val(summary.toFixed(2));
+        $('#summaryIfNaN').val(summary.toFixed(2));
     })
 
+    $('#selectContainerCurrency').on('input', function() {
+        let newData = containersTab.rows( '.selected' ).data();
+        let ifNaN =   parseFloat($('#summaryIfNaN').val());
+        console.log("ifNan: "+ifNaN);
+        let summary = 0;
+        for (let i = newData.length - 1; i >= 0; i--) {
+            ///////////////////////////////////////////////
+            let price =         parseFloat(newData[i][5]);
+            let extent =        parseFloat(newData[i][4]);
+            let unloading =     parseFloat(newData[i][6]);
+            let delivery =      parseFloat(newData[i][7]);
+            let measurement =   parseFloat(newData[i][8]);
+            let currency =      parseFloat($('#selectContainerCurrency').val());
 
+            if(Number.isNaN(currency)) {
+                $('#selectedContainersEquivalent').val(ifNaN);
+            }else if (!Number.isNaN(extent) && !Number.isNaN(price) && !Number.isNaN(currency) &&!Number.isNaN(unloading) && !Number.isNaN(delivery) && !Number.isNaN(measurement)) {
+                summary = summary + ((price * extent * currency) + (delivery * currency) + measurement);
+                $('#selectedContainersEquivalent').val(summary.toFixed(2));
+            }else {
+                alert("Не заполнено поле в таблице!")
+            }
+            //////////////////////////////////////////////
+        }
+    })
 
     $('#setContainerRequest').on( 'click', function () {
         let newData = document.getElementsByClassName("selected");
@@ -171,7 +240,7 @@ $(document).ready( function () {
                 location.reload();
             },
             error: function () {
-                alert("Error");
+                alert("Введите курс доллара либо нажмите \"Отмена\" !");
             }
         })
     });
