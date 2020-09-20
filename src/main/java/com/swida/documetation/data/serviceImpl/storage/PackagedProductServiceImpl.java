@@ -2,10 +2,11 @@ package com.swida.documetation.data.serviceImpl.storage;
 
 
 import com.swida.documetation.data.entity.UserCompany;
-import com.swida.documetation.data.entity.storages.*;
+import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
+import com.swida.documetation.data.entity.storages.DryStorage;
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.Container;
-import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
@@ -17,16 +18,12 @@ import com.swida.documetation.data.service.storages.PackagedProductService;
 import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContainerService;
-import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -275,6 +272,60 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
         if(product.getContainer()!=null && productDB.getContainer()==null){
             productDB.setContainer(product.getContainer());
+            productJPA.save(productDB);
+            containerService.save(
+                    containerService.findById(product.getContainer().getId())
+            );
+            orderInfoService.reloadExtentInContainer(productDB.getDeliveryDocumentation().getOrderInfo().getMainOrder());
+        } else if(product.getContainer()!=null && productDB.getContainer().getId()!=product.getContainer().getId()){
+            Container prevContainer = productDB.getContainer();
+            productDB.setContainer(product.getContainer());
+            productJPA.save(productDB);
+            containerService.save(prevContainer);
+            containerService.save(
+                containerService.findById(product.getContainer().getId())
+            );
+            orderInfoService.reloadExtentInContainer(productDB.getDeliveryDocumentation().getOrderInfo().getMainOrder());
+        } else if (product.getContainer()==null && productDB.getContainer()!=null){
+            Container prevContainer = productDB.getContainer();
+            productDB.setContainer(null);
+            productJPA.save(productDB);
+            containerService.save(prevContainer);
+
+            orderInfoService.reloadExtentInContainer(productDB.getDeliveryDocumentation().getOrderInfo().getMainOrder());
+        }
+
+        productDB.setSizeOfHeight(product.getSizeOfHeight());
+        productDB.setSizeOfWidth(product.getSizeOfWidth());
+        productDB.setSizeOfLong(product.getSizeOfLong());
+        productDB.setCodeOfDeliveryCompany(product.getCodeOfDeliveryCompany());
+
+        productDB.setCountOfDesk(product.getCountOfDesk());
+        productDB.setExtent(product.getExtent());
+        productDB.setCountDeskInHeight(product.getCountDeskInHeight());
+        productDB.setCountDeskInWidth(product.getCountDeskInWidth());
+
+        productDB.setLongFact(product.getLongFact());
+        productDB.setHeight_width(product.getHeight_width());
+        if(productDB.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            productDB.setBreedDescription("");
+        }
+        productJPA.save(productDB);
+        return productDB;
+    }
+
+    @Override
+    public PackagedProduct editPackageProductForImport(PackagedProduct product) {
+        PackagedProduct productDB = productJPA.getOne(product.getId());
+
+        productDB.setCodeOfPackage(product.getCodeOfPackage());
+        if (product.getBreedOfTree() != null) {
+            productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
+        }
+        productDB.setBreedDescription(product.getBreedDescription());
+
+        if(product.getContainer()!=null && productDB.getContainer()==null){
+            productDB.setContainer(product.getContainer());
             containerService.save(
                     containerService.findById(product.getContainer().getId())
             );
@@ -283,7 +334,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             containerService.save(productDB.getContainer());
             productDB.setContainer(product.getContainer());
             containerService.save(
-                containerService.findById(product.getContainer().getId())
+                    containerService.findById(product.getContainer().getId())
             );
             orderInfoService.reloadExtentInContainer(productDB.getDeliveryDocumentation().getOrderInfo().getMainOrder());
         } else if (product.getContainer()==null){
@@ -310,6 +361,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productJPA.save(productDB);
         return productDB;
     }
+
 
     @Override
     public PackagedProduct editPackageProductOak(PackagedProduct product) {
@@ -355,6 +407,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
     @Override
     public void setContainer(String[] arrayOfPackagesId, String containerId,String containerName) {
+        Set<Container> unicContainers = new HashSet<>();
+
         if (arrayOfPackagesId.length==0){
             return;
         }
@@ -378,12 +432,19 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         }
         for (String id:arrayOfPackagesId) {
             PackagedProduct product = productJPA.getOne(Integer.parseInt(id));
+            if(product.getContainer()!=null){
+                unicContainers.add(product.getContainer());
+            }
             product.setContainer(container);
             productJPA.save(product);
             orderInfoService.reloadExtentInContainer(product.getDeliveryDocumentation().getOrderInfo().getMainOrder());
         }
         if(!containerId.isEmpty()){
             containerService.save(container);
+        }
+
+        for (Container containerDB:unicContainers){
+            containerService.save(containerDB);
         }
     }
 

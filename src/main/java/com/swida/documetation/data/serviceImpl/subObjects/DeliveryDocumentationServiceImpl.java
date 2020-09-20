@@ -87,7 +87,8 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
                                 productDB.getSizeOfLong().equals(productXLS.getSizeOfLong()) &&
                                 productDB.getCountOfDesk().equals(productXLS.getCountOfDesk()) &&
                                 productDB.getCountDeskInHeight().equals(productXLS.getCountDeskInHeight()) &&
-                                productDB.getCountDeskInWidth().equals(productXLS.getCountDeskInWidth())){
+                                productDB.getCountDeskInWidth().equals(productXLS.getCountDeskInWidth()) &&
+                                productDB.getCodeOfPackage().equals(productXLS.getCodeOfPackage())){
 
                             productDB.setCodeOfDeliveryCompany(productXLS.getCodeOfDeliveryCompany());
                             productDB.setHeight_width(productXLS.getHeight_width());
@@ -97,6 +98,32 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
                         }
                     }
 
+                }
+//                adding pack
+                if(doc.getProductList().size()>0){
+                    List<PackagedProduct> packWithoutMultimodal = new ArrayList<>();
+                    for(PackagedProduct product:docDB.getProductList()){
+                        if(product.getCodeOfDeliveryCompany().isEmpty() || product.getCodeOfDeliveryCompany()==null){
+                            packWithoutMultimodal.add(product);
+                        }
+                    }
+
+                    for(int i=0; i< doc.getProductList().size();i++){
+                        if(packWithoutMultimodal.size()>(i)){
+                            doc.getProductList().get(i).setId(
+                                    packWithoutMultimodal.get(i).getId()
+                            );
+                            packagedProductService.editPackageProduct(doc.getProductList().get(i));
+                        }else {
+                            PackagedProduct product = doc.getProductList().get(i);
+                            product.setOrderInfo(orderInfo);
+                            product.setBreedOfTree(orderInfo.getBreedOfTree());
+                            product.setDeliveryDocumentation(docDB);
+                            docDB.getProductList().add(product);
+                            packagedProductService.save(product);
+                        }
+                    }
+                    save(docDB);
                 }
             }
 

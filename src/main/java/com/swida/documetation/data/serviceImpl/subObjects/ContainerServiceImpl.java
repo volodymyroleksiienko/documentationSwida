@@ -29,7 +29,7 @@ public class ContainerServiceImpl implements ContainerService {
         float costOfWeighing = Float.parseFloat(container.getCostOfWeighing());
         float coefUploading = Float.parseFloat(container.getCoefUploading());
         container.setExtent(getExtentInContainer(container.getId()));
-        float extent = Float.parseFloat(container.getExtent());
+        float extent = Float.parseFloat(getExtentInContainer(container.getId()));
         float costOfUploading = coefUploading * extent;
 
         container.setExchangeRate(
