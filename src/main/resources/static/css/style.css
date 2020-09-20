@@ -7430,3 +7430,9 @@ tr.shown td.details-control {
 .delete-btns{
   text-align: end;
 }
+
+.warning-btn{
+  display: flex;
+  flex-flow: wrap;
+  padding: 12px 20px;
+}

@@ -163,65 +163,85 @@ function sendForPackagesStorageOak(btnObj) {
 
 
 
-// ADD Package OAK
-function sendRequestCreatePackageOak(btnObj) {
-    var breedID = $("#breedId").val();
-    var userID = $("#userId").val();
-    var idOfDryStorageOak = $("#sendForDryingModalIdOak").val();
-    console.log("id " + idOfDryStorageOak);
-    var codeOfPackage1 = $('#sendForPackageModalCodeOak').val();
-    var quality1 = $('#sendForPackageModalQualityOak').val();
-    var sizeOfHeight1 = $('#sendForPackageModalSizeOak').val();
-    var long1 = $('#sendForPackageModalLengthOak').val();
-
-    var tableBody = document.getElementById('listOfPackageId');
-    var listTr = tableBody.getElementsByTagName('tr');
-
-    var arrOfDesk = [];
-
-    //fix one dimension array on controller
-    arrOfDesk[0] = [];
-    arrOfDesk[0][0] = "test";
-    arrOfDesk[0][1] = "test";
-
-
-
-    if (codeOfPackage1 != "" && quality1 != "" && sizeOfHeight1 != "" && long1 != "" ) {
-        for (var i = 1; i <= listTr.length; i++) {
-            var width = $(listTr[i - 1]).find('td:eq(0)').text();
-            var count = $(listTr[i - 1]).find('td:eq(1)').text();
-
-            arrOfDesk[i] = [];
-            arrOfDesk[i][0] = width;
-            arrOfDesk[i][1] = count;
-        }
-
-        console.log(arrOfDesk);
-
-        $.ajax({
-            method: "post",
-            url: "/createRawPackageOakObject-" + userID + "-" + breedID,
-            contextType: "application/json",
-            data: {
-                idOfDryStorage: idOfDryStorageOak,
-                codeOfPackage: codeOfPackage1,
-                quality: quality1,
-                sizeOfHeight: sizeOfHeight1,
-                length: long1,
-                arrayOfDesk: arrOfDesk
-            },
-            traditional: true,
-            success: function () {
-                location.reload();
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    } else {
-        alert("Заполните все поля!");
-    }
-}
+// // ADD Package OAK
+// function sendRequestCreatePackageOak(btnObj) {
+//     var breedID = $("#breedId").val();
+//     var userID = $("#userId").val();
+//     var idOfDryStorageOak = $("#sendForDryingModalIdOak").val();
+//     console.log("id " + idOfDryStorageOak);
+//     var codeOfPackage1 = $('#sendForPackageModalCodeOak').val();
+//     var quality1 = $('#sendForPackageModalQualityOak').val();
+//     var sizeOfHeight1 = $('#sendForPackageModalSizeOak').val();
+//     var long1 = $('#sendForPackageModalLengthOak').val();
+//
+//     var tableBody = document.getElementById('listOfPackageId');
+//     var listTr = tableBody.getElementsByTagName('tr');
+//
+//     var arrOfDesk = [];
+//
+//     //fix one dimension array on controller
+//     arrOfDesk[0] = [];
+//     arrOfDesk[0][0] = "test";
+//     arrOfDesk[0][1] = "test";
+//
+//
+//
+//     if (codeOfPackage1 != "" && quality1 != "" && sizeOfHeight1 != "" && long1 != "" ) {
+//         for (var i = 1; i <= listTr.length; i++) {
+//             var width = $(listTr[i - 1]).find('td:eq(0)').text();
+//             var count = $(listTr[i - 1]).find('td:eq(1)').text();
+//
+//             arrOfDesk[i] = [];
+//             arrOfDesk[i][0] = width;
+//             arrOfDesk[i][1] = count;
+//         }
+//
+//         console.log(arrOfDesk);
+//
+//         $.ajax({
+//             method: "post",
+//             url: "/createRawPackageOakObject-" + userID + "-" + breedID,
+//             contextType: "application/json",
+//             data: {
+//                 idOfDryStorage: idOfDryStorageOak,
+//                 codeOfPackage: codeOfPackage1,
+//                 quality: quality1,
+//                 sizeOfHeight: sizeOfHeight1,
+//                 length: long1,
+//                 arrayOfDesk: arrOfDesk
+//             },
+//             traditional: true,
+//             success: function (extent) {
+//                 if (extent>0) {
+//                     console.log(extent);
+//                     let trObj = document.getElementById(idOfDryStorageOak);
+//                     console.log(trObj);
+//
+//                     $(trObj).find('td:eq(3)').text(extent);
+//
+//                     sendForPackagesStorageOak(idOfDryStorageOak);
+//
+//                     $('#sendForPackageModalCodeOak').val('');
+//                     $('#sendForPackageModalCodeOak').focus();
+//                     // $('#sendForPackageModalQualityOak').val('');
+//                     $('#sendForPackageModalWidthOak').val('');
+//                     $('#sendForPackageModalCountOak').val('');
+//                     $('#sendForPackageModalExtentOak').val('0.000');
+//                     $("#sendForPackageModalLengthOak").removeAttr("disabled");
+//                     $("#sendForPackageModalSizeOak").removeAttr("disabled");
+//                     tableForTransportationOak.clear().draw();
+//                 }else {
+//                     location.reload();
+//                 }
+//             },
+//             error: function () {
+//                 alert("Заполните все поля!");
+//             }
+//         });
+//     } else {
+//         alert("Заполните все поля!");
+//     }
+// }
 
 
 function returnToIncome(btnObj) {
