@@ -140,7 +140,7 @@ public class FabricRestController {
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
-    public void createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
+    public String createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                  @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,
                                  String codeOfPackage, String quality, String sizeOfHeight, String length){
         float cofExtent = Float.parseFloat(sizeOfHeight)*Float.parseFloat(length)/1000000;
@@ -168,6 +168,7 @@ public class FabricRestController {
         dryStorageService.save(dryStorage);
 
         packagedProductService.createPackageOak(arrayOfDesk,String.valueOf(dryStorage.getId()),codeOfPackage+"-raw",quality,sizeOfHeight,length,userID,breedID);
+        return (rawStorage!=null)?rawStorage.getExtent():"0.000";
     }
 
 }

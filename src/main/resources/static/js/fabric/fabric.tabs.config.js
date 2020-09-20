@@ -285,13 +285,13 @@ $(document).ready( function () {
             alert("Значение не может быть отрицательным либо равным 0!");
         }else if(length.val()==="" || height.val()==="") {
             alert("Заполните размер и длину!");
-        }else if(resExtent.toFixed(3)>maxExtent.toFixed(3)){
-            if (((resExtent.toFixed(3)-maxExtent.toFixed(3))>=0.000) && ((resExtent.toFixed(3)-maxExtent.toFixed(3))<=0.002)){
+        }else if(resExtent>maxExtent){
+            if (((resExtent-maxExtent)>=0.000) && ((resExtent-maxExtent)<=0.002)){
                 console.log(resExtent-maxExtent);
                 $('#maxExtentDiffAlert').removeClass("display-none");
                 $('#maxExtentDiffAlert').addClass("warning-btn");
 
-                $('#maxExtentDiff').text((resExtent - maxExtent).toFixed(3));
+                $('#maxExtentDiff').text((resExtent - maxExtent).toFixed(5));
             }else {
                 $('#maxExtentDiffAlert').addClass("display-none");
                 $('#maxExtentDiffAlert').removeClass("warning-btn");
