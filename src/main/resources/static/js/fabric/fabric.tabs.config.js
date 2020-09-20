@@ -295,7 +295,7 @@ $(document).ready( function () {
             }else {
                 $('#maxExtentDiffAlert').addClass("display-none");
                 $('#maxExtentDiffAlert').removeClass("warning-btn");
-                alert("Объём превышает допустимый на " + (resExtent - maxExtent).toFixed(3) + " m3! Максимальное количество досок: " + Math.floor(maxExtent / ((parseFloat(width) / 1000) * (parseFloat(length.val()) / 1000) * (parseFloat(height.val()) / 1000))));
+                alert("Объём превышает допустимый на " + (resExtent - maxExtent).toFixed(5) + " m3! Максимальное количество досок: " + Math.floor(maxExtent / ((parseFloat(width) / 1000) * (parseFloat(length.val()) / 1000) * (parseFloat(height.val()) / 1000))));
                 $("#sendForPackageModalCountOak").val("");
             }
         } else {
