@@ -191,10 +191,10 @@ public class StatisticController {
     @PostMapping("/getStatisticInfo-{breedId}")
     public JSONObject getStatisticInfo(@PathVariable("breedId")int breedId, String[] descriptions, String[] sizeOfHeight,
                                    String[]sizeOfWidth,String[] sizeOfLong,int[]providers,String[] stages){
-       if(descriptions==null && sizeOfHeight==null && sizeOfWidth==null && sizeOfLong==null && providers==null &&
-               stages==null){
-           initializeVoidValue(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,stages);
-       }
+//       if(descriptions==null && sizeOfHeight==null && sizeOfWidth==null && sizeOfLong==null && providers==null &&
+//               stages==null){
+//           initializeVoidValue(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,stages);
+//       }
 
         for(int i=0;i<descriptions.length;i++){
             if(descriptions[i].equals("noDesc")){
