@@ -340,8 +340,23 @@ public class FabricOakController {
 //        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
 //    }
 
+    @PostMapping("/resetDryPackageExtent-{userId}-{breedId}")
+    public String resetDryPackageExtent(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,String id) {
+        DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
+        dryStorage.setExtent("0.000");
+        dryStorageService.save(dryStorage);
+        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+    }
 
-    //Packaged product page
+    @PostMapping("/resetRawPackageExtent-{userId}-{breedId}")
+    public String resetRawPackageExtent(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,String id) {
+        RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
+        rawStorage.setExtent("0.000");
+        rawStorageService.save(rawStorage);
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+
+        //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-2")
     public String getListOfPackagedProduct(@PathVariable("userId")int userId, Model model){
         int breedId = 2;
