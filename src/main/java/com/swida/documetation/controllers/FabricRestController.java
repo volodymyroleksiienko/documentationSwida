@@ -212,12 +212,14 @@ public class FabricRestController {
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
-    public void createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
+    public String createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                       String idOfRawStorage, String extent){
        RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(idOfRawStorage));
        rawStorage.setExtent(
                String.format("%.3f",Float.parseFloat(rawStorage.getExtent())+Float.parseFloat(extent)).replace(",",".")
        );
        rawStorageService.save(rawStorage);
+
+       return rawStorage.getExtent();
     }
 }
