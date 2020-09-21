@@ -243,6 +243,17 @@ function sendForPackagesStorageOak(btnObj) {
 //     }
 // }
 
+function resetRawExtent(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#resetItemId').val(trId);
+    console.log("row id: "+trId);
+
+    let code = $(trObj).find('th:eq(0)').text();
+
+    $('#resetItemModalConfirmation').text(" Вы уверены, что хотите обнулить кубатуру партии №"+code+"? Это действие не возвращает материал на склад кругляка!");
+    $('#resetModal').modal('show');
+}
 
 function returnToIncome(btnObj) {
     let trObj = btnObj.parentElement.parentElement;

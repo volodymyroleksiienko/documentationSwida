@@ -79,6 +79,18 @@ function editDryStorageOak(btnObj) {
     $('#editDryStorageModal').modal('show');
 }
 
+function resetDryExtent(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#resetItemId').val(trId);
+    console.log("row id: "+trId);
+
+    let code = $(trObj).find('th:eq(0)').text();
+
+    $('#resetItemModalConfirmation').text(" Вы уверены, что хотите обнулить кубатуру партии №"+code+"? Это действие не возвращает материал на предыдущий склад!");
+    $('#resetModal').modal('show');
+}
+
 // // ADD Package OAK
 // function sendRequestCreatePackageOak(btnObj) {
 //     var breedID = $("#breedId").val();

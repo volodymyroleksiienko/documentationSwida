@@ -208,7 +208,7 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "70px"
+                "width": "100px"
             }
         ]
     });
