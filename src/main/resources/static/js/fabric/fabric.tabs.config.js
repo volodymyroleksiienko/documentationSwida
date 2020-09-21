@@ -315,7 +315,7 @@ $(document).ready( function () {
         }else if(length.val()==="" || height.val()==="") {
             alert("Заполните размер и длину!");
         }else if(resExtent>maxExtent){
-            if (((resExtent-maxExtent)>=0.000) && ((resExtent-maxExtent)<=0.5)){
+            if (((resExtent-maxExtent)>=0.000) && ((resExtent-maxExtent)<=1)){
                 console.log(resExtent-maxExtent);
                 $('#maxExtentDiffAlert').removeClass("display-none");
                 $('#maxExtentDiffAlert').addClass("warning-btn");
