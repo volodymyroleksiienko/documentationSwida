@@ -239,11 +239,40 @@ $(document).ready( function () {
         ]
     });
 
+    var tableForPackagesOak = $('#tableForPackagesOak').DataTable({
+        // columns width
+        "autoWidth": false,
+        "order": [ 0, "desc" ],
+        // "bSort": false,
+        "searching": false,
+        "paging": false,
+        "info": false,
+        'select': false,
+        "columnDefs": [
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "30px"
+            }
+        ]
+    });
+
     $( "#clearTableButton" ).click(function() {
         clearTable(tableForTransportationOak);
         $("#sendForPackageModalExtentOak").val('');
         $("#sendForPackageModalLengthOak").removeAttr("disabled");
         $("#sendForPackageModalSizeOak").removeAttr("disabled");
+    })
+
+    $( "#clearInitialPackageButton" ).click(function() {
+        tableForPackagesOak.clear().draw();
+
+        $("#addDeliveryPackageModalExtentOak").val('');
+        $("#addDeliveryPackageModalSizeOak").val('');
+        $("#addDeliveryPackageModalLengthOak").val('');
+        $("#addDeliveryPackageModalWidthOak").val('');
+        $("#addDeliveryPackageModalLengthOak").removeAttr("disabled");
+        $("#addDeliveryPackageModalSizeOak").removeAttr("disabled");
     })
 
 
@@ -467,12 +496,14 @@ $(document).ready( function () {
     // function sendRequestCreatePackageOak(btnObj) {
         var breedID = $("#breedId").val();
         var userID = $("#userId").val();
-        var idOfDryStorageOak = $("#sendForDryingModalIdOak").val();
-        console.log("id " + idOfDryStorageOak);
+        var idOfRawOak = $("#addOakInitialPackageCodeAdditionalExtentModalIdOak").val();
+        console.log("id " + idOfRawOak);
         var codeOfPackage1 = $('#sendForPackageModalCodeOak').val();
         var quality1 = $('#sendForPackageModalQualityOak').val();
         var sizeOfHeight1 = $('#sendForPackageModalSizeOak').val();
         var long1 = $('#sendForPackageModalLengthOak').val();
+
+        var extent1 = $('#sendForPackageModalExtentOak').val();
 
         var tableBody = document.getElementById('listOfPackageId');
         var listTr = tableBody.getElementsByTagName('tr');
@@ -484,9 +515,7 @@ $(document).ready( function () {
         arrOfDesk[0][0] = "test";
         arrOfDesk[0][1] = "test";
 
-
-
-        if (codeOfPackage1 != "" && quality1 != "" && sizeOfHeight1 != "" && long1 != "" ) {
+        if ( sizeOfHeight1 !== "" && long1 !== "" ) {
             for (var i = 1; i <= listTr.length; i++) {
                 var width = $(listTr[i - 1]).find('td:eq(0)').text();
                 var count = $(listTr[i - 1]).find('td:eq(1)').text();
@@ -503,36 +532,17 @@ $(document).ready( function () {
                 url: "/createRawPackageOakObject-" + userID + "-" + breedID,
                 contextType: "application/json",
                 data: {
-                    idOfDryStorage: idOfDryStorageOak,
+                    idOfDryStorage: idOfRawOak,
                     codeOfPackage: codeOfPackage1,
                     quality: quality1,
                     sizeOfHeight: sizeOfHeight1,
                     length: long1,
+                    extent: extent1,
                     arrayOfDesk: arrOfDesk
                 },
                 traditional: true,
-                success: function (extent) {
-                    if (extent>0) {
-                        console.log(extent);
-                        let trObj = document.getElementById(idOfDryStorageOak);
-                        console.log(trObj);
-
-                        $(trObj).find('td:eq(3)').text(extent);
-
-                        sendForPackagesStorageOak(idOfDryStorageOak);
-
-                        $('#sendForPackageModalCodeOak').val('');
-                        $('#sendForPackageModalCodeOak').focus();
-                        // $('#sendForPackageModalQualityOak').val('');
-                        $('#sendForPackageModalWidthOak').val('');
-                        $('#sendForPackageModalCountOak').val('');
-                        $('#sendForPackageModalExtentOak').val('0.000');
-                        $("#sendForPackageModalLengthOak").removeAttr("disabled");
-                        $("#sendForPackageModalSizeOak").removeAttr("disabled");
-                        tableForTransportationOak.clear().draw();
-                    }else {
+                success: function () {
                         location.reload();
-                    }
                 },
                 error: function () {
                     alert("Заполните все поля!");
@@ -543,6 +553,68 @@ $(document).ready( function () {
         }
     });
     //////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////
+    // requestCreatePackageOak
+    $("#createInitialPackageFromRawOak").click(function () {
+        // function sendRequestCreatePackageOak(btnObj) {
+        let breedID =               $("#breedIdPack").val();
+        let userID =                $("#userIdPack").val();
+        let codeOfInitialPackage1 = $('#addOakInitialPackageCode').val();
+        let breedDescription1 =     $('#addOakInitialPackageDescr').val();
+        let supplier1 =             $('#addOakInitialPackageSupplier').val();
+        let sizeOfHeight1 =         $('#addDeliveryPackageModalSizeOak').val();
+        let length1 =               $('#addDeliveryPackageModalLengthOak').val();
+
+        let tableBody = document.getElementById('listOfOakPackageRowsId');
+        let listTr = tableBody.getElementsByTagName('tr');
+
+        let arrOfDesk = [];
+
+        //fix one dimension array on controller
+        arrOfDesk[0] = [];
+        arrOfDesk[0][0] = "test";
+        arrOfDesk[0][1] = "test";
+
+
+
+        if (codeOfInitialPackage1 != "" && sizeOfHeight1 != "" && length1 != "" && supplier1 != "" ) {
+            for (let i = 1; i <= listTr.length; i++) {
+                let width = $(listTr[i - 1]).find('td:eq(0)').text();
+                let count = $(listTr[i - 1]).find('td:eq(1)').text();
+
+                arrOfDesk[i] = [];
+                arrOfDesk[i][0] = width;
+                arrOfDesk[i][1] = count;
+            }
+
+            console.log(arrOfDesk);
+
+            $.ajax({
+                method: "post",
+                url: "/createInitialPackageOakObject-" + userID + "-" + breedID,
+                contextType: "application/json",
+                data: {
+                    codeOfPackage: codeOfInitialPackage1,
+                    breedDescription: breedDescription1,
+                    supplier: supplier1,
+                    sizeOfHeight: sizeOfHeight1,
+                    length: length1,
+                    arrayOfDesk: arrOfDesk
+                },
+                traditional: true,
+                success: function () {
+                        location.reload();
+                },
+                error: function () {
+                    alert("Заполните все поля!");
+                }
+            });
+        } else {
+            alert("Заполните все поля!");
+        }
+    });
+    /////////////////////////////////////////////////////////////////////
 
 
     $("#buttonForAddingDeliveryOakRow").click(function () {
@@ -574,6 +646,39 @@ $(document).ready( function () {
             $('#addDeliveryPackageModalCountOak').focus();
 
             createPackageExtentCalc(tableForTransportationOak, extent, length, height);
+            $('#addDeliveryPackageModalWidthOak').val(parseInt(width)+10);
+        }
+    });
+
+    $("#buttonForAddingInitialPackageOakRow").click(function () {
+        let width =         $("#addDeliveryPackageModalWidthOak").val();
+        let count =         $("#addDeliveryPackageModalCountOak").val();
+        let extent =        $("#addDeliveryPackageModalExtentOak");
+        let length =        $("#addDeliveryPackageModalLengthOak");
+        let height =        $("#addDeliveryPackageModalSizeOak");
+        let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
+
+        if( width==="" || count==="" ) {
+            alert("Заполните ширину и количество досок!");
+        } else if (width<=0 || count<=0){
+            alert("Значение не может быть отрицательным либо равным 0!")
+        }else if(length.val()==="" || height.val()==="") {
+            alert("Заполните размер и длину!");
+        } else {
+            let d = [width, count, button];
+            console.log(d);
+
+            $("#addDeliveryPackageModalLengthOak").attr("disabled", "disabled");
+            $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
+
+            $("#addDeliveryPackageModalWidthOak").val("");
+            $("#addDeliveryPackageModalCountOak").val("");
+
+            tableForPackagesOak.row.add(d).draw();
+
+            $('#addDeliveryPackageModalCountOak').focus();
+
+            createPackageExtentCalc(tableForPackagesOak, extent, length, height);
             $('#addDeliveryPackageModalWidthOak').val(parseInt(width)+10);
         }
     });
@@ -625,9 +730,22 @@ $(document).ready( function () {
 
 
     } );
+
+    $('#tableForPackagesOak tbody').on( 'click', 'button', function () {
+        tableForPackagesOak.row( $(this).parents('tr') ).remove().draw();
+
+        if ( ! tableForPackagesOak.data().any() ) {
+            $("#addDeliveryPackageModalLengthOak").removeAttr("disabled");
+            $("#addDeliveryPackageModalSizeOak").removeAttr("disabled");
+        }
+
+        let extentD = $("#addDeliveryPackageModalExtentOak");
+        let lengthD = $("#addDeliveryPackageModalLengthOak");
+        let heightD = $("#addDeliveryPackageModalSizeOak");
+
+        createPackageExtentCalc(tableForPackagesOak, extentD, lengthD, heightD);
+    } );
     //    DRYING OAK END
-
-
 
     //PACKAGES 1 START
     let table = $('#packagedproducttable').DataTable({
