@@ -191,6 +191,7 @@ public class FabricOakController {
         model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         btnConfig(userId,model);
         return "fabricPage";
     }

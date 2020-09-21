@@ -532,7 +532,7 @@ $(document).ready( function () {
                 url: "/createRawPackageOakObject-" + userID + "-" + breedID,
                 contextType: "application/json",
                 data: {
-                    idOfDryStorage: idOfRawOak,
+                    idOfRawStorage: idOfRawOak,
                     codeOfPackage: codeOfPackage1,
                     quality: quality1,
                     sizeOfHeight: sizeOfHeight1,
@@ -562,7 +562,7 @@ $(document).ready( function () {
         let userID =                $("#userIdPack").val();
         let codeOfInitialPackage1 = $('#addOakInitialPackageCode').val();
         let breedDescription1 =     $('#addOakInitialPackageDescr').val();
-        let supplier1 =             $('#addOakInitialPackageSupplier').val();
+        let supplier1 =             $('#addOakInitialPackageSupplier-hidden').val();
         let sizeOfHeight1 =         $('#addDeliveryPackageModalSizeOak').val();
         let length1 =               $('#addDeliveryPackageModalLengthOak').val();
 
@@ -570,6 +570,8 @@ $(document).ready( function () {
         let listTr = tableBody.getElementsByTagName('tr');
 
         let arrOfDesk = [];
+
+        var extent1 = $('#addDeliveryPackageModalExtentOak').val();
 
         //fix one dimension array on controller
         arrOfDesk[0] = [];
@@ -600,6 +602,7 @@ $(document).ready( function () {
                     supplier: supplier1,
                     sizeOfHeight: sizeOfHeight1,
                     length: length1,
+                    extent: extent1,
                     arrayOfDesk: arrOfDesk
                 },
                 traditional: true,

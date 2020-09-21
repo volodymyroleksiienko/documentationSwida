@@ -1,6 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -153,10 +155,47 @@ public class StatisticController {
         return extent;
     }
 
+    private void initializeVoidValue(int breedId,String[] descriptions, String[] sizeOfHeight,String[]sizeOfWidth,String[] sizeOfLong,
+                                     int[]providers,String[] stages){
+        descriptions = new String[getAllBreedDescription(breedId).size()];
+                getAllBreedDescription(breedId).toArray(descriptions);
+        System.out.println(descriptions);
+        sizeOfHeight = getAllSizeOfHeight(breedId).toArray(descriptions);
+        if(breedId!=2) {
+            sizeOfWidth = getAllSizeOfWidth(breedId).toArray(descriptions);
+        }
+        sizeOfLong = getAllSizeOfLong(breedId).toArray(descriptions);
+        List<ContrAgent> agents = contrAgentService.getListByType(ContrAgentType.PROVIDER);
+        int[] newProvider = new int[agents.size()];
+        for(int i=0; i<agents.size();i++){
+            newProvider[i] = agents.get(i).getId();
+        }
+        providers = newProvider;
+
+        String[] newStages = new String[10];
+        newStages[0] = "treeStorage";
+        newStages[1] = "rawStorage";
+        newStages[2] = "dryingStorage";
+        newStages[3] = "dryStorage";
+        newStages[4] = "packagedProduct";
+        newStages[5] = "deliveryMultimodal";
+        newStages[6] = "deliveryPort";
+        newStages[7] = "deliveryCountry";
+        newStages[8] = "providerInWork";
+        newStages[9] = "recycleStorage";
+
+        stages = newStages;
+    }
+
     @ResponseBody
     @PostMapping("/getStatisticInfo-{breedId}")
     public JSONObject getStatisticInfo(@PathVariable("breedId")int breedId, String[] descriptions, String[] sizeOfHeight,
                                    String[]sizeOfWidth,String[] sizeOfLong,int[]providers,String[] stages){
+       if(descriptions==null && sizeOfHeight==null && sizeOfWidth==null && sizeOfLong==null && providers==null &&
+               stages==null){
+           initializeVoidValue(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,stages);
+       }
+
         for(int i=0;i<descriptions.length;i++){
             if(descriptions[i].equals("noDesc")){
                 descriptions[i] = "";

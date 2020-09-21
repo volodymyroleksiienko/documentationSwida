@@ -1,6 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.OrderInfo;
+import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
@@ -10,10 +11,7 @@ import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
-import com.swida.documetation.data.service.storages.DryStorageService;
-import com.swida.documetation.data.service.storages.DryingStorageService;
-import com.swida.documetation.data.service.storages.PackagedProductService;
-import com.swida.documetation.data.service.storages.RawStorageService;
+import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +33,14 @@ public class FabricRestController {
     RawStorageService rawStorageService;
     DryingStorageService dryingStorageService;
     DryStorageService dryStorageService;
+    TreeStorageService treeStorageService;
 
     @Autowired
     public FabricRestController(DriverInfoService driverInfoService, PackagedProductService packagedProductService,
                                 DeliveryDocumentationService deliveryDocumentationService, OrderInfoService orderInfoService,
                                 UserCompanyService userCompanyService, RawStorageService rawStorageService,
-                                DryingStorageService dryingStorageService, DryStorageService dryStorageService) {
+                                DryingStorageService dryingStorageService, DryStorageService dryStorageService,
+                                TreeStorageService treeStorageService) {
         this.driverInfoService = driverInfoService;
         this.packagedProductService = packagedProductService;
         this.deliveryDocumentationService = deliveryDocumentationService;
@@ -49,6 +49,7 @@ public class FabricRestController {
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
         this.dryStorageService = dryStorageService;
+        this.treeStorageService = treeStorageService;
     }
 
 
@@ -139,36 +140,84 @@ public class FabricRestController {
         reloadAllExtentFields(documentation);
     }
 
-    @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
-    public String createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
-                                 @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,
-                                 String codeOfPackage, String quality, String sizeOfHeight, String length){
-        float cofExtent = Float.parseFloat(sizeOfHeight)*Float.parseFloat(length)/1000000;
-        float extent = 0;
+//    @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
+//    public String createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
+//                                 @RequestParam("arrayOfDesk") String[][] arrayOfDesk, String idOfDryStorage,
+//                                 String codeOfPackage, String quality, String sizeOfHeight, String length){
+//        float cofExtent = Float.parseFloat(sizeOfHeight)*Float.parseFloat(length)/1000000;
+//        float extent = 0;
+//
+//        //i = 1 skip test obj
+//        for (int i=1; i<arrayOfDesk.length;i++){
+//            extent += (cofExtent*Float.parseFloat(arrayOfDesk[i][0])*Float.parseFloat(arrayOfDesk[i][1])/1000);
+//        }
+//
+//        RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(idOfDryStorage));
+//        DryingStorage dryingStorage = dryingStorageService.createFromRawStorage(rawStorage);
+//
+//        rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-extent).replace(',','.'));
+//        rawStorageService.save(rawStorage);
+//
+//        DryStorage dryStorage = dryStorageService.createFromDryingStorage(dryingStorage);
+//
+//        dryingStorage.setExtent("0.000");
+//        dryingStorage.setCodeOfProduct(dryingStorage.getCodeOfProduct()+"raw");
+//        dryingStorageService.save(dryingStorage);
+//
+//        dryStorage.setExtent(String.format("%.3f",extent).replace(',','.'));
+//        dryStorage.setCodeOfProduct(dryStorage.getCodeOfProduct()+"raw");
+//        dryStorageService.save(dryStorage);
+//
+//        packagedProductService.createPackageOak(arrayOfDesk,String.valueOf(dryStorage.getId()),codeOfPackage+"-raw",quality,sizeOfHeight,length,userID,breedID);
+//        return (rawStorage!=null)?rawStorage.getExtent():"0.000";
+//    }
 
-        //i = 1 skip test obj
-        for (int i=1; i<arrayOfDesk.length;i++){
-            extent += (cofExtent*Float.parseFloat(arrayOfDesk[i][0])*Float.parseFloat(arrayOfDesk[i][1])/1000);
-        }
 
-        RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(idOfDryStorage));
-        DryingStorage dryingStorage = dryingStorageService.createFromRawStorage(rawStorage);
+    @PostMapping("/createInitialPackageOakObject-{userID}-{breedID}")
+    public void createInitialPackageOakObject(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
+                                              String codeOfPackage,String breedDescription,String supplier, String sizeOfHeight,
+                                              String extent){
+        TreeStorage treeStorage = new TreeStorage();
+        treeStorage.setCodeOfProduct(codeOfPackage);
 
-        rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-extent).replace(',','.'));
+        BreedOfTree breedOfTree = new BreedOfTree();
+        breedOfTree.setId(breedID);
+        UserCompany userCompany = new UserCompany();
+        userCompany.setId(userID);
+        ContrAgent contrAgent = new ContrAgent();
+        contrAgent.setId(Integer.parseInt(supplier));
+
+        treeStorage.setBreedOfTree(breedOfTree);
+        treeStorage.setUserCompany(userCompany);
+
+        treeStorage.setBreedDescription(breedDescription);
+
+        treeStorage.setContrAgent(contrAgent);
+        treeStorage.setExtent("0.000");
+        treeStorageService.save(treeStorage);
+
+        RawStorage rawStorage = new RawStorage();
+
+        rawStorage.setCodeOfProduct(codeOfPackage);
+
+        rawStorage.setBreedOfTree(breedOfTree);
+        rawStorage.setUserCompany(userCompany);
+
+
+        rawStorage.setBreedDescription(breedDescription);
+        rawStorage.setSizeOfHeight(sizeOfHeight);
+        rawStorage.setExtent(extent.replace(",","."));
+        rawStorage.setTreeStorage(treeStorage);
         rawStorageService.save(rawStorage);
-
-        DryStorage dryStorage = dryStorageService.createFromDryingStorage(dryingStorage);
-
-        dryingStorage.setExtent("0.000");
-        dryingStorage.setCodeOfProduct(dryingStorage.getCodeOfProduct()+"raw");
-        dryingStorageService.save(dryingStorage);
-
-        dryStorage.setExtent(String.format("%.3f",extent).replace(',','.'));
-        dryStorage.setCodeOfProduct(dryStorage.getCodeOfProduct()+"raw");
-        dryStorageService.save(dryStorage);
-
-        packagedProductService.createPackageOak(arrayOfDesk,String.valueOf(dryStorage.getId()),codeOfPackage+"-raw",quality,sizeOfHeight,length,userID,breedID);
-        return (rawStorage!=null)?rawStorage.getExtent():"0.000";
     }
 
+    @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
+    public void createRawPackageOak(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
+                                      String idOfRawStorage, String extent){
+       RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(idOfRawStorage));
+       rawStorage.setExtent(
+               String.format("%.3f",Float.parseFloat(rawStorage.getExtent())+Float.parseFloat(extent)).replace(",",".")
+       );
+       rawStorageService.save(rawStorage);
+    }
 }
