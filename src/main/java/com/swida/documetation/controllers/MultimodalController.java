@@ -158,7 +158,13 @@ public class MultimodalController {
         OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
 
         deliveryDocumentationService.checkInfoFromImport(dataFromXLS.importData(),orderInfo);
-        reloadOrdersExtent(orderInfo);
+
+        List<DeliveryDocumentation> docListDB = deliveryDocumentationService.getListByDistributionContractsId(
+                orderInfoService.findDistributionId(orderInfo.getMainOrder().getId())
+        );
+        for(DeliveryDocumentation docDB:docListDB) {
+            reloadAllExtentFields(docDB);
+        }
         return "redirect:/multimodal/getMultimodalOrders";
     }
 
@@ -384,6 +390,7 @@ public class MultimodalController {
         PackagedProduct productDB = packagedProductService.editPackageProduct(packagedProduct);
         productDB.setExtent(packagedProductService.countExtent(packagedProduct));
         packagedProductService.save(productDB);
+
         reloadAllExtentFields(packagedProductService.findById(packagedProduct.getId()).getDeliveryDocumentation());
         return "redirect:/multimodal/getFullDetailsOfContract-"+contractId;
     }
