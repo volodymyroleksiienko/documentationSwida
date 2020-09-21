@@ -103,62 +103,172 @@
 
         function sendRequestForStatistic(breedId) {
             var descriptions = $('#selectDescription').val();
+
             var sizeOfHeight = $('#selectSizeOfHeight').val();
+
             var sizeOfWidth = $('#selectSizeOfWidth').val();
+
             var sizeOfLong = $('#selectSizeOfLong').val();
+
             var providers = $('#selectProvider').val();
+
             var stages = $('#selectStage').val();
 
             console.log(breedId);
-            $.ajax({
-                method: "post",
-                url: "/admin/getStatisticInfo-"+breedId,
-                contextType: "application/json",
-                data: {
-                    descriptions: descriptions,
-                    sizeOfHeight: sizeOfHeight,
-                    sizeOfWidth: sizeOfWidth,
-                    sizeOfLong: sizeOfLong,
-                    providers: providers,
-                    stages: stages
-                },
-                traditional: true,
-                success: function (statisticInfo) {
-                    console.log(statisticInfo);
+            console.log(descriptions);
+            console.log(sizeOfHeight);
+            console.log(sizeOfWidth);
+            console.log(sizeOfLong);
+            console.log(providers);
+            console.log(stages);
 
-                    summary = parseFloat(statisticInfo["mainExtent"]);
+            if ((!Array.isArray(descriptions) || !descriptions.length)&&
+                (!Array.isArray(sizeOfHeight) || !sizeOfHeight.length)&&
+                (!Array.isArray(sizeOfWidth) || !sizeOfWidth.length)&&
+                (!Array.isArray(sizeOfLong) || !sizeOfLong.length)&&
+                (!Array.isArray(providers) || !providers.length)&&
+                (!Array.isArray(stages) || !stages.length)){
 
-                    let  data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Place');
-                    data.addColumn('number', 'Extent');
+                $("#selectDescription option").each(function()
+                {
+                    descriptions.push($(this).val());
+                });
 
-                    data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
-                    data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
-                    data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
-                    data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
-                    data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
-                    data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
-                    data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
-                    data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
-                    data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
-                    data.addRow(['Внешние подрядчики (в работе): '+ statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
+                $("#selectSizeOfHeight option").each(function()
+                {
+                    sizeOfHeight.push($(this).val());
+                });
 
-                    let options = {
-                        title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
-                        pieHole: 0.4,
-                        // is3D: true,
-                    };
+                $("#selectSizeOfWidth option").each(function()
+                {
+                    sizeOfWidth.push($(this).val());
+                });
 
-                    let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                $("#selectSizeOfLong  option").each(function()
+                {
+                    sizeOfLong.push($(this).val());
+                });
 
-                    chart.draw(data, options);
-                    // drawChart();
-                    // location.reload();
-                },
-                error: function () {
-                    alert("Error");
-                }
-            });
+                $("#selectProvider option").each(function()
+                {
+                    providers.push($(this).val());
+                });
+
+                $("#selectStage option").each(function()
+                {
+                    stages.push($(this).val());
+                });
+                ////////////////////////
+                console.log("here")
+                console.log(descriptions);
+                console.log(sizeOfHeight);
+                console.log(sizeOfWidth);
+                console.log(sizeOfLong);
+                console.log(providers);
+                console.log(stages);
+                ///////////////////////
+
+                $.ajax({
+                    method: "post",
+                    url: "/admin/getStatisticInfo-"+breedId,
+                    contextType: "application/json",
+                    data: {
+                        descriptions: descriptions,
+                        sizeOfHeight: sizeOfHeight,
+                        sizeOfWidth: sizeOfWidth,
+                        sizeOfLong: sizeOfLong,
+                        providers: providers,
+                        stages: stages
+                    },
+                    traditional: true,
+                    success: function (statisticInfo) {
+                        console.log(statisticInfo);
+
+                        summary = parseFloat(statisticInfo["mainExtent"]);
+
+                        let  data = new google.visualization.DataTable();
+                        data.addColumn('string', 'Place');
+                        data.addColumn('number', 'Extent');
+
+                        data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
+                        data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
+                        data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
+                        data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
+                        data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
+                        data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
+                        data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
+                        data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
+                        data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
+                        data.addRow(['Внешние подрядчики (в работе): '+ statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
+
+                        let options = {
+                            title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
+                            pieHole: 0.4,
+                            // is3D: true,
+                        };
+
+                        let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                        chart.draw(data, options);
+                        // drawChart();
+                        // location.reload();
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }else {
+                $.ajax({
+                    method: "post",
+                    url: "/admin/getStatisticInfo-"+breedId,
+                    contextType: "application/json",
+                    data: {
+                        descriptions: descriptions,
+                        sizeOfHeight: sizeOfHeight,
+                        sizeOfWidth: sizeOfWidth,
+                        sizeOfLong: sizeOfLong,
+                        providers: providers,
+                        stages: stages
+                    },
+                    traditional: true,
+                    success: function (statisticInfo) {
+                        console.log(statisticInfo);
+
+                        summary = parseFloat(statisticInfo["mainExtent"]);
+
+                        let  data = new google.visualization.DataTable();
+                        data.addColumn('string', 'Place');
+                        data.addColumn('number', 'Extent');
+
+                        data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
+                        data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
+                        data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
+                        data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
+                        data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
+                        data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
+                        data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
+                        data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
+                        data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
+                        data.addRow(['Внешние подрядчики (в работе): '+ statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
+
+                        let options = {
+                            title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
+                            pieHole: 0.4,
+                            // is3D: true,
+                        };
+
+                        let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                        chart.draw(data, options);
+                        // drawChart();
+                        // location.reload();
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+
+            }
         }
 
         function getListOfSelected(selectId){

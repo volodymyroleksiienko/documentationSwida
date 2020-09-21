@@ -76,7 +76,7 @@ function editRawStorageOak(btnObj) {
 function sendForPackagesStorageOak(btnObj) {
     let trObj = document.getElementById(btnObj);
     let trId =  btnObj;
-    $('#sendForDryingModalIdOak').val(trId);
+    $('#addOakInitialPackageCodeAdditionalExtentModalIdOak').val(trId);
     console.log("Row id: "+$(trObj).attr('id'));
 
     let codeOfRawStorage =      $(trObj).find('th:eq(0)').text();

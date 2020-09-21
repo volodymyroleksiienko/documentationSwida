@@ -515,7 +515,7 @@ $(document).ready( function () {
         arrOfDesk[0][0] = "test";
         arrOfDesk[0][1] = "test";
 
-        if ( sizeOfHeight1 !== "" && long1 !== "" ) {
+        if ( parseFloat(extent1) !== 0.00 ) {
             for (var i = 1; i <= listTr.length; i++) {
                 var width = $(listTr[i - 1]).find('td:eq(0)').text();
                 var count = $(listTr[i - 1]).find('td:eq(1)').text();
@@ -541,8 +541,24 @@ $(document).ready( function () {
                     arrayOfDesk: arrOfDesk
                 },
                 traditional: true,
-                success: function () {
-                        location.reload();
+                success: function (extent) {
+
+                    console.log("Extent: "+extent);
+                    let trObj = document.getElementById(idOfRawOak);
+                    console.log(trObj);
+
+                    $(trObj).find('td:eq(3)').text(extent);
+
+                    // $('#sendForPackageModalExtentOak').val(extent);
+
+                    $('#sendForPackageModalCodeOak').val('');
+
+                    $("#sendForPackageModalLengthOak").removeAttr("disabled");
+                    $("#sendForPackageModalSizeOak").removeAttr("disabled");
+
+                    clearTable(tableForTransportationOak);
+
+                        // location.reload();
                 },
                 error: function () {
                     alert("Заполните все поля!");
