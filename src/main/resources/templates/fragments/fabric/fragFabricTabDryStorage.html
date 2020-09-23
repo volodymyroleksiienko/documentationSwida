@@ -91,34 +91,45 @@
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
-                            <div class="col-6">
+                            <div class="col-4">
+                                <label class="col-form-label" for="sendForPackageModalThickness">Толщина, мм</label>
+                                <input type="number"  class="form-control" id="sendForPackageModalThickness" autocomplete="off" placeholder="мм" disabled="disabled">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="sendForPackageModalWidth">Ширина, мм</label>
+                                <input type="number"  class="form-control" id="sendForPackageModalWidth" autocomplete="off" placeholder="мм" disabled="disabled">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="sendForPackageModalLength">Длина, мм</label>
+                                <input type="number"  class="form-control" id="sendForPackageModalLength" autocomplete="off" placeholder="мм" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
                                 <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageHeightPc">Высота, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="height">
                             </div>
-                        </div>
-
-                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина, шт.</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="width">
                             </div>
-                            <div class="col-6">
-                                <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
-                                <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
-                            </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
-                            <div class="col-6">
+                            <div class="col-4">
+                                <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
+                                <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
+                            </div>
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
                             </div>
-
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalHeightWidth">Высота/Ширина</label>
                                 <input type="text" class="form-control" id="sendForPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="heightWidth">
                             </div>
@@ -169,7 +180,7 @@
                                 <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
                             </div>
                             <div class="col-4">
-                                <label class="col-form-label" for="editDryStorageModalWidth">Шырина</label>
+                                <label class="col-form-label" for="editDryStorageModalWidth">Ширина</label>
                                 <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
                             </div>
                             <div class="col-4">

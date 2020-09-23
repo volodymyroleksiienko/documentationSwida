@@ -1,5 +1,4 @@
 function sendForPackagesStorage(btnObj) {
-
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
     $('#sendForPackagesModalId').val(trId);
