@@ -309,7 +309,7 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "120px"
+                "width": "130px"
             },
             {
                 "targets": 0,
@@ -342,7 +342,7 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "searchable": false,
-                "width": "100px"
+                "width": "130px"
             },
             { className: "display-none", "targets": [ 11 ] }
         ]
