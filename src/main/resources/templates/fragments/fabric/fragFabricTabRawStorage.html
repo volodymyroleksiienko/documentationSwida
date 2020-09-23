@@ -17,6 +17,7 @@
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th></th>
+                <th>TreeStorage extent</th>
             </tr>
             </thead>
             <tbody>
@@ -36,6 +37,7 @@
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                 </td>
+                <td th:text="${rs?.treeStorage?.extent}"></td>
             </tr>
 
             <tfoot>
@@ -50,6 +52,7 @@
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th></th>
+                <th>TreeStorage extent</th>
             </tr>
             </tfoot>
             </tbody>
@@ -391,6 +394,7 @@
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
                 <th></th>
+                <th>TreeStorage extent</th>
             </tr>
             </thead>
             <tbody>
@@ -409,6 +413,7 @@
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                 </td>
+                <td th:text="${rs?.treeStorage?.extent}"></td>
             </tr>
 
             <tfoot>
@@ -421,6 +426,7 @@
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
                 <th></th>
+                <th>TreeStorage extent</th>
             </tr>
             </tfoot>
             </tbody>

@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.PseudoColumnUsage;
@@ -158,10 +159,12 @@ public class DeliveryPortAndUAController {
         model.addAttribute("urlEditPackage","/multimodal/editPackageProduct-"+contractId);
         model.addAttribute("urlAddPackage","/multimodal/addPackageProduct-"+contractId);
         model.addAttribute("urlDeletePackage","/multimodal/deletePackageProduct-"+contractId);
+        model.addAttribute("urlDeleteDeliveryInfo","/multimodal/deleteDeliveryInfo-"+contractId);
 
         model.addAttribute("urlEditPackageDescriptionOak","/multimodal/editPackageDescriptionOak-"+contractId);
         model.addAttribute("urlAddPackageDescriptionOak","/multimodal/addPackageDescriptionOak-"+contractId);
         model.addAttribute("urlDeleteDescriptionOak","/multimodal/deletePackageDescriptionOak-"+contractId);
+
         btnConfig(model);
 
 
@@ -207,6 +210,21 @@ public class DeliveryPortAndUAController {
 
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
+
+    @PostMapping("/deleteDeliveryInfo-{contractId}")
+    public String deleteDeliveryInfo(@PathVariable("contractId")int contractId,String id){
+        OrderInfo orderInfo =  deliveryDocumentationService.findById(Integer.parseInt(id)).getOrderInfo();
+        deliveryDocumentationService.deleteDeliveryDoc(Integer.parseInt(id));
+
+        List<Integer> list = new ArrayList<>();
+        list.add(orderInfo.getId());
+        List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
+        orderInfoService.reloadOrderExtent(orderInfo,docList);
+        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+
+        return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
+    }
+
 
     //    Work with Delivery doc OAK
 

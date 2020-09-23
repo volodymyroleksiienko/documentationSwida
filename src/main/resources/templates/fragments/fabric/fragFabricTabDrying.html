@@ -18,6 +18,7 @@
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Дата выхода</th>
                 <th></th>
+                <th>RawStorage countOfDesk</th>
             </tr>
             </thead>
             <tbody>
@@ -36,6 +37,7 @@
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
+                <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
             </tr>
 
 
@@ -53,6 +55,7 @@
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Дата выхода</th>
                 <th></th>
+                <th>RawStorage countOfDesk</th>
             </tr>
             </tbody>
         </table>
@@ -266,6 +269,7 @@
                 <th scope="col">Примечания</th>
                 <th scope="col">Дата выхода</th>
                 <th></th>
+                <th>RawStorage extent</th>
             </tr>
             </thead>
             <tbody>
@@ -282,6 +286,7 @@
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
+                <td th:text="${rs?.rawStorage?.extent}"></td>
             </tr>
 
             <tfoot>
@@ -295,6 +300,7 @@
                     <th scope="col">Примечания</th>
                     <th scope="col">Дата выхода</th>
                     <th></th>
+                    <th>RawStorage extent</th>
                 </tr>
             </tfoot>
             </tbody>

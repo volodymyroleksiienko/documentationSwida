@@ -49,7 +49,7 @@
                                           <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                       </button>
                                   </form>
-                                  <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverInfo(this)">
+                                  <button th:if="${btnConfig?.equals('btnON') && dd.userCompany==null}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverInfo(this)">
                                       <i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i>
                                   </button>
                               </td>
@@ -441,7 +441,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="@{'/multimodal/deletePackage-'+${contractId}}" method="post">
+                <form th:action="${urlDeleteDeliveryInfo}" method="post">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">
@@ -558,7 +558,7 @@
                                         <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                     </button>
                                 </form>
-                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverInfoOak(this)">
+                                <button th:if="${btnConfig?.equals('btnON') && dd.userCompany==null}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverInfoOak(this)">
                                     <i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i>
                                 </button>
                             </td>
@@ -1060,7 +1060,7 @@
                     </button>
                 </div>
                 <!--       HERE         -->
-                <form th:action="@{'/multimodal/deletePackage-'+${contractId}}" method="post">
+                <form th:action="${urlDeleteDeliveryInfo}" method="post">
                     <!--       HERE                 -->
                     <div class="modal-body">
                         <div class="form-group">

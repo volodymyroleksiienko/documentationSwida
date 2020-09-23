@@ -17,6 +17,7 @@
                     <th scope="col">Кол-во досок, шт</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th></th>
+                    <th>DryingStorage countOfDesk</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     </td>
+                    <td th:text="${ds?.dryingStorage?.countOfDesk}"></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -48,6 +50,7 @@
                     <th scope="col">Кол-во досок, шт</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th></th>
+                    <th>DryingStorage countOfDesk</th>
                 </tr>
             </tfoot>
         </table>
@@ -308,6 +311,7 @@
                     <th scope="col" class="display-none">qualityOfPack</th>
                     <th scope="col" class="display-none">longOfPack</th>
                     <th></th>
+                    <th>DryingStorage extent</th>
                 </tr>
             </thead>
             <tbody>
@@ -326,6 +330,7 @@
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetDryExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                     </td>
+                    <td th:text="${rs?.dryingStorage?.extent}"></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -340,6 +345,7 @@
                     <th scope="col" class="display-none">qualityOfPack</th>
                     <th scope="col" class="display-none">longOfPack</th>
                     <th></th>
+                    <th>DryingStorage extent</th>
                 </tr>
             </tfoot>
         </table>

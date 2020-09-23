@@ -25,5 +25,6 @@ public interface DeliveryDocumentationService {
     PackagedProduct addPackageProductToDeliveryDoc(String docId,PackagedProduct product);
     void reloadExtentOfAllPack(DeliveryDocumentation documentation);
     void deletePackage(String id,String deliveryId);
+    void deleteDeliveryDoc(int deliveryId);
     void deleteByID(int id);
 }

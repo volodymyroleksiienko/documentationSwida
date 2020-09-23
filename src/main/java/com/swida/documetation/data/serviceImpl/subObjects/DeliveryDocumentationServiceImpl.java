@@ -299,6 +299,21 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
             documentationJPA.save(deliveryDocumentation);
         }
     }
+
+    @Override
+    public void deleteDeliveryDoc(int deliveryId){
+        DeliveryDocumentation documentation = documentationJPA.getOne(deliveryId);
+        for(PackagedProduct product:documentation.getProductList()){
+            if (product.getBreedOfTree().getId()==2){
+                for(DescriptionDeskOak desc:product.getDeskOakList()){
+                    deskOakService.deleteByID(desc.getId());
+                }
+            }
+            packagedProductService.deleteByID(product.getId());
+        }
+        documentationJPA.deleteById(documentation.getId());
+    }
+
     @Override
     public void deleteByID(int id) {
         documentationJPA.deleteById(id);

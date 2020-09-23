@@ -20,6 +20,7 @@
                 <th scope="col">Длина-ФАКТ</th>
                 <th scope="col">Высота/Ширина</th>
                 <th></th>
+                <th>DryStorage countOfDesk</th>
             </tr>
             </thead>
             <tbody>
@@ -46,7 +47,7 @@
                         <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                     </button>
                 </td>
-
+                <td th:text="${ps?.dryStorage?.countOfDesk}"></td>
             </tr>
             <tfoot>
             <tr>
@@ -64,6 +65,7 @@
                 <th scope="col">Длина-ФАКТ</th>
                 <th scope="col">Высота/Ширина</th>
                 <th></th>
+                <th>DryStorage countOfDesk</th>
             </tr>
             </tfoot>
             </tbody>
@@ -578,6 +580,7 @@
                     <th scope="col">Кубатура</th>
                     <th scope="col"></th>
                     <th class="display-none"></th>
+                    <th>DryStorage extent</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -601,6 +604,7 @@
                                   <td class="invisible-btn">
                                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"><i class="fas fa-times" data-toggle="tooltip" title="Редактировать"></i></button>
                                   </td>
+                                  <td th:text="${p?.dryStorage?.extent}" ></td>
                               </tr>
 
                               <tr style="display:none" th:id="'parent'+${p.id}">
@@ -635,6 +639,7 @@
                                   <td style="display:none"></td>
                                   <td style="display:none"></td>
                                   <td class="display-none"></td>
+                                  <td class="display-none"></td>
                               </tr>
                       </div>
                 </tbody>
@@ -651,6 +656,7 @@
                     <th scope="col">Кубатура</th>
                     <th scope="col"></th>
                     <th class="display-none"></th>
+                    <th>DryStorage extent</th>
                 </tr>
                 </tfoot>
             </table>
