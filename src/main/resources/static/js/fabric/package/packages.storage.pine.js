@@ -1,5 +1,4 @@
 
-
 function editPackage(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
@@ -20,6 +19,7 @@ function editPackage(btnObj) {
     var heightPc =                      $(trObj).find('td:eq(8)').text();
     var lengthFact =                    $(trObj).find('td:eq(9)').text();
     var heightWidth =                   $(trObj).find('td:eq(10)').text();
+    var dryDescsCount =                 $(trObj).find('td:eq(11)').text();
 
     $('#editPackageModalCode')          .val(code);
     $('#editPackageModalMaterial')      .val(material);
@@ -34,9 +34,44 @@ function editPackage(btnObj) {
     $('#editPackageModalLengthFact')    .val(lengthFact);
     $('#editPackageModalHeightWidth')   .val(heightWidth);
 
+    $('#editPackageModalInitialDescsCount') .val(count);
+    $('#editPackageModalDryDescsCount')     .val(dryDescsCount);
+
 
     $('#editPackageModal').modal('show');
 }
+
+function calculateExtent() {
+    let thickness = parseFloat($('#editPackageHeight').val());
+    let width =     parseFloat($('#editPackageWidth').val());
+    let length =    parseFloat($('#editPackageLength').val());
+    let count =     parseInt($('#editPackageModalWidthPc').val())*parseInt($('#editPackageHeightPc').val());
+
+    if (!Number.isNaN(thickness) && !Number.isNaN(width) && !Number.isNaN(length) && !Number.isNaN(count)) {
+        let res = (thickness / 1000) * (width / 1000) * (length / 1000) * count;
+        $('#editPackageModalExtent').val(res.toFixed(3));
+        $('#editPackageModalCount').val(count);
+    }else {
+        $('#editPackageModalExtent').val(0.000);
+        $('#editPackageModalCount').val(0);
+        console.log("NaN value");
+    }
+}
+
+$("#editPackageForm").submit(function( event ) {
+    let dryCount =     parseFloat($('#editPackageModalDryDescsCount').val());
+    let initialCount = parseFloat($('#editPackageModalInitialDescsCount').val());
+    let count =        parseFloat($('#editPackageModalCount').val());
+
+    console.log("raw:"+dryCount+"in:"+initialCount+"cur:"+count);
+
+    if (count>(dryCount+initialCount)) {
+        if(!confirm("Введенное Вами количество досок превышает количество на сухом складе на "+(count-(dryCount+initialCount))+" шт.! Продолжить?")){
+            event.preventDefault();
+        }
+    }
+});
+
 
 function addPackageIntoDelivery(btnObj) {
     var trObj = btnObj.parentElement.parentElement;

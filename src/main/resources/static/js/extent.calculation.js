@@ -78,44 +78,44 @@ $("#sendForPackageModalCount").change(function() {
 /////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
-$("#editPackageLength").change(function() {
-    let extent = $("#editPackageModalExtent");
-    let length = $("#editPackageLength");
-    let height = $("#editPackageHeight");
-    let width =  $("#editPackageWidth");
-    let count =  $("#editPackageModalCount");
-
-    extentCalc(extent, length, height, width, count);
-});
-
-$("#editPackageHeight").change(function() {
-    let extent = $("#editPackageModalExtent");
-    let length = $("#editPackageLength");
-    let height = $("#editPackageHeight");
-    let width =  $("#editPackageWidth");
-    let count =  $("#editPackageModalCount");
-
-    extentCalc(extent, length, height, width, count);
-});
-
-$("#editPackageWidth").change(function() {
-    let extent = $("#editPackageModalExtent");
-    let length = $("#editPackageLength");
-    let height = $("#editPackageHeight");
-    let width =  $("#editPackageWidth");
-    let count =  $("#editPackageModalCount");
-
-    extentCalc(extent, length, height, width, count);
-});
-
-
-$("#editPackageModalCount").change(function() {
-    let extent = $("#editPackageModalExtent");
-    let length = $("#editPackageLength");
-    let height = $("#editPackageHeight");
-    let width =  $("#editPackageWidth");
-    let count =  $("#editPackageModalCount");
-
-    extentCalc(extent, length, height, width, count);
-});
+// $("#editPackageLength").change(function() {
+//     let extent = $("#editPackageModalExtent");
+//     let length = $("#editPackageLength");
+//     let height = $("#editPackageHeight");
+//     let width =  $("#editPackageWidth");
+//     let count =  $("#editPackageModalCount");
+//
+//     extentCalc(extent, length, height, width, count);
+// });
+//
+// $("#editPackageHeight").change(function() {
+//     let extent = $("#editPackageModalExtent");
+//     let length = $("#editPackageLength");
+//     let height = $("#editPackageHeight");
+//     let width =  $("#editPackageWidth");
+//     let count =  $("#editPackageModalCount");
+//
+//     extentCalc(extent, length, height, width, count);
+// });
+//
+// $("#editPackageWidth").change(function() {
+//     let extent = $("#editPackageModalExtent");
+//     let length = $("#editPackageLength");
+//     let height = $("#editPackageHeight");
+//     let width =  $("#editPackageWidth");
+//     let count =  $("#editPackageModalCount");
+//
+//     extentCalc(extent, length, height, width, count);
+// });
+//
+//
+// $("#editPackageModalCount").change(function() {
+//     let extent = $("#editPackageModalExtent");
+//     let length = $("#editPackageLength");
+//     let height = $("#editPackageHeight");
+//     let width =  $("#editPackageWidth");
+//     let count =  $("#editPackageModalCount");
+//
+//     extentCalc(extent, length, height, width, count);
+// });
 /////////////////////////////////////////////////////////////////////////////

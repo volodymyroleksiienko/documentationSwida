@@ -19,8 +19,8 @@
                 <th scope="col">Ширина, шт</th>
                 <th scope="col">Длина-ФАКТ</th>
                 <th scope="col">Высота/Ширина</th>
-                <th></th>
                 <th>DryStorage countOfDesk</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -38,6 +38,7 @@
                 <td th:text="${ps.countDeskInWidth}"></td>
                 <td th:text="${ps.longFact}"></td>
                 <td th:text="${ps.height_width}"></td>
+                <td th:text="${ps?.dryStorage?.countOfDesk}"></td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addPackageIntoDelivery(this)">
@@ -47,7 +48,6 @@
                         <i class="fa fa-times" data-toggle="tooltip" title="Расформировать пачку"></i>
                     </button>
                 </td>
-                <td th:text="${ps?.dryStorage?.countOfDesk}"></td>
             </tr>
             <tfoot>
             <tr>
@@ -64,8 +64,8 @@
                 <th scope="col">Ширина, шт</th>
                 <th scope="col">Длина-ФАКТ</th>
                 <th scope="col">Высота/Ширина</th>
-                <th></th>
                 <th>DryStorage countOfDesk</th>
+                <th></th>
             </tr>
             </tfoot>
             </tbody>
@@ -196,11 +196,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editPack-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editPack-'+${userId}+'-'+${breedId}}" method="post" id="editPackageForm">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
                         <input type="text" class="form-control" id="editPackagesModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editPackageModalInitialDescsCount" hidden="hidden" autocomplete="off">
+                        <input type="text" class="form-control" id="editPackageModalDryDescsCount" hidden="hidden" autocomplete="off" >
 
                         <label class="col-form-label" for="editPackageModalCode">Код</label>
                         <input type="text" class="form-control" id="editPackageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfPackage">
@@ -223,22 +225,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageHeight">Толщина</label>
-                                <input type="number" min="1" class="form-control" id="editPackageHeight" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                                <input type="number" min="1" class="form-control" id="editPackageHeight" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageWidth">Ширина</label>
-                                <input type="number" min="1" class="form-control" id="editPackageWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                                <input type="number" min="1" class="form-control" id="editPackageWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageLength">Длина</label>
-                                <input type="number" min="1" class="form-control" id="editPackageLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                <input type="number" min="1" class="form-control" id="editPackageLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong" oninput="calculateExtent()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalCount">Кол-во досок</label>
-                                <input type="number" min="1" step="1" class="form-control" id="editPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                <input type="number" min="1" step="1" class="form-control" id="editPackageModalCount" required="required" autocomplete="off" placeholder="шт" disabled="disabled" name="countOfDesk">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalExtent">Кубатура</label>
@@ -254,11 +256,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalWidthPc">Ширина, шт.</label>
-                                <input type="number" min="1" class="form-control" id="editPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInWidth">
+                                <input type="number" min="1" class="form-control" id="editPackageModalWidthPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInWidth" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageHeightPc">Высота, шт.</label>
-                                <input type="number" min="1" class="form-control" id="editPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInHeight">
+                                <input type="number" min="1" class="form-control" id="editPackageHeightPc" required="required" autocomplete="off" placeholder="шт" name="countDeskInHeight" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalHeightWidth">Выс./Шир.</label>
@@ -578,9 +580,9 @@
                     <th scope="col">Сум. ширина</th>
                     <th scope="col">Кол. досок</th>
                     <th scope="col">Кубатура</th>
+                    <th>DryStorage extent</th>
                     <th scope="col"></th>
                     <th class="display-none"></th>
-                    <th>DryStorage extent</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -595,6 +597,7 @@
                                   <td th:text="${p.sumWidthOfAllDesk}"></td>
                                   <td th:text="${p.countOfDesk}"></td>
                                   <td th:text="${p.extent}" class="extentValue"></td>
+                                  <td th:text="${p?.dryStorage?.extent}" ></td>
                                   <td class="delete-btns">
                                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                                       <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakPackageItems(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию к пачке"></i></button>
@@ -604,7 +607,6 @@
                                   <td class="invisible-btn">
                                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"><i class="fas fa-times" data-toggle="tooltip" title="Редактировать"></i></button>
                                   </td>
-                                  <td th:text="${p?.dryStorage?.extent}" ></td>
                               </tr>
 
                               <tr style="display:none" th:id="'parent'+${p.id}">
@@ -655,8 +657,8 @@
                     <th scope="col">Кол. досок</th>
                     <th scope="col">Кубатура</th>
                     <th scope="col"></th>
-                    <th class="display-none"></th>
                     <th>DryStorage extent</th>
+                    <th class="display-none"></th>
                 </tr>
                 </tfoot>
             </table>
