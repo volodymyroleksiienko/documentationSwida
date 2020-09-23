@@ -81,10 +81,9 @@ $("#submitFormForEditOakRawStorage").submit(function( event ) {
     console.log("ts:"+treeStExt+"in:"+initialExtent+"cur:"+extent);
 
     if (extent>(treeStExt+initialExtent)) {
-        confirm("Введенная Вами кубатура превышает кубатуру на складе кругляка на "+(extent-(treeStExt+initialExtent)).toFixed(3)+" м3! Продолжить?");
-    }else{
-        return;
-        event.preventDefault();
+        if(!confirm("Введенная Вами кубатура превышает кубатуру на складе кругляка на "+(extent-(treeStExt+initialExtent)).toFixed(3)+" м3! Продолжить?")){
+            event.preventDefault();
+        }
     }
 });
 

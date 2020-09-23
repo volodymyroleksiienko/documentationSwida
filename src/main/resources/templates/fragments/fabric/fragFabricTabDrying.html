@@ -17,8 +17,8 @@
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Дата выхода</th>
-                <th></th>
                 <th>RawStorage countOfDesk</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -33,11 +33,11 @@
                 <td th:text="${ds.countOfDesk}"></td>
                 <td th:text="${ds.extent}"></td>
                 <td th:text="${ds.dateDrying}"></td>
+                <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
                 <td>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
-                <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
             </tr>
 
 
@@ -54,8 +54,8 @@
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Дата выхода</th>
-                <th></th>
                 <th>RawStorage countOfDesk</th>
+                <th></th>
             </tr>
             </tbody>
         </table>
@@ -128,6 +128,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- Сушка edit-->
     <div class="modal fade" id="editDryingModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -138,9 +140,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post" id="editDryingStorageForm">
                     <div class="modal-body">
                         <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryingModalRawDescsCount" hidden="hidden" autocomplete="off">
+                        <input type="text" class="form-control" id="editDryingModalInitialDescsCount" hidden="hidden" autocomplete="off">
 
                         <label class="col-form-label" for="editDryingModalCode">Код</label>
                         <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
@@ -159,22 +163,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required"  autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required"  autocomplete="off" placeholder="мм" name="sizeOfHeight" oninput="calculateExtent()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingModalWidth">Ширина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*"class="form-control" id="editDryingModalWidth" required="required"  autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*"class="form-control" id="editDryingModalWidth" required="required"  autocomplete="off" placeholder="мм" name="sizeOfWidth" oninput="calculateExtent()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required"  autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required"  autocomplete="off" placeholder="мм" name="sizeOfLong" oninput="calculateExtent()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput="calculateExtent()">
                             </div>
                         </div>
 
@@ -268,8 +272,8 @@
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
                 <th scope="col">Дата выхода</th>
-                <th></th>
                 <th>RawStorage extent</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -282,11 +286,11 @@
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
                 <td th:text="${rs.dateDrying}"></td>
+                <td th:text="${rs?.rawStorage?.extent}"></td>
                 <td>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
-                <td th:text="${rs?.rawStorage?.extent}"></td>
             </tr>
 
             <tfoot>
@@ -299,8 +303,8 @@
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечания</th>
                     <th scope="col">Дата выхода</th>
-                    <th></th>
                     <th>RawStorage extent</th>
+                    <th></th>
                 </tr>
             </tfoot>
             </tbody>
@@ -379,10 +383,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post" id="editDryingOakForm">
                     <div class="modal-body">
 
                         <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryingModalRawExtent" hidden="hidden" autocomplete="off" >
+                        <input type="text" class="form-control" id="editDryingModalInitialExtent" hidden="hidden" autocomplete="off">
 
                         <label class="col-form-label" for="editDryingModalCode">Код</label>
                         <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">

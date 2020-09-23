@@ -44,6 +44,8 @@ function editRawStorageOak(btnObj) {
     var extent =            $(trObj).find('td:eq(3)').text();
     var description =       $(trObj).find('td:eq(4)').text();
     var date =              $(trObj).find('td:eq(5)').text();
+    var rawExtent =         $(trObj).find('td:eq(6)').text();
+    var initial =           $(trObj).find('td:eq(3)').text();
 
     $('#editDryingModalCode').val(code);
     $('#editDryingModalMaterial').val(material);
@@ -52,7 +54,23 @@ function editRawStorageOak(btnObj) {
     $('#editDryingModalVolume').val(extent);
     $('#editForDryingModalDescription').val(description);
     $('#editDryingDateOak').val(date);
+    $('#editDryingModalRawExtent').val(rawExtent);
+    $('#editDryingModalInitialExtent').val(initial);
 
 
     $('#editDryingModalOak').modal('show');
 }
+
+$("#editDryingOakForm").submit(function( event ) {
+    let rawStExt =      parseFloat($('#editDryingModalRawExtent').val());
+    let initialExtent = parseFloat($('#editDryingModalInitialExtent').val());
+    let extent =        parseFloat($('#editDryingModalVolume').val());
+
+    console.log("ts:"+rawStExt+"in:"+initialExtent+"cur:"+extent);
+
+    if (extent>(rawStExt+initialExtent)) {
+        if(!confirm("Введенная Вами кубатура превышает кубатуру на сыром складе на "+(extent-(rawStExt+initialExtent)).toFixed(3)+" м3! Продолжить?")){
+            event.preventDefault();
+        }
+    }
+});
