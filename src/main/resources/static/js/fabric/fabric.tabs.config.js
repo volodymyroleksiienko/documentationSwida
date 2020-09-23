@@ -1072,7 +1072,7 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "100px"
+                "width": "130px"
             },
             {
                 "targets": 0,
@@ -1106,7 +1106,7 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "100px"
+                "width": "130px"
             },
             {
                 "targets": 0,

@@ -37,7 +37,7 @@
                               <td th:text="${dd.packagesExtent}"></td>
                               <td th:text="${(dd.description==null)?'':dd.description}"></td>
                               <td th:text="${dd?.orderInfo?.id}"></td>
-                              <td>
+                              <td style="text-align: right">
                                   <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDriverInfo(this)">
                                       <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                                   </button>
@@ -49,6 +49,9 @@
                                           <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                       </button>
                                   </form>
+                                  <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverInfo(this)">
+                                      <i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i>
+                                  </button>
                               </td>
                           </tr>
                           <tr style="display:none" th:id="'parent'+${dd.id}">
@@ -427,6 +430,37 @@
         </div>
     </div>
     <!--  Modal confirmation  -->
+    <!-- CONFIRMATION MODAL START -->
+    <div class="modal fade" id="deleteConfirmationModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="@{'/multimodal/deletePackage-'+${contractId}}" method="post">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deleteRecordModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="deleteModalConfirmation">
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- CONFIRMATION MODAL END -->
 
 
     <script type="text/javascript" th:src="@{../js/fabric/delivery/delivery.storage.pine.js}"></script>
@@ -524,6 +558,9 @@
                                         <i class="far fa-file-excel" data-toggle="tooltip" title="Экспортировать"></i>
                                     </button>
                                 </form>
+                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteDriverInfoOak(this)">
+                                    <i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i>
+                                </button>
                             </td>
                         </tr>
 
@@ -1011,6 +1048,38 @@
         </div>
     </div>
     <!--  Modal package item delete confirmation end -->
+
+    <!-- CONFIRMATION MODAL START -->
+    <div class="modal fade" id="deleteConfirmationModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       HERE         -->
+                <form th:action="@{'/multimodal/deletePackage-'+${contractId}}" method="post">
+                    <!--       HERE                 -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deleteRecordModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="deleteModalConfirmation">
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- CONFIRMATION MODAL END -->
 
     <script type="text/javascript" th:src="@{../js/fabric/delivery/delivery.storage.oak.js}"></script>
 

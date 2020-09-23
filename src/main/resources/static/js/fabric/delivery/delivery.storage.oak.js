@@ -231,3 +231,14 @@ function deleteOakDriverPackageItem(btnObj) {
     $('#deleteOakPackItemModalConfirmation').text(" Вы уверены, что хотите удалить позицию: "+width+"мм / "+count+"шт?");
     $('#deleteOakPackItemModal').modal('show');
 }
+
+function deleteDriverInfoOak(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#deleteRecordModalId').val(trId);
+    console.log(  $(trObj).attr('id'));
+    let carNumber = $(trObj).find('td:eq(1)').text();
+
+    $('#deleteModalConfirmation').text("Вы уверены, что хотите удалить выгрузку №"+carNumber+"?");
+    $('#deleteConfirmationModal').modal('show');
+}
