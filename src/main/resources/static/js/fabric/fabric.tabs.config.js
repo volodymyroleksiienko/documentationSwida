@@ -147,7 +147,8 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "width": "70px"
-            }
+            },
+            { className: "display-none", "targets": [ -2 ] },
         ]
     });
 
