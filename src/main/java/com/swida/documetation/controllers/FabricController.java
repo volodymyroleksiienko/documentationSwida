@@ -128,6 +128,8 @@ public class FabricController {
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
 
+
+
         return "fabricPage";
     }
 
@@ -296,6 +298,10 @@ public class FabricController {
         rawStorageService.save(rawStorageDB);
 
         TreeStorage treeStorage = rawStorageDB.getTreeStorage();
+        treeStorage.setExtent(
+                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent)).replace(",",".")
+        );
+        treeStorageService.save(treeStorage);
         if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
             OrderInfo orderInfo = treeStorage.getOrderInfo();
             orderInfo.setDoneExtendOfOrder(
