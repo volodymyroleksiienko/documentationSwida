@@ -6,10 +6,12 @@ function showCutOakModal(btnObj) {
     console.log("row id:" + $(trObj).attr('id'));
     var codeOfTreeStorage = $(trObj).find('th:eq(0)').text();
     var description = $(trObj).find('td:eq(1)').text();
+    var extent = parseFloat($(trObj).find('td:eq(3)').text());
 
 
     $('#cutOakRawStorageCode').val(codeOfTreeStorage);
     $('#cutOakRawStorageBreedDesc').val(description);
+    $('#cutOakRawStorageUsedExtent').val(extent.toFixed(3));
 
     $('#cutOakModal').modal('show');
 }
