@@ -88,18 +88,13 @@ $("#editDryStorageOakForm").submit(function( event ) {
     let initExtent =    parseFloat($('#editDryStorageModalInitialOakExtent').val());
     let extent =        parseFloat($('#editDryStorageModalVol').val());
 
-    console.log("ts:"+dryingStExt+"in:"+initialExtent+"cur:"+extent);
+    console.log("ts:"+dryingStExt+"in:"+initExtent+"cur:"+extent);
 
     if (extent>(dryingStExt+initExtent)) {
         if(!confirm("Введенная Вами кубатура превышает кубатуру в сушке на "+(extent-(dryingStExt+initExtent)).toFixed(3)+" м3! Продолжить?")){
             event.preventDefault();
-        }else{
-            alert("ok");
         }
-
     }
-    alert("ok");
-    event.preventDefault();
 });
 
 
