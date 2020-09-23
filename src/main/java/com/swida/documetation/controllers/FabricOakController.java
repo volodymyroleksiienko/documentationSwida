@@ -231,6 +231,11 @@ public class FabricOakController {
         rawStorageService.save(rawStorageDB);
 
         TreeStorage treeStorage = rawStorageDB.getTreeStorage();
+        treeStorage.setExtent(
+                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-(Float.parseFloat(rawStorage.getExtent())-oldExtent)).replace(",",".")
+        );
+        treeStorageService.save(treeStorage);
+
         if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
             OrderInfo orderInfo = treeStorage.getOrderInfo();
             orderInfo.setDoneExtendOfOrder(
