@@ -121,20 +121,20 @@ $('#transportationtable tbody').on('click', 'td.details-control', function () {
         row.child( format(row.data()) ).show();
         tr.addClass('shown');
     }
-} );
+});
 
 
 
-$('#packageOakTableId tbody').on( 'click', 'button', function () {
-    var trObj = this.parentElement.parentElement;
-    var trId =  $(trObj).attr('id');
-    $('#unformOakPackModalId').val(trId);
-    console.log(  $(trObj).attr('id'));
-    var codeOfPackage = $(trObj).find('th:eq(0)').text();
-
-    $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
-    $('#unformOakPackModal').modal('show');
-} );
+// $('#packageOakTableId tbody').on( 'click', 'button', function () {
+//     var trObj = this.parentElement.parentElement;
+//     var trId =  $(trObj).attr('id');
+//     $('#unformOakPackModalId').val(trId);
+//     console.log(  $(trObj).attr('id'));
+//     var codeOfPackage = $(trObj).find('th:eq(0)').text();
+//
+//     $('#unformOakPackModalConfirmation').text("Вы уверены, что хотите расформировать пачку "+codeOfPackage+" ?");
+//     $('#unformOakPackModal').modal('show');
+// } );
 
 
 function createOakPackageForm() {
