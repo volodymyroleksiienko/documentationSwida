@@ -182,8 +182,7 @@ public class FabricRestController {
         breedOfTree.setId(breedID);
         UserCompany userCompany = new UserCompany();
         userCompany.setId(userID);
-        ContrAgent contrAgent = new ContrAgent();
-        contrAgent.setId(Integer.parseInt(supplier));
+
 
         if(treeStorageId.isEmpty() || treeStorageId==null) {
             treeStorage.setCodeOfProduct(codeOfPackage);
@@ -192,6 +191,8 @@ public class FabricRestController {
 
             treeStorage.setBreedDescription(breedDescription);
 
+            ContrAgent contrAgent = new ContrAgent();
+            contrAgent.setId(Integer.parseInt(supplier));
             treeStorage.setContrAgent(contrAgent);
             treeStorage.setExtent("0.000");
             treeStorageService.save(treeStorage);

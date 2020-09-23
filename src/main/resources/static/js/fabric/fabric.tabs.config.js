@@ -585,7 +585,7 @@ $(document).ready( function () {
         let tableBody = document.getElementById('listOfOakPackageRowsId');
         let listTr = tableBody.getElementsByTagName('tr');
 
-        let treeStorageId =  $('#addOakInitialPackageTreeStorage').val();
+        let treeStorageId =  $('#addOakInitialPackageTreeStorage-hidden').val();
 
         let arrOfDesk = [];
 
@@ -598,7 +598,7 @@ $(document).ready( function () {
 
 
 
-        if (true) {
+        if (codeOfInitialPackage1 != "" && sizeOfHeight1 != "" && length1 != "" ) {
             for (let i = 1; i <= listTr.length; i++) {
                 let width = $(listTr[i - 1]).find('td:eq(0)').text();
                 let count = $(listTr[i - 1]).find('td:eq(1)').text();
