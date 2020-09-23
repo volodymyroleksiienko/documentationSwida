@@ -85,7 +85,7 @@ function sendForPackagesStorageOak(btnObj) {
 
 
 
-    $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfRawStorage);
+    $('#sendForPackageModalOakHeader').text("Расщитать и добавить кубатуру к пачке №"+codeOfRawStorage);
 
     $('#sendFromRawToPackageOakModal').modal('show');
 
