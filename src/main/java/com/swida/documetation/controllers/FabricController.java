@@ -128,6 +128,8 @@ public class FabricController {
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
 
+
+
         return "fabricPage";
     }
 
