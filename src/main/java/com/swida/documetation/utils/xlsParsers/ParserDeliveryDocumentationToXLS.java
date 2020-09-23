@@ -100,12 +100,12 @@ public class ParserDeliveryDocumentationToXLS {
             sumCount+=Integer.parseInt(product.getCountOfDesk());
             sumExtent+=Float.parseFloat(product.getExtent());
             Row row;
-            if (i<12){
+            if (i<11){
                 row = sheet.getRow(rowCount);
                 if(product==null){
                    continue;
                 }
-//                row.getCell(1).setCellValue(product.getCodeOfPackage());
+                row.getCell(1).setCellValue(product.getCodeOfPackage());
                 row.getCell(2).setCellValue(product.getBreedOfTree().getBreed());
                 row.getCell(3).setCellValue(product.getBreedDescription());
                 row.getCell(4).setCellValue(Integer.parseInt(product.getSizeOfHeight()));
