@@ -83,6 +83,7 @@ public class FabricOakController {
         model.addAttribute("orderList",orderInfoService.getOrdersListByBreed(breedId));
         model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
         return "fabricPage";
@@ -190,6 +191,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.TREE));
@@ -262,6 +264,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
         return "fabricPage";
@@ -332,6 +335,7 @@ public class FabricOakController {
         }
         model.addAttribute("dryStorageList",dryStorageList);
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
         return "fabricPage";
@@ -374,6 +378,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
 
@@ -429,6 +434,7 @@ public class FabricOakController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
