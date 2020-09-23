@@ -267,3 +267,23 @@ function returnToIncome(btnObj) {
     $('#returnToIncomeModal').modal('show');
 }
 
+$('#addOakInitialPackageSupplier').on('input', function(){
+    if ($('#addOakInitialPackageSupplier').val() === '') {
+        $('#addOakInitialPackageTreeStorage').removeAttr('disabled');
+        $('#addOakInitialPackageSupplier-hidden').val(null);
+    }else {
+        $('#addOakInitialPackageTreeStorage').attr('disabled', 'disabled');
+    }
+});
+
+$('#addOakInitialPackageTreeStorage').on('input', function(){
+    if ($('#addOakInitialPackageTreeStorage').val() === '') {
+        $('#addOakInitialPackageSupplier').removeAttr('disabled');
+        $('#addOakInitialPackageTreeStorage-hidden').val(null);
+    }else {
+        $('#addOakInitialPackageSupplier').attr('disabled', 'disabled');
+    }
+});
+
+
+

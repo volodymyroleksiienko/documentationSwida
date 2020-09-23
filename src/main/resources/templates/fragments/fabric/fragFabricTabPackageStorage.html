@@ -174,7 +174,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Создать</button>
+                        <button type="submit" class="btn btn-primary">Создать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -470,6 +470,74 @@
 
 
     <script type="text/javascript" th:src="@{../js/fabric/package/packages.storage.pine.js}"></script>
+    <script type="text/javascript">
+        $('#sendForPackageModalCode').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageModalMaterialDescr').focus();
+            }
+        });
+
+        $('#sendForPackageModalMaterialDescr').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageHeight').focus();
+            }
+        });
+
+        $('#sendForPackageHeight').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageWidth').focus();
+            }
+        });
+
+        $('#sendForPackageWidth').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageLength').focus();
+            }
+        });
+
+        $('#sendForPackageLength').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageModalCount').focus();
+            }
+        });
+
+        $('#sendForPackageModalCount').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageModalExtent').focus();
+            }
+        });
+
+        $('#sendForPackageModalExtent').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageModalPacksCount').focus();
+            }
+        });
+
+        $('#sendForPackageModalPacksCount').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageModalWidthPc').focus();
+            }
+        });
+
+        $('#sendForPackageModalWidthPc').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageHeightPc').focus();
+            }
+        });
+
+        $('#sendForPackageHeightPc').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageModalLengthFact').focus();
+            }
+        });
+
+        $('#sendForPackageModalLengthFact').on('keyup', function(event) {
+            if(event.keyCode === 13){
+                $('#sendForPackageModalHeightWidth').focus();
+            }
+        });
+
+    </script>
 
 </th:block>
 

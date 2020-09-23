@@ -598,7 +598,7 @@ $(document).ready( function () {
 
 
 
-        if (codeOfInitialPackage1 != "" && sizeOfHeight1 != "" && length1 != "" ) {
+        if (codeOfInitialPackage1 != "" && sizeOfHeight1 != "" && length1 != "" && (treeStorageId != "" ||  supplier1 != "")) {
             for (let i = 1; i <= listTr.length; i++) {
                 let width = $(listTr[i - 1]).find('td:eq(0)').text();
                 let count = $(listTr[i - 1]).find('td:eq(1)').text();
