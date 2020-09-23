@@ -114,7 +114,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "135px"
             },
-            // { className: "display-none", "targets": [ -2 ] },
+            { className: "display-none", "targets": [ -2 ] },
         ]
     });
 
