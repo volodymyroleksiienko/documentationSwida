@@ -53,7 +53,7 @@
                         <option  value="deliveryMultimodal">Доставка (Мультимодал)</option>
                         <option  value="deliveryPort">Доставка (Порты)</option>
                         <option  value="deliveryCountry">Доставка (Страна)</option>
-                        <option  value="providerInWork">Внешние подрядчики (в работе)</option>
+                        <option  value="providerInWork">Материал (в работе)</option>
                         <option  value="recycleStorage">Переработка</option>
                     </select>
                 </td>
@@ -199,7 +199,7 @@
                         data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
                         data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
                         data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
-                        data.addRow(['Внешние подрядчики (в работе): '+ statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
+                        data.addRow(['Материал (в работе): '+           statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
 
                         let options = {
                             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
@@ -249,7 +249,7 @@
                         data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
                         data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
                         data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
-                        data.addRow(['Внешние подрядчики (в работе): '+ statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
+                        data.addRow(['Материал (в работе): '+           statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
 
                         let options = {
                             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",

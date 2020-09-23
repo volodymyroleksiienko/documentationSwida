@@ -585,6 +585,8 @@ $(document).ready( function () {
         let tableBody = document.getElementById('listOfOakPackageRowsId');
         let listTr = tableBody.getElementsByTagName('tr');
 
+        let treeStorageId =  $('#addOakInitialPackageTreeStorage').val();
+
         let arrOfDesk = [];
 
         var extent1 = $('#addDeliveryPackageModalExtentOak').val();
@@ -596,7 +598,7 @@ $(document).ready( function () {
 
 
 
-        if (codeOfInitialPackage1 != "" && sizeOfHeight1 != "" && length1 != "" && supplier1 != "" ) {
+        if (true) {
             for (let i = 1; i <= listTr.length; i++) {
                 let width = $(listTr[i - 1]).find('td:eq(0)').text();
                 let count = $(listTr[i - 1]).find('td:eq(1)').text();
@@ -616,6 +618,7 @@ $(document).ready( function () {
                     codeOfPackage: codeOfInitialPackage1,
                     breedDescription: breedDescription1,
                     supplier: supplier1,
+                    treeStorageId:treeStorageId,
                     sizeOfHeight: sizeOfHeight1,
                     length: length1,
                     extent: extent1,

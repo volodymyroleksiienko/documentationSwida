@@ -102,6 +102,9 @@ public class ParserDeliveryDocumentationToXLS {
             Row row;
             if (i<12){
                 row = sheet.getRow(rowCount);
+                if(product.getCodeOfPackage()==null){
+                    product.setCodeOfPackage("");
+                }
                 row.getCell(1).setCellValue(product.getCodeOfPackage());
                 row.getCell(2).setCellValue(product.getBreedOfTree().getBreed());
                 row.getCell(3).setCellValue(product.getBreedDescription());

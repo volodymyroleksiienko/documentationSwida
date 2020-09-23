@@ -681,7 +681,15 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-8">
+                            <div class="col-4">
+                                <label class="col-form-label" for="addOakInitialPackageTreeStorage">Кругляк</label>
+                                <input type="text" class="form-control" list="treeListOak" id="addOakInitialPackageTreeStorage" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
+                                <datalist id="treeListOak">
+                                    <option  th:each="c : ${treeStorageList}" th:data-value="${c.id}" th:text="${c.codeOfProduct}" th:label="${c.extent}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="treeStorageId" id="addOakInitialPackageTreeStorage-hidden">
+                            </div>
+                            <div class="col-4">
                                 <label class="col-form-label" for="addOakInitialPackageSupplier">Поставщик</label>
                                 <input type="text" class="form-control" list="suppliers1oak" id="addOakInitialPackageSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
                                 <datalist id="suppliers1oak">

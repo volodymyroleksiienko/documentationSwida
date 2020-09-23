@@ -176,10 +176,8 @@ public class FabricRestController {
     @PostMapping("/createInitialPackageOakObject-{userID}-{breedID}")
     public void createInitialPackageOakObject(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                               String codeOfPackage,String breedDescription,String supplier, String sizeOfHeight,
-                                              String extent){
+                                              String extent, String treeStorageId){
         TreeStorage treeStorage = new TreeStorage();
-        treeStorage.setCodeOfProduct(codeOfPackage);
-
         BreedOfTree breedOfTree = new BreedOfTree();
         breedOfTree.setId(breedID);
         UserCompany userCompany = new UserCompany();
@@ -187,28 +185,35 @@ public class FabricRestController {
         ContrAgent contrAgent = new ContrAgent();
         contrAgent.setId(Integer.parseInt(supplier));
 
-        treeStorage.setBreedOfTree(breedOfTree);
-        treeStorage.setUserCompany(userCompany);
+        if(treeStorageId.isEmpty() || treeStorageId==null) {
+            treeStorage.setCodeOfProduct(codeOfPackage);
+            treeStorage.setBreedOfTree(breedOfTree);
+            treeStorage.setUserCompany(userCompany);
 
-        treeStorage.setBreedDescription(breedDescription);
+            treeStorage.setBreedDescription(breedDescription);
 
-        treeStorage.setContrAgent(contrAgent);
-        treeStorage.setExtent("0.000");
-        treeStorageService.save(treeStorage);
+            treeStorage.setContrAgent(contrAgent);
+            treeStorage.setExtent("0.000");
+            treeStorageService.save(treeStorage);
+        }else {
+            treeStorage = treeStorageService.findById(Integer.parseInt(treeStorageId));
+            treeStorage.setExtent(
+                    String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(extent)).replace(",",".")
+            );
+            treeStorageService.save(treeStorage);
+        }
 
         RawStorage rawStorage = new RawStorage();
-
         rawStorage.setCodeOfProduct(codeOfPackage);
-
         rawStorage.setBreedOfTree(breedOfTree);
         rawStorage.setUserCompany(userCompany);
-
 
         rawStorage.setBreedDescription(breedDescription);
         rawStorage.setSizeOfHeight(sizeOfHeight);
         rawStorage.setExtent(extent.replace(",","."));
         rawStorage.setTreeStorage(treeStorage);
         rawStorageService.save(rawStorage);
+
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
@@ -218,6 +223,11 @@ public class FabricRestController {
        rawStorage.setExtent(
                String.format("%.3f",Float.parseFloat(rawStorage.getExtent())+Float.parseFloat(extent)).replace(",",".")
        );
+       TreeStorage treeStorage = rawStorage.getTreeStorage();
+       treeStorage.setExtent(
+               String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(extent)).replace(",",".")
+       );
+       treeStorageService.save(treeStorage);
        rawStorageService.save(rawStorage);
 
        return rawStorage.getExtent();
