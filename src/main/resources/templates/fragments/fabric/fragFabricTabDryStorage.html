@@ -16,8 +16,8 @@
                     <th scope="col">Длина, мм</th>
                     <th scope="col">Кол-во досок, шт</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
-                    <th></th>
                     <th>DryingStorage countOfDesk</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -31,11 +31,12 @@
                     <td th:text="${ds.sizeOfLong}"></td>
                     <td th:text="${ds.countOfDesk}"></td>
                     <td th:text="${ds.extent}"></td>
+                    <td th:text="${ds?.dryingStorage?.countOfDesk}"></td>
                     <td>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     </td>
-                    <td th:text="${ds?.dryingStorage?.countOfDesk}"></td>
+
                 </tr>
             </tbody>
             <tfoot>
@@ -49,8 +50,8 @@
                     <th scope="col">Длина, мм</th>
                     <th scope="col">Кол-во досок, шт</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
-                    <th></th>
                     <th>DryingStorage countOfDesk</th>
+                    <th></th>
                 </tr>
             </tfoot>
         </table>
@@ -158,10 +159,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editDryStorageRow-'+${userId}+'-'+${breedId}}" method="post" id="editDryStorageForm">
                     <div class="modal-body">
 
                         <input type="text" class="form-control" id="editDryStorageModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryStorageModalMaxExtent" hidden="hidden" autocomplete="off">
+                        <input type="text" class="form-control" id="editDryStorageModalInitialExtent" hidden="hidden" autocomplete="off">
 
                         <label class="col-form-label" for="editDryStorageModalCode">Код</label>
                         <input type="text" class="form-control" id="editDryStorageModalCode" required="required"  autocomplete="off" name="codeOfProduct">
@@ -180,22 +183,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryStorageModalWidth">Ширина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong" oninput="calculateExtent()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryStorageModalCount">Количество досок</label>
-                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput="calculateExtent()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
@@ -310,8 +313,8 @@
                     <th scope="col">Примечания</th>
                     <th scope="col" class="display-none">qualityOfPack</th>
                     <th scope="col" class="display-none">longOfPack</th>
-                    <th></th>
                     <th>DryingStorage extent</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -325,12 +328,12 @@
                     <td th:text="${rs.description}"></td>
                     <td th:text="${rs?.qualityOfPack}" class="display-none"></td>
                     <td th:text="${rs?.longOfPack}" class="display-none"></td>
+                    <td th:text="${rs?.dryingStorage?.extent}"></td>
                     <td>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetDryExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                     </td>
-                    <td th:text="${rs?.dryingStorage?.extent}"></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -344,8 +347,8 @@
                     <th scope="col">Примечания</th>
                     <th scope="col" class="display-none">qualityOfPack</th>
                     <th scope="col" class="display-none">longOfPack</th>
-                    <th></th>
                     <th>DryingStorage extent</th>
+                    <th></th>
                 </tr>
             </tfoot>
         </table>
@@ -472,10 +475,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editDryStorageRow-'+${userId}+'-'+${breedId}}" method="post" id="editDryStorageOakForm">
                     <div class="modal-body">
 
                         <input type="text" class="form-control" id="editDryStorageModalId" hidden="hidden" autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryStorageModalDryingExtent" hidden="hidden" autocomplete="off" >
+                        <input type="text" class="form-control" id="editDryStorageModalInitialOakExtent" hidden="hidden" autocomplete="off">
 
                         <label class="col-form-label" for="editDryStorageModalCode">Код</label>
                         <input type="text" class="form-control" id="editDryStorageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
@@ -497,8 +502,8 @@
                                 <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
                             </div>
                             <div class="col-6">
-                                <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
-                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalVolume" required="required" autocomplete="off" placeholder="м3" name="extent">
+                                <label class="col-form-label" for="editDryStorageModalVol">Кубатура</label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalVol" required="required" autocomplete="off" placeholder="м3" name="extent">
                             </div>
                         </div>
 
@@ -507,7 +512,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Редактировать</button>
+                        <button type="submit" class="btn btn-primary">Редактировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>

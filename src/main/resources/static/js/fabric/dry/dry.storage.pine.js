@@ -78,6 +78,8 @@ function sendForPackagesStorage(btnObj) {
     // CHECK
 }
 
+
+
 function editDryStorage(btnObj) {
 
     var trObj = btnObj.parentElement.parentElement;
@@ -95,6 +97,7 @@ function editDryStorage(btnObj) {
     var length = $(trObj).find('td:eq(4)').text();
     var count = $(trObj).find('td:eq(5)').text();
     var extent = $(trObj).find('td:eq(6)').text();
+    var dryingStExt = $(trObj).find('td:eq(7)').text();
 
     $('#editDryStorageModalCode').val(code);
     $('#editDryStorageModalMaterial').val(material);
@@ -104,7 +107,37 @@ function editDryStorage(btnObj) {
     $('#editDryStorageModalLength').val(length);
     $('#editDryStorageModalCount').val(count);
     $('#editDryStorageModalVolume').val(extent);
-
+    $('#editDryStorageModalMaxExtent').val(dryingStExt);
+    $('#editDryStorageModalInitialExtent').val(extent);
 
     $('#editDryStorageModal').modal('show');
 }
+
+function calculateExtent() {
+    let thickness = parseFloat($('#editDryStorageModalThickness').val());
+    let width =     parseFloat($('#editDryStorageModalWidth').val());
+    let length =    parseFloat($('#editDryStorageModalLength').val());
+    let count =     parseInt($('#editDryStorageModalCount').val());
+
+    if (!Number.isNaN(thickness) && !Number.isNaN(width) && !Number.isNaN(length) && !Number.isNaN(count) ) {
+        let res = (thickness / 1000) * (width / 1000) * (length / 1000) * count;
+        $('#editDryStorageModalVolume').val(res.toFixed(3));
+    }else {
+        $('#editDryStorageModalVolume').val(0.000);
+        console.log("NaN value");
+    }
+}
+
+$("#editDryStorageForm").submit(function( event ) {
+    let dryingStExt =     parseFloat($('#editDryStorageModalMaxExtent').val());
+    let initialExtent = parseFloat($('#editDryStorageModalInitialExtent').val());
+    let extent =        parseFloat($('#editDryStorageModalVolume').val());
+
+    console.log("ts:"+dryingStExt+"in:"+initialExtent+"cur:"+extent);
+
+    if (extent>(dryingStExt+initialExtent)) {
+        if(!confirm("Введенная Вами кубатура превышает кубатуру в сушке на "+(extent-(dryingStExt+initialExtent)).toFixed(3)+" м3! Продолжить?")){
+            event.preventDefault();
+        }
+    }
+});

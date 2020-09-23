@@ -49,7 +49,6 @@ function sendForPackagesStorageOak(btnObj) {
 }
 
 function editDryStorageOak(btnObj) {
-
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
     $('#editDryStorageModalId').val(trId);
@@ -64,7 +63,10 @@ function editDryStorageOak(btnObj) {
     var extent =        $(trObj).find('td:eq(3)').text();
     // var length = $(trObj).find('td:eq(4)').text();
     var desc =          $(trObj).find('td:eq(4)').text();
-    // var extent = $(trObj).find('td:eq(6)').text();
+    var dryingExtent =  $(trObj).find('td:eq(7)').text();
+    var initialExt =    $(trObj).find('td:eq(3)').text();
+
+    console.log(code, material,description,thickness,extent,desc,dryingExtent,initialExt);
 
     $('#editDryStorageModalCode').val(code);
     $('#editDryStorageModalMaterial').val(material);
@@ -72,12 +74,35 @@ function editDryStorageOak(btnObj) {
     $('#editDryStorageModalThickness').val(thickness);
     // $('#editDryStorageModalWidth').val(width);
     // $('#editDryStorageModalLength').val(length);
-    $('#editDryStorageModalVolume').val(extent);
+    $('#editDryStorageModalVol').val(extent);
     $('#editDryStorageModalDesc').val(desc);
+    $('#editDryStorageModalDryingExtent').val(dryingExtent);
+    $('#editDryStorageModalInitialOakExtent').val(initialExt);
 
 
     $('#editDryStorageModal').modal('show');
 }
+
+$("#editDryStorageOakForm").submit(function( event ) {
+    let dryingStExt =   parseFloat($('#editDryStorageModalDryingExtent').val());
+    let initExtent =    parseFloat($('#editDryStorageModalInitialOakExtent').val());
+    let extent =        parseFloat($('#editDryStorageModalVol').val());
+
+    console.log("ts:"+dryingStExt+"in:"+initialExtent+"cur:"+extent);
+
+    if (extent>(dryingStExt+initExtent)) {
+        if(!confirm("Введенная Вами кубатура превышает кубатуру в сушке на "+(extent-(dryingStExt+initExtent)).toFixed(3)+" м3! Продолжить?")){
+            event.preventDefault();
+        }else{
+            alert("ok");
+        }
+
+    }
+    alert("ok");
+    event.preventDefault();
+});
+
+
 
 function resetDryExtent(btnObj) {
     let trObj = btnObj.parentElement.parentElement;
