@@ -46,7 +46,6 @@ function sendForDryingOak(btnObj) {
 
 
 function editRawStorageOak(btnObj) {
-
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
     $('#editDryingModalId').val(trId);
@@ -60,6 +59,7 @@ function editRawStorageOak(btnObj) {
     var thickness = $(trObj).find('td:eq(2)').text();
     var extent = $(trObj).find('td:eq(3)').text();
     var desc = $(trObj).find('td:eq(4)').text();
+    var treeStExt = $(trObj).find('td:eq(5)').text();
 
     $('#editDryingModalCode').val(code);
     $('#editDryingModalMaterial').val(material);
@@ -67,10 +67,26 @@ function editRawStorageOak(btnObj) {
     $('#editDryingModalThickness').val(thickness);
     $('#editDryingModalVolume').val(extent);
     $('#editForDryingModalDescription').val(desc);
-
+    $('#editDryingModalMaxExtent').val(treeStExt);
+    $('#editDryingModalInitialExtent').val(extent);
 
     $('#editDryingModal').modal('show');
 }
+
+
+$("#submitFormForEditOakRawStorage").submit(function( event ) {
+    let treeStExt =     parseFloat($('#editDryingModalMaxExtent').val());
+    let initialExtent = parseFloat($('#editDryingModalInitialExtent').val());
+    let extent =        parseFloat($('#editDryingModalVolume').val());
+    console.log("ts:"+treeStExt+"in:"+initialExtent+"cur:"+extent);
+
+    if (extent>(treeStExt+initialExtent)) {
+        confirm("Введенная Вами кубатура превышает кубатуру на складе кругляка на "+(extent-(treeStExt+initialExtent)).toFixed(3)+" м3! Продолжить?");
+    }else{
+        return;
+        event.preventDefault();
+    }
+});
 
 
 function sendForPackagesStorageOak(btnObj) {
@@ -284,6 +300,8 @@ $('#addOakInitialPackageTreeStorage').on('input', function(){
         $('#addOakInitialPackageSupplier').attr('disabled', 'disabled');
     }
 });
+
+
 
 
 

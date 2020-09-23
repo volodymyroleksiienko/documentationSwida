@@ -16,8 +16,8 @@
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th></th>
                 <th>TreeStorage extent</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -31,13 +31,13 @@
                 <td th:text="${rs.sizeOfLong}"></td>
                 <td th:text="${rs.countOfDesk}"></td>
                 <td th:text="${rs.extent}"></td>
+                <td th:text="${rs?.treeStorage?.extent}"></td>
                 <td>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                 </td>
-                <td th:text="${rs?.treeStorage?.extent}"></td>
             </tr>
 
             <tfoot>
@@ -51,8 +51,8 @@
                 <th scope="col">Длина, мм</th>
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th></th>
                 <th>TreeStorage extent</th>
+                <th></th>
             </tr>
             </tfoot>
             </tbody>
@@ -136,7 +136,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Отправить</button>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -154,12 +154,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editRawStorageObj-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editRawStorageObj-'+${userId}+'-'+${breedId}}" method="post" id="submitFormForEditRawStorage">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
                         <div class="form-group">
                             <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="editDryingModalMaxExtent" hidden="hidden" autocomplete="off">
+                            <input type="text" class="form-control" id="editDryingModalInitialExtent" hidden="hidden" autocomplete="off">
 
                             <label class="col-form-label" for="editDryingModalCode">Код</label>
                             <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
@@ -177,26 +179,26 @@
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-4">
-                                    <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                                    <label class="col-form-label" for="editDryingModalThickness">Толщина, мм</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
                                 </div>
                                 <div class="col-4">
-                                    <label class="col-form-label" for="editDryingModalWidth">Ширина</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth">
+                                    <label class="col-form-label" for="editDryingModalWidth">Ширина, мм</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
                                 </div>
                                 <div class="col-4">
-                                    <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                    <label class="col-form-label" for="editDryingModalLength">Длина, мм</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
                                 </div>
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
                                     <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
                                 </div>
                                 <div class="col-6">
-                                    <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
+                                    <label class="col-form-label" for="editDryingModalVolume">Кубатура м<sup>3</sup></label>
                                     <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="мм">
                                 </div>
                             </div>
@@ -204,7 +206,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Редактировать</button>
+                        <button type="submit" class="btn btn-primary">Редактировать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -393,8 +395,8 @@
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
-                <th></th>
                 <th>TreeStorage extent</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -406,6 +408,7 @@
                 <td th:text="${rs.sizeOfHeight}"></td>
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
+                <td th:text="${rs?.treeStorage?.extent}"></td>
                 <td style="text-align: right; width: 175px !important; display: block;">
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -413,7 +416,6 @@
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                 </td>
-                <td th:text="${rs?.treeStorage?.extent}"></td>
             </tr>
 
             <tfoot>
@@ -425,8 +427,8 @@
                 <th scope="col">Толщина, мм</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
-                <th></th>
                 <th>TreeStorage extent</th>
+                <th></th>
             </tr>
             </tfoot>
             </tbody>
@@ -503,7 +505,7 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary" id="sendForDryingModalSubmit">Отправить</button>
+                        <button type="submit" class="btn btn-primary" id="sendForDryingModalSubmit">Отправить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -522,12 +524,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editRawStorageObj-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editRawStorageObj-'+${userId}+'-'+${breedId}}" method="post" id="submitFormForEditOakRawStorage">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
                         <div class="form-group">
                             <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="editDryingModalMaxExtent" hidden="hidden" autocomplete="off">
+                            <input type="text" class="form-control" id="editDryingModalInitialExtent" hidden="hidden" autocomplete="off">
 
                             <label class="col-form-label" for="editDryingModalCode">Код</label>
                             <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">

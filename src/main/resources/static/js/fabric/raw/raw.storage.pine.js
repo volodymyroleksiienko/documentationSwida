@@ -81,6 +81,7 @@ function editRawStorage(btnObj) {
     var length = $(trObj).find('td:eq(4)').text();
     var count = $(trObj).find('td:eq(5)').text();
     var extent = $(trObj).find('td:eq(6)').text();
+    var treeStExt = $(trObj).find('td:eq(7)').text();
 
     $('#editDryingModalCode').val(code);
     $('#editDryingModalMaterial').val(material);
@@ -90,10 +91,43 @@ function editRawStorage(btnObj) {
     $('#editDryingModalLength').val(length);
     $('#editDryingModalCount').val(count);
     $('#editDryingModalVolume').val(extent);
+    $('#editDryingModalMaxExtent').val(treeStExt);
+    $('#editDryingModalInitialExtent').val(extent);
 
 
     $('#editDryingModal').modal('show');
 }
+
+function calculateExtent() {
+    let thickness = parseFloat($('#editDryingModalThickness').val());
+    let width =     parseFloat($('#editDryingModalWidth').val());
+    let length =    parseFloat($('#editDryingModalLength').val());
+    let count =     parseInt($('#editDryingModalCount').val());
+
+    if (!Number.isNaN(thickness) && !Number.isNaN(width) && !Number.isNaN(length) && !Number.isNaN(count) ) {
+        let res = (thickness / 1000) * (width / 1000) * (length / 1000) * count;
+        $('#editDryingModalVolume').val(res.toFixed(3));
+    }else {
+        $('#editDryingModalVolume').val(0.000);
+        console.log("NaN value");
+    }
+}
+
+$("#submitFormForEditRawStorage").submit(function( event ) {
+    let treeStExt =     parseFloat($('#editDryingModalMaxExtent').val());
+    let initialExtent = parseFloat($('#editDryingModalInitialExtent').val());
+    let extent =        parseFloat($('#editDryingModalVolume').val());
+    console.log("ts:"+treeStExt+"in:"+initialExtent+"cur:"+extent);
+
+    if (extent>(treeStExt+initialExtent)) {
+        confirm("Введенная Вами кубатура превышает кубатуру на складе кругляка на "+(extent-(treeStExt+initialExtent)).toFixed(3)+" м3! Продолжить?");
+    }else{
+        return;
+        event.preventDefault();
+    }
+});
+
+
 
 function sendForPackagesStorage(btnObj) {
 
