@@ -24,7 +24,7 @@
             </thead>
             <tbody>
                   <div th:each="dd, index : ${deliveryDocumentations}">
-                          <tr>
+                          <tr th:id="${dd.id}">
                               <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
                               <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
@@ -537,7 +537,7 @@
                 <tbody>
                     <div th:each="dd, index : ${deliveryDocumentations}">
 
-                        <tr>
+                        <tr th:id="${dd.id}">
                             <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
                             <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                             <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
