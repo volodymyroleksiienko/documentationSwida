@@ -704,7 +704,7 @@
                             </div>
 
                             <div class="col-2">
-                                <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Размер</label>
+                                <label class="control-label" for="sendForPackageModalSizeOak" style="padding-top: 7px">Толщина</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalSizeOak" required="required" autocomplete="off" placeholder="мм">
                             </div>
 
@@ -779,18 +779,27 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addPackOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addPackOakDesc-'+${userId}+'-'+${breedId}}" method="post" id="addOakPackageContentModalForm">
                     <div class="modal-body">
                         <input type="number" id="addOakPackageItemsPackId" hidden="" name="packageId">
+                        <input type="text" id="addOakPackageItemsInitExtentOak" hidden="hidden">
+                        <input type="text" id="addOakPackageItemsInitSizeOak" hidden="hidden">
+                        <input type="text" id="addOakPackageItemsInitLengthOak" hidden="hidden">
+                        <input type="text" id="addOakPackageItemsDryStorageExtentOak" hidden="hidden">
+                        <input type="text" id="addOakPackageItemsNewExtentOak" hidden="hidden">
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label for="addOakPackageContentWidth" class="col-form-label">Ширина</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addOakPackageContentWidth" required="required" autocomplete="off" name="width" oninput="calculateItemExtent()">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="col-form-label" for="addOakPackageContentCount">Количество досок</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakPackageContentCount"  autocomplete="off" required="required" name="count" oninput="calculateItemExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="addOakPackageItemsSummExtentOak">Кубатура</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakPackageItemsSummExtentOak"  autocomplete="off" disabled="disabled">
                             </div>
                         </div>
                     </div>
@@ -818,9 +827,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editPackOak-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editPackOak-'+${userId}+'-'+${breedId}}" method="post" id="editPackageOakModalForm">
                     <div class="modal-body">
                         <input type="text" id="editPackageModalIdOak" hidden="hidden" name = "id">
+                        <input type="text" id="editPackageModalInitExtentOak" hidden="hidden">
+                        <input type="text" id="editPackageModalDryStorageExtentOak" hidden="hidden">
+                        <input type="text" id="editPackageModalInitThicknessOak" hidden="hidden">
+                        <input type="text" id="editPackageModalInitLengthOak" hidden="hidden">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
@@ -835,12 +848,12 @@
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
-                                <label class="control-label" for="editPackageModalSizeOak" style="padding-top: 7px">Размер</label>
-                                <input type="number" min="1" class="form-control" id="editPackageModalSizeOak" required="required" placeholder="мм" name="sizeOfHeight">
+                                <label class="control-label" for="editPackageModalSizeOak" style="padding-top: 7px">Толщина</label>
+                                <input type="number" min="1" class="form-control" id="editPackageModalSizeOak" required="required" placeholder="мм" name="sizeOfHeight" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalLengthOak">Длина</label>
-                                <input type="number" min="1" class="form-control" id="editPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                <input type="number" min="1" class="form-control" id="editPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalSumLengthOak">Сум. ширина</label>
@@ -881,19 +894,32 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editPackOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editPackOakDesc-'+${userId}+'-'+${breedId}}" method="post" id="editOakPackageContentModalForm">
                     <div class="modal-body">
                         <input type="number" id="oakPackageContentId" hidden="" name="rowId">
                         <input type="number" id="editOakPackageId" hidden="" name="packageId">
 
+                        <input type="text" id="editOakPackageItemsInitExtentOak" hidden="hidden">
+                        <input type="text" id="editOakPackageItemsInitSizeOak" hidden="hidden">
+                        <input type="text" id="editOakPackageItemsInitLengthOak" hidden="hidden">
+                        <input type="text" id="editOakPackageItemsDryStorageExtentOak" hidden="hidden">
+                        <input type="text" id="editOakPackageItemsNewExtentOak" hidden="hidden">
+                        <input type="text" id="editOakPackageContentInitCount" hidden="hidden">
+                        <input type="text" id="editOakPackageContentInitWidth" hidden="hidden">
+
+
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label for="editOakPackageContentWidth" class="col-form-label">Ширина, мм</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackageContentWidth" required="required" autocomplete="off" name="width" oninput="calculateItemEditExtent()">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="col-form-label" for="editOakPackageContentCount">Количество досок</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakPackageContentCount"  autocomplete="off" required="required" name="count" oninput="calculateItemEditExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editOakPackageItemsSummExtentOak">Кубатура</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*"  class="form-control"  id="editOakPackageItemsSummExtentOak"  autocomplete="off" disabled="disabled">
                             </div>
                         </div>
                     </div>
