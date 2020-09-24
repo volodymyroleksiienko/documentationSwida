@@ -314,10 +314,10 @@ $(document).ready( function () {
 
         if( width==="" || count==="" ) {
             alert("Заполните ширину и количество досок!");
-        } else if (width<=0 || count<=0) {
-            alert("Значение не может быть отрицательным либо равным 0!");
+        } else if (width<0 || count<0) {
+            alert("Значение не может быть отрицательным!");
         }else if(length.val()==="" || height.val()==="") {
-            alert("Заполните размер и длину!");
+            alert("Заполните толщину и длину!");
         }else if(resExtent>maxExtent){
             if (((resExtent-maxExtent)>=0.000) && ((resExtent-maxExtent)<=1)){
                 console.log(resExtent-maxExtent);
@@ -332,27 +332,31 @@ $(document).ready( function () {
                 $("#sendForPackageModalCountOak").val("");
             }
         } else {
-            $('#maxExtentDiffAlert').addClass("display-none");
-            $('#maxExtentDiffAlert').removeClass("warning-btn");
+            if (parseInt(count)===0) {
+                $('#sendForPackageModalWidthOak').val(parseInt(width) + 10);
+            }else {
+                $('#maxExtentDiffAlert').addClass("display-none");
+                $('#maxExtentDiffAlert').removeClass("warning-btn");
 
-            let d = [width, count, button];
+                let d = [width, count, button];
 
-            $("#sendForPackageModalLengthOak").attr("disabled", "disabled");
-            $("#sendForPackageModalSizeOak").attr("disabled", "disabled");
+                $("#sendForPackageModalLengthOak").attr("disabled", "disabled");
+                $("#sendForPackageModalSizeOak").attr("disabled", "disabled");
 
-            $("#sendForPackageModalWidthOak").val("");
-            $("#sendForPackageModalCountOak").val("");
+                $("#sendForPackageModalWidthOak").val("");
+                $("#sendForPackageModalCountOak").val("0");
 
-            tableForTransportationOak.row.add(d).draw();
+                tableForTransportationOak.row.add(d).draw();
 
-            $('#sendForPackageModalCountOak').focus();
+                $('#sendForPackageModalCountOak').focus();
 
-            createPackageExtentCalc(tableForTransportationOak, extent, length, height);
+                createPackageExtentCalc(tableForTransportationOak, extent, length, height);
 
-            $("#sendForPackagesMaxExtent").val(maxExtent-resExtent);
-            console.log("Max ext afer adding row: "+ parseFloat($("#sendForPackagesMaxExtent").val()));
+                $("#sendForPackagesMaxExtent").val(maxExtent - resExtent);
+                console.log("Max ext afer adding row: " + parseFloat($("#sendForPackagesMaxExtent").val()));
 
-            $('#sendForPackageModalWidthOak').val(parseInt(width)+10);
+                $('#sendForPackageModalWidthOak').val(parseInt(width) + 10);
+            }
         }
     });
 
@@ -396,11 +400,11 @@ $(document).ready( function () {
         $("#addDeliveryPackageModalLengthOak").attr("disabled", "disabled");
         $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
 
-        $("#sendForPackageModalWidthOak").val("");
-        $("#sendForPackageModalCountOak").val("");
+        $("#sendForPackageModalWidthOak").val("0");
+        $("#sendForPackageModalCountOak").val("0");
 
-        $("#addDeliveryPackageModalWidthOak").val("");
-        $("#addDeliveryPackageModalCountOak").val("");
+        $("#addDeliveryPackageModalWidthOak").val("0");
+        $("#addDeliveryPackageModalCountOak").val("0");
     });
 
 
@@ -602,7 +606,7 @@ $(document).ready( function () {
 
 
 
-        if (codeOfInitialPackage1 != "" && sizeOfHeight1 != "" && length1 != "" && (treeStorageId != "" ||  supplier1 != "")) {
+        if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "" && (treeStorageId !== "" ||  supplier1 !== "")) {
             for (let i = 1; i <= listTr.length; i++) {
                 let width = $(listTr[i - 1]).find('td:eq(0)').text();
                 let count = $(listTr[i - 1]).find('td:eq(1)').text();
@@ -653,26 +657,30 @@ $(document).ready( function () {
 
         if( width==="" || count==="" ) {
             alert("Заполните ширину и количество досок!");
-        } else if (width<=0 || count<=0){
-            alert("Значение не может быть отрицательным либо равным 0!")
+        } else if (width<0 || count<0){
+            alert("Значение не может быть отрицательным!")
         }else if(length.val()==="" || height.val()==="") {
             alert("Заполните размер и длину!");
         } else {
-            let d = [width, count, button];
-            console.log(d);
+            if (parseInt(count)===0) {
+                $('#addDeliveryPackageModalWidthOak').val(parseInt(width) + 10);
+            }else {
+                let d = [width, count, button];
+                console.log(d);
 
-            $("#addDeliveryPackageModalLengthOak").attr("disabled", "disabled");
-            $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
+                $("#addDeliveryPackageModalLengthOak").attr("disabled", "disabled");
+                $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
 
-            $("#addDeliveryPackageModalWidthOak").val("");
-            $("#addDeliveryPackageModalCountOak").val("");
+                $("#addDeliveryPackageModalWidthOak").val("");
+                $("#addDeliveryPackageModalCountOak").val("0");
 
-            tableForTransportationOak.row.add(d).draw();
+                tableForTransportationOak.row.add(d).draw();
 
-            $('#addDeliveryPackageModalCountOak').focus();
+                $('#addDeliveryPackageModalCountOak').focus();
 
-            createPackageExtentCalc(tableForTransportationOak, extent, length, height);
-            $('#addDeliveryPackageModalWidthOak').val(parseInt(width)+10);
+                createPackageExtentCalc(tableForTransportationOak, extent, length, height);
+                $('#addDeliveryPackageModalWidthOak').val(parseInt(width) + 10);
+            }
         }
     });
 
@@ -686,26 +694,30 @@ $(document).ready( function () {
 
         if( width==="" || count==="" ) {
             alert("Заполните ширину и количество досок!");
-        } else if (width<=0 || count<=0){
-            alert("Значение не может быть отрицательным либо равным 0!")
+        } else if (width<0 || count<0){
+            alert("Значение не может быть отрицательным!")
         }else if(length.val()==="" || height.val()==="") {
             alert("Заполните размер и длину!");
         } else {
-            let d = [width, count, button];
-            console.log(d);
+            if (parseInt(count)===0) {
+                $('#addDeliveryPackageModalWidthOak').val(parseInt(width) + 10);
+            }else {
+                let d = [width, count, button];
+                console.log(d);
 
-            $("#addDeliveryPackageModalLengthOak").attr("disabled", "disabled");
-            $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
+                $("#addDeliveryPackageModalLengthOak").attr("disabled", "disabled");
+                $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
 
-            $("#addDeliveryPackageModalWidthOak").val("");
-            $("#addDeliveryPackageModalCountOak").val("");
+                $("#addDeliveryPackageModalWidthOak").val("");
+                $("#addDeliveryPackageModalCountOak").val("0");
 
-            tableForPackagesOak.row.add(d).draw();
+                tableForPackagesOak.row.add(d).draw();
 
-            $('#addDeliveryPackageModalCountOak').focus();
+                $('#addDeliveryPackageModalCountOak').focus();
 
-            createPackageExtentCalc(tableForPackagesOak, extent, length, height);
-            $('#addDeliveryPackageModalWidthOak').val(parseInt(width)+10);
+                createPackageExtentCalc(tableForPackagesOak, extent, length, height);
+                $('#addDeliveryPackageModalWidthOak').val(parseInt(width) + 10);
+            }
         }
     });
 

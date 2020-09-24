@@ -7,6 +7,9 @@ function addOakDriverPackage(btnObj) {
     console.log("row id: "+trId);
     $('#driverOakDeliveryId').val(trId);
 
+    $('#addDeliveryPackageModalCountOak')       .val(0);
+    $('#addDeliveryPackageModalWidthOak')       .val(100);
+
     $('#addDriverPackageModalOak').modal('show');
 
     // CHECK
