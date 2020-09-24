@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TreeStorageJPA extends JpaRepository<TreeStorage,Integer> {
-    @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfTreeStorage=?3 and  t.extent<>'0.000'")
+    @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfTreeStorage=?3 and  t.extent<>'0.000' and  t.extent not like '-%'")
     List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status);
 
     @Query("select obj.breedDescription from TreeStorage obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.breedDescription")

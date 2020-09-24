@@ -194,7 +194,9 @@ public class FabricOakController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.TREE));
+        List<TreeStorage> treeList = treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.TREE);
+        treeList.addAll(treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.RECYCLING));
+        model.addAttribute("treeStorageList",treeList);
         btnConfig(userId,model);
         return "fabricPage";
     }
