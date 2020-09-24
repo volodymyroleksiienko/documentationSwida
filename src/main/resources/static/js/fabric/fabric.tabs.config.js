@@ -305,12 +305,14 @@ $(document).ready( function () {
         let height =        $("#sendForPackageModalSizeOak");
 
         let maxExtent =     parseFloat($("#sendForPackagesMaxExtent").val());
-        console.log("Max ext: "+maxExtent);
+
+        // console.log("Max extent: "+maxExtent);
 
         let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
 
         let resExtent = (parseFloat(length.val())/1000) * (parseFloat(height.val())/1000) * (parseFloat(width)/1000) * parseInt(count);
-        console.log("res Ext after adding row: "+resExtent);
+
+        console.log("Extent of added row: "+resExtent);
 
         if( width==="" || count==="" ) {
             alert("Заполните ширину и количество досок!");
@@ -320,7 +322,7 @@ $(document).ready( function () {
             alert("Заполните толщину и длину!");
         }else if(resExtent>maxExtent){
             if (((resExtent-maxExtent)>=0.000) && ((resExtent-maxExtent)<=1)){
-                console.log(resExtent-maxExtent);
+                console.log("Added row - max extent: "+resExtent-maxExtent);
                 $('#maxExtentDiffAlert').removeClass("display-none");
                 $('#maxExtentDiffAlert').addClass("warning-btn");
 
@@ -329,7 +331,7 @@ $(document).ready( function () {
                 $('#maxExtentDiffAlert').addClass("display-none");
                 $('#maxExtentDiffAlert').removeClass("warning-btn");
                 alert("Объём превышает допустимый на " + (resExtent - maxExtent).toFixed(5) + " m3! Максимальное количество досок: " + Math.floor(maxExtent / ((parseFloat(width) / 1000) * (parseFloat(length.val()) / 1000) * (parseFloat(height.val()) / 1000))));
-                $("#sendForPackageModalCountOak").val("");
+                $("#sendForPackageModalCountOak").val("0");
             }
         } else {
             if (parseInt(count)===0) {
@@ -369,12 +371,12 @@ $(document).ready( function () {
         let height =        $("#sendForPackageModalSizeOak");
 
         let maxExtent =     parseFloat($("#sendForPackagesMaxExtent").val());
-        console.log("Max ext extra: "+maxExtent);
+        // console.log("Max extent extra: "+maxExtent);
 
         let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить''></i></button>";
 
         let resExtent = (parseFloat(length.val())/1000) * (parseFloat(height.val())/1000) * (parseFloat(width)/1000) * parseInt(count);
-        console.log("res Extent after adding extra row: "+resExtent);
+        console.log("Extent of extra row: "+resExtent);
 
         let d = [width, count, button];
 
@@ -383,7 +385,7 @@ $(document).ready( function () {
         createPackageExtentCalc(tableForTransportationOak, extent, length, height);
 
         $("#sendForPackagesMaxExtent").val(maxExtent-resExtent);
-        console.log("Max ext afer adding row inner: "+ parseFloat($("#sendForPackagesMaxExtent").val()));
+        console.log("Max ext after adding extra row: "+ parseFloat($("#sendForPackagesMaxExtent").val()));
 
         $('#maxExtentDiffAlert').removeClass("warning-btn");
         $('#maxExtentDiffAlert').addClass("display-none");
@@ -407,12 +409,6 @@ $(document).ready( function () {
         $("#addDeliveryPackageModalCountOak").val("0");
     });
 
-
-
-
-    // $('#sendForPackageModalOak').on('shown.bs.modal', function () {
-    //     tableForTransportationOak.clear().draw();
-    // })
 
 ////////////////////////////////////////////////////////////////////////////
     // ADD Package OAK
@@ -733,6 +729,8 @@ $(document).ready( function () {
             $("#addDeliveryPackageModalSizeOak").removeAttr("disabled");
         }
 
+        let maxInitExtent = parseFloat($("#sendForPackagesMaxInitExtent").val());
+
         let extent = $("#sendForPackageModalExtentOak");
         let length = $("#sendForPackageModalLengthOak");
         let height = $("#sendForPackageModalSizeOak");
@@ -744,29 +742,34 @@ $(document).ready( function () {
         let maxExtent =  parseFloat($("#sendForPackagesMaxExtent").val());
 
         let befDel =  parseFloat($("#sendForPackageModalExtentOak").val());
+        console.log("Before delete: "+befDel);
 
         createPackageExtentCalc(tableForTransportationOak, extent, length, height);
         createPackageExtentCalc(tableForTransportationOak, extentD, lengthD, heightD);
 
         let aftDel =  parseFloat($("#sendForPackageModalExtentOak").val());
+        console.log("After delete: "+aftDel);
 
-        if (maxExtent>(maxExtent+(befDel-aftDel))){
+        $("#sendForPackagesMaxExtent").val(maxExtent+(befDel-aftDel));
+        console.log("max after delete: "+  $("#sendForPackagesMaxExtent").val());
+
+        if (aftDel<maxInitExtent){
             $("#sendForPackageModalWidthOak").removeAttr("disabled");
             $("#sendForPackageModalCountOak").removeAttr("disabled");
 
             $("#addDeliveryPackageModalWidthOak").removeAttr("disabled");
             $("#addDeliveryPackageModalCountOak").removeAttr("disabled");
 
-            $("#sendForPackageModalWidthOak").val("");
-            $("#sendForPackageModalCountOak").val("");
+            $("#sendForPackageModalWidthOak").val("0");
+            $("#sendForPackageModalCountOak").val("0");
 
-            $("#addDeliveryPackageModalWidthOak").val("");
-            $("#addDeliveryPackageModalCountOak").val("");
+            $("#addDeliveryPackageModalWidthOak").val("0");
+            $("#addDeliveryPackageModalCountOak").val("0");
+        }else {
+
         }
-        $("#sendForPackagesMaxExtent").val(maxExtent+(befDel-aftDel));
-        console.log("max after delete: "+  $("#sendForPackagesMaxExtent").val());
-
-
+        console.log("Comparison : aftDel="+(aftDel)+"; maxInit="+maxInitExtent);
+        console.log("Max extent after check: "+parseFloat($("#sendForPackagesMaxExtent").val()));
     } );
 
     $('#tableForPackagesOak tbody').on( 'click', 'button', function () {

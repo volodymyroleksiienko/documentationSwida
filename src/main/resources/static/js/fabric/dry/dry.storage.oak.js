@@ -18,6 +18,7 @@ function sendForPackagesStorageOak(btnObj) {
     $('#sendForPackageModalSizeOak')        .val(size);
 
     $('#sendForPackagesMaxExtent')          .val(maxExtent);
+    $('#sendForPackagesMaxInitExtent')      .val(maxExtent);
 
     $('#sendForPackageModalQualityOak')     .val(quality);
     $('#sendForPackageModalLengthOak')      .val(length);
