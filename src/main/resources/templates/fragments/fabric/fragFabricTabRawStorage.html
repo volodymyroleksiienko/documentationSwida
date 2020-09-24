@@ -17,6 +17,7 @@
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th>TreeStorage extent</th>
+                <th>Поставщик</th>
                 <th></th>
             </tr>
             </thead>
@@ -32,6 +33,7 @@
                 <td th:text="${rs.countOfDesk}"></td>
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs?.treeStorage?.extent}"></td>
+                <td th:text="${rs?.treeStorage?.contrAgent?.nameOfAgent}"></td>
                 <td>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -52,6 +54,7 @@
                 <th scope="col">Кол-во досок, шт</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th>TreeStorage extent</th>
+                <th>Поставщик</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -396,6 +399,7 @@
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
                 <th>TreeStorage extent</th>
+                <th>Поставщик</th>
                 <th></th>
             </tr>
             </thead>
@@ -409,10 +413,11 @@
                 <td th:text="${rs.extent}"></td>
                 <td th:text="${rs.description}"></td>
                 <td th:text="${rs?.treeStorage?.extent}"></td>
+                <td th:text="${rs?.treeStorage?.contrAgent?.nameOfAgent}"></td>
                 <td style="text-align: right; width: 175px !important; display: block;">
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Расщитать и добавить кубатуру к пачке"></i></button>
+                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Рассчитать и добавить кубатуру к пачке"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                 </td>
@@ -428,6 +433,7 @@
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Примечания</th>
                 <th>TreeStorage extent</th>
+                <th>Поставщик</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -579,7 +585,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title " id="sendForPackageModalOakHeader">Расщитать и добавить кубатуру из пачки</h5>
+                        <h5 class="modal-title " id="sendForPackageModalOakHeader">Рассчитать и добавить кубатуру из пачки</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

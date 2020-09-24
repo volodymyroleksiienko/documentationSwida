@@ -9,6 +9,7 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
@@ -195,6 +196,7 @@ public class FabricRestController {
             contrAgent.setId(Integer.parseInt(supplier));
             treeStorage.setContrAgent(contrAgent);
             treeStorage.setExtent("0.000");
+            treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
             treeStorageService.save(treeStorage);
         }else {
             treeStorage = treeStorageService.findById(Integer.parseInt(treeStorageId));
