@@ -137,6 +137,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public void reloadExtentInContainer(OrderInfo mainOrder) {
         float extent = 0;
+        float docExtent = 0;
         List<DeliveryDocumentation> docList = deliveryDocumentationJPA.getListByDistributionContractsId(
                 orderInfoJPA.findDistributionId(mainOrder.getId())
         );
@@ -144,11 +145,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
 
         for(DeliveryDocumentation doc:docList){
+            docExtent = 0;
             for (PackagedProduct product:doc.getProductList()){
                 if(product.getContainer()!=null){
                     extent += Float.parseFloat(product.getExtent());
+                }else {
+                    docExtent += Float.parseFloat(product.getExtent());
                 }
             }
+            doc.setExtentWithoutContainer(
+                    String.format("%.3f",docExtent).replace(",",".")
+            );
         }
         mainOrder.setExtentInContainer(
                 String.format("%.3f",extent).replace(",",".")

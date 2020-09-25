@@ -21,7 +21,7 @@ $(document).ready( function () {
                 "searchable": false,
                 "width": "70px"
             },
-            { className: "display-none", "targets": [ -2, -3 ] }
+            { className: "display-none", "targets": [ -3, -4 ] }
         ]
     });
 
