@@ -157,6 +157,30 @@
 
         //////////////////////////////////////////////////////////////////////////////////////
 
+        $('#addOakInitialPackageCode').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addOakInitialPackageDescr').focus();
+            }
+        });
+
+        $('#addOakInitialPackageDescr').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addOakInitialPackageTreeStorage').focus();
+            }
+        });
+
+        $('#addOakInitialPackageTreeStorage').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addOakInitialPackageSupplier').focus();
+            }
+        });
+
+        $('#addOakInitialPackageSupplier').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addDeliveryPackageModalSizeOak').focus();
+            }
+        });
+
         $('#addDeliveryPackageModalWidthOak').on('keyup', function(event){
             if(event.keyCode == 13){
                 $('#addDeliveryPackageModalCountOak').focus();
