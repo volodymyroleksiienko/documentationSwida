@@ -13,6 +13,7 @@ function editOakPackage(btnObj) {
     var sumLength =                     $(trObj).find('td:eq(4)').text();
     var count =                         $(trObj).find('td:eq(5)').text();
     var extent =                        $(trObj).find('td:eq(6)').text();
+    var dryExtent =                     $(trObj).find('td:eq(7)').text();
 
     $('#editPackageModalCodeOak')       .val(code);
     $('#editPackageModalQualityOak')    .val(quality);
@@ -22,7 +23,49 @@ function editOakPackage(btnObj) {
     $('#editPackageModalDeskCountOak')  .val(count);
     $('#editPackageModalExtentOak')     .val(extent);
 
+    $('#editPackageModalDryStorageExtentOak').val(dryExtent);
+    $('#editPackageModalInitExtentOak')     .val(extent);
+    $('#editPackageModalInitThicknessOak')  .val(size);
+    $('#editPackageModalInitLengthOak')     .val(length);
+
     $('#editOakPackageModal').modal('show');
+}
+
+$("#editPackageOakModalForm").submit(function( event ) {
+    let dryExtent =    parseFloat($('#editPackageModalDryStorageExtentOak').val());
+    let initExtent =   parseFloat($('#editPackageModalInitExtentOak').val());
+    let newExtent =    parseFloat($('#editPackageModalExtentOak').val());
+
+
+    console.log("dry:"+dryExtent+"new:"+newExtent, "in:"+initExtent);
+
+    if (newExtent>(dryExtent+initExtent)) {
+        if(!confirm("Введенная Вами кубатура превышает кубатуру на сухом складе на "+(newExtent-(dryExtent+initExtent)).toFixed(3)+" м3! Продолжить?")){
+            event.preventDefault();
+        }
+    }
+});
+
+function calculateExtent() {
+    let thickness = parseFloat($('#editPackageModalSizeOak').val());
+    let length =    parseFloat($('#editPackageModalLengthOak').val());
+    let count =     parseInt($('#editPackageModalDeskCountOak').val());
+    let extent =    parseFloat($('#editPackageModalInitExtentOak').val());
+
+    let initThickness = $('#editPackageModalInitThicknessOak').val();
+    let initWidth =     $('#editPackageModalInitLengthOak').val();
+
+    if (!Number.isNaN(thickness) && !Number.isNaN(length)) {
+        let coef = extent/((initThickness / 1000) * (initWidth / 1000)*count);
+        console.log('coef: '+coef);
+        let res = ((thickness / 1000) * (length / 1000))*count*coef;
+        console.log('res: '+res);
+
+        $('#editPackageModalExtentOak').val(res.toFixed(3));
+    }else {
+        $('#editPackageModalExtentOak').val(0.000);
+        console.log("NaN value");
+    }
 }
 
 function editOakPackageItem(btnObj) {
@@ -33,34 +76,144 @@ function editOakPackageItem(btnObj) {
     let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
     let expandedId = $(expandedObj).attr('id');
     console.log("string-id: "+expandedId);
+
     let packageId = expandedId.replace(/\D+/g, "");
     console.log("parent-id: "+packageId);
 
+    let rowObj = document.getElementById(packageId);
+
+    let size =              $(rowObj).find('td:eq(2)').text();
+    let length =            $(rowObj).find('td:eq(3)').text();
+    let extent =            $(rowObj).find('td:eq(6)').text();
+    let dryExtent =         $(rowObj).find('td:eq(7)').text();
+
     $('#editOakPackageId').val(packageId);
 
+    $('#editOakPackageItemsInitSizeOak')         .val(size);
+    $('#editOakPackageItemsInitLengthOak')       .val(length);
+    $('#editOakPackageItemsDryStorageExtentOak') .val(dryExtent);
+    $('#editOakPackageItemsInitExtentOak')       .val(extent);
+    $('#editOakPackageItemsSummExtentOak')       .val(parseFloat(extent).toFixed(3));
 
-    var width =             $(trObj).find('td:eq(0)').text();
-    var count =             $(trObj).find('td:eq(1)').text();
+
+    let width =             $(trObj).find('td:eq(0)').text();
+    let count =             $(trObj).find('td:eq(1)').text();
 
     $('#oakPackageContentId')            .val(trId);
     $('#editOakPackageContentWidth')     .val(width);
     $('#editOakPackageContentCount')     .val(count);
 
+    $('#editOakPackageContentInitWidth')     .val(width);
+    $('#editOakPackageContentInitCount')     .val(count);
+
     $('#editOakPackageContentModal').modal('show');
 }
+
+function calculateItemEditExtent() {
+    let width =     parseFloat($('#editOakPackageContentWidth').val());
+    let count =     parseFloat($('#editOakPackageContentCount').val());
+
+    let initWidth =     parseFloat($('#editOakPackageContentInitWidth').val());
+    let initCount =     parseFloat($('#editOakPackageContentInitCount').val());
+
+
+    console.log("calc w:"+width+"/c:"+count);
+
+    let thickness = parseFloat($('#editOakPackageItemsInitSizeOak').val());
+    let length =    parseFloat($('#editOakPackageItemsInitLengthOak').val());
+    let extent =    parseFloat($('#editOakPackageItemsInitExtentOak').val());
+
+    console.log(thickness, length, extent, width, count);
+
+    if (!Number.isNaN(width) && !Number.isNaN(count)) {
+        let mainRes = (thickness / 1000) * (initWidth / 1000) * (length / 1000) * initCount;
+        let res = extent- mainRes+((thickness / 1000) * (width / 1000) * (length / 1000) * count);
+        console.log('res: '+res);
+
+        $('#editOakPackageItemsSummExtentOak').val((res).toFixed(3));
+    }else {
+        $('#editOakPackageItemsSummExtentOak').val(extent.toFixed(3));
+        console.log("NaN value");
+    }
+}
+
+$("#editOakPackageContentModalForm").submit(function( event ) {
+    let dryExtent =    parseFloat($('#editOakPackageItemsDryStorageExtentOak').val());
+    let initExtent =   parseFloat($('#editOakPackageItemsInitExtentOak').val());
+    let newExtent =    parseFloat($('#editOakPackageItemsSummExtentOak').val());
+
+
+    console.log("dry:"+dryExtent+"new:"+newExtent, "in:"+initExtent);
+
+    if (newExtent>(dryExtent+initExtent)) {
+        if(!confirm("Введенная Вами кубатура превышает кубатуру на сухом складе на "+(newExtent-(dryExtent+initExtent)).toFixed(3)+" м3! Продолжить?")){
+            event.preventDefault();
+        }
+    }
+});
+
+
 
 function addOakPackageItems(btnObj) {
     let trObj = btnObj.parentElement.parentElement;
     let trId =              $(trObj).attr('id');
     let packageCode =       $(trObj).find('th:eq(0)').text();
 
+    let size =              $(trObj).find('td:eq(2)').text();
+    let length =            $(trObj).find('td:eq(3)').text();
+    let extent =            $(trObj).find('td:eq(6)').text();
+    let dryExtent =         $(trObj).find('td:eq(7)').text();
+
     console.log("row id: "+trId);
 
     $('#addOakPackageItemsModalHeader').text("Добавить позицию к пачке "+ packageCode);
     $('#addOakPackageItemsPackId').val(trId);
 
+    $('#addOakPackageItemsInitSizeOak')         .val(size);
+    $('#addOakPackageItemsInitLengthOak')       .val(length);
+    $('#addOakPackageItemsDryStorageExtentOak') .val(dryExtent);
+    $('#addOakPackageItemsInitExtentOak')       .val(extent);
+    $('#addOakPackageItemsSummExtentOak')       .val(parseFloat(extent).toFixed(3));
+
     $('#addOakPackageContentModal').modal('show');
 }
+
+function calculateItemExtent() {
+    let width =     parseFloat($('#addOakPackageContentWidth').val());
+    let count =     parseFloat($('#addOakPackageContentCount').val());
+
+    let thickness = parseFloat($('#addOakPackageItemsInitSizeOak').val());
+    let length =    parseFloat($('#addOakPackageItemsInitLengthOak').val());
+    let extent =    parseFloat($('#addOakPackageItemsInitExtentOak').val());
+
+    console.log(thickness, length, extent, width, count);
+
+    if (!Number.isNaN(width) && !Number.isNaN(count)) {
+        let res = (thickness / 1000) * (width / 1000) * (length / 1000) * count;
+        console.log('res: '+res);
+
+        $('#addOakPackageItemsSummExtentOak').val((res+extent).toFixed(3));
+    }else {
+        $('#addOakPackageItemsSummExtentOak').val(extent.toFixed(3));
+        console.log("NaN value");
+    }
+}
+
+
+$("#addOakPackageContentModalForm").submit(function( event ) {
+    let dryExtent =    parseFloat($('#addOakPackageItemsDryStorageExtentOak').val());
+    let initExtent =   parseFloat($('#addOakPackageItemsInitExtentOak').val());
+    let newExtent =    parseFloat($('#addOakPackageItemsSummExtentOak').val());
+
+
+    console.log("dry:"+dryExtent+"new:"+newExtent, "in:"+initExtent);
+
+    if (newExtent>(dryExtent+initExtent)) {
+        if(!confirm("Введенная Вами кубатура превышает кубатуру на сухом складе на "+(newExtent-(dryExtent+initExtent)).toFixed(3)+" м3! Продолжить?")){
+            event.preventDefault();
+        }
+    }
+});
 
 function deleteOakPackageItem(btnObj) {
     let trObj = btnObj.parentElement.parentElement;
