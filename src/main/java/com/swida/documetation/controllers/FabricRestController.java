@@ -216,8 +216,9 @@ public class FabricRestController {
         rawStorage.setExtent(extent.replace(",","."));
         rawStorage.setTreeStorage(treeStorage);
         String rawExtent = rawStorageService.save(rawStorage);
-
-        treeStorage.setMaxExtent(rawExtent);
+        if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK){
+            treeStorage.setMaxExtent(rawExtent);
+        }
         treeStorageService.save(treeStorage);
 
     }
@@ -233,7 +234,7 @@ public class FabricRestController {
        treeStorage.setExtent(
                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(extent)).replace(",",".")
        );
-        if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK){
+        if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK ){
             treeStorage.setMaxExtent(
                     String.format("%.3f",Float.parseFloat(treeStorage.getMaxExtent())+(Float.parseFloat(extent))).replace(",",".")
             );

@@ -209,6 +209,15 @@ public class FabricController {
     @PostMapping("/exportHistoryTreeStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportHistoryTreeStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
                                                          String endDate) throws FileNotFoundException, ParseException {
+        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreedALL(breedId,userId, StatusOfTreeStorage.TREE));
+        String filePath = parser.parse(startDate,endDate);
+
+        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+    }
+
+    @PostMapping("/exportProviderHistoryTreeStorageXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportProviderHistoryTreeStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
+                                                         String endDate) throws FileNotFoundException, ParseException {
         ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreedALL(breedId,userId, StatusOfTreeStorage.PROVIDER_DESK));
         String filePath = parser.parse(startDate,endDate);
 
@@ -256,7 +265,7 @@ public class FabricController {
 //        );
 //        orderInfoService.save(orderInfo);
 //        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
 
@@ -274,6 +283,7 @@ public class FabricController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         btnConfig(userId,model);
         return "fabricPage";
     }
