@@ -11,9 +11,9 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
 
-                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')" >
-                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>
-                </li>
+<!--                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')" >-->
+<!--                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>-->
+<!--                </li>-->
 
                 <li class="nav-item" sec:authorize="hasRole('ROLE_SUPER_USER')" th:classappend="${navTabName?.equals('orderInfo')} ? 'active':''">
                     <a class="nav-link" href="/admin/getListOfContract">Заказы</a>
@@ -52,7 +52,9 @@
                 <!--Dropdown 2 end -->
 
             </ul>
-            <h5 style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">User</h5>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/admin/getListOfUserCompany"><h5 style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">User</h5></a>
+            <h5 sec:authorize="hasRole('ROLE_SUPER_USER')"  style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">User</h5>
+            <h5 sec:authorize="hasRole('ROLE_USER')" style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">User</h5>
             <img th:src="@{../img/users2_3.png}" width="50px" style="margin-right: 20px">
             <form class="form-inline my-2 my-lg-0" method="get" action="/logout">
 
