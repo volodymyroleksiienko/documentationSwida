@@ -27,6 +27,10 @@ public class TreeStorageServiceImpl implements TreeStorageService {
 
     @Override
     public void save(TreeStorage ts) {
+        if(ts.getDate()==null){
+            Date date = new Date(System.currentTimeMillis());
+            ts.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        }
         if(ts.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             ts.setBreedDescription("");
         }
@@ -36,6 +40,10 @@ public class TreeStorageServiceImpl implements TreeStorageService {
 
     @Override
     public void putNewTreeStorageObj(TreeStorage treeStorage) {
+        if(treeStorage.getDate()==null){
+            Date date = new Date(System.currentTimeMillis());
+            treeStorage.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        }
         if(treeStorage.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             treeStorage.setBreedDescription("");
         }
@@ -56,6 +64,11 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     @Override
     public List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status) {
         return treeStorageJPA.getListByUserByBreed(breedId,userId,status);
+    }
+
+    @Override
+    public List<TreeStorage> getListByUserByBreedALL(int breedId, int userId, StatusOfTreeStorage status) {
+        return treeStorageJPA.getListByUserByBreedALL(breedId,userId,status);
     }
 
     @Override

@@ -34,7 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/fabric")
@@ -128,8 +130,6 @@ public class FabricController {
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         btnConfig(userId,model);
 
-
-
         return "fabricPage";
     }
 
@@ -144,6 +144,7 @@ public class FabricController {
         company.setId(userId);
         treeStorage.setUserCompany(company);
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
+        treeStorage.setMaxExtent(treeStorage.getExtent());
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -191,6 +192,7 @@ public class FabricController {
 //        contrAgent.setNameOfAgent(nameOfAgent);
 //        treeStorage.setContrAgent(contrAgent);
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
+        treeStorage.setMaxExtent(treeStorage.getExtent());
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -199,6 +201,15 @@ public class FabricController {
     public ResponseEntity<Resource> exportTreeStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
                                                          String endDate) throws FileNotFoundException, ParseException {
         ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
+        String filePath = parser.parse(startDate,endDate);
+
+        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+    }
+
+    @PostMapping("/exportHistoryTreeStorageXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportHistoryTreeStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
+                                                         String endDate) throws FileNotFoundException, ParseException {
+        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreedALL(breedId,userId, StatusOfTreeStorage.PROVIDER_DESK));
         String filePath = parser.parse(startDate,endDate);
 
         return new GenerateResponseForExport().generate(filePath,startDate,endDate);
@@ -213,12 +224,12 @@ public class FabricController {
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setExtent("0.000");
 
-        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
-
-        treeStorage.setOrderInfo(orderInfo);
-        treeStorage.setContrAgent(orderInfo.getContrAgent());
+//        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
+//
+//        treeStorage.setOrderInfo(orderInfo);
+//        treeStorage.setContrAgent(orderInfo.getContrAgent());
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
-        treeStorageService.putNewTreeStorageObj(treeStorage);
+        treeStorageService.save(treeStorage);
 
         RawStorage rawStorage = new RawStorage();
         rawStorage.setUserCompany(userCompanyService.findById(userId));
@@ -234,15 +245,17 @@ public class FabricController {
         rawStorage.setSizeOfLong(sizeOfLong);
         rawStorage.setCountOfDesk(Integer.parseInt(countOfDesk));
 
-        rawStorageService.save(rawStorage);
+        String rawExtent =  rawStorageService.save(rawStorage);
 
-        orderInfo.setDoneExtendOfOrder(
-                String.format("%.3f",
-                        Float.parseFloat(orderInfo.getDoneExtendOfOrder())+Float.parseFloat(rawStorageService.findById(rawStorage.getId()).getExtent()))
-                        .replace(",",".")
-        );
-        orderInfoService.save(orderInfo);
-        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+        treeStorage.setMaxExtent(rawExtent);
+        treeStorageService.save(treeStorage);
+//        orderInfo.setDoneExtendOfOrder(
+//                String.format("%.3f",
+//                        Float.parseFloat(orderInfo.getDoneExtendOfOrder())+Float.parseFloat(rawStorageService.findById(rawStorage.getId()).getExtent()))
+//                        .replace(",",".")
+//        );
+//        orderInfoService.save(orderInfo);
+//        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -298,9 +311,16 @@ public class FabricController {
         rawStorageService.save(rawStorageDB);
 
         TreeStorage treeStorage = rawStorageDB.getTreeStorage();
+
         treeStorage.setExtent(
                 String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent)).replace(",",".")
         );
+        if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK){
+            treeStorage.setMaxExtent(
+                    String.format("%.3f",Float.parseFloat(treeStorage.getMaxExtent())+(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent)).replace(",",".")
+            );
+            treeStorage.setExtent("0.000");
+        }
         treeStorageService.save(treeStorage);
         if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
             OrderInfo orderInfo = treeStorage.getOrderInfo();

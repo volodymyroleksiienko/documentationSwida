@@ -5,7 +5,7 @@ import com.swida.documetation.data.entity.storages.RawStorage;
 import java.util.List;
 
 public interface RawStorageService {
-    void save(RawStorage rs);
+    String save(RawStorage rs);
     RawStorage findById(int id);
     List<RawStorage> findAll();
     List<RawStorage> getListByUserByBreed(int breedId, int userId);

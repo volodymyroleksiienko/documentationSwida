@@ -20,7 +20,7 @@ public class RawStorageServiceImpl implements RawStorageService {
     }
 
     @Override
-    public void save(RawStorage rs) {
+    public String save(RawStorage rs) {
         if (rs.getSizeOfWidth()!=null){
             float width = Float.parseFloat(rs.getSizeOfWidth())/1000;
             float height = Float.parseFloat(rs.getSizeOfHeight())/1000;
@@ -36,6 +36,7 @@ public class RawStorageServiceImpl implements RawStorageService {
             rs.setBreedDescription("");
         }
         rawStorageJPA.save(rs);
+        return rs.getExtent();
     }
 
     @Override

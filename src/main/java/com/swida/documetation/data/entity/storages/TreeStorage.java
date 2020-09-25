@@ -22,6 +22,7 @@ public class TreeStorage {
     private String codeOfProduct;
     private String breedDescription="";
     private String extent;
+    private String maxExtent;
     private String date;
 
     @OneToOne

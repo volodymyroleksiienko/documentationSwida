@@ -13,9 +13,9 @@
                     <a class="nav-link" href="/admin/getStatistics-1">Статистика</a>
                 </li>
 
-                <li class="nav-item" th:classappend="${navTabName.equals('adminPanel')} ? 'active':''">
-                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>
-                </li>
+<!--                <li class="nav-item" th:classappend="${navTabName.equals('adminPanel')} ? 'active':''">-->
+<!--                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>-->
+<!--                </li>-->
 
                 <li class="nav-item" th:classappend="${navTabName.equals('orderInfo')} ? 'active':''">
                     <a class="nav-link" href="/admin/getListOfContract">Заказы</a>
@@ -51,7 +51,7 @@
 
             </ul>
 
-            <h5 style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">Администратор</h5>
+            <a class="nav-link" href="/admin/getListOfUserCompany"><h5 style="color: white; margin: 0 10px 0 0" th:text="${(userCompanyName!=null)?userCompanyName.nameOfCompany:''}">Администратор</h5></a>
 
             <img src="../img/user2_4.png" width="50px" style="margin-right: 20px">
             <form class="form-inline my-2 my-lg-0">
