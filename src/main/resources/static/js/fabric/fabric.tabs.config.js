@@ -336,6 +336,7 @@ $(document).ready( function () {
         } else {
             if (parseInt(count)===0) {
                 $('#sendForPackageModalWidthOak').val(parseInt(width) + 10);
+                $("#sendForPackageModalCountOak").val("");
             }else {
                 $('#maxExtentDiffAlert').addClass("display-none");
                 $('#maxExtentDiffAlert').removeClass("warning-btn");
@@ -660,6 +661,7 @@ $(document).ready( function () {
         } else {
             if (parseInt(count)===0) {
                 $('#addDeliveryPackageModalWidthOak').val(parseInt(width) + 10);
+                $("#sendForPackageModalCountOak").val("");
             }else {
                 let d = [width, count, button];
                 console.log(d);
@@ -697,6 +699,7 @@ $(document).ready( function () {
         } else {
             if (parseInt(count)===0) {
                 $('#addDeliveryPackageModalWidthOak').val(parseInt(width) + 10);
+                $("#sendForPackageModalCountOak").val("");
             }else {
                 let d = [width, count, button];
                 console.log(d);
