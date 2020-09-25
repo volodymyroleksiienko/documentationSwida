@@ -1140,4 +1140,11 @@ $(document).ready( function () {
         ]
 
     });
+
+    function showPage() {
+        document.getElementById("L2").style.display = "none";
+        document.getElementById("myTabContent").style.display = "block";
+    }
+
+    setTimeout(showPage, 500);
 })
