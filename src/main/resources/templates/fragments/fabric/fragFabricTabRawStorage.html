@@ -66,12 +66,81 @@
             <button type="button" class="buttons btn btn-primary" title="История прихода" data-toggle="modal" data-placement="left" data-target="#exportHistoryModal">
                 <i class="fas fa-history"></i>
             </button>
-            <button type="button" class="buttons main-button btn btn-primary" title="Экспорт фактический" data-toggle="modal" data-placement="left" data-target="#exportModal">
+            <button type="button" class="buttons btn btn-primary" title="Экспорт фактический" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i>
+            </button>
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить пиломатериалы" data-toggle="modal" data-placement="left" data-target="#addIncomeToRawStorageModal">
+                <i class="fa fa-plus"></i>
             </button>
         </div>
         <!-- BUTTON -->
     </div>
+
+    <!--  Add to raw storage  -->
+    <div class="modal fade" id="addIncomeToRawStorageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить пиломатериалы</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addDeskFromProvider-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <label class="col-form-label" for="addToRawStorageCode">Код партии</label>
+                        <input type="text" class="form-control" id="addToRawStorageCode" required="required" autocomplete="off" placeholder="Не заполнено" name="codeOfProduct">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
+                            <div class="col-6">
+                                <label class="control-label" for="addToRawStorageMaterial">Порода</label>
+                                <input class="form-control" id="addToRawStorageMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="addToRawStorageBreedDescription">Описание породы</label>
+                                <input class="form-control" id="addToRawStorageBreedDescription" type="text" placeholder="Не заполнено"  name="breedDescription" >
+                            </div>
+                        </div>
+
+                        <label class="col-form-label" for="addToRawStorageSupplier">Поставщик</label>
+                        <input type="text" class="form-control" list="suppliers3" id="addToRawStorageSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
+                        <datalist id="suppliers3">
+                            <option  th:each="c, index : ${contrAgentList}" th:text="${c.nameOfAgent}" th:label="${c?.addressOfCompany}" th:data-value="${c.id}"></option>
+                        </datalist>
+                        <input type="number" hidden="hidden"  name="contrAgent.id" id="addToRawStorageSupplier-hidden">
+
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="control-label" for="addToRawStorageThickness">Толщина</label>
+                                <input class="form-control" id="addToRawStorageThickness" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="sizeOfHeight">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="addToRawStorageWidth">Ширина</label>
+                                <input class="form-control" id="addToRawStorageWidth" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="sizeOfWidth">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="control-label" for="addToRawStorageLength">Длина</label>
+                                <input class="form-control" id="addToRawStorageLength" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="sizeOfLong">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="addToRawStorageCount">Количество досок</label>
+                                <input class="form-control" id="addToRawStorageCount" type="number" placeholder="шт" min="1" required="required" autocomplete="off" name="countOfDesk">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- // Add to raw storage  -->
 
     <div class="modal fade" id="sendForDryingModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
