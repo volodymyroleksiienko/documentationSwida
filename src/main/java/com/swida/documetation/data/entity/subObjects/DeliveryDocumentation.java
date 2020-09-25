@@ -22,6 +22,7 @@ public class DeliveryDocumentation {
     private String clientName;
     private String description;
     private String packagesExtent;
+    private String extentWithoutContainer;
 
 
     @ManyToOne

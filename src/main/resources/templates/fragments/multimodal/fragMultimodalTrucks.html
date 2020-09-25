@@ -15,6 +15,7 @@
                 <th scope="col">Контракт</th>
                 <th scope="col">Контракт id</th>
                 <th scope="col">Агент id</th>
+                <th scope="col">Остаток</th>
                 <th></th>
             </tr>
             </thead>
@@ -28,6 +29,7 @@
                 <td th:text="${doc.orderInfo.codeOfOrder}"></td>
                 <td th:text="${doc.orderInfo.id}"></td>
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.id:''}"></td>
+                <td th:text="${doc.extentWithoutContainer}"></td>
                 <td>
                     <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary btn-sm" onclick="editTruck(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                     <button th:if="${doc.userCompany==null}" sec:authorize="hasRole('ROLE_ADMIN')"  type="button" class="btn btn-primary btn-sm" onclick="deleteTruck(this)"><i class="far fa-trash-alt" data-toggle="tooltip" title="Удалить"></i></button>
@@ -45,6 +47,7 @@
                 <th scope="col">Контракт</th>
                 <th scope="col">Контракт id</th>
                 <th scope="col">Агент id</th>
+                <th scope="col">Остаток</th>
                 <th></th>
             </tr>
             </tfoot>
