@@ -108,7 +108,7 @@ function sendForPackagesStorageOak(btnObj) {
     $('#sendForPackagesMaxExtent')      .val(maxExtent);
 
     $('#sendForPackageModalWidthOak')       .val(100);
-    $('#sendForPackageModalCountOak')       .val(0);
+    $('#sendForPackageModalCountOak')       .val('');
 
 
     // CHECK

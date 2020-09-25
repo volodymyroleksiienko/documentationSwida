@@ -331,7 +331,7 @@ $(document).ready( function () {
                 $('#maxExtentDiffAlert').addClass("display-none");
                 $('#maxExtentDiffAlert').removeClass("warning-btn");
                 alert("Объём превышает допустимый на " + (resExtent - maxExtent).toFixed(5) + " m3! Максимальное количество досок: " + Math.floor(maxExtent / ((parseFloat(width) / 1000) * (parseFloat(length.val()) / 1000) * (parseFloat(height.val()) / 1000))));
-                $("#sendForPackageModalCountOak").val("0");
+                $("#sendForPackageModalCountOak").val("");
             }
         } else {
             if (parseInt(count)===0) {
@@ -346,7 +346,7 @@ $(document).ready( function () {
                 $("#sendForPackageModalSizeOak").attr("disabled", "disabled");
 
                 $("#sendForPackageModalWidthOak").val("");
-                $("#sendForPackageModalCountOak").val("0");
+                $("#sendForPackageModalCountOak").val("");
 
                 tableForTransportationOak.row.add(d).draw();
 
@@ -668,7 +668,7 @@ $(document).ready( function () {
                 $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
 
                 $("#addDeliveryPackageModalWidthOak").val("");
-                $("#addDeliveryPackageModalCountOak").val("0");
+                $("#addDeliveryPackageModalCountOak").val("");
 
                 tableForTransportationOak.row.add(d).draw();
 
@@ -705,7 +705,7 @@ $(document).ready( function () {
                 $("#addDeliveryPackageModalSizeOak").attr("disabled", "disabled");
 
                 $("#addDeliveryPackageModalWidthOak").val("");
-                $("#addDeliveryPackageModalCountOak").val("0");
+                $("#addDeliveryPackageModalCountOak").val("");
 
                 tableForPackagesOak.row.add(d).draw();
 
@@ -760,11 +760,11 @@ $(document).ready( function () {
             $("#addDeliveryPackageModalWidthOak").removeAttr("disabled");
             $("#addDeliveryPackageModalCountOak").removeAttr("disabled");
 
-            $("#sendForPackageModalWidthOak").val("0");
-            $("#sendForPackageModalCountOak").val("0");
+            $("#sendForPackageModalWidthOak").val("");
+            $("#sendForPackageModalCountOak").val("");
 
-            $("#addDeliveryPackageModalWidthOak").val("0");
-            $("#addDeliveryPackageModalCountOak").val("0");
+            $("#addDeliveryPackageModalWidthOak").val("");
+            $("#addDeliveryPackageModalCountOak").val("");
         }else {
 
         }

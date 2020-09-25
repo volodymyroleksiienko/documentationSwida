@@ -24,7 +24,7 @@ function sendForPackagesStorageOak(btnObj) {
     $('#sendForPackageModalLengthOak')      .val(length);
 
     $('#sendForPackageModalWidthOak')       .val(100);
-    $('#sendForPackageModalCountOak')       .val(0);
+    $('#sendForPackageModalCountOak')       .val('');
     $('#sendForPackageModalCountOak')       .focus();
 
 
