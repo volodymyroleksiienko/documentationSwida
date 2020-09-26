@@ -42,7 +42,7 @@
                 <!-- Dropdown 2 start -->
                 <li class="nav-item dropdown " sec:authorize="hasAnyAuthority('ROLE_SUPER_USER','ROLE_ADMIN')">
                     <th:block th:if="${userId!=userCompanyName?.id}" th:each="userList : ${userCompanyList}">
-                        <a th:if="${userList.id==userId}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" th:text="'Вход от имени '+ ${userList.nameOfCompany}"></a>
+                        <a th:if="${userList.id==userId}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" th:text="'Вход от имени: '+ ${userList.nameOfCompany}"></a>
                     </th:block>
                     <a th:if="${userId==null || userId==userCompanyName?.id}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" >Вход от имени</a>
                     <div class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">

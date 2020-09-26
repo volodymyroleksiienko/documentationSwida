@@ -234,10 +234,40 @@ $(document).ready( function () {
     // DELETE BUTTON END
 
 
+
     function showPage() {
         document.getElementById("L2").style.display = "none";
         document.getElementById("myTabContent").style.display = "block";
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
     }
 
     setTimeout(showPage, 500);
 });
+
+
+let summary = 0.000;
+
+function drawChart() {
+
+    let data = new google.visualization.DataTable();
+    data.addColumn('string', 'Place');
+    data.addColumn('number', 'Extent');
+    data.addRow(['Выбрано', 100]);
+
+    let options = {
+        title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
+        pieHole: 0.4,
+        sliceVisibilityThreshold: .00001,
+        // pieSliceTextStyle: {
+        //     color: 'white',
+        // },
+
+        // is3D: true,
+    };
+
+    let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+}

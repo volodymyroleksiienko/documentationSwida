@@ -15,7 +15,7 @@
     <link th:href="@{../css/fontawesome.css}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{../css/component-chosen.css}">
     <style>
-        svg {
+        #L2 {
             height: 100px;
             margin: 10% auto 0 auto;
             display: inline-block;
@@ -27,9 +27,9 @@
             display: none;
         }
     </style>
-
 </head>
 <body>
+
 <!-- NAVIGATION -->
 <div th:replace="~{fragments/admin/fragAdminNavigation :: adminNavigation}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
 <div th:replace="~{fragments/fabric/fragFabricNavigation :: fabricNavigation}" sec:authorize="hasRole('ROLE_SUPER_USER')"></div>
@@ -43,7 +43,7 @@
     </div>
     <!-- HEADERS END-->
 
-    <!-- Loader  -->
+<!--     Loader-->
     <svg enable-background="new 0 0 100 100" id="L2" version="1.1" viewBox="0 0 100 100" x="0px" xml:space="preserve"
          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px">
                 <circle cx="50" cy="50" fill="none" r="48" stroke="#18BC9C" stroke-miterlimit="10" stroke-width="4"/>
@@ -66,10 +66,10 @@
                           type="rotate" />
         </line>
     </svg>
-    <!-- Loader  -->
+<!--     Loader-->
 
     <!-- ALL TABLES START-->
-    <div id="myTabContent" class="tab-content">
+    <div id="myTabContent" class="tab-content" >
         <div th:if="${fragmentPathAdminStatistics!=null}">
             <div th:replace="~{fragments/admin/fragAdminStatistics :: ${fragmentPathAdminStatistics}}"></div>
         </div>
@@ -109,6 +109,7 @@
 <script type="text/javascript" th:src="@{../js/deadlines.checkout.js}"></script>
 <script type="text/javascript" th:src="@{../js/set.hidden.value.js}"></script>
 <script type="text/javascript" th:src="@{../js/admin/admin.tabs.config.js}"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" th:src="@{../js/admin/choosen.js}"></script>
 <script type="text/javascript">
     $('.form-control-chosen').chosen();

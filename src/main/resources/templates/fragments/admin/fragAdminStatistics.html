@@ -1,5 +1,4 @@
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="statisticsPine">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <div class="tab-pane fade show active container-fluid" id="pineStats">
         <br>
@@ -65,7 +64,7 @@
                 <td style="width: 7.5%" th:if="${breedId==2}"></td>
             </tr>
         </table>
-        <div style="display: flex; align-items: center; justify-content: center">
+        <div style="display: flex; align-items: center; justify-content: center" id="chart">
             <div id="piechart" style="width: 900px; height: 500px; justify-content: center">
             </div>
         </div>
@@ -73,46 +72,13 @@
 
 
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-
-        let summary = 0.000;
-
-        function drawChart() {
-
-            let data = new google.visualization.DataTable();
-            data.addColumn('string', 'Place');
-            data.addColumn('number', 'Extent');
-            data.addRow(['Выбрано', 100]);
-
-            let options = {
-                title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
-                pieHole: 0.4,
-                sliceVisibilityThreshold: .00001,
-                // pieSliceTextStyle: {
-                //     color: 'white',
-                // },
-
-                // is3D: true,
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-            chart.draw(data, options);
-        }
-
         function sendRequestForStatistic(breedId) {
-            var descriptions = $('#selectDescription').val();
-
-            var sizeOfHeight = $('#selectSizeOfHeight').val();
-
-            var sizeOfWidth = $('#selectSizeOfWidth').val();
-
-            var sizeOfLong = $('#selectSizeOfLong').val();
-
-            var providers = $('#selectProvider').val();
-
-            var stages = $('#selectStage').val();
+            var descriptions =  $('#selectDescription').val();
+            var sizeOfHeight =  $('#selectSizeOfHeight').val();
+            var sizeOfWidth =   $('#selectSizeOfWidth').val();
+            var sizeOfLong =    $('#selectSizeOfLong').val();
+            var providers =     $('#selectProvider').val();
+            var stages =        $('#selectStage').val();
 
             console.log(breedId);
             console.log(descriptions);
@@ -204,6 +170,7 @@
                         let options = {
                             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
                             pieHole: 0.4,
+                            sliceVisibilityThreshold: .00001,
                             // is3D: true,
                         };
 
@@ -254,6 +221,7 @@
                         let options = {
                             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
                             pieHole: 0.4,
+                            sliceVisibilityThreshold: .00001,
                             // is3D: true,
                         };
 
@@ -270,12 +238,7 @@
 
             }
         }
-
-        function getListOfSelected(selectId){
-
-        }
     </script>
-
 </th:block>
 
 
