@@ -23,7 +23,10 @@
                         <option value="noDesc">без описания</option>
                         <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
+                    <button  id="selectDesc" class="select" onclick="selectButton('selectDescription')">Select</button>
+                    <button  id="deselectDesc" class="select" onclick="deselectButton('selectDescription')">Deselect</button>
                 </td>
+
                 <td style="width: 15%">
                     <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
@@ -74,6 +77,25 @@
 
 
     <script type="text/javascript">
+        function selectButton(selectId){
+            $('#'+selectId+' option').prop('selected', true);
+            $('#'+selectId).trigger('chosen:updated');
+        }
+
+        function deselectButton(selectId){
+            $('#'+selectId+' option:selected').prop("selected",false);
+            $('#'+selectId).trigger('chosen:updated');
+        }
+
+        function selectAll() {
+            console.log("click");
+            // $('#selectDescription option').prop('selected', true); // Selects all options
+            var options = document.getElementById('selectDescription_chosen').getElementsByTagName('li');
+            for(var i = 0; i<options.length;i++){
+                options[i].click();
+                console.log(options[i]);
+            }
+        }
         function sendRequestForStatistic(breedId) {
             var descriptions =  $('#selectDescription').val();
             var sizeOfHeight =  $('#selectSizeOfHeight').val();
