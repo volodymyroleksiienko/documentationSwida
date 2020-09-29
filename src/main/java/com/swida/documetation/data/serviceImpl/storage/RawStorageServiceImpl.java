@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.RawStorage;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
 import com.swida.documetation.data.service.storages.RawStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,11 @@ public class RawStorageServiceImpl implements RawStorageService {
             return rawStorageJPA.getListByUserByBreedOak(breedId,userId);
         }
         return rawStorageJPA.getListByUserByBreed(breedId,userId);
+    }
+
+    @Override
+    public List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status) {
+        return rawStorageJPA.getListByUserByBreedByStatusOfTree(breedId,userId,status);
     }
 
     @Override

@@ -24,6 +24,7 @@ public class RawStorage {
     private String sizeOfLong;
 
     private int countOfDesk;
+    private int maxCountOfDesk;
 
     private String extent;
     private String description;

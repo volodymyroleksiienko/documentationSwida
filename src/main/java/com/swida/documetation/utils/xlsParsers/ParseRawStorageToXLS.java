@@ -38,9 +38,13 @@ public class ParseRawStorageToXLS {
         style.setBorderLeft(BorderStyle.MEDIUM);
         style.setBorderRight(BorderStyle.MEDIUM);
 
-        for (int i = 0; i<8;i++){
-            sheet.setColumnWidth(i,3500);
+        for (int i = 0; i<12;i++){
+            sheet.setColumnWidth(i,2300);
         }
+
+        sheet.setColumnWidth(0,3500);
+        sheet.setColumnWidth(10,3500);
+
 
         int rowCount = 0;
         Row rowHeader = sheet.createRow(rowCount++);
@@ -48,11 +52,15 @@ public class ParseRawStorageToXLS {
         rowHeader.createCell(0).setCellValue("Код партии");
         rowHeader.createCell(1).setCellValue("Порода");
         rowHeader.createCell(2).setCellValue("Описание");
-        rowHeader.createCell(3).setCellValue("Толщина, мм");
-        rowHeader.createCell(4).setCellValue("Ширина, мм");
-        rowHeader.createCell(5).setCellValue("Длина, мм");
-        rowHeader.createCell(6).setCellValue("Доски, шт");
+        rowHeader.createCell(3).setCellValue("Тол, мм");
+        rowHeader.createCell(4).setCellValue("Шир, мм");
+        rowHeader.createCell(5).setCellValue("Дл, мм");
+        rowHeader.createCell(6).setCellValue("На складе, шт");
         rowHeader.createCell(7).setCellValue("Кубатура,м3");
+        rowHeader.createCell(8).setCellValue("Было, шт");
+        rowHeader.createCell(9).setCellValue("Кубатура,м3");
+        rowHeader.createCell(10).setCellValue("Поставщик");
+        rowHeader.createCell(11).setCellValue("Дата");
         rowHeader.getCell(0).setCellStyle(style);
         rowHeader.getCell(1).setCellStyle(style);
         rowHeader.getCell(2).setCellStyle(style);
@@ -61,6 +69,10 @@ public class ParseRawStorageToXLS {
         rowHeader.getCell(5).setCellStyle(style);
         rowHeader.getCell(6).setCellStyle(style);
         rowHeader.getCell(7).setCellStyle(style);
+        rowHeader.getCell(8).setCellStyle(style);
+        rowHeader.getCell(9).setCellStyle(style);
+        rowHeader.getCell(10).setCellStyle(style);
+        rowHeader.getCell(11).setCellStyle(style);
 
         for(RawStorage rs: rawStorages){
             if (rs.getDate()!=null) {
@@ -79,6 +91,14 @@ public class ParseRawStorageToXLS {
                     BigDecimal extent = new BigDecimal(Float.parseFloat(rs.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
                     row.createCell(7).setCellValue(extent.doubleValue());
 
+                    row.createCell(8).setCellValue(rs.getMaxCountOfDesk());
+                    BigDecimal maxExtent = new BigDecimal(
+                            Float.parseFloat(rs.getSizeOfHeight())*Float.parseFloat(rs.getSizeOfWidth())*Float.parseFloat(rs.getSizeOfLong())*rs.getMaxCountOfDesk()/1000000000)
+                            .setScale(3,BigDecimal.ROUND_HALF_UP);
+                    row.createCell(9).setCellValue(maxExtent.doubleValue());
+
+                    row.createCell(10).setCellValue(rs.getTreeStorage().getContrAgent().getNameOfAgent());
+                    row.createCell(11).setCellValue(rs.getTreeStorage().getDate());
                     row.getCell(0).setCellStyle(style);
                     row.getCell(1).setCellStyle(style);
                     row.getCell(2).setCellStyle(style);
@@ -87,6 +107,10 @@ public class ParseRawStorageToXLS {
                     row.getCell(5).setCellStyle(style);
                     row.getCell(6).setCellStyle(style);
                     row.getCell(7).setCellStyle(style);
+                    row.getCell(8).setCellStyle(style);
+                    row.getCell(9).setCellStyle(style);
+                    row.getCell(10).setCellStyle(style);
+                    row.getCell(11).setCellStyle(style);
                 }
             }
         }

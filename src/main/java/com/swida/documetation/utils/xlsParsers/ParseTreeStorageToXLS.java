@@ -36,8 +36,8 @@ public class ParseTreeStorageToXLS {
         style.setBorderLeft(BorderStyle.MEDIUM);
         style.setBorderRight(BorderStyle.MEDIUM);
 
-        for (int i = 0; i<6;i++){
-            sheet.setColumnWidth(i,5000);
+        for (int i = 0; i<7;i++){
+            sheet.setColumnWidth(i,4500);
         }
 
         int rowCount = 0;
@@ -47,14 +47,16 @@ public class ParseTreeStorageToXLS {
         rowHeader.createCell(1).setCellValue("Порода");
         rowHeader.createCell(2).setCellValue("Описание");
         rowHeader.createCell(3).setCellValue("Поставщик");
-        rowHeader.createCell(4).setCellValue("Фактически,м3");
-        rowHeader.createCell(5).setCellValue("Максимально,м3");
+        rowHeader.createCell(4).setCellValue("На складе,м3");
+        rowHeader.createCell(5).setCellValue("Было,м3");
+        rowHeader.createCell(6).setCellValue("Дата");
         rowHeader.getCell(0).setCellStyle(style);
         rowHeader.getCell(1).setCellStyle(style);
         rowHeader.getCell(2).setCellStyle(style);
         rowHeader.getCell(3).setCellStyle(style);
         rowHeader.getCell(4).setCellStyle(style);
         rowHeader.getCell(5).setCellStyle(style);
+        rowHeader.getCell(6).setCellStyle(style);
 
         for(TreeStorage ts: treeStorage){
            if (ts.getDate()!=null) {
@@ -76,12 +78,14 @@ public class ParseTreeStorageToXLS {
                    }else {
                        row.createCell(5).setCellValue("");
                    }
+                   row.createCell(6).setCellValue(ts.getDate());
                    row.getCell(0).setCellStyle(style);
                    row.getCell(1).setCellStyle(style);
                    row.getCell(2).setCellStyle(style);
                    row.getCell(3).setCellStyle(style);
                    row.getCell(4).setCellStyle(style);
                    row.getCell(5).setCellStyle(style);
+                   row.getCell(6).setCellStyle(style);
                }
            }
         }

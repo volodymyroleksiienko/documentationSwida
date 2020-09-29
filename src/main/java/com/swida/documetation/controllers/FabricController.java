@@ -218,8 +218,14 @@ public class FabricController {
     @PostMapping("/exportProviderHistoryTreeStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportProviderHistoryTreeStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
                                                          String endDate) throws FileNotFoundException, ParseException {
-        ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreedALL(breedId,userId, StatusOfTreeStorage.PROVIDER_DESK));
-        String filePath = parser.parse(startDate,endDate);
+        String filePath;
+        if(breedId==2) {
+            ParseTreeStorageToXLS parser = new ParseTreeStorageToXLS(treeStorageService.getListByUserByBreedALL(breedId, userId, StatusOfTreeStorage.PROVIDER_DESK));
+            filePath = parser.parse(startDate, endDate);
+        }else{
+            ParseRawStorageToXLS parser = new ParseRawStorageToXLS(rawStorageService.getListByUserByBreedByStatusOfTree(breedId, userId, StatusOfTreeStorage.PROVIDER_DESK));
+            filePath = parser.parse(startDate, endDate);
+        }
 
         return new GenerateResponseForExport().generate(filePath,startDate,endDate);
     }
@@ -253,8 +259,10 @@ public class FabricController {
         rawStorage.setSizeOfWidth(sizeOfWidth);
         rawStorage.setSizeOfLong(sizeOfLong);
         rawStorage.setCountOfDesk(Integer.parseInt(countOfDesk));
+        rawStorage.setMaxCountOfDesk(rawStorage.getCountOfDesk());
 
         String rawExtent =  rawStorageService.save(rawStorage);
+
 
         treeStorage.setMaxExtent(rawExtent);
         treeStorageService.save(treeStorage);
@@ -330,6 +338,8 @@ public class FabricController {
                     String.format("%.3f",Float.parseFloat(treeStorage.getMaxExtent())+(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent)).replace(",",".")
             );
             treeStorage.setExtent("0.000");
+            rawStorage.setMaxCountOfDesk(rawStorage.getCountOfDesk());
+            rawStorageService.save(rawStorage);
         }
         treeStorageService.save(treeStorage);
         if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
