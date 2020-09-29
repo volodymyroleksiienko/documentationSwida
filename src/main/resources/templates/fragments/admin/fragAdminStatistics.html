@@ -23,29 +23,37 @@
                         <option value="noDesc">без описания</option>
                         <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
-                    <button  id="selectDesc" class="select" onclick="selectButton('selectDescription')">Select</button>
-                    <button  id="deselectDesc" class="select" onclick="deselectButton('selectDescription')">Deselect</button>
+                    <button class="btn btn-primary" id="selectDesc"  onclick="selectButton('selectDescription')">Выбрать все</button>
+                    <button class="btn btn-primary" id="deselectDesc" onclick="deselectButton('selectDescription')">Очистить</button>
                 </td>
 
                 <td style="width: 15%">
                     <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
+                    <button class="btn btn-primary"  onclick="selectButton('selectSizeOfHeight')">Выбрать все</button>
+                    <button class="btn btn-primary"  onclick="deselectButton('selectSizeOfHeight')">Очистить</button>
                 </td>
                 <td style="width: 15%" th:if="${breedId!=2}">
                     <select id="selectSizeOfWidth" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
+                    <button class="btn btn-primary"   onclick="selectButton('selectSizeOfWidth')">Выбрать все</button>
+                    <button class="btn btn-primary"  onclick="deselectButton('selectSizeOfWidth')">Очистить</button>
                 </td>
                 <td style="width: 15%">
                     <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
                     </select>
+                    <button class="btn btn-primary"  onclick="selectButton('selectSizeOfLong')">Выбрать все</button>
+                    <button class="btn btn-primary"  onclick="deselectButton('selectSizeOfLong')">Очистить</button>
                 </td>
                 <td style="width: 20%">
                     <select id="selectProvider" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${providerList}" th:value="${obj.id}" th:text="${obj.nameOfAgent}"></option>
                     </select>
+                    <button class="btn btn-primary"  onclick="selectButton('selectProvider')">Выбрать все</button>
+                    <button class="btn btn-primary"  onclick="deselectButton('selectProvider')">Очистить</button>
                 </td>
                 <td style="width: 20%">
                     <select id="selectStage" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
@@ -60,6 +68,8 @@
                         <option  value="providerInWork">Материал (в работе)</option>
                         <option  value="recycleStorage">Переработка</option>
                     </select>
+                    <button class="btn btn-primary" onclick="selectButton('selectStage')">Выбрать все</button>
+                    <button class="btn btn-primary" onclick="deselectButton('selectStage')">Очистить</button>
                 </td>
                 <td style="width: auto; align-items: end;">
                     <button class="btn btn-primary" onclick="sendRequestForStatistic(this.id)" th:id="${breedId}">
