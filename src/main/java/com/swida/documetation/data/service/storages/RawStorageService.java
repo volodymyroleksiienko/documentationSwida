@@ -1,6 +1,7 @@
 package com.swida.documetation.data.service.storages;
 
 import com.swida.documetation.data.entity.storages.RawStorage;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ public interface RawStorageService {
     RawStorage findById(int id);
     List<RawStorage> findAll();
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
+    List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
     void deleteByID(int id);
 
     //for statistic

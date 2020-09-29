@@ -2,6 +2,7 @@ package com.swida.documetation.data.jpa.storages;
 
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -10,6 +11,8 @@ import java.util.List;
 public interface RawStorageJPA extends JpaRepository<RawStorage,Integer> {
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.countOfDesk>0")
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
+    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.treeStorage.statusOfTreeStorage=?3")
+    List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.extent<>'0.000' and  r.extent not like '-%'")
     List<RawStorage> getListByUserByBreedOak(int breedId, int userId);
 
