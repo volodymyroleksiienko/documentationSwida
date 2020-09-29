@@ -94,7 +94,7 @@ $(document).ready( function () {
 
 
 
-    $('#rawstoragetable').DataTable({
+    let rawstoragetable =  $('#rawstoragetable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
@@ -130,13 +130,18 @@ $(document).ready( function () {
         let breedID = $("#breedId").val();
         let userID = $("#userId").val();
 
+        let tree =          $("#addToRawStorageMaterial").val();
+
         let code =          $("#addToRawStorageCode").val();
         let breedDescr =    $("#addToRawStorageBreedDescription").val();
-        let supplier =      $("#addToRawStorageSupplier-hidden").val();
+        let supplier =      $("#addToRawStorageSupplier").val();
+        let supplierId =    $("#addToRawStorageSupplier-hidden").val();
         let thickness =     $("#addToRawStorageThickness").val();
         let width =         $("#addToRawStorageWidth").val();
         let length =        $("#addToRawStorageLength").val();
         let count =         $("#addToRawStorageCount").val();
+
+        let button = "<button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\"  data-toggle=\"modal\" onclick=\"sendForDrying(this)\"><i class=\"fas fa-th\" data-toggle=\"tooltip\" title=\"В сушку\"></i></button> <button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\"  data-toggle=\"modal\" onclick=\"editRawStorage(this)\"><i class=\"fas fa-pen\" data-toggle=\"tooltip\" title=\"Редактировать\"></i></button> <button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\"  data-toggle=\"modal\" onclick=\"sendForPackagesStorage(this)\"><i class=\"fas fa-cubes\" data-toggle=\"tooltip\" title=\"Формирование пачек\"></i></button> <button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\" data-toggle=\"modal\" onclick=\"returnToIncome(this)\"><i class=\"fas fa-undo-alt\" data-toggle=\"tooltip\" title=\"Возвратить в приход\"></i></button>";
 
 
         if (code !== "" && supplier !== "" && thickness !== "" && width !== "" && length !== "" && count !== "" ) {
@@ -147,7 +152,7 @@ $(document).ready( function () {
                 data: {
                     codeOfProduct: code,
                     breedDescription: breedDescr,
-                    contrAgentId: supplier,
+                    contrAgentId: supplierId,
                     sizeOfHeight: thickness,
                     sizeOfWidth: width,
                     sizeOfLong: length,
@@ -155,8 +160,16 @@ $(document).ready( function () {
                 },
                 traditional: true,
                 success: function (obj) {
-                    // alert(obj);
                     console.log(obj);
+                    let id =            obj["rawStorageId"];
+                    let treeStorageExt= obj["treeStorageExtent"];
+                    let rawStorageExt = obj["rawStorageExtent"];
+
+                    let row = [id, code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, button];
+
+                    rawstoragetable.row.add(row).draw();
+
+                    alert("Запись успешно добавлена!");
                 },
                 error: function () {
                     alert("Заполните все поля!");
