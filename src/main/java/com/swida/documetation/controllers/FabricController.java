@@ -1,5 +1,6 @@
 package com.swida.documetation.controllers;
 
+import com.google.gson.Gson;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
@@ -18,7 +19,10 @@ import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
+import com.swida.documetation.utils.other.PackageProductToJson;
 import com.swida.documetation.utils.xlsParsers.*;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -27,10 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -231,18 +232,19 @@ public class FabricController {
     }
 
 
+    @ResponseBody
     @PostMapping("/addDeskFromProvider-{userId}-{breedId}")
-    public String addDeskFromProvider(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                      TreeStorage treeStorage, String sizeOfHeight, String sizeOfWidth,
-                                      String sizeOfLong, String countOfDesk, String nameOfAgent, String extent, String contractId){
+    public JSONObject addDeskFromProvider(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                      String codeOfProduct,String breedDescription, String sizeOfHeight, String sizeOfWidth,
+                                      String sizeOfLong, String countOfDesk, String contrAgentId, String extent, String contractId) throws net.minidev.json.parser.ParseException {
+        TreeStorage treeStorage = new TreeStorage();
+        treeStorage.setCodeOfProduct(codeOfProduct);
+        treeStorage.setBreedDescription(breedDescription);
+        treeStorage.setContrAgent(contrAgentService.findById(Integer.parseInt(contrAgentId)));
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setExtent("0.000");
 
-//        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
-//
-//        treeStorage.setOrderInfo(orderInfo);
-//        treeStorage.setContrAgent(orderInfo.getContrAgent());
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
         treeStorageService.save(treeStorage);
 
@@ -266,14 +268,13 @@ public class FabricController {
 
         treeStorage.setMaxExtent(rawExtent);
         treeStorageService.save(treeStorage);
-//        orderInfo.setDoneExtendOfOrder(
-//                String.format("%.3f",
-//                        Float.parseFloat(orderInfo.getDoneExtendOfOrder())+Float.parseFloat(rawStorageService.findById(rawStorage.getId()).getExtent()))
-//                        .replace(",",".")
-//        );
-//        orderInfoService.save(orderInfo);
-//        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+
+
+        JSONObject json = new JSONObject();
+        json.put("rawStorageId",rawStorage.getId());
+        json.put("treeStorageExtent",treeStorage.getExtent());
+        return json;
+//        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
 

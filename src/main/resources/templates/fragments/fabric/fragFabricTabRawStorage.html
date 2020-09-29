@@ -88,8 +88,8 @@
                 </div>
                 <form>
                     <div class="modal-body">
-                        <input type="hidden" id="breedId" th:value="$breedId">
-                        <input type="hidden" id="userId" th:value="$userId">
+                        <input type="hidden" id="breedId" th:value="${breedId}">
+                        <input type="hidden" id="userId" th:value="${userId}">
 
                         <label class="col-form-label" for="addToRawStorageCode">Код партии</label>
                         <input type="text" class="form-control" id="addToRawStorageCode" required="required" autocomplete="off" placeholder="Не заполнено" name="codeOfProduct">

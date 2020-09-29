@@ -145,19 +145,18 @@ $(document).ready( function () {
                 url: "/fabric/addDeskFromProvider-"+userID+'-'+breedID,
                 contextType: "application/json",
                 data: {
-                    code: code,
+                    codeOfProduct: code,
                     breedDescription: breedDescr,
-                    supplierId: supplier,
+                    contrAgentId: supplier,
                     sizeOfHeight: thickness,
                     sizeOfWidth: width,
                     sizeOfLong: length,
-                    count: count
+                    countOfDesk: count
                 },
                 traditional: true,
                 success: function (obj) {
-
-                    alert("zbs"+obj);
-
+                    // alert(obj);
+                    console.log(obj);
                 },
                 error: function () {
                     alert("Заполните все поля!");
