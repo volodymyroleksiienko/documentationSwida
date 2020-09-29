@@ -273,6 +273,7 @@ public class FabricController {
         JSONObject json = new JSONObject();
         json.put("rawStorageId",rawStorage.getId());
         json.put("treeStorageExtent",treeStorage.getExtent());
+        json.put("rawStorageExtent",rawStorage.getExtent());
         return json;
 //        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
