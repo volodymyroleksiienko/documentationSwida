@@ -28,23 +28,6 @@ function sendForDrying(btnObj) {
 
     $('#sendForDryingModal').modal('show');
 
-    // CHECK
-    // $( "#sendForDryingModalFormPine" ).submit(function( event ) {
-    //     // alert( "Handler for .submit() called." );
-    //     let maxAmount =		parseInt(count);
-    //     let amount = 		parseFloat($('#sendForDryingModalCount').val());
-    //     let luck =			amount-maxAmount;
-    //
-    //     if (((parseFloat($('#sendForDryingModalCount').val()))<=0.0)) {
-    //         alert("Введите правильное значение");
-    //         $('#sendForDryingModalCount').val("0.0");
-    //     }else if (amount>maxAmount) {
-    //         alert("Не хватает: "+luck+" м3 !");
-    //     } else {
-    //         return;
-    //     }
-    //     event.preventDefault();
-    // });
 
     $("#sendForDryingModalCount").change(function () {
         if ((parseInt($('#sendForDryingModalCount').val())) <= 0) {
@@ -218,4 +201,5 @@ function returnToIncome(btnObj) {
     $('#returnItemModalConfirmation').text(" Вы уверены, что хотите возвратить партию №"+code+" на склад прихода?");
     $('#returnToIncomeModal').modal('show');
 }
+
 

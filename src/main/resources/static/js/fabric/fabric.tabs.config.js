@@ -125,6 +125,53 @@ $(document).ready( function () {
     //TOOGLE SELECTED END
 
 
+    // ADD MATERIAL
+    $('#sendRequestToAddInputButton').on('click',function() {
+        let breedID = $("#breedId").val();
+        let userID = $("#userId").val();
+
+        let code =          $("#addToRawStorageCode").val();
+        let breedDescr =    $("#addToRawStorageBreedDescription").val();
+        let supplier =      $("#addToRawStorageSupplier-hidden").val();
+        let thickness =     $("#addToRawStorageThickness").val();
+        let width =         $("#addToRawStorageWidth").val();
+        let length =        $("#addToRawStorageLength").val();
+        let count =         $("#addToRawStorageCount").val();
+
+
+        if (code !== "" && supplier !== "" && thickness !== "" && width !== "" && length !== "" && count !== "" ) {
+            $.ajax({
+                method: "post",
+                url: "/fabric/addDeskFromProvider-"+userID+'-'+breedID,
+                contextType: "application/json",
+                data: {
+                    code: code,
+                    breedDescription: breedDescr,
+                    supplierId: supplier,
+                    sizeOfHeight: thickness,
+                    sizeOfWidth: width,
+                    sizeOfLong: length,
+                    count: count
+                },
+                traditional: true,
+                success: function (obj) {
+
+                    alert("zbs"+obj);
+
+                },
+                error: function () {
+                    alert("Заполните все поля!");
+                }
+            });
+        } else {
+            alert("Заполните все поля!");
+        }
+    });
+
+
+
+
+
 
 
     let dryingtable = $('#dryingtable').DataTable({
