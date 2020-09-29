@@ -70,6 +70,14 @@ $("#editPackageForm").submit(function( event ) {
             event.preventDefault();
         }
     }
+    event.preventDefault();
+});
+
+
+$("#addPackagedProductWithoutHistoryForm").on('submit', function( event ) {
+    event.preventDefault();
+    // return false;
+    console.log("submit");
 });
 
 

@@ -161,6 +161,9 @@ $(document).ready( function () {
                 traditional: true,
                 success: function (obj) {
                     console.log(obj);
+
+                    $("#addToRawStorageCode").focus();
+
                     let id =            obj["rawStorageId"];
                     let treeStorageExt= obj["treeStorageExtent"];
                     let rawStorageExt = obj["rawStorageExtent"];
@@ -243,6 +246,7 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ -2 ] }
         ]
     });
+
 
     // TOOGLE SELECTED START
     $('#drystoragetable tbody').on( 'click', 'tr', function () {

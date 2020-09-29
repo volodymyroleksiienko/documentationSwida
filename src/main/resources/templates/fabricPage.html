@@ -255,6 +255,59 @@
                 $('#addDeliveryPackageModalWidthOak').focus();
             }
         });
+        /////////////////////////////////////////////////////////////////////////////
+        let code =          $("#addToRawStorageCode").val();
+        let breedDescr =    $("#addToRawStorageBreedDescription").val();
+        let supplier =      $("#addToRawStorageSupplier").val();
+        let thickness =     $("#addToRawStorageThickness").val();
+        let width =         $("#addToRawStorageWidth").val();
+        let length =        $("#addToRawStorageLength").val();
+        let count =         $("#addToRawStorageCount").val();
+
+        $('#addToRawStorageCode').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addToRawStorageBreedDescription').focus();
+            }
+        });
+
+        $('#addToRawStorageBreedDescription').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addToRawStorageSupplier').focus();
+            }
+        });
+
+        $('#addToRawStorageSupplier').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addToRawStorageThickness').focus();
+            }
+        });
+
+        $('#addToRawStorageThickness').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addToRawStorageWidth').focus();
+            }
+        });
+
+        $('#addToRawStorageWidth').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addToRawStorageLength').focus();
+            }
+        });
+
+        $('#addToRawStorageLength').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addToRawStorageCount').focus();
+            }
+        });
+
+        $('#addToRawStorageCount').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#sendRequestToAddInputButton').click();
+            }
+        });
+        ///////////////////////////////////////////////////////////////
+
+
     </script>
 
 </body>

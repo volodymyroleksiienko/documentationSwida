@@ -93,7 +93,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addPackagedProductWithoutHistory-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addPackagedProductWithoutHistory-'+${userId}+'-'+${breedId}}" method="post" id="addPackagedProductWithoutHistoryForm">
                     <div class="modal-body">
 
                         <!-- Insert rows -->
@@ -540,7 +540,6 @@
                 $('#sendForPackageModalHeightWidth').focus();
             }
         });
-
     </script>
 
 </th:block>
