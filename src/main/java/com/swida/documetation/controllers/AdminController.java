@@ -17,6 +17,8 @@ import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
 import com.swida.documetation.utils.xlsParsers.ParseOakDeliveryInfoToXLS;
 import com.swida.documetation.utils.xlsParsers.ParserDeliveryDocumentationToXLS;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -24,10 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.synth.ColorType;
 import java.io.File;
@@ -325,4 +324,20 @@ public class AdminController {
         return new GenerateResponseForExport().generate(filePath,"","");
     }
 
+
+    // REST // REST  // REST
+@ResponseBody
+@PostMapping("/getDistributionContract")
+public JSONArray getDistributionContract(String id){
+    JSONArray jsonArray = new JSONArray();
+    List<OrderInfo> orderInfoList = orderInfoService.findDistributionObj(Integer.parseInt(id));
+    for(OrderInfo order:orderInfoList){
+        JSONObject object = new JSONObject();
+        object.put("codeOfOrder",order.getCodeOfOrder());
+        object.put("nameOfAgent",order.getContrAgent().getNameOfAgent());
+        object.put("extent",order.getExtentOfOrder());
+        jsonArray.add(object);
+    }
+    return jsonArray;
+}
 }
