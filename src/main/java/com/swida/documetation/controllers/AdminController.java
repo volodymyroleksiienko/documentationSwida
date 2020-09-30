@@ -326,18 +326,18 @@ public class AdminController {
 
 
     // REST // REST  // REST
-@ResponseBody
-@PostMapping("/getDistributionContract")
-public JSONArray getDistributionContract(String id){
-    JSONArray jsonArray = new JSONArray();
-    List<OrderInfo> orderInfoList = orderInfoService.findDistributionObj(Integer.parseInt(id));
-    for(OrderInfo order:orderInfoList){
-        JSONObject object = new JSONObject();
-        object.put("codeOfOrder",order.getCodeOfOrder());
-        object.put("nameOfAgent",order.getContrAgent().getNameOfAgent());
-        object.put("extent",order.getExtentOfOrder());
-        jsonArray.add(object);
+    @ResponseBody
+    @PostMapping("/getDistributionContract")
+    public JSONArray getDistributionContract(String id){
+        JSONArray jsonArray = new JSONArray();
+        List<OrderInfo> orderInfoList = orderInfoService.findDistributionObj(Integer.parseInt(id));
+        for(OrderInfo order:orderInfoList){
+            JSONObject object = new JSONObject();
+            object.put("codeOfOrder",order.getCodeOfOrder());
+            object.put("nameOfAgent",order.getContrAgent().getNameOfAgent());
+            object.put("extent",order.getExtentOfOrder());
+            jsonArray.add(object);
+        }
+        return jsonArray;
     }
-    return jsonArray;
-}
 }

@@ -53,4 +53,6 @@ public class AdminRestController {
         main.setExtentForDistribution(String.valueOf(Float.parseFloat(main.getExtentForDistribution())-sumOfExtent));
         orderInfoService.save(main);
     }
+
+
 }
