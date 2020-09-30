@@ -35,6 +35,7 @@
                 <td th:text="${b.destinationType}"></td>
                 <td th:text="${b.date}" class="change-color"></td>
                 <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getContractInfo(this)"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="distributeContract(this)"><i class="fas fa-th" data-toggle="tooltip" title="Распределение"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                 </td>
@@ -70,6 +71,99 @@
     </div>
 
     <!-- Контракты END -->
+
+    <!-- GET INFO START -->
+    <div class="modal fade" id="getContractInfoModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="distributionInfoModalHeader"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+
+                        <input type="hidden" id="contractRowId" name="id">
+                        <table class="table table-hover table-striped" id="tableOfInformation">
+                            <thead>
+                            <tr>
+                                <th scope="col">Код</th>
+                                <th scope="col">Поставщик</th>
+                                <th scope="col">Заказ, м<sup>3</sup></th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="listOfDistributions">
+                            <!-- <tr></tr> -->
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <th scope="col">Код</th>
+                                <th scope="col">Поставщик</th>
+                                <th scope="col">Заказ, м<sup>3</sup></th>
+                            </tr>
+                            </tfoot>
+
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function getContractInfo(btnObj) {
+            let trObj = btnObj.parentElement.parentElement;
+            let trId =  $(trObj).attr('id');
+            tableOfInformation.clear().draw();
+            $('#contractRowId').val(trId);
+
+            let codeOfOrder =  $(trObj).find('th:eq(0)').text();
+
+            $('#distributionInfoModalHeader').text("Информация о распределению заказа №"+codeOfOrder);
+
+            $('#getContractInfoModal').modal('show');
+
+            $.ajax({
+                method: "post",
+                url: "/admin/getDistributionContract",
+                contextType: "application/json",
+                data: {
+                    id: trId,
+                },
+                traditional: true,
+                success: function (array) {
+                    console.log(array);
+                    for (let i = 0; i < array.length; i++) {
+                        let arr = [];
+
+                        arr[0] = array[i].codeOfOrder;
+                        arr[1] = array[i].nameOfAgent;
+                        arr[2] = array[i].extent;
+
+                        console.log(arr);
+
+                        tableOfInformation.row.add(arr).draw();
+                    }
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+
+        }
+    </script>
+    <!-- GET INFO END -->
+
+
+
     <!-- EDIT CONTRACT MODAL START -->
     <div class="modal fade" id="editContractModal">
         <div class="modal-dialog modal-dialog-centered" role="document">

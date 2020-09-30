@@ -108,7 +108,7 @@ $(document).ready( function () {
                 "targets": -3,
                 "orderable": false,
                 "searchable": false,
-                "width": "70px"
+                "width": "100px"
             },
             { className: "display-none", "targets": [ -1, -2 ] }
         ]
@@ -140,6 +140,16 @@ $(document).ready( function () {
         ]
     });
     // Distribution table end
+
+ tableOfInformation = $('#tableOfInformation').DataTable({
+        "autoWidth": false,
+        "bSort": false,
+        "searching": false,
+        "paging": false,
+        "info": false,
+        'select': false,
+    });
+
 
     // Modal inner table start
     var tableOfDistribution = $('#tableOfDistribution').DataTable({
