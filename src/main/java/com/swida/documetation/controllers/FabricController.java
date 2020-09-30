@@ -340,8 +340,8 @@ public class FabricController {
                     String.format("%.3f",Float.parseFloat(treeStorage.getMaxExtent())+(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent)).replace(",",".")
             );
             treeStorage.setExtent("0.000");
-            rawStorage.setMaxCountOfDesk(rawStorage.getCountOfDesk());
-            rawStorageService.save(rawStorage);
+            rawStorageDB.setMaxCountOfDesk(rawStorage.getCountOfDesk());
+            rawStorageService.save(rawStorageDB);
         }
         treeStorageService.save(treeStorage);
         if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
