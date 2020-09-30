@@ -19,6 +19,7 @@ import com.swida.documetation.utils.other.PackageProductToJson;
 import com.swida.documetation.utils.xlsParsers.ImportOrderDataFromXLS;
 import com.swida.documetation.utils.xlsParsers.ParseMultimodalPackagesByContract;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -528,5 +529,20 @@ public class MultimodalController {
     @PostMapping("/setContainersCurrency")
     public void setContainersCurrency(String[] arrayOfContainerIds, String currency){
         containerService.setContainerCurrency(arrayOfContainerIds,currency);
+    }
+
+    @ResponseBody
+    @PostMapping("/getDistributionContract")
+    public JSONArray getDistributionContract(String id){
+        JSONArray jsonArray = new JSONArray();
+        List<OrderInfo> orderInfoList = orderInfoService.findDistributionObj(Integer.parseInt(id));
+        for(OrderInfo order:orderInfoList){
+            JSONObject object = new JSONObject();
+            object.put("codeOfOrder",order.getCodeOfOrder());
+            object.put("nameOfAgent",order.getContrAgent().getNameOfAgent());
+            object.put("extent",order.getExtentOfOrder());
+            jsonArray.add(object);
+        }
+        return jsonArray;
     }
 }
