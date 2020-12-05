@@ -2,12 +2,25 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="rawStorage">
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <style>
+        #piechart svg{
+            margin: 0 !important;
+            height: 100%;
+            width: 100%;
+            display: block;
+            position: inherit;
+            left: 0;
+        }
+    </style>
     <div class="tab-pane fade show active container-fluid" id="rawstorage">
         <table class="table table-hover table-striped" id="rawstoragetable">
             <br>
             <thead>
             <tr>
                 <th></th>
+                <th style="width: 30px"></th>
                 <th scope="col">Код партии</th>
                 <th scope="col">Порода</th>
                 <th scope="col">Описание</th>
@@ -24,6 +37,7 @@
             <tbody>
             <tr th:each="rs, index : ${rawStorageList}" th:id="${rs.id}">
                 <td th:text="${rs.id}"></td>
+                <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
                 <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
                 <td th:text="${rs.breedOfTree.breed}"></td>
                 <td th:text="${rs.breedDescription}"></td>
@@ -45,6 +59,7 @@
             <tfoot>
             <tr>
                 <th></th>
+                <th style="width: 30px"></th>
                 <th scope="col">Код партии</th>
                 <th scope="col">Порода</th>
                 <th scope="col">Описание</th>
@@ -69,12 +84,91 @@
             <button type="button" class="buttons btn btn-primary" title="Экспорт фактический" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i>
             </button>
+            <button type="button" class="buttons btn btn-primary" title="Статистика" data-toggle="modal" data-placement="left" onclick="drawModalChart(1)">
+                <i class="fas fa-chart-pie"></i>
+            </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить пиломатериалы" data-toggle="modal" data-placement="left" data-target="#addIncomeToRawStorageModal">
                 <i class="fa fa-plus"></i>
             </button>
         </div>
         <!-- BUTTON -->
     </div>
+
+
+    <!--  Stats pine start -->
+    <div class="modal fade" id="statisticsPineModal">
+        <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 100% !important;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Статистика</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%" id="chart">
+                    <div id="piechart" style="width: 80vw; height: 50vh; justify-content: center">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let summary = 0.000;
+
+        function drawModalChart(breedId){
+            $('#statisticsPineModal').modal('show');
+            google.charts.load('current', {'packages':['corechart']});
+            
+
+            // $.ajax({
+            //     method: "post",
+            //     url: "/getRawStorageStatisticInfo",
+            //     contextType: "application/json",
+            //     data: {
+            //         breedId: breedId
+            //     },
+            //     traditional: true,
+            //     success: function (statisticInfo) {
+            //         console.log(statisticInfo);
+            //
+            //         summary = parseFloat(statisticInfo["mainExtent"]);
+            //
+            //         let  data = new google.visualization.DataTable();
+            //         data.addColumn('number', 'Width');
+            //         data.addColumn('number', 'Extent');
+            //
+            //         //inside loop
+            //         data.addRow([statisticInfo["width"], parseFloat(statisticInfo["exent"])]);
+            //
+            //
+            //         let options = {
+            //             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
+            //             pieHole: 0.4,
+            //             sliceVisibilityThreshold: .00001,
+            //             // is3D: true,
+            //         };
+            //
+            //         let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            //
+            //         chart.draw(data, options);
+            //     },
+            //     error: function () {
+            //         alert("Ошибка!");
+            //     }
+            // });
+        }
+
+
+        // $('#statisticsPineModal').on('hidden.bs.modal', function () {
+        //     location.reload();
+        // });
+    </script>
+    <!--  Stats pine end -->
 
     <!--  Add to raw storage  -->
     <div class="modal fade" id="addIncomeToRawStorageModal">
@@ -560,6 +654,9 @@
             </button>
             <button type="button" class="buttons btn btn-primary" title="Экспорт фактический" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i>
+                <button type="button" class="buttons btn btn-primary" title="Статистика" data-toggle="modal" data-placement="left" data-target="#statisticsOakModal">
+                    <i class="fas fa-chart-pie"></i>
+                </button>
             </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить материал" data-toggle="modal" data-placement="left" data-target="#addInitialRawModal">
                 <i class="fa fa-plus"></i>
@@ -567,6 +664,7 @@
         </div>
         <!-- BUTTON -->
     </div>
+
 
 
     <div class="modal fade" id="sendForDryingModalOak">

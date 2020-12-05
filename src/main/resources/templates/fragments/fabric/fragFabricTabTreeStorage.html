@@ -6,52 +6,91 @@
 
             <br>
             <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Поставщик</th>
-                <th scope="col">Поставщик id</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Дата прихода</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th scope="col">id</th>
+                    <th style="width: 30px"></th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Поставщик</th>
+                    <th scope="col">Поставщик id</th>
+                    <th scope="col">Средний диаметр</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Дата прихода</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-             <tr th:each="ts : ${treeStorageList}" th:id="${ts.id}">
-                    <td th:text="${ts.id}"></td>
-                    <th scope="row" th:text="${ts.codeOfProduct}"></th>
-                    <td th:text="${ts.breedOfTree.breed}"></td>
-                    <td th:text="${ts.breedDescription}"></td>
-                    <td th:text="${ts.contrAgent.nameOfAgent}"></td>
-                    <td th:text="${ts.contrAgent.id}"></td>
-                    <td th:text="${ts.extent}"></td>
-                    <td th:text="${ts.date}"></td>
-                    <td>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
-                            <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
-                        </button>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
-                            <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
-                        </button>
-                    </td>
-                </tr>
+                <div th:each="ts : ${treeStorageList}">
+                     <tr th:id="${ts.id}">
+                        <td th:text="${ts.id}"></td>
+                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
+                        <th scope="row" th:text="${ts.codeOfProduct}"></th>
+                        <td th:text="${ts.breedOfTree.breed}"></td>
+                        <td th:text="${ts.breedDescription}"></td>
+                        <td th:text="${ts.contrAgent.nameOfAgent}"></td>
+                        <td th:text="${ts.contrAgent.id}"></td>
+                        <td>diameter</td>
+                        <td th:text="${ts.extent}"></td>
+                        <td th:text="${ts.date}"></td>
+                        <td>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
+                                <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
+                            </button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
+                                <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                     <tr style="display: none" th:id="'parent'+${ts.id}">
+                         <td style="display:none"></td>
+                         <td colspan="10" class="child-table">
+                             <table class="table table-hover table-striped parent-table" id="stats">
+                                 <thead>
+                                     <tr>
+                                         <th scope="col">Толщина, мм</th>
+                                         <th scope="col">Процент, %</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr>
+                                         <td>12345</td>
+                                         <td>123456</td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                         </td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                         <td style="display:none"></td>
+                     </tr>
+                </div>
+            </tbody>
 
             <tfoot>
             <tr>
                 <th scope="col">id</th>
+                <th style="width: 30px"></th>
                 <th scope="col">Код партии</th>
                 <th scope="col">Порода</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Поставщик</th>
                 <th scope="col">Поставщик id</th>
+                <th scope="col">Средний диаметр</th>
                 <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Дата прихода</th>
                 <th></th>
             </tr>
             </tfoot>
-            </tbody>
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
@@ -92,14 +131,22 @@
                                 <input class="form-control" id="addBreedDescription" type="text" placeholder="Не заполнено" name="breedDescription" required="required">
                             </div>
                         </div>
-                        <div>
-                            <label class="col-form-label" for="addSupplier">Поставщик</label>
-                            <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)" placeholder="Не заполнено" required="required">
-                            <datalist id="suppliers1">
-                                <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
-                            </datalist>
-                            <input type="number" hidden="hidden"  name="contrAgent.id" id="addSupplier-hidden">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addSupplier">Поставщик</label>
+                                <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)" placeholder="Не заполнено" required="required">
+                                <datalist id="suppliers1">
+                                    <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addSupplier-hidden">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="addAverageDiameter">Средний диаметр</label>
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                            </div>
                         </div>
+
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="addVolume">Кубатура</label>
@@ -209,14 +256,22 @@
                                 <input class="form-control" id="editIncomeMaterialDesc" type="text" placeholder="Не заполнено"  name="breedDescription" required="required">
                             </div>
                         </div>
-                        <div>
-                            <label class="col-form-label" for="editIncomeSupplier">Поставщик</label>
-                            <input type="text" class="form-control" list="suppliers2" id="editIncomeSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)" required="required">
-                            <datalist id="suppliers2">
-                                <option  th:each="c, index : ${contrAgentList}" th:text="${c.nameOfAgent}" th:data-value="${c.id}"></option>
-                            </datalist>
-                            <input type="number" hidden="hidden"  name="contrAgent.id" id="editIncomeSupplier-hidden">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editIncomeSupplier">Поставщик</label>
+                                <input type="text" class="form-control" list="suppliers2" id="editIncomeSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)" required="required">
+                                <datalist id="suppliers2">
+                                    <option  th:each="c, index : ${contrAgentList}" th:text="${c.nameOfAgent}" th:data-value="${c.id}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="editIncomeSupplier-hidden">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="editAverageDiameter">Средний диаметр</label>
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                            </div>
                         </div>
+
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editIncomeVolume">Кубатура</label>
@@ -338,6 +393,7 @@
                 <thead>
                     <tr>
                         <th scope="col">id</th>
+                        <th style="width: 30px"></th>
                         <th scope="col">Код партии</th>
                         <th scope="col">Порода</th>
                         <th scope="col">Описание</th>
@@ -352,6 +408,7 @@
                 <tbody>
                         <tr th:each="ts : ${treeStorageList}" th:id="${ts.id}">
                             <td th:text="${ts.id}"></td>
+                            <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
                             <th scope="row" th:text="${ts.codeOfProduct}"></th>
                             <td th:text="${ts.breedOfTree.breed}"></td>
                             <td th:text="${ts.breedDescription}"></td>
@@ -372,6 +429,7 @@
                 <tfoot>
                     <tr>
                         <th scope="col">id</th>
+                        <th style="width: 30px"></th>
                         <th scope="col">Код партии</th>
                         <th scope="col">Порода</th>
                         <th scope="col">Описание</th>

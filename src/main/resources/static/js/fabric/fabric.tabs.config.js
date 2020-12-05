@@ -65,7 +65,9 @@ $(document).ready( function () {
         },
 
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
-        "order": [ 0, "desc" ],
+        "bSort": false,
+        "info": false,
+        // "order": [ 0, "desc" ],
 
         // columns width
         "autoWidth": false,
@@ -81,7 +83,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "70px"
             },
-            { className: "display-none", "targets": [ 5 ] },
+            { className: "display-none", "targets": [ 6 ] },
         ]
 
     });
