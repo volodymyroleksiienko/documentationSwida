@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                <div th:each="ts : ${treeStorageList}">
+                <div th:each="ts, index : ${treeStorageList}">
                      <tr th:id="${ts.id}">
                         <td th:text="${ts.id}"></td>
                         <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
@@ -45,8 +45,8 @@
 
                      <tr style="display: none" th:id="'parent'+${ts.id}">
                          <td style="display:none"></td>
-                         <td colspan="10" class="child-table">
-                             <table class="table table-hover table-striped parent-table" id="stats">
+                         <td colspan="11" class="child-table">
+                             <table class="table table-hover table-striped parent-table">
                                  <thead>
                                      <tr>
                                          <th scope="col">Толщина, мм</th>
@@ -61,8 +61,6 @@
                                  </tbody>
                              </table>
                          </td>
-                         <td style="display:none"></td>
-                         <td style="display:none"></td>
                          <td style="display:none"></td>
                          <td style="display:none"></td>
                          <td style="display:none"></td>
@@ -399,6 +397,7 @@
                         <th scope="col">Описание</th>
                         <th scope="col">Поставщик</th>
                         <th scope="col">Поставщик id</th>
+                        <th scope="col">Средний диаметр</th>
                         <th scope="col">Кубатура, м<sup>3</sup></th>
                         <th scope="col">Дата прихода</th>
                         <th></th>
@@ -406,6 +405,7 @@
                 </thead>
 
                 <tbody>
+                    <div th:each="ts, index : ${treeStorageList}">
                         <tr th:each="ts : ${treeStorageList}" th:id="${ts.id}">
                             <td th:text="${ts.id}"></td>
                             <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
@@ -414,6 +414,7 @@
                             <td th:text="${ts.breedDescription}"></td>
                             <td th:text="${ts.contrAgent.nameOfAgent}"></td>
                             <td th:text="${ts.contrAgent.id}"></td>
+                            <td>50</td>
                             <td th:text="${ts.extent}"></td>
                             <td th:text="${ts.date}"></td>
                             <td>
@@ -425,6 +426,36 @@
                                 </button>
                             </td>
                         </tr>
+
+<!--                        <tr style="display: none" th:id="'parent'+${ts.id}">-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td colspan="11" class="child-table">-->
+<!--                                <table class="table table-hover table-striped parent-table">-->
+<!--                                    <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th scope="col">Толщина, мм</th>-->
+<!--                                        <th scope="col">Процент, %</th>-->
+<!--                                    </tr>-->
+<!--                                    </thead>-->
+<!--                                    <tbody>-->
+<!--                                    <tr>-->
+<!--                                        <td>12345</td>-->
+<!--                                        <td>123456</td>-->
+<!--                                    </tr>-->
+<!--                                    </tbody>-->
+<!--                                </table>-->
+<!--                            </td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                            <td style="display:none"></td>-->
+<!--                        </tr>-->
+                    </div>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -435,6 +466,7 @@
                         <th scope="col">Описание</th>
                         <th scope="col">Поставщик</th>
                         <th scope="col">Поставщик id</th>
+                        <th scope="col">Средний диаметр</th>
                         <th scope="col">Кубатура, м<sup>3</sup></th>
                         <th scope="col">Дата прихода</th>
                         <th></th>
@@ -483,14 +515,22 @@
                                 <input class="form-control" id="addOakBreedDescription" type="text"  name="breedDescription" placeholder="Не заполнено">
                             </div>
                         </div>
-                        <div>
-                            <label class="col-form-label" for="addOakSupplier">Поставщик</label>
-                            <input type="text" class="form-control" list="suppliers1oak" id="addOakSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
-                            <datalist id="suppliers1oak">
-                                <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
-                            </datalist>
-                            <input type="number" hidden="hidden"  name="contrAgent.id" id="addOakSupplier-hidden">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addOakSupplier">Поставщик</label>
+                                <input type="text" class="form-control" list="suppliers1oak" id="addOakSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
+                                <datalist id="suppliers1oak">
+                                    <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addOakSupplier-hidden">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="addOakAverageDiameter">Средний диаметр</label>
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addOakAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                            </div>
                         </div>
+
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="addOakVolume">Кубатура</label>
@@ -547,6 +587,20 @@
                         </datalist>
                         <input type="number" hidden="hidden"  name="contractId" id="addOakToRawStorageSupplier-hidden">
 
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="addSupplier">Поставщик</label>
+                                <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)" placeholder="Не заполнено" required="required">
+                                <datalist id="suppliers1">
+                                    <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addSupplier-hidden">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="addAverageDiameter">Средний диаметр</label>
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                            </div>
+                        </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
@@ -563,7 +617,7 @@
                         <input type="text" class="form-control" id="addOakToRawStorageDesc"  autocomplete="off" name="description" placeholder="Не заполнено">
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -663,14 +717,22 @@
                                 <input class="form-control" id="editOakIncomeMaterialDesc" type="text" placeholder="Не заполнено" name="breedDescription" >
                             </div>
                         </div>
-                        <div>
-                            <label class="col-form-label" for="editOakIncomeSupplier">Поставщик</label>
-                            <input type="text" class="form-control" list="suppliers2oak" id="editOakIncomeSupplier" placeholder="Не заполнено" required="required" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)">
-                            <datalist id="suppliers2oak">
-                                <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
-                            </datalist>
-                            <input type="number" hidden="hidden"  name="contrAgent.id" id="editOakIncomeSupplier-hidden">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editOakIncomeSupplier">Поставщик</label>
+                                <input type="text" class="form-control" list="suppliers2oak" id="editOakIncomeSupplier" placeholder="Не заполнено" required="required" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)">
+                                <datalist id="suppliers2oak">
+                                    <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
+                                </datalist>
+                                <input type="number" hidden="hidden"  name="contrAgent.id" id="editOakIncomeSupplier-hidden">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="editOakAverageDiameter">Средний диаметр</label>
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editOakAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                            </div>
                         </div>
+
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editOakIncomeVolume">Кубатура</label>

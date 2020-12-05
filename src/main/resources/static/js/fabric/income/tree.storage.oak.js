@@ -23,18 +23,20 @@ function showEditOakModal(btnObj) {
     $('#incomeOakTreeStorageId').val(trId);
 
     var code =      $(trObj).find('th:eq(0)').text();
-    var breed =     $(trObj).find('td:eq(0)').text();
-    var desc =      $(trObj).find('td:eq(1)').text();
-    var provider =  $(trObj).find('td:eq(2)').text();
-    var providerId= $(trObj).find('td:eq(3)').text();
-    var extent =    $(trObj).find('td:eq(4)').text();
-    var date =      $(trObj).find('td:eq(5)').text();
+    var breed =     $(trObj).find('td:eq(1)').text();
+    var desc =      $(trObj).find('td:eq(2)').text();
+    var provider =  $(trObj).find('td:eq(3)').text();
+    var providerId= $(trObj).find('td:eq(4)').text();
+    var avgDiameter=$(trObj).find('td:eq(5)').text();
+    var extent =    $(trObj).find('td:eq(6)').text();
+    var date =      $(trObj).find('td:eq(7)').text();
 
     $('#editOakIncomeCode')             .val(code);
     $('#editOakIncomeMaterial')         .val(breed);
     $('#editOakIncomeMaterialDesc')     .val(desc);
     $('#editOakIncomeSupplier')         .val(provider);
     $('#editOakIncomeSupplier-hidden')  .val(providerId);
+    $('#editOakAverageDiameter')        .val(avgDiameter);
     $('#editOakIncomeVolume')           .val(extent);
     $('#editOakIncomeDate')             .val(date);
 
