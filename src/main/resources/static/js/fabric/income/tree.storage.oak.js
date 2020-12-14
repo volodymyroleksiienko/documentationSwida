@@ -28,8 +28,9 @@ function showEditOakModal(btnObj) {
     var provider =  $(trObj).find('td:eq(3)').text();
     var providerId= $(trObj).find('td:eq(4)').text();
     var avgDiameter=$(trObj).find('td:eq(5)').text();
-    var extent =    $(trObj).find('td:eq(6)').text();
-    var date =      $(trObj).find('td:eq(7)').text();
+    var amount =    $(trObj).find('td:eq(6)').text();
+    var extent =    $(trObj).find('td:eq(7)').text();
+    var date =      $(trObj).find('td:eq(8)').text();
 
     $('#editOakIncomeCode')             .val(code);
     $('#editOakIncomeMaterial')         .val(breed);
@@ -37,6 +38,7 @@ function showEditOakModal(btnObj) {
     $('#editOakIncomeSupplier')         .val(provider);
     $('#editOakIncomeSupplier-hidden')  .val(providerId);
     $('#editOakAverageDiameter')        .val(avgDiameter);
+    $('#editOakAmount')                 .val(amount);
     $('#editOakIncomeVolume')           .val(extent);
     $('#editOakIncomeDate')             .val(date);
 

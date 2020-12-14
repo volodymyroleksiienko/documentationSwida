@@ -1,4 +1,5 @@
 function showCutModal(btnObj) {
+
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
     $('#idOfTreeStorageRow').val(trId);
@@ -20,8 +21,9 @@ function showEditModal(btnObj) {
     var provider =      $(trObj).find('td:eq(3)').text();
     var providerId =    $(trObj).find('td:eq(4)').text();
     var avgDiameter =   $(trObj).find('td:eq(5)').text();
-    var extent =        $(trObj).find('td:eq(6)').text();
-    var date =          $(trObj).find('td:eq(7)').text();
+    var amount =        $(trObj).find('td:eq(6)').text();
+    var extent =        $(trObj).find('td:eq(7)').text();
+    var date =          $(trObj).find('td:eq(8)').text();
 
     $('#editIncomeCode')            .val(code);
     $('#editIncomeMaterial')        .val(breed);
@@ -29,6 +31,7 @@ function showEditModal(btnObj) {
     $('#editIncomeSupplier')        .val(provider);
     $('#editIncomeSupplier-hidden') .val(providerId);
     $('#editAverageDiameter')       .val(avgDiameter);
+    $('#editAmount')                .val(amount);
     $('#editIncomeVolume')          .val(extent);
     $('#editIncomeDate')            .val(date);
 

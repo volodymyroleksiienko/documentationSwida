@@ -18,43 +18,74 @@
         <table class="table table-hover table-striped" id="rawstoragetable">
             <br>
             <thead>
-            <tr>
-                <th></th>
-                <th style="width: 30px"></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Ширина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кол-во досок, шт</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th>TreeStorage extent</th>
-                <th>Поставщик</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th style="width: 30px"></th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Ширина, мм</th>
+                    <th scope="col">Длина, мм</th>
+                    <th scope="col">Кол-во досок, шт</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th>TreeStorage extent</th>
+                    <th>Поставщик</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="rs, index : ${rawStorageList}" th:id="${rs.id}">
-                <td th:text="${rs.id}"></td>
-                <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
-                <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
-                <td th:text="${rs.breedOfTree.breed}"></td>
-                <td th:text="${rs.breedDescription}"></td>
-                <td th:text="${rs.sizeOfHeight}"></td>
-                <td th:text="${rs.sizeOfWidth}"></td>
-                <td th:text="${rs.sizeOfLong}"></td>
-                <td th:text="${rs.countOfDesk}"></td>
-                <td th:text="${rs.extent}"></td>
-                <td th:text="${rs?.treeStorage?.extent}"></td>
-                <td th:text="${rs?.treeStorage?.contrAgent?.nameOfAgent}"></td>
-                <td>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
-                </td>
-            </tr>
+                <div th:each="rs, index : ${rawStorageList}">
+                    <tr th:id="${rs.id}">
+                        <td th:text="${rs.id}"></td>
+                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                        <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
+                        <td th:text="${rs.breedOfTree.breed}"></td>
+                        <td th:text="${rs.breedDescription}"></td>
+                        <td th:text="${rs.sizeOfHeight}"></td>
+                        <td th:text="${rs.sizeOfWidth}"></td>
+                        <td th:text="${rs.sizeOfLong}"></td>
+                        <td th:text="${rs.countOfDesk}"></td>
+                        <td th:text="${rs.extent}"></td>
+                        <td th:text="${rs?.treeStorage?.extent}"></td>
+                        <td th:text="${rs?.treeStorage?.contrAgent?.nameOfAgent}"></td>
+                        <td>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
+                        </td>
+                    </tr>
+
+                    <tr style="display: none" th:id="'parent'+${tr.id}">
+                        <td style="display:none"></td>
+                        <td colspan="11" class="child-table">
+                            <table class="table table-hover table-striped parent-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Процент, %</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>12345</td>
+                                    <td>123456</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                    </tr>
+                </div>
 
             <tfoot>
             <tr>

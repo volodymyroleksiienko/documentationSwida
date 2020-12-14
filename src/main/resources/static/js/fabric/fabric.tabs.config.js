@@ -89,9 +89,9 @@ $(document).ready( function () {
     });
 
     // TOOGLE SELECTED START
-    $('#treestoragetable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-    } );
+    // $('#treestoragetable tbody').on( 'click', 'tr', function () {
+    //     $(this).toggleClass('selected');
+    // } );
     //TOOGLE SELECTED END
 
 
