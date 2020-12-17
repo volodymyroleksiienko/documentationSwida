@@ -9,6 +9,7 @@ public interface RawStorageService {
     String save(RawStorage rs);
     RawStorage findById(int id);
     List<RawStorage> findAll();
+    List<RawStorage> findAllByTreeStorageId(int id);
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
     List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
     void deleteByID(int id);

@@ -10,6 +10,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,12 +19,18 @@ public class TreeStorage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
     private String codeOfProduct;
     private String breedDescription="";
     private String extent;
     private String maxExtent;
     private String date;
+
+    private String averageDiameter;
+    private String countOfDeck;
+
+
+    @OneToMany
+    private List<QualityStatisticInfo> statisticInfoList;
 
     @OneToOne
     private TreeStorage recycle;

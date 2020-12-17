@@ -31,8 +31,8 @@
                         <td th:text="${ts.breedDescription}"></td>
                         <td th:text="${ts.contrAgent.nameOfAgent}"></td>
                         <td th:text="${ts.contrAgent.id}"></td>
-                        <td>diameter</td>
-                        <td>amount</td>
+                        <td th:text="${ts?.averageDiameter}"></td>
+                        <td th:text="${ts?.countOfDeck}"></td>
                         <td th:text="${ts.extent}"></td>
                         <td th:text="${ts.date}"></td>
                         <td>
@@ -57,10 +57,10 @@
                                      </tr>
                                  </thead>
                                  <tbody>
-                                     <tr>
-                                         <td>12345</td>
-                                         <td>1234</td>
-                                         <td>123456</td>
+                                     <tr th:each="list : ${ts?.statisticInfoList}" >
+                                         <td th:text="${list?.height}"></td>
+                                         <td th:text="${list?.extent}"></td>
+                                         <td th:text="${list?.percent}"></td>
                                      </tr>
                                  </tbody>
                              </table>
@@ -153,11 +153,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
                             <div class="col-6">
                                 <label class="control-label" for="addAmount">Кол-во колод</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAmount" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAmount" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="countOfDeck">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="addAverageDiameter">Средний диаметр</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="averageDiameter">
                             </div>
                         </div>
 
@@ -285,11 +285,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
                             <div class="col-6">
                                 <label class="control-label" for="editAmount">Кол-во колод</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editAmount" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editAmount" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="countOfDeck">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="editAverageDiameter">Средний диаметр</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="averageDiameter">
                             </div>
                         </div>
 
@@ -438,8 +438,8 @@
                             <td th:text="${ts.breedDescription}"></td>
                             <td th:text="${ts.contrAgent.nameOfAgent}"></td>
                             <td th:text="${ts.contrAgent.id}"></td>
-                            <td>50</td>
-                            <td>5</td>
+                            <td th:text="${ts?.averageDiameter}"></td>
+                            <td th:text="${ts?.countOfDeck}"></td>
                             <td th:text="${ts.extent}"></td>
                             <td th:text="${ts.date}"></td>
                             <td>
@@ -464,10 +464,10 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>12345</td>
-                                        <td>3456</td>
-                                        <td>123456</td>
+                                    <tr th:each="list : ${ts?.statisticInfoList}" >
+                                        <td th:text="${list?.height}"></td>
+                                        <td th:text="${list?.extent}"></td>
+                                        <td th:text="${list?.percent}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -561,11 +561,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
                             <div class="col-6">
                                 <label class="control-label" for="addAmountOak">Кол-во колод</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAmountOak" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addAmountOak" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="countOfDeck">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="addOakAverageDiameter">Средний диаметр</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addOakAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addOakAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="averageDiameter">
                             </div>
                         </div>
 
@@ -771,11 +771,11 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">
                             <div class="col-6">
                                 <label class="control-label" for="editOakAmount">Кол-во колод</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editOakAmount" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editOakAmount" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="countOfDeck">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="editOakAverageDiameter">Средний диаметр</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editOakAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="editOakAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="averageDiameter">
                             </div>
                         </div>
 

@@ -1,27 +1,36 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
+import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
+import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.TreeStorageJPA;
+import com.swida.documetation.data.service.storages.QualityStatisticInfoService;
+import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.storages.TreeStorageService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TreeStorageServiceImpl implements TreeStorageService {
     private TreeStorageJPA treeStorageJPA;
     private ContrAgentService contrAgentService;
+    private RawStorageService rawStorageService;
+    private QualityStatisticInfoService statisticInfoService;
 
     @Autowired
-    public TreeStorageServiceImpl(TreeStorageJPA treeStorageJPA, ContrAgentService contrAgentService) {
+    public TreeStorageServiceImpl(TreeStorageJPA treeStorageJPA, ContrAgentService contrAgentService,
+                                  @Lazy RawStorageService rawStorageService, QualityStatisticInfoService statisticInfoService) {
         this.treeStorageJPA = treeStorageJPA;
         this.contrAgentService = contrAgentService;
+        this.rawStorageService = rawStorageService;
+        this.statisticInfoService = statisticInfoService;
     }
 
 
@@ -52,6 +61,38 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     }
 
     @Override
+    public void checkQualityInfo(TreeStorage treeStorage,String height, float extent) {
+        boolean checkUpdate = true;
+        for(QualityStatisticInfo info: treeStorage.getStatisticInfoList()){
+            if(info.getHeight().equals(height)){
+                info.setExtent(
+                        String.format("%.3f",Float.parseFloat(info.getExtent())+extent)
+                        .replace(",",".")
+                );
+                info.setPercent(
+                        String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent()))
+                                .replace(",",".")
+                );
+                checkUpdate = false;
+            }
+        }
+
+        if(checkUpdate){
+            QualityStatisticInfo info = new QualityStatisticInfo();
+            info.setHeight(height);
+            info.setExtent( String.format("%.3f",extent)
+                    .replace(",","."));
+            info.setPercent(
+                    String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent()))
+                            .replace(",",".")
+            );
+            treeStorage.getStatisticInfoList().add(info);
+            statisticInfoService.save(info);
+        }
+        treeStorageJPA.save(treeStorage);
+    }
+
+    @Override
     public TreeStorage findById(int id) {
         return treeStorageJPA.getOne(id);
     }
@@ -74,6 +115,39 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     @Override
     public List<String> getListOfUnicBreedDescription(int breedId) {
         return treeStorageJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public Map<Integer, List<QualityStatisticInfo>> getQualityStatisticInfo(List<TreeStorage> treeStorageList) {
+        Map<Integer,List<QualityStatisticInfo>> returnedMap= new HashMap<>();
+        for (TreeStorage treeStorage: treeStorageList) {
+            List<RawStorage> rawStorages = new ArrayList<>();
+            Set<String> heightSet = new TreeSet<>();
+            List<QualityStatisticInfo> qualityList = new ArrayList<>();
+            rawStorages = rawStorageService.findAllByTreeStorageId(treeStorage.getId());
+            for(RawStorage rawStorage:rawStorages){
+                heightSet.add(rawStorage.getSizeOfHeight());
+            }
+            for(String heightOfTree:heightSet){
+                QualityStatisticInfo qualityStatisticInfo = new QualityStatisticInfo();
+                qualityStatisticInfo.setHeight(heightOfTree);
+                for(RawStorage rawStorage:rawStorages){
+                    if(rawStorage.getSizeOfHeight().equals(qualityStatisticInfo.getHeight())) {
+                        qualityStatisticInfo.setExtent(
+                                String.format("%.3f", Float.parseFloat(qualityStatisticInfo.getExtent())
+                                        + Float.parseFloat(rawStorage.getExtent())).replace(",", ".")
+                        );
+                    }
+                }
+                qualityStatisticInfo.setPercent(
+                        String.format("%.3f",Float.parseFloat(qualityStatisticInfo.getExtent())/Float.parseFloat(treeStorage.getMaxExtent()))
+                                .replace(",",".")
+                );
+                qualityList.add(qualityStatisticInfo);
+            }
+            returnedMap.put(treeStorage.getId(),qualityList);
+        }
+        return returnedMap;
     }
 
     @Override

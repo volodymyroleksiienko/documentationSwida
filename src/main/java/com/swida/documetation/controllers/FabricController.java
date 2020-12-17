@@ -181,6 +181,7 @@ public class FabricController {
         treeStorage.setRecycle(recycle);
         treeStorageService.save(treeStorage);
         rawStorageService.save(rawStorage);
+        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -362,6 +363,7 @@ public class FabricController {
                                     String id){
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
         TreeStorage treeStorage = rawStorage.getTreeStorage();
+        float rawStorageExtent = Float.parseFloat(rawStorage.getExtent());
         float recycleExtent=0;
 
         if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
@@ -387,6 +389,7 @@ public class FabricController {
         rawStorage.setCountOfDesk(0);
         rawStorageService.save(rawStorage);
         treeStorageService.save(treeStorage);
+        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),-rawStorageExtent);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 

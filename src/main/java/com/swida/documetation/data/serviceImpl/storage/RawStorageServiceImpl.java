@@ -51,6 +51,11 @@ public class RawStorageServiceImpl implements RawStorageService {
     }
 
     @Override
+    public List<RawStorage> findAllByTreeStorageId(int id) {
+        return rawStorageJPA.findAllByTreeStorageId(id);
+    }
+
+    @Override
     public List<RawStorage> getListByUserByBreed(int breedId, int userId) {
         if (breedId==2){
             return rawStorageJPA.getListByUserByBreedOak(breedId,userId);

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("fabric")
 @Controller
@@ -79,12 +80,15 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
+        List<TreeStorage> treeStorageList = treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE);
+        model.addAttribute("treeStorageList",treeStorageList);
         model.addAttribute("orderList",orderInfoService.getOrdersListByBreed(breedId));
         model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+//        Map<Integer,List<QualityStatisticInfo>> map = treeStorageService.getQualityStatisticInfo(treeStorageList);
+//        model.addAttribute("qualityStatisticInfoMap",treeStorageService.getQualityStatisticInfo(treeStorageList));
         btnConfig(userId,model);
         return "fabricPage";
     }
@@ -122,6 +126,7 @@ public class FabricOakController {
         treeStorageService.save(recycle);
         treeStorage.setRecycle(recycle);
         treeStorageService.save(treeStorage);
+        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -247,6 +252,7 @@ public class FabricOakController {
             treeStorage.setExtent("0.000");
         }
         treeStorageService.save(treeStorage);
+        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent())-oldExtent);
 //        if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
 //            OrderInfo orderInfo = treeStorage.getOrderInfo();
 //            orderInfo.setDoneExtendOfOrder(
