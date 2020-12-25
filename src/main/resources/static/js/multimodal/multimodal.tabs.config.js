@@ -344,7 +344,7 @@ $(document).ready( function () {
                 "searchable": false,
                 "width": "130px"
             },
-            { className: "display-none", "targets": [ 11 ] }
+            { className: "display-none", "targets": [ 12 ] }
         ]
 
     });

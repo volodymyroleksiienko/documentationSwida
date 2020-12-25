@@ -5,18 +5,19 @@ function editDriverInfo(btnObj) {
     // let trId =  $(trObj).attr('id');
 
 
-    var trId =              $(trObj).find('td:eq(0)').attr('id');
-    var truck =             $(trObj).find('td:eq(1)').text();
-    var truckNum =          $(trObj).find('td:eq(2)').text();
-    var trailerNum  =       $(trObj).find('td:eq(3)').text();
-    var packDate  =         $(trObj).find('td:eq(4)').text();
-    var packTime  =         $(trObj).find('td:eq(5)').text();
-    var driver =            $(trObj).find('td:eq(6)').text();
-    var phone =             $(trObj).find('td:eq(7)').text();
-    var contract =          $(trObj).find('td:eq(8)').text();
-    var destination =       $(trObj).find('td:eq(9)').text();
-    var delDescription =    $(trObj).find('td:eq(10)').text();
-    var contractId =        $(trObj).find('td:eq(11)').text();
+    let trId =              $(trObj).find('td:eq(0)').attr('id');
+    let truck =             $(trObj).find('td:eq(1)').text();
+    let truckNum =          $(trObj).find('td:eq(2)').text();
+    let trailerNum  =       $(trObj).find('td:eq(3)').text();
+    let packDate  =         $(trObj).find('td:eq(4)').text();
+    let packTime  =         $(trObj).find('td:eq(5)').text();
+    let driver =            $(trObj).find('td:eq(6)').text();
+    let phone =             $(trObj).find('td:eq(7)').text();
+    let contract =          $(trObj).find('td:eq(8)').text();
+    let destination =       $(trObj).find('td:eq(9)').text();
+    let listOfWith =        $(trObj).find('td:eq(10)').text();
+    let delDescription =    $(trObj).find('td:eq(11)').text();
+    let contractId =        $(trObj).find('td:eq(12)').text();
 
 
     $('#driverId')                      .val(trId);
@@ -29,8 +30,9 @@ function editDriverInfo(btnObj) {
     $('#editPackTimeInput')             .val(packTime);
     $('#editPackContractId')            .val(contract);
     $('#editPackDeliveryDestination')   .val(destination);
+    $('#editPackDeliveryListOfWith')    .val(listOfWith);
     $('#editDeliveryDescription')       .val(delDescription);
-    $('#editPackContractId-hidden')       .val(contractId);
+    $('#editPackContractId-hidden')     .val(contractId);
 
     $('#editDriverInfoModal').modal('show');
 }

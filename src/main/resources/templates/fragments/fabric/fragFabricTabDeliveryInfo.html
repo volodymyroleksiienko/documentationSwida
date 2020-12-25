@@ -17,6 +17,7 @@
                 <th scope="col">Телефон</th>
                 <th scope="col">№ контракта</th>
                 <th scope="col">Кубатура</th>
+                <th scope="col">Толщина</th>
                 <th scope="col">Примечание</th>
                 <th scope="col">Contact id</th>
                 <th></th>
@@ -35,6 +36,7 @@
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
                               <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                               <td th:text="${dd.packagesExtent}"></td>
+                              <td>1, 2, 3, ...</td>
                               <td th:text="${(dd.description==null)?'':dd.description}"></td>
                               <td th:text="${dd?.orderInfo?.id}"></td>
                               <td style="text-align: right">
@@ -109,6 +111,7 @@
                               <td style="display:none"></td>
                               <td style="display:none"></td>
                               <td style="display:none"></td>
+                              <td style="display:none"></td>
                           </tr>
                   </div>
             </tbody>
@@ -124,6 +127,7 @@
                 <th scope="col">Телефон</th>
                 <th scope="col">№ контракта</th>
                 <th scope="col">Кубатура</th>
+                <th scope="col">Толщина</th>
                 <th scope="col">Примечание</th>
                 <th scope="col">Contact id</th>
                 <th></th>
@@ -195,8 +199,12 @@
                                 <label for="editPackDeliveryDestination" class="col-form-label">Кубатура</label>
                                 <input type="number" class="form-control"  id="editPackDeliveryDestination" required="required" pattern="[0-9]*\.?[0-9]*" placeholder="м3" autocomplete="off" name="packagesExtent" disabled="disabled">
                             </div>
-                            <div class="col-6">
-                                <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
+                            <div class="col-3">
+                                <label for="editPackDeliveryListOfWith" class="col-form-label">Толщина</label>
+                                <input type="text" class="form-control" placeholder="Не заполнено" id="editPackDeliveryListOfWith" autocomplete="off" name="listOfWith">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="editDeliveryDescription">Примечание</label>
                                 <input type="text" class="form-control" id="editDeliveryDescription" placeholder="Не заполнено" autocomplete="off" name="description">
                             </div>
                         </div>
@@ -423,7 +431,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Удалить</button>
+                        <button type="submit" class="btn btn-primary">Удалить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -529,6 +537,7 @@
                         <th scope="col">Телефон</th>
                         <th scope="col">№ контракта</th>
                         <th scope="col">Кубатура</th>
+                        <th scope="col">Толщина</th>
                         <th scope="col">Примечание</th>
                         <th scope="col">Contact id</th>
                         <th></th>
@@ -549,6 +558,7 @@
                             <td th:text="${dd.driverInfo.getPhone()}"></td>
                             <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                             <td th:text="${dd.packagesExtent}"></td>
+                            <td>1, 2, 3, ...</td>
                             <td th:text="${(dd.description==null)?'':dd.description}"></td>
                             <td th:text="${dd?.orderInfo?.id}"></td>
                             <td>
@@ -653,6 +663,7 @@
                             <td style="display:none"></td>
                             <td style="display:none"></td>
                             <td style="display:none"></td>
+                            <td style="display:none"></td>
                         </tr>
                         <!--      LEVEL    2    END          -->
                     </div>
@@ -669,6 +680,7 @@
                     <th scope="col">Телефон</th>
                     <th scope="col">№ контракта</th>
                     <th scope="col">Кубатура</th>
+                    <th scope="col">Толщина</th>
                     <th scope="col">Примечание</th>
                     <th scope="col">Contact id</th>
                     <th></th>
@@ -740,7 +752,11 @@
                                 <label for="editOakPackDeliveryDestination" class="col-form-label">Кубатура</label>
                                 <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control"  id="editOakPackDeliveryDestination" required="required" autocomplete="off" name="packagesExtent">
                             </div>
-                            <div class="col-6">
+                            <div class="col-3">
+                                <label for="editOakPackDeliveryListOfWith" class="col-form-label">Толщина</label>
+                                <input type="text" class="form-control" placeholder="Не заполнено" id="editOakPackDeliveryListOfWith" autocomplete="off" name="listOfWith">
+                            </div>
+                            <div class="col-3">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>
                                 <input type="text" class="form-control" placeholder="Не заполнено" id="editOakDeliveryDescription"  autocomplete="off" name="description">
                             </div>

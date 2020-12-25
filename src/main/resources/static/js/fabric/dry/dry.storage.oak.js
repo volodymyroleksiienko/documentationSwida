@@ -8,10 +8,10 @@ function sendForPackagesStorageOak(btnObj) {
     console.log("Row id: "+$(trObj).attr('id'));
 
     var codeOfDryStorage =      $(trObj).find('th:eq(0)').text();
-    var size =                  $(trObj).find('td:eq(2)').text();
-    var quality =               $(trObj).find('td:eq(5)').text();
-    var length =                $(trObj).find('td:eq(6)').text();
-    let maxExtent =             $(trObj).find('td:eq(3)').text();
+    var size =                  $(trObj).find('td:eq(3)').text();
+    var quality =               $(trObj).find('td:eq(6)').text();
+    var length =                $(trObj).find('td:eq(7)').text();
+    let maxExtent =             $(trObj).find('td:eq(4)').text();
 
 
     $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfDryStorage);
@@ -64,14 +64,14 @@ function editDryStorageOak(btnObj) {
     $('#editDryStorageModalHeader').text("Редактировать "+codeOfDryStorage);
 
     var code =          $(trObj).find('th:eq(0)').text();
-    var material =      $(trObj).find('td:eq(0)').text();
-    var description =   $(trObj).find('td:eq(1)').text();
-    var thickness =     $(trObj).find('td:eq(2)').text();
-    var extent =        $(trObj).find('td:eq(3)').text();
+    var material =      $(trObj).find('td:eq(1)').text();
+    var description =   $(trObj).find('td:eq(2)').text();
+    var thickness =     $(trObj).find('td:eq(3)').text();
+    var extent =        $(trObj).find('td:eq(4)').text();
     // var length = $(trObj).find('td:eq(4)').text();
-    var desc =          $(trObj).find('td:eq(4)').text();
-    var dryingExtent =  $(trObj).find('td:eq(7)').text();
-    var initialExt =    $(trObj).find('td:eq(3)').text();
+    var desc =          $(trObj).find('td:eq(5)').text();
+    var dryingExtent =  $(trObj).find('td:eq(6)').text();
+    var initialExt =    $(trObj).find('td:eq(7)').text();
 
     console.log(code, material,description,thickness,extent,desc,dryingExtent,initialExt);
 
@@ -116,6 +116,69 @@ function resetDryExtent(btnObj) {
 
     $('#resetItemModalConfirmation').text(" Вы уверены, что хотите обнулить кубатуру партии №"+code+"? Это действие не возвращает материал на предыдущий склад!");
     $('#resetModal').modal('show');
+}
+
+function addOakDryStorageItem(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =              $(trObj).attr('id');
+    let packageCode =       $(trObj).find('th:eq(0)').text();
+
+    console.log("row id: "+trId);
+
+    $('#addOakPackageItemsModalHeader').text("Добавить позицию к  "+ packageCode);
+    $('#addRawStorageId').val(trId);
+
+    $('#addOakDryStrorageItemModal').modal('show');
+}
+
+function editOakPackageItem(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =              $(trObj).attr('id');
+    console.log("row id: "+trId);
+
+    let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
+    let expandedId = $(expandedObj).attr('id');
+    console.log("string-id: "+expandedId);
+
+    let packageId = expandedId.replace(/\D+/g, "");
+    console.log("parent-id: "+packageId);
+
+    let rowObj = document.getElementById(packageId);
+
+    $('#editOakPackageId').val(packageId);
+
+    let width =             $(trObj).find('td:eq(0)').text();
+    let count =             $(trObj).find('td:eq(1)').text();
+
+    $('#oakPackageContentId')            .val(trId);
+    $('#editOakPackageContentWidth')     .val(width);
+    $('#editOakPackageContentCount')     .val(count);
+
+    $('#editOakPackageContentInitWidth')     .val(width);
+    $('#editOakPackageContentInitCount')     .val(count);
+
+    $('#editOakDryStorageItemModal').modal('show');
+}
+
+function deleteOakPackageItem(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#deleteOakPackItemModalId').val(trId);
+    console.log("row id: "+trId);
+
+    let expandedObj = trObj.parentElement.parentElement.parentElement.parentElement;
+    let expandedId = $(expandedObj).attr('id');
+    console.log("string-id: "+expandedId);
+    let packageId = expandedId.replace(/\D+/g, "");
+    console.log("id: "+packageId);
+
+    $('#deleteOakPackId').val(packageId);
+
+    let width = $(trObj).find('td:eq(0)').text();
+    let count = $(trObj).find('td:eq(1)').text();
+
+    $('#deleteOakPackItemModalConfirmation').text(" Вы уверены, что хотите удалить позицию: "+width+"мм / "+count+"шт?");
+    $('#deleteOakDryStorageItemModal').modal('show');
 }
 
 // // ADD Package OAK

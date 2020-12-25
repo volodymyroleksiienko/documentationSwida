@@ -88,21 +88,21 @@
                 </div>
 
             <tfoot>
-            <tr>
-                <th></th>
-<!--                <th style="width: 30px"></th>-->
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Ширина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кол-во досок, шт</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th>TreeStorage extent</th>
-                <th>Поставщик</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th></th>
+    <!--                <th style="width: 30px"></th>-->
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Ширина, мм</th>
+                    <th scope="col">Длина, мм</th>
+                    <th scope="col">Кол-во досок, шт</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th>TreeStorage extent</th>
+                    <th>Поставщик</th>
+                    <th></th>
+                </tr>
             </tfoot>
             </tbody>
         </table>
@@ -626,57 +626,104 @@
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="rawStorageOAK">
 
     <div class="tab-pane fade show active container-fluid" id="rawstorage">
-        <table class="table table-hover table-striped" id="rawstoragetable">
+        <table class="table table-hover table-striped" id="rawstoragetableoak">
             <br>
             <thead>
-            <tr>
-                <th></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Примечания</th>
-                <th>TreeStorage extent</th>
-                <th>Поставщик</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th style="width: 30px"></th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Примечане</th>
+                    <th>TreeStorage extent</th>
+                    <th>Поставщик</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="rs, index : ${rawStorageList}" th:id="${rs.id}">
-                <td th:text="${rs.id}"></td>
-                <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
-                <td th:text="${rs.breedOfTree.breed}"></td>
-                <td th:text="${rs.breedDescription}"></td>
-                <td th:text="${rs.sizeOfHeight}"></td>
-                <td th:text="${rs.extent}"></td>
-                <td th:text="${rs.description}"></td>
-                <td th:text="${rs?.treeStorage?.extent}"></td>
-                <td th:text="${rs?.treeStorage?.contrAgent?.nameOfAgent}"></td>
-                <td style="text-align: right; width: 175px !important; display: block;">
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Рассчитать и добавить кубатуру к пачке"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
-                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
-                </td>
-            </tr>
-
-            <tfoot>
-            <tr>
-                <th></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Примечания</th>
-                <th>TreeStorage extent</th>
-                <th>Поставщик</th>
-                <th></th>
-            </tr>
-            </tfoot>
+                <div th:each="rs, index : ${rawStorageList}">
+                    <tr th:id="${rs.id}">
+                        <td th:text="${rs.id}"></td>
+                        <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                        <th scope="row" th:text="${rs.codeOfProduct}"></th>
+                        <td th:text="${rs.breedOfTree.breed}"></td>
+                        <td th:text="${rs.breedDescription}"></td>
+                        <td th:text="${rs.sizeOfHeight}"></td>
+                        <td th:text="${rs.extent}"></td>
+                        <td th:text="${rs.description}"></td>
+                        <td th:text="${rs?.treeStorage?.extent}"></td>
+                        <td th:text="${rs?.treeStorage?.contrAgent?.nameOfAgent}"></td>
+                        <td style="text-align: right; width: 200px !important; display: block;">
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakRawStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Рассчитать и добавить кубатуру к пачке"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
+                        </td>
+                    </tr>
+                    <tr style="display:none" th:id="'parent'+${rs.id}">
+                        <td style="display:none; width: 30px"></td>
+<!--                        <td style="display:none"></td>-->
+                        <td colspan="10" class="child-table">
+                            <table class="table table-hover table-striped parent-table" >
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Ширина, мм</th>
+                                        <th scope="col">Количество досок</th>
+                                        <th class="delete-btns"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr >
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td class="delete-btns">
+                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>2</td>
+                                        <td class="delete-btns">
+                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                    </tr>
+                </div>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Примечание</th>
+                    <th>TreeStorage extent</th>
+                    <th>Поставщик</th>
+                    <th></th>
+                </tr>
+            </tfoot>
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
@@ -825,6 +872,113 @@
         </div>
     </div>
 
+    <!-- Add position start   -->
+    <div class="modal fade" id="addOakRawStorageItemModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addOakPackageItemsModalHeader"> </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addOakRawStorageItem-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="addRawStorageId" hidden="" name="positionId">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label for="addOakPackageContentWidth" class="col-form-label">Ширина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="addOakPackageContentCount">Количество досок</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add position end   -->
+
+    <!-- Edit position item start   -->
+    <div class="modal fade" id="editOakRawStorageItemModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/editPackOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <input type="number" id="oakPackageContentId" hidden="" name="rowId">
+                        <input type="number" id="editOakPackageId" hidden="" name="packageId">
+
+
+                        <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
+                            <div class="col-6">
+                                <label for="editOakPackageContentWidth" class="col-form-label">Ширина, мм</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editOakPackageContentCount">Количество досок</label>
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Insert rows -->
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit position item end   -->
+
+    <!--  Modal item delete confirmation start -->
+    <div class="modal fade" id="deleteOakRawStorageItemModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Удаление</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form th:action="@{'/fabric/deleteRawStorageOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden" autocomplete="off" name="packageId">
+                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="deleteOakPackItemModalConfirmation">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal item delete confirmation end -->
 
     <!-- Сырой склад -> Пачки -->
     <div class="modal fade" id="sendFromRawToPackageOakModal">
@@ -1021,8 +1175,6 @@
         </div>
     </div>
     <!--Add package end-->
-
-
 
 
     <!-- Export start-->

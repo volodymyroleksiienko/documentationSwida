@@ -88,6 +88,36 @@ $(document).ready( function () {
 
     });
 
+    $('#recyclestoragetable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+
+        "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "bSort": false,
+        "info": false,
+        // "order": [ 0, "desc" ],
+
+        // columns width
+        "autoWidth": false,
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false,
+            },
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "70px"
+            },
+            { className: "display-none", "targets": [ 5 ] },
+        ]
+
+    });
+
+
     // TOOGLE SELECTED START
     // $('#treestoragetable tbody').on( 'click', 'tr', function () {
     //     $(this).toggleClass('selected');
@@ -125,6 +155,33 @@ $(document).ready( function () {
         $(this).toggleClass('selected');
     } );
     //TOOGLE SELECTED END
+
+    let rawstoragetableoak =  $('#rawstoragetableoak').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "bSort": false,
+        "info": false,
+        // "order": [ 0, "desc" ],
+        // columns width
+        "autoWidth": false,
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "135px"
+            },
+            { className: "display-none", "targets": [ -3 ] },
+        ]
+    });
+
 
 
     // ADD MATERIAL
@@ -223,6 +280,33 @@ $(document).ready( function () {
     } );
     //TOOGLE SELECTED END
 
+    let dryingtableoak = $('#dryingtableoak').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "bSort": false,
+        "info": false,
+        // "order": [ 0, "desc" ],
+        // columns width
+        "autoWidth": false,
+
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "100px"
+            },
+            { className: "display-none", "targets": [ -2 ] },
+        ]
+    });
+
 
     $('#drystoragetable').DataTable({
         "language": {
@@ -262,7 +346,9 @@ $(document).ready( function () {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
-        "order": [ 0, "desc" ],
+        "bSort": false,
+        "info": false,
+        // "order": [ 0, "desc" ],
         // columns width
         "autoWidth": false,
 
@@ -276,7 +362,7 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "100px"
+                "width": "140px"
             },
             { className: "display-none", "targets": [ -2 ] }
         ]
@@ -284,9 +370,9 @@ $(document).ready( function () {
 
 
     // TOOGLE SELECTED START
-    $('#drystoragetableOak tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-    } );
+    // $('#drystoragetableOak tbody').on( 'click', 'tr', function () {
+    //     $(this).toggleClass('selected');
+    // } );
     //TOOGLE SELECTED END
 
     //    DRYING OAK START
@@ -1168,7 +1254,7 @@ $(document).ready( function () {
                 "width": "30px"
             },
 
-            { className: "display-none", "targets": [ 11 ] }
+            { className: "display-none", "targets": [ 12 ] }
 
         ]
 
@@ -1201,7 +1287,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "30px"
             },
-            { className: "display-none", "targets": [ 11 ] }
+            { className: "display-none", "targets": [ 12 ] }
         ]
 
     });
