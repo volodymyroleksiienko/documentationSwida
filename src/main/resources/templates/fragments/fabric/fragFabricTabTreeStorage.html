@@ -707,7 +707,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/cutOfTreeStorage-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/cutOfTreeStorage-'+${userId}+'-'+${breedId}}" method="post" id="cutOakModalForm">
                     <div class="modal-body">
                         <!-- Insert rows -->
                         <div class="form-group" id="formGroupCutOfOakTreeStorage">
