@@ -128,6 +128,7 @@ public class DryStorageServiceImpl implements DryStorageService {
             dryStorageDB.setBreedDescription(dryStorage.getBreedDescription());
 
             dryStorageDB.setSizeOfHeight(dryStorage.getSizeOfHeight());
+            dryStorageDB.setSizeOfLong(dryStorage.getSizeOfLong());
             dryStorageDB.setExtent(dryStorage.getExtent());
             dryStorageDB.setDescription(dryStorage.getDescription());
 
@@ -136,6 +137,7 @@ public class DryStorageServiceImpl implements DryStorageService {
                     String.format("%.3f",Float.parseFloat(dryingStorage.getExtent())+difExtent)
                             .replace(",",".")
             );
+            countExtentRawStorageWithDeskDescription(dryStorageDB);
         }
         if(dryingStorage.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             dryingStorage.setBreedDescription("");

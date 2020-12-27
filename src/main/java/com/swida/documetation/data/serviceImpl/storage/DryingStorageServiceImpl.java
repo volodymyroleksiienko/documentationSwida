@@ -129,6 +129,7 @@ public class DryingStorageServiceImpl implements DryingStorageService {
             dryingStorageDB.setBreedDescription(dryingStorage.getBreedDescription());
 
             dryingStorageDB.setSizeOfHeight(dryingStorage.getSizeOfHeight());
+            dryingStorageDB.setSizeOfLong(dryingStorage.getSizeOfLong());
             dryingStorageDB.setExtent(dryingStorage.getExtent());
             dryingStorageDB.setDescription(dryingStorage.getDescription());
             dryingStorageDB.setDateDrying(dryingStorage.getDateDrying());
@@ -139,7 +140,7 @@ public class DryingStorageServiceImpl implements DryingStorageService {
                     .replace(",",".")
                     );
             rawStorageService.save(rawStorage);
-
+            countExtentRawStorageWithDeskDescription(dryingStorageDB);
         }
         save(dryingStorageDB);
     }

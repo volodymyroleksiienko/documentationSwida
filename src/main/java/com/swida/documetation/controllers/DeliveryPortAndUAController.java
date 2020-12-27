@@ -185,6 +185,7 @@ public class DeliveryPortAndUAController {
     @PostMapping("/editDeliveryDocumentation-{contractId}")
     public String editDeliveryDocumentation(@PathVariable("contractId")int contractId,DeliveryDocumentation documentation){
         DeliveryDocumentation docDB = deliveryDocumentationService.editDeliveryDoc(documentation);
+        deliveryDocumentationService.checkHeightUnicValue(docDB);
         reloadAllExtentFields(docDB);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
@@ -193,12 +194,14 @@ public class DeliveryPortAndUAController {
     public String editPackageProduct(@PathVariable("contractId")int contractId, PackagedProduct product){
         PackagedProduct productDB = packagedProductService.editPackageProduct(product);
         packagedProductService.countExtentOak(productDB);
+        deliveryDocumentationService.checkHeightUnicValue(productDB.getDeliveryDocumentation());
         reloadAllExtentFields(productDB.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
     @PostMapping("/addPackageProduct-{contractId}")
     public String addPackageProduct(@PathVariable("contractId")int contractId,String docId,PackagedProduct product){
         deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
+        deliveryDocumentationService.checkHeightUnicValue(product.getDeliveryDocumentation());
         reloadAllExtentFields(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
@@ -207,7 +210,7 @@ public class DeliveryPortAndUAController {
         deliveryDocumentationService.deletePackage(id,deliveryId);
         DeliveryDocumentation documentation =  deliveryDocumentationService.findById(Integer.parseInt(deliveryId));
         reloadAllExtentFields(documentation);
-
+        deliveryDocumentationService.checkHeightUnicValue(documentation);
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -235,6 +238,7 @@ public class DeliveryPortAndUAController {
         deskOakService.editDescription(rowId,width,count);
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
+        deliveryDocumentationService.checkHeightUnicValue(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -245,6 +249,7 @@ public class DeliveryPortAndUAController {
         packagedProductService.addDescriptionOak(packageId,width,count);
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
+        deliveryDocumentationService.checkHeightUnicValue(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 
@@ -256,6 +261,7 @@ public class DeliveryPortAndUAController {
         packagedProductService.deleteDescriptionOak(packageId,id);
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
+        deliveryDocumentationService.checkHeightUnicValue(product.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
     }
 

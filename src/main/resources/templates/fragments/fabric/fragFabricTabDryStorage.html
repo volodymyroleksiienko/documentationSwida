@@ -329,7 +329,7 @@
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
                         <td th:text="${rs.sizeOfHeight}"></td>
-                        <td>1488</td>
+                        <td th:text="${rs.sizeOfLong}"></td>
                         <td th:text="${rs.extent}"></td>
                         <td th:text="${rs.description}"></td>
                         <td th:text="${rs?.qualityOfPack}" class="display-none"></td>
@@ -337,8 +337,8 @@
                         <td th:text="${rs?.dryingStorage?.extent}"></td>
                         <td style="text-align: right">
                             <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDryStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendToPackages(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Отправить на склад пачек"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendToPackages(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Отправить на склад пачек"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetDryExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                         </td>
@@ -522,7 +522,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addDeskToDryStorage-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDryStorageToPackageProduct-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
                         <input type="number" class="form-control" id="sendForPackagesId" hidden="hidden" autocomplete="off" name="id">
@@ -613,7 +613,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalLength" autocomplete="off" placeholder="мм" name="length">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryStorageModalLength" autocomplete="off" placeholder="мм" name="sizeOfLong">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryStorageModalVol">Кубатура</label>
@@ -645,9 +645,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addOakDryingStorageItem-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDescriptionOakItemToDryStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <input type="number" id="addRawStorageId" hidden="" name="positionId">
+                        <input type="number" id="addRawStorageId" hidden="" name="dryStorageId">
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
@@ -682,10 +682,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editPackOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editDescriptionOakItemToDryStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <input type="number" id="oakPackageContentId" hidden="" name="rowId">
-                        <input type="number" id="editOakPackageId" hidden="" name="packageId">
+                        <input type="number" id="oakPackageContentId" hidden="" name="descId">
+                        <input type="number" id="editOakPackageId" hidden="" name="dryStorageId">
 
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
@@ -722,12 +722,12 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form th:action="@{'/fabric/deleteRawStorageOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/deleteDescriptionOakItemToDryStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden" autocomplete="off" name="packageId">
-                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden" autocomplete="off" name="dryStorageId">
+                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden" autocomplete="off" name="descId">
 
                             <p id="deleteOakPackItemModalConfirmation">
                             </p>
