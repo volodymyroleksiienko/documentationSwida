@@ -338,6 +338,7 @@
                         <td style="text-align: right">
                             <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDryStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendToPackages(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Отправить на склад пачек"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetDryExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                         </td>
@@ -509,7 +510,69 @@
             </div>
         </div>
     </div>
-<!--Packing end-->
+    <!--Packing end-->
+
+    <!--    Send for packages start  -->
+    <div class="modal fade" id="sendForPackagesStorageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendForDryStorageModalHeader">Отправить на склад пачек</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addDeskToDryStorage-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+
+                        <input type="text" class="form-control" id="sendForPackagesId" hidden="hidden" autocomplete="off" name="dryStorageId">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 5px; margin-top: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="sendForPackagesStorageModalCode">Код</label>
+                                <input type="text" class="form-control" id="sendForPackagesStorageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackagesStorageModalQuality">Качество</label>
+                                <input class="form-control" id="sendForPackagesStorageModalQuality" placeholder="Не заполнено" type="text" name="quality">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackagesStorageModalMaterial">Порода</label>
+                                <input type="text" class="form-control" id="sendForPackagesStorageModalMaterial" disabled="disabled">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="sendForPackagesStorageModalMaterialDescr">Описание</label>
+                                <input class="form-control" id="sendForPackagesStorageModalMaterialDescr" placeholder="Не заполнено" type="text" name="breedDescription">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-4">
+                                <label class="col-form-label" for="sendForPackagesStorageModalThickness">Толщина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackagesStorageModalThickness" placeholder="мм" disabled="disabled" name="sizeOfHeight">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="sendForPackagesStorageModalLength">Длина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackagesStorageModalLength" disabled="disabled" autocomplete="off" placeholder="мм" name="length">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="sendForPackagesStorageModalVolume">Кубатура</label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control" id="sendForPackagesStorageModalVolume" disabled="disabled" name="extent">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--    Send for packages end  -->
 
 
 <!--Edit start-->

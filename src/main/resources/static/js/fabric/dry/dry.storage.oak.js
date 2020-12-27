@@ -52,7 +52,30 @@ function sendForPackagesStorageOak(btnObj) {
         }
     });
     // CHECK
+}
 
+function sendToPackages(btnObj) {
+    var trObj = btnObj.parentElement.parentElement;
+    var trId =  $(trObj).attr('id');
+    $('#editDryStorageModalId').val(trId);
+
+    console.log("Row id: "+$(trObj).attr('id'));
+
+    var code =          $(trObj).find('th:eq(0)').text();
+    var material =      $(trObj).find('td:eq(1)').text();
+    var description =   $(trObj).find('td:eq(2)').text();
+    var thickness =     $(trObj).find('td:eq(3)').text();
+    var length =        $(trObj).find('td:eq(4)').text();
+    var extent =        $(trObj).find('td:eq(5)').text();
+
+    $('#sendForPackagesStorageModalCode').val(code);
+    $('#sendForPackagesStorageModalMaterial').val(material);
+    $('#sendForPackagesStorageModalMaterialDescr').val(description);
+    $('#sendForPackagesStorageModalThickness').val(thickness);
+    $('#sendForPackagesStorageModalLength').val(length);
+    $('#sendForPackagesStorageModalVolume').val(extent);
+
+    $('#sendForPackagesStorageModal').modal('show');
 }
 
 function editDryStorageOak(btnObj) {
