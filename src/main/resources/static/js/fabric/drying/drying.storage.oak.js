@@ -11,14 +11,16 @@ function sendForDryingOak(btnObj) {
     var material =          $(trObj).find('td:eq(1)').text();
     var breedDescription =  $(trObj).find('td:eq(2)').text();
     var thickness =         $(trObj).find('td:eq(3)').text();
-    var extent =            $(trObj).find('td:eq(4)').text();
-    var description =       $(trObj).find('td:eq(5)').text();
-    var date =              $(trObj).find('td:eq(6)').text();
+    var length =            $(trObj).find('td:eq(4)').text();
+    var extent =            $(trObj).find('td:eq(5)').text();
+    var description =       $(trObj).find('td:eq(6)').text();
+    var date =              $(trObj).find('td:eq(7)').text();
 
     $('#sendForDryStorageModalCode').val(code);
     $('#sendForDryStorageModalMaterial').val(material);
     $('#sendForDryStorageModalMaterialDescr').val(breedDescription);
     $('#sendForDryStorageModalThickness').val(thickness);
+    $('#sendForDryStorageModalLength').val(length);
     $('#sendForDryStorageModalVolume').val(extent);
     $('#sendForDryStorageModalDescription').val(description);
     $('#editDryingDateOak').val(date);
