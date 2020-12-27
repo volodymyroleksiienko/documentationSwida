@@ -267,6 +267,7 @@
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
                     <th scope="col">Толщина, мм</th>
+                    <th scope="col">Длина, мм</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечание</th>
                     <th scope="col">Дата выхода</th>
@@ -283,6 +284,7 @@
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
                         <td th:text="${rs.sizeOfHeight}"></td>
+                        <td>1488</td>
                         <td th:text="${rs.extent}"></td>
                         <td th:text="${rs.description}"></td>
                         <td th:text="${rs.dateDrying}"></td>
@@ -333,6 +335,7 @@
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
+                        <td style="display:none"></td>
                     </tr>
                 </div>
             </tbody>
@@ -344,6 +347,7 @@
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
                     <th scope="col">Толщина, мм</th>
+                    <th scope="col">Длина, мм</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечание</th>
                     <th scope="col">Дата выхода</th>
@@ -448,11 +452,15 @@
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
                                 <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required"  autocomplete="off" placeholder="мм" name="sizeOfHeight">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryingModalLength">Длина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" autocomplete="off" placeholder="мм" name="length">
+                            </div>
+                            <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
                                 <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required"  autocomplete="off" placeholder="м3" name="extent">
                             </div>
