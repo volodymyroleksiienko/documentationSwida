@@ -7314,7 +7314,7 @@ a.text-dark:hover, a.text-dark:focus {
 .float-action-button-right{
   position: fixed;
   bottom: 0;
-  right: 0;
+  right: 0 !important;
   margin: 1em }
 
 button.buttons {
