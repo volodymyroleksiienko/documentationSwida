@@ -39,7 +39,7 @@ $( "#cutOakModalForm" ).submit(function( event ) {
     } else if (used>maxVal){
         alert("Кубатура использованого материала превишает максимально возможную на "+(used-maxVal)+" м3.");
         return false;
-    } else  if ((rawStorage+extentOfWaste)>used || (rawStorage+extentOfWaste)<used){
+    } else  if ((rawStorage+extentOfWaste)>used){
         alert("Кубатура использованого материала не сходится с суммой кубатур после распиловки и отходами.");
         return false;
     } else {
