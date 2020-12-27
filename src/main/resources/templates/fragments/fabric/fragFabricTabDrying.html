@@ -290,7 +290,7 @@
                         <td th:text="${rs.description}"></td>
                         <td th:text="${rs.dateDrying}"></td>
                         <td th:text="${rs?.rawStorage?.extent}"></td>
-                        <td>
+                        <td style="text-align: right">
                             <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDryingStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -394,7 +394,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryStorageModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryStorageModalLength" autocomplete="off" placeholder="мм" name="length">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryStorageModalLength" disabled="disabled" autocomplete="off" placeholder="мм" name="length">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryStorageModalVolume">Кубатура</label>
