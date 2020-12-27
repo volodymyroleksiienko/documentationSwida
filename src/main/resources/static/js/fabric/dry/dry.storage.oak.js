@@ -57,7 +57,7 @@ function sendForPackagesStorageOak(btnObj) {
 function sendToPackages(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
-    $('#editDryStorageModalId').val(trId);
+    $('#sendForPackagesId').val(trId);
 
     console.log("Row id: "+$(trObj).attr('id'));
 
