@@ -67,11 +67,11 @@ function editDryStorageOak(btnObj) {
     var material =      $(trObj).find('td:eq(1)').text();
     var description =   $(trObj).find('td:eq(2)').text();
     var thickness =     $(trObj).find('td:eq(3)').text();
-    var extent =        $(trObj).find('td:eq(4)').text();
-    // var length = $(trObj).find('td:eq(4)').text();
-    var desc =          $(trObj).find('td:eq(5)').text();
-    var dryingExtent =  $(trObj).find('td:eq(6)').text();
-    var initialExt =    $(trObj).find('td:eq(7)').text();
+    var length =        $(trObj).find('td:eq(4)').text();
+    var extent =        $(trObj).find('td:eq(5)').text();
+    var desc =          $(trObj).find('td:eq(6)').text();
+    var dryingExtent =  $(trObj).find('td:eq(7)').text();
+    var initialExt =    $(trObj).find('td:eq(8)').text();
 
     console.log(code, material,description,thickness,extent,desc,dryingExtent,initialExt);
 
@@ -79,8 +79,7 @@ function editDryStorageOak(btnObj) {
     $('#editDryStorageModalMaterial').val(material);
     $('#editDryStorageModalMaterialDescr').val(description);
     $('#editDryStorageModalThickness').val(thickness);
-    // $('#editDryStorageModalWidth').val(width);
-    // $('#editDryStorageModalLength').val(length);
+    $('#editDryStorageModalLength').val(length);
     $('#editDryStorageModalVol').val(extent);
     $('#editDryStorageModalDesc').val(desc);
     $('#editDryStorageModalDryingExtent').val(dryingExtent);
