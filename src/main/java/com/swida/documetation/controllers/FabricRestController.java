@@ -106,6 +106,7 @@ public class FabricRestController {
             packagedProductService.save(product);
         }
         reloadAllExtentFields(deliveryDocumentation);
+        deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
         return "redirect:/fabric/getListOfPackagedProduct-"+userID+"-"+breedID;
     }
 
@@ -139,6 +140,8 @@ public class FabricRestController {
         documentation.getProductList().add(product);
         deliveryDocumentationService.save(documentation);
         reloadAllExtentFields(documentation);
+        deliveryDocumentationService.checkHeightUnicValue(documentation);
+
     }
 
 //    @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")

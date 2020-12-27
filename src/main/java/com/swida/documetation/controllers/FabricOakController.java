@@ -140,7 +140,7 @@ public class FabricOakController {
 //        contrAgent.setNameOfAgent(nameOfAgent);
 //        treeStorage.setContrAgent(contrAgent);
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        treeStorage.setMaxExtent(treeStorage.getExtent());
+//        treeStorage.setMaxExtent(treeStorage.getExtent());
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }

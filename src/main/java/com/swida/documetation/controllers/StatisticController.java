@@ -12,6 +12,7 @@ import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.*;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -282,4 +283,43 @@ public class StatisticController {
         mainExtent+=extent;
         return String.format("%.3f",extent).replace(",",".");
     }
+
+
+
+    //Statistic for users
+    @GetMapping("/getUserStatistics-{breedId}-{userId}")
+    public String getUserStatistics(@PathVariable("breedId")int breedId,@PathVariable("userId") int userId, Model model){
+        model.addAttribute("navTabName","main");
+        model.addAttribute("fragmentPathAdminStatistics","statisticsPine");
+        model.addAttribute("tabName",breedId);
+        model.addAttribute("fragmentPathTabConfig","statisticUsersTab");
+        model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+
+        model.addAttribute("descList",getAllBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList",getAllSizeOfHeight(breedId));
+        if(breedId!=2){
+            model.addAttribute("sizeOfWidthList",getAllSizeOfWidth(breedId));
+        }
+        model.addAttribute("sizeOfLongList",getAllSizeOfLong(breedId));
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasAdminRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN") || r.getAuthority().equals("ROLE_SUPER_USER"));
+        List<ContrAgent> agents;
+
+        if(hasAdminRole){
+            agents =  contrAgentService.getListByType(ContrAgentType.PROVIDER);
+        }else{
+            agents = new ArrayList<>();
+            agents.add(userCompanyService.findById(userId).getContrAgent());
+        }
+        model.addAttribute("providerList",agents);
+
+        return "adminPage";
+    }
+
+
 }

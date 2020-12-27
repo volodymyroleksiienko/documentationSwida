@@ -9,6 +9,18 @@
     </div>
 </th:block>
 
+
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="statisticUsersTab">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item" th:each="breed : ${breedOfTreeList}">
+                <a class="nav-link" th:href="@{'/admin/getUserStatistics-'+${breed.id}+'-'+${userId}}"
+                   th:classappend="${tabName==breed.id} ? 'active':''" th:text="${breed.breed}">Сосна</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="adminDashboard">
     <div class="container">
         <ul class="nav nav-tabs">

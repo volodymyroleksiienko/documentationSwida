@@ -70,7 +70,7 @@ public class TreeStorageServiceImpl implements TreeStorageService {
                         .replace(",",".")
                 );
                 info.setPercent(
-                        String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent()))
+                        String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
                                 .replace(",",".")
                 );
                 checkUpdate = false;
@@ -115,6 +115,11 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     @Override
     public List<String> getListOfUnicBreedDescription(int breedId) {
         return treeStorageJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicBreedDescription(int breedId, int userId) {
+        return treeStorageJPA.getListOfUnicBreedDescription(breedId,userId);
     }
 
     @Override

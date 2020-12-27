@@ -28,6 +28,8 @@ public class TreeStorage {
     private String averageDiameter;
     private String countOfDeck;
 
+    private String treeDescription;
+
 
     @OneToMany
     private List<QualityStatisticInfo> statisticInfoList;

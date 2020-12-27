@@ -10,6 +10,7 @@ import java.util.List;
 public interface DeliveryDocumentationService {
     void save(DeliveryDocumentation doc);
     void checkInfoFromImport(List<DeliveryDocumentation> docList, OrderInfo orderInfo);
+    void checkHeightUnicValue(DeliveryDocumentation doc);
     void deletePackageFromDeliveryDoc(PackagedProduct product);
     void checkInfoFromImportOak(List<DeliveryDocumentation> docList, OrderInfo orderInfo);
     DeliveryDocumentation findById(int id);

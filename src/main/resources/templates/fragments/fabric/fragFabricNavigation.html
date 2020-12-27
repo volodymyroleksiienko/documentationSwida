@@ -14,6 +14,9 @@
 <!--                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')" >-->
 <!--                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>-->
 <!--                </li>-->
+                <li class="nav-item" th:classappend="${navTabName?.equals('main')} ? 'active':''">
+                    <a class="nav-link" th:href="@{'/admin/getUserStatistics-'+${breedId}+'-'+${userId}}">Статистика</a>
+                </li>
 
                 <li class="nav-item" sec:authorize="hasRole('ROLE_SUPER_USER')" th:classappend="${navTabName?.equals('orderInfo')} ? 'active':''">
                     <a class="nav-link" href="/admin/getListOfContract">Заказы</a>
@@ -62,4 +65,5 @@
             </form>
         </div>
     </nav>
+    <br>
 </th:block>

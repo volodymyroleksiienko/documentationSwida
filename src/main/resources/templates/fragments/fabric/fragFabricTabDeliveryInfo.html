@@ -36,7 +36,7 @@
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
                               <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                               <td th:text="${dd.packagesExtent}"></td>
-                              <td>1, 2, 3, ...</td>
+                              <td th:text="${dd.sizeOfHeightList}"></td>
                               <td th:text="${(dd.description==null)?'':dd.description}"></td>
                               <td th:text="${dd?.orderInfo?.id}"></td>
                               <td style="text-align: right">
@@ -201,7 +201,7 @@
                             </div>
                             <div class="col-3">
                                 <label for="editPackDeliveryListOfWith" class="col-form-label">Толщина</label>
-                                <input type="text" class="form-control" placeholder="Не заполнено" id="editPackDeliveryListOfWith" autocomplete="off" name="listOfWith">
+                                <input type="text" class="form-control" placeholder="Не заполнено" id="editPackDeliveryListOfWith" autocomplete="off" name="sizeOfHeightList">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечание</label>
@@ -558,7 +558,7 @@
                             <td th:text="${dd.driverInfo.getPhone()}"></td>
                             <td th:text="${dd.orderInfo?.codeOfOrder}"></td>
                             <td th:text="${dd.packagesExtent}"></td>
-                            <td>1, 2, 3, ...</td>
+                            <td th:text="${dd.sizeOfHeightList}"></td>
                             <td th:text="${(dd.description==null)?'':dd.description}"></td>
                             <td th:text="${dd?.orderInfo?.id}"></td>
                             <td>
@@ -754,7 +754,7 @@
                             </div>
                             <div class="col-3">
                                 <label for="editOakPackDeliveryListOfWith" class="col-form-label">Толщина</label>
-                                <input type="text" class="form-control" placeholder="Не заполнено" id="editOakPackDeliveryListOfWith" autocomplete="off" name="listOfWith">
+                                <input type="text" class="form-control" placeholder="Не заполнено" id="editOakPackDeliveryListOfWith" autocomplete="off" name="sizeOfHeightList">
                             </div>
                             <div class="col-3">
                                 <label class="col-form-label" for="editDeliveryDescription">Примечания</label>

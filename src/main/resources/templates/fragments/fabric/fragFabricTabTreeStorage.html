@@ -36,9 +36,9 @@
                         <td th:text="${ts?.averageDiameter}"></td>
                         <td th:text="${ts?.countOfDeck}"></td>
                         <td th:text="${ts.extent}"></td>
-                        <td>0.000</td>
+                        <td th:text="${ts.maxExtent}"></td>
                         <td th:text="${ts.date}"></td>
-                        <td scope="col">Примечание...</td>
+                        <td scope="col" th:text="${ts.treeDescription}"></td>
                         <td>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
                                 <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
@@ -184,7 +184,7 @@
                             </script>
                         </div>
                         <label class="col-form-label" for="addDescription">Примечание</label>
-                        <input type="text" class="form-control" id="addDescription" autocomplete="off" name="noteForProduct" placeholder="Не заполнено">
+                        <input type="text" class="form-control" id="addDescription" autocomplete="off" name="treeDescription" placeholder="Не заполнено">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Добавить</button>
@@ -312,7 +312,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editIncomeInitialVolume">Начальная куб-ра</label>
-                                <input type="number" step="any" min="0" class="form-control" placeholder="м3" id="editIncomeInitialVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="initialExtent" required="required">
+                                <input type="number" step="any" min="0" class="form-control" placeholder="м3" id="editIncomeInitialVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="maxExtent" required="required">
                             </div>
                         </div>
 
@@ -323,7 +323,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editIncomeDescription">Примечание</label>
-                                <input type="text" class="form-control" id="editIncomeDescription" autocomplete="off" name="noteForProduct" placeholder="Не заполнено">
+                                <input type="text" class="form-control" id="editIncomeDescription" autocomplete="off" name="treeDescription" placeholder="Не заполнено">
                             </div>
                         </div>
 
@@ -467,9 +467,9 @@
                             <td th:text="${ts?.averageDiameter}"></td>
                             <td th:text="${ts?.countOfDeck}"></td>
                             <td th:text="${ts.extent}"></td>
-                            <td>0.000</td>
+                            <td th:text="${ts.maxExtent}"></td>
                             <td th:text="${ts.date}"></td>
-                            <td>Примечание...</td>
+                            <td th:text="${ts.treeDescription}"></td>
                             <td>
                                 <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutOakModal(this)">
                                     <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
@@ -615,7 +615,7 @@
                             </script>
                         </div>
                         <label class="col-form-label" for="addOakDescription">Примечание</label>
-                        <input type="text" class="form-control" id="addOakDescription" autocomplete="off" name="noteForProduct" placeholder="Не заполнено">
+                        <input type="text" class="form-control" id="addOakDescription" autocomplete="off" name="treeDescription" placeholder="Не заполнено">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Добавить</button>
@@ -751,7 +751,7 @@
                             </div>
 
                             <label class="col-form-label" for="cutOakRawStorageDescription">Примечание</label>
-                            <input type="text" class="form-control" id="cutOakRawStorageDescription" autocomplete="off" placeholder="Не заполнено" name="noteForProduct">
+                            <input type="text" class="form-control" id="cutOakRawStorageDescription" autocomplete="off" placeholder="Не заполнено" name="treeDescription">
                         </div>
                         <!-- Insert rows -->
                     </div>
@@ -821,7 +821,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editOakIncomeInitialVolume">Начальная куб-ра</label>
-                                <input type="number" min="0" step="any" class="form-control" placeholder="м3" id="editOakIncomeInitialVolume" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent">
+                                <input type="number" min="0" step="any" class="form-control" placeholder="м3" id="editOakIncomeInitialVolume" required="required" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="maxExtent">
                             </div>
                         </div>
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
@@ -831,7 +831,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editOakIncomeDescription">Примечание</label>
-                                <input type="text" class="form-control" id="editOakIncomeDescription" autocomplete="off" name="noteForProduct" placeholder="Не заполнено">
+                                <input type="text" class="form-control" id="editOakIncomeDescription" autocomplete="off" name="treeDescription" placeholder="Не заполнено">
                             </div>
                         </div>
                     </div>

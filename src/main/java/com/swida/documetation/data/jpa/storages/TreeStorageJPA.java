@@ -21,4 +21,10 @@ public interface TreeStorageJPA extends JpaRepository<TreeStorage,Integer> {
     @Query("select obj.extent from TreeStorage obj where obj.breedOfTree.id=?1 and obj.breedDescription in ?2 and obj.userCompany.contrAgent.id in ?3 and obj.statusOfTreeStorage=?4 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%'")
     List<String> getListOfExtent(int breedId, String[] breedDesc,int[] providers,StatusOfTreeStorage status);
 
+    @Query("select obj.breedDescription from TreeStorage obj where obj.breedOfTree.id=?1 and obj.userCompany.id=?2 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.breedDescription")
+    List<String> getListOfUnicBreedDescription(int breedId,int userId);
+
+    @Query("select obj.extent from TreeStorage obj where obj.breedOfTree.id=?1 and obj.breedDescription in ?2 and obj.userCompany.contrAgent.id in ?3 and obj.statusOfTreeStorage=?4 and obj.userCompany.id=?5 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%'")
+    List<String> getListOfExtent(int breedId, String[] breedDesc,int[] providers,StatusOfTreeStorage status,int userId);
+
 }

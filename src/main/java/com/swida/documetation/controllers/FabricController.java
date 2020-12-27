@@ -194,7 +194,7 @@ public class FabricController {
 //        contrAgent.setNameOfAgent(nameOfAgent);
 //        treeStorage.setContrAgent(contrAgent);
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        treeStorage.setMaxExtent(treeStorage.getExtent());
+//        treeStorage.setMaxExtent(treeStorage.getExtent());
         treeStorageService.putNewTreeStorageObj(treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -649,6 +649,7 @@ public class FabricController {
 
         //reload order extent info
         reloadAllExtentFields(product.getDeliveryDocumentation());
+        deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
 
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
@@ -708,6 +709,7 @@ public class FabricController {
     @PostMapping("/editDeliveryDocumentation-{userId}-{breedId}")
     public String editDeliveryDocumentation(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DeliveryDocumentation documentation){
         DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.editDeliveryDoc(documentation);
+        deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
         reloadAllExtentFields(deliveryDocumentation);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
@@ -731,7 +733,10 @@ public class FabricController {
 
             dryStorageService.save(dryStorage);
         }
-        reloadAllExtentFields(packagedProduct.getDeliveryDocumentation());
+        if(packagedProduct.getDeliveryDocumentation()!=null) {
+            reloadAllExtentFields(packagedProduct.getDeliveryDocumentation());
+            deliveryDocumentationService.checkHeightUnicValue(packagedProduct.getDeliveryDocumentation());
+        }
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
@@ -752,6 +757,7 @@ public class FabricController {
             packagedProductService.save(productDB);
         }
         reloadAllExtentFields(productDB.getDeliveryDocumentation());
+        deliveryDocumentationService.checkHeightUnicValue(productDB.getDeliveryDocumentation());
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
@@ -759,7 +765,9 @@ public class FabricController {
     public String deletePackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     String id,String deliveryId){
         deliveryDocumentationService.deletePackage(id,deliveryId);
-        reloadAllExtentFields(deliveryDocumentationService.findById(Integer.parseInt(deliveryId)));
+        DeliveryDocumentation doc = deliveryDocumentationService.findById(Integer.parseInt(deliveryId));
+        reloadAllExtentFields(doc);
+        deliveryDocumentationService.checkHeightUnicValue(doc);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 

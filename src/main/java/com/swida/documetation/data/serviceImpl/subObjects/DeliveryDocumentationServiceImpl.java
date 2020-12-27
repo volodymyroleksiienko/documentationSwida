@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 @Service
 public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationService {
     private DeliveryDocumentationJPA documentationJPA;
@@ -129,6 +132,19 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
 
         }
     }
+
+    @Override
+    public void checkHeightUnicValue(DeliveryDocumentation doc) {
+        String list= doc.getProductList()
+                .stream()
+                .map(PackagedProduct::getSizeOfHeight)
+                .map(Integer::parseInt)
+                .collect(Collectors.toCollection(TreeSet::new)).toString();
+
+        list = list.replace("[","").replace("]","");
+        doc.setSizeOfHeightList(list);
+        documentationJPA.save(doc);
+     }
 
     @Override
     public void deletePackageFromDeliveryDoc(PackagedProduct product) {

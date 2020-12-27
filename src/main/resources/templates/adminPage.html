@@ -34,8 +34,9 @@
 
 <!-- NAVIGATION -->
 <div th:replace="~{fragments/admin/fragAdminNavigation :: adminNavigation}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
-<div th:replace="~{fragments/fabric/fragFabricNavigation :: fabricNavigation}" sec:authorize="hasRole('ROLE_SUPER_USER')"></div>
+<div th:replace="~{fragments/fabric/fragFabricNavigation :: fabricNavigation}" sec:authorize="!hasRole('ROLE_ADMIN')"></div>
 <!-- NAVIGATION -->
+
 
 <!-- TABS -->
 <div class="container-fluid">
