@@ -323,7 +323,8 @@
                 <div th:each="rs, index : ${dryStorageList}">
                     <tr th:id="${rs.id}">
                         <td th:text="${rs.id}"></td>
-                        <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                        <td th:if="${rs.deskOakList.isEmpty()}"></td>
+                        <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
                         <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
@@ -335,13 +336,13 @@
                         <td th:text="${rs?.longOfPack}" class="display-none"></td>
                         <td th:text="${rs?.dryingStorage?.extent}"></td>
                         <td>
+                            <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDryStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDryStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetDryExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                         </td>
                     </tr>
-                    <tr style="display:none" th:id="'parent'+${rs.id}">
+                    <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
                         <td style="display:none; width: 30px"></td>
                         <td colspan="10" class="child-table">
                             <table class="table table-hover table-striped parent-table" >
@@ -353,22 +354,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td class="delete-btns">
-                                        <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                        <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>2</td>
-                                    <td class="delete-btns">
-                                        <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                        <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
-                                    </td>
-                                </tr>
+                                    <tr th:each="desc: ${rs?.deskOakList}" th:id="${desc.id}">
+                                        <td th:text="${desc.sizeOfWidth}"></td>
+                                        <td th:text="${desc.countOfDesk}"></td>
+                                        <td class="delete-btns">
+                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </td>

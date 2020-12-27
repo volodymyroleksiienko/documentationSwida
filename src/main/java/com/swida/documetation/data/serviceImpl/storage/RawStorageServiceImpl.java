@@ -1,5 +1,6 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
+import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
@@ -66,6 +67,25 @@ public class RawStorageServiceImpl implements RawStorageService {
     @Override
     public List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status) {
         return rawStorageJPA.getListByUserByBreedByStatusOfTree(breedId,userId,status);
+    }
+
+    @Override
+    public void countExtentRawStorageWithDeskDescription(RawStorage rawStorage) {
+        if(rawStorage.getDeskOakList()==null || rawStorage.getDeskOakList().size()==0){
+            return;
+        }
+        double extent = 0;
+        for(DescriptionDeskOak deskOak:  rawStorage.getDeskOakList()){
+            extent+= (Double.parseDouble(deskOak.getSizeOfWidth())
+                    *Double.parseDouble(deskOak.getCountOfDesk())
+                    *Double.parseDouble(rawStorage.getSizeOfHeight())
+                    *Double.parseDouble(rawStorage.getSizeOfLong())
+                    /1000000000);
+        }
+        rawStorage.setExtent(
+                String.format("%.3f",extent).replace(",",".")
+        );
+       rawStorageJPA.save(rawStorage);
     }
 
     @Override

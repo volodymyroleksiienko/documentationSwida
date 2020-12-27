@@ -648,12 +648,13 @@
                 <div th:each="rs, index : ${rawStorageList}">
                     <tr th:id="${rs.id}">
                         <td th:text="${rs.id}"></td>
-                        <td  class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                        <td th:if="${rs.deskOakList.isEmpty()}"></td>
+                        <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
                         <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
                         <td th:text="${rs.sizeOfHeight}"></td>
-                        <td>1488</td>
+                        <td th:text="${rs?.sizeOfLong}"></td>
                         <td th:text="${rs.extent}"></td>
                         <td th:text="${rs.description}"></td>
                         <td th:text="${rs?.treeStorage?.extent}"></td>
@@ -661,13 +662,13 @@
                         <td style="text-align: right; width: 200px !important; display: block;">
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakRawStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Рассчитать и добавить кубатуру к пачке"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakRawStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Рассчитать и добавить кубатуру к пачке"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                         </td>
                     </tr>
-                    <tr style="display:none" th:id="'parent'+${rs.id}">
+                    <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
                         <td style="display:none; width: 30px"></td>
 <!--                        <td style="display:none"></td>-->
                         <td colspan="10" class="child-table">
@@ -680,17 +681,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr >
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td class="delete-btns">
-                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>2</td>
+                                    <tr th:each="desc: ${rs?.deskOakList}" th:id="${desc.id}">
+                                        <td th:text="${desc.sizeOfWidth}"></td>
+                                        <td th:text="${desc.countOfDesk}"></td>
                                         <td class="delete-btns">
                                             <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                                             <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
@@ -861,7 +854,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" autocomplete="off" placeholder="мм" name="length">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" autocomplete="off" placeholder="мм" name="sizeOfLong">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
@@ -894,7 +887,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addOakRawStorageItem-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDescriptionOakItemToRawStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <input type="number" id="addRawStorageId" hidden="" name="positionId">
 
@@ -931,10 +924,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editPackOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editDescriptionOakItemToRawStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <input type="number" id="oakPackageContentId" hidden="" name="rowId">
-                        <input type="number" id="editOakPackageId" hidden="" name="packageId">
+                        <input type="number" id="oakPackageContentId" hidden="" name="descId">
+                        <input type="number" id="editOakPackageId" hidden="" name="rawStorageId">
 
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
@@ -971,12 +964,12 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form th:action="@{'/fabric/deleteRawStorageOakDesc-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/deleteDescriptionOakItemToRawStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden" autocomplete="off" name="packageId">
-                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden" autocomplete="off" name="rawStorageId">
+                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden" autocomplete="off" name="descId">
 
                             <p id="deleteOakPackItemModalConfirmation">
                             </p>

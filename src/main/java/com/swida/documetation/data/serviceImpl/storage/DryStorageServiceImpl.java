@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 
+import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.DryingStorage;
 import com.swida.documetation.data.entity.storages.RawStorage;
@@ -82,6 +83,25 @@ public class DryStorageServiceImpl implements DryStorageService {
             return  dryStorageJPA.getListByUserByBreedOak(breedId,userId);
         }
         return dryStorageJPA.getListByUserByBreed(breedId,userId);
+    }
+
+    @Override
+    public void countExtentRawStorageWithDeskDescription(DryStorage dryStorage) {
+        if(dryStorage.getDeskOakList()==null || dryStorage.getDeskOakList().size()==0){
+            return;
+        }
+        double extent = 0;
+        for(DescriptionDeskOak deskOak:  dryStorage.getDeskOakList()){
+            extent+= (Double.parseDouble(deskOak.getSizeOfWidth())
+                    *Double.parseDouble(deskOak.getCountOfDesk())
+                    *Double.parseDouble(dryStorage.getSizeOfHeight())
+                    *Double.parseDouble(dryStorage.getSizeOfLong())
+                    /1000000000);
+        }
+        dryStorage.setExtent(
+                String.format("%.3f",extent).replace(",",".")
+        );
+        dryStorageJPA.save(dryStorage);
     }
 
     @Override

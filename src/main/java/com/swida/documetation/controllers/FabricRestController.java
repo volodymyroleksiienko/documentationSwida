@@ -35,13 +35,14 @@ public class FabricRestController {
     DryingStorageService dryingStorageService;
     DryStorageService dryStorageService;
     TreeStorageService treeStorageService;
+    DescriptionDeskOakService deskOakService;
 
     @Autowired
     public FabricRestController(DriverInfoService driverInfoService, PackagedProductService packagedProductService,
                                 DeliveryDocumentationService deliveryDocumentationService, OrderInfoService orderInfoService,
                                 UserCompanyService userCompanyService, RawStorageService rawStorageService,
                                 DryingStorageService dryingStorageService, DryStorageService dryStorageService,
-                                TreeStorageService treeStorageService) {
+                                TreeStorageService treeStorageService, DescriptionDeskOakService deskOakService ) {
         this.driverInfoService = driverInfoService;
         this.packagedProductService = packagedProductService;
         this.deliveryDocumentationService = deliveryDocumentationService;
@@ -51,6 +52,7 @@ public class FabricRestController {
         this.dryingStorageService = dryingStorageService;
         this.dryStorageService = dryStorageService;
         this.treeStorageService = treeStorageService;
+        this.deskOakService = deskOakService;
     }
 
 
@@ -180,7 +182,7 @@ public class FabricRestController {
     @PostMapping("/createInitialPackageOakObject-{userID}-{breedID}")
     public void createInitialPackageOakObject(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                               String codeOfPackage,String breedDescription,String supplier, String sizeOfHeight,
-                                              String extent, String treeStorageId){
+                                              String extent, String treeStorageId,@RequestParam("arrayOfDesk") String[][] arrayOfDesk, String sizeOfLong){
         TreeStorage treeStorage = new TreeStorage();
         BreedOfTree breedOfTree = new BreedOfTree();
         breedOfTree.setId(breedID);
@@ -209,6 +211,17 @@ public class FabricRestController {
             treeStorageService.save(treeStorage);
         }
 
+        List<DescriptionDeskOak> descriptionDeskList = new ArrayList<>();
+
+        for(int i=1;i<arrayOfDesk.length;i++){
+            DescriptionDeskOak deskOak = new DescriptionDeskOak();
+            deskOak.setSizeOfWidth(arrayOfDesk[i][0]);
+            deskOak.setCountOfDesk(arrayOfDesk[i][1]);
+            deskOakService.save(deskOak);
+            descriptionDeskList.add(deskOak);
+        }
+
+
         RawStorage rawStorage = new RawStorage();
         rawStorage.setCodeOfProduct(codeOfPackage);
         rawStorage.setBreedOfTree(breedOfTree);
@@ -216,8 +229,10 @@ public class FabricRestController {
 
         rawStorage.setBreedDescription(breedDescription);
         rawStorage.setSizeOfHeight(sizeOfHeight);
+        rawStorage.setSizeOfLong(sizeOfLong);
         rawStorage.setExtent(extent.replace(",","."));
         rawStorage.setTreeStorage(treeStorage);
+        rawStorage.setDeskOakList(descriptionDeskList);
         String rawExtent = rawStorageService.save(rawStorage);
         if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK){
             treeStorage.setMaxExtent(rawExtent);

@@ -12,6 +12,7 @@ public interface RawStorageService {
     List<RawStorage> findAllByTreeStorageId(int id);
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
     List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
+    void countExtentRawStorageWithDeskDescription(RawStorage rawStorage);
     void deleteByID(int id);
 
     //for statistic

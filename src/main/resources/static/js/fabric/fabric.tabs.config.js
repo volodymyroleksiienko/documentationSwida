@@ -776,7 +776,7 @@ $(document).ready( function () {
                     supplier: supplier1,
                     treeStorageId:treeStorageId,
                     sizeOfHeight: sizeOfHeight1,
-                    length: length1,
+                    sizeOfLong: length1,
                     extent: extent1,
                     arrayOfDesk: arrOfDesk
                 },

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("fabric")
 @Controller
@@ -196,7 +197,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
+        model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
@@ -220,8 +221,14 @@ public class FabricOakController {
         rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-Float.parseFloat(extentOfDrying)).replace(',','.'));
 
         dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
+        dryingStorage.setSizeOfLong(rawStorage.getSizeOfLong());
         dryingStorage.setBreedDescription(rawStorage.getBreedDescription());
         dryingStorage.setDateDrying(date);
+        if(!rawStorage.getDeskOakList().isEmpty()){
+            dryingStorage.setDeskOakList(rawStorage.getDeskOakList());
+            rawStorage.setDeskOakList(null);
+        }
+
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
         dryingStorageService.save(dryingStorage);
@@ -238,6 +245,7 @@ public class FabricOakController {
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
         rawStorageDB.setExtent(rawStorage.getExtent());
         rawStorageDB.setSizeOfHeight(rawStorage.getSizeOfHeight());
+        rawStorageDB.setSizeOfLong(rawStorage.getSizeOfLong());
         rawStorageDB.setDescription(rawStorage.getDescription());
         rawStorageService.save(rawStorageDB);
 
@@ -266,6 +274,38 @@ public class FabricOakController {
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/addDescriptionOakItemToRawStorage-{userId}-{breedId}")
+    public String addDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int positionId,String width, String count){
+        RawStorage rawStorage = rawStorageService.findById(positionId);
+        DescriptionDeskOak deskOak = new DescriptionDeskOak();
+        deskOak.setSizeOfWidth(width);
+        deskOak.setCountOfDesk(count);
+        deskOakService.save(deskOak);
+        rawStorage.getDeskOakList().add(deskOak);
+        rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/editDescriptionOakItemToRawStorage-{userId}-{breedId}")
+    public String editDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int rawStorageId,int descId,String width, String count){
+        DescriptionDeskOak deskOak = deskOakService.findById(descId);
+        deskOak.setSizeOfWidth(width);
+        deskOak.setCountOfDesk(count);
+        deskOakService.save(deskOak);
+        rawStorageService.countExtentRawStorageWithDeskDescription(rawStorageService.findById(rawStorageId));
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/deleteDescriptionOakItemToRawStorage-{userId}-{breedId}")
+    public String deleteDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int rawStorageId,int descId){
+        RawStorage rawStorage = rawStorageService.findById(rawStorageId);
+        DescriptionDeskOak deskOak = deskOakService.findById(descId);
+        rawStorage.getDeskOakList().remove(deskOak);
+        deskOakService.deleteByID(descId);
+        rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+
 
     //Drying page
     @GetMapping("/getListOfDryingStorage-{userId}-2")
@@ -277,7 +317,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
@@ -302,9 +342,46 @@ public class FabricOakController {
         dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
         dryStorage.setDryingStorage(dryingStorageDB);
 
+        if(!dryingStorageDB.getDeskOakList().isEmpty()){
+            dryStorage.setDeskOakList(dryingStorageDB.getDeskOakList());
+            dryingStorageDB.setDeskOakList(null);
+        }
+
         dryStorageService.save(dryStorage);
         dryingStorageDB.setExtent("0.000");
         dryingStorageService.save(dryingStorageDB);
+        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/addDescriptionOakItemToDryingStorage-{userId}-{breedId}")
+    public String addDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryStorageId,String width, String count){
+        DryingStorage dryingStorage = dryingStorageService.findById(dryStorageId);
+        DescriptionDeskOak deskOak = new DescriptionDeskOak();
+        deskOak.setSizeOfWidth(width);
+        deskOak.setCountOfDesk(count);
+        deskOakService.save(deskOak);
+        dryingStorage.getDeskOakList().add(deskOak);
+        dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorage);
+        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/editDescriptionOakItemToDryingStorage-{userId}-{breedId}")
+    public String editDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryingStorageId,int descId,String width, String count){
+        DescriptionDeskOak deskOak = deskOakService.findById(descId);
+        deskOak.setSizeOfWidth(width);
+        deskOak.setCountOfDesk(count);
+        deskOakService.save(deskOak);
+        dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorageService.findById(dryingStorageId));
+        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/deleteDescriptionOakItemToDryingStorage-{userId}-{breedId}")
+    public String deleteDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryingStorageId,int descId){
+        DryingStorage dryingStorage = dryingStorageService.findById(dryingStorageId);
+        DescriptionDeskOak deskOak = deskOakService.findById(descId);
+        dryingStorage.getDeskOakList().remove(deskOak);
+        deskOakService.deleteByID(descId);
+        dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorage);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
@@ -348,7 +425,7 @@ public class FabricOakController {
                 dryStorageService.save(dryStorage);
             }
         }
-        model.addAttribute("dryStorageList",dryStorageList);
+        model.addAttribute("dryStorageList",dryStorageList.stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
@@ -391,7 +468,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
+        model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
@@ -447,7 +524,7 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));

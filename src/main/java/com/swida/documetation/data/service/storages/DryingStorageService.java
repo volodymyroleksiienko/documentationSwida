@@ -11,6 +11,7 @@ public interface DryingStorageService {
     DryingStorage createFromRawStorage(RawStorage rawStorage);
     List<DryingStorage> findAll();
     List<DryingStorage> getListByUserByBreed(int breedId, int userId);
+    void countExtentRawStorageWithDeskDescription(DryingStorage dryingStorage);
     void editDryingStorage(DryingStorage dryingStorage);
     void deleteByID(int id);
 

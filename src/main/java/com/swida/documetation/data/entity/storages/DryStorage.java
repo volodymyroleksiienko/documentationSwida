@@ -6,6 +6,7 @@ import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,6 +32,9 @@ public class DryStorage {
 
     private String qualityOfPack;
     private String longOfPack;
+
+    @OneToMany
+    private List<DescriptionDeskOak> deskOakList;
 
     @ManyToOne
     private UserCompany userCompany;

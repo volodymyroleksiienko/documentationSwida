@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
            http.authorizeRequests()
 //                    .antMatchers("/login", "/registration").permitAll()
                    .antMatchers("/**").authenticated()
-                   .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                   .antMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
                    .and()
                         .formLogin()
                         .failureForwardUrl("/login?error=true")
