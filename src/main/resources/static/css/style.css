@@ -7326,12 +7326,11 @@ button.buttons {
   font-size: 2em;
   padding: 0;
   text-align: center;
-  display: block;
   margin: 20px auto 0;
   position: relative;
   -webkit-transition: all .1s ease-out;
   transition: all .1s ease-out;
-  border: 0px;
+  border: 0;
 }
 
 button.buttons:active,
@@ -7343,13 +7342,18 @@ button.buttons:hover {
 button.buttons:not(:last-child) {
   width: 40px;
   height: 40px;
-  margin: 20px auto 0;
+  margin: 20px 2px 0;
   opacity: 0;
   font-size: 1.6em;
   /*padding-top: 4px;*/
   -webkit-transform: translateY(50px);
   -ms-transform: translateY(50px);
   transform: translateY(50px); }
+
+button.main-button{
+  float: left;
+  margin-right: 10px;
+}
 
 button.buttons.main-button > i:first-child {
   position: relative;
@@ -7360,7 +7364,7 @@ button.buttons.main-button > i:first-child {
   -webkit-transform: none;
   -ms-transform: none;
   transform: none;
-  margin: 20px auto 0; }
+  margin: 30px 2px 0; }
 
 button.buttons:nth-last-child(1) {
   -webkit-transition-delay: 25ms;
