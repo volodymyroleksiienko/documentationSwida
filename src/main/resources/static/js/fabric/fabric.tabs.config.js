@@ -96,7 +96,7 @@ $(document).ready( function () {
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "bSort": false,
         "info": false,
-        // "order": [ 0, "desc" ],
+        "order": [ 0, "desc" ],
 
         // columns width
         "autoWidth": false,

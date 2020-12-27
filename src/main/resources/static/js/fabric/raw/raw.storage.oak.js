@@ -57,14 +57,16 @@ function editRawStorageOak(btnObj) {
     var material =      $(trObj).find('td:eq(1)').text();
     var description =   $(trObj).find('td:eq(2)').text();
     var thickness =     $(trObj).find('td:eq(3)').text();
-    var extent =        $(trObj).find('td:eq(4)').text();
-    var desc =          $(trObj).find('td:eq(5)').text();
-    var treeStExt =     $(trObj).find('td:eq(6)').text();
+    var length =        $(trObj).find('td:eq(4)').text();
+    var extent =        $(trObj).find('td:eq(5)').text();
+    var desc =          $(trObj).find('td:eq(6)').text();
+    var treeStExt =     $(trObj).find('td:eq(7)').text();
 
     $('#editDryingModalCode').val(code);
     $('#editDryingModalMaterial').val(material);
     $('#editDryingModalMaterialDescr').val(description);
     $('#editDryingModalThickness').val(thickness);
+    $('#editDryingModalLength').val(length);
     $('#editDryingModalVolume').val(extent);
     $('#editForDryingModalDescription').val(desc);
     $('#editDryingModalMaxExtent').val(treeStExt);
