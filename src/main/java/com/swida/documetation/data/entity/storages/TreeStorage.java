@@ -34,8 +34,8 @@ public class TreeStorage {
     @OneToMany
     private List<QualityStatisticInfo> statisticInfoList;
 
-    @OneToOne
-    private TreeStorage recycle;
+    @OneToMany
+    private List<TreeStorage> recycle;
 
     @ManyToOne
     private BreedOfTree breedOfTree;

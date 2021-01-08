@@ -642,6 +642,8 @@
                     <th>TreeStorage extent</th>
                     <th>Поставщик</th>
                     <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -659,6 +661,9 @@
                         <td th:text="${rs.description}"></td>
                         <td th:text="${rs?.treeStorage?.extent}"></td>
                         <td th:text="${rs?.treeStorage?.contrAgent?.nameOfAgent}"></td>
+                        <td th:text="${T(Double).parseDouble(rs?.extent)-T(Double).parseDouble(rs?.maxExtent)}"></td>
+                        <td th:if="${rs?.recycle!=null}" th:text="${T(Double).parseDouble(rs?.recycle?.extent)-T(Double).parseDouble(rs?.recycle?.maxExtent)}"></td>
+                        <td th:if="${rs?.recycle==null}">null Recycle</td>
                         <td style="text-align: right; width: 200px !important; display: block;">
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -702,6 +707,8 @@
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
                     </tr>
                 </div>
             </tbody>
@@ -718,6 +725,8 @@
                     <th scope="col">Примечание</th>
                     <th>TreeStorage extent</th>
                     <th>Поставщик</th>
+                    <th></th>
+                    <th></th>
                     <th></th>
                 </tr>
             </tfoot>

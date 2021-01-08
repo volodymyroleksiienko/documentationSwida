@@ -28,6 +28,8 @@ public class RawStorage {
     private int maxCountOfDesk;
 
     private String extent;
+    private String maxExtent;
+    private String usedExtent;
     private String description;
     private String date;
 
@@ -39,6 +41,9 @@ public class RawStorage {
 
     @ManyToOne
     private TreeStorage treeStorage;
+    @OneToOne
+    private TreeStorage recycle;
+
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }

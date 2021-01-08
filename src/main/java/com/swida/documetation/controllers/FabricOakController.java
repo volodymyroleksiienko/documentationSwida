@@ -125,7 +125,8 @@ public class FabricOakController {
         recycle.setBreedDescription(treeStorage.getBreedDescription());
 
         treeStorageService.save(recycle);
-        treeStorage.setRecycle(recycle);
+        treeStorage.getRecycle().add(recycle);
+        rawStorage.setRecycle(recycle);
         treeStorageService.save(treeStorage);
         treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;

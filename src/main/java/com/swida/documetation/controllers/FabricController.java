@@ -178,7 +178,8 @@ public class FabricController {
         recycle.setBreedDescription(treeStorage.getBreedDescription());
 
         treeStorageService.save(recycle);
-        treeStorage.setRecycle(recycle);
+        rawStorage.setRecycle(recycle);
+        treeStorage.getRecycle().add(recycle);
         treeStorageService.save(treeStorage);
         rawStorageService.save(rawStorage);
         treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
@@ -376,11 +377,11 @@ public class FabricController {
             orderInfoService.save(orderInfo);
             orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
         }
-        if(treeStorage.getRecycle()!=null){
-            recycleExtent=Float.parseFloat(treeStorage.getRecycle().getExtent());
-            treeStorage.getRecycle().setExtent("0.000");
-            treeStorageService.save(treeStorage.getRecycle());
-        }
+//        if(treeStorage.getRecycle()!=null){
+//            recycleExtent=Float.parseFloat(treeStorage.getRecycle().getExtent());
+//            treeStorage.getRecycle().setExtent("0.000");
+//            treeStorageService.save(treeStorage.getRecycle());
+//        }
         treeStorage.setExtent(
                 String.format("%.3f",Float.parseFloat(treeStorage.getExtent())
                 +Float.parseFloat(rawStorage.getExtent())+recycleExtent).replace(",",".")
