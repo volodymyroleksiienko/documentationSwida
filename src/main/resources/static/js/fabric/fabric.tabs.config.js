@@ -150,10 +150,10 @@ $(document).ready( function () {
         ]
     });
 
-    // TOOGLE SELECTED START
-    $('#rawstoragetable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-    } );
+    // // TOOGLE SELECTED START
+    // $('#rawstoragetable tbody').on( 'click', 'tr', function () {
+    //     $(this).toggleClass('selected');
+    // } );
     //TOOGLE SELECTED END
 
     let rawstoragetableoak =  $('#rawstoragetableoak').DataTable({
