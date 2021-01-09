@@ -162,8 +162,8 @@ public class FabricController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
-        rawStorage.setMaxExtent(rawStorage.getExtent());
         rawStorage.setUsedExtent(String.format("%.3f",Float.parseFloat(mainExtentTreeStorage)-Float.parseFloat(extentOfTreeStorage)).replace(",","."));
+        rawStorageService.save(rawStorage);
 
         TreeStorage recycle = new TreeStorage();
         if(extentOfWaste==null){
@@ -183,6 +183,7 @@ public class FabricController {
         treeStorageService.save(recycle);
         rawStorage.setRecycle(recycle);
         treeStorage.getRecycle().add(recycle);
+        rawStorage.setMaxExtent(rawStorage.getExtent());
         treeStorageService.save(treeStorage);
         rawStorageService.save(rawStorage);
         treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
@@ -819,11 +820,16 @@ public class FabricController {
                                           int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage){
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
 
+        rawStorage.setUsedExtent(
+                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(extentOfTreeStorage)).replace(',','.')
+        );
         treeStorage.setExtent(String.format("%.3f",Float.parseFloat(extentOfTreeStorage)).replace(',','.'));
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorageService.save(rawStorage);
+        rawStorage.setMaxExtent(rawStorage.getExtent());
         rawStorageService.save(rawStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
     }
