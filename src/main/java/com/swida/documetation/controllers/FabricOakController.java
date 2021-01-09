@@ -107,6 +107,7 @@ public class FabricOakController {
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setTreeStorage(treeStorage);
+        rawStorage.setMaxExtent(rawStorage.getExtent());
         rawStorageService.save(rawStorage);
         treeStorage.setExtent(String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)).replace(',','.'));
 
@@ -116,6 +117,7 @@ public class FabricOakController {
         }else {
             recycle.setExtent(String.format("%.3f", Float.parseFloat(extentOfWaste)).replace(',', '.'));
         }
+        recycle.setMaxExtent(recycle.getExtent());
         recycle.setCodeOfProduct(treeStorage.getCodeOfProduct()+"-rec");
         recycle.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
         recycle.setContrAgent(treeStorage.getContrAgent());

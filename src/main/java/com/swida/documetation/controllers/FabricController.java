@@ -162,6 +162,8 @@ public class FabricController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorage.setMaxExtent(rawStorage.getExtent());
+        rawStorage.setUsedExtent(String.format("%.3f",Float.parseFloat(mainExtentTreeStorage)-Float.parseFloat(extentOfTreeStorage)).replace(",","."));
 
         TreeStorage recycle = new TreeStorage();
         if(extentOfWaste==null){
@@ -169,6 +171,7 @@ public class FabricController {
         }else {
             recycle.setExtent(String.format("%.3f", Float.parseFloat(extentOfWaste)).replace(',', '.'));
         }
+        recycle.setMaxExtent(recycle.getExtent());
         recycle.setCodeOfProduct(treeStorage.getCodeOfProduct()+"-rec");
         recycle.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
         recycle.setContrAgent(treeStorage.getContrAgent());
@@ -365,7 +368,6 @@ public class FabricController {
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
         TreeStorage treeStorage = rawStorage.getTreeStorage();
         float rawStorageExtent = Float.parseFloat(rawStorage.getExtent());
-        float recycleExtent=0;
 
         if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
             OrderInfo orderInfo = treeStorage.getOrderInfo();
@@ -377,14 +379,13 @@ public class FabricController {
             orderInfoService.save(orderInfo);
             orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
         }
-//        if(treeStorage.getRecycle()!=null){
-//            recycleExtent=Float.parseFloat(treeStorage.getRecycle().getExtent());
-//            treeStorage.getRecycle().setExtent("0.000");
-//            treeStorageService.save(treeStorage.getRecycle());
-//        }
+        if(rawStorage.getRecycle()!=null){
+            rawStorage.getRecycle().setExtent("0.000");
+            treeStorageService.save(rawStorage.getRecycle());
+        }
         treeStorage.setExtent(
                 String.format("%.3f",Float.parseFloat(treeStorage.getExtent())
-                +Float.parseFloat(rawStorage.getExtent())+recycleExtent).replace(",",".")
+                +Float.parseFloat(rawStorage.getUsedExtent())).replace(",",".")
         );
         rawStorage.setExtent("0.000");
         rawStorage.setCountOfDesk(0);

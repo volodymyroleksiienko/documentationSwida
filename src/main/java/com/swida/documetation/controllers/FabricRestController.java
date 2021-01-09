@@ -190,7 +190,7 @@ public class FabricRestController {
         userCompany.setId(userID);
 
 
-        if(treeStorageId.isEmpty() || treeStorageId==null) {
+        if(treeStorageId.isEmpty()) {
             treeStorage.setCodeOfProduct(codeOfPackage);
             treeStorage.setBreedOfTree(breedOfTree);
             treeStorage.setUserCompany(userCompany);
@@ -231,6 +231,8 @@ public class FabricRestController {
         rawStorage.setSizeOfHeight(sizeOfHeight);
         rawStorage.setSizeOfLong(sizeOfLong);
         rawStorage.setExtent(extent.replace(",","."));
+        rawStorage.setMaxExtent(rawStorage.getExtent());
+        rawStorage.setUsedExtent(rawStorage.getExtent());
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setDeskOakList(descriptionDeskList);
         String rawExtent = rawStorageService.save(rawStorage);
