@@ -618,11 +618,16 @@ public class FabricOakController {
         int breedId =2;
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
 
+        rawStorage.setUsedExtent(
+                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(extentOfTreeStorage)).replace(',','.')
+        );
         treeStorage.setExtent(String.format("%.3f",Float.parseFloat(extentOfTreeStorage)).replace(',','.'));
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
+        rawStorageService.save(rawStorage);
+        rawStorage.setMaxExtent(rawStorage.getExtent());
         rawStorageService.save(rawStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
     }
