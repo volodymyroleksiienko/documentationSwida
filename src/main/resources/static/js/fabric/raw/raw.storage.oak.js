@@ -345,9 +345,30 @@ function returnToIncome(btnObj) {
     $('#returnItemId').val(trId);
     console.log("row id: "+trId);
 
-    let code = $(trObj).find('th:eq(0)').text();
+    let code =          $(trObj).find('th:eq(0)').text();
+    let rsMinusMax =    $(trObj).find('td:eq(9)').text();
+    let recMinusMax =   $(trObj).find('td:eq(10)').text();
 
-    $('#returnItemModalConfirmation').text(" Вы уверены, что хотите возвратить партию №"+code+" на склад прихода?");
+    console.log("rs: " + rsMinusMax+"; rec: "+ recMinusMax);
+    console.log(recMinusMax.localeCompare("null"));
+
+    if (((parseFloat(rsMinusMax) === 0.0)&&(parseFloat(recMinusMax) === 0.0))||((parseFloat(rsMinusMax) === 0.0)&&(recMinusMax === "null")) ){
+        $('#submitReturnBtnRS').css("display", "block");
+        $('#returnItemModalConfirmation').text(" Вы уверены, что хотите возвратить партию №"+code+" на склад прихода?");
+    }
+    else if ((parseFloat(rsMinusMax) !== 0.0)&&((parseFloat(recMinusMax) !== 0.0)&&(recMinusMax.localeCompare("null")!==0))){
+        $('#submitReturnBtnRS').css("display", "none");
+        $('#returnItemModalConfirmation').text("Невозможно возвратить на сухой склад, потому что кубатура на сыром складе не совпадает на "+rsMinusMax+ " м3., кубатура на складе отходов не совпадает на "+recMinusMax+ " м3.");
+    }
+    else if ((parseFloat(rsMinusMax) !== 0.0)){
+        $('#returnItemModalConfirmation').text("Невозможно возвратить на сухой склад, потому что кубатура на сыром складе не совпадает на "+rsMinusMax+ " м3.");
+        $('#submitReturnBtnRS').css("display", "none");
+    }
+    else if ((parseFloat(recMinusMax) !== 0.0)||(recMinusMax !== "null")){
+        $('#returnItemModalConfirmation').text("Невозможно возвратить на сухой склад, потому что кубатура на складе отходов не совпадает на "+recMinusMax+ " м3.");
+        $('#submitReturnBtnRS').css("display", "none");
+    }
+
     $('#returnToIncomeModal').modal('show');
 }
 

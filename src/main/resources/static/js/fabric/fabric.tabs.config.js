@@ -146,7 +146,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "135px"
             },
-            { className: "display-none", "targets": [ -3 ] },
+            { className: "display-none", "targets": [ -5, -3, -2 ] },
         ]
     });
 
@@ -178,7 +178,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "135px"
             },
-            { className: "display-none", "targets": [ -5 ] },
+            { className: "display-none", "targets": [ -5, -3, -2] },
         ]
     });
 
