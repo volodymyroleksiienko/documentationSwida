@@ -316,7 +316,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "30px"
             },
-            { className: "display-none", "targets": [ 11 ] }
+            { className: "display-none", "targets": [ 12 ] }
 
         ]
 
