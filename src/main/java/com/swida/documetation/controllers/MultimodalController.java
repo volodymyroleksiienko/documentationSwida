@@ -165,7 +165,9 @@ public class MultimodalController {
         );
         for(DeliveryDocumentation docDB:docListDB) {
             reloadAllExtentFields(docDB);
+            deliveryDocumentationService.checkHeightUnicValue(docDB);
         }
+
         return "redirect:/multimodal/getMultimodalOrders";
     }
 

@@ -193,7 +193,9 @@ public class DeliveryPortAndUAController {
     @PostMapping("/editPackageProduct-{contractId}")
     public String editPackageProduct(@PathVariable("contractId")int contractId, PackagedProduct product){
         PackagedProduct productDB = packagedProductService.editPackageProduct(product);
-        packagedProductService.countExtentOak(productDB);
+        if(productDB.getBreedOfTree().getId()==2){
+            packagedProductService.countExtentOak(productDB);
+        }
         deliveryDocumentationService.checkHeightUnicValue(productDB.getDeliveryDocumentation());
         reloadAllExtentFields(productDB.getDeliveryDocumentation());
         return "redirect:/multimodal/getDeliveryTrucksByContract-"+contractId;
@@ -283,7 +285,7 @@ public class DeliveryPortAndUAController {
         List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
         orderInfoService.reloadOrderExtent(orderInfo,docList);
         orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-
+        docList.forEach(deliveryDocumentationService::checkHeightUnicValue);
         return "redirect:/multimodal/getDeliveryPort";
     }
 

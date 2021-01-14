@@ -264,6 +264,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     public PackagedProduct editPackageProduct(PackagedProduct product) {
         PackagedProduct productDB = productJPA.getOne(product.getId());
 
+
+
         productDB.setCodeOfPackage(product.getCodeOfPackage());
         if (product.getBreedOfTree() != null) {
             productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
@@ -301,6 +303,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productDB.setCodeOfDeliveryCompany(product.getCodeOfDeliveryCompany());
 
         productDB.setCountOfDesk(product.getCountOfDesk());
+        System.out.println(productDB.getCountOfDesk());
+        System.out.println(productDB.getId());
         productDB.setExtent(product.getExtent());
         productDB.setCountDeskInHeight(product.getCountDeskInHeight());
         productDB.setCountDeskInWidth(product.getCountDeskInWidth());
@@ -311,6 +315,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             productDB.setBreedDescription("");
         }
         productJPA.save(productDB);
+        System.out.println(productDB.toString());
         return productDB;
     }
 

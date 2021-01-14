@@ -241,6 +241,8 @@ public class FabricRestController {
         }
         treeStorageService.save(treeStorage);
 
+        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
+
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")

@@ -31,7 +31,7 @@ function showEditModal(btnObj) {
     $('#editIncomeMaterial').val(breed);
     $('#editIncomeMaterialDesc').val(desc);
     $('#editIncomeSupplier').val(provider);
-    $('#editOakIncomeSupplier-hidden').val(providerId);
+    $('#editIncomeSupplier-hidden').val(providerId);
     $('#editIncomeVolume').val(extent);
 
     $('#editIncome').modal('show');

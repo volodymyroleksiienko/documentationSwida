@@ -52,7 +52,12 @@ public class ImportOrderDataFromXLS {
 
         for(int i=startRow+1;;i++){
             Row row = sheet.getRow(i);
-            if (dataFormatter.formatCellValue(row.getCell(startCell+9)).isEmpty()){
+            if (dataFormatter.formatCellValue(row.getCell(startCell+6)).isEmpty() ||
+                dataFormatter.formatCellValue(row.getCell(startCell+5)).isEmpty() ||
+                dataFormatter.formatCellValue(row.getCell(startCell+4)).isEmpty() ||
+                dataFormatter.formatCellValue(row.getCell(startCell+3)).isEmpty() ||
+                dataFormatter.formatCellValue(row.getCell(startCell+2)).isEmpty()
+            ){
                 break;
             }
             PackagedProduct product = new PackagedProduct();
