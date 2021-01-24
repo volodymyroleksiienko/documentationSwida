@@ -20,6 +20,7 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContainerService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -245,7 +246,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
     @Override
     public List<PackagedProduct> findAll() {
-        return productJPA.findAll();
+        return productJPA.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override

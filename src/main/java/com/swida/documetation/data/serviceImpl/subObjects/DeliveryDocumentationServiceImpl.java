@@ -14,6 +14,7 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -205,12 +206,15 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
 
     @Override
     public List<DeliveryDocumentation> findAll() {
-        return documentationJPA.findAll();
+        return documentationJPA.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override
     public List<DeliveryDocumentation> getListByUserByBreed(int breedId,int userId) {
-        return documentationJPA.getListByUserByBreed(breedId,userId);
+        return documentationJPA.getListByUserByBreed(breedId,userId)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -225,12 +229,18 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
 
     @Override
     public List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId) {
-        return documentationJPA.getListByDistributionContractsId(contractId);
+        return documentationJPA.getListByDistributionContractsId(contractId)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<DeliveryDocumentation> getListByDestinationType(DeliveryDestinationType type) {
-        return documentationJPA.getListByDestinationType(type);
+        return documentationJPA.getListByDestinationType(type)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override

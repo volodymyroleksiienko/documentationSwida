@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -79,10 +81,16 @@ public class DryStorageServiceImpl implements DryStorageService {
 
     @Override
     public List<DryStorage> getListByUserByBreed(int breedId, int userId) {
+        List<DryStorage> dryStorageList = new ArrayList<>();
         if (breedId==2){
-            return  dryStorageJPA.getListByUserByBreedOak(breedId,userId);
+            dryStorageList = dryStorageJPA.getListByUserByBreedOak(breedId,userId);
+
         }
-        return dryStorageJPA.getListByUserByBreed(breedId,userId);
+        dryStorageList = dryStorageJPA.getListByUserByBreed(breedId,userId);
+
+        return dryStorageList.stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override

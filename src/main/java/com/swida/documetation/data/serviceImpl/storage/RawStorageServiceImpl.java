@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RawStorageServiceImpl implements RawStorageService {
@@ -66,7 +67,10 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status) {
-        return rawStorageJPA.getListByUserByBreedByStatusOfTree(breedId,userId,status);
+        return rawStorageJPA.getListByUserByBreedByStatusOfTree(breedId,userId,status)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.jpa.subObjects.DriverInfoJPA;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class DriverInfoServiceImpl implements DriverInfoService {
 
     @Override
     public List<DriverInfo> findAll() {
-        return driverInfoJPA.findAll();
+        return driverInfoJPA.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override

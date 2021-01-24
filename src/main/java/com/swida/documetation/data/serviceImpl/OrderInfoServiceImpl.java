@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -60,18 +61,27 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public List<OrderInfo> getOrdersByStatusOfOrder(StatusOfOrderInfo status) {
-        return orderInfoJPA.getOrdersByStatusOfOrder(status);
+        return orderInfoJPA.getOrdersByStatusOfOrder(status)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
 
     @Override
     public List<OrderInfo> getOrdersByStatusOfOrderByDestination(StatusOfOrderInfo status, DeliveryDestinationType type) {
-        return orderInfoJPA.getOrdersByStatusOfOrderByDestination(status,type);
+        return orderInfoJPA.getOrdersByStatusOfOrderByDestination(status,type)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<OrderInfo> getOrdersByStatusOfOrderByDestinationOnlyActive(StatusOfOrderInfo status, DeliveryDestinationType type) {
-        return orderInfoJPA.getOrdersByStatusOfOrderByDestinationOnlyActive(status, type);
+        return orderInfoJPA.getOrdersByStatusOfOrderByDestinationOnlyActive(status, type)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override
