@@ -84,9 +84,9 @@ public class DryStorageServiceImpl implements DryStorageService {
         List<DryStorage> dryStorageList = new ArrayList<>();
         if (breedId==2){
             dryStorageList = dryStorageJPA.getListByUserByBreedOak(breedId,userId);
-
+        }else{
+            dryStorageList = dryStorageJPA.getListByUserByBreed(breedId,userId);
         }
-        dryStorageList = dryStorageJPA.getListByUserByBreed(breedId,userId);
 
         return dryStorageList.stream()
                 .sorted((o1, o2) -> o2.getId()-o1.getId())
