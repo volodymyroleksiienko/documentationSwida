@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TreeStorageServiceImpl implements TreeStorageService {
@@ -83,7 +84,7 @@ public class TreeStorageServiceImpl implements TreeStorageService {
             info.setExtent( String.format("%.3f",extent)
                     .replace(",","."));
             info.setPercent(
-                    String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent()))
+                    String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
                             .replace(",",".")
             );
             treeStorage.getStatisticInfoList().add(info);
@@ -104,12 +105,18 @@ public class TreeStorageServiceImpl implements TreeStorageService {
 
     @Override
     public List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status) {
-        return treeStorageJPA.getListByUserByBreed(breedId,userId,status);
+        return treeStorageJPA.getListByUserByBreed(breedId,userId,status)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TreeStorage> getListByUserByBreedALL(int breedId, int userId, StatusOfTreeStorage status) {
-        return treeStorageJPA.getListByUserByBreedALL(breedId,userId,status);
+        return treeStorageJPA.getListByUserByBreedALL(breedId,userId,status)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -7,9 +7,11 @@ import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
 import com.swida.documetation.data.jpa.subObjects.ContainerJPA;
 import com.swida.documetation.data.service.subObjects.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContainerServiceImpl implements ContainerService {
@@ -77,12 +79,15 @@ public class ContainerServiceImpl implements ContainerService {
 
     @Override
     public List<Container> findAll() {
-        return containerJPA.findAll();
+        return containerJPA.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override
     public List<Container> selectByStatusOfEntity(StatusOfEntity status) {
-        return containerJPA.selectByStatusOfEntity(status);
+        return containerJPA.selectByStatusOfEntity(status)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
 
     @Override

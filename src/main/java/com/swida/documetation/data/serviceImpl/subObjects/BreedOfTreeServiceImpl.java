@@ -5,6 +5,7 @@ import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.jpa.subObjects.BreedOfTreeJPA;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class BreedOfTreeServiceImpl implements BreedOfTreeService {
 
     @Override
     public List<BreedOfTree> findAll() {
-        return breedOfTreeJPA.findAll();
+        return breedOfTreeJPA.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override

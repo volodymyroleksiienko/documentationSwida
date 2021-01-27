@@ -4,6 +4,7 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTreeDescription;
 import com.swida.documetation.data.jpa.subObjects.BreedOfTreeDescriptionJPA;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeDescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class BreedOfTreeDescriptionServiceImpl implements BreedOfTreeDescription
 
     @Override
     public List<BreedOfTreeDescription> findAll() {
-        return breedOfTreeDescriptionJPA.findAll();
+        return breedOfTreeDescriptionJPA.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override

@@ -410,7 +410,7 @@ public class FabricOakController {
                 dryStorageService.save(dryStorage);
             }
         }
-        model.addAttribute("dryStorageList",dryStorageList.stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
+        model.addAttribute("dryStorageList",dryStorageList);
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());

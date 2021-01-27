@@ -5,9 +5,11 @@ import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.jpa.subObjects.ContrAgentJPA;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContrAgentServiceImpl implements ContrAgentService {
@@ -35,13 +37,17 @@ public class ContrAgentServiceImpl implements ContrAgentService {
 
     @Override
     public List<ContrAgent> findAll() {
-        return contrAgentJPA.findAll();
+        return contrAgentJPA.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override
     public List<ContrAgent> getListByType(ContrAgentType type) {
-        return contrAgentJPA.getListByType(type);
+        return contrAgentJPA.getListByType(type)
+                .stream()
+                .sorted((o1, o2) -> o2.getId()-o1.getId())
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public int existByNameOfProvider(String name) {
