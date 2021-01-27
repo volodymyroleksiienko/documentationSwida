@@ -2,9 +2,11 @@ package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.RawStorage;
+import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
 import com.swida.documetation.data.service.storages.RawStorageService;
+import com.swida.documetation.data.service.storages.TreeStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class RawStorageServiceImpl implements RawStorageService {
     RawStorageJPA rawStorageJPA;
+    TreeStorageService treeStorageService;
 
-    @Autowired
-    public RawStorageServiceImpl(RawStorageJPA rawStorageJPA) {
+    public RawStorageServiceImpl(RawStorageJPA rawStorageJPA, TreeStorageService treeStorageService) {
         this.rawStorageJPA = rawStorageJPA;
+        this.treeStorageService = treeStorageService;
     }
+
+
 
     @Override
     public String save(RawStorage rs) {
@@ -78,13 +83,25 @@ public class RawStorageServiceImpl implements RawStorageService {
         if(rawStorage.getDeskOakList()==null || rawStorage.getDeskOakList().size()==0){
             return;
         }
-        double extent = 0;
+        float extent = 0;
         for(DescriptionDeskOak deskOak:  rawStorage.getDeskOakList()){
             extent+= (Double.parseDouble(deskOak.getSizeOfWidth())
                     *Double.parseDouble(deskOak.getCountOfDesk())
                     *Double.parseDouble(rawStorage.getSizeOfHeight())
                     *Double.parseDouble(rawStorage.getSizeOfLong())
                     /1000000000);
+        }
+        if (Double.parseDouble(rawStorage.getExtent())!=extent){
+            TreeStorage treeStorage = rawStorage.getTreeStorage();
+            treeStorage.setExtent(
+                    String.format("%.3f",
+                            Double.parseDouble(treeStorage.getExtent())+
+                                    (Double.parseDouble(rawStorage.getExtent())-extent))
+                            .replace(",",".")
+
+            );
+            treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),extent-Float.parseFloat(rawStorage.getExtent()));
+            treeStorageService.save(treeStorage);
         }
         rawStorage.setExtent(
                 String.format("%.3f",extent).replace(",",".")

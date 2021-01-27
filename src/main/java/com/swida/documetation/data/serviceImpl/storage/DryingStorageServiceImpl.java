@@ -1,12 +1,10 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
-import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
-import com.swida.documetation.data.entity.storages.DryStorage;
-import com.swida.documetation.data.entity.storages.DryingStorage;
-import com.swida.documetation.data.entity.storages.RawStorage;
+import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.jpa.storages.DryingStorageJPA;
 import com.swida.documetation.data.service.storages.DryingStorageService;
 import com.swida.documetation.data.service.storages.RawStorageService;
+import com.swida.documetation.data.service.storages.TreeStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,13 +15,15 @@ import java.util.List;
 
 @Service
 public class DryingStorageServiceImpl implements DryingStorageService {
-    DryingStorageJPA dryingStorageJPA;
+    private DryingStorageJPA dryingStorageJPA;
     private RawStorageService rawStorageService;
+    private TreeStorageService treeStorageService;
 
-    @Autowired
-    public DryingStorageServiceImpl(DryingStorageJPA dryingStorageJPA, RawStorageService rawStorageService) {
+
+    public DryingStorageServiceImpl(DryingStorageJPA dryingStorageJPA, RawStorageService rawStorageService, TreeStorageService treeStorageService) {
         this.dryingStorageJPA = dryingStorageJPA;
         this.rawStorageService = rawStorageService;
+        this.treeStorageService = treeStorageService;
     }
 
     @Override
@@ -90,13 +90,25 @@ public class DryingStorageServiceImpl implements DryingStorageService {
         if(dryingStorage.getDeskOakList()==null || dryingStorage.getDeskOakList().size()==0){
             return;
         }
-        double extent = 0;
+        float extent = 0;
         for(DescriptionDeskOak deskOak:  dryingStorage.getDeskOakList()){
             extent+= (Double.parseDouble(deskOak.getSizeOfWidth())
                     *Double.parseDouble(deskOak.getCountOfDesk())
                     *Double.parseDouble(dryingStorage.getSizeOfHeight())
                     *Double.parseDouble(dryingStorage.getSizeOfLong())
                     /1000000000);
+        }
+        if (Double.parseDouble(dryingStorage.getExtent())!=extent){
+            TreeStorage treeStorage = dryingStorage.getRawStorage().getTreeStorage();
+            treeStorage.setExtent(
+                    String.format("%.3f",
+                            Double.parseDouble(treeStorage.getExtent())+
+                                    (Double.parseDouble(dryingStorage.getExtent())-extent))
+                            .replace(",",".")
+
+            );
+            treeStorageService.checkQualityInfo(treeStorage,dryingStorage.getSizeOfHeight(),extent-Float.parseFloat(dryingStorage.getExtent()));
+            treeStorageService.save(treeStorage);
         }
         dryingStorage.setExtent(
                 String.format("%.3f",extent).replace(",",".")

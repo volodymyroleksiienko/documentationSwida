@@ -1,13 +1,11 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 
-import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
-import com.swida.documetation.data.entity.storages.DryStorage;
-import com.swida.documetation.data.entity.storages.DryingStorage;
-import com.swida.documetation.data.entity.storages.RawStorage;
+import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.jpa.storages.DryStorageJPA;
 import com.swida.documetation.data.service.storages.DryStorageService;
 import com.swida.documetation.data.service.storages.DryingStorageService;
+import com.swida.documetation.data.service.storages.TreeStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +20,12 @@ import java.util.stream.Collectors;
 public class DryStorageServiceImpl implements DryStorageService {
     DryStorageJPA dryStorageJPA;
     private DryingStorageService dryingStorageService;
+    private TreeStorageService treeStorageService;
 
-    @Autowired
-    public DryStorageServiceImpl(DryStorageJPA dryStorageJPA, DryingStorageService dryingStorageService) {
+    public DryStorageServiceImpl(DryStorageJPA dryStorageJPA, DryingStorageService dryingStorageService, TreeStorageService treeStorageService) {
         this.dryStorageJPA = dryStorageJPA;
         this.dryingStorageService = dryingStorageService;
+        this.treeStorageService = treeStorageService;
     }
 
     @Override
@@ -98,13 +97,25 @@ public class DryStorageServiceImpl implements DryStorageService {
         if(dryStorage.getDeskOakList()==null || dryStorage.getDeskOakList().size()==0){
             return;
         }
-        double extent = 0;
+        float extent = 0;
         for(DescriptionDeskOak deskOak:  dryStorage.getDeskOakList()){
             extent+= (Double.parseDouble(deskOak.getSizeOfWidth())
                     *Double.parseDouble(deskOak.getCountOfDesk())
                     *Double.parseDouble(dryStorage.getSizeOfHeight())
                     *Double.parseDouble(dryStorage.getSizeOfLong())
                     /1000000000);
+        }
+        if (Double.parseDouble(dryStorage.getExtent())!=extent){
+            TreeStorage treeStorage = dryStorage.getDryingStorage().getRawStorage().getTreeStorage();
+            treeStorage.setExtent(
+                    String.format("%.3f",
+                            Double.parseDouble(treeStorage.getExtent())+
+                                    (Double.parseDouble(dryStorage.getExtent())-extent))
+                            .replace(",",".")
+
+            );
+            treeStorageService.checkQualityInfo(treeStorage,dryStorage.getSizeOfHeight(),extent-Float.parseFloat(dryStorage.getExtent()));
+            treeStorageService.save(treeStorage);
         }
         dryStorage.setExtent(
                 String.format("%.3f",extent).replace(",",".")
