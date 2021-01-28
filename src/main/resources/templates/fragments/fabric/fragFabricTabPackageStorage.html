@@ -716,49 +716,54 @@
                         <hr>
 
                         <div class="form-group row d-flex" style="align-items: flex-end">
-                            <div class="col-2">
+                            <div class="col-3">
                                 <label class="col-form-label" for="sendForPackageModalWidthOak">Ширина</label>
                                 <input type="number" min="0" step="10" class="form-control" id="sendForPackageModalWidthOak" required="required" autocomplete="off" placeholder="мм" value="100">
                             </div>
 
-                            <div class="col-2">
+                            <div class="col-3">
                                 <label class="control-label" for="sendForPackageModalCountOak" style="padding-top: 7px">Количество</label>
                                 <input type="number" min="1" class="form-control" id="sendForPackageModalCountOak" required="required" autocomplete="off" placeholder="шт">
-                            </div>
-
-                            <div class="col-2">
-                                <label class="control-label" for="sendForPackageModalExtentOak" style="padding-top: 7px">Кубатура</label>
-                                <input type="text" disabled="disabled" class="form-control" id="sendForPackageModalExtentOak"  autocomplete="off" placeholder="м3">
                             </div>
 
                             <div class="col-6" style="display: inline-flex; text-align: right;justify-content: flex-end;">
                                 <button id="buttonForAddingOakRow" type="button" class="btn btn-primary" style="margin-right: 5px; width: 50%">Добавить ширину</button>
                                 <button type="button" class="btn btn-primary" style="width: 50%;" onclick="createOakPackageForm()">Сформировать пачку</button>
                             </div>
+
+                            <div class="col-3">
+                                <label class="control-label" for="sendForPackageModalExtentOak" style="padding-top: 7px">Кубатура</label>
+                                <input type="text" disabled="disabled" class="form-control" id="sendForPackageModalExtentOak"  autocomplete="off" placeholder="м3">
+                            </div>
+
+                            <div class="col-3">
+                                <label class="control-label" for="sendForPackageModalTotalDescdCountOak" style="padding-top: 7px">Сум. количество</label>
+                                <input type="number" min="0" class="form-control" disabled="disabled" id="sendForPackageModalTotalDescdCountOak" placeholder="шт">
+                            </div>
+                            <div class="col-6">
+                            </div>
                         </div>
-
-                        <table class="table table-hover table-striped" id="tableForTransportationOak">
-                            <thead>
-                            <tr>
-                                <th scope="col">Ширина, мм</th>
-                                <th scope="col">Количество досок, шт</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-
-                            <tbody id="listOfOakPackagesId">
-                            <!-- <tr></tr> -->
-                            </tbody>
-
-                            <tfoot>
+                    </div>
+                    <table class="table table-hover table-striped" id="tableForTransportationOak" style="padding-left: 1rem; padding-right: 1rem">
+                        <thead>
+                        <tr>
                             <th scope="col">Ширина, мм</th>
                             <th scope="col">Количество досок, шт</th>
                             <th></th>
-                            </tfoot>
+                        </tr>
+                        </thead>
 
-                        </table>
+                        <tbody id="listOfOakPackagesId">
+                        <!-- <tr></tr> -->
+                        </tbody>
 
-                    </div>
+                        <tfoot>
+                        <th scope="col">Ширина, мм</th>
+                        <th scope="col">Количество досок, шт</th>
+                        <th></th>
+                        </tfoot>
+
+                    </table>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="clearTableButton" data-dismiss="modal">Отмена</button>
                     </div>

@@ -415,6 +415,7 @@ $(document).ready( function () {
     $( "#clearTableButton" ).click(function() {
         clearTable(tableForTransportationOak);
         $("#sendForPackageModalExtentOak").val('');
+        $("#sendForPackageModalTotalDescdCountOak").val('');
         $("#sendForPackageModalLengthOak").removeAttr("disabled");
         $("#sendForPackageModalSizeOak").removeAttr("disabled");
     })
@@ -452,6 +453,7 @@ $(document).ready( function () {
         let width =         $("#sendForPackageModalWidthOak").val();
         let count =         $("#sendForPackageModalCountOak").val();
         let extent =        $("#sendForPackageModalExtentOak");
+        let totalDescs=     $('#sendForPackageModalTotalDescdCountOak');
         let length =        $("#sendForPackageModalLengthOak");
         let height =        $("#sendForPackageModalSizeOak");
 
@@ -519,6 +521,7 @@ $(document).ready( function () {
         let width =         $("#sendForPackageModalWidthOak").val();
         let count =         $("#sendForPackageModalCountOak").val();
         let extent =        $("#sendForPackageModalExtentOak");
+        let totalDescs=     $('#sendForPackageModalTotalDescdCountOak');
         let length =        $("#sendForPackageModalLengthOak");
         let height =        $("#sendForPackageModalSizeOak");
 
@@ -628,6 +631,7 @@ $(document).ready( function () {
                         $('#sendForPackageModalWidthOak').val('');
                         $('#sendForPackageModalCountOak').val('');
                         $('#sendForPackageModalExtentOak').val('0.000');
+                        $('#sendForPackageModalTotalDescdCountOak').val('0');
                         $("#sendForPackageModalLengthOak").removeAttr("disabled");
                         $("#sendForPackageModalSizeOak").removeAttr("disabled");
                         tableForTransportationOak.clear().draw();
@@ -794,6 +798,33 @@ $(document).ready( function () {
     });
     /////////////////////////////////////////////////////////////////////
 
+    // $('#addInitialRawModal').on('hide.bs.modal', function (e) {
+    //     let sum = $('#sendForPackageModalTotalDescsCountOak').val();
+    //     $('#addInitialRawModalSum').val(sum);
+    // })
+    //
+    $('#sendFromRawToPackageOakModal').on('hide.bs.modal', function (e) {
+        let sum = $('#sendForPackageModalTotalDescdCountOak').val();
+        $('#sendFromRawToPackageOakModalSum').val(sum);
+    })
+
+    $('#addInitialRawModal').on('show.bs.modal', function (e) {
+        let extent =        $("#addDeliveryPackageModalExtentOak");
+        let length =        $("#addDeliveryPackageModalLengthOak");
+        let height =        $("#addDeliveryPackageModalSizeOak");
+        createPackageExtentCalc(tableForPackagesOak, extent, length, height);
+        // let sum = $('#addInitialRawModalSum').val();
+        // $('#sendForPackageModalTotalDescsCountOak').val(sum);
+    })
+
+    $('#sendFromRawToPackageOakModal').on('show.bs.modal', function (e) {
+        // let extent = $("#sendForPackageModalExtentOak");
+        // let length = $("#sendForPackageModalLengthOak");
+        // let height = $("#sendForPackageModalSizeOak");
+        // createPackageExtentCalc(tableForPackagesOak, extent, length, height);
+        let sum = $('#sendFromRawToPackageOakModalSum').val();
+        $('#sendForPackageModalTotalDescdCountOak').val(sum);
+    })
 
     $("#buttonForAddingDeliveryOakRow").click(function () {
         let width =         $("#addDeliveryPackageModalWidthOak").val();
@@ -801,6 +832,7 @@ $(document).ready( function () {
         let extent =        $("#addDeliveryPackageModalExtentOak");
         let length =        $("#addDeliveryPackageModalLengthOak");
         let height =        $("#addDeliveryPackageModalSizeOak");
+        createPackageExtentCalc(tableForPackagesOak, extent, length, height);
         let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
 
         if( width==="" || count==="" ) {
@@ -839,6 +871,7 @@ $(document).ready( function () {
         let extent =        $("#addDeliveryPackageModalExtentOak");
         let length =        $("#addDeliveryPackageModalLengthOak");
         let height =        $("#addDeliveryPackageModalSizeOak");
+        createPackageExtentCalc(tableForPackagesOak, extent, length, height);
         let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
 
         if( width==="" || count==="" ) {

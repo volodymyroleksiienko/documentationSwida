@@ -16,14 +16,24 @@ function createPackageExtentCalc(table, extentInput, lengthInput, heightInput){
     let sumCount= 0;
     let res = 0;
 
+    let totalDescs=     $('#sendForPackageModalTotalDescdCountOak');
+    let totalDescs2=     $('#sendForPackageModalTotalDescsCountOak');
+
+    let totalDescsCount = 0;
+    let totalDescsCount2 = 0;
+
     if (lengthInput.val() != '' && heightInput.val() != ''){
         let newData = ( table.rows( ).data() );
         for (let i =newData.length-1; i>=0; i--) {
             sumWidth = parseInt(newData[i][0]);
             sumCount = parseInt(newData[i][1]);
+            totalDescsCount+=sumCount;
+            totalDescsCount2+=sumCount;
             res = res+((lengthInput.val()/1000) * (heightInput.val()/1000) * (sumWidth/1000) * (sumCount));
             console.log("w: "+sumWidth+";c: "+sumCount);
         }
+        totalDescs.val(totalDescsCount);
+        totalDescs2.val(totalDescsCount2);
         console.log("W: "+sumWidth+";C: "+sumCount);
         extentInput.val(res.toFixed(3));
         console.log("result: "+res.toFixed(3));

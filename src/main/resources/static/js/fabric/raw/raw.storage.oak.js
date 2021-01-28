@@ -98,13 +98,16 @@ function sendForPackagesStorageOak(btnObj) {
     $('#addOakInitialPackageCodeAdditionalExtentModalIdOak').val(trId);
     console.log("Row id: "+$(trObj).attr('id'));
 
+
+
+
     let codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
     let size =                  $(trObj).find('td:eq(3)').text();
     let maxExtent =             $(trObj).find('td:eq(4)').text();
 
 
 
-    $('#sendForPackageModalOakHeader').text("Расщитать и добавить кубатуру к пачке №"+codeOfRawStorage);
+    $('#sendForPackageModalOakHeader').text("Рассчитать и добавить кубатуру из пачки №"+codeOfRawStorage);
 
     $('#sendFromRawToPackageOakModal').modal('show');
 
@@ -144,11 +147,22 @@ function addOakRawStorageItem(btnObj) {
 
     console.log("row id: "+trId);
 
+
     $('#addOakPackageItemsModalHeader').text("Добавить позицию к  "+ packageCode);
     $('#addRawStorageId').val(trId);
 
     $('#addOakRawStorageItemModal').modal('show');
 }
+
+// $('#addInitialRawModal').on('hide.bs.modal', function (e) {
+//     let sum = $('#sendForPackageModalTotalDescsCountOak').val();
+//     $('#addInitialRawModalSum').val(sum);
+// })
+//
+// $('#sendFromRawToPackageOakModalSum').on('hide.bs.modal', function (e) {
+//     let sum = $('#sendForPackageModalTotalDescdCountOak').val();
+//     $('#sendFromRawToPackageOakModalSum').val(sum);
+// })
 
 function editOakPackageItem(btnObj) {
     let trObj = btnObj.parentElement.parentElement;
