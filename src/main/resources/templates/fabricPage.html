@@ -309,6 +309,55 @@
         ///////////////////////////////////////////////////////////////
 
 
+        ////////////////////////////////////////////////////////////////
+        $('#addIdOfTruck').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#driverCredentionals').focus();
+            }
+        });
+        $('#driverCredentionals').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#driverPhone').focus();
+            }
+        });
+        $('#driverPhone').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#numberOfTruck').focus();
+            }
+        });
+        $('#numberOfTruck').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#numberOfTrailer').focus();
+            }
+        });
+        $('#numberOfTrailer').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#packDateInput').focus();
+            }
+        });
+        $('#packDateInput').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#packTimeInput').focus();
+            }
+        });
+        $('#packTimeInput').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#packContractId').focus();
+            }
+        });
+        $('#packContractId').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#packDeliveryDestination').focus();
+            }
+        });
+        $('#packDeliveryDestination').on('keyup', function(event){
+            if(event.keyCode == 13){
+                $('#addDeliveryDescription').focus();
+            }
+        });
+        ////////////////////////////////////////////////////////////////
+
+
     </script>
 
 </body>
