@@ -64,6 +64,9 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     @Override
     public void checkQualityInfo(TreeStorage treeStorage,String height, float extent) {
         boolean checkUpdate = true;
+        if(treeStorage.getStatisticInfoList()==null){
+            treeStorage.setStatisticInfoList(new ArrayList<>());
+        }
         for(QualityStatisticInfo info: treeStorage.getStatisticInfoList()){
             if(info.getHeight().equals(height)){
                 info.setExtent(
