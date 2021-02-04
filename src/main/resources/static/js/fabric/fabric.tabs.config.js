@@ -985,6 +985,9 @@ $(document).ready( function () {
         "order": [ 0, "desc" ],
         // columns width
         "autoWidth": false,
+        "select": {
+            "style": 'os'
+        },
         // "select": {
         //     "style": 'os'
         // },
@@ -1103,9 +1106,9 @@ $(document).ready( function () {
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         // columns width
         "iDisplayLength": 50,
-        // "select": {
-        //     "style": 'os'
-        // },
+        "select": {
+            "style": 'os'
+        },
         "autoWidth": false,
         "bSort":false,
         "info": false,
@@ -1196,7 +1199,7 @@ $(document).ready( function () {
     $( "#buttonForOakTransportation" ).click(function() {
         modalOakPackagesTable.clear().draw();
 
-        let newData =           document.getElementsByClassName("selected");
+        let newData =           document.getElementsByClassName("outer-table odd selected");
         let tBody =             document.getElementById('listOfPackagesOakId');
 
         tBody.deleteRow(0);
@@ -1226,7 +1229,7 @@ $(document).ready( function () {
 
             let trParent = document.getElementById(idOfPackageParent);
             let trParentClone = trParent.cloneNode(true);
-
+            trParentClone.classList.remove("selected");
             trParentClone.setAttribute("id",'parentmodal'+idOfPackage);
             console.log(trParentClone);
 
