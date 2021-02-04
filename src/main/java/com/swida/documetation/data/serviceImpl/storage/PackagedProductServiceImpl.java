@@ -121,6 +121,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             newProduct.setBreedOfTree(breedOfTreeService.findById(breedId));
             newProduct.setUserCompany(userCompanyService.findById(userId));
 
+            newProduct.setBreedDescription(product.getBreedDescription());
             newProduct.setSizeOfHeight(product.getSizeOfHeight());
             newProduct.setSizeOfWidth(product.getSizeOfWidth());
             newProduct.setSizeOfLong(product.getSizeOfLong());
