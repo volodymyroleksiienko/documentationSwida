@@ -33,7 +33,7 @@ public class RawStorage {
     private String description;
     private String date;
 
-    @OneToMany
+    @OneToMany(mappedBy = "rawStorage")
     private List<DescriptionDeskOak> deskOakList;
 
     @ManyToOne
@@ -41,6 +41,10 @@ public class RawStorage {
 
     @ManyToOne
     private TreeStorage treeStorage;
+
+    @OneToMany(mappedBy = "rawStorage")
+    private List<DryingStorage> dryingStorageList;
+
     @OneToOne
     private TreeStorage recycle;
 

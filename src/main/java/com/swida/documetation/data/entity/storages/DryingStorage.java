@@ -31,13 +31,17 @@ public class DryingStorage {
     private String dateDrying;
     private String date;
 
-    @OneToMany
+    @OneToMany(mappedBy = "dryingStorage")
     private List<DescriptionDeskOak> deskOakList;
 
     @ManyToOne
     private UserCompany userCompany;
     @ManyToOne
     private RawStorage rawStorage;
+
+    @OneToMany(mappedBy = "dryingStorage")
+    private List<DryStorage> dryStorageList;
+
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }

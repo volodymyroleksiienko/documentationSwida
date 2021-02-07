@@ -24,6 +24,18 @@ public class DescriptionDeskOak {
     private String sizeOfWidth;
     private String countOfDesk;
 
+    @ManyToOne
+    private DryingStorage dryingStorage;
+
+    @ManyToOne
+    private DryStorage dryStorage;
+
+    @ManyToOne
+    private RawStorage rawStorage;
+
+    @ManyToOne
+    private PackagedProduct packagedProduct;
+
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
 }

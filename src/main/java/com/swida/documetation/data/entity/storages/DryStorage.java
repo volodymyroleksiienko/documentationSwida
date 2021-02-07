@@ -33,9 +33,12 @@ public class DryStorage {
     private String qualityOfPack;
     private String longOfPack;
 
-    @OneToMany
+
+    @OneToMany(mappedBy = "dryStorage")
     private List<DescriptionDeskOak> deskOakList;
 
+    @OneToMany(mappedBy = "dryStorage")
+    private List<PackagedProduct> packagedProductList;
     @ManyToOne
     private UserCompany userCompany;
     @ManyToOne

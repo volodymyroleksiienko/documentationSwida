@@ -19,6 +19,9 @@ public class UserCompanyServiceImpl implements UserCompanyService {
 
     @Override
     public void save(UserCompany userComp) {
+        if(userComp.getContrAgent().getId()==0){
+            userComp.setContrAgent(null);
+        }
         userCompanyJPA.save(userComp);
     }
 
@@ -29,6 +32,9 @@ public class UserCompanyServiceImpl implements UserCompanyService {
 
     @Override
     public UserCompany findByUsername(String username) {
+        if (username.equals("swidaSuperAdmin")){
+            return null;
+        }
         return userCompanyJPA.findByUsername(username);
     }
 

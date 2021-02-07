@@ -48,7 +48,7 @@ public class PackagedProduct {
 
     private String date;
 
-    @OneToMany
+    @OneToMany(mappedBy = "packagedProduct")
     private List<DescriptionDeskOak> deskOakList;
 
     @ManyToOne

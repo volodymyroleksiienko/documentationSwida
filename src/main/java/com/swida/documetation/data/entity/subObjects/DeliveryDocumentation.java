@@ -36,7 +36,7 @@ public class DeliveryDocumentation {
     private ContrAgent contrAgent;
     @ManyToOne
     private UserCompany userCompany;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "deliveryDocumentation",fetch = FetchType.LAZY)
     private List<PackagedProduct> productList;
     @Enumerated(EnumType.STRING)
     private DeliveryDestinationType destinationType;

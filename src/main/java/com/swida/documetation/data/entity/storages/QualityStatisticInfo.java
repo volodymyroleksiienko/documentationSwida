@@ -2,10 +2,7 @@ package com.swida.documetation.data.entity.storages;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -18,4 +15,7 @@ public class QualityStatisticInfo {
     public String extent="0";
     public String percent="0";
 
+
+    @ManyToOne
+    private TreeStorage treeStorage;
 }

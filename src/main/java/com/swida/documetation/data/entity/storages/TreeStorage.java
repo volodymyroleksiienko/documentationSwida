@@ -31,11 +31,14 @@ public class TreeStorage {
     private String treeDescription;
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "treeStorage")
     private List<QualityStatisticInfo> statisticInfoList;
 
     @OneToMany
     private List<TreeStorage> recycle;
+
+    @OneToMany(mappedBy = "treeStorage")
+    private List<RawStorage> rawStorageList;
 
     @ManyToOne
     private BreedOfTree breedOfTree;

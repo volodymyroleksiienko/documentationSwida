@@ -65,8 +65,11 @@ public class AdminController {
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("allUserCompanyList",userCompanyService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
+            UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userCompanyName", userCompany);
+            model.addAttribute("userId", userCompany.getId());
+        }
         return "adminPage";
     }
 
@@ -93,8 +96,11 @@ public class AdminController {
         model.addAttribute("fragmentPathTabConfig","adminDashboard");
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
+            UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userCompanyName", userCompany);
+            model.addAttribute("userId", userCompany.getId());
+        }
         return "adminPage";
     }
 
@@ -119,8 +125,11 @@ public class AdminController {
         model.addAttribute("fragmentPathTabConfig","adminDashboard");
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedOfTreeDescriptionList",breedOfTreeDescriptionService.findAll());
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
+            UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userCompanyName", userCompany);
+            model.addAttribute("userId", userCompany.getId());
+        }
         return "adminPage";
     }
 
@@ -150,8 +159,11 @@ public class AdminController {
         model.addAttribute("fragmentPathTabConfig","contrAgent");
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentList",contrAgentService.getListByType(getTypeOfContrAgent(id)));
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
+            UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userCompanyName", userCompany);
+            model.addAttribute("userId", userCompany.getId());
+        }
         return "adminPage";
     }
 
@@ -209,9 +221,9 @@ public class AdminController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentList",contrAgentList);
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
             UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userCompanyName", userCompany);
             model.addAttribute("userId", userCompany.getId());
         }
 
@@ -261,9 +273,9 @@ public class AdminController {
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
             UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userCompanyName", userCompany);
             model.addAttribute("userId", userCompany.getId());
         }
         return "adminPage";
@@ -302,9 +314,12 @@ public class AdminController {
         model.addAttribute("tabName","userCompany");
         model.addAttribute("fragmentPathTabConfig","adminDashboard");
         model.addAttribute("contrAgentProviderList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("swidaSuperAdmin")){
+            UserCompany userCompany = userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("userCompanyName", userCompany);
+            model.addAttribute("userId", userCompany.getId());
+        }
         return "informationPage";
     }
 
