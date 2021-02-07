@@ -328,6 +328,7 @@ public class FabricController {
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
         float oldExtent = Float.parseFloat(rawStorageDB.getExtent());
+        float newExtent = Float.parseFloat(rawStorage.getExtent());
         rawStorageDB.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
         rawStorageDB.setCountOfDesk(rawStorage.getCountOfDesk());
@@ -350,16 +351,17 @@ public class FabricController {
             rawStorageService.save(rawStorageDB);
         }
         treeStorageService.save(treeStorage);
-        if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
-            OrderInfo orderInfo = treeStorage.getOrderInfo();
-            orderInfo.setDoneExtendOfOrder(
-                    String.format("%.3f",
-                            Float.parseFloat(orderInfo.getDoneExtendOfOrder())-(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent))
-                            .replace(",",".")
-            );
-            orderInfoService.save(orderInfo);
-            orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-        }
+        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),newExtent-oldExtent);
+//        if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
+//            OrderInfo orderInfo = treeStorage.getOrderInfo();
+//            orderInfo.setDoneExtendOfOrder(
+//                    String.format("%.3f",
+//                            Float.parseFloat(orderInfo.getDoneExtendOfOrder())-(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent))
+//                            .replace(",",".")
+//            );
+//            orderInfoService.save(orderInfo);
+//            orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+//        }
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 

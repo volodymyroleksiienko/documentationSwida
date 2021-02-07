@@ -77,6 +77,7 @@ public class TreeStorageServiceImpl implements TreeStorageService {
                         String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
                                 .replace(",",".")
                 );
+                info.setTreeStorage(treeStorage);
                 checkUpdate = false;
             }
         }
@@ -90,11 +91,21 @@ public class TreeStorageServiceImpl implements TreeStorageService {
                     String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
                             .replace(",",".")
             );
+            info.setTreeStorage(treeStorage);
             treeStorage.getStatisticInfoList().add(info);
             statisticInfoService.save(info);
         }
         treeStorageJPA.save(treeStorage);
     }
+
+//    @Override
+//    public void checkQualityInfo(TreeStorage treeStorage,String height, float extent) {
+//        QualityStatisticInfo info = statisticInfoService.findByTreeStorageIdAndAndHeight(treeStorage.getId(),height);
+//        if(info!=null){
+//
+//        }
+//    }
+
 
     @Override
     public TreeStorage findById(int id) {

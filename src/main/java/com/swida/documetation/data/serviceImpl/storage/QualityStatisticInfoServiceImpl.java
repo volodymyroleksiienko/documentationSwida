@@ -28,6 +28,11 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
     }
 
     @Override
+    public QualityStatisticInfo findByTreeStorageIdAndAndHeight(int id, String height) {
+        return infoJPA.findByTreeStorageIdAndAndHeight(id,height);
+    }
+
+    @Override
     public List<QualityStatisticInfo> findAll() {
         return infoJPA.findAll();
     }
