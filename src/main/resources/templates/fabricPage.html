@@ -146,219 +146,219 @@
 
 
 <!--    <script type="text/javascript" th:src="@{../js/jquery.min.js}"></script>-->
-    <script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
-    <script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{../js/bootstrap.min.js}"></script>
 
-    <script type="text/javascript" th:src="@{../js/datatables.js}"></script>
-    <script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
+<script type="text/javascript" th:src="@{../js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{../js/dataTables.bootstrap4.js}"></script>
 
-    <script type="text/javascript" th:src="@{../js/extent.calculation.js}"></script>
-    <script type="text/javascript" th:src="@{../js/deadlines.checkout.js}"></script>
-    <script type="text/javascript" th:src="@{../js/set.hidden.value.js}"></script>
-    <script type="text/javascript" th:src="@{../js/fabric/fabric.tabs.config.js}"></script>
+<script type="text/javascript" th:src="@{../js/extent.calculation.js}"></script>
+<script type="text/javascript" th:src="@{../js/deadlines.checkout.js}"></script>
+<script type="text/javascript" th:src="@{../js/set.hidden.value.js}"></script>
+<script type="text/javascript" th:src="@{../js/fabric/fabric.tabs.config.js}"></script>
 
-    <script type="text/javascript">
-        $('#sendForPackageModalWidthOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#sendForPackageModalCountOak').focus();
-            }
-        });
+<script type="text/javascript">
+    $('#sendForPackageModalWidthOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalCountOak').focus();
+        }
+    });
 
-        $('#sendForPackageModalCountOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#buttonForAddingOakRow').click();
-            }
-        });
+    $('#sendForPackageModalCountOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#buttonForAddingOakRow').click();
+        }
+    });
 
-        $('#sendForPackageModalCodeOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#sendForPackageModalQualityOak').focus();
-            }
-        });
+    $('#sendForPackageModalCodeOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalQualityOak').focus();
+        }
+    });
 
-        $('#sendForPackageModalQualityOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#sendForPackageModalSizeOak').focus();
-            }
-        });
+    $('#sendForPackageModalQualityOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalSizeOak').focus();
+        }
+    });
 
-        $('#sendForPackageModalSizeOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#sendForPackageModalLengthOak').focus();
-            }
-        });
+    $('#sendForPackageModalSizeOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalLengthOak').focus();
+        }
+    });
 
-        $('#sendForPackageModalLengthOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#sendForPackageModalWidthOak').focus();
-            }
-        });
+    $('#sendForPackageModalLengthOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalWidthOak').focus();
+        }
+    });
 
-        //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
 
-        $('#addOakInitialPackageCode').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addOakInitialPackageDescr').focus();
-            }
-        });
+    $('#addOakInitialPackageCode').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOakInitialPackageDescr').focus();
+        }
+    });
 
-        $('#addOakInitialPackageDescr').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addOakInitialPackageTreeStorage').focus();
-            }
-        });
+    $('#addOakInitialPackageDescr').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOakInitialPackageTreeStorage').focus();
+        }
+    });
 
-        $('#addOakInitialPackageTreeStorage').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addOakInitialPackageSupplier').focus();
-            }
-        });
+    $('#addOakInitialPackageTreeStorage').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOakInitialPackageSupplier').focus();
+        }
+    });
 
-        $('#addOakInitialPackageSupplier').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addDeliveryPackageModalSizeOak').focus();
-            }
-        });
+    $('#addOakInitialPackageSupplier').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addDeliveryPackageModalSizeOak').focus();
+        }
+    });
 
-        $('#addDeliveryPackageModalWidthOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addDeliveryPackageModalCountOak').focus();
-            }
-        });
+    $('#addDeliveryPackageModalWidthOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addDeliveryPackageModalCountOak').focus();
+        }
+    });
 
-        $('#addDeliveryPackageModalCountOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#buttonForAddingInitialPackageOakRow').click();
-                $('#buttonForAddingDeliveryOakRow').click();
-            }
-        });
+    $('#addDeliveryPackageModalCountOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#buttonForAddingInitialPackageOakRow').click();
+            $('#buttonForAddingDeliveryOakRow').click();
+        }
+    });
 
-        $('#addDeliveryPackageModalCodeOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addDeliveryPackageModalQualityOak').focus();
-            }
-        });
+    $('#addDeliveryPackageModalCodeOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addDeliveryPackageModalQualityOak').focus();
+        }
+    });
 
-        $('#addDeliveryPackageModalQualityOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addDeliveryPackageModalSizeOak').focus();
-            }
-        });
+    $('#addDeliveryPackageModalQualityOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addDeliveryPackageModalSizeOak').focus();
+        }
+    });
 
-        $('#addDeliveryPackageModalSizeOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addDeliveryPackageModalLengthOak').focus();
-            }
-        });
+    $('#addDeliveryPackageModalSizeOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addDeliveryPackageModalLengthOak').focus();
+        }
+    });
 
-        $('#addDeliveryPackageModalLengthOak').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addDeliveryPackageModalWidthOak').focus();
-            }
-        });
-        /////////////////////////////////////////////////////////////////////////////
-        let code =          $("#addToRawStorageCode").val();
-        let breedDescr =    $("#addToRawStorageBreedDescription").val();
-        let supplier =      $("#addToRawStorageSupplier").val();
-        let thickness =     $("#addToRawStorageThickness").val();
-        let width =         $("#addToRawStorageWidth").val();
-        let length =        $("#addToRawStorageLength").val();
-        let count =         $("#addToRawStorageCount").val();
+    $('#addDeliveryPackageModalLengthOak').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addDeliveryPackageModalWidthOak').focus();
+        }
+    });
+    /////////////////////////////////////////////////////////////////////////////
+    let code =          $("#addToRawStorageCode").val();
+    let breedDescr =    $("#addToRawStorageBreedDescription").val();
+    let supplier =      $("#addToRawStorageSupplier").val();
+    let thickness =     $("#addToRawStorageThickness").val();
+    let width =         $("#addToRawStorageWidth").val();
+    let length =        $("#addToRawStorageLength").val();
+    let count =         $("#addToRawStorageCount").val();
 
-        $('#addToRawStorageCode').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addToRawStorageBreedDescription').focus();
-            }
-        });
+    $('#addToRawStorageCode').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addToRawStorageBreedDescription').focus();
+        }
+    });
 
-        $('#addToRawStorageBreedDescription').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addToRawStorageSupplier').focus();
-            }
-        });
+    $('#addToRawStorageBreedDescription').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addToRawStorageSupplier').focus();
+        }
+    });
 
-        $('#addToRawStorageSupplier').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addToRawStorageThickness').focus();
-            }
-        });
+    $('#addToRawStorageSupplier').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addToRawStorageThickness').focus();
+        }
+    });
 
-        $('#addToRawStorageThickness').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addToRawStorageWidth').focus();
-            }
-        });
+    $('#addToRawStorageThickness').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addToRawStorageWidth').focus();
+        }
+    });
 
-        $('#addToRawStorageWidth').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addToRawStorageLength').focus();
-            }
-        });
+    $('#addToRawStorageWidth').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addToRawStorageLength').focus();
+        }
+    });
 
-        $('#addToRawStorageLength').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addToRawStorageCount').focus();
-            }
-        });
+    $('#addToRawStorageLength').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addToRawStorageCount').focus();
+        }
+    });
 
-        $('#addToRawStorageCount').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#sendRequestToAddInputButton').click();
-            }
-        });
-        ///////////////////////////////////////////////////////////////
-
-
-        ////////////////////////////////////////////////////////////////
-        $('#addIdOfTruck').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#driverCredentionals').focus();
-            }
-        });
-        $('#driverCredentionals').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#driverPhone').focus();
-            }
-        });
-        $('#driverPhone').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#numberOfTruck').focus();
-            }
-        });
-        $('#numberOfTruck').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#numberOfTrailer').focus();
-            }
-        });
-        $('#numberOfTrailer').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#packDateInput').focus();
-            }
-        });
-        $('#packDateInput').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#packTimeInput').focus();
-            }
-        });
-        $('#packTimeInput').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#packContractId').focus();
-            }
-        });
-        $('#packContractId').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#packDeliveryDestination').focus();
-            }
-        });
-        $('#packDeliveryDestination').on('keyup', function(event){
-            if(event.keyCode == 13){
-                $('#addDeliveryDescription').focus();
-            }
-        });
-        ////////////////////////////////////////////////////////////////
+    $('#addToRawStorageCount').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendRequestToAddInputButton').click();
+        }
+    });
+    ///////////////////////////////////////////////////////////////
 
 
-    </script>
+    ////////////////////////////////////////////////////////////////
+    $('#addIdOfTruck').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#driverCredentionals').focus();
+        }
+    });
+    $('#driverCredentionals').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#driverPhone').focus();
+        }
+    });
+    $('#driverPhone').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#numberOfTruck').focus();
+        }
+    });
+    $('#numberOfTruck').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#numberOfTrailer').focus();
+        }
+    });
+    $('#numberOfTrailer').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#packDateInput').focus();
+        }
+    });
+    $('#packDateInput').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#packTimeInput').focus();
+        }
+    });
+    $('#packTimeInput').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#packContractId').focus();
+        }
+    });
+    $('#packContractId').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#packDeliveryDestination').focus();
+        }
+    });
+    $('#packDeliveryDestination').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addDeliveryDescription').focus();
+        }
+    });
+    ////////////////////////////////////////////////////////////////
+
+
+</script>
 
 </body>
 </html>
