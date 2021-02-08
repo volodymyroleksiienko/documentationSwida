@@ -114,7 +114,229 @@
 <script type="text/javascript" th:src="@{../js/admin/admin.tabs.config.js}"></script>
 <script type="text/javascript" th:src="@{../js/admin/choosen.js}"></script>
 <script type="text/javascript">
+    $(document).ready(function(){
+        $('#addInnerCompanyModalSubmit').click(function () {
+            if ($('#addInnerCompanyName')!=='') {
+                $("#addInnerCompanyModalForm").submit();
+            }else {
+                alert("Заполните название!");
+            }
+        });
+
+        $('#editInnerCompanyModalSubmit').click(function () {
+            if ($('#editInnerCompanyName')!=='') {
+                $( "#editInnerCompanyModalForm" ).submit();
+            }else {
+                alert("Заполните название!");
+            }
+        });
+
+        $('#addOuterCompanyModalSubmit').click(function () {
+            if ($('#addOuterCompanyName')!=='') {
+                $( "#addOuterCompanyModalForm" ).submit();
+            }else {
+                alert("Заполните название!");
+            }
+        });
+
+        $('#editOuterCompanyModalSubmit').click(function () {
+            if ($('#editOuterCompanyName')!=='') {
+                $( "#editOuterCompanyModalForm" ).submit();
+            }else {
+                alert("Заполните название!");
+            }
+        });
+
+        $('#addUserModalFormSubmit').click(function () {
+            $( "#addUserModalForm" ).submit();
+        });
+
+        $('#editUserModalFormSubmit').click(function () {
+            $( "#editUserModalForm" ).submit();
+        });
+    });
+
     $('.form-control-chosen').chosen();
+    //////////////////////////////////////////////////////////
+    // Inner edit
+    $('#editInnerCompanyName').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editInnerCompanyTax').focus();
+        }
+    });
+    $('#editInnerCompanyTax').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editInnerCompanyAddress').focus();
+        }
+    });
+    $('#editInnerCompanyAddress').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editInnerCompanyPhone').focus();
+        }
+    });
+    $('#editInnerCompanyPhone').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editInnerCompanyMail').focus();
+        }
+    });
+    $('#editInnerCompanyMail').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editInnerCompanyRepresenter').focus();
+        }
+    });
+    $('#editInnerCompanyRepresenter').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editInnerCompanyMaterials').focus();
+        }
+    });
+    //////////////////////////////////////////////////////////
+    // Inner add
+    $('#addInnerCompanyName').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addInnerCompanyTax').focus();
+        }
+    });
+    $('#addInnerCompanyTax').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addInnerCompanyAddress').focus();
+        }
+    });
+    $('#addInnerCompanyAddress').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addInnerCompanyPhone').focus();
+        }
+    });
+    $('#addInnerCompanyPhone').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addInnerCompanyMail').focus();
+        }
+    });
+    $('#addInnerCompanyMail').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addInnerCompanyRepresenter').focus();
+        }
+    });
+    $('#addInnerCompanyRepresenter').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addInnerCompanyMaterials').focus();
+        }
+    });
+    ////////////////////////////////////////////////////////
+    // Outer edit
+    $('#editOuterCompanyName').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editOuterCompanyCountry').focus();
+        }
+    });
+    $('#editOuterCompanyCountry').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editOuterCompanyAddress').focus();
+        }
+    });
+    $('#editOuterCompanyAddress').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editOuterCompanyPhone').focus();
+        }
+    });
+    $('#editOuterCompanyPhone').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editOuterCompanyMail').focus();
+        }
+    });
+    $('#editOuterCompanyMail').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editOuterCompanyRepresenter').focus();
+        }
+    });
+    $('#editOuterCompanyRepresenter').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editOuterCompanyMaterials').focus();
+        }
+    });
+    // Outer add
+    $('#addOuterCompanyName').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOuterCompanyCountry').focus();
+        }
+    });
+    $('#addOuterCompanyCountry').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOuterCompanyAddress').focus();
+        }
+    });
+    $('#addOuterCompanyAddress').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOuterCompanyPhone').focus();
+        }
+    });
+    $('#addOuterCompanyPhone').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOuterCompanyMail').focus();
+        }
+    });
+    $('#addOuterCompanyMail').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOuterCompanyRepresenter').focus();
+        }
+    });
+    $('#addOuterCompanyRepresenter').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addOuterCompanyMaterials').focus();
+        }
+    });
+    ////////////////////////////////////////////////////////
+    // Users edit
+    $('#editUserCompanyName').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editUserLocation').focus();
+        }
+    });
+    $('#editUserLocation').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editUserCompanyLogin').focus();
+        }
+    });
+    $('#editUserCompanyLogin').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editUserCompanyPassword').focus();
+        }
+    });
+    $('#editUserCompanyPassword').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addContrAgent').focus();
+        }
+    });
+    $('#addContrAgent').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#editUserCompanyRole').focus();
+        }
+    });
+    // Users add
+    $('#addUserCompanyName').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addUserLocation').focus();
+        }
+    });
+    $('#addUserLocation').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addUserCompanyLogin').focus();
+        }
+    });
+    $('#addUserCompanyLogin').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addUserCompanyPassword').focus();
+        }
+    });
+    $('#addUserCompanyPassword').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addContractBuyer').focus();
+        }
+    });
+    $('#addContractBuyer').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#addUserCompanyRole').focus();
+        }
+    });
 </script>
 <!-- SCRIPTS  END-->
 </body>
