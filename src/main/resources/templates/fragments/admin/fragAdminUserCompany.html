@@ -17,19 +17,19 @@
             </tr>
             </thead>
             <tbody>
-                <tr th:each="uc : ${allUserCompanyList}" th:id="${uc.id}">
-                    <td th:text="${uc.id}"></td>
-                    <th scope="row" th:text="${uc.nameOfCompany}"></th>
-                    <td th:text="${uc.location}"></td>
-                    <td th:text="${uc.username}"></td>
-                    <td th:text="${uc.password}"></td>
-                    <td th:text="${(uc.contrAgent!=null)?uc.contrAgent.nameOfAgent:''}"></td>
-                    <td th:text="${uc.role}"></td>
-                    <td th:text="${uc?.contrAgent?.id}"></td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="editUserCompany(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    </td>
-                </tr>
+            <tr th:each="uc : ${allUserCompanyList}" th:id="${uc.id}">
+                <td th:text="${uc.id}"></td>
+                <th scope="row" th:text="${uc.nameOfCompany}"></th>
+                <td th:text="${uc.location}"></td>
+                <td th:text="${uc.username}"></td>
+                <td th:text="${uc.password}"></td>
+                <td th:text="${(uc.contrAgent!=null)?uc.contrAgent.nameOfAgent:''}"></td>
+                <td th:text="${uc.role}"></td>
+                <td th:text="${uc?.contrAgent?.id}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="editUserCompany(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                </td>
+            </tr>
             </tbody>
 
             <tfoot>
@@ -66,7 +66,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/admin/addUser" method="post">
+                <form action="/admin/addUser" method="post" id="addUserModalForm">
                     <div class="modal-body">
 
                         <label class="col-form-label" for="addUserCompanyName">Название компании</label>
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-primary" id="addUserModalFormSubmit">Добавить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -122,7 +122,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/admin/editUser" method="post">
+                <form action="/admin/editUser" method="post" id="editUserModalForm">
                     <div class="modal-body">
                         <input type="text" id="editUserId" hidden="" name="id">
 
@@ -161,7 +161,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-primary" id="editUserModalFormSubmit">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -196,9 +196,27 @@
 
             $('#editUserModal').modal('show');
         }
+
+        // $('#addUserModalFormSubmit').click(function () {
+        //     $( "#addUserModalForm" ).submit();
+        // })
+        // $('#editUserModalFormSubmit').click(function () {
+        //     $( "#editUserModalForm" ).submit();
+        // })
+
+        // $( "#addUserModalForm" ).submit(function( event ) {
+        //     alert( "Handler for .submit() called." );
+        //     return false;
+        //     // event.preventDefault();
+        // });
+        //
+        // $( "#editUserModalForm" ).submit(function( event ) {
+        //     alert( "Handler for .submit() called." );
+        //     return false;
+        //     // event.preventDefault();
+        // });
     </script>
     <!-- EDIT USERS MODAL END -->
-
 
 
 </th:block>

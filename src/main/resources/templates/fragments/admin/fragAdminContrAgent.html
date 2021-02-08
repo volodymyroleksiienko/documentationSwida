@@ -109,7 +109,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/admin/editCompany-'+${companyType}}" method="post">
+                <form th:action="@{'/admin/editCompany-'+${companyType}}" method="post" id="editInnerCompanyModalForm">
                     <div class="modal-body">
 
                         <input type="text" id="editInnerCompanyId" hidden="" name="id">
@@ -138,7 +138,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-primary" id="editInnerCompanyModalSubmit">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -186,33 +186,33 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/admin/addCompany-'+${companyType}}" method="post">
+                <form th:action="@{'/admin/addCompany-'+${companyType}}" method="post" id="addInnerCompanyModalForm">
                     <div class="modal-body">
 
-                        <label class="col-form-label" for="editInnerCompanyName">Наименование компании</label>
-                        <input type="text" class="form-control" id="editInnerCompanyName" required="required" autocomplete="off" name="nameOfAgent">
+                        <label class="col-form-label" for="addInnerCompanyName">Наименование компании</label>
+                        <input type="text" class="form-control" id="addInnerCompanyName" required="required" autocomplete="off" name="nameOfAgent">
 
-                        <label class="control-label" for="editInnerCompanyTax">ЄДРПОУ</label>
-                        <input type="text" class="form-control" id="editInnerCompanyTax" autocomplete="off" name="codeOfEDRPOY">
+                        <label class="control-label" for="addInnerCompanyTax">ЄДРПОУ</label>
+                        <input type="text" class="form-control" id="addInnerCompanyTax" autocomplete="off" name="codeOfEDRPOY">
 
-                        <label class="col-form-label" for="editInnerCompanyAddress">Адрес</label>
-                        <input type="text" class="form-control" id="editInnerCompanyAddress" autocomplete="off" name="addressOfCompany">
+                        <label class="col-form-label" for="addInnerCompanyAddress">Адрес</label>
+                        <input type="text" class="form-control" id="addInnerCompanyAddress" autocomplete="off" name="addressOfCompany">
 
-                        <label class="col-form-label" for="editInnerCompanyPhone">Телефоны</label>
-                        <input type="text" class="form-control" id="editInnerCompanyPhone" autocomplete="off" name="phoneNumber1">
+                        <label class="col-form-label" for="addInnerCompanyPhone">Телефоны</label>
+                        <input type="text" class="form-control" id="addInnerCompanyPhone" autocomplete="off" name="phoneNumber1">
 
-                        <label class="col-form-label" for="editInnerCompanyMail">Эл. адрес</label>
-                        <input type="text" class="form-control" id="editInnerCompanyMail" autocomplete="off" name="email">
+                        <label class="col-form-label" for="addInnerCompanyMail">Эл. адрес</label>
+                        <input type="text" class="form-control" id="addInnerCompanyMail" autocomplete="off" name="email">
 
-                        <label class="col-form-label" for="editInnerCompanyRepresenter">Контактное лицо</label>
-                        <input type="text" class="form-control" id="editInnerCompanyRepresenter" autocomplete="off" name="contactFace">
+                        <label class="col-form-label" for="addInnerCompanyRepresenter">Контактное лицо</label>
+                        <input type="text" class="form-control" id="addInnerCompanyRepresenter" autocomplete="off" name="contactFace">
 
-                        <label class="col-form-label" for="editInnerCompanyMaterials">Порода, вид продукции</label>
-                        <input type="text" class="form-control" id="editInnerCompanyMaterials" autocomplete="off" name="breedOfTree">
+                        <label class="col-form-label" for="addInnerCompanyMaterials">Порода, вид продукции</label>
+                        <input type="text" class="form-control" id="addInnerCompanyMaterials" autocomplete="off" name="breedOfTree">
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-primary" id="addInnerCompanyModalSubmit">Добавить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -251,6 +251,20 @@
             });
             // INNER MARKET TABLE END
         });
+        // $('#addInnerCompanyModalSubmit').click(function () {
+        //     $( "#addInnerCompanyModalForm" ).submit();
+        // })
+        // $('#editInnerCompanyModalSubmit').click(function () {
+        //     $( "#editInnerCompanyModalForm" ).submit();
+        // })
+        // $( "#editInnerCompanyModalForm" ).submit(function( event ) {
+        //     alert( "Handler for .submit() called." );
+        //     event.preventDefault();
+        // });
+        // $( "#addInnerCompanyModalForm" ).submit(function( event ) {
+        //     alert( "Handler for .submit() called." );
+        //     event.preventDefault();
+        // });
     </script>
     <!-- Users table end -->
 </th:block>
@@ -370,7 +384,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/admin/editCompany-'+${companyType}}" method="post">
+                <form th:action="@{'/admin/editCompany-'+${companyType}}" method="post" id="editOuterCompanyModalForm">
                     <div class="modal-body">
 
                         <input type="text" id="editOuterCompanyId" hidden="" name="id">
@@ -399,7 +413,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Сохранить</button>
+                        <button type="button" class="btn btn-primary" id="editOuterCompanyModalSubmit">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -447,7 +461,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/admin/addCompany-'+${companyType}}" method="post">
+                <form th:action="@{'/admin/addCompany-'+${companyType}}" method="post" id="addOuterCompanyModalForm">
                     <div class="modal-body">
 
                         <label class="col-form-label" for="addOuterCompanyName">Наименование компании</label>
@@ -473,7 +487,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-primary" id="addOuterCompanyModalSubmit">Добавить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -512,6 +526,24 @@
             });
             // OUTER MARKET TABLE END
         });
+
+
+        // $('#addOuterCompanyModalSubmit').click(function () {
+        //     $( "#addOuterCompanyModalForm" ).submit();
+        // })
+        // $('#editOuterCompanyModalSubmit').click(function () {
+        //     $( "#editOuterCompanyModalForm" ).submit();
+        // })
+
+
+        // $( "#editOuterCompanyModalForm" ).submit(function( event ) {
+        //     alert( "Handler for .submit() called." );
+        //     event.preventDefault();
+        // });
+        // $( "#addOuterCompanyModalForm" ).submit(function( event ) {
+        //     alert( "Handler for .submit() called." );
+        //     event.preventDefault();
+        // });
     </script>
     <!-- Users table end -->
 </th:block>
