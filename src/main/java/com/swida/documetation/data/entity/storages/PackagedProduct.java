@@ -71,4 +71,29 @@ public class PackagedProduct {
 
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
+
+    @Override
+    public String toString() {
+        return "PackagedProduct{" +
+                "id=" + id +
+                ", codeOfPackage='" + codeOfPackage + '\'' +
+                ", codeOfDeliveryCompany='" + codeOfDeliveryCompany + '\'' +
+                ", breedOfTree=" + breedOfTree +
+                ", breedDescription='" + breedDescription + '\'' +
+                ", quality='" + quality + '\'' +
+                ", sizeOfHeight='" + sizeOfHeight + '\'' +
+                ", sizeOfWidth='" + sizeOfWidth + '\'' +
+                ", sizeOfLong='" + sizeOfLong + '\'' +
+                ", countDeskInHeight='" + countDeskInHeight + '\'' +
+                ", countDeskInWidth='" + countDeskInWidth + '\'' +
+                ", longFact='" + longFact + '\'' +
+                ", sumWidthOfPackage='" + sumWidthOfPackage + '\'' +
+                ", sumHeightOfPackage='" + sumHeightOfPackage + '\'' +
+                ", sumWidthOfAllDesk='" + sumWidthOfAllDesk + '\'' +
+                ", countOfDesk='" + countOfDesk + '\'' +
+                ", extent='" + extent + '\'' +
+                ", height_width='" + height_width + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

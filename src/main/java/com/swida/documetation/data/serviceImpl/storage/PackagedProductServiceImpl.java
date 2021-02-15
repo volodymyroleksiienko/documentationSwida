@@ -209,7 +209,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     @Override
     public String countExtent(PackagedProduct product) {
         return String.format("%.3f",
-                Float.parseFloat(countDesk(product))
+                Float.parseFloat(product.getCountOfDesk())
                         *Float.parseFloat(product.getSizeOfHeight())
                         *Float.parseFloat(product.getSizeOfWidth())
                         *Float.parseFloat(product.getSizeOfLong())
@@ -354,12 +354,12 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productDB.setCodeOfDeliveryCompany(product.getCodeOfDeliveryCompany());
 
         productDB.setCountOfDesk(product.getCountOfDesk());
-        productDB.setExtent(product.getExtent());
         productDB.setCountDeskInHeight(product.getCountDeskInHeight());
         productDB.setCountDeskInWidth(product.getCountDeskInWidth());
 
         productDB.setLongFact(product.getLongFact());
         productDB.setHeight_width(product.getHeight_width());
+        productDB.setExtent(countExtent(productDB));
         if(productDB.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             productDB.setBreedDescription("");
         }

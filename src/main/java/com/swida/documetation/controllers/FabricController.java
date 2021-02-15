@@ -622,7 +622,6 @@ public class FabricController {
         int oldCountOFDesk = Integer.parseInt(packagedProductService.findById(product.getId()).getCountOfDesk());
         PackagedProduct productDB = packagedProductService.editPackageProduct(product);
         productDB.setExtent(packagedProductService.countExtent(productDB));
-        productDB.setCountOfDesk(packagedProductService.countDesk(productDB));
         packagedProductService.save(productDB);
         if (productDB.getDryStorage()!=null){
             DryStorage dryStorage = dryStorageService.findById(productDB.getDryStorage().getId());
