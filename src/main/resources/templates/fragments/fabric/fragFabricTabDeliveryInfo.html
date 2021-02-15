@@ -256,22 +256,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackThickness">Толщина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackThickness" required="required" autocomplete="off" name="sizeOfHeight" oninput="calculateEditPackageExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackWidth">Ширина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackWidth" required="required" autocomplete="off" name="sizeOfWidth" oninput="calculateEditPackageExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackLength">Длина</label>
-                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong">
+                                <input type="number" placeholder="мм" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackLength" required="required" autocomplete="off" name="sizeOfLong" oninput="calculateEditPackageExtent()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackCount">Кол-во досок</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackCount" required="required" autocomplete="off" name="countOfDesk" oninput="calculateEditPackageExtent()" onchange="checkDescsCount()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackExtent">Кубатура</label>
@@ -279,14 +279,14 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackHeightPc">Высота, шт.</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackHeightPc"  autocomplete="off" name="countDeskInHeight">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackHeightPc"  autocomplete="off" name="countDeskInHeight" onchange="checkDescsCount()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackWidthPc">Ширина, шт.</label>
-                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackWidthPc"  autocomplete="off" name="countDeskInWidth">
+                                <input type="number" placeholder="шт" pattern="[0-9]*\.?[0-9]*" min="1" class="form-control" id="editDeliveryPackWidthPc"  autocomplete="off" name="countDeskInWidth" onchange="checkDescsCount()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDeliveryPackLengthFact">Длина - ФАКТ</label>

@@ -1,3 +1,37 @@
+function calculateEditPackageExtent() {
+    let thickness = parseFloat($('#editDeliveryPackThickness').val());
+    let width =     parseFloat($('#editDeliveryPackWidth').val());
+    let length =    parseFloat($('#editDeliveryPackLength').val());
+    // let count =     parseInt($('#editPackageModalWidthPc').val())*parseInt($('#editPackageHeightPc').val());
+    let count =        parseFloat($('#editDeliveryPackCount').val());
+
+    if (!Number.isNaN(thickness) && !Number.isNaN(width) && !Number.isNaN(length) && !Number.isNaN(count)) {
+        let res = (thickness / 1000) * (width / 1000) * (length / 1000) * count;
+        $('#editDeliveryPackExtent').val(res.toFixed(3));
+        // $('#editPackageModalCount').val(count);
+    }else {
+        $('#editDeliveryPackExtent').val(0.000);
+        // $('#editPackageModalCount').val(0);
+        console.log("NaN value");
+    }
+}
+
+function checkDescsCount() {
+    let descsCount = $('#editDeliveryPackCount').val();
+    let heightPc = $('#editDeliveryPackHeightPc').val();
+    let widthPc = $('#editDeliveryPackWidthPc').val();
+
+    if (heightPc!=='' && widthPc!==''){
+        let calcVal = parseInt(heightPc)*parseInt(widthPc);
+        console.log("calc: "+calcVal);
+        console.log("count: "+parseInt(descsCount));
+        if (parseInt(descsCount)!==calcVal){
+            alert("Количество досок не сходится с введенными значениями высоты и ширины!");
+        }
+    }else {
+        // alert("ok");
+    }
+}
 
 
 function editDriverInfo(btnObj) {
