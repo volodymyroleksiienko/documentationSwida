@@ -1,3 +1,20 @@
+function checkDescsCount() {
+    let descsCount = $('#sendForPackageModalCount').val();
+    let heightPc = $('#sendForPackageHeightPc').val();
+    let widthPc = $('#sendForPackageModalWidthPc').val();
+
+    if (heightPc!=='' && widthPc!==''){
+        let calcVal = parseInt(heightPc)*parseInt(widthPc);
+        console.log("calc: "+calcVal);
+        console.log("count: "+parseInt(descsCount));
+        if (parseInt(descsCount)!==calcVal){
+            alert("Количество досок не сходится с введенными значениями высоты и ширины!");
+        }
+    }else {
+        // alert("ok");
+    }
+}
+
 function sendForPackagesStorage(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');

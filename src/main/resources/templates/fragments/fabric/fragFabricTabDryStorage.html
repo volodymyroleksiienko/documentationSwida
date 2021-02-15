@@ -112,22 +112,22 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalCount">Количество досок</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" onchange="checkDescsCount()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageHeightPc">Высота, шт.</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" autocomplete="off" placeholder="шт" name="height">
+                                <input type="number" min="1" class="form-control" id="sendForPackageHeightPc" autocomplete="off" placeholder="шт" name="height" onchange="checkDescsCount()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalWidthPc">Ширина, шт.</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" autocomplete="off" placeholder="шт" name="width">
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalWidthPc" autocomplete="off" placeholder="шт" name="width" onchange="checkDescsCount()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalPacksCount">Количество пачек</label>
-                                <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" required="required" autocomplete="off" name="count">
+                                <input type="number" min="1" step="1" placeholder="шт" class="form-control" id="sendForPackageModalPacksCount" value="1" required="required" autocomplete="off" name="count">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>

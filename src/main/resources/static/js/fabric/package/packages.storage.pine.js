@@ -45,7 +45,8 @@ function calculateExtent() {
     let thickness = parseFloat($('#editPackageHeight').val());
     let width =     parseFloat($('#editPackageWidth').val());
     let length =    parseFloat($('#editPackageLength').val());
-    let count =     parseInt($('#editPackageModalWidthPc').val())*parseInt($('#editPackageHeightPc').val());
+    // let count =     parseInt($('#editPackageModalWidthPc').val())*parseInt($('#editPackageHeightPc').val());
+    let count =        parseFloat($('#editPackageModalCount').val());
 
     if (!Number.isNaN(thickness) && !Number.isNaN(width) && !Number.isNaN(length) && !Number.isNaN(count)) {
         let res = (thickness / 1000) * (width / 1000) * (length / 1000) * count;

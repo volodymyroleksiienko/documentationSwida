@@ -165,12 +165,12 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
+                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" autocomplete="off" placeholder="мм" name="longFact">
                             </div>
 
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalHeightWidth">Высота/Ширина</label>
-                                <input type="text" class="form-control" id="sendForPackageModalHeightWidth" required="required" autocomplete="off" placeholder="в/ш" name="height_width">
+                                <input type="text" class="form-control" id="sendForPackageModalHeightWidth" autocomplete="off" placeholder="в/ш" name="height_width">
                             </div>
                         </div>
                         <!-- Insert rows -->
@@ -221,7 +221,6 @@
                                 <input type="text" class="form-control" id="editPackageModalMaterialDescr" autocomplete="off" placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
-                        <!--                        -->
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageHeight">Толщина</label>
@@ -240,7 +239,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalCount">Кол-во досок</label>
-                                <input type="number" min="1" step="1" class="form-control" id="editPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                <input type="number" min="1" step="1" class="form-control" id="editPackageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalExtent">Кубатура</label>
@@ -251,16 +250,14 @@
                                 <input type="number" min="1" class="form-control" id="editPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
                             </div>
                         </div>
-                        <!--                        -->
-
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalWidthPc">Ширина, шт.</label>
-                                <input type="number" min="1" class="form-control" id="editPackageModalWidthPc" autocomplete="off" placeholder="шт" name="countDeskInWidth" oninput="calculateExtent()">
+                                <input type="number" min="1" class="form-control" id="editPackageModalWidthPc" autocomplete="off" placeholder="шт" name="countDeskInWidth">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageHeightPc">Высота, шт.</label>
-                                <input type="number" min="1" class="form-control" id="editPackageHeightPc" autocomplete="off" placeholder="шт" name="countDeskInHeight" oninput="calculateExtent()">
+                                <input type="number" min="1" class="form-control" id="editPackageHeightPc" autocomplete="off" placeholder="шт" name="countDeskInHeight">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editPackageModalHeightWidth">Выс./Шир.</label>
