@@ -266,8 +266,6 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     public PackagedProduct editPackageProduct(PackagedProduct product) {
         PackagedProduct productDB = productJPA.getOne(product.getId());
 
-
-
         productDB.setCodeOfPackage(product.getCodeOfPackage());
         if (product.getBreedOfTree() != null) {
             productDB.setBreedOfTree(breedOfTreeService.getObjectByName(product.getBreedOfTree().getBreed()));
