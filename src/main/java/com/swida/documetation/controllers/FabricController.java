@@ -416,8 +416,7 @@ public class FabricController {
 
     @PostMapping("/createRawPackages-{userId}-{breedId}")
     public String createRawPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                 String codeOfProduct,String breedDescription,String height, String width, String count, String longFact, String heightWidth){
-        int countOfDesk = Integer.parseInt(width)*Integer.parseInt(height)*Integer.parseInt(count);
+                                 String codeOfProduct,int countOfDesk,String breedDescription,String height, String width, String count, String longFact, String heightWidth){
 
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
         DryingStorage dryingStorage = dryingStorageService.createFromRawStorage(rawStorage);
@@ -435,7 +434,7 @@ public class FabricController {
         dryStorage.setCodeOfProduct(dryStorage.getCodeOfProduct()+"raw");
         dryStorageService.save(dryStorage);
 
-        packagedProductService.createPackages(String.valueOf(dryStorage.getId()),codeOfProduct+"raw",breedDescription,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
+        packagedProductService.createPackages(String.valueOf(dryStorage.getId()),codeOfProduct+"raw",breedDescription,String.valueOf(countOfDesk),height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -542,8 +541,8 @@ public class FabricController {
 
     @PostMapping("/createPackages-{userId}-{breedId}")
     public String createPackages(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,String id,
-                                    String codeOfProduct,String breedDescription,String height, String width, String count, String longFact, String heightWidth){
-        packagedProductService.createPackages(id,codeOfProduct,breedDescription,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
+                                    String codeOfProduct,String breedDescription,String countOfDesk,String height, String width, String count, String longFact, String heightWidth){
+        packagedProductService.createPackages(id,codeOfProduct,breedDescription,countOfDesk,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
 
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;

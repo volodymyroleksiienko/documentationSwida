@@ -68,7 +68,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
 
     @Override
-    public void createPackages(String dryStorageId, String codeOfProduct,String breedDescription, String countHeight, String countWidth,
+    public void createPackages(String dryStorageId, String codeOfProduct,String breedDescription,String countOfDesk, String countHeight, String countWidth,
                                String countOfPack, String longFact,String heightWidth, UserCompany userCompany) {
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(dryStorageId));
         for (int i=1; i<=Integer.parseInt(countOfPack);i++){
@@ -84,7 +84,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             product.setSizeOfLong(dryStorage.getSizeOfLong());
 
 
-            product.setCountOfDesk(String.valueOf(Integer.parseInt(countHeight)*Integer.parseInt(countWidth)));
+            product.setCountOfDesk(countOfDesk);
             product.setCountDeskInHeight(countHeight);
             product.setCountDeskInWidth(countWidth);
 

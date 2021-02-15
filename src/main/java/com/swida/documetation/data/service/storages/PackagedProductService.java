@@ -10,7 +10,7 @@ import java.util.List;
 public interface PackagedProductService {
     void save(PackagedProduct packProd);
     void saveWithoutCalculating(PackagedProduct packProd);
-    void createPackages(String dryStorageId, String codeOfProduct,String breedDescription, String countHeight, String countWidth,
+    void createPackages(String dryStorageId, String codeOfProduct,String breedDescription,String countOfDesk, String countHeight, String countWidth,
                         String countOfPack, String longFact, String heightWidth, UserCompany userCompany);
     void createPackagesWithoutHistory(PackagedProduct product,String countOfPacks,int breedId, int userId);
     PackagedProduct createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
