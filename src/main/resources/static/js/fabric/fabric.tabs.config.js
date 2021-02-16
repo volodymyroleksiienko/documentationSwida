@@ -1018,12 +1018,12 @@ $(document).ready( function () {
 
 
     $( "#buttonForTransportation" ).click(function() {
-
         modalPackagesTable.clear().draw();
         let newData = ( table.rows( '.selected' ).data() );
         let array = [];
 
         let extentS = 0.0;
+        let packsCount = newData.length;
 
         for (let i = newData.length - 1; i >= 0; i--) {
             var id =			newData[i][0];
@@ -1049,6 +1049,7 @@ $(document).ready( function () {
         }
         console.log("arr: "+array);
 
+        $("#deliveryPackagesCount").val(packsCount);
         $("#deliveryExtent").val(extentS.toFixed(3));
         $('#sendForTransportationModal').modal('show');
     });
@@ -1083,6 +1084,7 @@ $(document).ready( function () {
         let newData = (modalPackagesTable.rows( ).data() );
 
         let extentS = 0.0;
+        let packsCount = newData.length;
 
         for (let i = newData.length - 1; i >= 0; i--) {
             var extent = 		newData[i][8];
@@ -1092,6 +1094,7 @@ $(document).ready( function () {
 
         console.log(extentS);
 
+        $("#deliveryPackagesCount").val(packsCount);
         $("#deliveryExtent").val(extentS.toFixed(3));
     } );
     //PACKAGES 1 END
@@ -1181,6 +1184,8 @@ $(document).ready( function () {
         let extentS = 0;
         let extentR = 0;
 
+        let packsCount = parseInt($("#deliveryOakPackagesCount").val())-1;
+
         $("#listOfPackagesOakId").find("tr").each(function() {
             extentR = parseFloat($(this).find('td.extentValue').text());
             console.log(extentR);
@@ -1191,6 +1196,7 @@ $(document).ready( function () {
 
         console.log(extentS);
 
+        $("#deliveryOakPackagesCount").val(packsCount);
         $("#deliveryOakExtent").val(extentS.toFixed(3));
 
     } );
@@ -1201,6 +1207,8 @@ $(document).ready( function () {
 
         let newData =           document.getElementsByClassName("outer-table odd selected");
         let tBody =             document.getElementById('listOfPackagesOakId');
+
+        let packsCount = newData.length;
 
         tBody.deleteRow(0);
 
@@ -1254,6 +1262,7 @@ $(document).ready( function () {
 
         console.log(extentS);
 
+        $("#deliveryOakPackagesCount").val(packsCount);
         $("#deliveryOakExtent").val(extentS.toFixed(3));
 
         $('#sendOakListForTransportationModal').modal('show');
