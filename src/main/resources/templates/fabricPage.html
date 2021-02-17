@@ -160,44 +160,113 @@
 <script type="text/javascript">
     $('#sendForPackageModalWidthOak').on('keyup', function(event){
         if(event.keyCode == 13){
+            event.preventDefault();
             $('#sendForPackageModalCountOak').focus();
         }
     });
 
     $('#sendForPackageModalCountOak').on('keyup', function(event){
         if(event.keyCode == 13){
+            event.preventDefault();
             $('#buttonForAddingOakRow').click();
         }
     });
 
     $('#sendForPackageModalCodeOak').on('keyup', function(event){
         if(event.keyCode == 13){
+            event.preventDefault();
             $('#sendForPackageModalQualityOak').focus();
         }
     });
 
     $('#sendForPackageModalQualityOak').on('keyup', function(event){
         if(event.keyCode == 13){
+            event.preventDefault();
             $('#sendForPackageModalSizeOak').focus();
         }
     });
 
     $('#sendForPackageModalSizeOak').on('keyup', function(event){
         if(event.keyCode == 13){
+            event.preventDefault();
             $('#sendForPackageModalLengthOak').focus();
         }
     });
 
     $('#sendForPackageModalLengthOak').on('keyup', function(event){
         if(event.keyCode == 13){
+            event.preventDefault();
             $('#sendForPackageModalWidthOak').focus();
         }
+    });
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    $('#sendForPackageModalCode').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalMaterialDescr').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageModalMaterialDescr').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageHeight').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageHeight').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageWidth').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageWidth').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageLength').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageLength').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalCount').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageModalCount').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalPacksCount').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageModalPacksCount').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalWidthPc').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageModalWidthPc').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageHeightPc').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageHeightPc').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalLengthFact').focus();
+        }
+        event.preventDefault();
+    });
+    $('#sendForPackageModalLengthFact').on('keyup', function(event){
+        if(event.keyCode == 13){
+            $('#sendForPackageModalHeightWidth').focus();
+        }
+        event.preventDefault();
     });
 
     //////////////////////////////////////////////////////////////////////////////////////
 
     $('#addOakInitialPackageCode').on('keyup', function(event){
         if(event.keyCode == 13){
+            event.preventDefault();
             $('#addOakInitialPackageDescr').focus();
         }
     });
