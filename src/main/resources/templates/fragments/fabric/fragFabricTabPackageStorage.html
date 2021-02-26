@@ -88,7 +88,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="sendForPackageModalHeader">Создаение  пачки</h5>
+                    <h5 class="modal-title" id="sendForPackageModalHeader">Создание  пачки</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -107,7 +107,7 @@
                                 <label class="control-label" for="sendForPackageModalMaterial">Порода</label>
                                 <th:block th:each="b : ${breedOfTreeList}" >
                                     <th:block th:if="${b.id==breedId}">
-                                        <input type="text" class="form-control"  id="sendForPackageModalMaterial" required="required" autocomplete="off" disabled="disabled"  th:value="${b.breed}">
+                                        <input type="text" class="form-control" id="sendForPackageModalMaterial" required="required" autocomplete="off" disabled="disabled"  th:value="${b.breed}">
                                     </th:block>
                                 </th:block>
                             </div>
@@ -176,7 +176,10 @@
                         <!-- Insert rows -->
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Создать</button>
+                        <button type="button" class="btn btn-primary"
+                                onclick="if ($('#sendForPackageModalCode').val()!=''&&$('#sendForPackageHeight').val()!=''&&$('#sendForPackageWidth').val()!=''&&$('#sendForPackageLength').val()!=''&&$('#sendForPackageModalCount').val()!=''&&$('#sendForPackageModalExtent').val()!=''&&$('#sendForPackageModalPacksCount').val()!=''){
+                                    $('#addPackagedProductWithoutHistoryForm').submit();}else{alert('Заполните все поля!');
+                                }">Создать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -354,8 +357,13 @@
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
-                                <div class="col-6">
+                                <div class="col-3">
 
+                                </div>
+
+                                <div class="col-3">
+                                    <label class="col-form-label" for="deliveryPackagesCount">Количество пачек</label>
+                                    <input type="text" class="form-control" id="deliveryPackagesCount"  autocomplete="off" disabled="disabled">
                                 </div>
 
                                 <div class="col-3">
@@ -1047,8 +1055,13 @@
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
-                                <div class="col-6">
+                                <div class="col-3">
 
+                                </div>
+
+                                <div class="col-3">
+                                    <label class="col-form-label" for="deliveryOakPackagesCount">Количество пачек</label>
+                                    <input type="text" class="form-control" id="deliveryOakPackagesCount"  autocomplete="off" disabled="disabled">
                                 </div>
 
                                 <div class="col-3">
