@@ -213,13 +213,7 @@ public class FabricRestController {
 
         List<DescriptionDeskOak> descriptionDeskList = new ArrayList<>();
 
-        for(int i=1;i<arrayOfDesk.length;i++){
-            DescriptionDeskOak deskOak = new DescriptionDeskOak();
-            deskOak.setSizeOfWidth(arrayOfDesk[i][0]);
-            deskOak.setCountOfDesk(arrayOfDesk[i][1]);
-            deskOakService.save(deskOak);
-            descriptionDeskList.add(deskOak);
-        }
+
 
 
         RawStorage rawStorage = new RawStorage();
@@ -234,10 +228,19 @@ public class FabricRestController {
         rawStorage.setMaxExtent(rawStorage.getExtent());
         rawStorage.setUsedExtent(rawStorage.getExtent());
         rawStorage.setTreeStorage(treeStorage);
-        rawStorage.setDeskOakList(descriptionDeskList);
+//        rawStorage.setDeskOakList(descriptionDeskList);
         String rawExtent = rawStorageService.save(rawStorage);
         if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK){
             treeStorage.setMaxExtent(rawExtent);
+        }
+
+        for(int i=1;i<arrayOfDesk.length;i++){
+            DescriptionDeskOak deskOak = new DescriptionDeskOak();
+            deskOak.setSizeOfWidth(arrayOfDesk[i][0]);
+            deskOak.setCountOfDesk(arrayOfDesk[i][1]);
+            deskOak.setRawStorage(rawStorage);
+            deskOakService.save(deskOak);
+            descriptionDeskList.add(deskOak);
         }
         treeStorageService.save(treeStorage);
 
