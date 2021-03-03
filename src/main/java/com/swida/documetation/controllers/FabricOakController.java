@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import sun.security.krb5.internal.crypto.Des;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -227,14 +228,18 @@ public class FabricOakController {
         dryingStorage.setSizeOfLong(rawStorage.getSizeOfLong());
         dryingStorage.setBreedDescription(rawStorage.getBreedDescription());
         dryingStorage.setDateDrying(date);
-        if(!rawStorage.getDeskOakList().isEmpty()){
-            dryingStorage.setDeskOakList(rawStorage.getDeskOakList());
-            rawStorage.setDeskOakList(null);
-        }
+
 
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
         dryingStorageService.save(dryingStorage);
+        if(!rawStorage.getDeskOakList().isEmpty()){
+            for(DescriptionDeskOak desc:rawStorage.getDeskOakList()){
+                desc.setRawStorage(null);
+                desc.setDryingStorage(dryingStorage);
+                deskOakService.save(desc);
+            }
+        }
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -347,14 +352,16 @@ public class FabricOakController {
         dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
         dryStorage.setDryingStorage(dryingStorageDB);
 
-        if(!dryingStorageDB.getDeskOakList().isEmpty()){
-            dryStorage.setDeskOakList(dryingStorageDB.getDeskOakList());
-            dryingStorageDB.setDeskOakList(null);
-        }
-
         dryStorageService.save(dryStorage);
         dryingStorageDB.setExtent("0.000");
         dryingStorageService.save(dryingStorageDB);
+        if(!dryingStorageDB.getDeskOakList().isEmpty()){
+            for(DescriptionDeskOak desk: dryingStorageDB.getDeskOakList()){
+                desk.setDryingStorage(null);
+                desk.setDryStorage(dryStorage);
+                deskOakService.save(desk);
+            }
+        }
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
@@ -493,16 +500,17 @@ public class FabricOakController {
     @PostMapping("/addDryStorageToPackageProduct-{userId}-2")
     public String addDryStorageToPackageProduct(@PathVariable("userId")int userId,DryStorage dryStorage,String quality){
         DryStorage dryStorageDB = dryStorageService.findById(dryStorage.getId());
-        String[][] arr = new String[dryStorageDB.getDeskOakList().size()+1][2];
+        String[][] arr = new String[1][2];
         arr[0][0] = "";
         arr[0][1] = "";
-        for(int i=0;i<dryStorageDB.getDeskOakList().size();i++){
-            arr[i+1][0] = dryStorageDB.getDeskOakList().get(i).getSizeOfWidth();
-            arr[i+1][1] = dryStorageDB.getDeskOakList().get(i).getCountOfDesk();
-        }
 
-        packagedProductService.createPackageOak(arr,String.valueOf(dryStorage.getId()),dryStorage.getCodeOfProduct(),quality,
+        PackagedProduct product = packagedProductService.createPackageOak(arr,String.valueOf(dryStorage.getId()),dryStorage.getCodeOfProduct(),quality,
                 dryStorageDB.getSizeOfHeight(),dryStorageDB.getSizeOfLong(),userId,2);
+        for(DescriptionDeskOak deskOak:dryStorageDB.getDeskOakList()){
+            deskOak.setDryStorage(null);
+            deskOak.setPackagedProduct(product);
+            deskOakService.save(deskOak);
+        }
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+2;
     }
 
