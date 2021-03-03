@@ -4,7 +4,7 @@
 
     <div class="tab-pane fade show active container-fluid" id="pineStats">
         <br>
-        <p class="text-muted" style="font-size: 14px; position: fixed; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>
+        <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>
         <table style="width: 100%;" >
             <tr>
                 <th th:if="${breedId==2}"></th>
@@ -110,7 +110,9 @@
             </tr>
         </table>
         <div style="display: flex; align-items: center; justify-content: center" id="chart">
-            <div id="piechart" style="width: 900px; height: 500px; justify-content: center">
+            <div id="piechart" style="width: 50vw; height: 500px; justify-content: center">
+            </div>
+            <div id="piechart2" style="width: 50vw; height: 500px; justify-content: center">
             </div>
         </div>
     </div>
@@ -220,16 +222,21 @@
                         data.addColumn('string', 'Place');
                         data.addColumn('number', 'Extent');
 
+                        let  data2 = new google.visualization.DataTable();
+                        data2.addColumn('string', 'Place');
+                        data2.addColumn('number', 'Extent');
+
                         data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
                         data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
                         data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
                         data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
                         data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
                         data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
-                        data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
-                        data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
-                        data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
-                        data.addRow(['Материал (в работе): '+           statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
+
+                        data2.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
+                        data2.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
+                        data2.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
+                        data2.addRow(['Заказы (в работе): '+             statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
 
                         let options = {
                             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
@@ -238,9 +245,18 @@
                             // is3D: true,
                         };
 
+                        let options2 = {
+                            title: '',
+                            pieHole: 0.4,
+                            sliceVisibilityThreshold: .00001,
+                            // is3D: true,
+                        };
+
                         let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                        let chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
 
                         chart.draw(data, options);
+                        chart2.draw(data2, options2);
                         // drawChart();
                         // location.reload();
                     },
@@ -271,16 +287,21 @@
                         data.addColumn('string', 'Place');
                         data.addColumn('number', 'Extent');
 
+                        let  data2 = new google.visualization.DataTable();
+                        data2.addColumn('string', 'Place');
+                        data2.addColumn('number', 'Extent');
+
                         data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
                         data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
                         data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
                         data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
                         data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
                         data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
-                        data.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
-                        data.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
-                        data.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
-                        data.addRow(['Материал (в работе): '+           statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
+
+                        data2.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
+                        data2.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
+                        data2.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
+                        data2.addRow(['Заказы (в работе): '+             statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
 
                         let options = {
                             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
@@ -289,9 +310,18 @@
                             // is3D: true,
                         };
 
+                        let options2 = {
+                            title: '',
+                            pieHole: 0.4,
+                            sliceVisibilityThreshold: .00001,
+                            // is3D: true,
+                        };
+
                         let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                        let chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
 
                         chart.draw(data, options);
+                        chart2.draw(data2, options2);
                         // drawChart();
                         // location.reload();
                     },

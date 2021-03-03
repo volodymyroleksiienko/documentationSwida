@@ -271,14 +271,23 @@ function drawChart() {
         title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
         pieHole: 0.4,
         sliceVisibilityThreshold: .00001,
-        // pieSliceTextStyle: {
-        //     color: 'white',
-        // },
 
-        // is3D: true,
+    };
+
+    let data2 = new google.visualization.DataTable();
+    data2.addColumn('string', 'Place');
+    data2.addColumn('number', 'Extent');
+    data2.addRow(['Выбрано', 100]);
+
+    let options2 = {
+        title: '',
+        pieHole: 0.4,
+        sliceVisibilityThreshold: .00001,
     };
 
     let chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    let chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
 
     chart.draw(data, options);
+    chart2.draw(data2, options2);
 }
