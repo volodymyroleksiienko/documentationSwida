@@ -216,7 +216,8 @@
                     success: function (statisticInfo) {
                         console.log(statisticInfo);
 
-                        summary = parseFloat(statisticInfo["mainExtent"]);
+                        summary = parseFloat(statisticInfo["storageExtent"]);
+                        summary2 = parseFloat(statisticInfo["deliveredExtent"]);
 
                         let  data = new google.visualization.DataTable();
                         data.addColumn('string', 'Place');
@@ -246,7 +247,7 @@
                         };
 
                         let options2 = {
-                            title: '',
+                            title: 'Суммарная кубатура: '+summary2.toFixed(3)+" м3",
                             pieHole: 0.4,
                             sliceVisibilityThreshold: .00001,
                             // is3D: true,
@@ -281,7 +282,8 @@
                     success: function (statisticInfo) {
                         console.log(statisticInfo);
 
-                        summary = parseFloat(statisticInfo["mainExtent"]);
+                        summary = parseFloat(statisticInfo["storageExtent"]);
+                        summary2 = parseFloat(statisticInfo["deliveredExtent"]);
 
                         let  data = new google.visualization.DataTable();
                         data.addColumn('string', 'Place');
@@ -311,7 +313,7 @@
                         };
 
                         let options2 = {
-                            title: '',
+                            title: 'Суммарная кубатура: '+summary2.toFixed(3)+" м3",
                             pieHole: 0.4,
                             sliceVisibilityThreshold: .00001,
                             // is3D: true,

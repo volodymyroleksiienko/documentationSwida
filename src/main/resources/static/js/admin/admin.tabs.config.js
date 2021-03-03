@@ -280,7 +280,7 @@ function drawChart() {
     data2.addRow(['Выбрано', 100]);
 
     let options2 = {
-        title: '',
+        title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
         pieHole: 0.4,
         sliceVisibilityThreshold: .00001,
     };
