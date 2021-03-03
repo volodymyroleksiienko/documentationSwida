@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -112,7 +113,7 @@ public class StatisticController {
         System.out.println(packagedProductService.getListOfUnicBreedDescription(breedId));
         list.addAll(packagedProductService.getListOfUnicBreedDescription(breedId));
         list.addAll(orderInfoService.getListOfUnicBreedDescription(breedId));
-        return list;
+        return list.stream().map(String::trim).collect(Collectors.toSet());
     }
 
     private Set<String> getAllSizeOfHeight(int breedId){
@@ -130,19 +131,16 @@ public class StatisticController {
         list.addAll(rawStorageService.getListOfUnicSizeOfWidth(breedId));
         list.addAll(dryStorageService.getListOfUnicSizeOfWidth(breedId));
         list.addAll(dryingStorageService.getListOfUnicSizeOfWidth(breedId));
-        System.out.println(packagedProductService.getListOfUnicSizeOfWidth(breedId));
         list.addAll(packagedProductService.getListOfUnicSizeOfWidth(breedId));
+        System.out.println(packagedProductService.getListOfUnicSizeOfWidth(breedId));
         return list;
     }
 
     private Set<String> getAllSizeOfLong(int breedId){
         Set<String> list = new TreeSet<>();
-        if(breedId!=2) {
-            list.addAll(rawStorageService.getListOfUnicSizeOfLong(breedId));
-            list.addAll(dryStorageService.getListOfUnicSizeOfLong(breedId));
-            list.addAll(dryingStorageService.getListOfUnicSizeOfLong(breedId));
-        }
-        System.out.println(packagedProductService.getListOfUnicSizeOfLong(breedId));
+        list.addAll(rawStorageService.getListOfUnicSizeOfLong(breedId));
+        list.addAll(dryStorageService.getListOfUnicSizeOfLong(breedId));
+        list.addAll(dryingStorageService.getListOfUnicSizeOfLong(breedId));
         list.addAll(packagedProductService.getListOfUnicSizeOfLong(breedId));
         return list;
     }
