@@ -271,9 +271,23 @@ public class StatisticController {
             }
 
         }
-        json.put("mainExtent",
-                String.format("%.3f",mainExtent).replace(",","."));
+        json.put("deliveredExtent",
+                String.format("%.3f",
+                        Double.parseDouble(json.getAsString("providerInWork"))
+                                + Double.parseDouble(json.getAsString("deliveryCountry"))
+                                + Double.parseDouble(json.getAsString("deliveryPort"))
+                                + Double.parseDouble(json.getAsString("deliveryMultimodal"))
+                        ).replace(",","."));
 
+        json.put("storageExtent",
+                String.format("%.3f",
+                        mainExtent
+                                - Double.parseDouble(json.getAsString("providerInWork"))
+                                - Double.parseDouble(json.getAsString("deliveryCountry"))
+                                - Double.parseDouble(json.getAsString("deliveryPort"))
+                                - Double.parseDouble(json.getAsString("deliveryMultimodal"))
+
+                        ).replace(",","."));
         return json;
     }
 
