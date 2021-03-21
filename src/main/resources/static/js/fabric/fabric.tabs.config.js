@@ -167,7 +167,8 @@ $(document).ready( function () {
                 data[1],
                 data[3],
                 data[7],
-                data[8]
+                data[8],
+                ""
             ]).draw( false );
             console.log(data);
         } );

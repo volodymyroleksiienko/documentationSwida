@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,6 +108,21 @@ public class RawStorageServiceImpl implements RawStorageService {
                 String.format("%.3f",extent).replace(",",".")
         );
        rawStorageJPA.save(rawStorage);
+    }
+
+    public void collectToOneEntity(RawStorage rawStorage,Integer[] arrOfEntity){
+//        if(arrOfEntity!=null && arrOfEntity.length>0){
+//            List<Integer> rawStorageIdList = Arrays.asList(arrOfEntity);
+//        }
+        int countOfDesk = 0;
+        for(Integer id:arrOfEntity){
+            RawStorage temp =rawStorageJPA.findById(id).orElse(new RawStorage());
+            countOfDesk+=temp.getCountOfDesk();
+            temp.setCountOfDesk(0);
+            rawStorageJPA.save(temp);
+        }
+        rawStorage.setCountOfDesk(countOfDesk);
+        save(rawStorage);
     }
 
     @Override
