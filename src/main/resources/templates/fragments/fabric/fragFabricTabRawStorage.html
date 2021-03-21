@@ -115,7 +115,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post">
+                    <form action="" id="groupRawStorageItems" method="post">
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-top: 5px">
                             <div class="col-6">
                                 <label class="col-form-label" for="groupDryingModalCode">Код</label>
@@ -123,7 +123,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="groupDryingModalMaterial">Порода</label>
-                                <input type="text" class="form-control" id="groupDryingModalMaterial" disabled="disabled">
+                                <input type="text" class="form-control" id="groupDryingModalMaterial" readonly>
                             </div>
                             <div class="col-4">
                                 <label class="control-label" for="groupDryingModalMaterialDescr">Описание</label>
@@ -131,19 +131,19 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="groupDryingModalThickness">Толщина, мм</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="groupDryingModalWidth">Ширина, мм</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="groupDryingModalLength">Длина, мм</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="groupDryingModalCount">Количество досок</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="groupDryingModalVolume">Кубатура м<sup>3</sup></label>

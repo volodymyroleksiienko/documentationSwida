@@ -161,21 +161,62 @@ $(document).ready( function () {
 
     // GROUP SELECTED START
     $('#groupButton').on( 'click', function () {
-        rawstoragetable.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
-            let data = this.data();
-            tableForGrouping.row.add([
-                data[1],
-                data[3],
-                data[7],
-                data[8],
-                ""
-            ]).draw( false );
-            console.log(data);
-        } );
+        let show = true;
+        // rawstoragetable.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
+        //     let data = this.data();
+        //
+        //     let current = rawstoragetable.row(this).data();
+        //     let next = rawstoragetable.row(this).data();
+        //
+        //     // console.log("current: " +current[4]+" ;next: "+next[4]);
+        //     console.log("current: " +current[4]);
+        //     if (current[4]===next[4]){
+        //         console.log('ok');
+        //         tableForGrouping.row.add([
+        //             data[1],
+        //             data[3],
+        //             data[7],
+        //             data[8],
+        //             "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
+        //         ]).draw(false);
+        //     }else {
+        //         console.log('ne ok');
+        //         show = false;
+        //     }
+        // });
+        let rowArr = rawstoragetable.rows('.selected');
+        console.log(rowArr);
+        for (let i=0;i<rowArr.length;i++){
+            let data = rawstoragetable.row(i).data();
 
-        $('#groupingModal').modal('show');
+            let current = rawstoragetable.row(rowArr[i]).data();
+            let next = rawstoragetable.row(rowArr[i+1]).data();
+
+            console.log("current: " +current[4]+" ;next: "+next[4]);
+            // console.log("current: " +current[4]);
+            // if (current[4]===next[4]){
+            //     console.log('ok');
+            //     tableForGrouping.row.add([
+            //         data[1],
+            //         data[3],
+            //         data[7],
+            //         data[8],
+            //         "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
+            //     ]).draw(false);
+            // }else {
+            //     console.log('ne ok');
+            //     show = false;
+            // }
+        }
+        if (show===true){
+            $('#groupingModal').modal('show');
+        }else {
+            alert("Выбрано недопустимые значения!");
+        }
     });
     // GROUP SELECTED END
+
+
 
     let tableForGrouping = $('#tableForGrouping').DataTable({
         "language": {
@@ -259,7 +300,7 @@ $(document).ready( function () {
                     let treeStorageExt= obj["treeStorageExtent"];
                     let rawStorageExt = obj["rawStorageExtent"];
 
-                    let row = [id, code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, button];
+                    let row = [id, code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, '0.0', 'null', button];
 
                     rawstoragetable.row.add(row).draw();
 
