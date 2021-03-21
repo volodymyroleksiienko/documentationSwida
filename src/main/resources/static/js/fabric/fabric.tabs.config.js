@@ -184,15 +184,19 @@ $(document).ready( function () {
         //         show = false;
         //     }
         // });
-        let rowArr = rawstoragetable.rows('.selected');
+        let rowArr = rawstoragetable.rows('.selected').data();
         console.log(rowArr);
-        for (let i=0;i<rowArr.length;i++){
+        console.log(rowArr.length);
+        for (let i=0;i<rowArr.length-1;i++){
             let data = rawstoragetable.row(i).data();
 
-            let current = rawstoragetable.row(rowArr[i]).data();
-            let next = rawstoragetable.row(rowArr[i+1]).data();
+            let current = rowArr[i];
+            let next = rowArr[i+1];
 
-            console.log("current: " +current[4]+" ;next: "+next[4]);
+            // let current = rawstoragetable.row(rowArr[i]).data();
+            // let next = rawstoragetable.row(rowArr[i+1]).data();
+
+            console.log("current: " +current+" ;next: "+next);
             // console.log("current: " +current[4]);
             // if (current[4]===next[4]){
             //     console.log('ok');
