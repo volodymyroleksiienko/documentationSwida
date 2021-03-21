@@ -132,6 +132,9 @@ $(document).ready( function () {
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "order": [ 0, "desc" ],
+        "select": {
+            "style": 'os'
+        },
         // columns width
         "autoWidth": false,
         // id column visibility
@@ -150,11 +153,39 @@ $(document).ready( function () {
         ]
     });
 
-    // // TOOGLE SELECTED START
-    // $('#rawstoragetable tbody').on( 'click', 'tr', function () {
-    //     $(this).toggleClass('selected');
-    // } );
-    //TOOGLE SELECTED END
+    // TOOGLE SELECTED START
+    $('#rawstoragetable tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
+    // TOOGLE SELECTED END
+
+    // GROUP SELECTED START
+    $('#groupButton').on( 'click', function () {
+        rawstoragetable.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
+            let data = this.data();
+            tableForGrouping.row.add([
+                data[1],
+                data[3],
+                data[7],
+                data[8]
+            ]).draw( false );
+            console.log(data);
+        } );
+
+        $('#groupingModal').modal('show');
+    });
+    // GROUP SELECTED END
+
+    let tableForGrouping = $('#tableForGrouping').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "bSort": false,
+        "info": false,
+        "autoWidth": false,
+        "searching": false,
+        "paging": false,
+    })
 
     let rawstoragetableoak =  $('#rawstoragetableoak').DataTable({
         "language": {
@@ -244,19 +275,17 @@ $(document).ready( function () {
 
 
 
-
-
-
-
     let dryingtable = $('#dryingtable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "order": [ 0, "desc" ],
+        "select": {
+            "style": 'os'
+        },
         // columns width
         "autoWidth": false,
-
         // id column visibility
         "columnDefs": [
             {
@@ -272,7 +301,6 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ -2 ] },
         ]
     });
-
 
     // TOOGLE SELECTED START
     $('#dryingtable tbody').on( 'click', 'tr', function () {

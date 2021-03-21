@@ -61,35 +61,6 @@
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                         </td>
                     </tr>
-
-<!--                    <tr style="display: none" th:id="'parent'+${tr?.id}">-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td colspan="11" class="child-table">-->
-<!--                            <table class="table table-hover table-striped parent-table">-->
-<!--                                <thead>-->
-<!--                                <tr>-->
-<!--                                    <th scope="col">Толщина, мм</th>-->
-<!--                                    <th scope="col">Процент, %</th>-->
-<!--                                </tr>-->
-<!--                                </thead>-->
-<!--                                <tbody>-->
-<!--                                <tr>-->
-<!--                                    <td>12345</td>-->
-<!--                                    <td>123456</td>-->
-<!--                                </tr>-->
-<!--                                </tbody>-->
-<!--                            </table>-->
-<!--                        </td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                        <td style="display:none"></td>-->
-<!--                    </tr>-->
                 </div>
 
             <tfoot>
@@ -122,9 +93,9 @@
             <button type="button" class="buttons btn btn-primary" title="Экспорт фактический" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i>
             </button>
-<!--            <button type="button" class="buttons btn btn-primary" title="Статистика" data-toggle="modal" data-placement="left" onclick="drawModalChart(1)">-->
-<!--                <i class="fas fa-chart-pie"></i>-->
-<!--            </button>-->
+            <button type="button" class="buttons btn btn-primary" title="Группировать" data-toggle="modal" data-placement="left" id="groupButton">
+                <i class="fas fa-chart-pie"></i>
+            </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить пиломатериалы" data-toggle="modal" data-placement="left" data-target="#addIncomeToRawStorageModal">
                 <i class="fa fa-plus"></i>
             </button>
@@ -134,79 +105,85 @@
 
 
     <!--  Stats pine start -->
-    <div class="modal fade" id="statisticsPineModal">
+    <div class="modal fade" id="groupingModal">
         <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 100% !important;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Статистика</h5>
+                    <h5 class="modal-title">Группирование</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       TUT         -->
-                <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%" id="chart">
-                    <div id="piechart" style="width: 80vw; height: 50vh; justify-content: center">
-                    </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-top: 5px">
+                            <div class="col-6">
+                                <label class="col-form-label" for="groupDryingModalCode">Код</label>
+                                <input type="text" class="form-control" id="groupDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="groupDryingModalMaterial">Порода</label>
+                                <input type="text" class="form-control" id="groupDryingModalMaterial" disabled="disabled">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="groupDryingModalMaterialDescr">Описание</label>
+                                <input class="form-control" id="groupDryingModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalThickness">Толщина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalWidth">Ширина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalLength">Длина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalCount">Количество досок</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalVolume">Кубатура м<sup>3</sup></label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="groupDryingModalVolume" required="required" readonly autocomplete="off" placeholder="мм" name="extent">
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-striped" id="tableForGrouping" style="padding-left: 1rem; padding-right: 1rem">
+                            <thead>
+                            <tr>
+                                <th scope="col">Код</th>
+                                <th scope="col">Описание</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th scope="col">Кубатура</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+
+                            <tfoot>
+                                <th scope="col">Код</th>
+                                <th scope="col">Описание</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th scope="col">Кубатура</th>
+                                <th></th>
+                            </tfoot>
+                        </table>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let summary = 0.000;
-
-        function drawModalChart(breedId){
-            $('#statisticsPineModal').modal('show');
-            google.charts.load('current', {'packages':['corechart']});
-            
-
-            // $.ajax({
-            //     method: "post",
-            //     url: "/getRawStorageStatisticInfo",
-            //     contextType: "application/json",
-            //     data: {
-            //         breedId: breedId
-            //     },
-            //     traditional: true,
-            //     success: function (statisticInfo) {
-            //         console.log(statisticInfo);
-            //
-            //         summary = parseFloat(statisticInfo["mainExtent"]);
-            //
-            //         let  data = new google.visualization.DataTable();
-            //         data.addColumn('number', 'Width');
-            //         data.addColumn('number', 'Extent');
-            //
-            //         //inside loop
-            //         data.addRow([statisticInfo["width"], parseFloat(statisticInfo["exent"])]);
-            //
-            //
-            //         let options = {
-            //             title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
-            //             pieHole: 0.4,
-            //             sliceVisibilityThreshold: .00001,
-            //             // is3D: true,
-            //         };
-            //
-            //         let chart = new google.visualization.PieChart(document.getElementById('piechart'));
-            //
-            //         chart.draw(data, options);
-            //     },
-            //     error: function () {
-            //         alert("Ошибка!");
-            //     }
-            // });
-        }
-
-
-        // $('#statisticsPineModal').on('hidden.bs.modal', function () {
-        //     location.reload();
-        // });
-    </script>
-    <!--  Stats pine end -->
 
     <!--  Add to raw storage  -->
     <div class="modal fade" id="addIncomeToRawStorageModal">
