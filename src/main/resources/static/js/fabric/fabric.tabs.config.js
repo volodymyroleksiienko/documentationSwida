@@ -162,57 +162,44 @@ $(document).ready( function () {
     // GROUP SELECTED START
     $('#groupButton').on( 'click', function () {
         let show = true;
-        // rawstoragetable.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
-        //     let data = this.data();
-        //
-        //     let current = rawstoragetable.row(this).data();
-        //     let next = rawstoragetable.row(this).data();
-        //
-        //     // console.log("current: " +current[4]+" ;next: "+next[4]);
-        //     console.log("current: " +current[4]);
-        //     if (current[4]===next[4]){
-        //         console.log('ok');
-        //         tableForGrouping.row.add([
-        //             data[1],
-        //             data[3],
-        //             data[7],
-        //             data[8],
-        //             "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
-        //         ]).draw(false);
-        //     }else {
-        //         console.log('ne ok');
-        //         show = false;
-        //     }
-        // });
         let rowArr = rawstoragetable.rows('.selected').data();
         console.log(rowArr);
         console.log(rowArr.length);
         for (let i=0;i<rowArr.length-1;i++){
-            let data = rawstoragetable.row(i).data();
-
             let current = rowArr[i];
             let next = rowArr[i+1];
-
-            // let current = rawstoragetable.row(rowArr[i]).data();
-            // let next = rawstoragetable.row(rowArr[i+1]).data();
-
-            console.log("current: " +current+" ;next: "+next);
-            // console.log("current: " +current[4]);
-            // if (current[4]===next[4]){
-            //     console.log('ok');
-            //     tableForGrouping.row.add([
-            //         data[1],
-            //         data[3],
-            //         data[7],
-            //         data[8],
-            //         "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
-            //     ]).draw(false);
-            // }else {
-            //     console.log('ne ok');
-            //     show = false;
-            // }
+            console.log("current: " +current[5]+" ;next: "+next[5]);
+            if(current[4]!==next[4]){
+                show=false;
+            }
         }
+
         if (show===true){
+            let count=0;
+            let extent=0.0;
+            for(let i=0;i<rowArr.length;i++){
+                let data = rowArr[i];
+
+                count+=parseInt(data[7]);
+                extent+=parseFloat(data[8]);
+                tableForGrouping.row.add([
+                    data[1],
+                    data[3],
+                    data[7],
+                    data[8],
+                    "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
+                ]).draw(false);
+            }
+            console.log(rowArr[0]);
+            $('#groupDryingModalCode').val(rowArr[0][1]);
+            $('#groupDryingModalMaterial').val(rowArr[0][2]);
+            $('#groupDryingModalMaterialDescr').val(rowArr[0][3]);
+            $('#groupDryingModalThickness').val(rowArr[0][4]);
+            $('#groupDryingModalWidth').val(rowArr[0][5]);
+            $('#groupDryingModalLength').val(rowArr[0][6]);
+            $('#groupDryingModalCount').val(count);
+            $('#groupDryingModalVolume').val(extent);
+
             $('#groupingModal').modal('show');
         }else {
             alert("Выбрано недопустимые значения!");
