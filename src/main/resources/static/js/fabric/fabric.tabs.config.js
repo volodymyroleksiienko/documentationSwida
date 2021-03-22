@@ -162,7 +162,9 @@ $(document).ready( function () {
         "autoWidth": false,
         "searching": false,
         "paging": false,
-
+        "columnDefs": [
+            { className: "display-none", "targets": [ 4 ] },
+        ]
     });
 
     // TOOGLE SELECTED START
