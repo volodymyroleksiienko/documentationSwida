@@ -115,7 +115,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" id="groupRawStorageItems" method="post">
+                    <form th:action="@{'/fabric/groupPineRaw-'+${userId}+'-'+${breedId}}" id="groupRawStorageItems" method="post">
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-top: 5px">
                             <div class="col-6">
                                 <label class="col-form-label" for="groupDryingModalCode">Код</label>
@@ -176,11 +176,11 @@
                                 <th></th>
                             </tfoot>
                         </table>
+                        <div class="modal-footer">
+                            <button type="submit" id="groupRawStorageSubmitButton" class="btn btn-primary">Отправить</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="groupRawStorageSubmitButton" class="btn btn-primary">Отправить</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                 </div>
             </div>
         </div>

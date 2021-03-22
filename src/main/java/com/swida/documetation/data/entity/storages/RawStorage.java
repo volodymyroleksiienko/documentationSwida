@@ -33,6 +33,9 @@ public class RawStorage {
     private String description;
     private String date;
 
+    @OneToMany
+    private List<RawStorage> groupedElements;
+
     @OneToMany(mappedBy = "rawStorage")
     private List<DescriptionDeskOak> deskOakList;
 
@@ -50,4 +53,30 @@ public class RawStorage {
 
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
+
+    @Override
+    public String toString() {
+        return "RawStorage{" +
+                "id=" + id +
+                ", codeOfProduct='" + codeOfProduct + '\'' +
+                ", breedOfTree=" + breedOfTree +
+                ", breedDescription='" + breedDescription + '\'' +
+                ", sizeOfHeight='" + sizeOfHeight + '\'' +
+                ", sizeOfWidth='" + sizeOfWidth + '\'' +
+                ", sizeOfLong='" + sizeOfLong + '\'' +
+                ", countOfDesk=" + countOfDesk +
+                ", maxCountOfDesk=" + maxCountOfDesk +
+                ", extent='" + extent + '\'' +
+                ", maxExtent='" + maxExtent + '\'' +
+                ", usedExtent='" + usedExtent + '\'' +
+                ", description='" + description + '\'' +
+                ", date='" + date + '\'' +
+                ", deskOakList=" + deskOakList +
+                ", userCompany=" + userCompany +
+                ", treeStorage=" + treeStorage +
+                ", dryingStorageList=" + dryingStorageList +
+                ", recycle=" + recycle +
+                ", statusOfEntity=" + statusOfEntity +
+                '}';
+    }
 }
