@@ -93,8 +93,8 @@
             <button type="button" class="buttons btn btn-primary" title="Экспорт фактический" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i>
             </button>
-            <button type="button" class="buttons btn btn-primary" title="Группировать" data-toggle="modal" data-placement="left" id="groupButton">
-                <i class="fas fa-chart-pie"></i>
+            <button type="button" class="buttons btn btn-primary" title="Группировать" data-toggle="modal" data-placement="left" id="groupRawStorageButton">
+                <i class="fas fa-code-branch"></i>
             </button>
             <button type="button" class="buttons main-button btn btn-primary" title="Добавить пиломатериалы" data-toggle="modal" data-placement="left" data-target="#addIncomeToRawStorageModal">
                 <i class="fa fa-plus"></i>
@@ -104,7 +104,7 @@
     </div>
 
 
-    <!--  Stats pine start -->
+    <!--  Grouping pine start -->
     <div class="modal fade" id="groupingModal">
         <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 100% !important;" role="document">
             <div class="modal-content">
@@ -151,13 +151,14 @@
                             </div>
                         </div>
 
-                        <table class="table table-hover table-striped" id="tableForGrouping" style="padding-left: 1rem; padding-right: 1rem">
+                        <table class="table table-hover table-striped" id="tableForRawStorageGrouping" style="padding-left: 1rem; padding-right: 1rem">
                             <thead>
                             <tr>
                                 <th scope="col">Код</th>
                                 <th scope="col">Описание</th>
                                 <th scope="col">Количество досок, шт</th>
                                 <th scope="col">Кубатура</th>
+                                <th scope="col">ID</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -171,13 +172,14 @@
                                 <th scope="col">Описание</th>
                                 <th scope="col">Количество досок, шт</th>
                                 <th scope="col">Кубатура</th>
+                                <th scope="col">ID</th>
                                 <th></th>
                             </tfoot>
                         </table>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="submit" id="groupRawStorageSubmitButton" class="btn btn-primary">Отправить</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                 </div>
             </div>

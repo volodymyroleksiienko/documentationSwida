@@ -153,63 +153,7 @@ $(document).ready( function () {
         ]
     });
 
-    // TOOGLE SELECTED START
-    $('#rawstoragetable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-    } );
-    // TOOGLE SELECTED END
-
-    // GROUP SELECTED START
-    $('#groupButton').on( 'click', function () {
-        let show = true;
-        let rowArr = rawstoragetable.rows('.selected').data();
-        console.log(rowArr);
-        console.log(rowArr.length);
-        for (let i=0;i<rowArr.length-1;i++){
-            let current = rowArr[i];
-            let next = rowArr[i+1];
-            console.log("current: " +current[5]+" ;next: "+next[5]);
-            if(current[4]!==next[4]){
-                show=false;
-            }
-        }
-
-        if (show===true){
-            let count=0;
-            let extent=0.0;
-            for(let i=0;i<rowArr.length;i++){
-                let data = rowArr[i];
-
-                count+=parseInt(data[7]);
-                extent+=parseFloat(data[8]);
-                tableForGrouping.row.add([
-                    data[1],
-                    data[3],
-                    data[7],
-                    data[8],
-                    "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
-                ]).draw(false);
-            }
-            console.log(rowArr[0]);
-            $('#groupDryingModalCode').val(rowArr[0][1]);
-            $('#groupDryingModalMaterial').val(rowArr[0][2]);
-            $('#groupDryingModalMaterialDescr').val(rowArr[0][3]);
-            $('#groupDryingModalThickness').val(rowArr[0][4]);
-            $('#groupDryingModalWidth').val(rowArr[0][5]);
-            $('#groupDryingModalLength').val(rowArr[0][6]);
-            $('#groupDryingModalCount').val(count);
-            $('#groupDryingModalVolume').val(extent);
-
-            $('#groupingModal').modal('show');
-        }else {
-            alert("Выбрано недопустимые значения!");
-        }
-    });
-    // GROUP SELECTED END
-
-
-
-    let tableForGrouping = $('#tableForGrouping').DataTable({
+    let tableForRawStorageGrouping = $('#tableForRawStorageGrouping').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
@@ -218,7 +162,100 @@ $(document).ready( function () {
         "autoWidth": false,
         "searching": false,
         "paging": false,
-    })
+
+    });
+
+    // TOOGLE SELECTED START
+    $('#rawstoragetable tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
+    // TOOGLE SELECTED END
+
+    // GROUP SELECTED START
+    $('#groupRawStorageButton').on( 'click', function () {
+        tableForRawStorageGrouping.clear().draw();
+
+        let show = true;
+        let first = 0;
+        let count = 0;
+        let extent = 0.0;
+        let exampleCode = '';
+        let exampleMaterial = '';
+        let exampleDescription = '';
+        let exampleThickness = 0;
+        let exampleWidth = 0;
+        let exampleLength = 0;
+
+        rawstoragetable.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
+            if (rowLoop === 0){
+                first = rowIdx;
+            }
+
+            let data = this.data();
+            let firstData = rawstoragetable.row(first).data();
+            let idInput = "<input type='number' value=\""+rawstoragetable.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
+
+            exampleCode = firstData[1];
+            exampleMaterial = firstData[2];
+            exampleDescription = firstData[3];
+            exampleThickness = firstData[4];
+            exampleWidth = firstData[5];
+            exampleLength = firstData[6];
+
+            if (data[4]===firstData[4]&&data[5]===firstData[5]&&data[6]===firstData[6]){
+                console.log('ok');
+                count+=parseInt(data[7]);
+                extent += (parseFloat(data[8]));
+                tableForRawStorageGrouping.row.add([
+                    data[1],
+                    data[3],
+                    data[7],
+                    data[8],
+                    idInput,
+                    "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
+                ]).draw(false);
+            }else {
+                console.log('error');
+                show = false;
+            }
+        });
+
+        $('#groupDryingModalCode')          .val(exampleCode);
+        $('#groupDryingModalMaterial')      .val(exampleMaterial);
+        $('#groupDryingModalMaterialDescr') .val(exampleDescription);
+        $('#groupDryingModalThickness')     .val(exampleThickness);
+        $('#groupDryingModalWidth')         .val(exampleWidth);
+        $('#groupDryingModalLength')        .val(exampleLength);
+        $('#groupDryingModalCount')         .val(count);
+        $('#groupDryingModalVolume')        .val(extent);
+
+        if (show===true){
+            $('#groupingModal').modal('show');
+        }else {
+            alert("Выбрано недопустимые значения!");
+        }
+    });
+    // GROUP SELECTED END
+
+    //DELETE ROW
+    $('#tableForRawStorageGrouping tbody').on( 'click', 'button', function () {
+        let count = 0;
+        let extent = 0.0;
+
+        tableForRawStorageGrouping
+            .row( $(this).parents('tr') )
+            .remove()
+            .draw();
+        tableForRawStorageGrouping.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+            let data = this.data();
+            count+=parseInt(data[2]);
+            extent += (parseFloat(data[3]));
+        });
+
+        $('#groupDryingModalCount')         .val(count);
+        $('#groupDryingModalVolume')        .val(extent);
+    });
+
 
     let rawstoragetableoak =  $('#rawstoragetableoak').DataTable({
         "language": {
@@ -245,7 +282,6 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ -5, -3, -2] },
         ]
     });
-
 
 
     // ADD MATERIAL
@@ -305,7 +341,6 @@ $(document).ready( function () {
             alert("Заполните все поля!");
         }
     });
-
 
 
     let dryingtable = $('#dryingtable').DataTable({
@@ -369,12 +404,15 @@ $(document).ready( function () {
     });
 
 
-    $('#drystoragetable').DataTable({
+    let drystoragetable = $('#drystoragetable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "order": [ 0, "desc" ],
+        "select": {
+            "style": 'os'
+        },
         // columns width
         "autoWidth": false,
 
@@ -394,12 +432,107 @@ $(document).ready( function () {
         ]
     });
 
+    let tableForDryStorageGrouping = $('#tableForDryStorageGrouping').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "bSort": false,
+        "info": false,
+        "autoWidth": false,
+        "searching": false,
+        "paging": false,
+    });
+
+    //DELETE ROW
+    $('#tableForDryStorageGrouping tbody').on( 'click', 'button', function () {
+        let count = 0;
+        let extent = 0.0;
+
+        tableForDryStorageGrouping
+            .row( $(this).parents('tr') )
+            .remove()
+            .draw();
+        tableForDryStorageGrouping.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+            let data = this.data();
+            count+=parseInt(data[2]);
+            extent += (parseFloat(data[3]));
+        });
+
+        $('#groupDryingModalCount')         .val(count);
+        $('#groupDryingModalVolume')        .val(extent);
+    });
+
 
     // TOOGLE SELECTED START
     $('#drystoragetable tbody').on( 'click', 'tr', function () {
         $(this).toggleClass('selected');
     } );
     //TOOGLE SELECTED END
+
+    // GROUP SELECTED START
+    $('#groupDryStorageButton').on( 'click', function () {
+        tableForDryStorageGrouping.clear().draw();
+
+        let show = true;
+        let first = 0;
+        let count = 0;
+        let extent = 0.0;
+        let exampleCode = '';
+        let exampleMaterial = '';
+        let exampleDescription = '';
+        let exampleThickness = 0;
+        let exampleWidth = 0;
+        let exampleLength = 0;
+
+        drystoragetable.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
+            if (rowLoop === 0){
+                first = rowIdx;
+            }
+
+            let data = this.data();
+            let firstData = drystoragetable.row(first).data();
+
+            exampleCode = firstData[1];
+            exampleMaterial = firstData[2];
+            exampleDescription = firstData[3];
+            exampleThickness = firstData[4];
+            exampleWidth = firstData[5];
+            exampleLength = firstData[6];
+
+            if (data[4]===firstData[4]&&data[5]===firstData[5]&&data[6]===firstData[6]){
+                console.log('ok');
+                count+=parseInt(data[7]);
+                extent += (parseFloat(data[8]));
+                tableForDryStorageGrouping.row.add([
+                    data[1],
+                    data[3],
+                    data[7],
+                    data[8],
+                    "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
+                ]).draw(false);
+            }else {
+                console.log('error');
+                show = false;
+            }
+        });
+
+        $('#groupDryingModalCode')          .val(exampleCode);
+        $('#groupDryingModalMaterial')      .val(exampleMaterial);
+        $('#groupDryingModalMaterialDescr') .val(exampleDescription);
+        $('#groupDryingModalThickness')     .val(exampleThickness);
+        $('#groupDryingModalWidth')         .val(exampleWidth);
+        $('#groupDryingModalLength')        .val(exampleLength);
+        $('#groupDryingModalCount')         .val(count);
+        $('#groupDryingModalVolume')        .val(extent);
+
+        if (show===true){
+            $('#groupingModal').modal('show');
+        }else {
+            alert("Выбрано недопустимые значения!");
+        }
+    });
+    // GROUP SELECTED END
+
 
 
     let drystoragetableOak = $('#drystoragetableOak').DataTable({

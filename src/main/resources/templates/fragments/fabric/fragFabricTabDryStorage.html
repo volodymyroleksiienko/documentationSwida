@@ -57,13 +57,98 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
-            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
+            <button type="button" class="buttons btn btn-primary" title="Группировать" data-toggle="modal" data-placement="left" id="groupDryStorageButton">
+                <i class="fas fa-code-branch"></i>
+            </button>
+            <button type="button" class="buttons main-button btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i></i>
             </button>
         </div>
         <!-- BUTTON -->
     </div>
     <!-- Сухой склад -->
+
+    <!--  Grouping pine start -->
+    <div class="modal fade" id="groupingModal">
+        <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 100% !important;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Группирование</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="groupRawStorageItems" method="post">
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-top: 5px">
+                            <div class="col-6">
+                                <label class="col-form-label" for="groupDryingModalCode">Код</label>
+                                <input type="text" class="form-control" id="groupDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="groupDryingModalMaterial">Порода</label>
+                                <input type="text" class="form-control" id="groupDryingModalMaterial" readonly>
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="groupDryingModalMaterialDescr">Описание</label>
+                                <input class="form-control" id="groupDryingModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalThickness">Толщина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalWidth">Ширина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalLength">Длина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalCount">Количество досок</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="groupDryingModalVolume">Кубатура м<sup>3</sup></label>
+                                <input type="text"  class="form-control" id="groupDryingModalVolume" required="required" readonly autocomplete="off" placeholder="мм" name="extent">
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-striped" id="tableForDryStorageGrouping" style="padding-left: 1rem; padding-right: 1rem">
+                            <thead>
+                            <tr>
+                                <th scope="col">Код</th>
+                                <th scope="col">Описание</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th scope="col">Кубатура</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+
+                            <tfoot>
+                            <th scope="col">Код</th>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Количество досок, шт</th>
+                            <th scope="col">Кубатура</th>
+                            <th></th>
+                            </tfoot>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="groupRawStorageSubmitButton" class="btn btn-primary">Отправить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Сухой склад -> Пачки -->
     <div class="modal fade" id="sendForPackageModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
