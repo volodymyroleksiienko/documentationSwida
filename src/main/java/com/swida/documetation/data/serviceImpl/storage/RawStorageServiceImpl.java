@@ -3,28 +3,32 @@ package com.swida.documetation.data.serviceImpl.storage;
 import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
+import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
+import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.storages.TreeStorageService;
+import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class RawStorageServiceImpl implements RawStorageService {
-    RawStorageJPA rawStorageJPA;
-    TreeStorageService treeStorageService;
-
-    public RawStorageServiceImpl(RawStorageJPA rawStorageJPA, TreeStorageService treeStorageService) {
-        this.rawStorageJPA = rawStorageJPA;
-        this.treeStorageService = treeStorageService;
-    }
+    private final RawStorageJPA rawStorageJPA;
+    private final TreeStorageService treeStorageService;
+    private final BreedOfTreeService breedOfTreeService;
+    private final UserCompanyService userCompanyService;
 
 
 
@@ -110,19 +114,38 @@ public class RawStorageServiceImpl implements RawStorageService {
        rawStorageJPA.save(rawStorage);
     }
 
-    public void collectToOneEntity(RawStorage rawStorage,Integer[] arrOfEntity){
-//        if(arrOfEntity!=null && arrOfEntity.length>0){
-//            List<Integer> rawStorageIdList = Arrays.asList(arrOfEntity);
-//        }
+    public void collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId){
         int countOfDesk = 0;
+        List<RawStorage> groupedList = new ArrayList<>();
         for(Integer id:arrOfEntity){
-            RawStorage temp =rawStorageJPA.findById(id).orElse(new RawStorage());
-            countOfDesk+=temp.getCountOfDesk();
-            temp.setCountOfDesk(0);
-            rawStorageJPA.save(temp);
+            RawStorage temp =rawStorageJPA.findById(id).orElse(null);
+            if(temp!=null) {
+                countOfDesk += temp.getCountOfDesk();
+                groupedList.add(temp);
+                temp.setStatusOfEntity(StatusOfEntity.GROUPED_BY_PROPERTIES);
+                rawStorageJPA.save(temp);
+            }
         }
+
+        rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        rawStorage.setUserCompany(userCompanyService.findById(userId));
+        rawStorage.setGroupedElements(groupedList);
         rawStorage.setCountOfDesk(countOfDesk);
+        System.out.println(rawStorage);
+        String extend = save(rawStorage);
+        rawStorage.setMaxExtent(extend);
         save(rawStorage);
+    }
+
+    @Override
+    public void uncollectFromOnePineEntity(RawStorage rawStorage, int userId, int breedId) {
+        if(rawStorage.getGroupedElements()!=null && rawStorage.getGroupedElements().size()>0){
+            for(RawStorage grouped:rawStorage.getGroupedElements()){
+                grouped.setStatusOfEntity(StatusOfEntity.ACTIVE);
+                save(grouped);
+            }
+            deleteByID(rawStorage.getId());
+        }
     }
 
     @Override

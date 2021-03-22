@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -365,36 +366,47 @@ public class FabricController {
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/groupPineRaw-{userId}-{breedId}")
+    public String groupOakRaw(@PathVariable int userId,@PathVariable int breedId,RawStorage rawStorage,Integer[] idOfRow){
+        rawStorageService.collectToOnePineEntity(rawStorage,idOfRow,userId,breedId);
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+
     @PostMapping("/returnRawPackageToTree-{userId}-{breedId}")
     public String returnRawPackageToTree(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     String id){
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
-        TreeStorage treeStorage = rawStorage.getTreeStorage();
-        float rawStorageExtent = Float.parseFloat(rawStorage.getExtent());
+        if(rawStorage.getGroupedElements()==null || rawStorage.getGroupedElements().size()==0) {
+            TreeStorage treeStorage = rawStorage.getTreeStorage();
+            float rawStorageExtent = Float.parseFloat(rawStorage.getExtent());
 
-        if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
-            OrderInfo orderInfo = treeStorage.getOrderInfo();
-            orderInfo.setDoneExtendOfOrder(
-                    String.format("%.3f",
-                            Float.parseFloat(orderInfo.getDoneExtendOfOrder())-Float.parseFloat(rawStorage.getExtent()))
-                            .replace(",",".")
+            if (treeStorage.getStatusOfTreeStorage() == StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo() != null) {
+                OrderInfo orderInfo = treeStorage.getOrderInfo();
+                orderInfo.setDoneExtendOfOrder(
+                        String.format("%.3f",
+                                Float.parseFloat(orderInfo.getDoneExtendOfOrder()) - Float.parseFloat(rawStorage.getExtent()))
+                                .replace(",", ".")
+                );
+                orderInfoService.save(orderInfo);
+                orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+            }
+            if (rawStorage.getRecycle() != null) {
+                rawStorage.getRecycle().setExtent("0.000");
+                treeStorageService.save(rawStorage.getRecycle());
+            }
+            treeStorage.setExtent(
+                    String.format("%.3f", Float.parseFloat(treeStorage.getExtent())
+                            + Float.parseFloat(rawStorage.getUsedExtent())).replace(",", ".")
             );
-            orderInfoService.save(orderInfo);
-            orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+            rawStorage.setExtent("0.000");
+            rawStorage.setCountOfDesk(0);
+            rawStorageService.save(rawStorage);
+            treeStorageService.save(treeStorage);
+            treeStorageService.checkQualityInfo(treeStorage, rawStorage.getSizeOfHeight(), -rawStorageExtent);
+        }else {
+            rawStorageService.uncollectFromOnePineEntity(rawStorage,userId,breedId);
         }
-        if(rawStorage.getRecycle()!=null){
-            rawStorage.getRecycle().setExtent("0.000");
-            treeStorageService.save(rawStorage.getRecycle());
-        }
-        treeStorage.setExtent(
-                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())
-                +Float.parseFloat(rawStorage.getUsedExtent())).replace(",",".")
-        );
-        rawStorage.setExtent("0.000");
-        rawStorage.setCountOfDesk(0);
-        rawStorageService.save(rawStorage);
-        treeStorageService.save(treeStorage);
-        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),-rawStorageExtent);
+
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
