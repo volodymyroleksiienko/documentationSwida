@@ -443,6 +443,9 @@ $(document).ready( function () {
         "autoWidth": false,
         "searching": false,
         "paging": false,
+        "columnDefs": [
+            { className: "display-none", "targets": [ 4 ] },
+        ]
     });
 
     //DELETE ROW
@@ -493,6 +496,7 @@ $(document).ready( function () {
 
             let data = this.data();
             let firstData = drystoragetable.row(first).data();
+            let idInput = "<input type='number' value=\""+drystoragetable.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
 
             exampleCode = firstData[1];
             exampleMaterial = firstData[2];
@@ -510,6 +514,7 @@ $(document).ready( function () {
                     data[3],
                     data[7],
                     data[8],
+                    idInput,
                     "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
                 ]).draw(false);
             }else {
