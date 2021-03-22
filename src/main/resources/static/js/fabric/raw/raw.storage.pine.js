@@ -30,16 +30,29 @@ function sendForDrying(btnObj) {
 
 
     $("#sendForDryingModalCount").change(function () {
+        let thickness = parseFloat($('#sendForDryingModalThickness').val());
+        let width =     parseFloat($('#sendForDryingModalWidth').val());
+        let length =    parseFloat($('#sendForDryingModalLength').val());
+        let inpCount =  parseFloat($('#sendForDryingModalCount').val());
+
+
         if ((parseInt($('#sendForDryingModalCount').val())) <= 0) {
             alert("Введите правильное значение");
-            $('#sendForPackageModalPacksCount').val("1");
+            $('#sendForPackageModalPacksCount').val("1").change();
         } else {
             var maxAmount = count;
             var amount = parseInt($('#sendForDryingModalCount').val());
             var luck = amount - maxAmount;
+            if (!Number.isNaN(thickness) && !Number.isNaN(width) && !Number.isNaN(length) && !Number.isNaN(inpCount) ) {
+                let res = (thickness / 1000) * (width / 1000) * (length / 1000) * inpCount;
+                $('#sendForDryingModalVolume').val(res.toFixed(3));
+            }else {
+                $('#sendForDryingModalVolume').val(0.000);
+                console.log("NaN value");
+            }
             if (amount > maxAmount) {
                 alert("Не хватает досок: " + luck + "!");
-                $('#sendForDryingModalCount').val("");
+                $('#sendForDryingModalCount').val(maxAmount).change();
             }
         }
     });
@@ -48,7 +61,6 @@ function sendForDrying(btnObj) {
 
 
 function editRawStorage(btnObj) {
-
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
     $('#editDryingModalId').val(trId);
@@ -108,7 +120,6 @@ $("#submitFormForEditRawStorage").submit(function( event ) {
         }
     }
 });
-
 
 
 function sendForPackagesStorage(btnObj) {

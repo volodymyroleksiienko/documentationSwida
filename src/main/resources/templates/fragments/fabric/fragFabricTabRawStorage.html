@@ -287,32 +287,39 @@
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryingModalThickness" disabled="disabled" required="required" placeholder="мм" name="sizeOfHeight">
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <label class="col-form-label" for="sendForDryingModalWidth">Ширина</label>
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalWidth" disabled="disabled" placeholder="мм" name="sizeOfWidth">
                                 </div>
-
-                            </div>
-
-                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalLength" disabled="disabled" placeholder="мм" name="sizeOfLong">
                                 </div>
-                                <div class="col-6">
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-4">
                                     <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalCount" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control" id="sendForDryingModalVolume"  disabled="disabled" name="extent">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="addDryingBox">Камера</label>
+                                    <input class="form-control" type="text" id="addDryingBox" placeholder="Не заполнено" name="dryingBox" required="required">
                                 </div>
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
-                                    <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control" id="sendForDryingModalVolume"  disabled="disabled" name="extent">
+                                    <label class="col-form-label" for="addDryingStartDate">Дата загрузки</label>
+                                    <input class="form-control" type="date" id="addDryingStartDate"  name="startDate" required="required">
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="addDryingDate">Дата выхода</label>
@@ -320,6 +327,7 @@
                                 </div>
                                 <script type="text/javascript">
                                     document.querySelector("#addDryingDate").valueAsDate = new Date();
+                                    document.querySelector("#addDryingStartDate").valueAsDate = new Date();
                                 </script>
                             </div>
                         </div>
@@ -784,8 +792,19 @@
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
+                                    <label class="col-form-label" for="addDryingStartDateOak">Дата загрузки</label>
+                                    <input class="form-control" type="date" id="addDryingStartDateOak"  name="startDate" required="required">
+                                </div>
+                                <div class="col-6">
                                     <label class="col-form-label" for="addDryingDateOak">Дата выхода</label>
                                     <input class="form-control" type="date" id="addDryingDateOak"  name="date" required="required">
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="addDryingBoxOak">Камера</label>
+                                    <input class="form-control" type="text" id="addDryingBoxOak" placeholder="Не заполнено" name="dryingBox" required="required">
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="sendForDryingModalDescription">Примечания</label>
@@ -794,6 +813,7 @@
                             </div>
                             <script type="text/javascript">
                                 document.querySelector("#addDryingDateOak").valueAsDate = new Date();
+                                document.querySelector("#addDryingStartDateOak").valueAsDate = new Date();
                             </script>
 
                         </div>
