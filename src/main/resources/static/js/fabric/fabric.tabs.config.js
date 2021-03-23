@@ -700,7 +700,7 @@ $(document).ready( function () {
 
     // GROUP SELECTED START
     $('#groupDryStorageOakButton').on( 'click', function () {
-        tableForOakRawStorageGrouping.clear().draw();
+        tableForDryStorageOakGrouping.clear().draw();
 
         let show = true;
         let first = 0;
