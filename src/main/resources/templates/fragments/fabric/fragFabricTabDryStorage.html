@@ -461,6 +461,7 @@
                             <button th:if="${btnConfig?.equals('btnON') && rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetDryExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs.getGroupedElements().size()>0}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="ungroupOak(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Розгруппировать"></i></button>
                         </td>
                     </tr>
                     <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
@@ -603,6 +604,36 @@
             </div>
         </div>
     </div>
+
+    <!--  Modal return confirmation start -->
+    <div class="modal fade" id="ungroupOakModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Разгруппирование</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form th:action="@{'/fabric/ungroupPineDry-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="returnItemModalConfirmation">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="submitReturnBtnRS">Подтвердить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal return confirmation end -->
 
     <!-- Packing start Сухой склад -> Пачки -->
     <div class="modal fade" id="sendForPackageModalOak">

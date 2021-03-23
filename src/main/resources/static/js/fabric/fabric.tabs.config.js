@@ -660,7 +660,7 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "140px"
+                "width": "170px"
             },
             { className: "display-none", "targets": [ -2 ] }
         ]

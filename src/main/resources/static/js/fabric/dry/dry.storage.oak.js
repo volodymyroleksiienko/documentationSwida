@@ -203,6 +203,17 @@ function deleteOakPackageItem(btnObj) {
     $('#deleteOakDryStorageItemModal').modal('show');
 }
 
+function ungroupOak(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#returnItemId').val(trId);
+    console.log("row id: "+trId);
+
+    $('#returnItemModalConfirmation').text("Вы уверены что хотите разгруппировать партию?");
+
+    $('#ungroupOakModal').modal('show');
+}
+
 // // ADD Package OAK
 // function sendRequestCreatePackageOak(btnObj) {
 //     var breedID = $("#breedId").val();
