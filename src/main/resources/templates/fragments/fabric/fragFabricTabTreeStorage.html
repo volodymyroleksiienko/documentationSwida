@@ -144,7 +144,7 @@
             for (let j = 1; j<rowsList.length-1; j++){
                 takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
                 outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                percentageSum+= outputSum*100/takenSum;
+                percentageSum+= outputSum/takenSum*100;
 
                 console.log("tab: "+takenSum+"; "+outputSum+";"+percentageSum);
             }
@@ -611,7 +611,7 @@
             for (let j = 1; j<rowsList.length-1; j++){
                 takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
                 outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                percentageSum+= outputSum*100/takenSum;
+                percentageSum+= outputSum/takenSum*100;
 
                 console.log("tab: "+takenSum+"; "+outputSum+";"+percentageSum);
             }
