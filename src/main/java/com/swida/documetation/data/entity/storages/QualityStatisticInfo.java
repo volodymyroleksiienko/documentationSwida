@@ -23,4 +23,7 @@ public class QualityStatisticInfo {
 
     @ManyToOne
     private TreeStorage treeStorage;
+
+    @OneToOne
+    private RawStorage rawStorage;
 }

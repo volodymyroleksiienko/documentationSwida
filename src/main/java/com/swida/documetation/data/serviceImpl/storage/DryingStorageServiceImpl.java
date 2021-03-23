@@ -107,7 +107,8 @@ public class DryingStorageServiceImpl implements DryingStorageService {
                             .replace(",",".")
 
             );
-            treeStorageService.checkQualityInfo(treeStorage,dryingStorage.getSizeOfHeight(),extent-Float.parseFloat(dryingStorage.getExtent()));
+//          @todo
+//            treeStorageService.checkQualityInfo(treeStorage,dryingStorage.getSizeOfHeight(),extent-Float.parseFloat(dryingStorage.getExtent()));
             treeStorageService.save(treeStorage);
         }
         dryingStorage.setExtent(

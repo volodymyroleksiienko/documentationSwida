@@ -61,42 +61,44 @@ public class TreeStorageServiceImpl implements TreeStorageService {
         treeStorageJPA.save(treeStorage);
     }
 
-    @Override
-    public void checkQualityInfo(TreeStorage treeStorage,String height, float extent) {
-        boolean checkUpdate = true;
-        if(treeStorage.getStatisticInfoList()==null){
-            treeStorage.setStatisticInfoList(new ArrayList<>());
-        }
-        for(QualityStatisticInfo info: treeStorage.getStatisticInfoList()){
-            if(info.getHeight().equals(height)){
-                info.setExtent(
-                        String.format("%.3f",Float.parseFloat(info.getExtent())+extent)
-                        .replace(",",".")
-                );
-                info.setPercent(
-                        String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
-                                .replace(",",".")
-                );
-                info.setTreeStorage(treeStorage);
-                checkUpdate = false;
-            }
-        }
 
-        if(checkUpdate){
-            QualityStatisticInfo info = new QualityStatisticInfo();
-            info.setHeight(height);
-            info.setExtent( String.format("%.3f",extent)
-                    .replace(",","."));
-            info.setPercent(
-                    String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
-                            .replace(",",".")
-            );
-            info.setTreeStorage(treeStorage);
-            treeStorage.getStatisticInfoList().add(info);
-            statisticInfoService.save(info);
-        }
-        treeStorageJPA.save(treeStorage);
-    }
+
+//    @Override
+//    public void checkQualityInfo(TreeStorage treeStorage,String height, float extent) {
+//        boolean checkUpdate = true;
+//        if(treeStorage.getStatisticInfoList()==null){
+//            treeStorage.setStatisticInfoList(new ArrayList<>());
+//        }
+//        for(QualityStatisticInfo info: treeStorage.getStatisticInfoList()){
+//            if(info.getHeight().equals(height)){
+//                info.setExtent(
+//                        String.format("%.3f",Float.parseFloat(info.getExtent())+extent)
+//                        .replace(",",".")
+//                );
+//                info.setPercent(
+//                        String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
+//                                .replace(",",".")
+//                );
+//                info.setTreeStorage(treeStorage);
+//                checkUpdate = false;
+//            }
+//        }
+//
+//        if(checkUpdate){
+//            QualityStatisticInfo info = new QualityStatisticInfo();
+//            info.setHeight(height);
+//            info.setExtent( String.format("%.3f",extent)
+//                    .replace(",","."));
+//            info.setPercent(
+//                    String.format("%.3f",Float.parseFloat(info.getExtent())/Float.parseFloat(treeStorage.getMaxExtent())*100)
+//                            .replace(",",".")
+//            );
+//            info.setTreeStorage(treeStorage);
+//            treeStorage.getStatisticInfoList().add(info);
+//            statisticInfoService.save(info);
+//        }
+//        treeStorageJPA.save(treeStorage);
+//    }
 
 //    @Override
 //    public void checkQualityInfo(TreeStorage treeStorage,String height, float extent) {

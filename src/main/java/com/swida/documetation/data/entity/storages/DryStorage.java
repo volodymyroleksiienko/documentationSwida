@@ -21,8 +21,8 @@ public class DryStorage {
     private String breedDescription="";
 
     private String sizeOfHeight;
-    private String sizeOfWidth="Не указано";
-    private String sizeOfLong="Не указано";
+    private String sizeOfWidth="0";
+    private String sizeOfLong="0";
 
     private int countOfDesk;
 

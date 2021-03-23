@@ -1,19 +1,18 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
-import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
-import com.swida.documetation.data.entity.storages.DryStorage;
-import com.swida.documetation.data.entity.storages.RawStorage;
-import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
 import com.swida.documetation.data.service.UserCompanyService;
+import com.swida.documetation.data.service.storages.QualityStatisticInfoService;
 import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.storages.TreeStorageService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,12 +24,37 @@ public class RawStorageServiceImpl implements RawStorageService {
     private final TreeStorageService treeStorageService;
     private final BreedOfTreeService breedOfTreeService;
     private final UserCompanyService userCompanyService;
-
+    private final QualityStatisticInfoService statisticInfoService;
 
 
     @Override
+    public void checkQualityInfo(RawStorage rawStorage) {
+
+        QualityStatisticInfo info;
+        rawStorage = findById(rawStorage.getId());
+        if(rawStorage.getStatisticInfo()==null) {
+            info = new QualityStatisticInfo();
+        }else {
+            info = rawStorage.getStatisticInfo();
+        }
+        info.setTreeStorage(rawStorage.getTreeStorage());
+        info.setHeight(rawStorage.getSizeOfHeight());
+        info.setExtent(rawStorage.getExtent());
+        info.setFirstExtent(rawStorage.getUsedExtent());
+        float percent = Float.parseFloat(rawStorage.getExtent())/Float.parseFloat(rawStorage.getUsedExtent()) * 100;
+        info.setPercent(
+                String.format("%.3f",percent).replace(",",".")
+        );
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        info.setDate(dateFormat.format(date));
+        info.setRawStorage(rawStorage);
+        statisticInfoService.save(info);
+    }
+
+    @Override
     public String save(RawStorage rs) {
-        if (rs.getSizeOfWidth()!=null){
+        if (rs.getSizeOfWidth()!=null && !rs.getSizeOfWidth().equals("0")){
             float width = Float.parseFloat(rs.getSizeOfWidth())/1000;
             float height = Float.parseFloat(rs.getSizeOfHeight())/1000;
             float longSize = Float.parseFloat(rs.getSizeOfLong())/1000;
@@ -101,7 +125,8 @@ public class RawStorageServiceImpl implements RawStorageService {
                             .replace(",",".")
 
             );
-            treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),extent-Float.parseFloat(rawStorage.getExtent()));
+//            @todo
+//            treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),extent-Float.parseFloat(rawStorage.getExtent()));
             treeStorageService.save(treeStorage);
         }
         rawStorage.setExtent(

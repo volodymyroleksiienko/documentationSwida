@@ -21,8 +21,8 @@ public class RawStorage {
     private String breedDescription="";
 
     private String sizeOfHeight;
-    private String sizeOfWidth="Не указано";
-    private String sizeOfLong="Не указано";
+    private String sizeOfWidth="0";
+    private String sizeOfLong="0";
 
     private int countOfDesk;
     private int maxCountOfDesk;
@@ -32,6 +32,9 @@ public class RawStorage {
     private String usedExtent="0.0";
     private String description;
     private String date;
+
+    @OneToOne
+    private QualityStatisticInfo statisticInfo;
 
     @OneToMany
     private List<RawStorage> groupedElements;
