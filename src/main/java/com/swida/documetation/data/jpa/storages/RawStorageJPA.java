@@ -13,7 +13,7 @@ public interface RawStorageJPA extends JpaRepository<RawStorage,Integer> {
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.treeStorage.statusOfTreeStorage=?3")
     List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
-    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.extent<>'0.000' and  r.extent not like '-%'")
+    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.extent<>'0.000' and  r.extent not like '-%' and r.statusOfEntity='ACTIVE'")
     List<RawStorage> getListByUserByBreedOak(int breedId, int userId);
 
     @Query("select r from  RawStorage  r where r.treeStorage.id=?1")

@@ -36,7 +36,7 @@ public class RawStorage {
     @OneToMany
     private List<RawStorage> groupedElements;
 
-    @OneToMany(mappedBy = "rawStorage")
+    @OneToMany(mappedBy = "rawStorage",cascade = CascadeType.ALL)
     private List<DescriptionDeskOak> deskOakList;
 
     @ManyToOne

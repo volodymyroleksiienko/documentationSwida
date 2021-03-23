@@ -367,8 +367,13 @@ public class FabricController {
     }
 
     @PostMapping("/groupPineRaw-{userId}-{breedId}")
-    public String groupOakRaw(@PathVariable int userId,@PathVariable int breedId,RawStorage rawStorage,Integer[] idOfRow){
+    public String groupPineRaw(@PathVariable int userId,@PathVariable int breedId,RawStorage rawStorage,Integer[] idOfRow){
         rawStorageService.collectToOnePineEntity(rawStorage,idOfRow,userId,breedId);
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+    }
+    @PostMapping("/groupOakRaw-{userId}-{breedId}")
+    public String groupOakRaw(@PathVariable int userId,@PathVariable int breedId,RawStorage rawStorage,Integer[] idOfRow){
+        rawStorageService.collectToOneOakEntity(rawStorage,idOfRow,userId,breedId);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
