@@ -64,9 +64,9 @@
                                  </thead>
                                  <tbody>
                                      <tr th:each="list : ${ts?.statisticInfoList}" >
+                                         <td th:text="${list?.date}"></td>
                                          <td th:text="${list?.height}"></td>
-                                         <td th:text="${list?.height}"></td>
-                                         <td th:text="${list?.extent}"></td>
+                                         <td th:text="${list?.firstExtent}"></td>
                                          <td th:text="${list?.extent}"></td>
                                          <td th:text="${list?.percent}"></td>
                                      </tr>
@@ -520,29 +520,29 @@
                                 <table class="table table-hover table-striped parent-table">
                                     <thead>
                                     <tr>
+                                        <th scope="col">Дата</th>
                                         <th scope="col">Толщина, мм</th>
                                         <th scope="col">Взято, м<sup>3</sup></th>
                                         <th scope="col">Выход, м<sup>3</sup></th>
                                         <th scope="col">Процент, %</th>
-                                        <th scope="col">Дата</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="list : ${ts?.statisticInfoList}" >
+                                        <td th:text="${list?.date}"></td>
                                         <td th:text="${list?.height}"></td>
                                         <td th:text="${list?.firstExtent}"></td>
                                         <td th:text="${list?.extent}"></td>
                                         <td th:text="${list?.percent}"></td>
-                                        <td th:text="${list?.date}"></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
-                                        <tr>
-                                            <th colspan="2">ИТОГО :</th>
-                                            <td>1</td>
-                                            <td>2</td>
-                                            <td>3</td>
-                                        </tr>
+                                    <tr>
+                                        <th colspan="2">ИТОГО :</th>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
                                     </tfoot>
                                 </table>
                             </td>
