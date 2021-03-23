@@ -112,11 +112,16 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     public void collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId){
         int countOfDesk = 0;
+        double extend=0;
         List<RawStorage> groupedList = new ArrayList<>();
         for(Integer id:arrOfEntity){
             RawStorage temp =rawStorageJPA.findById(id).orElse(null);
             if(temp!=null) {
-                countOfDesk += temp.getCountOfDesk();
+                if(breedId==1) {
+                    countOfDesk += temp.getCountOfDesk();
+                }else{
+                    extend+=Double.parseDouble(temp.getExtent());
+                }
                 groupedList.add(temp);
                 temp.setStatusOfEntity(StatusOfEntity.GROUPED_BY_PROPERTIES);
                 rawStorageJPA.save(temp);
@@ -128,8 +133,8 @@ public class RawStorageServiceImpl implements RawStorageService {
         rawStorage.setGroupedElements(groupedList);
         rawStorage.setCountOfDesk(countOfDesk);
         System.out.println(rawStorage);
-        String extend = save(rawStorage);
-        rawStorage.setMaxExtent(extend);
+        String mainExtend = save(rawStorage);
+        rawStorage.setMaxExtent(mainExtend);
         save(rawStorage);
     }
 
@@ -148,13 +153,20 @@ public class RawStorageServiceImpl implements RawStorageService {
     public void collectToOneOakEntity(RawStorage rawStorage, Integer[] arrOfEntity, int userId, int breedId) {
         Set<String> width = new TreeSet<>();
         List<RawStorage> rawsFromDBList=rawStorageJPA.findAllById(Arrays.asList(arrOfEntity));
+        if(rawsFromDBList.size()>0 && rawsFromDBList.get(0).getDeskOakList().size()==0){
+            System.out.println(rawsFromDBList.get(0).getDeskOakList());
+            collectToOnePineEntity(rawStorage,arrOfEntity,userId,breedId);
+            return;
+        }
         for(RawStorage temp:rawsFromDBList){
             if(temp!=null && temp.getDeskOakList().size()>0){
                 for(DescriptionDeskOak deskOak:temp.getDeskOakList()) {
                     width.add(deskOak.getSizeOfWidth());
                 }
+                temp.setStatusOfEntity(StatusOfEntity.GROUPED_BY_PROPERTIES);
             }
         }
+        rawStorageJPA.saveAll(rawsFromDBList);
         List<DescriptionDeskOak> deskOakList=new ArrayList<>();
         for(String widthOfDesk:width) {
             int countOfDesk = 0;
@@ -167,7 +179,9 @@ public class RawStorageServiceImpl implements RawStorageService {
                     }
                 }
             }
-            deskOakList.add(new DescriptionDeskOak(widthOfDesk,String.valueOf(countOfDesk)));
+            DescriptionDeskOak desk = new DescriptionDeskOak(widthOfDesk,String.valueOf(countOfDesk));
+            desk.setRawStorage(rawStorage);
+            deskOakList.add(desk);
         }
 
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
