@@ -441,6 +441,7 @@ public class FabricOakController {
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
         rawStorage.setExtent("0.000");
         rawStorageService.save(rawStorage);
+        rawStorageService.checkQualityInfo(rawStorage);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
