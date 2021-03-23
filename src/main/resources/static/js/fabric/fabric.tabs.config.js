@@ -428,7 +428,7 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "135px"
+                "width": "110px"
             },
             { className: "display-none", "targets": [ -2 ] }
         ]
