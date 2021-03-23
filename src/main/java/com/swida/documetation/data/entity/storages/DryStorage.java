@@ -33,6 +33,8 @@ public class DryStorage {
     private String qualityOfPack;
     private String longOfPack;
 
+    @OneToMany
+    private List<DryStorage> groupedElements;
 
     @OneToMany(mappedBy = "dryStorage")
     private List<DescriptionDeskOak> deskOakList;

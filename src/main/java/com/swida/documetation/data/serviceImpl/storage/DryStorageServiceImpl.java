@@ -2,10 +2,14 @@ package com.swida.documetation.data.serviceImpl.storage;
 
 
 import com.swida.documetation.data.entity.storages.*;
+import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.jpa.storages.DryStorageJPA;
+import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.DryStorageService;
 import com.swida.documetation.data.service.storages.DryingStorageService;
 import com.swida.documetation.data.service.storages.TreeStorageService;
+import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +21,13 @@ import java.util.stream.Collectors;
 
 
 @Service
+@AllArgsConstructor
 public class DryStorageServiceImpl implements DryStorageService {
-    DryStorageJPA dryStorageJPA;
-    private DryingStorageService dryingStorageService;
-    private TreeStorageService treeStorageService;
-
-    public DryStorageServiceImpl(DryStorageJPA dryStorageJPA, DryingStorageService dryingStorageService, TreeStorageService treeStorageService) {
-        this.dryStorageJPA = dryStorageJPA;
-        this.dryingStorageService = dryingStorageService;
-        this.treeStorageService = treeStorageService;
-    }
+    private final DryStorageJPA dryStorageJPA;
+    private final DryingStorageService dryingStorageService;
+    private final TreeStorageService treeStorageService;
+    private final BreedOfTreeService breedOfTreeService;
+    private final UserCompanyService userCompanyService;
 
     @Override
     public void save(DryStorage ds) {
@@ -168,6 +169,38 @@ public class DryStorageServiceImpl implements DryStorageService {
     @Override
     public void deleteByID(int id) {
         dryStorageJPA.deleteById(id);
+    }
+
+    @Override
+    public void collectToOnePineEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId) {
+        int countOfDesk = 0;
+        List<DryStorage> groupedList = new ArrayList<>();
+        for(Integer id:arrOfEntity){
+            DryStorage temp =dryStorageJPA.findById(id).orElse(null);
+            if(temp!=null) {
+                countOfDesk += temp.getCountOfDesk();
+                groupedList.add(temp);
+                temp.setStatusOfEntity(StatusOfEntity.GROUPED_BY_PROPERTIES);
+                dryStorageJPA.save(temp);
+            }
+        }
+
+        dryStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        dryStorage.setUserCompany(userCompanyService.findById(userId));
+        dryStorage.setGroupedElements(groupedList);
+        dryStorage.setCountOfDesk(countOfDesk);
+        save(dryStorage);
+    }
+
+    @Override
+    public void uncollectFromOnePineEntityDry(DryStorage dryStorage, int userId, int breedId) {
+        if(dryStorage.getGroupedElements()!=null && dryStorage.getGroupedElements().size()>0){
+            for(DryStorage grouped:dryStorage.getGroupedElements()){
+                grouped.setStatusOfEntity(StatusOfEntity.ACTIVE);
+                save(grouped);
+            }
+            deleteByID(dryStorage.getId());
+        }
     }
 
     @Override

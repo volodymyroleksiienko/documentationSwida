@@ -559,6 +559,18 @@ public class FabricController {
 
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
+    @PostMapping("/groupPineDry-{userId}-{breedId}")
+    public String groupOakDry(@PathVariable int userId,@PathVariable int breedId,DryStorage dryStorage,Integer[] idOfRow){
+//        System.out.println(dryStorage);
+        dryStorageService.collectToOnePineEntityDry(dryStorage,idOfRow,userId,breedId);
+        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/ungroupPineDry-{userId}-{breedId}")
+    public String ungroupOakDry(@PathVariable int userId,@PathVariable int breedId,int id){
+        dryStorageService.uncollectFromOnePineEntityDry(dryStorageService.findById(id),userId,breedId);
+        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+    }
 
     @PostMapping("/exportDryStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportDryStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,

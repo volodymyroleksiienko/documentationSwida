@@ -1,5 +1,6 @@
 package com.swida.documetation.data.service.storages;
 
+import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 

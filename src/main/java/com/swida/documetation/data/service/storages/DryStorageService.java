@@ -15,6 +15,10 @@ public interface DryStorageService {
     void editDryStorage(DryStorage dryStorage);
     void deleteByID(int id);
 
+    void collectToOnePineEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId);
+    void uncollectFromOnePineEntityDry(DryStorage dryStorage,int userId,int breedId);
+
+
     //for statistic
     List<String> getListOfUnicBreedDescription(int breedId);
     List<String> getListOfUnicSizeOfHeight(int breedId);

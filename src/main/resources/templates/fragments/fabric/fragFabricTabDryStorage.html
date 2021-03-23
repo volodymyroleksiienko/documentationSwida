@@ -35,7 +35,7 @@
                     <td>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editDryStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="ungroup(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Розгруппировать"></i></button>
+                        <button th:if="${btnConfig?.equals('btnON') && ds.getGroupedElements().size()>0}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="ungroup(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Розгруппировать"></i></button>
                     </td>
 
                 </tr>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="modal-body">
 <!--                    <p style="background-color: #ffd4037a; padding: 0.3rem;">Внимание! После выполнения данного действия у Вас не будет возможности расформировать пачку или возвратить товар на точку прихода леса.</p>-->
-                    <form action="" id="groupRawStorageItems" method="post">
+                    <form th:action="@{'/fabric/groupPineDry-'+${userId}+'-'+${breedId}}" id="groupRawStorageItems" method="post">
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-top: 5px">
                             <div class="col-6">
                                 <label class="col-form-label" for="groupDryingModalCode">Код</label>
@@ -142,11 +142,11 @@
                             <th></th>
                             </tfoot>
                         </table>
+                        <div class="modal-footer">
+                            <button type="submit" id="groupRawStorageSubmitButton" class="btn btn-primary">Отправить</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="groupRawStorageSubmitButton" class="btn btn-primary">Отправить</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                 </div>
             </div>
         </div>
@@ -164,7 +164,7 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form th:action="@{'/fabric/returnRawPackageToTree-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/ungroupPineDry-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">

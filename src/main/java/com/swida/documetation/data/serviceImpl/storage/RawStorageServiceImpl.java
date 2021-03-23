@@ -1,9 +1,9 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
+import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.storages.TreeStorage;
-import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
@@ -12,12 +12,10 @@ import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.storages.TreeStorageService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -147,6 +145,8 @@ public class RawStorageServiceImpl implements RawStorageService {
             deleteByID(rawStorage.getId());
         }
     }
+
+
 
     @Override
     public void deleteByID(int id) {
