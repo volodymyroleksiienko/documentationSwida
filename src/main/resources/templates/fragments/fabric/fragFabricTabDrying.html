@@ -78,7 +78,7 @@
                         <input type="text" class="form-control" id="sendForDryingModalId" hidden="hidden" autocomplete="off" name="dryingStorageId">
 
                         <label class="col-form-label" for="sendForDryingModalCode">Код</label>
-                        <input type="text" class="form-control" id="sendForDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                        <input type="text" class="form-control" id="sendForDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct" style="margin-bottom: 5px;">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
@@ -374,7 +374,7 @@
                         <input type="text" class="form-control" id="sendForDryStorageModalId" hidden="hidden" autocomplete="off" name="dryingStorageId">
 
                         <label class="col-form-label" for="sendForDryStorageModalCode">Код</label>
-                        <input type="text" class="form-control" id="sendForDryStorageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                        <input type="text" class="form-control" id="sendForDryStorageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct" style="margin-bottom: 5px;">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
@@ -596,6 +596,37 @@
     </div>
     <!--  Modal item delete confirmation end -->
 
+
+    <!--  Modal return confirmation start -->
+    <div class="modal fade" id="returnToIncomeModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Возвращение</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form th:action="@{'/fabric/returnRawPackageToTree-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="returnItemModalConfirmation">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="submitReturnBtnRS">Подтвердить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal return confirmation end -->
 
     <!-- Export start-->
     <div class="modal fade" id="exportModal">

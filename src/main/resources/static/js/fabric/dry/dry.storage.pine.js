@@ -158,3 +158,14 @@ $("#editDryStorageForm").submit(function( event ) {
         }
     }
 });
+
+function ungroup(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#returnItemId').val(trId);
+    console.log("row id: "+trId);
+
+    $('#returnItemModalConfirmation').text("Вы уверены что хотите разгруппировать партию?");
+
+    $('#ungroupModal').modal('show');
+}

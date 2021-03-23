@@ -223,7 +223,7 @@ function returnToIncome(btnObj) {
     console.log("row id: "+trId);
 
     if (trId===undefined){
-        $('#returnItemModalConfirmation').text("Невозможно выполнить действие, так как запись была только что добавлена. Обновите ст раницу!");
+        $('#returnItemModalConfirmation').text("Невозможно выполнить действие, так как запись была только что добавлена. Обновите страницу!");
         $('#submitReturnBtnRS').css("display", "none");
         $('#returnToIncomeModal').modal('show');
         return;
