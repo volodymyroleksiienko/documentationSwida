@@ -229,7 +229,7 @@ $(document).ready( function () {
         $('#groupDryingModalWidth')         .val(exampleWidth);
         $('#groupDryingModalLength')        .val(exampleLength);
         $('#groupDryingModalCount')         .val(count);
-        $('#groupDryingModalVolume')        .val(extent);
+        $('#groupDryingModalVolume')        .val(extent.toFixed(3));
 
         if (show===true){
             $('#groupingModal').modal('show');
@@ -255,7 +255,7 @@ $(document).ready( function () {
         });
 
         $('#groupDryingModalCount')         .val(count);
-        $('#groupDryingModalVolume')        .val(extent);
+        $('#groupDryingModalVolume')        .val(extent.toFixed(3));
     });
 
 
@@ -315,7 +315,7 @@ $(document).ready( function () {
             extent += (parseFloat(data[2]));
         });
 
-        $('#groupDryingModalVolumeOak')        .val(extent);
+        $('#groupDryingModalVolumeOak')        .val(extent.toFixed(3));
     });
 
     // GROUP SELECTED START
@@ -369,7 +369,7 @@ $(document).ready( function () {
         $('#groupDryingModalMaterialDescrOak') .val(exampleDescription);
         $('#groupDryingModalThicknessOak')     .val(exampleThickness);
         $('#groupDryingModalLengthOak')        .val(exampleLength);
-        $('#groupDryingModalVolumeOak')        .val(extent);
+        $('#groupDryingModalVolumeOak')        .val(extent.toFixed(3));
 
         if (show===true){
             $('#groupingOakModal').modal('show');
@@ -558,7 +558,7 @@ $(document).ready( function () {
         });
 
         $('#groupDryingModalCount')         .val(count);
-        $('#groupDryingModalVolume')        .val(extent);
+        $('#groupDryingModalVolume')        .val(extent.toFixed(3));
     });
 
 
@@ -624,7 +624,7 @@ $(document).ready( function () {
         $('#groupDryingModalWidth')         .val(exampleWidth);
         $('#groupDryingModalLength')        .val(exampleLength);
         $('#groupDryingModalCount')         .val(count);
-        $('#groupDryingModalVolume')        .val(extent);
+        $('#groupDryingModalVolume')        .val(extent.toFixed(3));
 
         if (show===true){
             $('#groupingModal').modal('show');
@@ -643,6 +643,9 @@ $(document).ready( function () {
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "bSort": false,
         "info": false,
+        "select": {
+            "style": 'os'
+        },
         // "order": [ 0, "desc" ],
         // columns width
         "autoWidth": false,
@@ -662,6 +665,99 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ -2 ] }
         ]
     });
+
+    let tableForDryStorageOakGrouping = $('#tableForDryStorageOakGrouping').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "bSort": false,
+        "info": false,
+        "autoWidth": false,
+        "searching": false,
+        "paging": false,
+        "columnDefs": [
+            { className: "display-none", "targets": [ 3 ] },
+        ]
+    });
+
+    //DELETE ROW
+    $('#tableForDryStorageOakGrouping tbody').on( 'click', 'button', function () {
+        let extent = 0.0;
+
+        tableForDryStorageOakGrouping
+            .row( $(this).parents('tr') )
+            .remove()
+            .draw();
+        tableForDryStorageOakGrouping.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+            let data = this.data();
+            extent += (parseFloat(data[2]));
+        });
+
+        $('#groupDryingModalVolumeOak')        .val(extent.toFixed(3));
+    });
+
+
+
+    // GROUP SELECTED START
+    $('#groupDryStorageOakButton').on( 'click', function () {
+        tableForOakRawStorageGrouping.clear().draw();
+
+        let show = true;
+        let first = 0;
+        let extent = 0.0;
+        let exampleCode = '';
+        let exampleMaterial = '';
+        let exampleDescription = '';
+        let exampleThickness = 0;
+        let exampleLength = 0;
+
+        drystoragetableOak.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
+            if (rowLoop === 0){
+                first = rowIdx;
+            }
+
+            let data = this.data();
+            let firstData = drystoragetableOak.row(first).data();
+            let idInput = "<input type='number' value=\""+drystoragetableOak.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
+
+            exampleCode = firstData[2];
+            exampleMaterial = firstData[3];
+            exampleDescription = firstData[4];
+            exampleThickness = firstData[5];
+            exampleLength = firstData[6];
+
+            console.log("data 0: "+data[1]);
+            if (data[5]===firstData[5]&&data[6]===firstData[6]&&data[1].toString()==firstData[1].toString()){
+
+                console.log('ok');
+                extent += (parseFloat(data[7]));
+                tableForDryStorageOakGrouping.row.add([
+                    data[2],
+                    data[4],
+                    data[7],
+                    idInput,
+                    "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
+                ]).draw(false);
+            }else {
+                console.log('error');
+                show = false;
+            }
+        });
+
+        $('#groupDryingModalCodeOak')          .val(exampleCode);
+        $('#groupDryingModalMaterialOak')      .val(exampleMaterial);
+        $('#groupDryingModalMaterialDescrOak') .val(exampleDescription);
+        $('#groupDryingModalThicknessOak')     .val(exampleThickness);
+        $('#groupDryingModalLengthOak')        .val(exampleLength);
+        $('#groupDryingModalVolumeOak')        .val(extent.toFixed(3));
+
+        if (show===true){
+            $('#groupingOakModal').modal('show');
+        }else {
+            alert("Выбрано недопустимые значения!");
+        }
+    });
+    // GROUP SELECTED END
 
 
     // TOOGLE SELECTED START
