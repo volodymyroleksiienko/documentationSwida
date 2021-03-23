@@ -139,7 +139,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="groupDryingModalLength">Длина, мм</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="groupDryingModalCount">Количество досок</label>
@@ -238,7 +238,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="control-label" for="addToRawStorageLength">Длина</label>
-                                <input class="form-control" id="addToRawStorageLength" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="sizeOfLong">
+                                <input class="form-control" id="addToRawStorageLength" type="number" placeholder="мм" min="0" required="required" autocomplete="off" name="sizeOfLong">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="addToRawStorageCount">Количество досок</label>
@@ -297,7 +297,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalLength" disabled="disabled" placeholder="мм" name="sizeOfLong">
+                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" required="required" class="form-control" id="sendForDryingModalLength" disabled="disabled" placeholder="мм" name="sizeOfLong">
                                 </div>
                             </div>
 
@@ -386,7 +386,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalLength">Длина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
                                 </div>
                             </div>
 
@@ -548,7 +548,7 @@
                         <div class="form-group row d-flex" style="align-items: flex-end">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForPackageModalLengthFact">Длина-ФАКТ</label>
-                                <input type="number" min="1" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
+                                <input type="number" min="0" class="form-control" id="sendForPackageModalLengthFact" required="required" autocomplete="off" placeholder="мм" name="longFact">
                             </div>
 
                             <div class="col-6">
@@ -774,7 +774,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="groupDryingModalLengthOak">Длина, мм</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalLengthOak" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" readonly id="groupDryingModalLengthOak" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="groupDryingModalVolumeOak">Кубатура м<sup>3</sup></label>
@@ -853,7 +853,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryingModalLength" autocomplete="off" placeholder="мм" name="length">
+                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryingModalLength" autocomplete="off" placeholder="мм" name="length">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
@@ -940,7 +940,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" autocomplete="off" placeholder="мм" name="sizeOfLong">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
@@ -1102,7 +1102,7 @@
                                 </div>
                                 <div class="col-2">
                                     <label class="col-form-label" for="sendForPackageModalLengthOak">Длина, мм</label>
-                                    <input type="number" min="1" class="form-control" id="sendForPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
+                                    <input type="number" min="0" class="form-control" id="sendForPackageModalLengthOak" required="required" autocomplete="off" placeholder="мм">
                                 </div>
                             </div>
 
@@ -1216,7 +1216,7 @@
                             </div>
                             <div class="col-2">
                                 <label class="col-form-label" for="addDeliveryPackageModalLengthOak">Длина, мм</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalLengthOak" required="required" autocomplete="off">
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalLengthOak" required="required" autocomplete="off">
                             </div>
                         </div>
 
