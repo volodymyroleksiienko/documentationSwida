@@ -487,15 +487,26 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">Толщина, мм</th>
-                                        <th scope="col">Кубатура, м<sup>3</sup></th>
+                                        <th scope="col">Взято, м<sup>3</sup></th>
+                                        <th scope="col">Выход, м<sup>3</sup></th>
                                         <th scope="col">Процент, %</th>
+                                        <th scope="col">Дата</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="list : ${ts?.statisticInfoList}" >
                                         <td th:text="${list?.height}"></td>
                                         <td th:text="${list?.extent}"></td>
+                                        <td th:text="${list?.extent}"></td>
                                         <td th:text="${list?.percent}"></td>
+                                        <td th:text="${list?.percent}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ИТОГО:</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td></td>
                                     </tr>
                                     </tbody>
                                 </table>
