@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -193,6 +191,48 @@ public class DryStorageServiceImpl implements DryStorageService {
     }
 
     @Override
+    public void collectToOneOakEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId) {
+        Set<String> width = new TreeSet<>();
+        List<DryStorage> rawsFromDBList=dryStorageJPA.findAllById(Arrays.asList(arrOfEntity));
+        if(rawsFromDBList.size()>0 && rawsFromDBList.get(0).getDeskOakList().size()==0){
+            System.out.println(rawsFromDBList.get(0).getDeskOakList());
+            collectToOnePineEntityDry(dryStorage,arrOfEntity,userId,breedId);
+            return;
+        }
+        for(DryStorage temp:rawsFromDBList){
+            if(temp!=null && temp.getDeskOakList().size()>0){
+                for(DescriptionDeskOak deskOak:temp.getDeskOakList()) {
+                    width.add(deskOak.getSizeOfWidth());
+                }
+                temp.setStatusOfEntity(StatusOfEntity.GROUPED_BY_PROPERTIES);
+            }
+        }
+        dryStorageJPA.saveAll(rawsFromDBList);
+        List<DescriptionDeskOak> deskOakList=new ArrayList<>();
+        for(String widthOfDesk:width) {
+            int countOfDesk = 0;
+            for(DryStorage temp:rawsFromDBList){
+                if (temp != null && temp.getDeskOakList().size() > 0) {
+                    for (DescriptionDeskOak deskOak : temp.getDeskOakList()) {
+                        if(deskOak.getSizeOfWidth().equals(widthOfDesk)){
+                            countOfDesk+=Integer.parseInt(deskOak.getCountOfDesk());
+                        }
+                    }
+                }
+            }
+            DescriptionDeskOak desk = new DescriptionDeskOak(widthOfDesk,String.valueOf(countOfDesk));
+            desk.setDryStorage(dryStorage);
+            deskOakList.add(desk);
+        }
+
+        dryStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        dryStorage.setUserCompany(userCompanyService.findById(userId));
+        dryStorage.setGroupedElements(rawsFromDBList);
+        dryStorage.setDeskOakList(deskOakList);
+        save(dryStorage);
+    }
+
+    @Override
     public void uncollectFromOnePineEntityDry(DryStorage dryStorage, int userId, int breedId) {
         if(dryStorage.getGroupedElements()!=null && dryStorage.getGroupedElements().size()>0){
             for(DryStorage grouped:dryStorage.getGroupedElements()){
@@ -226,7 +266,7 @@ public class DryStorageServiceImpl implements DryStorageService {
     @Override
     public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId) {
         if(breedId==2){
-            return dryStorageJPA.getExtentOak(breedId,breedDesc,sizeHeight,agentId);
+            return dryStorageJPA.getExtentOak(breedId,breedDesc,sizeHeight,sizeLong,agentId);
         }
         return dryStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);
     }

@@ -18,6 +18,7 @@ public interface DryStorageService {
     void collectToOnePineEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId);
     void uncollectFromOnePineEntityDry(DryStorage dryStorage,int userId,int breedId);
 
+    void collectToOneOakEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId);
 
     //for statistic
     List<String> getListOfUnicBreedDescription(int breedId);

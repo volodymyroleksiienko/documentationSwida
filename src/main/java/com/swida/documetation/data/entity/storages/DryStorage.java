@@ -21,8 +21,8 @@ public class DryStorage {
     private String breedDescription="";
 
     private String sizeOfHeight;
-    private String sizeOfWidth;
-    private String sizeOfLong;
+    private String sizeOfWidth="Не указано";
+    private String sizeOfLong="Не указано";
 
     private int countOfDesk;
 
@@ -36,7 +36,7 @@ public class DryStorage {
     @OneToMany
     private List<DryStorage> groupedElements;
 
-    @OneToMany(mappedBy = "dryStorage")
+    @OneToMany(mappedBy = "dryStorage",cascade = CascadeType.ALL)
     private List<DescriptionDeskOak> deskOakList;
 
     @OneToMany(mappedBy = "dryStorage")
