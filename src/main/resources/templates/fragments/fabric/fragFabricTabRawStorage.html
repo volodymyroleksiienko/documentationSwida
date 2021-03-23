@@ -645,7 +645,7 @@
                     <tr th:id="${rs.id}">
                         <td th:text="${rs.id}"></td>
                         <td th:if="${rs.deskOakList.isEmpty()}"></td>
-                        <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                        <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"><span></span></td>
                         <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>

@@ -15,9 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -146,6 +144,40 @@ public class RawStorageServiceImpl implements RawStorageService {
         }
     }
 
+    @Override
+    public void collectToOneOakEntity(RawStorage rawStorage, Integer[] arrOfEntity, int userId, int breedId) {
+        Set<String> width = new TreeSet<>();
+        List<RawStorage> rawsFromDBList=rawStorageJPA.findAllById(Arrays.asList(arrOfEntity));
+        for(RawStorage temp:rawsFromDBList){
+            if(temp!=null && temp.getDeskOakList().size()>0){
+                for(DescriptionDeskOak deskOak:temp.getDeskOakList()) {
+                    width.add(deskOak.getSizeOfWidth());
+                }
+            }
+        }
+        List<DescriptionDeskOak> deskOakList=new ArrayList<>();
+        for(String widthOfDesk:width) {
+            int countOfDesk = 0;
+            for(RawStorage temp:rawsFromDBList){
+                if (temp != null && temp.getDeskOakList().size() > 0) {
+                    for (DescriptionDeskOak deskOak : temp.getDeskOakList()) {
+                        if(deskOak.getSizeOfWidth().equals(widthOfDesk)){
+                            countOfDesk+=Integer.parseInt(deskOak.getCountOfDesk());
+                        }
+                    }
+                }
+            }
+            deskOakList.add(new DescriptionDeskOak(widthOfDesk,String.valueOf(countOfDesk)));
+        }
+
+        rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        rawStorage.setUserCompany(userCompanyService.findById(userId));
+        rawStorage.setGroupedElements(rawsFromDBList);
+        rawStorage.setDeskOakList(deskOakList);
+        String extend = save(rawStorage);
+        rawStorage.setMaxExtent(extend);
+        save(rawStorage);
+    }
 
 
     @Override

@@ -15,6 +15,8 @@ public interface RawStorageService {
     List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
     void collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId);
     void uncollectFromOnePineEntity(RawStorage rawStorage,int userId,int breedId);
+    void collectToOneOakEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId);
+
 
     void countExtentRawStorageWithDeskDescription(RawStorage rawStorage);
     void deleteByID(int id);
