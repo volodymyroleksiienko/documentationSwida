@@ -113,7 +113,7 @@ public class DryStorageServiceImpl implements DryStorageService {
                             .replace(",",".")
 
             );
-            treeStorageService.checkQualityInfo(treeStorage,dryStorage.getSizeOfHeight(),extent-Float.parseFloat(dryStorage.getExtent()));
+//            treeStorageService.checkQualityInfo(treeStorage,dryStorage.getSizeOfHeight(),extent-Float.parseFloat(dryStorage.getExtent()));
             treeStorageService.save(treeStorage);
         }
         dryStorage.setExtent(

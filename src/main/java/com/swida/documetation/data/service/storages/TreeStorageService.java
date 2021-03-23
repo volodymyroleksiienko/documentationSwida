@@ -10,7 +10,7 @@ import java.util.Map;
 public interface TreeStorageService {
     void save(TreeStorage ts);
     void putNewTreeStorageObj(TreeStorage treeStorage);
-    void checkQualityInfo(TreeStorage treeStorage,String height,float extent);
+//    void checkQualityInfo(TreeStorage treeStorage,String height,float extent);
     TreeStorage findById(int id);
     List<TreeStorage> findAll();
     List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status);
