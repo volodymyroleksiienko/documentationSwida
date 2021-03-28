@@ -304,11 +304,15 @@ public class StatisticController {
     public String getDailyFactoryPowerStatistic(Model model) {
         model.addAttribute("navTabName","main");
         model.addAttribute("fragmentPathUserStatistics","usersStatistics");
-        model.addAttribute("fragmentPathTabConfig","statisticUsersTab");
+        model.addAttribute("fragmentPathTabConfig","statisticTab");
+        model.addAttribute("tabName","dailyStatistic");
+        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         return "adminPage";
     }
 
-//        @GetMapping("/getDailyFactoryPowerStatistic")
+//    @GetMapping("/getDailyFactoryPowerStatistic")
 //    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String dayFrom, String dayTo) throws ParseException {
 //
 //        System.out.println(dayFrom);
@@ -317,18 +321,25 @@ public class StatisticController {
 //        Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dayTo);
 //
 //        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreed(Arrays.asList(users),Arrays.asList(breedId));
-//        System.out.println(infoList.size());
 //        if(infoList!=null) {
-//            for (QualityStatisticInfo info : infoList) {
-//                Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
-//                if (dateFrom.compareTo(current) <= 0 && dateTo.compareTo(current) >= 0) {
-//                    infoList.remove(info);
+//            System.out.println(infoList.size());
+//            for (int i=0;i<infoList.size();i++) {
+//                QualityStatisticInfo info  = infoList.get(i);
+//                if(info!=null) {
+//                    Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
+//                    System.out.println(dateFrom.compareTo(current));
+//                    System.out.println(dateTo.compareTo(current));
+//                    if (dateFrom.compareTo(current)>0 || dateTo.compareTo(current)<0) {
+//                        infoList.remove(info);
+//                    }
+//                }else{
+//                    infoList.remove(null);
 //                }
 //            }
+//            System.out.println(infoList.size());
 //        }
-//        System.out.println(infoList.size());
 //        System.out.println(infoList);
-//        return "";
+//        return "adminPage";
 //    }
 
 
