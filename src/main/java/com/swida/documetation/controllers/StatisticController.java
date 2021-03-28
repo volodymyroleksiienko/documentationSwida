@@ -3,6 +3,7 @@ package com.swida.documetation.controllers;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.ContrAgentType;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
@@ -25,7 +26,9 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Provider;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
@@ -300,28 +303,57 @@ public class StatisticController {
 
 
     @GetMapping("/getDailyFactoryPowerStatistic")
-    public String getDailyFactoryPowerStatistic(Model model) {
+    public String getDailyFactoryPowerStatistic(Model model) throws ParseException {
         model.addAttribute("navTabName","main");
         model.addAttribute("fragmentPathUserStatistics","usersStatistics");
         model.addAttribute("fragmentPathTabConfig","statisticTab");
         model.addAttribute("tabName","dailyStatistic");
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        List<UserCompany> userCompanies = userCompanyService.getListOfAllUsersROLE();
+        List<BreedOfTree> breedOfTreeList = breedOfTreeService.findAll();
+        model.addAttribute("userCompanyList",userCompanies);
+        model.addAttribute("breedOfTreeList",breedOfTreeList);
         model.addAttribute("statisticInfo",statisticInfoService.findAll());
 
+        String dayFrom = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()-24*60*60*1000));
+        String dayTo = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        List<QualityStatisticInfo> info = getFilteredStatisticInfo(breedOfTreeList.stream().map(BreedOfTree::getId).collect(Collectors.toList()), userCompanies.stream().map(UserCompany::getId).collect(Collectors.toList()),dayFrom,dayTo);
+        Set<UserCompany> userSet = new HashSet<>();
+        for(QualityStatisticInfo st:info){
+            userSet.add(st.getTreeStorage().getUserCompany());
+        }
+        System.out.println(userSet);
+        System.out.println(info);
+        model.addAttribute("filteredUsers",userSet);
+        model.addAttribute("statisticInfo",info);
         return "adminPage";
     }
 
     @PostMapping("/getDailyFactoryPowerStatistic")
-    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String dayFrom, String dayTo) throws ParseException {
+    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String dayFrom, String dayTo,Model model) throws ParseException {
+        model.addAttribute("navTabName","main");
+        model.addAttribute("fragmentPathUserStatistics","usersStatistics");
+        model.addAttribute("fragmentPathTabConfig","statisticTab");
+        model.addAttribute("tabName","dailyStatistic");
+        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
 
-        System.out.println(dayFrom);
-        System.out.println(dayTo);
+        List<QualityStatisticInfo> info = getFilteredStatisticInfo(Arrays.asList(breedId),Arrays.asList(users),dayFrom,dayTo);
+        Set<UserCompany> userCompanies = new HashSet<>();
+        for(QualityStatisticInfo st:info){
+            userCompanies.add(st.getTreeStorage().getUserCompany());
+        }
+        model.addAttribute("filteredUsers",userCompanies);
+        model.addAttribute("statisticInfo",info);
+        return "adminPage";
+    }
+
+    private List<QualityStatisticInfo> getFilteredStatisticInfo(List<Integer> breedId, List<Integer> users,String dayFrom, String dayTo) throws ParseException {
         Date dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(dayFrom);
         Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dayTo);
-
-        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreed(Arrays.asList(users),Arrays.asList(breedId));
+        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreed(users,breedId);
         List<QualityStatisticInfo> filteredInfo = new ArrayList<>();
         if(infoList!=null) {
             System.out.println(infoList.size());
@@ -329,16 +361,14 @@ public class StatisticController {
                 Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
                 System.out.println(current.compareTo(dateFrom));
                 System.out.println(current.compareTo(dateTo));
-                System.out.println(current.compareTo(dateFrom) <= 0 && current.compareTo(dateTo) <= 0);
-                if (current.compareTo(dateFrom) <= 0 && current.compareTo(dateTo) <= 0) {
+                System.out.println(current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0);
+                if (current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0) {
                     filteredInfo.add(info);
                 }
             }
         }
-        System.out.println(filteredInfo);
-        return "redirect:/admin/getDailyFactoryPowerStatistic";
+        return filteredInfo;
     }
-
 
     //Statistic for users
     @GetMapping("/getUserStatistics-{breedId}-{userId}")

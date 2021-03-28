@@ -2,45 +2,47 @@
     <div class="tab-pane fade show active container-fluid" id="pineStats">
         <br>
         <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>
-        <table style="width: 100%;" >
-            <tr>
-                <th scope="col">Начальная дата</th>
-                <th scope="col">Конечная дата</th>
-                <th scope="col">Пользователи</th>
-                <th scope="col">Порода</th>
-            </tr>
-            <tr style="vertical-align: top;">
-                <td style="width: 15%">
-                    <input class="form-control" type="date" name="startDate" id="startDate" onchange="checkFirstDate()">
-                </td>
+        <form action="/admin/getDailyFactoryPowerStatistic" method="post">
+            <table style="width: 100%;" >
+                <tr>
+                    <th scope="col">Начальная дата</th>
+                    <th scope="col">Конечная дата</th>
+                    <th scope="col">Пользователи</th>
+                    <th scope="col">Порода</th>
+                </tr>
+                <tr style="vertical-align: top;">
+                    <td style="width: 15%">
+                        <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()">
+                    </td>
 
-                <td style="width: 15%">
-                    <input class="form-control" type="date" name="endDate" id="endDate" onchange="checkLastDate()">
-                </td>
-                <td style="width: 45%">
-                    <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                        <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}" selected th:text="${obj.nameOfCompany}"></option>
-                    </select>
-                </td>
-                <td style="width: 25%">
-                    <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                        <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}" selected th:text="${obj.breed}"></option>
-                    </select>
-                </td>
-                <td style="width: auto; align-items: end;">
-                    <button class="btn btn-primary" onclick="sendRequestToGetUserStatistic(this.id)">
-                        Поиск
-                    </button>
-                </td>
-            </tr>
-        </table>
+                    <td style="width: 15%">
+                        <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()">
+                    </td>
+                    <td style="width: 45%">
+                        <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users">
+                            <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}"></option>
+                        </select>
+                    </td>
+                    <td style="width: 25%">
+                        <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId">
+                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
+                        </select>
+                    </td>
+                    <td style="width: auto; align-items: end;">
+                        <button class="btn btn-primary" type="submit">
+                            Поиск
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </form>
 
-        <div th:each="user:${userCompanyList}">
+        <div th:each="user:${filteredUsers}">
          <table class="table userStatistic table-hover table-striped">
             <br>
             <thead>
                 <tr>
-                    <th colspan="8" scope="col" style="background-color: lightgrey;">User</th>
+                    <th colspan="8" scope="col" style="background-color: lightgrey;" th:text="${user.nameOfCompany}">User</th>
                 </tr>
                 <tr>
                     <th scope="col">Дата</th>
