@@ -358,12 +358,14 @@ public class StatisticController {
         if(infoList!=null) {
             System.out.println(infoList.size());
             for (QualityStatisticInfo info : infoList) {
-                Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
-                System.out.println(current.compareTo(dateFrom));
-                System.out.println(current.compareTo(dateTo));
-                System.out.println(current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0);
-                if (current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0) {
-                    filteredInfo.add(info);
+                if(info.getDate()!=null && !info.getDate().isEmpty()) {
+                    Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
+                    System.out.println(current.compareTo(dateFrom));
+                    System.out.println(current.compareTo(dateTo));
+                    System.out.println(current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0);
+                    if (current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0) {
+                        filteredInfo.add(info);
+                    }
                 }
             }
         }
@@ -393,7 +395,6 @@ public class StatisticController {
         boolean hasAdminRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN") || r.getAuthority().equals("ROLE_SUPER_USER"));
         List<ContrAgent> agents;
-
         if(hasAdminRole){
             agents =  contrAgentService.getListByType(ContrAgentType.PROVIDER);
         }else{
@@ -401,9 +402,6 @@ public class StatisticController {
             agents.add(userCompanyService.findById(userId).getContrAgent());
         }
         model.addAttribute("providerList",agents);
-
         return "adminPage";
     }
-
-
 }
