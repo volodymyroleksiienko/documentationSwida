@@ -31,7 +31,7 @@ public class TreeStorage {
     private String treeDescription;
 
 
-    @OneToMany(mappedBy = "treeStorage")
+    @OneToMany(mappedBy = "treeStorage",fetch = FetchType.EAGER)
     private List<QualityStatisticInfo> statisticInfoList;
 
     @OneToMany

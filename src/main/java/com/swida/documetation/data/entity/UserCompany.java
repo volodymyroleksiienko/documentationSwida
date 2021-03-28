@@ -37,7 +37,7 @@ public class UserCompany implements UserDetails {
     @OneToOne
     private ContrAgent contrAgent;
 
-    @OneToMany(mappedBy = "userCompany")
+    @OneToMany(mappedBy = "userCompany",fetch = FetchType.EAGER)
     private List<TreeStorage> treeStorageList;
 
 
@@ -63,5 +63,24 @@ public class UserCompany implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+
+    @Override
+    public String toString() {
+        return "UserCompany{" +
+                "id=" + id +
+                ", nameOfCompany='" + nameOfCompany + '\'' +
+                ", location='" + location + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", active=" + active +
+                ", accountNonExpired=" + accountNonExpired +
+                ", accountNonLocked=" + accountNonLocked +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", enabled=" + enabled +
+                ", contrAgent=" + contrAgent +
+                '}';
     }
 }

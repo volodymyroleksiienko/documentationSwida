@@ -308,7 +308,8 @@ public class StatisticController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("users",userCompanyService.findAll());
+        model.addAttribute("treeList",treeStorageService.getListByUserByBreed(1,1, StatusOfTreeStorage.TREE));
+
         return "adminPage";
     }
 
