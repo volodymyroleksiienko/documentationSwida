@@ -1410,14 +1410,12 @@ $(document).ready( function () {
     //            SELECT
 
     $('#unformMultipleItemsBtn').on( 'click', function () {
-        let arrOfId = [];
         table.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
             let data = this.data();
-            arrOfId.push(data[0]);
-        });
+            let input = "<input type=\"number\" class=\"form-control\" hidden=\"hidden\" autocomplete=\"off\" name=\"id\" value='"+data[0]+"'>";
 
-            $('#unformMultipleItemsIds').val(arrOfId);
-            console.log("ids: "+arrOfId);
+            $('#listOfInputs').append(input);
+        });
 
             $('#unformMultipleItemsModal').modal('show');
     });

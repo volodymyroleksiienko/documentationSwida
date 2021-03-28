@@ -73,7 +73,7 @@
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Инстркмент массового удаления" data-toggle="modal" data-placement="left" id="unformMultipleItemsBtn">
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-cross"></i>
             </button>
             <button type="button" class="buttons btn btn-primary" title="Добавить пачку" data-toggle="modal" data-placement="left" data-target="#addOwnPackageModal">
                 <i class="fa fa-plus"></i>
@@ -492,9 +492,7 @@
                 </div>
                 <form th:action="@{'/fabric/unformPackagedProduct-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <input type="number" class="form-control" id="unformMultipleItemsIds" hidden="hidden" autocomplete="off" name="id">
-
+                        <div class="form-group" id="listOfInputs">
                             <p>
                                 Вы уверены, что хотите расформировать выбранные пачки?
                             </p>
