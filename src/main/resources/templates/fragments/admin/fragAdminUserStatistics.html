@@ -11,11 +11,11 @@
             </tr>
             <tr style="vertical-align: top;">
                 <td style="width: 15%">
-                    <input class="form-control" type="date" name="startDate" id="startDate">
+                    <input class="form-control" type="date" name="startDate" id="startDate" onchange="checkFirstDate()">
                 </td>
 
                 <td style="width: 15%">
-                    <input class="form-control" type="date" name="endDate" id="endDate">
+                    <input class="form-control" type="date" name="endDate" id="endDate" onchange="checkLastDate()">
                 </td>
                 <td style="width: 35%">
                     <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
@@ -131,8 +131,30 @@
 
 
     <script type="text/javascript">
-        document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate()-1));
+        document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
         document.querySelector("#endDate").valueAsDate = new Date();
+
+        function checkFirstDate() {
+            let firstDate = new Date(document.getElementById('startDate').value);
+            let lastDate = new Date(document.getElementById('endDate').value);
+
+            if (firstDate.getTime() > lastDate.getTime()) {
+                alert("Начальная дата больше конечной!");
+                document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
+                document.querySelector("#endDate").valueAsDate = new Date();
+            }
+        }
+
+        function checkLastDate() {
+            let firstDate = new Date(document.getElementById('startDate').value);
+            let lastDate = new Date(document.getElementById('endDate').value);
+
+            if (firstDate.getTime() > lastDate.getTime()) {
+                alert("Начальная дата больше конечной!");
+                document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
+                document.querySelector("#endDate").valueAsDate = new Date();
+            }
+        }
     </script>
 
     <script type="text/javascript">
