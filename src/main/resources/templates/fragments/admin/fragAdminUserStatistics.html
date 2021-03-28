@@ -17,12 +17,12 @@
                 <td style="width: 15%">
                     <input class="form-control" type="date" name="endDate" id="endDate" onchange="checkLastDate()">
                 </td>
-                <td style="width: 35%">
+                <td style="width: 45%">
                     <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}" selected th:text="${obj.nameOfCompany}"></option>
                     </select>
                 </td>
-                <td style="width: 35%">
+                <td style="width: 25%">
                     <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
                         <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}" selected th:text="${obj.breed}"></option>
                     </select>
@@ -38,93 +38,127 @@
         <table class="table userStatistic table-hover table-striped">
             <br>
             <thead>
-            <tr>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Поставщик</th>
-                <th scope="col">Ср. диаметр</th>
-                <th scope="col">Кол-во колод</th>
-                <th scope="col">Остаток, м<sup>3</sup></th>
-                <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
-                <th scope="col">Дата прихода</th>
-                <th scope="col">Примечание</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <div th:each="ts:${treeList}">
-                <tr th:id="${ts.id}">
-                    <th scope="row" th:text="${ts.codeOfProduct}"></th>
-                    <td th:text="${ts.breedOfTree.breed}"></td>
-                    <td th:text="${ts.breedDescription}"></td>
-                    <td th:text="${ts.contrAgent.nameOfAgent}"></td>
-                    <td th:text="${ts?.averageDiameter}"></td>
-                    <td th:text="${ts?.countOfDeck}"></td>
-                    <td th:text="${ts.extent}"></td>
-                    <td th:text="${ts.maxExtent}"></td>
-                    <td th:text="${ts.date}"></td>
-                    <td th:text="${ts.treeDescription}"></td>
-                </tr>
-
                 <tr>
-                    <td colspan="13" class="child-table">
-                        <table class="table table-hover table-striped parent-table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Дата</th>
-                                <th scope="col">Толщина, мм</th>
-                                <th scope="col">Взято, м<sup>3</sup></th>
-                                <th scope="col">Выход, м<sup>3</sup></th>
-                                <th scope="col">Процент, %</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="list : ${ts?.statisticInfoList}" >
-                                    <td th:text="${list?.date}"></td>
-                                    <td th:text="${list?.height}"></td>
-                                    <td th:text="${list?.firstExtent}"></td>
-                                    <td th:text="${list?.extent}"></td>
-                                    <td th:text="${list?.percent}"></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="2">ИТОГО :</th>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Код партии</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Взято, м<sup>3</sup></th>
+                    <th scope="col">Выход, м<sup>3</sup></th>
+                    <th scope="col">Процент, %</th>
                 </tr>
-            </div>
+            </thead>
+            <tbody>
+            <tr th:each="list : ${ts?.statisticInfoList}" >
+                <td th:text="${list?.date}"></td>
+                <td th:text="${list?.height}"></td>
+                <td th:text="${list?.height}"></td>
+                <td th:text="${list?.height}"></td>
+                <td th:text="${list?.firstExtent}"></td>
+                <td th:text="${list?.extent}"></td>
+                <td th:text="${list?.percent}"></td>
+            </tr>
             </tbody>
             <tfoot>
             <tr>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Поставщик</th>
-                <th scope="col">Ср. диаметр</th>
-                <th scope="col">Кол-во колод</th>
-                <th scope="col">Остаток, м<sup>3</sup></th>
-                <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
-                <th scope="col">Дата прихода</th>
-                <th scope="col">Примечание</th>
+                <th colspan="2">ИТОГО :</th>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
             </tr>
             </tfoot>
         </table>
+<!--        <table class="table userStatistic table-hover table-striped">-->
+<!--            <br>-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Код партии</th>-->
+<!--                <th scope="col">Порода</th>-->
+<!--                <th scope="col">Описание</th>-->
+<!--                <th scope="col">Поставщик</th>-->
+<!--                <th scope="col">Ср. диаметр</th>-->
+<!--                <th scope="col">Кол-во колод</th>-->
+<!--                <th scope="col">Остаток, м<sup>3</sup></th>-->
+<!--                <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>-->
+<!--                <th scope="col">Дата прихода</th>-->
+<!--                <th scope="col">Примечание</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+
+<!--            <tbody>-->
+<!--            <div th:each="ts:${treeList}">-->
+<!--                <tr th:id="${ts.id}">-->
+<!--                    <th scope="row" th:text="${ts.codeOfProduct}"></th>-->
+<!--                    <td th:text="${ts.breedOfTree.breed}"></td>-->
+<!--                    <td th:text="${ts.breedDescription}"></td>-->
+<!--                    <td th:text="${ts.contrAgent.nameOfAgent}"></td>-->
+<!--                    <td th:text="${ts?.averageDiameter}"></td>-->
+<!--                    <td th:text="${ts?.countOfDeck}"></td>-->
+<!--                    <td th:text="${ts.extent}"></td>-->
+<!--                    <td th:text="${ts.maxExtent}"></td>-->
+<!--                    <td th:text="${ts.date}"></td>-->
+<!--                    <td th:text="${ts.treeDescription}"></td>-->
+<!--                </tr>-->
+
+<!--                <tr>-->
+<!--                    <td colspan="10" class="child-table">-->
+<!--                        <table class="table table-hover table-striped parent-table">-->
+<!--                            <thead>-->
+<!--                            <tr>-->
+<!--                                <th scope="col">Дата</th>-->
+<!--                                <th scope="col">Толщина, мм</th>-->
+<!--                                <th scope="col">Взято, м<sup>3</sup></th>-->
+<!--                                <th scope="col">Выход, м<sup>3</sup></th>-->
+<!--                                <th scope="col">Процент, %</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                            <tr th:each="list : ${ts?.statisticInfoList}" >-->
+<!--                                <td th:text="${list?.date}"></td>-->
+<!--                                <td th:text="${list?.height}"></td>-->
+<!--                                <td th:text="${list?.firstExtent}"></td>-->
+<!--                                <td th:text="${list?.extent}"></td>-->
+<!--                                <td th:text="${list?.percent}"></td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                            <tfoot>-->
+<!--                            <tr>-->
+<!--                                <th colspan="2">ИТОГО :</th>-->
+<!--                                <td>0</td>-->
+<!--                                <td>0</td>-->
+<!--                                <td>0</td>-->
+<!--                            </tr>-->
+<!--                            </tfoot>-->
+<!--                        </table>-->
+<!--                    </td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                    <td style="display:none"></td>-->
+<!--                </tr>-->
+<!--            </div>-->
+<!--            </tbody>-->
+<!--            <tfoot>-->
+<!--            <tr>-->
+<!--                <th scope="col">Код партии</th>-->
+<!--                <th scope="col">Порода</th>-->
+<!--                <th scope="col">Описание</th>-->
+<!--                <th scope="col">Поставщик</th>-->
+<!--                <th scope="col">Ср. диаметр</th>-->
+<!--                <th scope="col">Кол-во колод</th>-->
+<!--                <th scope="col">Остаток, м<sup>3</sup></th>-->
+<!--                <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>-->
+<!--                <th scope="col">Дата прихода</th>-->
+<!--                <th scope="col">Примечание</th>-->
+<!--            </tr>-->
+<!--            </tfoot>-->
+<!--        </table>-->
     </div>
 
 
