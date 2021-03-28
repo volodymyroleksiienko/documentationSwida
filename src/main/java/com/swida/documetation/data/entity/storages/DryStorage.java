@@ -25,7 +25,7 @@ public class DryStorage {
     private String sizeOfLong="0";
 
     private int countOfDesk;
-    private int cell;
+    private Integer cell;
 
     private String extent;
     private String description;
