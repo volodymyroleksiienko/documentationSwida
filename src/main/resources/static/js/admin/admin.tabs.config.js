@@ -8,6 +8,8 @@ $(document).ready( function () {
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "bSort": false,
         "info": false,
+        "searching": false,
+        "paging": false,
         // "order": [ 0, "desc" ],
         "autoWidth": false,
     });
