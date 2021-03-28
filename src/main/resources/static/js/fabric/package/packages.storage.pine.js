@@ -105,6 +105,7 @@ function packageUnform(btnObj) {
     $('#unformPackModal').modal('show');
 }
 
+
 // listener for opening and closing
 $('#transportationtable tbody').on('click', 'td.details-control', function () {
     var tr = $(this).closest('tr');

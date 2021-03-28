@@ -1296,6 +1296,8 @@ $(document).ready( function () {
     });
 
 
+
+
     $('#tableForTransportationOak tbody').on( 'click', 'button', function () {
         tableForTransportationOak.row( $(this).parents('tr') ).remove().draw();
 
@@ -1407,6 +1409,18 @@ $(document).ready( function () {
     } );
     //            SELECT
 
+    $('#unformMultipleItemsBtn').on( 'click', function () {
+        let arrOfId = [];
+        table.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
+            let data = this.data();
+            arrOfId.push(data[0]);
+        });
+
+            $('#unformMultipleItemsIds').val(arrOfId);
+            console.log("ids: "+arrOfId);
+
+            $('#unformMultipleItemsModal').modal('show');
+    });
 
     $( "#buttonForTransportation" ).click(function() {
         modalPackagesTable.clear().draw();

@@ -72,6 +72,9 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
+            <button type="button" class="buttons btn btn-primary" title="Инстркмент массового удаления" data-toggle="modal" data-placement="left" id="unformMultipleItemsBtn">
+                <i class="fa fa-plus"></i>
+            </button>
             <button type="button" class="buttons btn btn-primary" title="Добавить пачку" data-toggle="modal" data-placement="left" data-target="#addOwnPackageModal">
                 <i class="fa fa-plus"></i>
             </button>
@@ -464,6 +467,36 @@
 
                             <p id="unformPackModalConfirmation">
                                 Вы уверены, что хотите расформировать пачку ?
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Расформировать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal confirmation  -->
+
+    <!--  Modal confirmation  -->
+    <div class="modal fade" id="unformMultipleItemsModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Расформирование пачек</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/unformPackagedProduct-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="unformMultipleItemsIds" hidden="hidden" autocomplete="off" name="id">
+
+                            <p>
+                                Вы уверены, что хотите расформировать выбранные пачки?
                             </p>
                         </div>
                     </div>
