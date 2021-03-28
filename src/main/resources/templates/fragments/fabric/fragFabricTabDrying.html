@@ -33,8 +33,8 @@
                     <td th:text="${ds.sizeOfLong}"></td>
                     <td th:text="${ds.countOfDesk}"></td>
                     <td th:text="${ds.extent}"></td>
-                    <td>Дата загрузки</td>
-                    <td th:text="${ds.dateDrying}"></td>
+                    <td th:text="${ds.startDate}">Дата загрузки</td>
+                    <td th:text="${ds.date}"></td>
                     <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
                     <td>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
