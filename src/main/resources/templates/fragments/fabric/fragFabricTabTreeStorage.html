@@ -135,7 +135,7 @@
         let rowTables = document.getElementsByClassName('parent-table');
         for (let i=0;i<rowTables.length;i++){
             let rowsList = rowTables[i].rows;
-            let rLength = rowsList.length;
+            let last = rowsList.length-1;
 
             let takenSum = 0.0;
             let outputSum = 0.0;
@@ -144,13 +144,13 @@
             for (let j = 1; j<rowsList.length-1; j++){
                 takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
                 outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                percentageSum+= outputSum/takenSum*100;
+                percentageSum = outputSum/takenSum*100;
 
                 console.log("tab: "+takenSum+"; "+outputSum+";"+percentageSum);
             }
-            rowsList[rLength-1].cells[1].innerHTML=takenSum.toFixed(3);
-            rowsList[rLength-1].cells[2].innerHTML=outputSum.toFixed(3);
-            rowsList[rLength-1].cells[3].innerHTML=percentageSum.toFixed(3);
+            rowsList[last].cells[1].innerHTML=takenSum.toFixed(3);
+            rowsList[last].cells[2].innerHTML=outputSum.toFixed(3);
+            rowsList[last].cells[3].innerHTML=percentageSum.toFixed(3);
         }
     </script>
 
@@ -602,7 +602,7 @@
         let rowTables = document.getElementsByClassName('parent-table');
         for (let i=0;i<rowTables.length;i++){
             let rowsList = rowTables[i].rows;
-            let rLength = rowsList.length;
+            let last = rowsList.length-1;
 
             let takenSum = 0.0;
             let outputSum = 0.0;
@@ -611,13 +611,13 @@
             for (let j = 1; j<rowsList.length-1; j++){
                 takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
                 outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                percentageSum+= outputSum/takenSum*100;
+                percentageSum = outputSum/takenSum*100;
 
-                console.log("tab: "+takenSum+"; "+outputSum+";"+percentageSum);
+                console.log("row: "+takenSum+"; "+outputSum+";"+percentageSum+"%");
             }
-            rowsList[rLength-1].cells[1].innerHTML=takenSum.toFixed(3);
-            rowsList[rLength-1].cells[2].innerHTML=outputSum.toFixed(3);
-            rowsList[rLength-1].cells[3].innerHTML=percentageSum.toFixed(3);
+            rowsList[last].cells[1].innerHTML=takenSum.toFixed(3);
+            rowsList[last].cells[2].innerHTML=outputSum.toFixed(3);
+            rowsList[last].cells[3].innerHTML=percentageSum.toFixed(3);
         }
     </script>
 
