@@ -291,6 +291,7 @@ public class FabricOakController {
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
         deskOak.setSizeOfWidth(width);
         deskOak.setCountOfDesk(count);
+        deskOak.setRawStorage(rawStorage);
         deskOakService.save(deskOak);
         rawStorage.getDeskOakList().add(deskOak);
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
