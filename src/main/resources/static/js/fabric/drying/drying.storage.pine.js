@@ -65,6 +65,7 @@ function editRawStorage(btnObj) {
     $('#editDryingModalInitialDescsCount').val(initial);
     $('#editDryingModalRawDescsCount').val(rawDescsCount);
 
+    console.log("exit:"+exitDate+"; income: "+incomeDate);
 
     $('#editDryingModal').modal('show');
 }
