@@ -1420,6 +1420,17 @@ $(document).ready( function () {
             $('#unformMultipleItemsModal').modal('show');
     });
 
+    $('#unformMultipleOakItemsBtn').on( 'click', function () {
+        oakTable.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {
+            let data = this.data();
+            let input = "<input type=\"number\" class=\"form-control\" hidden=\"hidden\" autocomplete=\"off\" name=\"id\" value='"+data[1]+"'>";
+
+            $('#listOfOakInputs').append(input);
+        });
+
+        $('#unformMultipleOakItemsModal').modal('show');
+    });
+
     $( "#buttonForTransportation" ).click(function() {
         modalPackagesTable.clear().draw();
         let newData = ( table.rows( '.selected' ).data() );
