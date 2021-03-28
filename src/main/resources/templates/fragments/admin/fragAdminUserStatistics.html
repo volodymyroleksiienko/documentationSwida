@@ -19,12 +19,12 @@
                 </td>
                 <td style="width: 35%">
                     <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                        <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
+                        <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}" selected th:text="${obj.nameOfCompany}"></option>
                     </select>
                 </td>
                 <td style="width: 35%">
                     <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                        <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
+                        <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}" selected th:text="${obj.breed}"></option>
                     </select>
                 </td>
                 <td style="width: auto; align-items: end;">
