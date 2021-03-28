@@ -49,12 +49,14 @@
                 <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
                 <th scope="col">Дата прихода</th>
                 <th scope="col">Примечание</th>
-                <th></th>
             </tr>
             </thead>
 
             <tbody>
             <div th:each="ts, index : ${treeStorageList}">
+                <tr>
+                    <th scope="col" colspan="10">User</th>
+                </tr>
                 <tr th:id="${ts.id}">
                     <th scope="row" th:text="${ts.codeOfProduct}"></th>
                     <td th:text="${ts.breedOfTree.breed}"></td>
@@ -129,7 +131,7 @@
 
 
     <script type="text/javascript">
-        document.querySelector("#startDate").valueAsDate = new Date();
+        document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate()-1));
         document.querySelector("#endDate").valueAsDate = new Date();
     </script>
 
