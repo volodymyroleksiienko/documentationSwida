@@ -45,10 +45,11 @@ function editRawStorage(btnObj) {
     var length = $(trObj).find('td:eq(4)').text();
     var count = $(trObj).find('td:eq(5)').text();
     var extent = $(trObj).find('td:eq(6)').text();
-    var incomeDate = $(trObj).find('td:eq(7)').text();
-    var exitDate = $(trObj).find('td:eq(8)').text();
+    var cell = $(trObj).find('td:eq(7)').text();
+    var incomeDate = $(trObj).find('td:eq(8)').text();
+    var exitDate = $(trObj).find('td:eq(9)').text();
     var initial = $(trObj).find('td:eq(5)').text();
-    var rawDescsCount = $(trObj).find('td:eq(8)').text();
+    var rawDescsCount = $(trObj).find('td:eq(10)').text();
 
     $('#editDryingModalCode').val(code);
     $('#editDryingModalMaterial').val(material);
@@ -58,7 +59,9 @@ function editRawStorage(btnObj) {
     $('#editDryingModalLength').val(length);
     $('#editDryingModalCount').val(count);
     $('#editDryingModalVolume').val(extent);
-    $('#editDryingDate').val(exitDate);
+    $('#editDryingModalCell').val(cell);
+    $('#editDryingStartDate').val(incomeDate);
+    $('#editDryingEndDate').val(exitDate);
     $('#editDryingModalInitialDescsCount').val(initial);
     $('#editDryingModalRawDescsCount').val(rawDescsCount);
 
