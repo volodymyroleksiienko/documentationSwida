@@ -23,12 +23,14 @@ public class DryingStorage {
     private String sizeOfHeight;
     private String sizeOfWidth="0";
     private String sizeOfLong="0";
+    private Integer cell;
 
     private int countOfDesk;
 
     private String extent;
     private String description;
     private String dateDrying;
+    private String startDate;
     private String date;
 
     @OneToMany(mappedBy = "dryingStorage")

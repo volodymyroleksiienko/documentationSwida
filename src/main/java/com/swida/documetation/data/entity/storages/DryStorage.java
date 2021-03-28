@@ -25,12 +25,11 @@ public class DryStorage {
     private String sizeOfLong="0";
 
     private int countOfDesk;
-    private Integer cell;
+
 
     private String extent;
     private String description;
     private String date;
-    private String startDate;
 
     private String qualityOfPack;
     private String longOfPack;
