@@ -1,5 +1,6 @@
 package com.swida.documetation.controllers;
 
+import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
@@ -203,7 +204,6 @@ public class StatisticController {
                 descriptions[i] = "";
             }
         }
-
         mainExtent=0;
         JSONObject json = new JSONObject();
         json.put("treeStorage","0.000");
@@ -268,7 +268,6 @@ public class StatisticController {
                 System.out.println(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.RECYCLING));
                 json.put("recycleStorage",formatExtent(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.RECYCLING)));
                 break;
-
             }
 
         }
@@ -309,38 +308,35 @@ public class StatisticController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("users",userCompanyService.findAll());
         return "adminPage";
     }
 
-//    @GetMapping("/getDailyFactoryPowerStatistic")
-//    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String dayFrom, String dayTo) throws ParseException {
-//
-//        System.out.println(dayFrom);
-//        System.out.println(dayTo);
-//        Date dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(dayFrom);
-//        Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dayTo);
-//
-//        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreed(Arrays.asList(users),Arrays.asList(breedId));
-//        if(infoList!=null) {
-//            System.out.println(infoList.size());
-//            for (int i=0;i<infoList.size();i++) {
-//                QualityStatisticInfo info  = infoList.get(i);
-//                if(info!=null) {
-//                    Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
-//                    System.out.println(dateFrom.compareTo(current));
-//                    System.out.println(dateTo.compareTo(current));
-//                    if (dateFrom.compareTo(current)>0 || dateTo.compareTo(current)<0) {
-//                        infoList.remove(info);
-//                    }
-//                }else{
-//                    infoList.remove(null);
-//                }
-//            }
-//            System.out.println(infoList.size());
-//        }
-//        System.out.println(infoList);
-//        return "adminPage";
-//    }
+    @PostMapping("/getDailyFactoryPowerStatistic")
+    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String dayFrom, String dayTo) throws ParseException {
+
+        System.out.println(dayFrom);
+        System.out.println(dayTo);
+        Date dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(dayFrom);
+        Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dayTo);
+
+        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreed(Arrays.asList(users),Arrays.asList(breedId));
+        List<QualityStatisticInfo> filteredInfo = new ArrayList<>();
+        if(infoList!=null) {
+            System.out.println(infoList.size());
+            for (QualityStatisticInfo info : infoList) {
+                Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
+                System.out.println(current.compareTo(dateFrom));
+                System.out.println(current.compareTo(dateTo));
+                System.out.println(current.compareTo(dateFrom) <= 0 && current.compareTo(dateTo) <= 0);
+                if (current.compareTo(dateFrom) <= 0 && current.compareTo(dateTo) <= 0) {
+                    filteredInfo.add(info);
+                }
+            }
+        }
+        System.out.println(filteredInfo);
+        return "redirect:/admin/getDailyFactoryPowerStatistic";
+    }
 
 
     //Statistic for users

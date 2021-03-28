@@ -53,11 +53,8 @@
             </thead>
 
             <tbody>
-            <div th:each="ts, index : ${treeStorageList}">
-                <tr>
-                    <th scope="col" colspan="10">User</th>
-                </tr>
-                <tr th:id="${ts.id}">
+            <div th:each="u, index : ${users}">
+                <tr th:id="${ts.id}" th:each="ts:${u.treeStorageList}">
                     <th scope="row" th:text="${ts.codeOfProduct}"></th>
                     <td th:text="${ts.breedOfTree.breed}"></td>
                     <td th:text="${ts.breedDescription}"></td>
@@ -101,6 +98,7 @@
                             </tfoot>
                         </table>
                     </td>
+                    <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>

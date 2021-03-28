@@ -1,5 +1,6 @@
 package com.swida.documetation.data.entity;
 
+import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.Roles;
 import lombok.Data;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -34,6 +36,9 @@ public class UserCompany implements UserDetails {
 
     @OneToOne
     private ContrAgent contrAgent;
+
+    @OneToMany(mappedBy = "userCompany")
+    private List<TreeStorage> treeStorageList;
 
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
