@@ -1,5 +1,6 @@
 package com.swida.documetation.controllers;
 
+import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.enums.ContrAgentType;
@@ -10,6 +11,8 @@ import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,30 +22,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Provider;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
 public class StatisticController {
-    private TreeStorageService treeStorageService;
-    private RawStorageService rawStorageService;
-    private DryingStorageService dryingStorageService;
-    private DryStorageService dryStorageService;
-    private PackagedProductService packagedProductService;
-    private DeliveryDocumentationService deliveryDocumentationService;
-    private BreedOfTreeService breedOfTreeService;
-    private ContrAgentService contrAgentService;
-    private UserCompanyService userCompanyService;
-    private OrderInfoService orderInfoService;
-    private DriverInfoService driverInfoService;
+    private final TreeStorageService treeStorageService;
+    private final RawStorageService rawStorageService;
+    private final DryingStorageService dryingStorageService;
+    private final DryStorageService dryStorageService;
+    private final PackagedProductService packagedProductService;
+    private final DeliveryDocumentationService deliveryDocumentationService;
+    private final BreedOfTreeService breedOfTreeService;
+    private final ContrAgentService contrAgentService;
+    private final UserCompanyService userCompanyService;
+    private final OrderInfoService orderInfoService;
+    private final DriverInfoService driverInfoService;
+    private final QualityStatisticInfoService statisticInfoService;
     private float mainExtent = 0;
 
-    @Autowired
-    public StatisticController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService, OrderInfoService orderInfoService, DriverInfoService driverInfoService) {
+    public StatisticController(TreeStorageService treeStorageService, RawStorageService rawStorageService, DryingStorageService dryingStorageService, DryStorageService dryStorageService, PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService, BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService, UserCompanyService userCompanyService, OrderInfoService orderInfoService, DriverInfoService driverInfoService, QualityStatisticInfoService statisticInfoService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -54,6 +56,7 @@ public class StatisticController {
         this.userCompanyService = userCompanyService;
         this.orderInfoService = orderInfoService;
         this.driverInfoService = driverInfoService;
+        this.statisticInfoService = statisticInfoService;
     }
 
     @GetMapping("/getStatistics-{breedId}")
@@ -296,6 +299,37 @@ public class StatisticController {
         return String.format("%.3f",extent).replace(",",".");
     }
 
+
+    @GetMapping("/getDailyFactoryPowerStatistic")
+    public String getDailyFactoryPowerStatistic(Model model) {
+        model.addAttribute("navTabName","main");
+        model.addAttribute("fragmentPathUserStatistics","usersStatistics");
+        model.addAttribute("fragmentPathTabConfig","statisticUsersTab");
+        return "adminPage";
+    }
+
+//        @GetMapping("/getDailyFactoryPowerStatistic")
+//    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String dayFrom, String dayTo) throws ParseException {
+//
+//        System.out.println(dayFrom);
+//        System.out.println(dayTo);
+//        Date dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(dayFrom);
+//        Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dayTo);
+//
+//        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreed(Arrays.asList(users),Arrays.asList(breedId));
+//        System.out.println(infoList.size());
+//        if(infoList!=null) {
+//            for (QualityStatisticInfo info : infoList) {
+//                Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
+//                if (dateFrom.compareTo(current) <= 0 && dateTo.compareTo(current) >= 0) {
+//                    infoList.remove(info);
+//                }
+//            }
+//        }
+//        System.out.println(infoList.size());
+//        System.out.println(infoList);
+//        return "";
+//    }
 
 
     //Statistic for users

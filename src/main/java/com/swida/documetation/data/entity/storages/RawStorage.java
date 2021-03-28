@@ -74,7 +74,7 @@ public class RawStorage {
                 ", usedExtent='" + usedExtent + '\'' +
                 ", description='" + description + '\'' +
                 ", date='" + date + '\'' +
-                ", deskOakList=" + deskOakList +
+//                ", deskOakList=" + deskOakList +
                 ", userCompany=" + userCompany +
 //                ", treeStorage=" + treeStorage +
                 ", dryingStorageList=" + dryingStorageList +

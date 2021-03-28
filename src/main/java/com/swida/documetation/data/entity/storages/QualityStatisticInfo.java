@@ -26,4 +26,16 @@ public class QualityStatisticInfo {
 
     @OneToOne
     private RawStorage rawStorage;
+
+    @Override
+    public String toString() {
+        return "QualityStatisticInfo{" +
+                "id=" + id +
+                ", height='" + height + '\'' +
+                ", firstExtent='" + firstExtent + '\'' +
+                ", extent='" + extent + '\'' +
+                ", percent='" + percent + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

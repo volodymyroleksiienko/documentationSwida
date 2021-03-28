@@ -76,6 +76,9 @@
         <div th:if="${fragmentPathAdminStatistics!=null}">
             <div th:replace="~{fragments/admin/fragAdminStatistics :: ${fragmentPathAdminStatistics}}"></div>
         </div>
+        <div th:if="${fragmentPathUserStatistics!=null}">
+            <div th:replace="~{fragments/admin/fragAdminUserStatistics :: ${fragmentPathUserStatistics}}"></div>
+        </div>
         <!--ADMIN DASHBOARD START-->
         <div th:if="${fragmentPathUserCompany!=null}">
             <div th:replace="~{fragments/admin/fragAdminUserCompany :: ${fragmentPathUserCompany}}"></div>

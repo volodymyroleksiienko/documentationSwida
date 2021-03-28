@@ -28,6 +28,11 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
     }
 
     @Override
+    public List<QualityStatisticInfo> findByUserByBreed(List<Integer> userId, List<Integer> breedId) {
+        return infoJPA.findByUserByBreed(userId,breedId);
+    }
+
+    @Override
     public QualityStatisticInfo findByTreeStorageIdAndAndHeight(int id, String height) {
         return infoJPA.findByTreeStorageIdAndAndHeight(id,height);
     }

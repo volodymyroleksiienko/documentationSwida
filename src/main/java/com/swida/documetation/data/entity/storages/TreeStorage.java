@@ -52,4 +52,25 @@ public class TreeStorage {
     private StatusOfTreeStorage statusOfTreeStorage = StatusOfTreeStorage.TREE;
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
+
+    @Override
+    public String toString() {
+        return "TreeStorage{" +
+                "id=" + id +
+                ", codeOfProduct='" + codeOfProduct + '\'' +
+                ", breedDescription='" + breedDescription + '\'' +
+                ", extent='" + extent + '\'' +
+                ", maxExtent='" + maxExtent + '\'' +
+                ", date='" + date + '\'' +
+                ", averageDiameter='" + averageDiameter + '\'' +
+                ", countOfDeck='" + countOfDeck + '\'' +
+                ", treeDescription='" + treeDescription + '\'' +
+                ", breedOfTree=" + breedOfTree +
+                ", orderInfo=" + orderInfo +
+                ", contrAgent=" + contrAgent +
+                ", userCompany=" + userCompany +
+                ", statusOfTreeStorage=" + statusOfTreeStorage +
+                ", statusOfEntity=" + statusOfEntity +
+                '}';
+    }
 }
