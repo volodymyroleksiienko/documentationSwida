@@ -70,9 +70,9 @@
             <tfoot>
             <tr>
                 <th colspan="5">ИТОГО :</th>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
+                <th>0</th>
+                <th>0</th>
+                <th>0</th>
             </tr>
             </tfoot>
         </table>
@@ -124,9 +124,9 @@
 
                 console.log("row: "+takenSum+"; "+outputSum+";"+percentageSum+"%");
             }
-            rowsList[last].cells[1].innerHTML=takenSum.toFixed(3);
-            rowsList[last].cells[2].innerHTML=outputSum.toFixed(3);
-            rowsList[last].cells[3].innerHTML=percentageSum.toFixed(3);
+            rowsList[last].cells[1].innerHTML=(takenSum.toFixed(3)+" м<sup>3</sup>");
+            rowsList[last].cells[2].innerHTML=(outputSum.toFixed(3)+" м<sup>3</sup>");
+            rowsList[last].cells[3].innerHTML=(percentageSum.toFixed(3)+" %");
         }
     </script>
 
