@@ -29,7 +29,6 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public void checkQualityInfo(RawStorage rawStorage) {
-
         QualityStatisticInfo info;
         rawStorage = findById(rawStorage.getId());
         if(rawStorage.getStatisticInfo()==null) {
@@ -49,7 +48,16 @@ public class RawStorageServiceImpl implements RawStorageService {
         Date date = new Date();
         info.setDate(dateFormat.format(date));
         info.setRawStorage(rawStorage);
-        statisticInfoService.save(info);
+        if(Float.parseFloat(rawStorage.getExtent())==0 &&
+                Float.parseFloat(info.getExtent())==0 && info.getId()>0){
+            rawStorage.setStatisticInfo(null);
+            save(rawStorage);
+            statisticInfoService.deleteByID(info.getId());
+        }else {
+            statisticInfoService.save(info);
+            rawStorage.setStatisticInfo(info);
+            save(rawStorage);
+        }
     }
 
     @Override
@@ -125,14 +133,14 @@ public class RawStorageServiceImpl implements RawStorageService {
                             .replace(",",".")
 
             );
-//            @todo
-//            treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),extent-Float.parseFloat(rawStorage.getExtent()));
+            checkQualityInfo(rawStorage);
             treeStorageService.save(treeStorage);
         }
         rawStorage.setExtent(
                 String.format("%.3f",extent).replace(",",".")
         );
-       rawStorageJPA.save(rawStorage);
+        checkQualityInfo(rawStorage);
+        rawStorageJPA.save(rawStorage);
     }
 
     public void collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId){

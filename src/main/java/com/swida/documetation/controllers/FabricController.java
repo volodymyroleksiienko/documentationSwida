@@ -411,8 +411,7 @@ public class FabricController {
             rawStorage.setCountOfDesk(0);
             rawStorageService.save(rawStorage);
             treeStorageService.save(treeStorage);
-//            @todo
-//            treeStorageService.checkQualityInfo(treeStorage, rawStorage.getSizeOfHeight(), -rawStorageExtent);
+            rawStorageService.checkQualityInfo(rawStorage);
         }else {
             rawStorageService.uncollectFromOnePineEntity(rawStorage,userId,breedId);
         }

@@ -267,6 +267,7 @@ public class FabricRestController {
             treeStorage.setExtent("0.000");
         }
        treeStorageService.save(treeStorage);
+       rawStorageService.checkQualityInfo(rawStorage);
        rawStorageService.save(rawStorage);
 
        return rawStorage.getExtent();
