@@ -624,26 +624,8 @@ public class FabricController {
     }
 
     @PostMapping("/unformPackagedProduct-{userId}-{breedId}")
-    public  String unformPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String id){
-
-        PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
-
-        if(product.getDryStorage()==null){
-            packagedProductService.deleteByID(product.getId());
-            return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
-        }
-
-        DryStorage dryStorage = product.getDryStorage();
-
-       if(breedId!=2) {
-           dryStorage.setCountOfDesk(dryStorage.getCountOfDesk() + Integer.parseInt(product.getCountOfDesk()));
-       }else{
-           dryStorage.setExtent(String.format("%.3f",Float.parseFloat(dryStorage.getExtent())+Float.parseFloat(product.getExtent())).replace(",","."));
-       }
-       dryStorageService.save(dryStorage);
-       packagedProductService.deleteByID(Integer.parseInt(id));
-
-        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+    public  String unformPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, Integer[] id){
+        return packagedProductService.unformPackageProduct(breedId,userId,id);
     }
 
 

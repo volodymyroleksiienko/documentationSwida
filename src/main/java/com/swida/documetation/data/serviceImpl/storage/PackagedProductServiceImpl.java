@@ -192,6 +192,59 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
+    public PackagedProduct createPackageOak(List<DescriptionDeskOak> deskOakList, String idOfDryStorage, String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID) {
+        DryStorage dryStorage = (idOfDryStorage.isEmpty())?null:dryStorageService.findById(Integer.parseInt(idOfDryStorage));
+
+        UserCompany company = new UserCompany();
+        company.setId(userID);
+        BreedOfTree breedOfTree = new BreedOfTree();
+        breedOfTree.setId(breedID);
+
+        PackagedProduct product = new PackagedProduct();
+        if(company.getId()!=0) {
+            product.setUserCompany(company);
+        }
+        product.setBreedOfTree(breedOfTree);
+        product.setDryStorage(dryStorage);
+        product.setCodeOfPackage(codeOfPackage);
+        product.setQuality(quality);
+        product.setSizeOfHeight(sizeOfHeight);
+        product.setSizeOfLong(length);
+
+        productJPA.save(product);
+
+        float cofExtent = Float.parseFloat(sizeOfHeight)*Float.parseFloat(length)/1000000;
+        int sumWidth = 0;
+        int countOfAllDesk = 0;
+        float extent = 0;
+
+        for (DescriptionDeskOak desk:deskOakList){
+            sumWidth += (Integer.parseInt(desk.getSizeOfWidth())*Integer.parseInt(desk.getCountOfDesk()));
+            countOfAllDesk += Integer.parseInt(desk.getCountOfDesk());
+            extent += (cofExtent*Float.parseFloat(desk.getSizeOfWidth())*Float.parseFloat(desk.getCountOfDesk())/1000);
+            desk.setPackagedProduct(product);
+            desk.setDryStorage(null);
+            deskOakService.save(desk);
+        }
+
+//        product.setDeskOakList(deskOakList);
+        product.setSumWidthOfAllDesk(String.valueOf(sumWidth));
+        product.setCountOfDesk(String.valueOf(countOfAllDesk));
+        product.setExtent(String.format("%.3f",extent).replace(',','.'));
+        Date date = new Date(System.currentTimeMillis());
+        product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        if(product.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            product.setBreedDescription("");
+        }
+        productJPA.save(product);
+        if(dryStorage!=null) {
+            dryStorage.setExtent(String.format("%.3f", Float.parseFloat(dryStorage.getExtent()) - extent).replace(',', '.'));
+            dryStorageService.save(dryStorage);
+        }
+        return product;
+    }
+
+    @Override
     public PackagedProduct getProductByDryStorage(int dryStorageId) {
         List<PackagedProduct> productList = productJPA.getProductByDryStorage(dryStorageId);
         if (productList.size()==0){
@@ -464,6 +517,37 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productJPA.save(product);
         deskOakService.deleteByID(deskOak.getId());
         editPackageProductOak(product);
+    }
+
+    @Override
+    public String unformPackageProduct(int breedId,int userId,Integer[] idArray) {
+        for(Integer id:idArray) {
+            PackagedProduct product = findById(id);
+
+            if (product.getDryStorage() == null) {
+                deleteByID(product.getId());
+                return "redirect:/fabric/getListOfPackagedProduct-" + userId + "-" + breedId;
+            }
+
+            DryStorage dryStorage = product.getDryStorage();
+
+            if (breedId != 2) {
+                dryStorage.setCountOfDesk(dryStorage.getCountOfDesk() + Integer.parseInt(product.getCountOfDesk()));
+            } else {
+                if(product.getDeskOakList().size()==0) {
+                    dryStorage.setExtent(String.format("%.3f", Float.parseFloat(dryStorage.getExtent()) + Float.parseFloat(product.getExtent())).replace(",", "."));
+                }else {
+                    for(DescriptionDeskOak deskOak:product.getDeskOakList()){
+                        deskOak.setPackagedProduct(null);
+                        deskOak.setDryStorage(dryStorage);
+                        deskOakService.save(deskOak);
+                    }
+                }
+            }
+            dryStorageService.save(dryStorage);
+            deleteByID(id);
+        }
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
     public String countOfExtent(PackagedProduct packagedProduct){
