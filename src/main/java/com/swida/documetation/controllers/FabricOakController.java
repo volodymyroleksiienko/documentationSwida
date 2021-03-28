@@ -503,17 +503,8 @@ public class FabricOakController {
     @PostMapping("/addDryStorageToPackageProduct-{userId}-2")
     public String addDryStorageToPackageProduct(@PathVariable("userId")int userId,DryStorage dryStorage,String quality){
         DryStorage dryStorageDB = dryStorageService.findById(dryStorage.getId());
-        String[][] arr = new String[1][2];
-        arr[0][0] = "";
-        arr[0][1] = "";
-
-        PackagedProduct product = packagedProductService.createPackageOak(arr,String.valueOf(dryStorage.getId()),dryStorage.getCodeOfProduct(),quality,
+        PackagedProduct product = packagedProductService.createPackageOak(dryStorageDB.getDeskOakList(),String.valueOf(dryStorageDB.getId()),dryStorage.getCodeOfProduct(),quality,
                 dryStorageDB.getSizeOfHeight(),dryStorageDB.getSizeOfLong(),userId,2);
-        for(DescriptionDeskOak deskOak:dryStorageDB.getDeskOakList()){
-            deskOak.setDryStorage(null);
-            deskOak.setPackagedProduct(product);
-            deskOakService.save(deskOak);
-        }
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+2;
     }
 

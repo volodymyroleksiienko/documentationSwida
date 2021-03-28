@@ -1,6 +1,7 @@
 package com.swida.documetation.data.service.storages;
 
 import com.swida.documetation.data.entity.UserCompany;
+import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
@@ -15,7 +16,8 @@ public interface PackagedProductService {
     void createPackagesWithoutHistory(PackagedProduct product,String countOfPacks,int breedId, int userId);
     PackagedProduct createPackageOak(String[][] arrayOfDesk, String idOfDryStorage,
                           String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID);
-
+    PackagedProduct createPackageOak(List<DescriptionDeskOak> deskOakList, String idOfDryStorage,
+                                            String codeOfPackage, String quality, String sizeOfHeight, String length, int userID, int breedID);
     PackagedProduct getProductByDryStorage(int dryStorageId);
     PackagedProduct findById(int id);
     String countExtent(PackagedProduct product);
@@ -32,6 +34,7 @@ public interface PackagedProductService {
     void setContainer(String[] arrayOfPackagesId, String containerId,String containerName);
 
     void deleteDescriptionOak(String packId, String deskId);
+    String unformPackageProduct(int breedId,int userId,Integer[] id);
 
     //for statistic
     List<String> getListOfUnicBreedDescription(int breedId);
