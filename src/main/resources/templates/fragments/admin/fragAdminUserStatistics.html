@@ -35,7 +35,8 @@
             </tr>
         </table>
 
-        <table class="table userStatistic table-hover table-striped">
+        <div th:each="user:${userCompanyList}">
+         <table class="table userStatistic table-hover table-striped">
             <br>
             <thead>
                 <tr>
@@ -50,10 +51,11 @@
                 </tr>
             </thead>
             <tbody>
-            <tr th:each="list : ${ts?.statisticInfoList}" >
+            <tr th:each="list : ${statisticInfo}" th:if="${user.id==list.treeStorage.userCompany.id}">
                 <td th:text="${list?.date}"></td>
-                <td th:text="${list?.height}"></td>
-                <td th:text="${list?.height}"></td>
+                <td th:text="${list?.treeStorage.codeOfProduct}"></td>
+                <td th:text="${list?.treeStorage.breedOfTree.breed}"></td>
+                <td th:text="${list?.treeStorage.breedDescription}"></td>
                 <td th:text="${list?.height}"></td>
                 <td th:text="${list?.firstExtent}"></td>
                 <td th:text="${list?.extent}"></td>
@@ -69,6 +71,7 @@
             </tr>
             </tfoot>
         </table>
+        </div>
 <!--        <table class="table userStatistic table-hover table-striped">-->
 <!--            <br>-->
 <!--            <thead>-->
