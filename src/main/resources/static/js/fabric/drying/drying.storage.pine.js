@@ -30,40 +30,40 @@ function sendForDrying(btnObj) {
 }
 
 function editRawStorage(btnObj) {
+    var trObj = btnObj.parentElement.parentElement;
+    var trId =  $(trObj).attr('id');
+    $('#editDryingModalId').val(trId);
+    console.log(  $(trObj).attr('id'));
+    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    $('#editDryingModalHeader').text("Редактировать "+codeOfRawStorage);
 
-var trObj = btnObj.parentElement.parentElement;
-var trId =  $(trObj).attr('id');
-$('#editDryingModalId').val(trId);
-console.log(  $(trObj).attr('id'));
-var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
-$('#editDryingModalHeader').text("Редактировать "+codeOfRawStorage);
+    var code = $(trObj).find('th:eq(0)').text();
+    var material = $(trObj).find('td:eq(0)').text();
+    var description = $(trObj).find('td:eq(1)').text();
+    var thickness = $(trObj).find('td:eq(2)').text();
+    var width = $(trObj).find('td:eq(3)').text();
+    var length = $(trObj).find('td:eq(4)').text();
+    var count = $(trObj).find('td:eq(5)').text();
+    var extent = $(trObj).find('td:eq(6)').text();
+    var incomeDate = $(trObj).find('td:eq(7)').text();
+    var exitDate = $(trObj).find('td:eq(8)').text();
+    var initial = $(trObj).find('td:eq(5)').text();
+    var rawDescsCount = $(trObj).find('td:eq(8)').text();
 
-var code = $(trObj).find('th:eq(0)').text();
-var material = $(trObj).find('td:eq(0)').text();
-var description = $(trObj).find('td:eq(1)').text();
-var thickness = $(trObj).find('td:eq(2)').text();
-var width = $(trObj).find('td:eq(3)').text();
-var length = $(trObj).find('td:eq(4)').text();
-var count = $(trObj).find('td:eq(5)').text();
-var extent = $(trObj).find('td:eq(6)').text();
-var date = $(trObj).find('td:eq(7)').text();
-var initial = $(trObj).find('td:eq(5)').text();
-var rawDescsCount = $(trObj).find('td:eq(8)').text();
-
-$('#editDryingModalCode').val(code);
-$('#editDryingModalMaterial').val(material);
-$('#editDryingModalMaterialDescr').val(description);
-$('#editDryingModalThickness').val(thickness);
-$('#editDryingModalWidth').val(width);
-$('#editDryingModalLength').val(length);
-$('#editDryingModalCount').val(count);
-$('#editDryingModalVolume').val(extent);
-$('#editDryingDate').val(date);
-$('#editDryingModalInitialDescsCount').val(initial);
-$('#editDryingModalRawDescsCount').val(rawDescsCount);
+    $('#editDryingModalCode').val(code);
+    $('#editDryingModalMaterial').val(material);
+    $('#editDryingModalMaterialDescr').val(description);
+    $('#editDryingModalThickness').val(thickness);
+    $('#editDryingModalWidth').val(width);
+    $('#editDryingModalLength').val(length);
+    $('#editDryingModalCount').val(count);
+    $('#editDryingModalVolume').val(extent);
+    $('#editDryingDate').val(exitDate);
+    $('#editDryingModalInitialDescsCount').val(initial);
+    $('#editDryingModalRawDescsCount').val(rawDescsCount);
 
 
-$('#editDryingModal').modal('show');
+    $('#editDryingModal').modal('show');
 }
 
 function calculateExtent() {
