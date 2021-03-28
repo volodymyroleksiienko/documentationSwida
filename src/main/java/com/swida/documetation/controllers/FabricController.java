@@ -187,8 +187,7 @@ public class FabricController {
         rawStorage.setMaxExtent(rawStorage.getExtent());
         treeStorageService.save(treeStorage);
         rawStorageService.save(rawStorage);
-//        @todo
-//        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
+        rawStorageService.checkQualityInfo(rawStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -354,19 +353,7 @@ public class FabricController {
         }
         treeStorageService.save(treeStorage);
 
-//        @todo
-//        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),newExtent-oldExtent);
-//
-//        if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
-//            OrderInfo orderInfo = treeStorage.getOrderInfo();
-//            orderInfo.setDoneExtendOfOrder(
-//                    String.format("%.3f",
-//                            Float.parseFloat(orderInfo.getDoneExtendOfOrder())-(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent))
-//                            .replace(",",".")
-//            );
-//            orderInfoService.save(orderInfo);
-//            orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-//        }
+        rawStorageService.checkQualityInfo(rawStorageDB);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
