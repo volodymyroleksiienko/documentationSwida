@@ -50,7 +50,7 @@ function editRawStorageOak(btnObj) {
     var incomeDate =        $(trObj).find('td:eq(8)').text();
     var exitDate =          $(trObj).find('td:eq(9)').text();
     var rawExtent =         $(trObj).find('td:eq(10)').text();
-    var initial =           $(trObj).find('td:eq(11)').text();
+    var initial =           $(trObj).find('td:eq(5)').text();
 
     $('#editDryingModalCode').val(code);
     $('#editDryingModalMaterial').val(material);
