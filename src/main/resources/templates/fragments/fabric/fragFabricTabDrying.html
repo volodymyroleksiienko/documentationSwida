@@ -6,65 +6,134 @@
         <table class="table table-hover table-striped" id="dryingtable">
             <br>
             <thead>
-                <tr>
-                    <th></th>
-                    <th scope="col">Код партии</th>
-                    <th scope="col">Порода</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Толщина, мм</th>
-                    <th scope="col">Ширина, мм</th>
-                    <th scope="col">Длина, мм</th>
-                    <th scope="col">Кол-во досок, шт</th>
-                    <th scope="col">Кубатура, м<sup>3</sup></th>
-                    <th scope="col">Камера</th>
-                    <th scope="col">Дата загрузки</th>
-                    <th scope="col">Дата выхода</th>
-                    <th>RawStorage countOfDesk</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>id</th>
+                <th style="width: 30px"></th>
+                <th scope="col">Камера</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th scope="col">Дата загрузки</th>
+                <th scope="col">Дата выхода</th>
+                <th scope="col">Количество досок</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="ds, index : ${dryingStorageList}" th:id="${ds.id}">
-                    <td th:text="${ds.id}"></td>
-                    <th scope="row" th:text="${ds.codeOfProduct}"></th>
-                    <td th:text="${ds.breedOfTree.breed}"></td>
-                    <td th:text="${ds.breedDescription}"></td>
-                    <td th:text="${ds.sizeOfHeight}"></td>
-                    <td th:text="${ds.sizeOfWidth}"></td>
-                    <td th:text="${ds.sizeOfLong}"></td>
-                    <td th:text="${ds.countOfDesk}"></td>
+            <div th:each="ts, index : ${treeStorageList}">
+                <tr th:id="${ts.id}">
+                    <td th:text="${ts.id}"></td>
+                    <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();"
+                        th:id="${ts.id}"></td>
                     <td th:text="${ds.extent}"></td>
                     <td th:text="${ds?.cell}"></td>
                     <td th:text="${ds?.startDate}"></td>
                     <td th:text="${ds?.dateDrying}"></td>
-                    <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
+                    <td th:text="${ds.countOfDesk}"></td>
                     <td>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th"
+                                                                                     data-toggle="tooltip"
+                                                                                     title="На сухой склад"></i>
+                        </button>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen"
+                                                                                      data-toggle="tooltip"
+                                                                                      title="Редактировать"></i>
+                        </button>
                     </td>
+                </tr>
+                <tr style="display: none" th:id="'parent'+${ts.id}">
+                    <td style="display:none"></td>
+                    <td colspan="13" class="child-table">
+                        <table class="table table-hover table-striped parent-table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col">Код партии</th>
+                                <th scope="col">Порода</th>
+                                <th scope="col">Описание</th>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Ширина, мм</th>
+                                <th scope="col">Длина, мм</th>
+                                <th scope="col">Кол-во досок, шт</th>
+                                <th scope="col">Кубатура, м<sup>3</sup></th>
+                                <th scope="col">Камера</th>
+                                <th scope="col">Дата загрузки</th>
+                                <th scope="col">Дата выхода</th>
+                                <th>RawStorage countOfDesk</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="ds, index : ${dryingStorageList}" th:id="${ds.id}">
+                                <td th:text="${ds.id}"></td>
+                                <th scope="row" th:text="${ds.codeOfProduct}"></th>
+                                <td th:text="${ds.breedOfTree.breed}"></td>
+                                <td th:text="${ds.breedDescription}"></td>
+                                <td th:text="${ds.sizeOfHeight}"></td>
+                                <td th:text="${ds.sizeOfWidth}"></td>
+                                <td th:text="${ds.sizeOfLong}"></td>
+                                <td th:text="${ds.countOfDesk}"></td>
+                                <td th:text="${ds.extent}"></td>
+                                <td th:text="${ds?.cell}"></td>
+                                <td th:text="${ds?.startDate}"></td>
+                                <td th:text="${ds?.dateDrying}"></td>
+                                <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
+                                <td>
+                                    <button th:if="${btnConfig?.equals('btnON')}" type="button"
+                                            class="btn btn-primary btn-sm" data-toggle="modal"
+                                            onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip"
+                                                                             title="На сухой склад"></i></button>
+                                    <button th:if="${btnConfig?.equals('btnON')}" type="button"
+                                            class="btn btn-primary btn-sm" data-toggle="modal"
+                                            onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip"
+                                                                              title="Редактировать"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th></th>
+                                <th scope="col">Код партии</th>
+                                <th scope="col">Порода</th>
+                                <th scope="col">Описание</th>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Ширина, мм</th>
+                                <th scope="col">Длина, мм</th>
+                                <th scope="col">Кол-во досок, шт</th>
+                                <th scope="col">Кубатура, м<sup>3</sup></th>
+                                <th scope="col">Камера</th>
+                                <th scope="col">Дата загрузки</th>
+                                <th scope="col">Дата выхода</th>
+                                <th>RawStorage countOfDesk</th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
                 </tr>
             <tfoot>
             <tr>
-                <th></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Ширина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кол-во досок, шт</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th>id</th>
+                <th style="width: 30px"></th>
                 <th scope="col">Камера</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
                 <th scope="col">Дата загрузки</th>
                 <th scope="col">Дата выхода</th>
-                <th>RawStorage countOfDesk</th>
+                <th scope="col">Количество досок</th>
                 <th></th>
             </tr>
+            </tfoot>
+            <div/>
             </tbody>
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
-            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
+            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal"
+                    data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i></i>
             </button>
         </div>
@@ -81,45 +150,60 @@
                 </div>
                 <form th:action="@{'/fabric/addDeskToDryStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-                        <input type="text" class="form-control" id="sendForDryingModalId" hidden="hidden" autocomplete="off" name="dryingStorageId">
+                        <input type="text" class="form-control" id="sendForDryingModalId" hidden="hidden"
+                               autocomplete="off" name="dryingStorageId">
 
                         <label class="col-form-label" for="sendForDryingModalCode">Код</label>
-                        <input type="text" class="form-control" id="sendForDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct" style="margin-bottom: 5px;">
+                        <input type="text" class="form-control" id="sendForDryingModalCode" required="required"
+                               placeholder="Не заполнено" autocomplete="off" name="codeOfProduct"
+                               style="margin-bottom: 5px;">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="control-label" for="sendForDryingModalMaterial">Порода</label>
-                                <input type="text" class="form-control" id="sendForDryingModalMaterial" disabled="disabled">
+                                <input type="text" class="form-control" id="sendForDryingModalMaterial"
+                                       disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="sendForDryingModalMaterialDescr">Описание</label>
-                                <input class="form-control" id="sendForDryingModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                                <input class="form-control" id="sendForDryingModalMaterialDescr" type="text"
+                                       placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryingModalThickness">Толщина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" required="required" id="sendForDryingModalThickness" disabled="disabled" name="sizeOfHeight">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм"
+                                       class="form-control" required="required" id="sendForDryingModalThickness"
+                                       disabled="disabled" name="sizeOfHeight">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryingModalWidth">Ширина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" required="required" id="sendForDryingModalWidth" disabled="disabled" name="sizeOfWidth">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм"
+                                       class="form-control" required="required" id="sendForDryingModalWidth"
+                                       disabled="disabled" name="sizeOfWidth">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" required="required" id="sendForDryingModalLength" disabled="disabled" name="sizeOfLong">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм"
+                                       class="form-control" required="required" id="sendForDryingModalLength"
+                                       disabled="disabled" name="sizeOfLong">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForDryingModalCount">Количество досок</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryingModalCount" required="required" disabled="disabled" autocomplete="off" placeholder="шт" name="countOfDesk">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="sendForDryingModalCount" required="required" disabled="disabled"
+                                       autocomplete="off" placeholder="шт" name="countOfDesk">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="sendForDryingModalVolume">Кубатура</label>
-                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control" id="sendForDryingModalVolume" disabled="disabled" name="extent">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3"
+                                       class="form-control" id="sendForDryingModalVolume" disabled="disabled"
+                                       name="extent">
                             </div>
                         </div>
                     </div>
@@ -143,60 +227,79 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post" id="editDryingStorageForm">
+                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post"
+                      id="editDryingStorageForm">
                     <div class="modal-body">
-                        <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
-                        <input type="text" class="form-control" id="editDryingModalRawDescsCount" hidden="hidden" autocomplete="off">
-                        <input type="text" class="form-control" id="editDryingModalInitialDescsCount" hidden="hidden" autocomplete="off">
+                        <input type="text" class="form-control" id="editDryingModalId" hidden="hidden"
+                               autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryingModalRawDescsCount" hidden="hidden"
+                               autocomplete="off">
+                        <input type="text" class="form-control" id="editDryingModalInitialDescsCount" hidden="hidden"
+                               autocomplete="off">
 
                         <label class="col-form-label" for="editDryingModalCode">Код</label>
-                        <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                        <input type="text" class="form-control" id="editDryingModalCode" required="required"
+                               placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="control-label" for="editDryingModalMaterial">Порода</label>
-                                <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                                <input type="text" class="form-control" id="editDryingModalMaterial"
+                                       disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
-                                <input class="form-control" id="editDryingModalMaterialDescr" type="text" autocomplete="off" placeholder="Не заполнено" name="breedDescription">
+                                <input class="form-control" id="editDryingModalMaterialDescr" type="text"
+                                       autocomplete="off" placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required"  autocomplete="off" placeholder="мм" name="sizeOfHeight" oninput="calculateExtent()">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalThickness" required="required" autocomplete="off"
+                                       placeholder="мм" name="sizeOfHeight" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalWidth">Ширина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*"class="form-control" id="editDryingModalWidth" required="required"  autocomplete="off" placeholder="мм" name="sizeOfWidth" oninput="calculateExtent()">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм"
+                                       name="sizeOfWidth" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required"  autocomplete="off" placeholder="мм" name="sizeOfLong" oninput="calculateExtent()">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalLength" required="required" autocomplete="off"
+                                       placeholder="мм" name="sizeOfLong" oninput="calculateExtent()">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput="calculateExtent()">
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт"
+                                       name="countOfDesk" oninput="calculateExtent()">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
-                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required" disabled="disabled" autocomplete="off" placeholder="м3">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalVolume" required="required" disabled="disabled"
+                                       autocomplete="off" placeholder="м3">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalCell">Камера</label>
-                                <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCell" required="required" autocomplete="off" placeholder="Не заполнено" name="cell">
+                                <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalCell" required="required" autocomplete="off"
+                                       placeholder="Не заполнено" name="cell">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingStartDate">Дата загрузки</label>
-                                <input class="form-control" type="date" id="editDryingStartDate"  name="startDate">
+                                <input class="form-control" type="date" id="editDryingStartDate" name="startDate">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingEndDate">Дата выхода</label>
@@ -227,13 +330,15 @@
                         <div class="form-group row">
                             <label for="startDateInput" class="col-2 col-form-label">Начало</label>
                             <div class="col-10">
-                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput" required="required" name="startDate">
+                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput"
+                                       required="required" name="startDate">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="endDateInput" class="col-2 col-form-label">Конец</label>
                             <div class="col-10">
-                                <input class="form-control" type="date" id="endDateInput" required="required" name="endDate">
+                                <input class="form-control" type="date" id="endDateInput" required="required"
+                                       name="endDate">
                             </div>
                         </div>
                     </div>
@@ -255,14 +360,6 @@
 </th:block>
 
 
-
-
-
-
-
-
-
-
 <!--//    OAK   Drying STORAGE TAB-->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryingStorageOAK">
@@ -271,113 +368,132 @@
         <table class="table table-hover table-striped" id="dryingtableoak">
             <br>
             <thead>
-                <tr>
-                    <th></th>
-                    <th style="width: 30px"></th>
-                    <th scope="col">Код партии</th>
-                    <th scope="col">Порода</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Толщина, мм</th>
-                    <th scope="col">Длина, мм</th>
-                    <th scope="col">Кубатура, м<sup>3</sup></th>
-                    <th scope="col">Примечание</th>
-                    <th scope="col">Камера</th>
-                    <th scope="col">Дата загрузки</th>
-                    <th scope="col">Дата выхода</th>
-                    <th>RawStorage extent</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th></th>
+                <th style="width: 30px"></th>
+                <th scope="col">Код партии</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Толщина, мм</th>
+                <th scope="col">Длина, мм</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th scope="col">Примечание</th>
+                <th scope="col">Камера</th>
+                <th scope="col">Дата загрузки</th>
+                <th scope="col">Дата выхода</th>
+                <th>RawStorage extent</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
-                <div th:each="rs, index : ${dryingStorageList}">
-                    <tr th:id="${rs.id}">
-                        <td th:text="${rs.id}"></td>
-                        <td th:if="${rs.deskOakList.isEmpty()}"></td>
-                        <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
-                        <th scope="row" th:text="${rs.codeOfProduct}"></th>
-                        <td th:text="${rs.breedOfTree.breed}"></td>
-                        <td th:text="${rs.breedDescription}"></td>
-                        <td th:text="${rs.sizeOfHeight}"></td>
-                        <td th:text="${rs.sizeOfLong}"></td>
-                        <td th:text="${rs.extent}"></td>
-                        <td th:text="${rs.description}"></td>
-                        <td th:text="${ds?.cell}"></td>
-                        <td th:text="${ds?.startDate}"></td>
-                        <td th:text="${rs.dateDrying}"></td>
-                        <td th:text="${rs?.rawStorage?.extent}"></td>
-                        <td style="text-align: right">
-                            <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakDryingStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                        </td>
-                    </tr>
-                    <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
-                        <td style="display:none; width: 30px"></td>
-                        <td colspan="10" class="child-table">
-                            <table class="table table-hover table-striped parent-table" >
-                                <thead>
-                                <tr>
-                                    <th scope="col">Ширина, мм</th>
-                                    <th scope="col">Количество досок</th>
-                                    <th class="delete-btns"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="desc: ${rs?.deskOakList}" th:id="${desc.id}">
-                                        <td th:text="${desc.sizeOfWidth}"></td>
-                                        <td th:text="${desc.countOfDesk}"></td>
-                                        <td class="delete-btns">
-                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                                            <button  type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip" title="Удалить"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                    </tr>
-                </div>
+            <div th:each="rs, index : ${dryingStorageList}">
+                <tr th:id="${rs.id}">
+                    <td th:text="${rs.id}"></td>
+                    <td th:if="${rs.deskOakList.isEmpty()}"></td>
+                    <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control"
+                        onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                    <th scope="row" th:text="${rs.codeOfProduct}"></th>
+                    <td th:text="${rs.breedOfTree.breed}"></td>
+                    <td th:text="${rs.breedDescription}"></td>
+                    <td th:text="${rs.sizeOfHeight}"></td>
+                    <td th:text="${rs.sizeOfLong}"></td>
+                    <td th:text="${rs.extent}"></td>
+                    <td th:text="${rs.description}"></td>
+                    <td th:text="${ds?.cell}"></td>
+                    <td th:text="${ds?.startDate}"></td>
+                    <td th:text="${rs.dateDrying}"></td>
+                    <td th:text="${rs?.rawStorage?.extent}"></td>
+                    <td style="text-align: right">
+                        <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button"
+                                class="btn btn-primary btn-sm" data-toggle="modal"
+                                onclick="addOakDryingStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip"
+                                                                           title="Добавить позицию"></i></button>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th"
+                                                                                        data-toggle="tooltip"
+                                                                                        title="Отправить на сухой склад"></i>
+                        </button>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen"
+                                                                                         data-toggle="tooltip"
+                                                                                         title="Редактировать"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
+                    <td style="display:none; width: 30px"></td>
+                    <td colspan="10" class="child-table">
+                        <table class="table table-hover table-striped parent-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Ширина, мм</th>
+                                <th scope="col">Количество досок</th>
+                                <th class="delete-btns"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="desc: ${rs?.deskOakList}" th:id="${desc.id}">
+                                <td th:text="${desc.sizeOfWidth}"></td>
+                                <td th:text="${desc.countOfDesk}"></td>
+                                <td class="delete-btns">
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                            onclick="editOakPackageItem(this)"><i class="fas fa-pen"
+                                                                                  data-toggle="tooltip"
+                                                                                  title="Редактировать"></i></button>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                            onclick="deleteOakPackageItem(this)"><i class="fa fa-times"
+                                                                                    data-toggle="tooltip"
+                                                                                    title="Удалить"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                </tr>
+            </div>
             </tbody>
             <tfoot>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th scope="col">Код партии</th>
-                    <th scope="col">Порода</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Толщина, мм</th>
-                    <th scope="col">Длина, мм</th>
-                    <th scope="col">Кубатура, м<sup>3</sup></th>
-                    <th scope="col">Примечание</th>
-                    <th scope="col">Камера</th>
-                    <th scope="col">Дата загрузки</th>
-                    <th scope="col">Дата выхода</th>
-                    <th>RawStorage extent</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th scope="col">Код партии</th>
+                <th scope="col">Порода</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Толщина, мм</th>
+                <th scope="col">Длина, мм</th>
+                <th scope="col">Кубатура, м<sup>3</sup></th>
+                <th scope="col">Примечание</th>
+                <th scope="col">Камера</th>
+                <th scope="col">Дата загрузки</th>
+                <th scope="col">Дата выхода</th>
+                <th>RawStorage extent</th>
+                <th></th>
+            </tr>
             </tfoot>
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
-            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
+            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal"
+                    data-placement="left" data-target="#exportModal">
                 <i class="far fa-file-excel"></i></i>
             </button>
         </div>
         <!-- BUTTON -->
     </div>
 
-<!--    Send for drying start  -->
+    <!--    Send for drying start  -->
     <div class="modal fade" id="sendForDryStorageModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -390,39 +506,50 @@
                 <form th:action="@{'/fabric/addDeskToDryStorage-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
-                        <input type="text" class="form-control" id="sendForDryStorageModalId" hidden="hidden" autocomplete="off" name="dryingStorageId">
+                        <input type="text" class="form-control" id="sendForDryStorageModalId" hidden="hidden"
+                               autocomplete="off" name="dryingStorageId">
 
                         <label class="col-form-label" for="sendForDryStorageModalCode">Код</label>
-                        <input type="text" class="form-control" id="sendForDryStorageModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct" style="margin-bottom: 5px;">
+                        <input type="text" class="form-control" id="sendForDryStorageModalCode" required="required"
+                               placeholder="Не заполнено" autocomplete="off" name="codeOfProduct"
+                               style="margin-bottom: 5px;">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="control-label" for="sendForDryStorageModalMaterial">Порода</label>
-                                <input type="text" class="form-control" id="sendForDryStorageModalMaterial" disabled="disabled">
+                                <input type="text" class="form-control" id="sendForDryStorageModalMaterial"
+                                       disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="sendForDryStorageModalMaterialDescr">Описание</label>
-                                <input class="form-control" id="sendForDryStorageModalMaterialDescr" placeholder="Не заполнено" type="text" name="breedDescription">
+                                <input class="form-control" id="sendForDryStorageModalMaterialDescr"
+                                       placeholder="Не заполнено" type="text" name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryStorageModalThickness">Толщина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryStorageModalThickness" disabled="disabled" name="sizeOfHeight">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="sendForDryStorageModalThickness" disabled="disabled" name="sizeOfHeight">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryStorageModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="sendForDryStorageModalLength" disabled="disabled" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="sendForDryStorageModalLength" disabled="disabled" autocomplete="off"
+                                       placeholder="мм" name="sizeOfLong">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryStorageModalVolume">Кубатура</label>
-                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3" class="form-control" id="sendForDryStorageModalVolume" disabled="disabled" name="extent">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" placeholder="м3"
+                                       class="form-control" id="sendForDryStorageModalVolume" disabled="disabled"
+                                       name="extent">
                             </div>
                         </div>
 
                         <label class="col-form-label" for="sendForDryStorageModalDescription">Примечания</label>
-                        <input type="text" class="form-control" id="sendForDryStorageModalDescription" placeholder="Не заполнено" name="description">
+                        <input type="text" class="form-control" id="sendForDryStorageModalDescription"
+                               placeholder="Не заполнено" name="description">
 
                     </div>
                     <div class="modal-footer">
@@ -446,61 +573,77 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post" id="editDryingOakForm">
+                <form th:action="@{'/fabric/editDryingStorageObj-'+${userId}+'-'+${breedId}}" method="post"
+                      id="editDryingOakForm">
                     <div class="modal-body">
 
-                        <input type="text" class="form-control" id="editDryingModalId" hidden="hidden" autocomplete="off" name="id">
-                        <input type="text" class="form-control" id="editDryingModalRawExtent" hidden="hidden" autocomplete="off" >
-                        <input type="text" class="form-control" id="editDryingModalInitialExtent" hidden="hidden" autocomplete="off">
+                        <input type="text" class="form-control" id="editDryingModalId" hidden="hidden"
+                               autocomplete="off" name="id">
+                        <input type="text" class="form-control" id="editDryingModalRawExtent" hidden="hidden"
+                               autocomplete="off">
+                        <input type="text" class="form-control" id="editDryingModalInitialExtent" hidden="hidden"
+                               autocomplete="off">
 
                         <label class="col-form-label" for="editDryingModalCode">Код</label>
-                        <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                        <input type="text" class="form-control" id="editDryingModalCode" required="required"
+                               placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="control-label" for="editDryingModalMaterial">Порода</label>
-                                <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                                <input type="text" class="form-control" id="editDryingModalMaterial"
+                                       disabled="disabled">
                             </div>
                             <div class="col-6">
                                 <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
-                                <input class="form-control" id="editDryingModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                                <input class="form-control" id="editDryingModalMaterialDescr" type="text"
+                                       placeholder="Не заполнено" name="breedDescription">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalThickness">Толщина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required"  autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalThickness" required="required" autocomplete="off"
+                                       placeholder="мм" name="sizeOfHeight">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalLength" autocomplete="off" placeholder="мм" name="sizeOfLong">
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalVolume">Кубатура</label>
-                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required"  autocomplete="off" placeholder="м3" name="extent">
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalVolume" required="required" autocomplete="off"
+                                       placeholder="м3" name="extent">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editForDryingModalDescription">Примечания</label>
-                                <input type="text" class="form-control" id="editForDryingModalDescription" placeholder="Не заполнено" name="description">
+                                <input type="text" class="form-control" id="editForDryingModalDescription"
+                                       placeholder="Не заполнено" name="description">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingModalCell">Камера</label>
-                                <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCell" required="required" autocomplete="off" placeholder="Не заполнено" name="cell">
+                                <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                       id="editDryingModalCell" required="required" autocomplete="off"
+                                       placeholder="Не заполнено" name="cell">
                             </div>
                         </div>
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingStartDate">Дата загрузки</label>
-                                <input class="form-control" type="date" id="editDryingStartDate"  name="startDate">
+                                <input class="form-control" type="date" id="editDryingStartDate" name="startDate">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editDryingDateOak">Дата выхода</label>
-                                <input class="form-control" type="date" id="editDryingDateOak" required="required" name="dateDrying">
+                                <input class="form-control" type="date" id="editDryingDateOak" required="required"
+                                       name="dateDrying">
                             </div>
                         </div>
                     </div>
@@ -520,23 +663,28 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addOakPackageItemsModalHeader"> </h5>
+                    <h5 class="modal-title" id="addOakPackageItemsModalHeader"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addDescriptionOakItemToDryingStorage-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDescriptionOakItemToDryingStorage-'+${userId}+'-'+${breedId}}"
+                      method="post">
                     <div class="modal-body">
                         <input type="number" id="addRawStorageId" hidden="" name="dryStorageId">
 
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
                                 <label for="addOakPackageContentWidth" class="col-form-label">Ширина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм"
+                                       class="form-control" id="addOakPackageContentWidth" required="required"
+                                       autocomplete="off" name="width">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="addOakPackageContentCount">Количество досок</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="addOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт"
+                                       class="form-control" id="addOakPackageContentCount" autocomplete="off"
+                                       required="required" name="count">
                             </div>
                         </div>
                     </div>
@@ -562,7 +710,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editDescriptionOakItemToDryingStorage-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editDescriptionOakItemToDryingStorage-'+${userId}+'-'+${breedId}}"
+                      method="post">
                     <div class="modal-body">
                         <input type="number" id="oakPackageContentId" hidden="" name="descId">
                         <input type="number" id="editOakPackageId" hidden="" name="dryingStorageId">
@@ -571,11 +720,15 @@
                         <div class="form-group row d-flex" style="align-items: flex-end;margin-bottom: 0">
                             <div class="col-6">
                                 <label for="editOakPackageContentWidth" class="col-form-label">Ширина, мм</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="editOakPackageContentWidth" required="required" autocomplete="off" name="width">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control"
+                                       id="editOakPackageContentWidth" required="required" autocomplete="off"
+                                       name="width">
                             </div>
                             <div class="col-6">
                                 <label class="col-form-label" for="editOakPackageContentCount">Количество досок</label>
-                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"  id="editOakPackageContentCount"  autocomplete="off" required="required" name="count">
+                                <input type="number" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control"
+                                       id="editOakPackageContentCount" autocomplete="off" required="required"
+                                       name="count">
                             </div>
                         </div>
                     </div>
@@ -602,12 +755,15 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form th:action="@{'/fabric/deleteDescriptionOakItemToDryingStorage-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/deleteDescriptionOakItemToDryingStorage-'+${userId}+'-'+${breedId}}"
+                      method="post">
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden" autocomplete="off" name="dryingStorageId">
-                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden" autocomplete="off" name="descId">
+                            <input type="text" class="form-control" id="deleteOakPackId" hidden="hidden"
+                                   autocomplete="off" name="dryingStorageId">
+                            <input type="text" class="form-control" id="deleteOakPackItemModalId" hidden="hidden"
+                                   autocomplete="off" name="descId">
 
                             <p id="deleteOakPackItemModalConfirmation">
                             </p>
@@ -639,7 +795,8 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off"
+                                   name="id">
 
                             <p id="returnItemModalConfirmation">
                             </p>
@@ -670,13 +827,15 @@
                         <div class="form-group row">
                             <label for="startDateInput" class="col-2 col-form-label">Начало</label>
                             <div class="col-10">
-                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput" required="required" name="startDate">
+                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput"
+                                       required="required" name="startDate">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="endDateInput" class="col-2 col-form-label">Конец</label>
                             <div class="col-10">
-                                <input class="form-control" type="date" id="endDateInput" required="required" name="endDate">
+                                <input class="form-control" type="date" id="endDateInput" required="required"
+                                       name="endDate">
                             </div>
                         </div>
                     </div>
