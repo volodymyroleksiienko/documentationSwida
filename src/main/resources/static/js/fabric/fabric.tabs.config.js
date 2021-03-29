@@ -438,16 +438,39 @@ $(document).ready( function () {
         }
     });
 
-
-    let dryingtable = $('#dryingtable').DataTable({
+    let dryingtableCell = $('#dryingtableCell').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "order": [ 0, "desc" ],
-        "select": {
-            "style": 'os'
+        // "select": {
+        //     "style": 'os'
+        // },
+        // columns width
+        "autoWidth": false,
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },
+        ]
+    });
+
+    let dryingtable = $('#dryingtable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
+        // "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "order": [ 0, "desc" ],
+        "info": false,
+        "searching": false,
+        "paging": false,
+        // "select": {
+        //     "style": 'os'
+        // },
         // columns width
         "autoWidth": false,
         // id column visibility
@@ -466,11 +489,11 @@ $(document).ready( function () {
         ]
     });
 
-    // TOOGLE SELECTED START
-    $('#dryingtable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-    } );
-    //TOOGLE SELECTED END
+    // // TOOGLE SELECTED START
+    // $('#dryingtable tbody').on( 'click', 'tr', function () {
+    //     $(this).toggleClass('selected');
+    // } );
+    // //TOOGLE SELECTED END
 
     let dryingtableoak = $('#dryingtableoak').DataTable({
         "language": {

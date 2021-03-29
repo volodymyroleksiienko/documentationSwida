@@ -3,7 +3,7 @@
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryingStorage">
 
     <div class="tab-pane fade show active container-fluid" id="drying">
-        <table class="table table-hover table-striped" id="dryingtable">
+        <table class="table table-hover table-striped" id="dryingtableCell">
             <br>
             <thead>
             <tr>
@@ -14,7 +14,6 @@
                 <th scope="col">Дата загрузки</th>
                 <th scope="col">Дата выхода</th>
                 <th scope="col">Количество досок</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -22,30 +21,17 @@
                 <div th:each="ds, index : ${dryingStorageList}">
                     <tr th:id="${ds.id}" th:if="${index.count==1 && cell==ds.cell && cell!=0}">
                         <td th:text="${ds.id}"></td>
-                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();"
-                            th:id="${ds.id}"></td>
-                        <td th:text="${ds.extent}"></td>
+                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ds.id}"></td>
                         <td th:text="${ds?.cell}"></td>
+                        <td th:text="${ds.extent}"></td>
                         <td th:text="${ds?.startDate}"></td>
                         <td th:text="${ds?.dateDrying}"></td>
                         <td th:text="${ds.countOfDesk}"></td>
-                        <td>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
-                                    data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th"
-                                                                                         data-toggle="tooltip"
-                                                                                         title="На сухой склад"></i>
-                            </button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
-                                    data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen"
-                                                                                          data-toggle="tooltip"
-                                                                                          title="Редактировать"></i>
-                            </button>
-                        </td>
                     </tr>
                     <tr style="display: none" th:id="'parent'+${ds.id}">
                     <td style="display:none"></td>
                     <td colspan="13" class="child-table">
-                        <table class="table table-hover table-striped parent-table">
+                        <table class="table table-hover table-striped parent-table" id="dryingtable">
                             <thead>
                             <tr>
                                 <th></th>
@@ -91,27 +77,8 @@
                                 </td>
                             </tr>
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th></th>
-                                <th scope="col">Код партии</th>
-                                <th scope="col">Порода</th>
-                                <th scope="col">Описание</th>
-                                <th scope="col">Толщина, мм</th>
-                                <th scope="col">Ширина, мм</th>
-                                <th scope="col">Длина, мм</th>
-                                <th scope="col">Кол-во досок, шт</th>
-                                <th scope="col">Кубатура, м<sup>3</sup></th>
-                                <th scope="col">Камера</th>
-                                <th scope="col">Дата загрузки</th>
-                                <th scope="col">Дата выхода</th>
-                                <th>RawStorage countOfDesk</th>
-                                <th></th>
-                            </tr>
-                            </tfoot>
                         </table>
                     </td>
-                    <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
@@ -128,7 +95,6 @@
                 <th scope="col">Дата загрузки</th>
                 <th scope="col">Дата выхода</th>
                 <th scope="col">Количество досок</th>
-                <th></th>
             </tr>
             </tfoot>
             <div/>
@@ -190,7 +156,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryingModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм"
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" placeholder="мм"
                                        class="form-control" required="required" id="sendForDryingModalLength"
                                        disabled="disabled" name="sizeOfLong">
                             </div>
@@ -273,7 +239,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control"
                                        id="editDryingModalLength" required="required" autocomplete="off"
                                        placeholder="мм" name="sizeOfLong" oninput="calculateExtent()">
                             </div>
@@ -539,7 +505,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="sendForDryStorageModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control"
                                        id="sendForDryStorageModalLength" disabled="disabled" autocomplete="off"
                                        placeholder="мм" name="sizeOfLong">
                             </div>
@@ -614,7 +580,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="col-form-label" for="editDryingModalLength">Длина</label>
-                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control"
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control"
                                        id="editDryingModalLength" autocomplete="off" placeholder="мм" name="sizeOfLong">
                             </div>
                             <div class="col-4">
