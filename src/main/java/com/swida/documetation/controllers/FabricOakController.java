@@ -216,15 +216,13 @@ public class FabricOakController {
     }
     @PostMapping("/addDeskToDrying-{userId}-2")
     private String addDeskToDrying(@PathVariable("userId")int userId, String rawStorageId, DryingStorage dryingStorage,
-                                   String extentOfDrying,String date){
+                                   String date){
         int breedId = 2;
 
         dryingStorage.setUserCompany(userCompanyService.findById(userId));
         dryingStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        dryingStorage.setExtent(extentOfDrying);
-
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(rawStorageId));
-        rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-Float.parseFloat(extentOfDrying)).replace(',','.'));
+        rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-Float.parseFloat(dryingStorage.getExtent())).replace(',','.'));
 
         dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
         dryingStorage.setSizeOfLong(rawStorage.getSizeOfLong());
