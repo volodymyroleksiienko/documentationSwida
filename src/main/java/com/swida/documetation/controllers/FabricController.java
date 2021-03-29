@@ -458,6 +458,7 @@ public class FabricController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("uniqCell",dryingStorageService.getListCellByUserByBreed(breedId,userId));
         btnConfig(userId,model);
         return "fabricPage";
     }

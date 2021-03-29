@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DryingStorageServiceImpl implements DryingStorageService {
@@ -83,6 +84,11 @@ public class DryingStorageServiceImpl implements DryingStorageService {
             return dryingStorageJPA.getListByUserByBreedOak(breedId,userId);
         }
         return dryingStorageJPA.getListByUserByBreed(breedId,userId);
+    }
+
+    @Override
+    public Set<Integer> getListCellByUserByBreed(int breedId, int userId) {
+        return dryingStorageJPA.getListCellByUserByBreed(breedId,userId);
     }
 
     @Override

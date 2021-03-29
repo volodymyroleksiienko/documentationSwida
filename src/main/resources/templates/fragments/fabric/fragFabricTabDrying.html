@@ -18,30 +18,31 @@
             </tr>
             </thead>
             <tbody>
-            <div th:each="ts, index : ${treeStorageList}">
-                <tr th:id="${ts.id}">
-                    <td th:text="${ts.id}"></td>
-                    <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();"
-                        th:id="${ts.id}"></td>
-                    <td th:text="${ds.extent}"></td>
-                    <td th:text="${ds?.cell}"></td>
-                    <td th:text="${ds?.startDate}"></td>
-                    <td th:text="${ds?.dateDrying}"></td>
-                    <td th:text="${ds.countOfDesk}"></td>
-                    <td>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
-                                data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th"
-                                                                                     data-toggle="tooltip"
-                                                                                     title="На сухой склад"></i>
-                        </button>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
-                                data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen"
-                                                                                      data-toggle="tooltip"
-                                                                                      title="Редактировать"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr style="display: none" th:id="'parent'+${ts.id}">
+            <div th:each="cell: ${uniqCell}">
+                <div th:each="ds, index : ${dryingStorageList}">
+                    <tr th:id="${ds.id}" th:if="${index.count==1 && cell==ds.cell && cell!=0}">
+                        <td th:text="${ds.id}"></td>
+                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();"
+                            th:id="${ds.id}"></td>
+                        <td th:text="${ds.extent}"></td>
+                        <td th:text="${ds?.cell}"></td>
+                        <td th:text="${ds?.startDate}"></td>
+                        <td th:text="${ds?.dateDrying}"></td>
+                        <td th:text="${ds.countOfDesk}"></td>
+                        <td>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                    data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th"
+                                                                                         data-toggle="tooltip"
+                                                                                         title="На сухой склад"></i>
+                            </button>
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                    data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen"
+                                                                                          data-toggle="tooltip"
+                                                                                          title="Редактировать"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr style="display: none" th:id="'parent'+${ds.id}">
                     <td style="display:none"></td>
                     <td colspan="13" class="child-table">
                         <table class="table table-hover table-striped parent-table">
@@ -64,7 +65,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="ds, index : ${dryingStorageList}" th:id="${ds.id}">
+                            <tr  th:id="${ds.id}">
                                 <td th:text="${ds.id}"></td>
                                 <th scope="row" th:text="${ds.codeOfProduct}"></th>
                                 <td th:text="${ds.breedOfTree.breed}"></td>
@@ -114,7 +115,10 @@
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
                 </tr>
+                </div>
             <tfoot>
             <tr>
                 <th>id</th>
