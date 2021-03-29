@@ -36,7 +36,7 @@
                     <td th:text="${ds.extent}"></td>
                     <td th:text="${ds?.cell}"></td>
                     <td th:text="${ds?.startDate}"></td>
-                    <td th:text="${ds?.date}"></td>
+                    <td th:text="${ds?.dateDrying}"></td>
                     <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
                     <td>
                         <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
@@ -202,9 +202,6 @@
                                 <label class="col-form-label" for="editDryingEndDate">Дата выхода</label>
                                 <input class="form-control" type="date" id="editDryingEndDate" name="dateDrying">
                             </div>
-<!--                            <script type="text/javascript">-->
-<!--                                document.querySelector("#editDryingDate").valueAsDate = new Date();-->
-<!--                            </script>-->
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -284,6 +281,8 @@
                     <th scope="col">Длина, мм</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечание</th>
+                    <th scope="col">Камера</th>
+                    <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th>RawStorage extent</th>
                     <th></th>
@@ -302,6 +301,8 @@
                         <td th:text="${rs.sizeOfLong}"></td>
                         <td th:text="${rs.extent}"></td>
                         <td th:text="${rs.description}"></td>
+                        <td th:text="${ds?.cell}"></td>
+                        <td th:text="${ds?.startDate}"></td>
                         <td th:text="${rs.dateDrying}"></td>
                         <td th:text="${rs?.rawStorage?.extent}"></td>
                         <td style="text-align: right">
@@ -343,6 +344,8 @@
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
                     </tr>
                 </div>
             </tbody>
@@ -357,6 +360,8 @@
                     <th scope="col">Длина, мм</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Примечание</th>
+                    <th scope="col">Камера</th>
+                    <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th>RawStorage extent</th>
                     <th></th>
@@ -483,13 +488,25 @@
                                 <input type="text" class="form-control" id="editForDryingModalDescription" placeholder="Не заполнено" name="description">
                             </div>
                             <div class="col-6">
+                                <label class="col-form-label" for="editDryingModalCell">Камера</label>
+                                <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCell" required="required" autocomplete="off" placeholder="Не заполнено" name="cell">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editForDryingModalDescription">Примечания</label>
+                                <input type="text" class="form-control" id="editForDryingModalDescription" placeholder="Не заполнено" name="description">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDryingStartDate">Дата загрузки</label>
+                                <input class="form-control" type="date" id="editDryingStartDate"  name="startDate">
+                            </div>
+                            <div class="col-6">
                                 <label class="col-form-label" for="editDryingDateOak">Дата выхода</label>
                                 <input class="form-control" type="date" id="editDryingDateOak" required="required" name="dateDrying">
                             </div>
                         </div>
-                        <script type="text/javascript">
-                            document.querySelector("#editDryingDateOak").valueAsDate = new Date();
-                        </script>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Редактировать</button>
@@ -668,7 +685,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Скачать</button>
+                        <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>

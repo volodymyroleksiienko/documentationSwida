@@ -46,9 +46,11 @@ function editRawStorageOak(btnObj) {
     var length =            $(trObj).find('td:eq(4)').text();
     var extent =            $(trObj).find('td:eq(5)').text();
     var description =       $(trObj).find('td:eq(6)').text();
-    var date =              $(trObj).find('td:eq(7)').text();
-    var rawExtent =         $(trObj).find('td:eq(8)').text();
-    var initial =           $(trObj).find('td:eq(9)').text();
+    var cell =              $(trObj).find('td:eq(7)').text();
+    var incomeDate =        $(trObj).find('td:eq(8)').text();
+    var exitDate =          $(trObj).find('td:eq(9)').text();
+    var rawExtent =         $(trObj).find('td:eq(10)').text();
+    var initial =           $(trObj).find('td:eq(11)').text();
 
     $('#editDryingModalCode').val(code);
     $('#editDryingModalMaterial').val(material);
@@ -57,7 +59,10 @@ function editRawStorageOak(btnObj) {
     $('#editDryingModalLength').val(length);
     $('#editDryingModalVolume').val(extent);
     $('#editForDryingModalDescription').val(description);
-    $('#editDryingDateOak').val(date);
+    $('#editDryingModalCell').val(cell);
+    $('#editDryingStartDate').val(incomeDate);
+    $('#editDryingEndDate').val(exitDate);
+    $('#editDryingDateOak').val(exitDate);
     $('#editDryingModalRawExtent').val(rawExtent);
     $('#editDryingModalInitialExtent').val(initial);
 
