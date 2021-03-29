@@ -19,7 +19,7 @@
             <tbody>
             <div th:each="cell: ${uniqCell}">
                 <div th:each="ds, index : ${dryingStorageList}">
-                    <tr th:id="${ds.id}" th:if="${index.count==1 && cell==ds.cell && cell!=0}">
+                    <tr th:id="${ds.id}" th:if="${cell==ds.cell}">
                         <td th:text="${ds.id}"></td>
                         <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ds.id}"></td>
                         <td th:text="${ds?.cell}"></td>
@@ -86,6 +86,7 @@
                     <td style="display:none"></td>
                 </tr>
                 </div>
+            </div>
             <tfoot>
             <tr>
                 <th>id</th>
@@ -97,7 +98,6 @@
                 <th scope="col">Количество досок</th>
             </tr>
             </tfoot>
-            <div/>
             </tbody>
         </table>
         <!-- BUTTON -->

@@ -459,6 +459,8 @@ public class FabricController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         model.addAttribute("uniqCell",dryingStorageService.getListCellByUserByBreed(breedId,userId));
+        System.out.println("cell "+dryingStorageService.getListCellByUserByBreed(breedId,userId));
+        System.out.println("cell "+dryingStorageService.getListByUserByBreed(breedId,userId));
         btnConfig(userId,model);
         return "fabricPage";
     }

@@ -46,4 +46,25 @@ public class DryingStorage {
 
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
+
+    @Override
+    public String toString() {
+        return "DryingStorage{" +
+                "id=" + id +
+                ", codeOfProduct='" + codeOfProduct + '\'' +
+                ", breedOfTree=" + breedOfTree +
+                ", breedDescription='" + breedDescription + '\'' +
+                ", sizeOfHeight='" + sizeOfHeight + '\'' +
+                ", sizeOfWidth='" + sizeOfWidth + '\'' +
+                ", sizeOfLong='" + sizeOfLong + '\'' +
+                ", cell=" + cell +
+                ", countOfDesk=" + countOfDesk +
+                ", extent='" + extent + '\'' +
+                ", description='" + description + '\'' +
+                ", dateDrying='" + dateDrying + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", date='" + date + '\'' +
+                ", statusOfEntity=" + statusOfEntity +
+                '}';
+    }
 }
