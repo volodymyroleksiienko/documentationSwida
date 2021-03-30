@@ -142,7 +142,12 @@
             let percentageSum = 0.0;
 
             for (let j = 1; j<rowsList.length-1; j++){
-                takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
+                if ((rowsList[j].cells[2].innerHTML)!=='' && !isNaN(parseFloat(rowsList[j].cells[2].innerHTML)) ){
+                    takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
+                } else{
+                    takenSum = 0.00;
+                }
+
                 outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
                 percentageSum = outputSum/takenSum*100;
 
