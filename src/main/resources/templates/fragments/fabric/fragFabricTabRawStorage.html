@@ -21,6 +21,7 @@
                 <tr>
                     <th></th>
 <!--                    <th style="width: 30px"></th>-->
+                    <th scope="col">Дата распиловки</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -41,6 +42,7 @@
                     <tr th:id="${rs.id}">
                         <td th:text="${rs.id}"></td>
 <!--                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>-->
+                        <th scope="col">Дата распиловки</th>
                         <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
@@ -67,6 +69,7 @@
                 <tr>
                     <th></th>
     <!--                <th style="width: 30px"></th>-->
+                    <th scope="col">Дата распиловки</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -626,6 +629,7 @@
                 <tr>
                     <th></th>
                     <th style="width: 30px"></th>
+                    <th scope="col">Дата распиловки</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -646,6 +650,7 @@
                         <td th:text="${rs.id}"></td>
                         <td th:if="${rs.deskOakList.isEmpty()}"></td>
                         <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"><span></span></td>
+                        <th scope="col">Дата распиловки</th>
                         <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
@@ -703,6 +708,7 @@
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
+                        <td style="display:none"></td>
                     </tr>
                 </div>
             </tbody>
@@ -710,6 +716,7 @@
                 <tr>
                     <th></th>
                     <th></th>
+                    <th scope="col">Дата распиловки</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>

@@ -4,10 +4,10 @@ function sendForDryingOak(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#sendForDryingModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfRawStorage = $(trObj).find('th:eq(1)').text();
     $('#sendForDryingModalHeader').text("Отправить в сушку "+codeOfRawStorage);
 
-    var code =              $(trObj).find('th:eq(0)').text();
+    var code =              $(trObj).find('th:eq(1)').text();
     var material =          $(trObj).find('td:eq(1)').text();
     var breedDescription =  $(trObj).find('td:eq(2)').text();
     var thickness =         $(trObj).find('td:eq(3)').text();
@@ -52,10 +52,10 @@ function editRawStorageOak(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#editDryingModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfRawStorage = $(trObj).find('th:eq(1)').text();
     $('#editDryingModalHeader').text("Редактировать "+codeOfRawStorage);
 
-    var code =          $(trObj).find('th:eq(0)').text();
+    var code =          $(trObj).find('th:eq(1)').text();
     var material =      $(trObj).find('td:eq(1)').text();
     var description =   $(trObj).find('td:eq(2)').text();
     var thickness =     $(trObj).find('td:eq(3)').text();
@@ -101,7 +101,7 @@ function sendForPackagesStorageOak(btnObj) {
 
 
 
-    let codeOfRawStorage =      $(trObj).find('th:eq(0)').text();
+    let codeOfRawStorage =      $(trObj).find('th:eq(1)').text();
     let size =                  $(trObj).find('td:eq(3)').text();
     let maxExtent =             $(trObj).find('td:eq(4)').text();
 
@@ -143,7 +143,7 @@ function sendForPackagesStorageOak(btnObj) {
 function addOakRawStorageItem(btnObj) {
     let trObj = btnObj.parentElement.parentElement;
     let trId =              $(trObj).attr('id');
-    let packageCode =       $(trObj).find('th:eq(0)').text();
+    let packageCode =       $(trObj).find('th:eq(1)').text();
 
     console.log("row id: "+trId);
 
@@ -347,7 +347,7 @@ function resetRawExtent(btnObj) {
     $('#resetItemId').val(trId);
     console.log("row id: "+trId);
 
-    let code = $(trObj).find('th:eq(0)').text();
+    let code = $(trObj).find('th:eq(1)').text();
 
     $('#resetItemModalConfirmation').text(" Вы уверены, что хотите обнулить кубатуру партии №"+code+"? Это действие не возвращает материал на склад кругляка!");
     $('#resetModal').modal('show');
@@ -359,7 +359,7 @@ function returnToIncome(btnObj) {
     $('#returnItemId').val(trId);
     console.log("row id: "+trId);
 
-    let code =          $(trObj).find('th:eq(0)').text();
+    let code =          $(trObj).find('th:eq(1)').text();
     let rsMinusMax =    $(trObj).find('td:eq(9)').text();
     let recMinusMax =   $(trObj).find('td:eq(10)').text();
 

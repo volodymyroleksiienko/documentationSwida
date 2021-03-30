@@ -4,10 +4,10 @@ function sendForDrying(btnObj) {
     var trId = $(trObj).attr('id');
     $('#sendForDryingModalId').val(trId);
     console.log($(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfRawStorage = $(trObj).find('th:eq(1)').text();
     $('#sendForDryingModalHeader').text("Отправить в сушку " + codeOfRawStorage);
 
-    var code = $(trObj).find('th:eq(0)').text();
+    var code = $(trObj).find('th:eq(1)').text();
     var material = $(trObj).find('td:eq(0)').text();
     var description = $(trObj).find('td:eq(1)').text();
     var thickness = $(trObj).find('td:eq(2)').text();
@@ -65,10 +65,10 @@ function editRawStorage(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#editDryingModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfRawStorage = $(trObj).find('th:eq(1)').text();
     $('#editDryingModalHeader').text("Редактировать "+codeOfRawStorage);
 
-    var code = $(trObj).find('th:eq(0)').text();
+    var code = $(trObj).find('th:eq(1)').text();
     var material = $(trObj).find('td:eq(0)').text();
     var description = $(trObj).find('td:eq(1)').text();
     var thickness = $(trObj).find('td:eq(2)').text();
@@ -128,10 +128,10 @@ function sendForPackagesStorage(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#sendForPackagesModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfRawStorage = $(trObj).find('th:eq(1)').text();
     $('#sendForPackageModalHeader').text("Формирование пачек из  "+codeOfRawStorage);
 
-    var code = 			$(trObj).find('th:eq(0)').text();
+    var code = 			$(trObj).find('th:eq(1)').text();
     var material = 		$(trObj).find('td:eq(0)').text();
     var description = 	$(trObj).find('td:eq(1)').text();
     var thickness = 	parseInt($(trObj).find('td:eq(2)').text());
@@ -229,7 +229,7 @@ function returnToIncome(btnObj) {
         return;
     }
 
-    let code =          $(trObj).find('th:eq(0)').text();
+    let code =          $(trObj).find('th:eq(1)').text();
     let rsMinusMax =    $(trObj).find('td:eq(9)').text();
     let recMinusMax =   $(trObj).find('td:eq(10)').text();
 
