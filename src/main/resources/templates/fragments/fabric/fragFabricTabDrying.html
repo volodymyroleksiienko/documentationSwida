@@ -18,17 +18,17 @@
             </thead>
             <tbody>
             <div th:each="cell: ${uniqCell}">
-                <div th:each="ds, index : ${dryingStorageList}">
-                    <tr th:id="${ds.id}" th:if="${cell==ds.cell}">
-                        <td th:text="${ds.id}"></td>
-                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ds.id}"></td>
-                        <td th:text="${ds?.cell}"></td>
-                        <td th:text="${ds.extent}"></td>
-                        <td th:text="${ds?.startDate}"></td>
-                        <td th:text="${ds?.dateDrying}"></td>
-                        <td th:text="${ds.countOfDesk}"></td>
+
+                    <tr th:id="${cell.cell}">
+                        <td th:text="${cell.cell}"></td>
+                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${cell.cell}"></td>
+                        <td th:text="${cell?.cell}"></td>
+                        <td th:text="${cell?.extent}"></td>
+                        <td th:text="${cell?.startDate}"></td>
+                        <td th:text="${cell?.endDate}"></td>
+                        <td th:text="${cell?.countOfDesk}"></td>
                     </tr>
-                    <tr style="display: none" th:id="'parent'+${ds.id}">
+                    <tr style="display: none" th:id="'parent'+${cell.cell}">
                     <td style="display:none"></td>
                     <td colspan="13" class="child-table">
                         <table class="table table-hover table-striped parent-table dryingtable">
@@ -51,7 +51,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr  th:id="${ds.id}">
+                            <tr  th:id="${ds.id}" th:each="ds, index : ${cell.dryingStorageList}">
                                 <td th:text="${ds.id}"></td>
                                 <th scope="row" th:text="${ds.codeOfProduct}"></th>
                                 <td th:text="${ds.breedOfTree.breed}"></td>
@@ -85,7 +85,6 @@
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                 </tr>
-                </div>
             </div>
             <tfoot>
                 <tr>

@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.google.gson.Gson;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import com.swida.documetation.data.dto.CellDryingStorageDto;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -458,9 +459,8 @@ public class FabricController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
-        model.addAttribute("uniqCell",dryingStorageService.getListCellByUserByBreed(breedId,userId));
-        System.out.println("cell "+dryingStorageService.getListCellByUserByBreed(breedId,userId));
-        System.out.println("cell "+dryingStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("uniqCell",
+                CellDryingStorageDto.convert(dryingStorageService.getListByUserByBreed(breedId,userId)));
         btnConfig(userId,model);
         return "fabricPage";
     }
