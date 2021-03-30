@@ -3,6 +3,7 @@
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="treeStorage">
     <div class="tab-pane fade show active container-fluid" id="treestorage">
         <table class="table table-hover table-striped" id="treestoragetable">
+
             <br>
             <thead>
                 <tr>
@@ -51,7 +52,7 @@
                      <tr style="display: none" th:id="'parent'+${ts.id}">
                          <td style="display:none"></td>
                          <td colspan="13" class="child-table">
-                             <table class="table table-hover table-striped dryingtable parent-table">
+                             <table class="table table-hover table-striped parent-table">
                                  <thead>
                                  <tr>
                                      <th scope="col">Дата</th>
