@@ -395,7 +395,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <div th:each="rs, index : ${dryingStorageList}">
+                                    <div th:each="rs, index : ${cell.dryingStorageList}">
                                         <tr th:id="${rs.id}">
                                             <td th:text="${rs.id}"></td>
                                             <td th:if="${rs.deskOakList.isEmpty()}"></td>
@@ -408,8 +408,8 @@
                                             <td th:text="${rs.sizeOfLong}"></td>
                                             <td th:text="${rs.extent}"></td>
                                             <td th:text="${rs.description}"></td>
-                                            <td th:text="${ds?.cell}"></td>
-                                            <td th:text="${ds?.startDate}"></td>
+                                            <td th:text="${rs?.cell}"></td>
+                                            <td th:text="${rs?.startDate}"></td>
                                             <td th:text="${rs.dateDrying}"></td>
                                             <td th:text="${rs?.rawStorage?.extent}"></td>
                                             <td style="text-align: right">
@@ -424,7 +424,7 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                        <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
+                                        <tr style="display:none" th:id="'parent-parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
                                             <td style="display:none; width: 30px"></td>
                                             <td colspan="10" class="child-table">
                                                 <table class="table table-hover table-striped parent-table">

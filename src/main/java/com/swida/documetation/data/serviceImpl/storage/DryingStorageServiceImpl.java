@@ -155,6 +155,8 @@ public class DryingStorageServiceImpl implements DryingStorageService {
             dryingStorageDB.setExtent(dryingStorage.getExtent());
             dryingStorageDB.setDescription(dryingStorage.getDescription());
             dryingStorageDB.setDateDrying(dryingStorage.getDateDrying());
+            dryingStorageDB.setCell(dryingStorage.getCell());
+            dryingStorageDB.setStartDate(dryingStorage.getStartDate());
 
             RawStorage rawStorage = dryingStorageDB.getRawStorage();
             rawStorage.setExtent(
