@@ -34,7 +34,7 @@ public interface PackagedProductService {
     void setContainer(String[] arrayOfPackagesId, String containerId,String containerName);
 
     void deleteDescriptionOak(String packId, String deskId);
-    String unformPackageProduct(int breedId,int userId,Integer[] id);
+    void unformPackageProduct(int breedId,int userId,Integer[] id);
 
     //for statistic
     List<String> getListOfUnicBreedDescription(int breedId);
