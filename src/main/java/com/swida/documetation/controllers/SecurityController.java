@@ -55,7 +55,7 @@ public class SecurityController {
 
         }
         if (hasAdminRole){
-            return "redirect:/admin/getListOfContract";
+            return "redirect:/admin/getDailyFactoryPowerStatistic";
         }
         return "redirect:/logout";
     }

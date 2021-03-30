@@ -1,13 +1,13 @@
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="statisticTab">
     <div class="container">
         <ul class="nav nav-tabs">
-            <li class="nav-item" th:each="breed : ${breedOfTreeList}">
-                <a class="nav-link" th:href="@{'/admin/getStatistics-'+${breed.id}}"
-                   th:classappend="${tabName==breed.id} ? 'active':''" th:text="${breed.breed}">Сосна</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{'/admin/getDailyFactoryPowerStatistic'}"
                    th:classappend="${tabName=='dailyStatistic'} ? 'active':''" >История</a>
+            </li>
+            <li class="nav-item" th:each="breed : ${breedOfTreeList}">
+                <a class="nav-link" th:href="@{'/admin/getStatistics-'+${breed.id}}"
+                   th:classappend="${tabName==breed.id} ? 'active':''" th:text="${breed.breed}">Сосна</a>
             </li>
         </ul>
     </div>
