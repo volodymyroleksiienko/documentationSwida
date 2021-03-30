@@ -375,25 +375,24 @@
                         <tr style="display: none" th:id="'parent'+${cell.cell}" th:each="rs, index : ${dryingStorageList}">
                             <td style="display:none"></td>
                             <td colspan="6" class="child-table">
-                                <table class="table table-hover table-striped" id="dryingtableoak">
-                                    <br>
+                                <table class="table table-hover table-striped dryingtableoak">
                                     <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th style="width: 30px"></th>
-                                        <th scope="col">Код партии</th>
-                                        <th scope="col">Порода</th>
-                                        <th scope="col">Описание</th>
-                                        <th scope="col">Толщина, мм</th>
-                                        <th scope="col">Длина, мм</th>
-                                        <th scope="col">Кубатура, м<sup>3</sup></th>
-                                        <th scope="col">Примечание</th>
-                                        <th scope="col">Камера</th>
-                                        <th scope="col">Дата загрузки</th>
-                                        <th scope="col">Дата выхода</th>
-                                        <th>RawStorage extent</th>
-                                        <th></th>
-                                    </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th style="width: 30px"></th>
+                                            <th scope="col">Код партии</th>
+                                            <th scope="col">Порода</th>
+                                            <th scope="col">Описание</th>
+                                            <th scope="col">Толщина, мм</th>
+                                            <th scope="col">Длина, мм</th>
+                                            <th scope="col">Кубатура, м<sup>3</sup></th>
+                                            <th scope="col">Примечание</th>
+                                            <th scope="col">Камера</th>
+                                            <th scope="col">Дата загрузки</th>
+                                            <th scope="col">Дата выхода</th>
+                                            <th>RawStorage extent</th>
+                                            <th></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                     <div th:each="rs, index : ${dryingStorageList}">

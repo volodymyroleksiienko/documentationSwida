@@ -506,13 +506,15 @@ $(document).ready( function () {
         ]
     });
 
-    let dryingtableoak = $('#dryingtableoak').DataTable({
+    $('.dryingtableoak').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
         "bSort": false,
         "info": false,
+        "searching": false,
+        "paging": false,
         // "order": [ 0, "desc" ],
         // columns width
         "autoWidth": false,
@@ -532,6 +534,31 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ -2 ] },
         ]
     });
+
+    // $('.dryingtableoakInner').DataTable({
+    //     "language": {
+    //         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+    //     },
+    //     "bSort": false,
+    //     "info": false,
+    //     // "order": [ 0, "desc" ],
+    //     // columns width
+    //     "autoWidth": false,
+    //
+    //     // id column visibility
+    //     "columnDefs": [
+    //         {
+    //             "targets": [ 0 ],
+    //             "visible": false,
+    //             "searchable": false
+    //         },
+    //         {
+    //             "targets": -1,
+    //             "orderable": false,
+    //             "width": "100px"
+    //         },
+    //     ]
+    // });
 
 
     let drystoragetable = $('#drystoragetable').DataTable({
