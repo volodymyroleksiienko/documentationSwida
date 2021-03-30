@@ -615,7 +615,8 @@ public class FabricController {
 
     @PostMapping("/unformPackagedProduct-{userId}-{breedId}")
     public  String unformPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, Integer[] id){
-        return packagedProductService.unformPackageProduct(breedId,userId,id);
+                packagedProductService.unformPackageProduct(breedId,userId,id);
+        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
 

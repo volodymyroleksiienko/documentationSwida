@@ -520,13 +520,13 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
-    public String unformPackageProduct(int breedId,int userId,Integer[] idArray) {
+    public void unformPackageProduct(int breedId,int userId,Integer[] idArray) {
         for(Integer id:idArray) {
             PackagedProduct product = findById(id);
 
             if (product.getDryStorage() == null) {
                 deleteByID(product.getId());
-                return "redirect:/fabric/getListOfPackagedProduct-" + userId + "-" + breedId;
+                continue;
             }
 
             DryStorage dryStorage = product.getDryStorage();
@@ -547,7 +547,6 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             dryStorageService.save(dryStorage);
             deleteByID(id);
         }
-        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
     public String countOfExtent(PackagedProduct packagedProduct){
