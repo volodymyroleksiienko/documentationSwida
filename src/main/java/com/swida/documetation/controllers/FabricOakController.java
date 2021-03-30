@@ -1,5 +1,6 @@
 package com.swida.documetation.controllers;
 
+import com.swida.documetation.data.dto.CellDryingStorageDto;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -331,6 +332,9 @@ public class FabricOakController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("uniqCell",
+                CellDryingStorageDto.convert(dryingStorageService.getListByUserByBreed(breedId,userId)));
+
         btnConfig(userId,model);
         return "fabricPage";
     }
