@@ -6,15 +6,15 @@
         <table class="table table-hover table-striped" id="dryingtableCell">
             <br>
             <thead>
-            <tr>
-                <th>id</th>
-                <th style="width: 30px"></th>
-                <th scope="col">Камера</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Дата загрузки</th>
-                <th scope="col">Дата выхода</th>
-                <th scope="col">Количество досок</th>
-            </tr>
+                <tr>
+                    <th>id</th>
+                    <th style="width: 30px"></th>
+                    <th scope="col">Камера</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Дата загрузки</th>
+                    <th scope="col">Дата выхода</th>
+                    <th scope="col">Количество досок</th>
+                </tr>
             </thead>
             <tbody>
             <div th:each="cell: ${uniqCell}">
@@ -31,7 +31,7 @@
                     <tr style="display: none" th:id="'parent'+${ds.id}">
                     <td style="display:none"></td>
                     <td colspan="13" class="child-table">
-                        <table class="table table-hover table-striped parent-table" id="dryingtable">
+                        <table class="table table-hover table-striped parent-table dryingtable">
                             <thead>
                             <tr>
                                 <th></th>
@@ -88,15 +88,15 @@
                 </div>
             </div>
             <tfoot>
-            <tr>
-                <th>id</th>
-                <th style="width: 30px"></th>
-                <th scope="col">Камера</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Дата загрузки</th>
-                <th scope="col">Дата выхода</th>
-                <th scope="col">Количество досок</th>
-            </tr>
+                <tr>
+                    <th>id</th>
+                    <th style="width: 30px"></th>
+                    <th scope="col">Камера</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Дата загрузки</th>
+                    <th scope="col">Дата выхода</th>
+                    <th scope="col">Количество досок</th>
+                </tr>
             </tfoot>
             </tbody>
         </table>
@@ -104,7 +104,7 @@
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal"
                     data-placement="left" data-target="#exportModal">
-                <i class="far fa-file-excel"></i></i>
+                <i class="far fa-file-excel"></i>
             </button>
         </div>
         <!-- BUTTON -->
@@ -330,129 +330,184 @@
 </th:block>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--//    OAK   Drying STORAGE TAB-->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryingStorageOAK">
 
     <div class="tab-pane fade show active container-fluid" id="drying">
-        <table class="table table-hover table-striped" id="dryingtableoak">
+
+        <table class="table table-hover table-striped" id="dryingtableoakCell">
             <br>
             <thead>
-            <tr>
-                <th></th>
-                <th style="width: 30px"></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Примечание</th>
-                <th scope="col">Камера</th>
-                <th scope="col">Дата загрузки</th>
-                <th scope="col">Дата выхода</th>
-                <th>RawStorage extent</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>id</th>
+                    <th style="width: 30px"></th>
+                    <th scope="col">Камера</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Дата загрузки</th>
+                    <th scope="col">Дата выхода</th>
+                </tr>
             </thead>
+
             <tbody>
-            <div th:each="rs, index : ${dryingStorageList}">
-                <tr th:id="${rs.id}">
-                    <td th:text="${rs.id}"></td>
-                    <td th:if="${rs.deskOakList.isEmpty()}"></td>
-                    <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control"
-                        onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
-                    <th scope="row" th:text="${rs.codeOfProduct}"></th>
-                    <td th:text="${rs.breedOfTree.breed}"></td>
-                    <td th:text="${rs.breedDescription}"></td>
-                    <td th:text="${rs.sizeOfHeight}"></td>
-                    <td th:text="${rs.sizeOfLong}"></td>
-                    <td th:text="${rs.extent}"></td>
-                    <td th:text="${rs.description}"></td>
-                    <td th:text="${ds?.cell}"></td>
-                    <td th:text="${ds?.startDate}"></td>
-                    <td th:text="${rs.dateDrying}"></td>
-                    <td th:text="${rs?.rawStorage?.extent}"></td>
-                    <td style="text-align: right">
-                        <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button"
-                                class="btn btn-primary btn-sm" data-toggle="modal"
-                                onclick="addOakDryingStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip"
-                                                                           title="Добавить позицию"></i></button>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
-                                data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th"
-                                                                                        data-toggle="tooltip"
-                                                                                        title="Отправить на сухой склад"></i>
-                        </button>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
-                                data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen"
-                                                                                         data-toggle="tooltip"
-                                                                                         title="Редактировать"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
-                    <td style="display:none; width: 30px"></td>
-                    <td colspan="10" class="child-table">
-                        <table class="table table-hover table-striped parent-table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Ширина, мм</th>
-                                <th scope="col">Количество досок</th>
-                                <th class="delete-btns"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="desc: ${rs?.deskOakList}" th:id="${desc.id}">
-                                <td th:text="${desc.sizeOfWidth}"></td>
-                                <td th:text="${desc.countOfDesk}"></td>
-                                <td class="delete-btns">
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                            onclick="editOakPackageItem(this)"><i class="fas fa-pen"
-                                                                                  data-toggle="tooltip"
-                                                                                  title="Редактировать"></i></button>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                            onclick="deleteOakPackageItem(this)"><i class="fa fa-times"
-                                                                                    data-toggle="tooltip"
-                                                                                    title="Удалить"></i></button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                    <td style="display:none"></td>
-                </tr>
-            </div>
-            </tbody>
+                <div th:each="cell: ${uniqCell}">
+                    <div th:each="ds, index : ${dryingStorageList}">
+                        <tr th:id="${ds.id}" th:if="${index.count==1 && cell==ds.cell && cell!=0}">
+                            <td th:text="${ds.id}"></td>
+                            <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ds.id}"></td>
+                            <td th:text="${ds?.cell}"></td>
+                            <td th:text="${ds.extent}"></td>
+                            <td th:text="${ds?.startDate}"></td>
+                            <td th:text="${ds?.dateDrying}"></td>
+                            <td th:text="${ds.countOfDesk}"></td>
+                        </tr>
+                        <!--        LEVEL 2 START            -->
+                        <tr style="display: none" th:id="'parent'+${ds.id}">
+                            <td style="display:none"></td>
+                            <td colspan="6" class="child-table">
+                                <table class="table table-hover table-striped" id="dryingtableoak">
+                                    <br>
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="width: 30px"></th>
+                                        <th scope="col">Код партии</th>
+                                        <th scope="col">Порода</th>
+                                        <th scope="col">Описание</th>
+                                        <th scope="col">Толщина, мм</th>
+                                        <th scope="col">Длина, мм</th>
+                                        <th scope="col">Кубатура, м<sup>3</sup></th>
+                                        <th scope="col">Примечание</th>
+                                        <th scope="col">Камера</th>
+                                        <th scope="col">Дата загрузки</th>
+                                        <th scope="col">Дата выхода</th>
+                                        <th>RawStorage extent</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <div th:each="rs, index : ${dryingStorageList}">
+                                        <tr th:id="${rs.id}">
+                                            <td th:text="${rs.id}"></td>
+                                            <td th:if="${rs.deskOakList.isEmpty()}"></td>
+                                            <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control"
+                                                onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                                            <th scope="row" th:text="${rs.codeOfProduct}"></th>
+                                            <td th:text="${rs.breedOfTree.breed}"></td>
+                                            <td th:text="${rs.breedDescription}"></td>
+                                            <td th:text="${rs.sizeOfHeight}"></td>
+                                            <td th:text="${rs.sizeOfLong}"></td>
+                                            <td th:text="${rs.extent}"></td>
+                                            <td th:text="${rs.description}"></td>
+                                            <td th:text="${ds?.cell}"></td>
+                                            <td th:text="${ds?.startDate}"></td>
+                                            <td th:text="${rs.dateDrying}"></td>
+                                            <td th:text="${rs?.rawStorage?.extent}"></td>
+                                            <td style="text-align: right">
+                                                <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button"
+                                                        class="btn btn-primary btn-sm" data-toggle="modal"
+                                                        onclick="addOakDryingStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
+                                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                                        data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="Отправить на сухой склад"></i>
+                                                </button>
+                                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm"
+                                                        data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">
+                                            <td style="display:none; width: 30px"></td>
+                                            <td colspan="10" class="child-table">
+                                                <table class="table table-hover table-striped parent-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Ширина, мм</th>
+                                                        <th scope="col">Количество досок</th>
+                                                        <th class="delete-btns"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each="desc: ${rs?.deskOakList}" th:id="${desc.id}">
+                                                        <td th:text="${desc.sizeOfWidth}"></td>
+                                                        <td th:text="${desc.countOfDesk}"></td>
+                                                        <td class="delete-btns">
+                                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                                    onclick="editOakPackageItem(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                                    onclick="deleteOakPackageItem(this)"><i class="fa fa-times" data-toggle="tooltip"  title="Удалить"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                        </tr>
+                                    </div>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th scope="col">Код партии</th>
+                                        <th scope="col">Порода</th>
+                                        <th scope="col">Описание</th>
+                                        <th scope="col">Толщина, мм</th>
+                                        <th scope="col">Длина, мм</th>
+                                        <th scope="col">Кубатура, м<sup>3</sup></th>
+                                        <th scope="col">Примечание</th>
+                                        <th scope="col">Камера</th>
+                                        <th scope="col">Дата загрузки</th>
+                                        <th scope="col">Дата выхода</th>
+                                        <th>RawStorage extent</th>
+                                        <th></th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                        </tr>
+                        <!--        LEVEL 2 END            -->
+                 </div>
             <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th scope="col">Код партии</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Примечание</th>
-                <th scope="col">Камера</th>
-                <th scope="col">Дата загрузки</th>
-                <th scope="col">Дата выхода</th>
-                <th>RawStorage extent</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>id</th>
+                    <th style="width: 30px"></th>
+                    <th scope="col">Камера</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Дата загрузки</th>
+                    <th scope="col">Дата выхода</th>
+                </tr>
             </tfoot>
         </table>
+<!--    </div>-->
+
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
             <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal"
