@@ -492,7 +492,7 @@ $(document).ready( function () {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
-        "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "lengthMenu": [ [-1], ["Все"] ],
         "bSort": false,
         "info": false,
         "autoWidth": false,
