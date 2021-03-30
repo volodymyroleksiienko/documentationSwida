@@ -144,13 +144,11 @@
             for (let j = 1; j<rowsList.length-1; j++){
                 if ((rowsList[j].cells[2].innerHTML)!=='' && !isNaN(parseFloat(rowsList[j].cells[2].innerHTML)) ){
                     takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
+                    outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
+                    percentageSum = outputSum/takenSum*100;
                 } else{
-                    takenSum = 0.00;
+                    continue;
                 }
-
-                outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                percentageSum = outputSum/takenSum*100;
-
                 console.log("tab: "+takenSum+"; "+outputSum+";"+percentageSum);
             }
             rowsList[last].cells[1].innerHTML=takenSum.toFixed(3);
@@ -614,9 +612,13 @@
             let percentageSum = 0.0;
 
             for (let j = 1; j<rowsList.length-1; j++){
-                takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
-                outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                percentageSum = outputSum/takenSum*100;
+                if ((rowsList[j].cells[2].innerHTML)!=='' && !isNaN(parseFloat(rowsList[j].cells[2].innerHTML)) ){
+                    takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
+                    outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
+                    percentageSum = outputSum/takenSum*100;
+                } else{
+                    continue;
+                }
 
                 console.log("row: "+takenSum+"; "+outputSum+";"+percentageSum+"%");
             }
