@@ -14,6 +14,7 @@
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th scope="col">Количество досок</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,10 +28,13 @@
                         <td th:text="${cell?.startDate}"></td>
                         <td th:text="${cell?.endDate}"></td>
                         <td th:text="${cell?.countOfDesk}"></td>
+                        <td style="width: 40px">
+                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingMultiple(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
+                        </td>
                     </tr>
                     <tr style="display: none" th:id="'parent'+${cell.cell}">
                     <td style="display:none"></td>
-                    <td colspan="13" class="child-table">
+                    <td colspan="14" class="child-table">
                         <table class="table table-hover table-striped parent-table dryingtable">
                             <thead>
                             <tr>
@@ -84,6 +88,7 @@
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
+                    <td style="display:none"></td>
                 </tr>
             </div>
             <tfoot>
@@ -95,6 +100,7 @@
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th scope="col">Количество досок</th>
+                    <th></th>
                 </tr>
             </tfoot>
             </tbody>
@@ -108,6 +114,7 @@
         </div>
         <!-- BUTTON -->
     </div>
+
     <div class="modal fade" id="sendForDryingModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -174,6 +181,33 @@
                                        class="form-control" id="sendForDryingModalVolume" disabled="disabled"
                                        name="extent">
                             </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="sendForDryingMultipleModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendForDryingMultipleModalHeader">Отправить на сухой склад</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addDeskToDryStorageMultiple-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="sendForDryingModalCellId" hidden="hidden"
+                                   autocomplete="off" name="cellId">
+                            <p id="sendForDryingModalText"></p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -312,7 +346,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Скачать</button>
+                        <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -358,6 +392,7 @@
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -370,11 +405,14 @@
                             <td th:text="${cell.extent}"></td>
                             <td th:text="${cell?.startDate}"></td>
                             <td th:text="${cell?.endDate}"></td>
+                            <td style="width: 40px">
+                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingMultipleOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
+                            </td>
                         </tr>
                         <!--        LEVEL 2 START            -->
                         <tr style="display: none" th:id="'parent'+${cell.cell}" th:each="rs, index : ${dryingStorageList}">
                             <td style="display:none"></td>
-                            <td colspan="6" class="child-table">
+                            <td colspan="7" class="child-table">
                                 <table class="table table-hover table-striped dryingtableoak">
                                     <thead>
                                         <tr>
@@ -488,6 +526,7 @@
                             <td style="display:none"></td>
                             <td style="display:none"></td>
                             <td style="display:none"></td>
+                            <td style="display:none"></td>
                         </tr>
                         <!--        LEVEL 2 END            -->
                  </div>
@@ -499,6 +538,7 @@
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
+                    <th></th>
                 </tr>
             </tfoot>
         </table>
@@ -800,6 +840,31 @@
     </div>
     <!--  Modal item delete confirmation end -->
 
+    <div class="modal fade" id="sendForDryingMultipleOakModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendForDryingMultipleOakModalHeader">Отправить на сухой склад</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addDeskToDryStorageMultiple-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="sendForDryingModalOakCellId" hidden="hidden"
+                                   autocomplete="off" name="cellId">
+                            <p id="sendForDryingOakModalText"></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!--  Modal return confirmation start -->
     <div class="modal fade" id="returnToIncomeModal">

@@ -29,6 +29,18 @@ function sendForDryingOak(btnObj) {
     $('#sendForDryStorageModal').modal('show');
 }
 
+function sendForDryingMultipleOak(btnObj) {
+    var trObj = btnObj.parentElement.parentElement;
+    var trId =  $(trObj).attr('id');
+
+    $('#sendForDryingModalOakCellId').val(trId);
+    console.log(  $(trObj).attr('id'));
+
+    $('#sendForDryingOakModalText').text("Отправить на сухой склад все позиции из камеры "+trId+"?");
+
+    $('#sendForDryingMultipleOakModal').modal('show');
+}
+
 
 function editRawStorageOak(btnObj) {
 

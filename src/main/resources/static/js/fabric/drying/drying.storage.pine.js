@@ -29,6 +29,18 @@ function sendForDrying(btnObj) {
     $('#sendForDryingModal').modal('show');
 }
 
+function sendForDryingMultiple(btnObj) {
+    var trObj = btnObj.parentElement.parentElement;
+    var trId =  $(trObj).attr('id');
+
+    $('#sendForDryingModalCellId').val(trId);
+    console.log(  $(trObj).attr('id'));
+
+    $('#sendForDryingModalText').text("Отправить на сухой склад все позиции из камеры "+trId+"?");
+
+    $('#sendForDryingMultipleModal').modal('show');
+}
+
 function editRawStorage(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
