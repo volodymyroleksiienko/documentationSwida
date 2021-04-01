@@ -197,22 +197,22 @@ $(document).ready( function () {
             let firstData = rawstoragetable.row(first).data();
             let idInput = "<input type='number' value=\""+rawstoragetable.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
 
-            exampleCode = firstData[1];
-            exampleMaterial = firstData[2];
-            exampleDescription = firstData[3];
-            exampleThickness = firstData[4];
-            exampleWidth = firstData[5];
-            exampleLength = firstData[6];
+            exampleCode = firstData[2];
+            exampleMaterial = firstData[3];
+            exampleDescription = firstData[4];
+            exampleThickness = firstData[5];
+            exampleWidth = firstData[6];
+            exampleLength = firstData[7];
 
-            if (data[4]===firstData[4]&&data[5]===firstData[5]&&data[6]===firstData[6]){
+            if (data[5]===firstData[5]&&data[6]===firstData[6]&&data[7]===firstData[7]){
                 console.log('ok');
-                count+=parseInt(data[7]);
-                extent += (parseFloat(data[8]));
+                count+=parseInt(data[8]);
+                extent += (parseFloat(data[9]));
                 tableForRawStorageGrouping.row.add([
-                    data[1],
-                    data[3],
-                    data[7],
+                    data[2],
+                    data[4],
                     data[8],
+                    data[9],
                     idInput,
                     "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
                 ]).draw(false);
@@ -340,21 +340,21 @@ $(document).ready( function () {
             let firstData = rawstoragetableoak.row(first).data();
             let idInput = "<input type='number' value=\""+rawstoragetableoak.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
 
-            exampleCode = firstData[2];
-            exampleMaterial = firstData[3];
-            exampleDescription = firstData[4];
-            exampleThickness = firstData[5];
-            exampleLength = firstData[6];
+            exampleCode = firstData[3];
+            exampleMaterial = firstData[4];
+            exampleDescription = firstData[5];
+            exampleThickness = firstData[6];
+            exampleLength = firstData[7];
 
-            console.log("data 0: "+data[1]);
-            if (data[5]===firstData[5]&&data[6]===firstData[6]&&data[1].toString()==firstData[1].toString()){
+            console.log("data 0: "+data[2]);
+            if (data[6]===firstData[6]&&data[7]===firstData[7]&&data[2].toString()==firstData[2].toString()){
 
                 console.log('ok');
-                extent += (parseFloat(data[7]));
+                extent += (parseFloat(data[8]));
                 tableForOakRawStorageGrouping.row.add([
-                    data[2],
-                    data[4],
-                    data[7],
+                    data[3],
+                    data[5],
+                    data[8],
                     idInput,
                     "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-times\" title=\"Удалить\"></i></button>"
                 ]).draw(false);
