@@ -29,7 +29,7 @@ public class DryStorageServiceImpl implements DryStorageService {
 
     @Override
     public void save(DryStorage ds) {
-        if (ds.getSizeOfWidth()!=null) {
+        if (ds.getSizeOfWidth()!=null && Float.parseFloat(ds.getSizeOfWidth())>0) {
             float width = Float.parseFloat(ds.getSizeOfWidth()) / 1000;
             float height = Float.parseFloat(ds.getSizeOfHeight()) / 1000;
             float longSize = Float.parseFloat(ds.getSizeOfLong()) / 1000;

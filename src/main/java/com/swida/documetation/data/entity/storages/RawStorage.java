@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -56,6 +57,33 @@ public class RawStorage {
 
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RawStorage that = (RawStorage) o;
+        return id == that.id &&
+                countOfDesk == that.countOfDesk &&
+                maxCountOfDesk == that.maxCountOfDesk &&
+                Objects.equals(codeOfProduct, that.codeOfProduct) &&
+                Objects.equals(breedOfTree, that.breedOfTree) &&
+                Objects.equals(breedDescription, that.breedDescription) &&
+                Objects.equals(sizeOfHeight, that.sizeOfHeight) &&
+                Objects.equals(sizeOfWidth, that.sizeOfWidth) &&
+                Objects.equals(sizeOfLong, that.sizeOfLong) &&
+                Objects.equals(extent, that.extent) &&
+                Objects.equals(maxExtent, that.maxExtent) &&
+                Objects.equals(usedExtent, that.usedExtent) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(date, that.date) &&
+                statusOfEntity == that.statusOfEntity;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, codeOfProduct, breedOfTree, breedDescription, sizeOfHeight, sizeOfWidth, sizeOfLong, countOfDesk, maxCountOfDesk, extent, maxExtent, usedExtent, description, date, statusOfEntity);
+    }
 
     @Override
     public String toString() {

@@ -370,6 +370,41 @@ public class FabricOakController {
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/addDeskToDryStorageMultiple-{userId}-2")
+    private String addDeskToDryStorageMultiple(@PathVariable("userId")int userId, Integer cellId){
+        int breedId = 2;
+
+        if(cellId!=null) {
+            List<DryingStorage> dryingStorageDBList = dryingStorageService.getListByUserByBreed(userId, breedId).stream()
+                    .filter(dr -> dr.getCell().equals(cellId)).collect(Collectors.toList());
+            for (DryingStorage dryingStorageDB : dryingStorageDBList) {
+                DryStorage dryStorage = new DryStorage();
+                dryStorage.setCodeOfProduct(dryingStorageDB.getCodeOfProduct());
+
+                dryStorage.setBreedOfTree(dryingStorageDB.getBreedOfTree());
+                dryStorage.setBreedDescription(dryingStorageDB.getBreedDescription());
+                dryStorage.setExtent(dryingStorageDB.getExtent());
+                dryStorage.setSizeOfHeight(dryingStorageDB.getSizeOfHeight());
+                dryStorage.setSizeOfLong(dryingStorageDB.getSizeOfLong());
+                dryStorage.setDescription(dryingStorageDB.getDescription());
+                dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
+                dryStorage.setDryingStorage(dryingStorageDB);
+
+                dryStorageService.save(dryStorage);
+                dryingStorageDB.setExtent("0.000");
+                dryingStorageService.save(dryingStorageDB);
+                if (!dryingStorageDB.getDeskOakList().isEmpty()) {
+                    for (DescriptionDeskOak desk : dryingStorageDB.getDeskOakList()) {
+                        desk.setDryingStorage(null);
+                        desk.setDryStorage(dryStorage);
+                        deskOakService.save(desk);
+                    }
+                }
+            }
+        }
+        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+    }
+
     @PostMapping("/addDescriptionOakItemToDryingStorage-{userId}-{breedId}")
     public String addDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryStorageId,String width, String count){
         DryingStorage dryingStorage = dryingStorageService.findById(dryStorageId);

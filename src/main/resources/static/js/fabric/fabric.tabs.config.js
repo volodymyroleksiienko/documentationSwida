@@ -1234,6 +1234,8 @@ $(document).ready( function () {
                     sizeOfHeight: sizeOfHeight1,
                     sizeOfLong: length1,
                     extent: extent1,
+                    // @todo
+                    // usedExtent:
                     arrayOfDesk: arrOfDesk
                 },
                 traditional: true,

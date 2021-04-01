@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -26,6 +27,23 @@ public class QualityStatisticInfo {
 
     @OneToOne
     private RawStorage rawStorage;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QualityStatisticInfo info = (QualityStatisticInfo) o;
+        return Objects.equals(height, info.height) &&
+                Objects.equals(firstExtent, info.firstExtent) &&
+                Objects.equals(extent, info.extent) &&
+                Objects.equals(percent, info.percent) &&
+                Objects.equals(date, info.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(height, firstExtent, extent, percent, date);
+    }
 
     @Override
     public String toString() {

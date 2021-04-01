@@ -182,7 +182,7 @@ public class FabricRestController {
     @PostMapping("/createInitialPackageOakObject-{userID}-{breedID}")
     public void createInitialPackageOakObject(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
                                               String codeOfPackage,String breedDescription,String supplier, String sizeOfHeight,
-                                              String extent, String treeStorageId,@RequestParam("arrayOfDesk") String[][] arrayOfDesk, String sizeOfLong){
+                                              String extent, String usedExtent, String treeStorageId,@RequestParam("arrayOfDesk") String[][] arrayOfDesk, String sizeOfLong){
         TreeStorage treeStorage = new TreeStorage();
         BreedOfTree breedOfTree = new BreedOfTree();
         breedOfTree.setId(breedID);
@@ -206,7 +206,7 @@ public class FabricRestController {
         }else {
             treeStorage = treeStorageService.findById(Integer.parseInt(treeStorageId));
             treeStorage.setExtent(
-                    String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(extent)).replace(",",".")
+                    String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)).replace(",",".")
             );
             treeStorageService.save(treeStorage);
         }
@@ -226,7 +226,7 @@ public class FabricRestController {
         rawStorage.setSizeOfLong(sizeOfLong);
         rawStorage.setExtent(extent.replace(",","."));
         rawStorage.setMaxExtent(rawStorage.getExtent());
-        rawStorage.setUsedExtent(rawStorage.getExtent());
+        rawStorage.setUsedExtent(usedExtent.replace(",","."));
         rawStorage.setTreeStorage(treeStorage);
 //        rawStorage.setDeskOakList(descriptionDeskList);
         String rawExtent = rawStorageService.save(rawStorage);
@@ -245,8 +245,6 @@ public class FabricRestController {
         treeStorageService.save(treeStorage);
 
         rawStorageService.checkQualityInfo(rawStorage);
-//        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
-
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")

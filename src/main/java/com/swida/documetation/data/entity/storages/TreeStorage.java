@@ -11,6 +11,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -52,6 +53,28 @@ public class TreeStorage {
     private StatusOfTreeStorage statusOfTreeStorage = StatusOfTreeStorage.TREE;
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TreeStorage that = (TreeStorage) o;
+        return Objects.equals(codeOfProduct, that.codeOfProduct) &&
+                Objects.equals(breedDescription, that.breedDescription) &&
+                Objects.equals(extent, that.extent) &&
+                Objects.equals(maxExtent, that.maxExtent) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(averageDiameter, that.averageDiameter) &&
+                Objects.equals(countOfDeck, that.countOfDeck) &&
+                Objects.equals(treeDescription, that.treeDescription) &&
+                statusOfTreeStorage == that.statusOfTreeStorage &&
+                statusOfEntity == that.statusOfEntity;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codeOfProduct, breedDescription, extent, maxExtent, date, averageDiameter, countOfDeck, treeDescription);
+    }
 
     @Override
     public String toString() {
