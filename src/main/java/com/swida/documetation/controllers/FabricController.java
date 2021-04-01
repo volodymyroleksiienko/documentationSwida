@@ -378,7 +378,7 @@ public class FabricController {
             TreeStorage treeStorage = rawStorage.getTreeStorage();
             float rawStorageExtent = Float.parseFloat(rawStorage.getExtent());
 
-            if (treeStorage.getStatusOfTreeStorage() == StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo() != null) {
+            if (treeStorage!=null && treeStorage.getStatusOfTreeStorage() == StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo() != null) {
                 OrderInfo orderInfo = treeStorage.getOrderInfo();
                 orderInfo.setDoneExtendOfOrder(
                         String.format("%.3f",
@@ -392,14 +392,16 @@ public class FabricController {
                 rawStorage.getRecycle().setExtent("0.000");
                 treeStorageService.save(rawStorage.getRecycle());
             }
-            treeStorage.setExtent(
-                    String.format("%.3f", Float.parseFloat(treeStorage.getExtent())
-                            + Float.parseFloat(rawStorage.getUsedExtent())).replace(",", ".")
-            );
+            if(treeStorage!=null){
+                treeStorage.setExtent(
+                        String.format("%.3f", Float.parseFloat(treeStorage.getExtent())
+                                + Float.parseFloat(rawStorage.getUsedExtent())).replace(",", ".")
+                );
+                treeStorageService.save(treeStorage);
+            }
             rawStorage.setExtent("0.000");
             rawStorage.setCountOfDesk(0);
             rawStorageService.save(rawStorage);
-            treeStorageService.save(treeStorage);
             rawStorageService.checkQualityInfo(rawStorage);
         }else {
             rawStorageService.uncollectFromOnePineEntity(rawStorage,userId,breedId);
@@ -496,7 +498,7 @@ public class FabricController {
                                        Integer cellId){
 
         if(cellId!=null) {
-            List<DryingStorage> dryingStorageDBList = dryingStorageService.getListByUserByBreed(userId, breedId).stream()
+            List<DryingStorage> dryingStorageDBList = dryingStorageService.getListByUserByBreed(breedId, userId).stream()
                     .filter(dr -> dr.getCell().equals(cellId)).collect(Collectors.toList());
             for(DryingStorage dryingStorageDB:dryingStorageDBList) {
                 DryStorage dryStorage = new DryStorage();
