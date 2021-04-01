@@ -1202,6 +1202,7 @@ $(document).ready( function () {
         let arrOfDesk = [];
 
         var extent1 = $('#addDeliveryPackageModalExtentOak').val();
+        let usedExtent1 = $('#addDeliveryPackageModalUsedExtentOak').val();
 
         //fix one dimension array on controller
         arrOfDesk[0] = [];
@@ -1234,8 +1235,7 @@ $(document).ready( function () {
                     sizeOfHeight: sizeOfHeight1,
                     sizeOfLong: length1,
                     extent: extent1,
-                    // @todo
-                    // usedExtent:
+                    usedExtent: usedExtent1,
                     arrayOfDesk: arrOfDesk
                 },
                 traditional: true,
