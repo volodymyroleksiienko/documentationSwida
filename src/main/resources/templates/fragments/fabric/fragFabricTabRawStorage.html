@@ -1255,16 +1255,18 @@
                                 <input type="hidden" id="addInitialRawModalSum">
                             </div>
                             <div class="col-6">
+                                <label class="control-label" for="addDeliveryPackageModalUsedExtentOak" style="padding-top: 7px">Использовано материала</label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" required="required"  class="form-control" id="addDeliveryPackageModalUsedExtentOak"  autocomplete="off" placeholder="м3">
                             </div>
                         </div>
                     </div>
                     <table class="table table-hover table-striped" id="tableForPackagesOak" style="padding-left: 1rem; padding-right: 1rem">
                         <thead>
-                        <tr>
-                            <th scope="col">Ширина, мм</th>
-                            <th scope="col">Количество досок, шт</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th scope="col">Ширина, мм</th>
+                                <th scope="col">Количество досок, шт</th>
+                                <th></th>
+                            </tr>
                         </thead>
 
                         <tbody id="listOfOakPackageRowsId">
@@ -1272,9 +1274,9 @@
                         </tbody>
 
                         <tfoot>
-                        <th scope="col">Ширина, мм</th>
-                        <th scope="col">Количество досок, шт</th>
-                        <th></th>
+                            <th scope="col">Ширина, мм</th>
+                            <th scope="col">Количество досок, шт</th>
+                            <th></th>
                         </tfoot>
                     </table>
                     <div class="modal-footer">
