@@ -240,6 +240,7 @@ public class FabricOakController {
                 desc.setDryingStorage(dryingStorage);
                 deskOakService.save(desc);
             }
+//            rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
         }
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
@@ -400,6 +401,7 @@ public class FabricOakController {
                         desk.setDryStorage(dryStorage);
                         deskOakService.save(desk);
                     }
+
                 }
             }
         }
