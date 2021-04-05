@@ -14,28 +14,28 @@
                 </tr>
                 <tr style="vertical-align: top;">
                     <td style="width: 15%">
-                        <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()">
+                        <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()" required="required">
                     </td>
                     <td style="width: 15%">
-                        <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()">
+                        <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()" required="required">
                     </td>
                     <td style="width: 15%">
-                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description">
+                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description" required="required">
                             <option  th:each="obj : ${descriptions}" th:value="${obj}"  th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 15%">
-                        <select id="selectThickness" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="thickness">
+                        <select id="selectThickness" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="thickness" required="required">
                             <option  th:each="obj : ${thickness}" th:value="${obj}"  th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 25%">
-                        <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users">
+                        <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users" required="required">
                             <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}"></option>
                         </select>
                     </td>
                     <td style="width: 15%">
-                        <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId">
+                        <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId" required="required">
                             <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
                         </select>
                     </td>
