@@ -316,7 +316,7 @@ public class StatisticController {
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
             int breedId = breedOfTree.getId();
-            desc.addAll(treeStorageService.getListOfUnicBreedDescription(breedId));
+            desc.addAll(rawStorageService.getListOfUnicBreedDescription(breedId).stream().map(String::trim).collect(Collectors.toSet()));
             heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedId));
         }
         model.addAttribute("descriptions",desc);
@@ -355,7 +355,7 @@ public class StatisticController {
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
             int breedOfTreeId = breedOfTree.getId();
-            desc.addAll(treeStorageService.getListOfUnicBreedDescription(breedOfTreeId));
+            desc.addAll(rawStorageService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
             heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedOfTreeId));
         }
         model.addAttribute("descriptions",desc);
