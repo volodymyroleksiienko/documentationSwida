@@ -8,6 +8,7 @@ import com.swida.documetation.data.service.storages.TreeStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional
 public class DryingStorageServiceImpl implements DryingStorageService {
     private DryingStorageJPA dryingStorageJPA;
     private RawStorageService rawStorageService;
