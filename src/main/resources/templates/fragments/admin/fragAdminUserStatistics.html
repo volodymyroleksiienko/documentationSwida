@@ -7,6 +7,8 @@
                 <tr>
                     <th scope="col">Начальная дата</th>
                     <th scope="col">Конечная дата</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина</th>
                     <th scope="col">Пользователи</th>
                     <th scope="col">Порода</th>
                 </tr>
@@ -14,16 +16,25 @@
                     <td style="width: 15%">
                         <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()">
                     </td>
-
                     <td style="width: 15%">
                         <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()">
                     </td>
-                    <td style="width: 45%">
+                    <td style="width: 15%">
+                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description">
+                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
+                        </select>
+                    </td>
+                    <td style="width: 15%">
+                        <select id="selectThickness" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="thickness">
+                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
+                        </select>
+                    </td>
+                    <td style="width: 25%">
                         <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users">
                             <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}"></option>
                         </select>
                     </td>
-                    <td style="width: 25%">
+                    <td style="width: 15%">
                         <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId">
                             <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
                         </select>
