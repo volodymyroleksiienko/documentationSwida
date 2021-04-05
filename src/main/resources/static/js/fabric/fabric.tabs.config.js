@@ -423,7 +423,7 @@ $(document).ready( function () {
                     let treeStorageExt= obj["treeStorageExtent"];
                     let rawStorageExt = obj["rawStorageExtent"];
 
-                    let row = [id, code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, '0.0', 'null', button];
+                    let row = [id, '', code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, '0.0', 'null', button];
 
                     rawstoragetable.row.add(row).draw();
 
