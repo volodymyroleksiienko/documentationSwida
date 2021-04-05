@@ -11,6 +11,7 @@
                     <th style="width: 30px"></th>
                     <th scope="col">Камера</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Толщина</th>
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th scope="col">Количество досок</th>
@@ -25,6 +26,7 @@
                         <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${cell.cell}"></td>
                         <td th:text="${cell?.cell}"></td>
                         <td th:text="${cell?.extent}"></td>
+                        <td>tut</td>
                         <td th:text="${cell?.startDate}"></td>
                         <td th:text="${cell?.endDate}"></td>
                         <td th:text="${cell?.countOfDesk}"></td>
@@ -89,21 +91,23 @@
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
+                    <td style="display:none"></td>
                 </tr>
             </div>
+            </tbody>
             <tfoot>
                 <tr>
                     <th>id</th>
                     <th style="width: 30px"></th>
                     <th scope="col">Камера</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Толщина</th>
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th scope="col">Количество досок</th>
                     <th></th>
                 </tr>
             </tfoot>
-            </tbody>
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
@@ -390,6 +394,7 @@
                     <th style="width: 30px"></th>
                     <th scope="col">Камера</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Толщина</th>
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th></th>
@@ -403,6 +408,7 @@
                             <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${cell.cell}"></td>
                             <td th:text="${cell?.cell}"></td>
                             <td th:text="${cell.extent}"></td>
+                            <td>tut</td>
                             <td th:text="${cell?.startDate}"></td>
                             <td th:text="${cell?.endDate}"></td>
                             <td style="width: 40px">
@@ -527,6 +533,7 @@
                             <td style="display:none"></td>
                             <td style="display:none"></td>
                             <td style="display:none"></td>
+                            <td style="display:none"></td>
                         </tr>
                         <!--        LEVEL 2 END            -->
                  </div>
@@ -536,6 +543,7 @@
                     <th style="width: 30px"></th>
                     <th scope="col">Камера</th>
                     <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Толщина</th>
                     <th scope="col">Дата загрузки</th>
                     <th scope="col">Дата выхода</th>
                     <th></th>
