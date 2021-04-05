@@ -294,13 +294,11 @@ public class StatisticController {
         return json;
     }
 
-
     private String formatExtent(List<String> list){
         float extent = countExtent(list);
         mainExtent+=extent;
         return String.format("%.3f",extent).replace(",",".");
     }
-
 
     @GetMapping("/getDailyFactoryPowerStatistic")
     public String getDailyFactoryPowerStatistic(Model model) throws ParseException {
@@ -317,9 +315,12 @@ public class StatisticController {
         Set<String> desc = new TreeSet<>();
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
-            desc.addAll(treeStorageService.getListOfUnicBreedDescription(breedOfTree.getId()));
+            int breedId = breedOfTree.getId();
+            desc.addAll(treeStorageService.getListOfUnicBreedDescription(breedId));
+            heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedId));
         }
         model.addAttribute("descriptions",desc);
+        model.addAttribute("thickness",heights);
 
 
 
@@ -327,7 +328,7 @@ public class StatisticController {
         String dayFrom = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()-24*60*60*1000));
         String dayTo = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-        List<QualityStatisticInfo> info = getFilteredStatisticInfo(breedOfTreeList.stream().map(BreedOfTree::getId).collect(Collectors.toList()), userCompanies.stream().map(UserCompany::getId).collect(Collectors.toList()),dayFrom,dayTo);
+        List<QualityStatisticInfo> info = getFilteredStatisticInfo(breedOfTreeList.stream().map(BreedOfTree::getId).collect(Collectors.toList()), userCompanies.stream().map(UserCompany::getId).collect(Collectors.toList()),new ArrayList<>(heights),new ArrayList<>(desc),dayFrom,dayTo);
         Set<UserCompany> userSet = new HashSet<>();
         for(QualityStatisticInfo st:info){
             userSet.add(st.getTreeStorage().getUserCompany());
@@ -340,20 +341,28 @@ public class StatisticController {
     }
 
     @PostMapping("/getDailyFactoryPowerStatistic")
-    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String dayFrom, String dayTo,Model model) throws ParseException {
+    public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String[] thickness,String[] description,String dayFrom, String dayTo,Model model) throws ParseException {
         model.addAttribute("navTabName","main");
         model.addAttribute("fragmentPathUserStatistics","usersStatistics");
         model.addAttribute("fragmentPathTabConfig","statisticTab");
         model.addAttribute("tabName","dailyStatistic");
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+
+        List<BreedOfTree> breedOfTreeList = breedOfTreeService.findAll();
+        model.addAttribute("breedOfTreeList",breedOfTreeList);
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        Set<String> desc = new TreeSet<>();
+        Set<String> heights = new TreeSet<>();
+        for(BreedOfTree breedOfTree:breedOfTreeList){
+            int breedOfTreeId = breedOfTree.getId();
+            desc.addAll(treeStorageService.getListOfUnicBreedDescription(breedOfTreeId));
+            heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedOfTreeId));
+        }
+        model.addAttribute("descriptions",desc);
+        model.addAttribute("thickness",heights);
 
 
-
-
-
-        List<QualityStatisticInfo> info = getFilteredStatisticInfo(Arrays.asList(breedId),Arrays.asList(users),dayFrom,dayTo);
+        List<QualityStatisticInfo> info = getFilteredStatisticInfo(Arrays.asList(breedId),Arrays.asList(users),Arrays.asList(thickness),Arrays.asList(description),dayFrom,dayTo);
         Set<UserCompany> userCompanies = new HashSet<>();
         for(QualityStatisticInfo st:info){
             userCompanies.add(st.getTreeStorage().getUserCompany());
@@ -363,19 +372,16 @@ public class StatisticController {
         return "adminPage";
     }
 
-    private List<QualityStatisticInfo> getFilteredStatisticInfo(List<Integer> breedId, List<Integer> users,String dayFrom, String dayTo) throws ParseException {
+    private List<QualityStatisticInfo> getFilteredStatisticInfo(List<Integer> breedId, List<Integer> users,
+                                                                List<String> thickness,List<String> desc,String dayFrom, String dayTo) throws ParseException {
         Date dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(dayFrom);
         Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dayTo);
-        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreed(users,breedId);
+        List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreedByHeightByDescription(users,breedId,thickness,desc);
         List<QualityStatisticInfo> filteredInfo = new ArrayList<>();
         if(infoList!=null) {
-            System.out.println(infoList.size());
             for (QualityStatisticInfo info : infoList) {
                 if(info.getDate()!=null && !info.getDate().isEmpty()) {
                     Date current = new SimpleDateFormat("yyyy-MM-dd").parse(info.getDate());
-                    System.out.println(current.compareTo(dateFrom));
-                    System.out.println(current.compareTo(dateTo));
-                    System.out.println(current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0);
                     if (current.compareTo(dateFrom) >= 0 && current.compareTo(dateTo) <= 0) {
                         filteredInfo.add(info);
                     }

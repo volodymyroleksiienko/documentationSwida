@@ -26,7 +26,7 @@
                         <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${cell.cell}"></td>
                         <td th:text="${cell?.cell}"></td>
                         <td th:text="${cell?.extent}"></td>
-                        <td>tut</td>
+                        <td th:text="${cell.thickness}"></td>
                         <td th:text="${cell?.startDate}"></td>
                         <td th:text="${cell?.endDate}"></td>
                         <td th:text="${cell?.countOfDesk}"></td>
@@ -408,7 +408,7 @@
                             <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${cell.cell}"></td>
                             <td th:text="${cell?.cell}"></td>
                             <td th:text="${cell.extent}"></td>
-                            <td>tut</td>
+                            <td th:text="${cell.thickness}"></td>
                             <td th:text="${cell?.startDate}"></td>
                             <td th:text="${cell?.endDate}"></td>
                             <td style="width: 40px">
@@ -884,7 +884,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!--       TUT         -->
                 <form th:action="@{'/fabric/returnRawPackageToTree-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 

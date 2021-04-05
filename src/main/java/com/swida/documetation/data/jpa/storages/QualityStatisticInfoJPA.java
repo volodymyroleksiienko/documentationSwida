@@ -11,4 +11,7 @@ public interface QualityStatisticInfoJPA extends JpaRepository<QualityStatisticI
 
     @Query("select q from  QualityStatisticInfo  q where q.treeStorage.userCompany.id in ?1 and q.treeStorage.breedOfTree.id in ?2")
     List<QualityStatisticInfo> findByUserByBreed(List<Integer> userId,List<Integer> breedId);
+
+    @Query("select q from  QualityStatisticInfo  q where q.treeStorage.userCompany.id in ?1 and q.treeStorage.breedOfTree.id in ?2 and q.rawStorage.sizeOfHeight in ?3 and trim(q.rawStorage.breedDescription) in ?4")
+    List<QualityStatisticInfo> findByUserByBreedByHeightByDescription(List<Integer> userId,List<Integer> breedId,List<String> heights, List<String> description);
 }
