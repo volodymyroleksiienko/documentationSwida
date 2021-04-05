@@ -8,6 +8,7 @@ import com.swida.documetation.data.service.storages.TreeStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional
 public class DryingStorageServiceImpl implements DryingStorageService {
     private DryingStorageJPA dryingStorageJPA;
     private RawStorageService rawStorageService;
@@ -196,6 +198,9 @@ public class DryingStorageServiceImpl implements DryingStorageService {
     @Override
     public List<String> getExtent(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId) {
         if(breedId==2){
+//            for(DryingStorage dryingStorage: dryingStorageJPA.getOak(breedId,breedDesc,sizeHeight,agentId)){
+//                System.out.println(dryingStorage);
+//            }
             return dryingStorageJPA.getExtentOak(breedId,breedDesc,sizeHeight,agentId);
         }
         return dryingStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);

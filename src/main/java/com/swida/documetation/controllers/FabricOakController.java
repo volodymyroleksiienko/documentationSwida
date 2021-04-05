@@ -240,6 +240,7 @@ public class FabricOakController {
                 desc.setDryingStorage(dryingStorage);
                 deskOakService.save(desc);
             }
+//            rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
         }
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
@@ -375,7 +376,8 @@ public class FabricOakController {
         int breedId = 2;
 
         if(cellId!=null) {
-            List<DryingStorage> dryingStorageDBList = dryingStorageService.getListByUserByBreed(userId, breedId).stream()
+            List<DryingStorage> dryingStorageDBList = dryingStorageService.getListByUserByBreed(breedId, userId)
+                    .parallelStream()
                     .filter(dr -> dr.getCell().equals(cellId)).collect(Collectors.toList());
             for (DryingStorage dryingStorageDB : dryingStorageDBList) {
                 DryStorage dryStorage = new DryStorage();
@@ -399,6 +401,7 @@ public class FabricOakController {
                         desk.setDryStorage(dryStorage);
                         deskOakService.save(desk);
                     }
+
                 }
             }
         }

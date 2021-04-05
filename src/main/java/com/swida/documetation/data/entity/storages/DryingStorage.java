@@ -41,7 +41,7 @@ public class DryingStorage {
     @ManyToOne
     private RawStorage rawStorage;
 
-    @OneToMany(mappedBy = "dryingStorage")
+    @OneToMany(mappedBy = "dryingStorage",cascade = CascadeType.ALL)
     private List<DryStorage> dryStorageList;
 
     @Enumerated(EnumType.STRING)

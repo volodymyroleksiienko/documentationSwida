@@ -34,7 +34,7 @@ public class RawStorage {
     private String description;
     private String date;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private QualityStatisticInfo statisticInfo;
 
     @OneToMany
@@ -49,7 +49,7 @@ public class RawStorage {
     @ManyToOne
     private TreeStorage treeStorage;
 
-    @OneToMany(mappedBy = "rawStorage")
+    @OneToMany(mappedBy = "rawStorage",cascade = CascadeType.ALL)
     private List<DryingStorage> dryingStorageList;
 
     @OneToOne
