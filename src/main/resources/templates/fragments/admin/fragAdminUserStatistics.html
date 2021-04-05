@@ -21,12 +21,12 @@
                     </td>
                     <td style="width: 15%">
                         <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description">
-                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
+                            <option  th:each="obj : ${descriptions}" th:value="${obj}"  th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 15%">
                         <select id="selectThickness" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="thickness">
-                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
+                            <option  th:each="obj : ${thickness}" th:value="${obj}"  th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 25%">

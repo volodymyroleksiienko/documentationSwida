@@ -314,6 +314,15 @@ public class StatisticController {
         model.addAttribute("userCompanyList",userCompanies);
         model.addAttribute("breedOfTreeList",breedOfTreeList);
         model.addAttribute("statisticInfo",statisticInfoService.findAll());
+        Set<String> desc = new TreeSet<>();
+        Set<String> heights = new TreeSet<>();
+        for(BreedOfTree breedOfTree:breedOfTreeList){
+            desc.addAll(treeStorageService.getListOfUnicBreedDescription(breedOfTree.getId()));
+        }
+        model.addAttribute("descriptions",desc);
+
+
+
 
         String dayFrom = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()-24*60*60*1000));
         String dayTo = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -339,6 +348,10 @@ public class StatisticController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+
+
+
+
 
         List<QualityStatisticInfo> info = getFilteredStatisticInfo(Arrays.asList(breedId),Arrays.asList(users),dayFrom,dayTo);
         Set<UserCompany> userCompanies = new HashSet<>();
