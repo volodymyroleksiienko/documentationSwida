@@ -8,10 +8,10 @@ function sendForPackagesStorageOak(btnObj) {
     console.log("Row id: "+$(trObj).attr('id'));
 
     var codeOfDryStorage =      $(trObj).find('th:eq(0)').text();
-    var size =                  $(trObj).find('td:eq(3)').text();
-    var quality =               $(trObj).find('td:eq(6)').text();
-    var length =                $(trObj).find('td:eq(7)').text();
-    let maxExtent =             $(trObj).find('td:eq(4)').text();
+    var size =                  $(trObj).find('td:eq(5)').text();
+    var quality =               $(trObj).find('td:eq(8)').text();
+    var length =                $(trObj).find('td:eq(9)').text();
+    let maxExtent =             $(trObj).find('td:eq(6)').text();
 
 
     $('#sendForPackageModalOakHeader').text("Формирование пачек из  "+codeOfDryStorage);
