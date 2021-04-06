@@ -93,8 +93,8 @@ function editDryStorageOak(btnObj) {
     var length =        $(trObj).find('td:eq(4)').text();
     var extent =        $(trObj).find('td:eq(5)').text();
     var desc =          $(trObj).find('td:eq(6)').text();
-    var dryingExtent =  $(trObj).find('td:eq(7)').text();
-    var initialExt =    $(trObj).find('td:eq(8)').text();
+    var dryingExtent =  $(trObj).find('td:eq(8)').text();
+    var initialExt =    $(trObj).find('td:eq(9)').text();
 
     console.log(code, material,description,thickness,extent,desc,dryingExtent,initialExt);
 
