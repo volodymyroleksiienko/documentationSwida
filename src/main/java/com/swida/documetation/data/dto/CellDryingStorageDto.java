@@ -14,6 +14,7 @@ public class CellDryingStorageDto {
     private Integer cell;
     private int countOfDesk;
     private String extent;
+    private String thickness;
     private String startDate;
     private String endDate;
     private List<DryingStorage> dryingStorageList;
@@ -29,7 +30,9 @@ public class CellDryingStorageDto {
             uniqCells.add(storage.getCell());
         }
 
+
         for(Integer cell:uniqCells){
+            Set<String> thickness = new TreeSet<>();
             CellDryingStorageDto dto = new CellDryingStorageDto();
             dto.cell=cell;
             dto.dryingStorageList=new ArrayList<>();
@@ -44,11 +47,13 @@ public class CellDryingStorageDto {
                     storageExtent+=Float.parseFloat(storage.getExtent());
                     dto.endDate=storage.getDateDrying();
                     dto.startDate=storage.getStartDate();
+                    thickness.add(storage.getSizeOfHeight());
                     dto.getDryingStorageList().add(storage);
                 }
             }
             dto.extent=String.format("%.3f",storageExtent).replace(",",".");
             dto.countOfDesk=storageDesk;
+            dto.setThickness(thickness.toString());
             dtoList.add(dto);
         }
         return dtoList;
