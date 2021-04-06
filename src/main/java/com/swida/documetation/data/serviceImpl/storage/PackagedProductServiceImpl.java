@@ -157,6 +157,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         product.setQuality(quality);
         product.setSizeOfHeight(sizeOfHeight);
         product.setSizeOfLong(length);
+        productJPA.save(product);
 
         List<DescriptionDeskOak> deskOakList = new ArrayList<>();
         float cofExtent = Float.parseFloat(sizeOfHeight)*Float.parseFloat(length)/1000000;
@@ -166,7 +167,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
 
         //i = 1 skip test obj
         for (int i=1; i<arrayOfDesk.length;i++){
-            deskOakList.add(new DescriptionDeskOak(arrayOfDesk[i][0],arrayOfDesk[i][1]));
+            DescriptionDeskOak deskOak = new DescriptionDeskOak(arrayOfDesk[i][0],arrayOfDesk[i][1]);
+            deskOak.setPackagedProduct(product);
+            deskOakList.add(deskOak);
             sumWidth += (Integer.parseInt(arrayOfDesk[i][0])*Integer.parseInt(arrayOfDesk[i][1]));
             countOfAllDesk += Integer.parseInt(arrayOfDesk[i][1]);
             extent += (cofExtent*Float.parseFloat(arrayOfDesk[i][0])*Float.parseFloat(arrayOfDesk[i][1])/1000);
