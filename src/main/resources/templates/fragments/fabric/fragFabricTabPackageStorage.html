@@ -340,7 +340,7 @@
                                     <label class="col-form-label" for="packContractId" >Контракт</label>
                                     <input type="text" class="form-control" list="contractList" id="packContractId" required="required" autocomplete="off" placeholder="Не заполнено" onchange="setHiddenValue(this)">
                                     <datalist id="contractList">
-                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
+                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:label="${contract.codeOfOrder}" th:text="${contract.codeOfOrder}"></option>
                                     </datalist>
                                     <input type="hidden" name="orderInfo.id" id="packContractId-hidden">
                                 </div>
@@ -1070,7 +1070,7 @@
                                     <label class="col-form-label" for="packContractId" >Контракт</label>
                                     <input type="text" class="form-control" list="contractList" id="packContractId" placeholder="Не заполнено" required="required" autocomplete="off" onchange="setHiddenValue(this)">
                                     <datalist id="contractList">
-                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:text="${contract.codeOfOrder}" th:label="${contract?.contrAgent?.nameOfAgent}"></option>
+                                        <option th:each="contract : ${contractList}"  th:data-value="${contract.id}" th:label="${contract.codeOfOrder}" th:text="${contract.codeOfOrder}"></option>
                                     </datalist>
                                     <input type="hidden" name="orderInfo.id" id="packContractId-hidden">
                                 </div>
