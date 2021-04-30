@@ -15,12 +15,7 @@ public class GenerateResponseForExport {
         File file = new File(filePath);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
         HttpHeaders headers = new HttpHeaders();
-        System.out.println(startDate);
-        System.out.println(endDate);
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getName());
-        System.out.println();
-        System.out.println(file.getName());
-        System.out.println();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
