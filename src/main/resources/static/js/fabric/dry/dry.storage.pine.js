@@ -145,6 +145,21 @@ function calculateExtent() {
     }
 }
 
+function calculateIncomeExtent() {
+    let thickness = parseFloat($('#addDryStorageModalThickness').val());
+    let width =     parseFloat($('#addDryStorageModalWidth').val());
+    let length =    parseFloat($('#addDryStorageModalLength').val());
+    let count =     parseInt($('#addDryStorageModalCount').val());
+
+    if (!Number.isNaN(thickness) && !Number.isNaN(width) && !Number.isNaN(length) && !Number.isNaN(count) ) {
+        let res = (thickness / 1000) * (width / 1000) * (length / 1000) * count;
+        $('#addDryStorageModalVolume').val(res.toFixed(3));
+    }else {
+        $('#addDryStorageModalVolume').val(0.000);
+        console.log("NaN value");
+    }
+}
+
 $("#editDryStorageForm").submit(function( event ) {
     let dryingStExt =     parseFloat($('#editDryStorageModalMaxExtent').val());
     let initialExtent = parseFloat($('#editDryStorageModalInitialExtent').val());

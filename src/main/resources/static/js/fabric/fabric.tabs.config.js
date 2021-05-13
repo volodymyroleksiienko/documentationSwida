@@ -1252,6 +1252,70 @@ $(document).ready( function () {
     });
     /////////////////////////////////////////////////////////////////////
 
+    ///////////////////////////////////////////////////////////////////
+    // requestCreatePackageOak
+    $("#createInitialPackageFromDryOak").click(function () {
+        // function sendRequestCreatePackageOak(btnObj) {
+        let breedID =               $("#breedIdPack").val();
+        let userID =                $("#userIdPack").val();
+        let codeOfInitialPackage1 = $('#addOakInitialPackageCode').val();
+        let breedDescription1 =     $('#addOakInitialPackageDescr').val();
+        let sizeOfHeight1 =         $('#addDeliveryPackageModalSizeOak').val();
+        let length1 =               $('#addDeliveryPackageModalLengthOak').val();
+
+        let tableBody = document.getElementById('listOfOakPackageRowsId');
+        let listTr = tableBody.getElementsByTagName('tr');
+
+        let arrOfDesk = [];
+
+        var extent1 = $('#addDeliveryPackageModalExtentOak').val();
+        let usedExtent1 = $('#addDeliveryPackageModalUsedExtentOak').val();
+
+        //fix one dimension array on controller
+        arrOfDesk[0] = [];
+        arrOfDesk[0][0] = "test";
+        arrOfDesk[0][1] = "test";
+
+
+        if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "" && (treeStorageId !== "" ||  supplier1 !== "")) {
+            for (let i = 1; i <= listTr.length; i++) {
+                let width = $(listTr[i - 1]).find('td:eq(0)').text();
+                let count = $(listTr[i - 1]).find('td:eq(1)').text();
+
+                arrOfDesk[i] = [];
+                arrOfDesk[i][0] = width;
+                arrOfDesk[i][1] = count;
+            }
+
+            console.log(arrOfDesk);
+
+            $.ajax({
+                method: "post",
+                url: "/createInitialPackageOakDryObject-" + userID + "-" + breedID,
+                contextType: "application/json",
+                data: {
+                    codeOfPackage: codeOfInitialPackage1,
+                    breedDescription: breedDescription1,
+                    sizeOfHeight: sizeOfHeight1,
+                    sizeOfLong: length1,
+                    extent: extent1,
+                    usedExtent: usedExtent1,
+                    arrayOfDesk: arrOfDesk
+                },
+                traditional: true,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Заполните все поля!");
+                }
+            });
+        } else {
+            alert("Заполните все поля!");
+        }
+    });
+    /////////////////////////////////////////////////////////////////////
+
     // $('#addInitialRawModal').on('hide.bs.modal', function (e) {
     //     let sum = $('#sendForPackageModalTotalDescsCountOak').val();
     //     $('#addInitialRawModalSum').val(sum);

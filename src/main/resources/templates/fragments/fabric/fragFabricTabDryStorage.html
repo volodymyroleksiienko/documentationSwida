@@ -61,13 +61,80 @@
             <button type="button" class="buttons btn btn-primary" title="Группировать" data-toggle="modal" data-placement="left" id="groupDryStorageButton">
                 <i class="fas fa-code-branch"></i>
             </button>
-            <button type="button" class="buttons main-button btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
-                <i class="far fa-file-excel"></i></i>
+            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
+                <i class="far fa-file-excel"></i>
+            </button>
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить пиломатериалы" data-toggle="modal" data-placement="left" data-target="#addIncomeToRDryStorageModal">
+                <i class="fa fa-plus"></i>
             </button>
         </div>
         <!-- BUTTON -->
     </div>
     <!-- Сухой склад -->
+
+    <!-- Add to dry storage modal start   -->
+    <div class="modal fade" id="addIncomeToRDryStorageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление материала</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
+<!--                    <input type="hidden"  th:value="${breedId}">-->
+<!--                    <input type="hidden"  th:value="${userId}">-->
+                    <div class="modal-body">
+                        <label class="col-form-label" for="editDryStorageModalCode">Код партии</label>
+                        <input type="text" class="form-control" required="required"  autocomplete="off" name="codeOfProduct" style="margin-bottom: 0.5rem;">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="control-label">Порода</label>
+                                <input type="text" class="form-control" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" readonly="readonly">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label">Описание</label>
+                                <input class="form-control" type="text" placeholder="Не заполнено" name="breedDescription">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDryStorageModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight" oninput="calculateIncomeExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalWidth">Ширина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDryStorageModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth" oninput="calculateIncomeExtent()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDryStorageModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong" oninput="calculateIncomeExtent()">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDryStorageModalCount">Количество досок</label>
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDryStorageModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput="calculateIncomeExtent()">
+                            </div>
+                            <div class="col-6">
+                                <label class="col-form-label" for="editDryStorageModalVolume">Кубатура</label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="addDryStorageModalVolume" required="required" autocomplete="off" placeholder="м3" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add to dry storage modal end   -->
 
     <!--  Grouping pine start -->
     <div class="modal fade" id="groupingModal">
@@ -521,11 +588,17 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
+            <button type="button" class="buttons btn btn-primary" title="Добавить пиломатериалы с точковкой" data-toggle="modal" data-placement="left" data-target="#addExtendedIncomeToOakRDryStorageModal">
+                <i class="fa fa-plus"></i>
+            </button>
             <button type="button" class="buttons btn btn-primary" title="Группировать" data-toggle="modal" data-placement="left" id="groupDryStorageOakButton">
                 <i class="fas fa-code-branch"></i>
             </button>
-            <button type="button" class="buttons main-button btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
-                <i class="far fa-file-excel"></i></i>
+            <button type="button" class="buttons btn btn-primary" title="Экспорт" data-toggle="modal" data-placement="left" data-target="#exportModal">
+                <i class="far fa-file-excel"></i>
+            </button>
+            <button type="button" class="buttons main-button btn btn-primary" title="Добавить пиломатериалы" data-toggle="modal" data-placement="left" data-target="#addIncomeToOakRDryStorageModal">
+                <i class="fa fa-plus"></i>
             </button>
         </div>
         <!-- BUTTON -->
@@ -806,6 +879,159 @@
     </div>
     <!--    Send for packages end  -->
 
+    <!--Add start-->
+    <div class="modal fade" id="addIncomeToOakRDryStorageModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление материала</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/addDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+
+
+                        <label class="col-form-label" for="editDryStorageModalCode">Код</label>
+                        <input type="text" class="form-control" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct" style="margin-bottom: 0.5rem;">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-6">
+                                <label class="control-label">Порода</label>
+                                <input type="text" class="form-control" readonly="readonly" th:value="${breedOfTreeList[breedId-2].breed}">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label">Описание</label>
+                                <input class="form-control" type="text" placeholder="Не заполнено" name="breedDescription">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalThickness">Толщина</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalLength">Длина</label>
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" autocomplete="off" placeholder="мм" name="sizeOfLong">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="editDryStorageModalVol">Кубатура</label>
+                                <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" required="required" autocomplete="off" placeholder="м3" name="extent">
+                            </div>
+                        </div>
+
+                        <label class="col-form-label" for="editDryStorageModalDesc">Примечание</label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Не заполнено" name="description">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Add end  -->
+
+<!--    Add tochkovka start-->
+    <div class="modal fade" id="addExtendedIncomeToOakRDryStorageModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ">Добавление материала с точковкой</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form >
+                    <div class="modal-body">
+                        <input type="number" hidden="hidden" id="breedIdPack" th:value="${breedId}">
+                        <input type="text" hidden="hidden" id="userIdPack" th:value="${userId}">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="addOakInitialPackageCode">Код партии</label>
+                                <input type="text" class="form-control" id="addOakInitialPackageCode" placeholder="Не заполнено" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="addOakMaterial">Порода</label>
+                                <input class="form-control" id="addOakMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="addOakInitialPackageDescr">Описание</label>
+                                <input class="form-control" id="addOakInitialPackageDescr" placeholder="Не заполнено" type="text" name="breedDescription">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label class="control-label" for="addDeliveryPackageModalSizeOak" style="padding-top: 7px">Толщина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalSizeOak" required="required">
+                            </div>
+                            <div class="col-3">
+                                <label class="col-form-label" for="addDeliveryPackageModalLengthOak">Длина, мм</label>
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalLengthOak" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-3">
+                                <label class="control-label" for="addDeliveryPackageModalExtentOak" style="padding-top: 7px">Кубатура</label>
+                                <input type="text" disabled="disabled" class="form-control" id="addDeliveryPackageModalExtentOak"  autocomplete="off" placeholder="м3">
+                            </div>
+                            <div class="col-3">
+                                <label class="control-label" for="sendForPackageModalTotalDescsCountOak" style="padding-top: 7px">Сум. количество</label>
+                                <input type="number" min="0" class="form-control" disabled="disabled" id="sendForPackageModalTotalDescsCountOak" placeholder="шт">
+                                <input type="hidden" id="addInitialRawModalSum">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-3">
+                                <label class="col-form-label" for="addDeliveryPackageModalWidthOak">Ширина, мм</label>
+                                <input type="number" min="0" step="10" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="addDeliveryPackageModalWidthOak" required="required" autocomplete="off" value="100">
+                            </div>
+
+                            <div class="col-3">
+                                <label class="control-label" for="addDeliveryPackageModalCountOak" style="padding-top: 7px">Количество</label>
+                                <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control" id="addDeliveryPackageModalCountOak" required="required" autocomplete="off">
+                            </div>
+
+                            <div class="col-6" style="display: inline-flex; text-align: right;justify-content: flex-end;">
+                                <button id="buttonForAddingInitialPackageOakRow" type="button" class="btn btn-primary" style="width: 50%; margin-right: 5px">Добавить ширину</button>
+                                <button type="button" class="btn btn-primary" style="width: 50%" id="createInitialPackageFromDryOak">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped" id="tableForPackagesOak" style="padding-left: 1rem; padding-right: 1rem">
+                        <thead>
+                        <tr>
+                            <th scope="col">Ширина, мм</th>
+                            <th scope="col">Количество досок, шт</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="listOfOakPackageRowsId">
+                        <!-- <tr></tr> -->
+                        </tbody>
+
+                        <tfoot>
+                        <th scope="col">Ширина, мм</th>
+                        <th scope="col">Количество досок, шт</th>
+                        <th></th>
+                        </tfoot>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="clearInitialPackageButton">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--    Add tochkovka end-->
 
 <!--Edit start-->
     <div class="modal fade" id="editDryStorageModal">

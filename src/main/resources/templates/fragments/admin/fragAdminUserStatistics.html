@@ -4,13 +4,41 @@
 <!--        <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>-->
         <form action="/admin/getDailyFactoryPowerStatistic" method="post">
             <table style="width: 100%;" >
+<!--                <tr>-->
+<!--                    <th scope="col">Начальная дата</th>-->
+<!--                    <th scope="col">Конечная дата</th>-->
+<!--                    <th scope="col">Описание</th>-->
+<!--                    <th scope="col">Толщина</th>-->
+<!--                    <th scope="col">Пользователи</th>-->
+<!--                    <th scope="col">Порода</th>-->
+<!--                </tr>-->
                 <tr>
                     <th scope="col">Начальная дата</th>
                     <th scope="col">Конечная дата</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Толщина</th>
-                    <th scope="col">Пользователи</th>
-                    <th scope="col">Порода</th>
+                    <th scope="col">Описание
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" id="selectDesc"  onclick="selectButton('selectDescription')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" id="deselectDesc" onclick="deselectButton('selectDescription')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
+                    <th scope="col">Толщина, мм
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectThickness')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectThickness')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
+                    <th scope="col">Пользователи
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectUser')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectUser')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
+                    <th scope="col">Порода
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectBreedType')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectBreedType')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
                 </tr>
                 <tr style="vertical-align: top;">
                     <td style="width: 15%">
@@ -159,202 +187,6 @@
             for(var i = 0; i<options.length;i++){
                 options[i].click();
                 console.log(options[i]);
-            }
-        }
-        function sendRequestForStatistic(breedId) {
-            var descriptions =  $('#selectDescription').val();
-            var sizeOfHeight =  $('#selectSizeOfHeight').val();
-            var sizeOfWidth =   $('#selectSizeOfWidth').val();
-            var sizeOfLong =    $('#selectSizeOfLong').val();
-            var providers =     $('#selectProvider').val();
-            var stages =        $('#selectStage').val();
-
-            console.log(breedId);
-            console.log(descriptions);
-            console.log(sizeOfHeight);
-            console.log(sizeOfWidth);
-            console.log(sizeOfLong);
-            console.log(providers);
-            console.log(stages);
-
-            if ((!Array.isArray(descriptions) || !descriptions.length)&&
-                (!Array.isArray(sizeOfHeight) || !sizeOfHeight.length)&&
-                (!Array.isArray(sizeOfWidth) || !sizeOfWidth.length)&&
-                (!Array.isArray(sizeOfLong) || !sizeOfLong.length)&&
-                (!Array.isArray(providers) || !providers.length)&&
-                (!Array.isArray(stages) || !stages.length)){
-
-                $("#selectDescription option").each(function()
-                {
-                    descriptions.push($(this).val());
-                });
-
-                $("#selectSizeOfHeight option").each(function()
-                {
-                    sizeOfHeight.push($(this).val());
-                });
-
-                $("#selectSizeOfWidth option").each(function()
-                {
-                    sizeOfWidth.push($(this).val());
-                });
-
-                $("#selectSizeOfLong  option").each(function()
-                {
-                    sizeOfLong.push($(this).val());
-                });
-
-                $("#selectProvider option").each(function()
-                {
-                    providers.push($(this).val());
-                });
-
-                $("#selectStage option").each(function()
-                {
-                    stages.push($(this).val());
-                });
-                ////////////////////////
-                console.log("here")
-                console.log(descriptions);
-                console.log(sizeOfHeight);
-                console.log(sizeOfWidth);
-                console.log(sizeOfLong);
-                console.log(providers);
-                console.log(stages);
-                ///////////////////////
-
-                $.ajax({
-                    method: "post",
-                    url: "/admin/getStatisticInfo-"+breedId,
-                    contextType: "application/json",
-                    data: {
-                        descriptions: descriptions,
-                        sizeOfHeight: sizeOfHeight,
-                        sizeOfWidth: sizeOfWidth,
-                        sizeOfLong: sizeOfLong,
-                        providers: providers,
-                        stages: stages
-                    },
-                    traditional: true,
-                    success: function (statisticInfo) {
-                        console.log(statisticInfo);
-
-                        summary = parseFloat(statisticInfo["storageExtent"]);
-                        summary2 = parseFloat(statisticInfo["deliveredExtent"]);
-
-                        let  data = new google.visualization.DataTable();
-                        data.addColumn('string', 'Place');
-                        data.addColumn('number', 'Extent');
-
-                        let  data2 = new google.visualization.DataTable();
-                        data2.addColumn('string', 'Place');
-                        data2.addColumn('number', 'Extent');
-
-                        data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
-                        data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
-                        data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
-                        data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
-                        data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
-                        data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
-
-                        data2.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
-                        data2.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
-                        data2.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
-                        data2.addRow(['Заказы (в работе): '+             statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
-
-                        let options = {
-                            title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
-                            pieHole: 0.4,
-                            sliceVisibilityThreshold: .00001,
-                            // is3D: true,
-                        };
-
-                        let options2 = {
-                            title: 'Суммарная кубатура: '+summary2.toFixed(3)+" м3",
-                            pieHole: 0.4,
-                            sliceVisibilityThreshold: .00001,
-                            // is3D: true,
-                        };
-
-                        let chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                        let chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
-
-                        chart.draw(data, options);
-                        chart2.draw(data2, options2);
-                        // drawChart();
-                        // location.reload();
-                    },
-                    error: function () {
-                        alert("Error");
-                    }
-                });
-            }else {
-                $.ajax({
-                    method: "post",
-                    url: "/admin/getStatisticInfo-"+breedId,
-                    contextType: "application/json",
-                    data: {
-                        descriptions: descriptions,
-                        sizeOfHeight: sizeOfHeight,
-                        sizeOfWidth: sizeOfWidth,
-                        sizeOfLong: sizeOfLong,
-                        providers: providers,
-                        stages: stages
-                    },
-                    traditional: true,
-                    success: function (statisticInfo) {
-                        console.log(statisticInfo);
-
-                        summary = parseFloat(statisticInfo["storageExtent"]);
-                        summary2 = parseFloat(statisticInfo["deliveredExtent"]);
-
-                        let  data = new google.visualization.DataTable();
-                        data.addColumn('string', 'Place');
-                        data.addColumn('number', 'Extent');
-
-                        let  data2 = new google.visualization.DataTable();
-                        data2.addColumn('string', 'Place');
-                        data2.addColumn('number', 'Extent');
-
-                        data.addRow(['Кругляк: '+                       statisticInfo["treeStorage"],           parseFloat(statisticInfo["treeStorage"])]);
-                        data.addRow(['Сырой склад: '+                   statisticInfo["rawStorage"],            parseFloat(statisticInfo["rawStorage"])]);
-                        data.addRow(['Сушка: '+                         statisticInfo["dryingStorage"],         parseFloat(statisticInfo["dryingStorage"])]);
-                        data.addRow(['Сухой склад: '+                   statisticInfo["dryStorage"],            parseFloat(statisticInfo["dryStorage"])]);
-                        data.addRow(['Пачки: '+                         statisticInfo["packagedProduct"],       parseFloat(statisticInfo["packagedProduct"])]);
-                        data.addRow(['Переработка: '+                   statisticInfo["recycleStorage"],        parseFloat(statisticInfo["recycleStorage"])]);
-
-                        data2.addRow(['Доставка (Мультимодал): '+        statisticInfo["deliveryMultimodal"],    parseFloat(statisticInfo["deliveryMultimodal"])]);
-                        data2.addRow(['Доставка (Порты): '+              statisticInfo["deliveryPort"],          parseFloat(statisticInfo["deliveryPort"])]);
-                        data2.addRow(['Доставка (Страна): '+             statisticInfo["deliveryCountry"],       parseFloat(statisticInfo["deliveryCountry"])]);
-                        data2.addRow(['Заказы (в работе): '+             statisticInfo["providerInWork"],        parseFloat(statisticInfo["providerInWork"])]);
-
-                        let options = {
-                            title: 'Суммарная кубатура: '+summary.toFixed(3)+" м3",
-                            pieHole: 0.4,
-                            sliceVisibilityThreshold: .00001,
-                            // is3D: true,
-                        };
-
-                        let options2 = {
-                            title: 'Суммарная кубатура: '+summary2.toFixed(3)+" м3",
-                            pieHole: 0.4,
-                            sliceVisibilityThreshold: .00001,
-                            // is3D: true,
-                        };
-
-                        let chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                        let chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
-
-                        chart.draw(data, options);
-                        chart2.draw(data2, options2);
-                        // drawChart();
-                        // location.reload();
-                    },
-                    error: function () {
-                        alert("Error");
-                    }
-                });
-
             }
         }
     </script>
