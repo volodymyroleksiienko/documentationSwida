@@ -40,10 +40,10 @@ function editDriverInfo(btnObj) {
 
 
     let trId =              $(trObj).find('td:eq(0)').attr('id');
-    let truck =             $(trObj).find('td:eq(1)').text();
-    let truckNum =          $(trObj).find('td:eq(2)').text();
-    let trailerNum  =       $(trObj).find('td:eq(3)').text();
-    let packDate  =         $(trObj).find('td:eq(4)').text();
+    let packDate  =         $(trObj).find('td:eq(1)').text();
+    let truck =             $(trObj).find('td:eq(2)').text();
+    let truckNum =          $(trObj).find('td:eq(3)').text();
+    let trailerNum  =       $(trObj).find('td:eq(4)').text();
     let packTime  =         $(trObj).find('td:eq(5)').text();
     let driver =            $(trObj).find('td:eq(6)').text();
     let phone =             $(trObj).find('td:eq(7)').text();

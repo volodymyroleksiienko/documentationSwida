@@ -8,10 +8,10 @@
             <thead>
             <tr>
                 <th style="width: 30px"></th>
+                <th scope="col">Дата выгрузки</th>
                 <th scope="col">№ выгрузки</th>
                 <th scope="col">А/М</th>
                 <th scope="col">П/П</th>
-                <th scope="col">Дата выгрузки</th>
                 <th scope="col">Время выгрузки</th>
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
@@ -27,10 +27,10 @@
                   <div th:each="dd, index : ${deliveryDocumentations}">
                           <tr th:id="${dd.id}">
                               <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                              <td th:text="${dd.getDateOfUnloading()}"></td>
                               <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>
-                              <td th:text="${dd.getDateOfUnloading()}"></td>
                               <td th:text="${dd.getTimeOfUnloading()}"></td>
                               <td th:text="${dd.driverInfo.getFullName()}"></td>
                               <td th:text="${dd.driverInfo.getPhone()}"></td>
@@ -118,10 +118,10 @@
             <tfoot>
             <tr>
                 <th style="width: 30px"></th>
+                <th scope="col">Дата выгрузки</th>
                 <th scope="col">№ выгрузки</th>
                 <th scope="col">А/М</th>
                 <th scope="col">П/П</th>
-                <th scope="col">Дата выгрузки</th>
                 <th scope="col">Время выгрузки</th>
                 <th scope="col">Водитель</th>
                 <th scope="col">Телефон</th>
@@ -528,10 +528,10 @@
                 <thead>
                     <tr>
                         <th style="width: 30px"></th>
+                        <th scope="col">Дата выгрузки</th>
                         <th scope="col">№ выгрузки</th>
                         <th scope="col">А/М</th>
                         <th scope="col">П/П</th>
-                        <th scope="col">Дата выгрузки</th>
                         <th scope="col">Время выгрузки</th>
                         <th scope="col">Водитель</th>
                         <th scope="col">Телефон</th>
@@ -549,10 +549,10 @@
 
                         <tr th:id="${dd.id}">
                             <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                            <td th:text="${dd.getDateOfUnloading()}"></td>
                             <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                             <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
                             <td th:text="${dd.driverInfo.getNumberOfTrailer()}"></td>
-                            <td th:text="${dd.getDateOfUnloading()}"></td>
                             <td th:text="${dd.getTimeOfUnloading()}"></td>
                             <td th:text="${dd.driverInfo.getFullName()}"></td>
                             <td th:text="${dd.driverInfo.getPhone()}"></td>
@@ -596,7 +596,7 @@
                                         <div th:each="ps, index : ${dd.getProductList()}">
                                             <tr th:id="${ps.id}">
                                                 <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();" th:id="${ps.id}"></td>
-                                                <th scope="row" th:text="${ps.codeOfPackage}">20-1С3-2605-1-2805</th>
+                                                <th scope="row" th:text="${ps.codeOfPackage}"></th>
                                                 <td th:text="${ps.quality}"></td>
                                                 <td th:text="${ps.sizeOfHeight}"></td>
                                                 <td th:text="${ps.sizeOfLong}"></td>
@@ -671,10 +671,10 @@
                 <tfoot>
                 <tr>
                     <th style="width: 30px"></th>
+                    <th scope="col">Дата выгрузки</th>
                     <th scope="col">№ выгрузки</th>
                     <th scope="col">А/М</th>
                     <th scope="col">П/П</th>
-                    <th scope="col">Дата выгрузки</th>
                     <th scope="col">Время выгрузки</th>
                     <th scope="col">Водитель</th>
                     <th scope="col">Телефон</th>
