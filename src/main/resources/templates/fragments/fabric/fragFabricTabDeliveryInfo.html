@@ -28,7 +28,7 @@
                   <div th:each="dd, index : ${deliveryDocumentations}">
                           <tr th:id="${dd.id}">
                               <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
-                              <td th:text="${dd.getDateOfUnloading()}+'tutaj'">here</td>
+                              <td th:text="${dd.getDateOfUnloading().substring(8,10)+'-'+dd.getDateOfUnloading().substring(5,7)+'-'+dd.getDateOfUnloading().substring(0,4)}">here</td>
                               <td th:text="${dd.getDateOfUnloading()}"></td>
                               <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>

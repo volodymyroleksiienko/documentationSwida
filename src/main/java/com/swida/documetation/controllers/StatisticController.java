@@ -468,6 +468,8 @@ public class StatisticController {
                 }
             }
         }
+        model.addAttribute("dateFrom",dateFrom);
+        model.addAttribute("dateTo",dateTo);
         model.addAttribute("checkedBreed",breedId);
         model.addAttribute("checkedUsers",users);
         model.addAttribute("checkedThickness",thickness);

@@ -42,10 +42,10 @@
                 </tr>
                 <tr style="vertical-align: top;">
                     <td style="width: 15%">
-                        <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()" required="required">
+                        <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()" th:value="${#dates.format(dateFrom, 'yyyy-MM-dd')}" required="required">
                     </td>
                     <td style="width: 15%">
-                        <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()" required="required">
+                        <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()" th:value="${#dates.format(dateTo, 'yyyy-MM-dd')}" required="required">
                     </td>
                     <td style="width: 15%">
                         <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description" >
@@ -120,8 +120,10 @@
 
 
     <script type="text/javascript">
-        document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
-        document.querySelector("#endDate").valueAsDate = new Date();
+        // document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
+        // document.querySelector("#endDate").valueAsDate = new Date();
+
+
 
         function checkFirstDate() {
             let firstDate = new Date(document.getElementById('startDate').value);
