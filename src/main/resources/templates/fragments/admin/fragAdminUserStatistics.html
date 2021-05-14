@@ -48,23 +48,23 @@
                         <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()" required="required">
                     </td>
                     <td style="width: 15%">
-                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description" required="required">
-                            <option  th:each="obj : ${descriptions}" th:value="${obj}"  th:text="${obj}"></option>
+                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description" >
+                            <option  th:each="obj : ${descriptions}" th:value="${obj}"  th:text="${obj}" th:selected="${checkedDescription?.contains(obj)}"></option>
                         </select>
                     </td>
                     <td style="width: 15%">
-                        <select id="selectThickness" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="thickness" required="required">
-                            <option  th:each="obj : ${thickness}" th:value="${obj}"  th:text="${obj}"></option>
+                        <select id="selectThickness" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="thickness" >
+                            <option  th:each="obj : ${thickness}" th:value="${obj}"  th:text="${obj}" th:selected="${checkedThickness?.contains(obj)}"></option>
                         </select>
                     </td>
                     <td style="width: 25%">
-                        <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users" required="required">
-                            <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}"></option>
+                        <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users" >
+                            <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}" th:selected="${checkedUsers?.contains(obj.id)}"></option>
                         </select>
                     </td>
                     <td style="width: 15%">
-                        <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId" required="required">
-                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}"></option>
+                        <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId" >
+                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}" th:selected="${checkedBreed?.contains(obj.id)}"></option>
                         </select>
                     </td>
                     <td style="width: auto; align-items: end;">

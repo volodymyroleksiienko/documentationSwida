@@ -567,8 +567,13 @@ public class FabricController {
 
     @PostMapping("/editDryStorageRow-{userId}-{breedId}")
     public String editDryStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DryStorage dryStorage){
-
         dryStorageService.editDryStorage(dryStorage);
+        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+    }
+
+    @PostMapping("/addDryStorageWithoutParent-{userId}-{breedId}")
+    public String addDryStorageWithoutParent(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DryStorage dryStorage){
+        dryStorageService.addDryStorageWithoutParent(userId,breedId,dryStorage);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
@@ -582,7 +587,6 @@ public class FabricController {
     }
     @PostMapping("/groupPineDry-{userId}-{breedId}")
     public String groupPineDry(@PathVariable int userId,@PathVariable int breedId,DryStorage dryStorage,Integer[] idOfRow){
-//        System.out.println(dryStorage);
         dryStorageService.collectToOnePineEntityDry(dryStorage,idOfRow,userId,breedId);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }

@@ -194,6 +194,8 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         return product;
     }
 
+
+
     @Override
     public PackagedProduct createPackageOak(List<DescriptionDeskOak> deskOakList, String idOfDryStorage, String codeOfPackage, String quality, String sizeOfHeight, String length,int userID,int breedID) {
         DryStorage dryStorage = (idOfDryStorage.isEmpty())?null:dryStorageService.findById(Integer.parseInt(idOfDryStorage));
@@ -547,6 +549,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
                     }
                 }
             }
+            dryStorageService.countExtentRawStorageWithDeskDescription(dryStorage);
             dryStorageService.save(dryStorage);
             deleteByID(id);
         }

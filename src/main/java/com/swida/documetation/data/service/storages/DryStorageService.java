@@ -6,14 +6,17 @@ import com.swida.documetation.data.entity.storages.DryingStorage;
 import java.util.List;
 
 public interface DryStorageService {
-    void save(DryStorage ds);
+    DryStorage save(DryStorage ds);
     DryStorage findById(int id);
     DryStorage createFromDryingStorage(DryingStorage dryingStorage);
+    DryStorage addDryStorageWithoutParent(int userId, int breedId,DryStorage dryStorage);
+
     List<DryStorage> findAll();
     List<DryStorage> getListByUserByBreed(int breedId, int userId);
     void countExtentRawStorageWithDeskDescription(DryStorage dryStorage);
     void editDryStorage(DryStorage dryStorage);
     void deleteByID(int id);
+
 
     void collectToOnePineEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId);
     void uncollectFromOnePineEntityDry(DryStorage dryStorage,int userId,int breedId);
