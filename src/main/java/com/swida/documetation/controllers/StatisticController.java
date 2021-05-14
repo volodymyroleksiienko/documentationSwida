@@ -333,7 +333,7 @@ public class StatisticController {
         String dayTo = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
         List<QualityStatisticInfo> info = getFilteredStatisticInfo(model,breedOfTreeList.stream().map(BreedOfTree::getId).collect(Collectors.toList()), userCompanies.stream().map(UserCompany::getId).collect(Collectors.toList()),new ArrayList<>(heights),new ArrayList<>(desc),dayFrom,dayTo);
-        if(user!=null && !user.getRole().equals(Roles.ROLE_ADMIN)){
+        if(user!=null && user.getRole().equals(Roles.ROLE_USER)){
             info = info.stream()
                     .filter(temp-> temp.getTreeStorage().getUserCompany().getId()==user.getId())
                     .collect(Collectors.toList());
@@ -405,7 +405,7 @@ public class StatisticController {
 
 
         List<QualityStatisticInfo> info = getFilteredStatisticInfo(model,breedList,usersList,thicknessList,descriptionList,dayFrom,dayTo);
-        if(user!=null && !user.getRole().equals(Roles.ROLE_ADMIN)){
+        if(user!=null && user.getRole().equals(Roles.ROLE_USER)){
             info = info.stream()
                     .filter(temp-> temp.getTreeStorage().getUserCompany().getId()==user.getId())
                     .collect(Collectors.toList());
@@ -431,7 +431,7 @@ public class StatisticController {
         }
 
         if(users==null || users.size()==0) {
-            if (user != null && !user.getRole().equals(Roles.ROLE_ADMIN)) {
+            if (user != null && user.getRole().equals(Roles.ROLE_USER)) {
                 users = new ArrayList<>();
                 users.add(user.getId());
             } else {
