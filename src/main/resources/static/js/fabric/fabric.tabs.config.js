@@ -1259,6 +1259,7 @@ $(document).ready( function () {
         let breedID =               $("#breedIdPack").val();
         let userID =                $("#userIdPack").val();
         let codeOfInitialPackage1 = $('#addOakInitialPackageCode').val();
+        console.log(codeOfInitialPackage1);
         let breedDescription1 =     $('#addOakInitialPackageDescr').val();
         let sizeOfHeight1 =         $('#addDeliveryPackageModalSizeOak').val();
         let length1 =               $('#addDeliveryPackageModalLengthOak').val();
@@ -1277,7 +1278,7 @@ $(document).ready( function () {
         arrOfDesk[0][1] = "test";
 
 
-        if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "" && (treeStorageId !== "" ||  supplier1 !== "")) {
+        if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "") {
             for (let i = 1; i <= listTr.length; i++) {
                 let width = $(listTr[i - 1]).find('td:eq(0)').text();
                 let count = $(listTr[i - 1]).find('td:eq(1)').text();
@@ -1294,7 +1295,7 @@ $(document).ready( function () {
                 url: "/createInitialPackageOakDryObject-" + userID + "-" + breedID,
                 contextType: "application/json",
                 data: {
-                    codeOfPackage: codeOfInitialPackage1,
+                    codeOfProduct: codeOfInitialPackage1,
                     breedDescription: breedDescription1,
                     sizeOfHeight: sizeOfHeight1,
                     sizeOfLong: length1,

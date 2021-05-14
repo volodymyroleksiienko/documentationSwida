@@ -5,10 +5,7 @@ import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
-import com.swida.documetation.data.enums.ContrAgentType;
-import com.swida.documetation.data.enums.DeliveryDestinationType;
-import com.swida.documetation.data.enums.StatusOfProduct;
-import com.swida.documetation.data.enums.StatusOfTreeStorage;
+import com.swida.documetation.data.enums.*;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
@@ -302,6 +299,12 @@ public class StatisticController {
 
     @GetMapping("/getDailyFactoryPowerStatistic")
     public String getDailyFactoryPowerStatistic(Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserCompany user = userCompanyService.findByUsername(authentication.getName());
+
+        if(user!=null) {
+            model.addAttribute("userId", user.getId());
+        }
         model.addAttribute("navTabName","main");
         model.addAttribute("fragmentPathUserStatistics","usersStatistics");
         model.addAttribute("fragmentPathTabConfig","statisticTab");
@@ -309,7 +312,11 @@ public class StatisticController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         List<UserCompany> userCompanies = userCompanyService.getListOfAllUsersROLE();
         List<BreedOfTree> breedOfTreeList = breedOfTreeService.findAll();
-        model.addAttribute("userCompanyList",userCompanies);
+        if(user==null || user.getRole().equals(Roles.ROLE_ADMIN)) {
+            model.addAttribute("userCompanyList", userCompanies);
+        }else{
+            model.addAttribute("userCompanyList", Collections.singleton(user));
+        }
         model.addAttribute("breedOfTreeList",breedOfTreeList);
         model.addAttribute("statisticInfo",statisticInfoService.findAll());
         Set<String> desc = new TreeSet<>();
@@ -322,13 +329,18 @@ public class StatisticController {
         model.addAttribute("descriptions",desc);
         model.addAttribute("thickness",heights);
 
-
-
-
         String dayFrom = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()-24*60*60*1000));
         String dayTo = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-        List<QualityStatisticInfo> info = getFilteredStatisticInfo(breedOfTreeList.stream().map(BreedOfTree::getId).collect(Collectors.toList()), userCompanies.stream().map(UserCompany::getId).collect(Collectors.toList()),new ArrayList<>(heights),new ArrayList<>(desc),dayFrom,dayTo);
+        List<QualityStatisticInfo> info = getFilteredStatisticInfo(model,breedOfTreeList.stream().map(BreedOfTree::getId).collect(Collectors.toList()), userCompanies.stream().map(UserCompany::getId).collect(Collectors.toList()),new ArrayList<>(heights),new ArrayList<>(desc),dayFrom,dayTo);
+        if(user!=null && !user.getRole().equals(Roles.ROLE_ADMIN)){
+            info = info.stream()
+                    .filter(temp-> temp.getTreeStorage().getUserCompany().getId()==user.getId())
+                    .collect(Collectors.toList());
+            model.addAttribute("userCompanyList",Collections.singleton(user));
+        }else {
+            model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        }
         Set<UserCompany> userSet = new HashSet<>();
         for(QualityStatisticInfo st:info){
             userSet.add(st.getTreeStorage().getUserCompany());
@@ -342,6 +354,11 @@ public class StatisticController {
 
     @PostMapping("/getDailyFactoryPowerStatistic")
     public String getDailyFactoryPowerStatistic(Integer[] breedId, Integer[] users,String[] thickness,String[] description,String dayFrom, String dayTo,Model model) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserCompany user = userCompanyService.findByUsername(authentication.getName());
+        if(user!=null) {
+            model.addAttribute("userId", user.getId());
+        }
         model.addAttribute("navTabName","main");
         model.addAttribute("fragmentPathUserStatistics","usersStatistics");
         model.addAttribute("fragmentPathTabConfig","statisticTab");
@@ -350,7 +367,7 @@ public class StatisticController {
 
         List<BreedOfTree> breedOfTreeList = breedOfTreeService.findAll();
         model.addAttribute("breedOfTreeList",breedOfTreeList);
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+
         Set<String> desc = new TreeSet<>();
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
@@ -361,8 +378,41 @@ public class StatisticController {
         model.addAttribute("descriptions",desc);
         model.addAttribute("thickness",heights);
 
+        List<Integer> breedList,usersList;
+        List<String> thicknessList,descriptionList;
 
-        List<QualityStatisticInfo> info = getFilteredStatisticInfo(Arrays.asList(breedId),Arrays.asList(users),Arrays.asList(thickness),Arrays.asList(description),dayFrom,dayTo);
+        if(breedId!=null) {
+            breedList = Arrays.asList(breedId);
+        }else {
+            breedList = new ArrayList<>();
+        }
+        if(users!=null) {
+            usersList = Arrays.asList(users);
+        }
+        else {
+            usersList = new ArrayList<>();
+        }
+        if(thickness!=null) {
+            thicknessList = Arrays.asList(thickness);
+        }else {
+            thicknessList = new ArrayList<>();
+        }
+        if(description!=null) {
+            descriptionList = Arrays.asList(description);
+        }else {
+            descriptionList = new ArrayList<>();
+        }
+
+
+        List<QualityStatisticInfo> info = getFilteredStatisticInfo(model,breedList,usersList,thicknessList,descriptionList,dayFrom,dayTo);
+        if(user!=null && !user.getRole().equals(Roles.ROLE_ADMIN)){
+            info = info.stream()
+                    .filter(temp-> temp.getTreeStorage().getUserCompany().getId()==user.getId())
+                    .collect(Collectors.toList());
+            model.addAttribute("userCompanyList",Collections.singleton(user));
+        }else {
+            model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+        }
         Set<UserCompany> userCompanies = new HashSet<>();
         for(QualityStatisticInfo st:info){
             userCompanies.add(st.getTreeStorage().getUserCompany());
@@ -372,8 +422,38 @@ public class StatisticController {
         return "adminPage";
     }
 
-    private List<QualityStatisticInfo> getFilteredStatisticInfo(List<Integer> breedId, List<Integer> users,
+    private List<QualityStatisticInfo> getFilteredStatisticInfo(Model model,List<Integer> breedId, List<Integer> users,
                                                                 List<String> thickness,List<String> desc,String dayFrom, String dayTo) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserCompany user = userCompanyService.findByUsername(authentication.getName());
+        if(breedId==null || breedId.size()==0) {
+           breedId = breedOfTreeService.findAll().stream().map(BreedOfTree::getId).collect(Collectors.toList());
+        }
+
+        if(users==null || users.size()==0) {
+            if (user != null && !user.getRole().equals(Roles.ROLE_ADMIN)) {
+                users = new ArrayList<>();
+                users.add(user.getId());
+            } else {
+                users = userCompanyService.getListOfAllUsersROLE().stream()
+                        .map(UserCompany::getId).collect(Collectors.toList());
+            }
+        }
+
+        if(thickness==null || thickness.size()==0) {
+            Set<String> heights = new TreeSet<>();
+            for(int breedOfTreeId:breedId){
+                 heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedOfTreeId));
+            }
+        }
+
+        if(desc==null || desc.size()==0) {
+            Set<String> descList = new TreeSet<>();
+            for(int breedOfTreeId:breedId){
+                descList.addAll(rawStorageService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
+            }
+        }
+
         Date dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(dayFrom);
         Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(dayTo);
         List<QualityStatisticInfo>  infoList = statisticInfoService.findByUserByBreedByHeightByDescription(users,breedId,thickness,desc);
@@ -388,6 +468,10 @@ public class StatisticController {
                 }
             }
         }
+        model.addAttribute("checkedBreed",breedId);
+        model.addAttribute("checkedUsers",users);
+        model.addAttribute("checkedThickness",thickness);
+        model.addAttribute("checkedDescription",desc);
         return filteredInfo;
     }
 

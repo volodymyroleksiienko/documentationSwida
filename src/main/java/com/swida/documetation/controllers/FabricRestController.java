@@ -270,4 +270,26 @@ public class FabricRestController {
 
        return rawStorage.getExtent();
     }
+
+    @PostMapping("/createInitialPackageOakDryObject-{userID}-{breedID}")
+    public void createInitialPackageOakDryObject(@PathVariable("userID") int userID, @PathVariable("breedID") int breedID,
+                                      DryStorage dryStorage, @RequestParam("arrayOfDesk") String[][] arrayOfDesk){
+        DryStorage dryStorageDB = dryStorageService.addDryStorageWithoutParent(userID,breedID,dryStorage);
+        List<DescriptionDeskOak> deskOakList = new ArrayList<>();
+        float cofExtent = Float.parseFloat(dryStorage.getSizeOfHeight())*Float.parseFloat(dryStorage.getSizeOfLong())/1000000;
+        float extent = 0;
+
+        //i = 1 skip test obj
+        for (int i=1; i<arrayOfDesk.length;i++){
+            DescriptionDeskOak deskOak = new DescriptionDeskOak(arrayOfDesk[i][0],arrayOfDesk[i][1]);
+            deskOak.setDryStorage(dryStorageDB);
+            deskOakList.add(deskOak);
+            extent += (cofExtent*Float.parseFloat(arrayOfDesk[i][0])*Float.parseFloat(arrayOfDesk[i][1])/1000);
+        }
+        deskOakService.saveAll(deskOakList);
+        dryStorageDB.setExtent(
+                String.format("%.3f",extent).replace(",",".")
+        );
+        dryStorageService.save(dryStorageDB);
+    }
 }

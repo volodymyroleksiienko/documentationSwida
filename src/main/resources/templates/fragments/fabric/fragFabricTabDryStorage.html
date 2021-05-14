@@ -82,9 +82,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
-<!--                    <input type="hidden"  th:value="${breedId}">-->
-<!--                    <input type="hidden"  th:value="${userId}">-->
+                <form th:action="@{'/fabric/addDryStorageWithoutParent-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
                         <label class="col-form-label" for="editDryStorageModalCode">Код партии</label>
                         <input type="text" class="form-control" required="required"  autocomplete="off" name="codeOfProduct" style="margin-bottom: 0.5rem;">
@@ -889,17 +887,15 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/addDryStorageRow-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDryStorageWithoutParent-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
-
-
                         <label class="col-form-label" for="editDryStorageModalCode">Код</label>
                         <input type="text" class="form-control" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct" style="margin-bottom: 0.5rem;">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                             <div class="col-6">
                                 <label class="control-label">Порода</label>
-                                <input type="text" class="form-control" readonly="readonly" th:value="${breedOfTreeList[breedId-2].breed}">
+                                <input type="text" class="form-control" readonly="readonly" th:value="${breedOfTreeList[breedId-1].breed}">
                             </div>
                             <div class="col-6">
                                 <label class="control-label">Описание</label>

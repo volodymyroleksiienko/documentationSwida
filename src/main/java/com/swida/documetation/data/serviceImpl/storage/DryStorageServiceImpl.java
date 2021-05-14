@@ -1,7 +1,9 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 
+import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.jpa.storages.DryStorageJPA;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -28,7 +30,7 @@ public class DryStorageServiceImpl implements DryStorageService {
     private final UserCompanyService userCompanyService;
 
     @Override
-    public void save(DryStorage ds) {
+    public DryStorage save(DryStorage ds) {
         if (ds.getSizeOfWidth()!=null && Float.parseFloat(ds.getSizeOfWidth())>0) {
             float width = Float.parseFloat(ds.getSizeOfWidth()) / 1000;
             float height = Float.parseFloat(ds.getSizeOfHeight()) / 1000;
@@ -42,7 +44,7 @@ public class DryStorageServiceImpl implements DryStorageService {
         if(ds.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             ds.setBreedDescription("");
         }
-        dryStorageJPA.save(ds);
+        return dryStorageJPA.save(ds);
     }
 
     @Override
@@ -70,6 +72,15 @@ public class DryStorageServiceImpl implements DryStorageService {
         dryStorage.setUserCompany(dryingStorage.getUserCompany());
         dryStorage.setDryingStorage(dryingStorage);
         return dryStorage;
+    }
+
+    @Override
+    public DryStorage addDryStorageWithoutParent(int userId, int breedId, DryStorage dryStorage) {
+        UserCompany company = userCompanyService.findById(userId);
+        BreedOfTree breed = breedOfTreeService.findById(breedId);
+        dryStorage.setBreedOfTree(breed);
+        dryStorage.setUserCompany(company);
+        return save(dryStorage);
     }
 
     @Override
@@ -105,16 +116,17 @@ public class DryStorageServiceImpl implements DryStorageService {
                     /1000000000);
         }
         if (Double.parseDouble(dryStorage.getExtent())!=extent){
-            TreeStorage treeStorage = dryStorage.getDryingStorage().getRawStorage().getTreeStorage();
-            treeStorage.setExtent(
-                    String.format("%.3f",
-                            Double.parseDouble(treeStorage.getExtent())+
-                                    (Double.parseDouble(dryStorage.getExtent())-extent))
-                            .replace(",",".")
+            DryingStorage dryingStorage = dryStorage.getDryingStorage();
+            if(dryingStorage!=null) {
+                dryingStorage.setExtent(
+                        String.format("%.3f",
+                                Double.parseDouble(dryingStorage.getExtent()) +
+                                        (Double.parseDouble(dryStorage.getExtent()) - extent))
+                                .replace(",", ".")
 
-            );
-//            treeStorageService.checkQualityInfo(treeStorage,dryStorage.getSizeOfHeight(),extent-Float.parseFloat(dryStorage.getExtent()));
-            treeStorageService.save(treeStorage);
+                );
+                dryingStorageService.save(dryingStorage);
+            }
         }
         dryStorage.setExtent(
                 String.format("%.3f",extent).replace(",",".")
@@ -137,8 +149,9 @@ public class DryStorageServiceImpl implements DryStorageService {
             dryStorageDB.setSizeOfLong(dryStorage.getSizeOfLong());
             dryStorageDB.setCountOfDesk(dryStorage.getCountOfDesk());
 
-
-            dryingStorage.setCountOfDesk(dryingStorage.getCountOfDesk()+difExtentDesk);
+            if(dryingStorage!=null) {
+                dryingStorage.setCountOfDesk(dryingStorage.getCountOfDesk() + difExtentDesk);
+            }
         }else{
             float difExtent = Float.parseFloat(dryStorageDB.getExtent())-Float.parseFloat(dryStorage.getExtent());
 
@@ -150,17 +163,20 @@ public class DryStorageServiceImpl implements DryStorageService {
             dryStorageDB.setExtent(dryStorage.getExtent());
             dryStorageDB.setDescription(dryStorage.getDescription());
 
-
-            dryingStorage.setExtent(
-                    String.format("%.3f",Float.parseFloat(dryingStorage.getExtent())+difExtent)
-                            .replace(",",".")
-            );
+            if(dryingStorage!=null) {
+                dryingStorage.setExtent(
+                        String.format("%.3f", Float.parseFloat(dryingStorage.getExtent()) + difExtent)
+                                .replace(",", ".")
+                );
+            }
             countExtentRawStorageWithDeskDescription(dryStorageDB);
         }
-        if(dryingStorage.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
-            dryingStorage.setBreedDescription("");
+        if(dryingStorage!=null) {
+            if (dryingStorage.getBreedDescription().codePoints().allMatch(Character::isWhitespace)) {
+                dryingStorage.setBreedDescription("");
+            }
+            dryingStorageService.save(dryingStorage);
         }
-        dryingStorageService.save(dryingStorage);
         save(dryStorageDB);
     }
 
