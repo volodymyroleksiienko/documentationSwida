@@ -7407,6 +7407,11 @@ button.buttons:not(:last-child):nth-last-child(4) {
   transition-delay: 60ms;
   background-color: #7b8a8b; }
 
+button.buttons:not(:last-child):nth-last-child(5) {
+  -webkit-transition-delay: 125ms;
+  transition-delay: 80ms;
+  background-color: #7b8a8b; }
+
 .tooltip.left {
   margin-left: -10px; }
 
