@@ -1841,7 +1841,7 @@ $(document).ready( function () {
                 "width": "30px"
             },
 
-            { className: "display-none", "targets": [ 12 ] }
+            { className: "display-none", "targets": [ 2, 13 ] }
 
         ]
 
@@ -1874,7 +1874,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "30px"
             },
-            { className: "display-none", "targets": [ 12 ] }
+            { className: "display-none", "targets": [ 2, 13 ] }
         ]
 
     });
