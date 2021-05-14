@@ -9,6 +9,7 @@
             <tr>
                 <th style="width: 30px"></th>
                 <th scope="col">Дата выгрузки</th>
+                <th scope="col">Дата выгрузки</th>
                 <th scope="col">№ выгрузки</th>
                 <th scope="col">А/М</th>
                 <th scope="col">П/П</th>
@@ -27,6 +28,7 @@
                   <div th:each="dd, index : ${deliveryDocumentations}">
                           <tr th:id="${dd.id}">
                               <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                              <td th:text="${dd.getDateOfUnloading()}+'tutaj'">here</td>
                               <td th:text="${dd.getDateOfUnloading()}"></td>
                               <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                               <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
@@ -112,12 +114,14 @@
                               <td style="display:none"></td>
                               <td style="display:none"></td>
                               <td style="display:none"></td>
+                              <td style="display:none"></td>
                           </tr>
                   </div>
             </tbody>
             <tfoot>
             <tr>
                 <th style="width: 30px"></th>
+                <th scope="col">Дата выгрузки</th>
                 <th scope="col">Дата выгрузки</th>
                 <th scope="col">№ выгрузки</th>
                 <th scope="col">А/М</th>
@@ -529,6 +533,7 @@
                     <tr>
                         <th style="width: 30px"></th>
                         <th scope="col">Дата выгрузки</th>
+                        <th scope="col">Дата выгрузки</th>
                         <th scope="col">№ выгрузки</th>
                         <th scope="col">А/М</th>
                         <th scope="col">П/П</th>
@@ -549,6 +554,7 @@
 
                         <tr th:id="${dd.id}">
                             <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${dd.id}"></td>
+                            <td th:text="${dd.getDateOfUnloading()}">tutaj</td>
                             <td th:text="${dd.getDateOfUnloading()}"></td>
                             <td th:text="${dd.driverInfo.getIdOfTruck()}"></td>
                             <td th:text="${dd.driverInfo.getNumberOfTruck()}"></td>
@@ -664,6 +670,7 @@
                             <td style="display:none"></td>
                             <td style="display:none"></td>
                             <td style="display:none"></td>
+                            <td style="display:none"></td>
                         </tr>
                         <!--      LEVEL    2    END          -->
                     </div>
@@ -671,6 +678,7 @@
                 <tfoot>
                 <tr>
                     <th style="width: 30px"></th>
+                    <th scope="col">Дата выгрузки</th>
                     <th scope="col">Дата выгрузки</th>
                     <th scope="col">№ выгрузки</th>
                     <th scope="col">А/М</th>
