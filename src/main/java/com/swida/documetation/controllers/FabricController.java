@@ -34,6 +34,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -549,18 +550,36 @@ public class FabricController {
     }
 
     //Dry Storage page
+//    @GetMapping("/getListOfDryStorage-{userId}-{breedId}")
+//    public String getListOfDryStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+//                                      Model model){
+//        model.addAttribute("fragmentPathTabDryStorage","dryStorage");
+//        model.addAttribute("tabName","dryStorage");
+//        model.addAttribute("userId",userId);
+//        model.addAttribute("breedId",breedId);
+//        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+//        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
+//        model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+//        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
+//        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+//        btnConfig(userId,model);
+//        return "fabricPage";
+//    }
+
     @GetMapping("/getListOfDryStorage-{userId}-{breedId}")
     public String getListOfDryStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                      Model model){
+                                      Model model, String[] descriptions, String[] heights, String[] longs, String[] widths,
+                                      HttpServletRequest request){
         model.addAttribute("fragmentPathTabDryStorage","dryStorage");
         model.addAttribute("tabName","dryStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("dryStorageList",dryStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
         btnConfig(userId,model);
         return "fabricPage";
     }
@@ -604,8 +623,8 @@ public class FabricController {
 
     @PostMapping("/exportDryStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportDryStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
-                                                           String endDate) throws FileNotFoundException, ParseException {
-        ParseDryStorageToXLS parser = new ParseDryStorageToXLS(dryStorageService.getListByUserByBreed(breedId,userId));
+                                                           String endDate,String[] descriptions, String[] heights, String[] longs, String[] widths) throws FileNotFoundException, ParseException {
+        ParseDryStorageToXLS parser = new ParseDryStorageToXLS(dryStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths));
         String filePath;
         if (breedId==2){
 //            for breed oak

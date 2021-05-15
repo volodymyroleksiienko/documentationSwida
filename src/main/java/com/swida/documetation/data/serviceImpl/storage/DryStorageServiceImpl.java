@@ -103,6 +103,36 @@ public class DryStorageServiceImpl implements DryStorageService {
     }
 
     @Override
+    public List<DryStorage> getFilteredList(int breedId, int userId, String[] descriptions, String[] heights, String[] longs, String[] widths) {
+        List<String> descList, heightList,widthList, longList;
+        if (descriptions==null || descriptions.length==0){
+            descList = getListOfUnicBreedDescription(breedId);
+        }else {
+            descList = Arrays.asList(descriptions);
+        }
+        if (heights==null || heights.length==0){
+            heightList = getListOfUnicSizeOfHeight(breedId);
+        }else {
+            heightList = Arrays.asList(heights);
+        }
+        if (widths==null || widths.length==0){
+            widthList = getListOfUnicSizeOfWidth(breedId);
+        }else {
+            widthList = Arrays.asList(widths);
+        }
+        if (longs==null || longs.length==0){
+            longList = getListOfUnicSizeOfLong(breedId);
+        }else {
+            longList = Arrays.asList(longs);
+        }
+        System.out.println(descList);
+        System.out.println(heightList);
+        System.out.println(widthList);
+        System.out.println(longList);
+        return dryStorageJPA.getListByUserByBreed(breedId,userId,descList,heightList,widthList,longList);
+    }
+
+    @Override
     public void countExtentRawStorageWithDeskDescription(DryStorage dryStorage) {
         if(dryStorage.getDeskOakList()==null || dryStorage.getDeskOakList().size()==0){
             return;

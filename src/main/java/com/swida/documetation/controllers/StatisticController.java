@@ -440,17 +440,18 @@ public class StatisticController {
             }
         }
 
+
         if(thickness==null || thickness.size()==0) {
-            Set<String> heights = new TreeSet<>();
+            thickness = new ArrayList<>();
             for(int breedOfTreeId:breedId){
-                 heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedOfTreeId));
+                thickness.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedOfTreeId));
             }
         }
 
         if(desc==null || desc.size()==0) {
-            Set<String> descList = new TreeSet<>();
+            desc = new ArrayList<>();
             for(int breedOfTreeId:breedId){
-                descList.addAll(rawStorageService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
+                desc.addAll(rawStorageService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
             }
         }
 

@@ -13,6 +13,7 @@ public interface DryStorageService {
 
     List<DryStorage> findAll();
     List<DryStorage> getListByUserByBreed(int breedId, int userId);
+    List<DryStorage> getFilteredList(int breedId, int userId,String[] descriptions,String[] heights,String[] longs,String[] widths);
     void countExtentRawStorageWithDeskDescription(DryStorage dryStorage);
     void editDryStorage(DryStorage dryStorage);
     void deleteByID(int id);
