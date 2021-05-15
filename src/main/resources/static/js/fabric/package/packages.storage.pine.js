@@ -1,3 +1,23 @@
+function selectButton(selectId){
+    $('#'+selectId+' option').prop('selected', true);
+    $('#'+selectId).trigger('chosen:updated');
+}
+
+function deselectButton(selectId){
+    $('#'+selectId+' option:selected').prop("selected",false);
+    $('#'+selectId).trigger('chosen:updated');
+}
+
+function selectAll() {
+    console.log("click");
+    // $('#selectDescription option').prop('selected', true); // Selects all options
+    var options = document.getElementById('selectDescription_chosen').getElementsByTagName('li');
+    for(var i = 0; i<options.length;i++){
+        options[i].click();
+        console.log(options[i]);
+    }
+}
+
 
 function editPackage(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
