@@ -3,67 +3,67 @@
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="rawStorage">
 
     <div class="tab-pane fade show active container-fluid" id="rawstorage" style="padding-bottom: 3rem;">
-        <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">
-            <table style="width: 100%;" >
-                <tr>
-                    <th scope="col">Описание
-                        <div>
-                            <button class="btn btn-primary btn-sm" id="selectDesc" type="button" onclick="selectButton('selectDescription')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
-                            <button class="btn btn-primary btn-sm" id="deselectDesc" type="button" onclick="deselectButton('selectDescription')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
-                        </div>
-                    </th>
-                    <th scope="col">Толщина, мм
-                        <div>
-                            <button class="btn btn-primary btn-sm" type="button"  onclick="selectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
-                        </div>
-                    </th>
-                    <th scope="col">Ширина, мм
-                        <div>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectSizeOfWidth')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfWidth')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
-                        </div>
-                    </th>
-                    <th scope="col">Длина, мм
-                        <div>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectSizeOfLong')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfLong')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
-                        </div>
-                    </th>
-                    <th></th>
-                </tr>
+<!--        <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">-->
+<!--            <table style="width: 100%;" >-->
+<!--                <tr>-->
+<!--                    <th scope="col">Описание-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-primary btn-sm" id="selectDesc" type="button" onclick="selectButton('selectDescription')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>-->
+<!--                            <button class="btn btn-primary btn-sm" id="deselectDesc" type="button" onclick="deselectButton('selectDescription')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>-->
+<!--                        </div>-->
+<!--                    </th>-->
+<!--                    <th scope="col">Толщина, мм-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button"  onclick="selectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>-->
+<!--                        </div>-->
+<!--                    </th>-->
+<!--                    <th scope="col">Ширина, мм-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectSizeOfWidth')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfWidth')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>-->
+<!--                        </div>-->
+<!--                    </th>-->
+<!--                    <th scope="col">Длина, мм-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectSizeOfLong')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfLong')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>-->
+<!--                        </div>-->
+<!--                    </th>-->
+<!--                    <th></th>-->
+<!--                </tr>-->
 
-                <tr style="vertical-align: top;">
-                    <td style="width: 20%">
-                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                            <option value="noDesc">без описания</option>
-                            <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
-                        </select>
-                    </td>
+<!--                <tr style="vertical-align: top;">-->
+<!--                    <td style="width: 20%">-->
+<!--                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">-->
+<!--                            <option value="noDesc">без описания</option>-->
+<!--                            <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>-->
+<!--                        </select>-->
+<!--                    </td>-->
 
-                    <td style="width: 20%">
-                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                            <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
-                        </select>
-                    </td>
-                    <td style="width: 20%">
-                        <select id="selectSizeOfWidth" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                            <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
-                        </select>
-                    </td>
-                    <td style="width: 20%">
-                        <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                            <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
-                        </select>
-                    </td>
-                    <td style="width: auto; align-items: end;">
-                        <button class="btn btn-primary" type="submit" style="width: 100%;">
-                            Поиск
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+<!--                    <td style="width: 20%">-->
+<!--                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">-->
+<!--                            <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>-->
+<!--                        </select>-->
+<!--                    </td>-->
+<!--                    <td style="width: 20%">-->
+<!--                        <select id="selectSizeOfWidth" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">-->
+<!--                            <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>-->
+<!--                        </select>-->
+<!--                    </td>-->
+<!--                    <td style="width: 20%">-->
+<!--                        <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">-->
+<!--                            <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>-->
+<!--                        </select>-->
+<!--                    </td>-->
+<!--                    <td style="width: auto; align-items: end;">-->
+<!--                        <button class="btn btn-primary" type="submit" style="width: 100%;">-->
+<!--                            Поиск-->
+<!--                        </button>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--        </form>-->
 
         <table class="table table-hover table-striped" id="rawstoragetable">
             <br>
@@ -676,56 +676,56 @@
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="rawStorageOAK">
 
     <div class="tab-pane fade show active container-fluid" id="rawstorage" style="padding-bottom: 3rem;">
-        <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">
-            <table style="width: 100%;" >
-                <tr>
-                    <th scope="col">Описание
-                        <div>
-                            <button class="btn btn-primary btn-sm" id="selectDesc" type="button" onclick="selectButton('selectDescription')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
-                            <button class="btn btn-primary btn-sm" id="deselectDesc" type="button" onclick="deselectButton('selectDescription')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
-                        </div>
-                    </th>
-                    <th scope="col">Толщина, мм
-                        <div>
-                            <button class="btn btn-primary btn-sm" type="button"  onclick="selectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
-                        </div>
-                    </th>
-                    <th scope="col">Длина, мм
-                        <div>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectSizeOfLong')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
-                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfLong')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
-                        </div>
-                    </th>
-                    <th></th>
-                </tr>
+<!--        <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">-->
+<!--            <table style="width: 100%;" >-->
+<!--                <tr>-->
+<!--                    <th scope="col">Описание-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-primary btn-sm" id="selectDesc" type="button" onclick="selectButton('selectDescription')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>-->
+<!--                            <button class="btn btn-primary btn-sm" id="deselectDesc" type="button" onclick="deselectButton('selectDescription')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>-->
+<!--                        </div>-->
+<!--                    </th>-->
+<!--                    <th scope="col">Толщина, мм-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button"  onclick="selectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfHeight')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>-->
+<!--                        </div>-->
+<!--                    </th>-->
+<!--                    <th scope="col">Длина, мм-->
+<!--                        <div>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectSizeOfLong')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>-->
+<!--                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectSizeOfLong')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>-->
+<!--                        </div>-->
+<!--                    </th>-->
+<!--                    <th></th>-->
+<!--                </tr>-->
 
-                <tr style="vertical-align: top;">
-                    <td style="width: 28%">
-                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                            <option value="noDesc">без описания</option>
-                            <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
-                        </select>
-                    </td>
+<!--                <tr style="vertical-align: top;">-->
+<!--                    <td style="width: 28%">-->
+<!--                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">-->
+<!--                            <option value="noDesc">без описания</option>-->
+<!--                            <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>-->
+<!--                        </select>-->
+<!--                    </td>-->
 
-                    <td style="width: 28%">
-                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                            <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
-                        </select>
-                    </td>
-                    <td style="width: 28%">
-                        <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                            <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
-                        </select>
-                    </td>
-                    <td style="width: auto; align-items: end;">
-                        <button class="btn btn-primary" type="submit" style="width: 100%;">
-                            Поиск
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+<!--                    <td style="width: 28%">-->
+<!--                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">-->
+<!--                            <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>-->
+<!--                        </select>-->
+<!--                    </td>-->
+<!--                    <td style="width: 28%">-->
+<!--                        <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">-->
+<!--                            <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>-->
+<!--                        </select>-->
+<!--                    </td>-->
+<!--                    <td style="width: auto; align-items: end;">-->
+<!--                        <button class="btn btn-primary" type="submit" style="width: 100%;">-->
+<!--                            Поиск-->
+<!--                        </button>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--        </form>-->
 
         <table class="table table-hover table-striped" id="rawstoragetableoak">
             <br>

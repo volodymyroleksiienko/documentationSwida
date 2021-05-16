@@ -676,19 +676,24 @@ public class FabricController {
         return "fabricPage";
     }
 
-//    @PostMapping("/exportPackageStorageXLS-{userId}-{breedId}")
-//    public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-//                                                        ) throws FileNotFoundException, ParseException {
-//        ParseRawStorageToXLS parser = new ParserPackagedProductToXLS(packagedProductService.getFilteredList(breedId,userId));
-//        String filePath;
-//        if (breedId==2){
-////            for breed oak
-//            filePath = parser.parseOAK(startDate,endDate);
-//        }else {
-//            filePath = parser.parse(startDate,endDate);
-//        }
-//        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
-//    }
+    @GetMapping("/exportPackageStorageXLS-{userId}-{breedId}")
+    public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                                        String[] descriptions, String[] heights, String[] longs, String[] widths,
+                                                        String[] qualities) throws FileNotFoundException, ParseException {
+        List<PackagedProduct> productList;
+        String filePath;
+        if (breedId==2){
+//            for breed oak
+            productList = packagedProductService.getFilteredListOak(breedId,userId,qualities,heights,longs);
+            ParserOakPackagerProductXLS parser =  new ParserOakPackagerProductXLS(productList);
+            filePath = parser.parse();
+        }else {
+            productList = packagedProductService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
+            ParserPackagedProductToXLS parser =  new ParserPackagedProductToXLS(productList);
+            filePath = parser.parse();
+        }
+        return new GenerateResponseForExport().generate(filePath,"","");
+    }
 
     @PostMapping("/unformPackagedProduct-{userId}-{breedId}")
     public  String unformPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, Integer[] id){

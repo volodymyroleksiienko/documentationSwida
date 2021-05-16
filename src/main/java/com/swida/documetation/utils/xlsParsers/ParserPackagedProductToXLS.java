@@ -22,11 +22,21 @@ import java.util.*;
 public class ParserPackagedProductToXLS {
     private List<PackagedProduct> packagedProducts;
 
-
     public String parse(String startDate, String endDate ) throws ParseException {
         Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
         Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+        List<PackagedProduct> filtered = new ArrayList<>();
+        for(PackagedProduct p:packagedProducts) {
+            Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(p.getDate());
+            if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
+                filtered.add(p);
+            }
+        }
+        packagedProducts = filtered;
+        return parse();
+    }
 
+    public String parse()  {
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
         XSSFCellStyle style = book.createCellStyle();
@@ -70,8 +80,6 @@ public class ParserPackagedProductToXLS {
 
         for(PackagedProduct product: packagedProducts){
             if (product.getDate()!=null) {
-                Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(product.getDate());
-                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
                     Row row = sheet.createRow(rowCount++);
                     row.setHeight((short) 400);
                     row.createCell(0).setCellValue(product.getCodeOfPackage());
@@ -106,7 +114,6 @@ public class ParserPackagedProductToXLS {
                     row.getCell(9).setCellStyle(style);
                     row.getCell(10).setCellStyle(style);
                     row.getCell(11).setCellStyle(style);
-                }
             }
         }
 
@@ -123,8 +130,4 @@ public class ParserPackagedProductToXLS {
         return "";
     }
 
-    public String parseOAK(String startDate, String endDate ) throws ParseException {
-
-        return "";
-    }
 }

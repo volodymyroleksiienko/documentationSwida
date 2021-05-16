@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ParserOakPackagerProductXLS {
-    private List<PackagedProduct> productList;
-    private List<String> unicWidthList;
-    private Map<String,Integer> sumWidthList;
+    private final List<PackagedProduct> productList;
+    private  List<String> unicWidthList;
+    private  Map<String,Integer> sumWidthList;
     private String mainSumWidthOfAllDesk;
     private String countOfAllDesk;
     private String mainExtent;
@@ -53,10 +53,6 @@ public class ParserOakPackagerProductXLS {
 
         int countRow = 0;
 
-        //for driver info
-        for(int i=0;i<4;i++){
-            sheet.createRow(countRow++);
-        }
 
         Row rowHeader1 = sheet.createRow(countRow++);
         rowHeader1.setHeight((short)600);
