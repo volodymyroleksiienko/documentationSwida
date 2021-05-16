@@ -6,8 +6,8 @@ function showCutOakModal(btnObj) {
     console.log("row id:" + $(trObj).attr('id'));
 
     let codeOfTreeStorage = $(trObj).find('th:eq(0)').text();
-    let description =       $(trObj).find('td:eq(2)').text();
-    let extent =            $(trObj).find('td:eq(7)').text();
+    let description =       $(trObj).find('td:eq(3)').text().trim();
+    let extent =            $(trObj).find('td:eq(8)').text();
 
 
     $('#cutOakRawStorageCode').val(codeOfTreeStorage);
@@ -55,15 +55,15 @@ function showEditOakModal(btnObj) {
     $('#incomeOakTreeStorageId').val(trId);
 
     let code =          $(trObj).find('th:eq(0)').text();
-    let breed =         $(trObj).find('td:eq(1)').text();
-    let desc =          $(trObj).find('td:eq(2)').text();
-    let provider =      $(trObj).find('td:eq(3)').text();
-    let providerId=     $(trObj).find('td:eq(4)').text();
-    let avgDiameter=    $(trObj).find('td:eq(5)').text();
-    let amount =        $(trObj).find('td:eq(6)').text();
-    let extent =        $(trObj).find('td:eq(7)').text();
-    let initialExtent = $(trObj).find('td:eq(8)').text();
-    let date =          $(trObj).find('td:eq(9)').text();
+    let date =          $(trObj).find('td:eq(1)').text();
+    let breed =         $(trObj).find('td:eq(2)').text();
+    let desc =          $(trObj).find('td:eq(3)').text();
+    let provider =      $(trObj).find('td:eq(4)').text();
+    let providerId=     $(trObj).find('td:eq(5)').text();
+    let avgDiameter=    $(trObj).find('td:eq(6)').text();
+    let amount =        $(trObj).find('td:eq(7)').text();
+    let extent =        $(trObj).find('td:eq(8)').text();
+    let initialExtent = $(trObj).find('td:eq(9)').text();
     let description =   $(trObj).find('td:eq(10)').text();
 
     $('#editOakIncomeCode')             .val(code);

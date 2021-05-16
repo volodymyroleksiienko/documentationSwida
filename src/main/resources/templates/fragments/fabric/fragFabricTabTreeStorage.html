@@ -13,6 +13,7 @@
                 <tr>
                     <th scope="col">id</th>
                     <th style="width: 30px"></th>
+                    <th scope="col">Дата прихода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -22,7 +23,6 @@
                     <th scope="col">Кол-во колод</th>
                     <th scope="col">Остаток, м<sup>3</sup></th>
                     <th scope="col">Начальная куб-ра, м<sup>3</sup></th>
-                    <th scope="col">Дата прихода</th>
                     <th scope="col">Примечание</th>
                     <th></th>
                 </tr>
@@ -32,6 +32,7 @@
                      <tr th:id="${ts.id}">
                         <td th:text="${ts.id}"></td>
                         <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
+                        <td th:text="${ts.date}"></td>
                         <th scope="row" th:text="${ts.codeOfProduct}"></th>
                         <td th:text="${ts.breedOfTree.breed}"></td>
                         <td th:text="${ts.breedDescription}"></td>
@@ -41,7 +42,6 @@
                         <td th:text="${ts?.countOfDeck}"></td>
                         <td th:text="${ts.extent}"></td>
                         <td th:text="${ts.maxExtent}"></td>
-                        <td th:text="${ts.date}"></td>
                         <td scope="col" th:text="${ts.treeDescription}"></td>
                         <td>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
@@ -106,6 +106,7 @@
             <tr>
                 <th scope="col">id</th>
                 <th style="width: 30px"></th>
+                <th scope="col">Дата прихода</th>
                 <th scope="col">Код партии</th>
                 <th scope="col">Порода</th>
                 <th scope="col">Описание</th>
@@ -115,7 +116,6 @@
                 <th scope="col">Кол-во колод</th>
                 <th scope="col">Остаток, м<sup>3</sup></th>
                 <th scope="col">Начальная куб-ра, м<sup>3</sup></th>
-                <th scope="col">Дата прихода</th>
                 <th scope="col">Примечание</th>
                 <th></th>
             </tr>
@@ -484,6 +484,7 @@
                     <tr>
                         <th scope="col">id</th>
                         <th style="width: 30px"></th>
+                        <th scope="col">Дата прихода</th>
                         <th scope="col">Код партии</th>
                         <th scope="col">Порода</th>
                         <th scope="col">Описание</th>
@@ -493,7 +494,6 @@
                         <th scope="col">Кол-во колод</th>
                         <th scope="col">Остаток, м<sup>3</sup></th>
                         <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
-                        <th scope="col">Дата прихода</th>
                         <th scope="col">Примечание</th>
                         <th></th>
                     </tr>
@@ -504,6 +504,7 @@
                         <tr th:id="${ts.id}">
                             <td th:text="${ts.id}"></td>
                             <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
+                            <td th:text="${ts.date}"></td>
                             <th scope="row" th:text="${ts.codeOfProduct}"></th>
                             <td th:text="${ts.breedOfTree.breed}"></td>
                             <td th:text="${ts.breedDescription}"></td>
@@ -513,7 +514,6 @@
                             <td th:text="${ts?.countOfDeck}"></td>
                             <td th:text="${ts.extent}"></td>
                             <td th:text="${ts.maxExtent}"></td>
-                            <td th:text="${ts.date}"></td>
                             <td th:text="${ts.treeDescription}"></td>
                             <td>
                                 <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutOakModal(this)">
@@ -576,6 +576,7 @@
                     <tr>
                         <th scope="col">id</th>
                         <th style="width: 30px"></th>
+                        <th scope="col">Дата прихода</th>
                         <th scope="col">Код партии</th>
                         <th scope="col">Порода</th>
                         <th scope="col">Описание</th>
@@ -585,7 +586,6 @@
                         <th scope="col">Кол-во колод</th>
                         <th scope="col">Остаток, м<sup>3</sup></th>
                         <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
-                        <th scope="col">Дата прихода</th>
                         <th scope="col">Примечание</th>
                         <th></th>
                     </tr>

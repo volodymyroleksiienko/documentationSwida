@@ -83,7 +83,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "70px"
             },
-            { className: "display-none", "targets": [ 6 ] },
+            { className: "display-none", "targets": [ 7 ] },
         ]
 
     });
