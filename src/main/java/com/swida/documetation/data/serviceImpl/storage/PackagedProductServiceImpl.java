@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -260,6 +261,57 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     }
 
     @Override
+    public List<PackagedProduct> getFilteredList(int breedId, int userId, String[] descriptions, String[] heights, String[] longs, String[] widths) {
+        List<String> descList, heightList,widthList, longList;
+        if (descriptions==null || descriptions.length==0){
+            descList = getListOfUnicBreedDescription(breedId);
+        }else {
+            descList = Arrays.asList(descriptions);
+        }
+        if (heights==null || heights.length==0){
+            heightList = getListOfUnicSizeOfHeight(breedId);
+        }else {
+            heightList = Arrays.asList(heights);
+        }
+        if (widths==null || widths.length==0){
+            widthList = getListOfUnicSizeOfWidth(breedId);
+        }else {
+            widthList = Arrays.asList(widths);
+        }
+        if (longs==null || longs.length==0){
+            longList = getListOfUnicSizeOfLong(breedId);
+        }else {
+            longList = Arrays.asList(longs);
+        }
+        System.out.println(descList);
+        System.out.println(heightList);
+        System.out.println(widthList);
+        System.out.println(longList);
+        return productJPA.getListByUserByBreed(breedId, userId,StatusOfProduct.ON_STORAGE,descList, heightList, widthList, longList);
+    }
+
+    @Override
+    public List<PackagedProduct> getFilteredListOak(int breedId, int userId, String[] qualities, String[] heights, String[] longs) {
+        List<String> qualityList, heightList, longList;
+        if (qualities==null || qualities.length==0){
+            qualityList = getListOfUnicQuality(breedId);
+        }else {
+            qualityList = Arrays.asList(qualities);
+        }
+        if (heights==null || heights.length==0){
+            heightList = getListOfUnicSizeOfHeight(breedId);
+        }else {
+            heightList = Arrays.asList(heights);
+        }
+        if (longs==null || longs.length==0){
+            longList = getListOfUnicSizeOfLong(breedId);
+        }else {
+            longList = Arrays.asList(longs);
+        }
+        return productJPA.getListByUserByBreed(breedId, userId,StatusOfProduct.ON_STORAGE,qualityList, heightList, longList);
+    }
+
+    @Override
     public PackagedProduct findById(int id) {
         return productJPA.getOne(id);
     }
@@ -272,6 +324,15 @@ public class PackagedProductServiceImpl implements PackagedProductService {
                         *Float.parseFloat(product.getSizeOfWidth())
                         *Float.parseFloat(product.getSizeOfLong())
                         /1000000000).replace(",",".");
+    }
+
+    @Override
+    public BigDecimal countExtent(List<PackagedProduct> product) {
+        double sum = 0;
+        for(PackagedProduct p:product){
+            sum+=Double.parseDouble(p.getExtent());
+        }
+        return new BigDecimal(sum);
     }
 
     @Override
@@ -567,6 +628,11 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     @Override
     public List<String> getListOfUnicBreedDescription(int breedId) {
         return productJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicQuality(int breedId) {
+        return productJPA.getListOfUnicQuality(breedId);
     }
 
     @Override

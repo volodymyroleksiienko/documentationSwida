@@ -646,7 +646,9 @@ public class FabricController {
 
     //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-{breedId}")
-    public String getListOfPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,Model model){
+    public String getListOfPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                           Model model,String[] descriptions, String[] heights, String[] longs, String[] widths,
+                                           HttpServletRequest request){
         UserCompany company = userCompanyService.findById(userId);
         ContrAgent contrAgent = company.getContrAgent();
 
@@ -655,16 +657,38 @@ public class FabricController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
 
+        List<PackagedProduct> productList=packagedProductService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packagedProductsList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE));
+        model.addAttribute("packagedProductsList",productList);
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+
+        model.addAttribute("descList",packagedProductService.getListOfUnicBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList",packagedProductService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfWidthList",packagedProductService.getListOfUnicSizeOfWidth(breedId));
+        model.addAttribute("sizeOfLongList",packagedProductService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
+        model.addAttribute("sumExtent",packagedProductService.countExtent(productList).setScale(3, RoundingMode.DOWN).doubleValue());
         btnConfig(userId,model);
         return "fabricPage";
     }
+
+//    @PostMapping("/exportPackageStorageXLS-{userId}-{breedId}")
+//    public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+//                                                        ) throws FileNotFoundException, ParseException {
+//        ParseRawStorageToXLS parser = new ParserPackagedProductToXLS(packagedProductService.getFilteredList(breedId,userId));
+//        String filePath;
+//        if (breedId==2){
+////            for breed oak
+//            filePath = parser.parseOAK(startDate,endDate);
+//        }else {
+//            filePath = parser.parse(startDate,endDate);
+//        }
+//        return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+//    }
 
     @PostMapping("/unformPackagedProduct-{userId}-{breedId}")
     public  String unformPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, Integer[] id){
@@ -837,6 +861,8 @@ public class FabricController {
         deliveryDocumentationService.checkHeightUnicValue(doc);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
+
+
 
     //Recycle Page
     @GetMapping("/getListOfRecycle-{userId}-{breedId}")

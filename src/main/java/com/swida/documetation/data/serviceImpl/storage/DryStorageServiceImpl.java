@@ -133,7 +133,7 @@ public class DryStorageServiceImpl implements DryStorageService {
         if(breedId!=2) {
             return dryStorageJPA.getListByUserByBreed(breedId, userId, descList, heightList, widthList, longList);
         }else {
-            return dryStorageJPA.getListByUserByBreedOak(breedId, userId, descList, heightList, widthList, longList);
+            return dryStorageJPA.getListByUserByBreedOak(breedId, userId, descList, heightList, longList);
         }
     }
 

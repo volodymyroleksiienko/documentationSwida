@@ -13,6 +13,13 @@ public interface PackagedProductJPA extends JpaRepository<PackagedProduct,Intege
     @Query("select r from  PackagedProduct  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.statusOfProduct=?3")
     List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status);
 
+    @Query("select r from  PackagedProduct  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.statusOfProduct=?3 and trim(r.breedDescription) in ?4 and r.sizeOfHeight in ?5 and r.sizeOfWidth in ?6 and r.sizeOfLong in ?7 ")
+    List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status,List<String> desc,List<String> height,List<String> width,List<String> longs);
+
+    @Query("select r from  PackagedProduct  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.statusOfProduct=?3 and trim(r.quality) in ?4 and r.sizeOfHeight in ?5  and r.sizeOfLong in ?6 ")
+    List<PackagedProduct> getListByUserByBreed(int breedId, int userId, StatusOfProduct status,List<String> quality,List<String> height,List<String> longs);
+
+
     @Query("select obj from PackagedProduct obj where obj.dryStorage.id=?1 order by obj.id DESC")
     List<PackagedProduct> getProductByDryStorage(int dryStorageId);
 
@@ -23,6 +30,9 @@ public interface PackagedProductJPA extends JpaRepository<PackagedProduct,Intege
 
     @Query("select obj.breedDescription from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.breedDescription")
     List<String> getListOfUnicBreedDescription(int breedId);
+
+    @Query("select obj.quality from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.quality")
+    List<String> getListOfUnicQuality(int breedId);
 
     @Query("select obj.sizeOfHeight from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.sizeOfHeight")
     List<String> getListOfUnicSizeOfHeight(int breedId);

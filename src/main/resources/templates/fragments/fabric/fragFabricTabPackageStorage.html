@@ -2,7 +2,7 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="packageStorage"><!-- Пачки -->
     <div class="tab-pane fade show active container-fluid" id="packagedproduct" style="padding-bottom: 3rem;">
-        <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">
+        <form th:action="@{'/fabric/getListOfPackagedProduct-'+${userId}+'-'+${breedId}}" method="get" style="margin-top: 1rem;">
             <table style="width: 100%;" >
                 <tr>
                     <th scope="col">Описание
@@ -34,24 +34,24 @@
 
                 <tr style="vertical-align: top;">
                     <td style="width: 20%">
-                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectDescription" class="form-control form-control-chosen" name="descriptions" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option value="noDesc">без описания</option>
                             <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
 
                     <td style="width: 20%">
-                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" name="heights" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 20%">
-                        <select id="selectSizeOfWidth" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectSizeOfWidth" class="form-control form-control-chosen" name="widths" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 20%">
-                        <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectSizeOfLong" class="form-control form-control-chosen" name="longs" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
@@ -68,7 +68,7 @@
             <thead>
                 <tr style="background: #18bc9c; color: white;">
                     <th colspan="8">ИТОГО:</th>
-                    <th colspan="7">123123.00 м<sup>3</sup></th>
+                    <th colspan="7" th:text="${sumExtent}">123123.00 м<sup>3</sup></th>
                 </tr>
                 <tr>
                     <th scope="col">id</th>
@@ -748,7 +748,7 @@
 
         <!-- Транспортировка -->
         <div class="tab-pane fade show active container-fluid" id="transportation" style="padding-bottom: 3rem;">
-            <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">
+            <form th:action="@{'/fabric/getListOfPackagedProduct-'+${userId}+'-'+${breedId}}" method="get" style="margin-top: 1rem;">
                 <table style="width: 100%;" >
                     <tr>
                         <th scope="col">Качество
@@ -774,19 +774,18 @@
 
                     <tr style="vertical-align: top;">
                         <td style="width: 28%">
-                            <select id="selectQuality" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
-                                <option value="noQual">не указано</option>
-                                <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
+                            <select id="selectQuality" class="form-control form-control-chosen" name="qualities" data-placeholder="Выберите нужные..." multiple="multiple">
+                                <option  th:each="obj : ${qualityList}" th:value="${obj}" th:text="${obj}"></option>
                             </select>
                         </td>
 
                         <td style="width: 28%">
-                            <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                            <select id="selectSizeOfHeight" class="form-control form-control-chosen" name="heights" data-placeholder="Выберите нужные..." multiple="multiple">
                                 <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
                             </select>
                         </td>
                         <td style="width: 28%">
-                            <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                            <select id="selectSizeOfLong" class="form-control form-control-chosen" name="longs" data-placeholder="Выберите нужные..." multiple="multiple">
                                 <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
                             </select>
                         </td>
@@ -803,7 +802,7 @@
                 <thead>
                     <tr style="background: #18bc9c; color: white;">
                         <th colspan="8">ИТОГО:</th>
-                        <th colspan="4">123123.00 м<sup>3</sup></th>
+                        <th colspan="4" th:text="${sumExtent}">123123.00 м<sup>3</sup></th>
                     </tr>
                     <tr>
                         <th></th>
@@ -1466,21 +1465,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportRawStorageXLS-'+${userId}+'-'+${breedId}}" method="post">
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label for="startDateInput" class="col-2 col-form-label">Начало</label>
-                            <div class="col-10">
-                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput" required="required" name="startDate">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="endDateInput" class="col-2 col-form-label">Конец</label>
-                            <div class="col-10">
-                                <input class="form-control" type="date" id="endDateInput" required="required" name="endDate">
-                            </div>
-                        </div>
-                    </div>
+                <form th:action="@{'/fabric/exportRawStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
@@ -1504,7 +1489,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportProviderHistoryTreeStorageXLS-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/exportProviderHistoryTreeStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-body">
                         <div class="form-group row">
                             <label for="startDateInput" class="col-2 col-form-label">Начало</label>

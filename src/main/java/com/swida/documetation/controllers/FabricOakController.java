@@ -455,7 +455,6 @@ public class FabricOakController {
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         List<DryStorage> dryStorageList = dryStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
-//        List<DryStorage> dryStorageList = dryStorageService.getListByUserByBreed(breedId,userId);
         for(DryStorage dryStorage :dryStorageList){
             PackagedProduct product = packagedProductService.getProductByDryStorage(dryStorage.getId());
             if(product!=null){
@@ -532,14 +531,16 @@ public class FabricOakController {
 
         //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-2")
-    public String getListOfPackagedProduct(@PathVariable("userId")int userId, Model model){
+    public String getListOfPackagedProduct(@PathVariable("userId")int userId, Model model,String[] qualities, String[] heights, String[] longs, String[] widths,
+                                           HttpServletRequest request){
         int breedId = 2;
         model.addAttribute("fragmentPathTabPackageStorage","packageStorageOak");
         model.addAttribute("tabName","packageStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("packageOakList",packagedProductService.getListByUserByBreed(breedId,userId, StatusOfProduct.ON_STORAGE).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
+        List<PackagedProduct> productList = packagedProductService.getFilteredListOak(breedId,userId,qualities,heights,longs).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList());
+        model.addAttribute("packageOakList",productList);
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
@@ -548,6 +549,12 @@ public class FabricOakController {
         UserCompany company = userCompanyService.findById(userId);
         ContrAgent contrAgent = company.getContrAgent();
         model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
+
+        model.addAttribute("qualityList",packagedProductService.getListOfUnicQuality(breedId));
+        model.addAttribute("sizeOfHeightList",packagedProductService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfLongList",packagedProductService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
+        model.addAttribute("sumExtent",packagedProductService.countExtent(productList).setScale(3, RoundingMode.DOWN).doubleValue());
         btnConfig(userId,model);
 
         return "fabricPage";

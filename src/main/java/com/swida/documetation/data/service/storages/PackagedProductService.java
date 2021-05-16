@@ -2,10 +2,12 @@ package com.swida.documetation.data.service.storages;
 
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
+import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface PackagedProductService {
@@ -19,8 +21,11 @@ public interface PackagedProductService {
     PackagedProduct createPackageOak(List<DescriptionDeskOak> deskOakList, String idOfDryStorage,
                                             String codeOfPackage, String quality, String sizeOfHeight, String length, int userID, int breedID);
     PackagedProduct getProductByDryStorage(int dryStorageId);
+    List<PackagedProduct> getFilteredList(int breedId, int userId, String[] descriptions, String[] heights, String[] longs, String[] widths);
+    List<PackagedProduct> getFilteredListOak(int breedId, int userId, String[] qualities, String[] heights, String[] longs);
     PackagedProduct findById(int id);
     String countExtent(PackagedProduct product);
+    BigDecimal countExtent(List<PackagedProduct> product);
     void countExtentOak(PackagedProduct product);
     String countDesk(PackagedProduct product);
     List<PackagedProduct> findAll();
@@ -38,6 +43,7 @@ public interface PackagedProductService {
 
     //for statistic
     List<String> getListOfUnicBreedDescription(int breedId);
+    List<String> getListOfUnicQuality(int breedId);
     List<String> getListOfUnicSizeOfHeight(int breedId);
     List<String> getListOfUnicSizeOfWidth(int breedId);
     List<String> getListOfUnicSizeOfLong(int breedId);
