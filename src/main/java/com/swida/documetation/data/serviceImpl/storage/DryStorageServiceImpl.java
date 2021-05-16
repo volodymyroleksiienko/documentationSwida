@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -129,7 +130,11 @@ public class DryStorageServiceImpl implements DryStorageService {
         System.out.println(heightList);
         System.out.println(widthList);
         System.out.println(longList);
-        return dryStorageJPA.getListByUserByBreed(breedId,userId,descList,heightList,widthList,longList);
+        if(breedId!=2) {
+            return dryStorageJPA.getListByUserByBreed(breedId, userId, descList, heightList, widthList, longList);
+        }else {
+            return dryStorageJPA.getListByUserByBreedOak(breedId, userId, descList, heightList, widthList, longList);
+        }
     }
 
     @Override
@@ -162,6 +167,15 @@ public class DryStorageServiceImpl implements DryStorageService {
                 String.format("%.3f",extent).replace(",",".")
         );
         dryStorageJPA.save(dryStorage);
+    }
+
+    @Override
+    public BigDecimal countExtent(List<DryStorage> dryStorage) {
+        double sum=0;
+        for(DryStorage storage : dryStorage){
+            sum += Double.parseDouble(storage.getExtent());
+        }
+        return new BigDecimal(sum);
     }
 
     @Override

@@ -15,11 +15,16 @@ public interface DryStorageJPA extends JpaRepository<DryStorage,Integer> {
             "and r.countOfDesk>0 and r.statusOfEntity='ACTIVE'")
     List<DryStorage> getListByUserByBreed(int breedId, int userId,List<String> desc,List<String> height,List<String> width,List<String> longs);
 
+
+    @Query("select r from  DryStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and trim(r.breedDescription) in ?3 and r.sizeOfHeight in ?4 and r.sizeOfWidth in ?5 and r.sizeOfLong in ?6 " +
+            "and  r.extent<>'0.000' and  r.extent not like '-%'  and r.statusOfEntity='ACTIVE'")
+    List<DryStorage> getListByUserByBreedOak(int breedId, int userId,List<String> desc,List<String> height,List<String> width,List<String> longs);
+
+
     @Query("select r from  DryStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and  r.extent<>'0.000' and  r.extent not like '-%'  and r.statusOfEntity='ACTIVE'")
     List<DryStorage> getListByUserByBreedOak(int breedId, int userId);
 
     //selects for statistic
-
     @Query("select obj.breedDescription from DryStorage obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.breedDescription")
     List<String> getListOfUnicBreedDescription(int breedId);
 

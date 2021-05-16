@@ -3,6 +3,7 @@ package com.swida.documetation.data.service.storages;
 import com.swida.documetation.data.entity.storages.DryStorage;
 import com.swida.documetation.data.entity.storages.DryingStorage;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface DryStorageService {
@@ -15,6 +16,7 @@ public interface DryStorageService {
     List<DryStorage> getListByUserByBreed(int breedId, int userId);
     List<DryStorage> getFilteredList(int breedId, int userId,String[] descriptions,String[] heights,String[] longs,String[] widths);
     void countExtentRawStorageWithDeskDescription(DryStorage dryStorage);
+    BigDecimal countExtent(List<DryStorage> dryStorage);
     void editDryStorage(DryStorage dryStorage);
     void deleteByID(int id);
 

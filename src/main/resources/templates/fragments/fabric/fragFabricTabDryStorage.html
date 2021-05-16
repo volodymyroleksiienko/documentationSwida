@@ -2,8 +2,8 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryStorage">
     <!-- Сухой склад -->
-    <div class="tab-pane fade show active container-fluid" id="drystorage" style="padding-bottom: 3rem;">
-        <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">
+    <div class="tab-pane fade show active container-fluid" id="drystorage">
+        <form th:action="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}}" method="get" style="margin-top: 1rem;">
             <table style="width: 100%;" >
                 <tr>
                     <th scope="col">Описание
@@ -35,24 +35,24 @@
 
                 <tr style="vertical-align: top;">
                     <td style="width: 20%">
-                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectDescription" class="form-control form-control-chosen" name="descriptions" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option value="noDesc">без описания</option>
                             <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
 
                     <td style="width: 20%">
-                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" name="heights" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
-                    <td style="width: 20%">
-                        <select id="selectSizeOfWidth" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                    <td style="width: 20%" th:if="${breedId!=2}">
+                        <select id="selectSizeOfWidth" class="form-control form-control-chosen" name="widths" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfWidthList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 20%">
-                        <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectSizeOfLong" class="form-control form-control-chosen" name="longs" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
@@ -69,7 +69,7 @@
             <thead>
                 <tr style="background: #18bc9c; color: white;">
                     <th colspan="8">ИТОГО:</th>
-                    <th colspan="3">123123.00 м<sup>3</sup></th>
+                    <th colspan="3" th:text="${sumExtent}">123123.00 м<sup>3</sup></th>
                 </tr>
                 <tr>
                     <th scope="col">id</th>
@@ -549,8 +549,8 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="dryStorageOAK">
     <!-- Сухой склад -->
-    <div class="tab-pane fade show active container-fluid" id="drystorage" style="padding-bottom: 3rem;">
-        <form action="/fabric/XXX" method="post" style="margin-top: 1rem;">
+    <div class="tab-pane fade show active container-fluid" id="drystorage">
+        <form th:action="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}}" method="get" style="margin-top: 1rem;">
             <table style="width: 100%;" >
                 <tr>
                     <th scope="col">Описание
@@ -576,19 +576,19 @@
 
                 <tr style="vertical-align: top;">
                     <td style="width: 28%">
-                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectDescription" class="form-control form-control-chosen" name="descriptions" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option value="noDesc">без описания</option>
                             <option  th:each="obj : ${descList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
 
                     <td style="width: 28%">
-                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectSizeOfHeight" class="form-control form-control-chosen" name="heights" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfHeightList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
                     <td style="width: 28%">
-                        <select id="selectSizeOfLong" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple">
+                        <select id="selectSizeOfLong" class="form-control form-control-chosen" name="longs" data-placeholder="Выберите нужные..." multiple="multiple">
                             <option  th:each="obj : ${sizeOfLongList}" th:value="${obj}" th:text="${obj}"></option>
                         </select>
                     </td>
@@ -600,12 +600,13 @@
                 </tr>
             </table>
         </form>
+
         <table class="table table-hover table-striped" id="drystoragetableOak">
             <br>
             <thead>
                 <tr style="background: #18bc9c; color: white;">
                     <th colspan="7">ИТОГО:</th>
-                    <th colspan="6">123123.00 м<sup>3</sup></th>
+                    <th colspan="6" th:text="${sumExtent}">123123.00 м<sup>3</sup></th>
                 </tr>
                 <tr>
                     <th></th>
@@ -1326,7 +1327,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportDryStorageXLS-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/exportDryStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-body">
                         <div class="form-group row">
                             <label for="startDateInput" class="col-2 col-form-label">Начало</label>

@@ -26,6 +26,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sun.security.krb5.internal.crypto.Des;
 
+import javax.servlet.http.HttpServletRequest;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -443,7 +445,8 @@ public class FabricOakController {
 
     //Dry Storage page
     @GetMapping("/getListOfDryStorage-{userId}-2")
-    public String getListOfDryStorage(@PathVariable("userId")int userId,Model model){
+    public String getListOfDryStorage(@PathVariable("userId")int userId,Model model,String[] descriptions,
+                                      String[] heights, String[] longs, String[] widths, HttpServletRequest request){
         int breedId = 2;
 
         model.addAttribute("fragmentPathTabDryStorage","dryStorageOAK");
@@ -451,7 +454,8 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        List<DryStorage> dryStorageList = dryStorageService.getListByUserByBreed(breedId,userId);
+        List<DryStorage> dryStorageList = dryStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
+//        List<DryStorage> dryStorageList = dryStorageService.getListByUserByBreed(breedId,userId);
         for(DryStorage dryStorage :dryStorageList){
             PackagedProduct product = packagedProductService.getProductByDryStorage(dryStorage.getId());
             if(product!=null){
@@ -464,6 +468,13 @@ public class FabricOakController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+
+        model.addAttribute("descList",dryStorageService.getListOfUnicBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList",dryStorageService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfWidthList",dryStorageService.getListOfUnicSizeOfWidth(breedId));
+        model.addAttribute("sizeOfLongList",dryStorageService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
+        model.addAttribute("sumExtent",dryStorageService.countExtent(dryStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
         btnConfig(userId,model);
         return "fabricPage";
     }
