@@ -66,23 +66,27 @@
         <table class="table table-hover table-striped" id="packagedproducttable">
             <br>
             <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">№ пачки</th>
-                <th scope="col">Порода</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Толщина, мм</th>
-                <th scope="col">Ширина, мм</th>
-                <th scope="col">Длина, мм</th>
-                <th scope="col">Кол-во досок, шт</th>
-                <th scope="col">Кубатура, м<sup>3</sup></th>
-                <th scope="col">Высота, шт</th>
-                <th scope="col">Ширина, шт</th>
-                <th scope="col">Длина-ФАКТ</th>
-                <th scope="col">Высота/Ширина</th>
-                <th>Сух. скл. шт.</th>
-                <th></th>
-            </tr>
+                <tr style="background: #18bc9c; color: white;">
+                    <th colspan="8">ИТОГО:</th>
+                    <th colspan="7">123123.00 м<sup>3</sup></th>
+                </tr>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">№ пачки</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Ширина, мм</th>
+                    <th scope="col">Длина, мм</th>
+                    <th scope="col">Кол-во досок, шт</th>
+                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col">Высота, шт</th>
+                    <th scope="col">Ширина, шт</th>
+                    <th scope="col">Длина-ФАКТ</th>
+                    <th scope="col">Высота/Ширина</th>
+                    <th>Сух. скл. шт.</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
             <tr th:each="ps, index : ${packagedProductsList}" th:id="${ps.id}">
@@ -797,20 +801,24 @@
             <table class="table table-hover table-striped" id="packageOakTableId">
                 <br>
                 <thead>
-                <tr>
-                    <th></th>
-                    <th scope="col">id</th>
-                    <th scope="col">№ пачки</th>
-                    <th scope="col">Качество</th>
-                    <th scope="col">Толщина, мм</th>
-                    <th scope="col">Длина, мм</th>
-                    <th scope="col">Сум. ширина</th>
-                    <th scope="col">Кол. досок</th>
-                    <th scope="col">Кубатура, м<sup>3</sup></th>
-                    <th>Сух. скл. м<sup>3</sup></th>
-                    <th scope="col"></th>
-                    <th class="display-none"></th>
-                </tr>
+                    <tr style="background: #18bc9c; color: white;">
+                        <th colspan="8">ИТОГО:</th>
+                        <th colspan="4">123123.00 м<sup>3</sup></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th scope="col">id</th>
+                        <th scope="col">№ пачки</th>
+                        <th scope="col">Качество</th>
+                        <th scope="col">Толщина, мм</th>
+                        <th scope="col">Длина, мм</th>
+                        <th scope="col">Сум. ширина</th>
+                        <th scope="col">Кол. досок</th>
+                        <th scope="col">Кубатура, м<sup>3</sup></th>
+                        <th>Сух. скл. м<sup>3</sup></th>
+                        <th scope="col"></th>
+                        <th class="display-none"></th>
+                    </tr>
                 </thead>
                 <tbody>
                       <div th:each="p, index : ${packageOakList}">
