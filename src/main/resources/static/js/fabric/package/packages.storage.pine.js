@@ -8,17 +8,6 @@ function deselectButton(selectId){
     $('#'+selectId).trigger('chosen:updated');
 }
 
-function selectAll() {
-    console.log("click");
-    // $('#selectDescription option').prop('selected', true); // Selects all options
-    var options = document.getElementById('selectDescription_chosen').getElementsByTagName('li');
-    for(var i = 0; i<options.length;i++){
-        options[i].click();
-        console.log(options[i]);
-    }
-}
-
-
 function editPackage(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');

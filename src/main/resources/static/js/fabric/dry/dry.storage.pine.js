@@ -1,3 +1,13 @@
+function selectButton(selectId){
+    $('#'+selectId+' option').prop('selected', true);
+    $('#'+selectId).trigger('chosen:updated');
+}
+
+function deselectButton(selectId){
+    $('#'+selectId+' option:selected').prop("selected",false);
+    $('#'+selectId).trigger('chosen:updated');
+}
+
 function checkDescsCount() {
     let descsCount = $('#sendForPackageModalCount').val();
     let heightPc = $('#sendForPackageHeightPc').val();

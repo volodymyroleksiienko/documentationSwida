@@ -1,3 +1,13 @@
+function selectButton(selectId){
+    $('#'+selectId+' option').prop('selected', true);
+    $('#'+selectId).trigger('chosen:updated');
+}
+
+function deselectButton(selectId){
+    $('#'+selectId+' option:selected').prop("selected",false);
+    $('#'+selectId).trigger('chosen:updated');
+}
+
 function editOakPackage(btnObj) {
     var trObj = btnObj.parentElement.parentElement;
     var trId = $(trObj).find('td:eq(0)').attr('id');
