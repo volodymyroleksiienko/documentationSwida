@@ -2,6 +2,7 @@ package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.enums.StatusOfEntity;
+import com.swida.documetation.data.enums.StatusOfProduct;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -12,6 +13,7 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -112,6 +114,40 @@ public class RawStorageServiceImpl implements RawStorageService {
     }
 
     @Override
+    public List<RawStorage> getFilteredList(int breedId, int userId, String[] descriptions, String[] heights, String[] longs, String[] widths) {
+        List<String> descList, heightList,widthList, longList;
+        if (descriptions==null || descriptions.length==0){
+            descList = getListOfUnicBreedDescription(breedId);
+        }else {
+            descList = Arrays.asList(descriptions);
+        }
+        if (heights==null || heights.length==0){
+            heightList = getListOfUnicSizeOfHeight(breedId);
+        }else {
+            heightList = Arrays.asList(heights);
+        }
+        if (widths==null || widths.length==0){
+            widthList = getListOfUnicSizeOfWidth(breedId);
+        }else {
+            widthList = Arrays.asList(widths);
+        }
+        if (longs==null || longs.length==0){
+            longList = getListOfUnicSizeOfLong(breedId);
+        }else {
+            longList = Arrays.asList(longs);
+        }
+        System.out.println(descList);
+        System.out.println(heightList);
+        System.out.println(widthList);
+        System.out.println(longList);
+        if(breedId!=2) {
+            return rawStorageJPA.getListByUserByBreed(breedId, userId, descList, heightList, widthList, longList);
+        }else {
+            return rawStorageJPA.getListByUserByBreedOak(breedId, userId, descList, heightList, longList);
+        }
+    }
+
+    @Override
     public void countExtentRawStorageWithDeskDescription(RawStorage rawStorage) {
         if(rawStorage.getDeskOakList()==null || rawStorage.getDeskOakList().size()==0){
             return;
@@ -141,6 +177,15 @@ public class RawStorageServiceImpl implements RawStorageService {
         );
         checkQualityInfo(rawStorage);
         rawStorageJPA.save(rawStorage);
+    }
+
+    @Override
+    public BigDecimal countExtent(List<RawStorage> rawStorages) {
+        double sum=0;
+        for(RawStorage storage : rawStorages){
+            sum += Double.parseDouble(storage.getExtent());
+        }
+        return new BigDecimal(sum);
     }
 
     public void collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId){

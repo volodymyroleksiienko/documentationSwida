@@ -1,7 +1,6 @@
 package com.swida.documetation.data.jpa.storages;
 
 import com.swida.documetation.data.entity.storages.RawStorage;
-import com.swida.documetation.data.entity.storages.TreeStorage;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +10,13 @@ import java.util.List;
 public interface RawStorageJPA extends JpaRepository<RawStorage,Integer> {
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.countOfDesk>0 and r.statusOfEntity='ACTIVE'")
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
+    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and trim(r.breedDescription) in ?3 and r.sizeOfHeight in ?4 and r.sizeOfWidth in ?5 and r.sizeOfLong in ?6 " +
+            "and r.countOfDesk>0 and r.statusOfEntity='ACTIVE'")
+    List<RawStorage> getListByUserByBreed(int breedId, int userId, List<String> desc, List<String> height, List<String> width, List<String> longs);
+    @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and trim(r.breedDescription) in ?3 and r.sizeOfHeight in ?4 and r.sizeOfLong in ?5 " +
+            "and  r.extent<>'0.000' and  r.extent not like '-%'  and r.statusOfEntity='ACTIVE'")
+    List<RawStorage> getListByUserByBreedOak(int breedId, int userId,List<String> desc,List<String> height,List<String> longs);
+
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.treeStorage.statusOfTreeStorage=?3")
     List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.extent<>'0.000' and  r.extent not like '-%' and r.statusOfEntity='ACTIVE'")

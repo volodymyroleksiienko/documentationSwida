@@ -590,6 +590,7 @@
                     </button>
                 </div>
                 <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
+                        <input name="factExport" value="true">
                      <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
@@ -613,16 +614,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportProviderHistoryTreeStorageXLS-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label for="startDateInput" class="col-2 col-form-label">Начало</label>
+                            <label for="startHistDateInput" class="col-2 col-form-label">Начало</label>
                             <div class="col-10">
                                 <input class="form-control" type="date" value="2020-01-01" id="startHistDateInput" required="required" name="startDate">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="endDateInput" class="col-2 col-form-label">Конец</label>
+                            <label for="endHistDateInput" class="col-2 col-form-label">Конец</label>
                             <div class="col-10">
                                 <input class="form-control" type="date" id="endHistDateInput" required="required" name="endDate">
                             </div>
@@ -1475,16 +1476,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportProviderHistoryTreeStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
+                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label for="startDateInput" class="col-2 col-form-label">Начало</label>
+                            <label for="startHistDateInput" class="col-2 col-form-label">Начало</label>
                             <div class="col-10">
                                 <input class="form-control" type="date" value="2020-01-01" id="startHistDateInput" required="required" name="startDate">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="endDateInput" class="col-2 col-form-label">Конец</label>
+                            <label for="endHistDateInput" class="col-2 col-form-label">Конец</label>
                             <div class="col-10">
                                 <input class="form-control" type="date" id="endHistDateInput" required="required" name="endDate">
                             </div>

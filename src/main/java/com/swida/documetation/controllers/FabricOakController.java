@@ -198,7 +198,9 @@ public class FabricOakController {
 
     //RawStorage page
     @GetMapping("/getListOfRawStorage-{userId}-2")
-    public String getListOfRawStorage(@PathVariable("userId")int userId, Model model){
+    public String getListOfRawStorage(@PathVariable("userId")int userId, Model model,
+                                      String[] descriptions, String[] heights, String[] longs,
+                                      String[] widths,HttpServletRequest request){
         int breedId = 2;
 
         model.addAttribute("fragmentPathTabRawStorage","rawStorageOAK");
@@ -206,7 +208,8 @@ public class FabricOakController {
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
+        List<RawStorage> rawStorageList = rawStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
+        model.addAttribute("rawStorageList",rawStorageList.stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
@@ -214,6 +217,12 @@ public class FabricOakController {
         List<TreeStorage> treeList = treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.TREE);
         treeList.addAll(treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.RECYCLING));
         model.addAttribute("treeStorageList",treeList);
+
+        model.addAttribute("descList",rawStorageService.getListOfUnicBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList",rawStorageService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfLongList",rawStorageService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
+        model.addAttribute("sumExtent",rawStorageService.countExtent(rawStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
         btnConfig(userId,model);
         return "fabricPage";
     }

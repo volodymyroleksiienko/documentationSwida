@@ -1,6 +1,7 @@
 package com.swida.documetation.utils.xlsParsers;
 
 import com.swida.documetation.data.entity.storages.DryStorage;
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +27,31 @@ import java.util.List;
 public class  ParseDryStorageToXLS {
     private List<DryStorage> dryStorages;
 
-    public String parse(String startDate, String endDate ) throws ParseException {
+    public String parse(String startDate, String endDate, int breedId) throws ParseException {
         Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
         Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+        List<DryStorage> filtered = new ArrayList<>();
+        for(DryStorage p:dryStorages) {
+            if(p.getDate()!=null) {
+                Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(p.getDate());
+                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
+                    filtered.add(p);
+                }
+            }else {
+                filtered.add(p);
+            }
+        }
+        dryStorages = filtered;
+        if(breedId==2){
+            return parseOAK();
+        }else {
+            return parse();
+        }
+    }
 
+
+
+    public String parse() throws ParseException {
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
         sheet.getPrintSetup().setLandscape(true);
@@ -65,8 +88,6 @@ public class  ParseDryStorageToXLS {
 
         for(DryStorage rs: dryStorages){
             if (rs.getDate()!=null) {
-                Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getDate());
-                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
                     Row row = sheet.createRow(rowCount++);
                     row.setHeight((short) 400);
                     row.createCell(0).setCellValue(rs.getCodeOfProduct());
@@ -87,7 +108,6 @@ public class  ParseDryStorageToXLS {
                     row.getCell(5).setCellStyle(style);
                     row.getCell(6).setCellStyle(style);
                     row.getCell(7).setCellStyle(style);
-                }
             }
         }
 
@@ -104,10 +124,7 @@ public class  ParseDryStorageToXLS {
         return "";
     }
 
-    public String parseOAK(String startDate, String endDate ) throws ParseException {
-        Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
-        Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
-
+    public String parseOAK() throws ParseException {
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
         XSSFCellStyle style = book.createCellStyle();
@@ -138,25 +155,22 @@ public class  ParseDryStorageToXLS {
 
         for(DryStorage rs: dryStorages){
             if (rs.getDate()!=null) {
-                Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getDate());
-                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
-                    Row row = sheet.createRow(rowCount++);
-                    row.setHeight((short) 400);
-                    row.createCell(0).setCellValue(rs.getCodeOfProduct());
-                    row.createCell(1).setCellValue(rs.getBreedOfTree().getBreed());
-                    row.createCell(2).setCellValue(rs.getBreedDescription());
-                    row.createCell(3).setCellValue(Integer.parseInt(rs.getSizeOfHeight()));
+                Row row = sheet.createRow(rowCount++);
+                row.setHeight((short) 400);
+                row.createCell(0).setCellValue(rs.getCodeOfProduct());
+                row.createCell(1).setCellValue(rs.getBreedOfTree().getBreed());
+                row.createCell(2).setCellValue(rs.getBreedDescription());
+                row.createCell(3).setCellValue(Integer.parseInt(rs.getSizeOfHeight()));
 
-                    BigDecimal extent = new BigDecimal(Float.parseFloat(rs.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
-                    row.createCell(4).setCellValue(extent.doubleValue());
-                    row.createCell(5).setCellValue(rs.getDescription());
-                    row.getCell(0).setCellStyle(style);
-                    row.getCell(1).setCellStyle(style);
-                    row.getCell(2).setCellStyle(style);
-                    row.getCell(3).setCellStyle(style);
-                    row.getCell(4).setCellStyle(style);
-                    row.getCell(5).setCellStyle(style);
-                }
+                BigDecimal extent = new BigDecimal(Float.parseFloat(rs.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
+                row.createCell(4).setCellValue(extent.doubleValue());
+                row.createCell(5).setCellValue(rs.getDescription());
+                row.getCell(0).setCellStyle(style);
+                row.getCell(1).setCellStyle(style);
+                row.getCell(2).setCellStyle(style);
+                row.getCell(3).setCellStyle(style);
+                row.getCell(4).setCellStyle(style);
+                row.getCell(5).setCellStyle(style);
             }
         }
 

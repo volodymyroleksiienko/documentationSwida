@@ -283,10 +283,6 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         }else {
             longList = Arrays.asList(longs);
         }
-        System.out.println(descList);
-        System.out.println(heightList);
-        System.out.println(widthList);
-        System.out.println(longList);
         return productJPA.getListByUserByBreed(breedId, userId,StatusOfProduct.ON_STORAGE,descList, heightList, widthList, longList);
     }
 

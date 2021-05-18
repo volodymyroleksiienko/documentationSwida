@@ -14,15 +14,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ParserOakPackagerProductXLS {
-    private final List<PackagedProduct> productList;
-    private  List<String> unicWidthList;
-    private  Map<String,Integer> sumWidthList;
+    private List<PackagedProduct> productList;
+    private List<String> unicWidthList;
+    private Map<String,Integer> sumWidthList;
     private String mainSumWidthOfAllDesk;
     private String countOfAllDesk;
     private String mainExtent;
@@ -35,6 +34,23 @@ public class ParserOakPackagerProductXLS {
         getUnicWidth();
         //initialize map
         getSumByWidth();
+    }
+    public String parse(String startDate, String endDate ) throws ParseException {
+        Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+        Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+        List<PackagedProduct> filtered = new ArrayList<>();
+        for(PackagedProduct p:productList) {
+            if(p.getDate()!=null) {
+                Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(p.getDate());
+                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
+                    filtered.add(p);
+                }
+            }else {
+                filtered.add(p);
+            }
+        }
+        productList = filtered;
+        return parse();
     }
 
     public String parse() {

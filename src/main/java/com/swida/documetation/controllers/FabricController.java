@@ -295,18 +295,27 @@ public class FabricController {
     //RawStorage page
 
     @GetMapping("/getListOfRawStorage-{userId}-{breedId}")
-    public String getListOfRawStorage(@PathVariable("userId")int userId,
-                                      @PathVariable("breedId")int breedId, Model model){
+    public String getListOfRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
+                                      Model model,String[] descriptions, String[] heights, String[] longs,
+                                      String[] widths,HttpServletRequest request){
         model.addAttribute("fragmentPathTabRawStorage","rawStorage");
         model.addAttribute("tabName","rawStorage");
         model.addAttribute("userId",userId);
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("rawStorageList",rawStorageService.getListByUserByBreed(breedId, userId));
+        List<RawStorage> rawStorageList = rawStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
+        model.addAttribute("rawStorageList",rawStorageList);
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+
+        model.addAttribute("descList",rawStorageService.getListOfUnicBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList",rawStorageService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfWidthList",rawStorageService.getListOfUnicSizeOfWidth(breedId));
+        model.addAttribute("sizeOfLongList",rawStorageService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
+        model.addAttribute("sumExtent",rawStorageService.countExtent(rawStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
         btnConfig(userId,model);
         return "fabricPage";
     }
@@ -634,11 +643,14 @@ public class FabricController {
                                                            String endDate,String[] descriptions, String[] heights, String[] longs, String[] widths) throws FileNotFoundException, ParseException {
         ParseDryStorageToXLS parser = new ParseDryStorageToXLS(dryStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths));
         String filePath;
-        if (breedId==2){
-//            for breed oak
-            filePath = parser.parseOAK(startDate,endDate);
+        if(startDate!=null && !startDate.isEmpty() && endDate!=null && !endDate.isEmpty()) {
+            filePath = parser.parse(startDate, endDate, breedId);
         }else {
-            filePath = parser.parse(startDate,endDate);
+            if (breedId == 2) {
+                filePath = parser.parseOAK();
+            } else {
+                filePath = parser.parse();
+            }
         }
         return new GenerateResponseForExport().generate(filePath,startDate,endDate);
     }
@@ -678,20 +690,31 @@ public class FabricController {
 
     @GetMapping("/exportPackageStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                                        String[] descriptions, String[] heights, String[] longs, String[] widths,
+                                                        String startDate, String endDate,String[] descriptions,
+                                                        String[] heights, String[] longs, String[] widths,
                                                         String[] qualities) throws FileNotFoundException, ParseException {
         List<PackagedProduct> productList;
+        System.out.println(Arrays.toString(widths));
         String filePath;
         if (breedId==2){
 //            for breed oak
             productList = packagedProductService.getFilteredListOak(breedId,userId,qualities,heights,longs);
             ParserOakPackagerProductXLS parser =  new ParserOakPackagerProductXLS(productList);
-            filePath = parser.parse();
+            if(startDate==null || startDate.isEmpty() || endDate==null || endDate.isEmpty()){
+                filePath = parser.parse();
+            }else {
+                filePath = parser.parse(startDate,endDate);
+            }
         }else {
             productList = packagedProductService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
             ParserPackagedProductToXLS parser =  new ParserPackagedProductToXLS(productList);
-            filePath = parser.parse();
+            if(startDate==null || startDate.isEmpty() || endDate==null || endDate.isEmpty()){
+                filePath = parser.parse();
+            }else {
+                filePath = parser.parse(startDate,endDate);
+            }
         }
+        System.out.println("size "+ productList.size());
         return new GenerateResponseForExport().generate(filePath,"","");
     }
 
@@ -705,7 +728,7 @@ public class FabricController {
     @PostMapping("/addPackagedProductWithoutHistory-{userId}-{breedId}")
     public String addPackagedProductWithoutHistory(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                                   PackagedProduct product, String countOfPacks){
-
+        product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         packagedProductService.createPackagesWithoutHistory(product,countOfPacks,breedId,userId);
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
