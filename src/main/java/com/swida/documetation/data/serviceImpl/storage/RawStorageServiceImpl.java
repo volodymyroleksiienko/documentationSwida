@@ -1,5 +1,7 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
+import com.swida.documetation.data.dto.StorageItem;
+import com.swida.documetation.data.dto.TreeStorageListDto;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.enums.StatusOfEntity;
 import com.swida.documetation.data.enums.StatusOfProduct;
@@ -95,6 +97,24 @@ public class RawStorageServiceImpl implements RawStorageService {
     @Override
     public List<RawStorage> findAllByTreeStorageId(int id) {
         return rawStorageJPA.findAllByTreeStorageId(id);
+    }
+
+    public void analyzeOfCutting(TreeStorageListDto dto){
+        List<StorageItem> items = dto.getStorageItems();
+        for(StorageItem item:items){
+            String heights = String.valueOf(item.getSizeOfHeight());
+            String widths = String.valueOf(item.getSizeOfWidth());
+            String longs = String.valueOf(item.getSizeOfLong());
+            RawStorage rawDB = findEqualRaw(dto.getBreedId(),dto.getUserId(),item.getDescription(),heights,widths,longs);
+            if(rawDB!=null){
+
+            }
+        }
+    }
+
+    @Override
+    public RawStorage findEqualRaw(int breedId, int userId, String desc, String heights, String widths, String longs) {
+        return rawStorageJPA.findEqualRaw(breedId,userId,desc,heights,widths,longs);
     }
 
     @Override
