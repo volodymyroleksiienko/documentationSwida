@@ -101,6 +101,8 @@ public class TreeStorageServiceImpl implements TreeStorageService {
 
     @Override
     public TreeStorage getMainTreeStorage(int breedId, int userId){
+        System.out.println("breedId " +breedId);
+        System.out.println("userId " +userId);
         TreeStorage treeStorage = treeStorageJPA.getListByUserByBreedByMain(breedId,userId,StatusOfTreeStorage.TREE,true).orElse(null);
         if(treeStorage == null){
             treeStorage = new TreeStorage();
@@ -118,11 +120,6 @@ public class TreeStorageServiceImpl implements TreeStorageService {
                     String.format("%.3f",extent).replace(",",".")
             );
             treeStorage = save(treeStorage);
-        }
-        List<QualityStatisticInfo> infos = treeStorage.getStatisticInfoList();
-        if(infos!=null){
-            infos = infos.stream().sorted((o1, o2) -> o2.getId()-o1.getId()).limit(20).collect(Collectors.toList());
-            treeStorage.setStatisticInfoList(infos);
         }
         return treeStorage;
     }

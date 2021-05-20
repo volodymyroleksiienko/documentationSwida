@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
+import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.jpa.storages.QualityStatisticInfoJPA;
 import com.swida.documetation.data.service.storages.QualityStatisticInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
     @Override
     public QualityStatisticInfo findByTreeStorageIdAndAndHeight(int id, String height) {
         return infoJPA.findByTreeStorageIdAndAndHeight(id,height);
+    }
+
+    public QualityStatisticInfo createObject(RawStorage rawStorage){
+        return null;
     }
 
     @Override

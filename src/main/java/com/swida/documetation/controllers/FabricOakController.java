@@ -112,7 +112,7 @@ public class FabricOakController {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setMaxExtent(rawStorage.getExtent());
-        String rawStorageExtent = rawStorageService.save(rawStorage);
+        String rawStorageExtent = rawStorageService.save(rawStorage).getExtent();
         treeStorage.setExtent(String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)).replace(',','.'));
 
         TreeStorage recycle = new TreeStorage();

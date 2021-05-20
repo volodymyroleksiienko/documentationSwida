@@ -1,6 +1,7 @@
 package com.swida.documetation.data.service.storages;
 
 import com.swida.documetation.data.dto.TreeStorageListDto;
+import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface RawStorageService {
-    String save(RawStorage rs);
+    RawStorage save(RawStorage rs);
     RawStorage findById(int id);
     List<RawStorage> findAll();
     List<RawStorage> findAllByTreeStorageId(int id);
@@ -21,7 +22,7 @@ public interface RawStorageService {
     void uncollectFromOnePineEntity(RawStorage rawStorage,int userId,int breedId);
     void collectToOneOakEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId);
 
-    void checkQualityInfo(RawStorage rawStorage);
+    QualityStatisticInfo checkQualityInfo(RawStorage rawStorage);
     void countExtentRawStorageWithDeskDescription(RawStorage rawStorage);
     BigDecimal countExtent(List<RawStorage> rawStorages);
     void deleteByID(int id);

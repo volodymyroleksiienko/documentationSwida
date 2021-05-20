@@ -259,7 +259,7 @@ public class FabricController {
         rawStorage.setCountOfDesk(Integer.parseInt(countOfDesk));
         rawStorage.setMaxCountOfDesk(rawStorage.getCountOfDesk());
 
-        String rawExtent =  rawStorageService.save(rawStorage);
+        String rawExtent =  rawStorageService.save(rawStorage).getExtent();
         rawStorage.setUsedExtent(rawExtent);
         rawStorage.setMaxExtent(rawExtent);
         rawStorageService.save(rawStorage);

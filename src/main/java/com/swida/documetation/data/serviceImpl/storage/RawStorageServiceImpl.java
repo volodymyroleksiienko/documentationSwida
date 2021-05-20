@@ -15,6 +15,7 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.jws.soap.SOAPBinding;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ public class RawStorageServiceImpl implements RawStorageService {
 
 
     @Override
-    public void checkQualityInfo(RawStorage rawStorage) {
+    public QualityStatisticInfo checkQualityInfo(RawStorage rawStorage) {
         QualityStatisticInfo info;
         rawStorage = findById(rawStorage.getId());
         if(rawStorage.getStatisticInfo()==null) {
@@ -40,7 +41,7 @@ public class RawStorageServiceImpl implements RawStorageService {
         }else {
             info = rawStorage.getStatisticInfo();
         }
-        info.setTreeStorage(rawStorage.getTreeStorage());
+        info.setTreeStorage(treeStorageService.getMainTreeStorage(rawStorage.getBreedOfTree().getId(),rawStorage.getUserCompany().getId()));
         info.setHeight(rawStorage.getSizeOfHeight());
         info.setExtent(rawStorage.getExtent());
         info.setFirstExtent(rawStorage.getUsedExtent());
@@ -62,10 +63,12 @@ public class RawStorageServiceImpl implements RawStorageService {
             rawStorage.setStatisticInfo(info);
             save(rawStorage);
         }
+        return info;
     }
 
+
     @Override
-    public String save(RawStorage rs) {
+    public RawStorage save(RawStorage rs) {
         if (rs.getSizeOfWidth()!=null && !rs.getSizeOfWidth().equals("0")){
             float width = Float.parseFloat(rs.getSizeOfWidth())/1000;
             float height = Float.parseFloat(rs.getSizeOfHeight())/1000;
@@ -80,8 +83,7 @@ public class RawStorageServiceImpl implements RawStorageService {
         if(rs.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             rs.setBreedDescription("");
         }
-        rawStorageJPA.save(rs);
-        return rs.getExtent();
+        return rawStorageJPA.save(rs);
     }
 
     @Override
@@ -102,6 +104,8 @@ public class RawStorageServiceImpl implements RawStorageService {
     @Override
     public void analyzeOfCutting(TreeStorageListDto dto) {
         List<StorageItem> items = dto.getStorageItems();
+        List<RawStorage> rawStorageList = new ArrayList<>();
+        double factExtent = 0;
         for (StorageItem item : items) {
             String heights = String.valueOf(item.getSizeOfHeight());
             String widths = String.valueOf(item.getSizeOfWidth());
@@ -110,6 +114,7 @@ public class RawStorageServiceImpl implements RawStorageService {
             if (rawDB == null) {
                 rawDB = new RawStorage();
                 rawDB.setCodeOfProduct(dto.getCodeOfProduct()+"-"+item.getSizeOfWidth());
+                rawDB.setDescription(item.getDescription());
                 rawDB.setBreedOfTree(breedOfTreeService.findById(dto.getBreedId()));
                 rawDB.setUserCompany(userCompanyService.findById(dto.getUserId()));
                 rawDB.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -126,8 +131,11 @@ public class RawStorageServiceImpl implements RawStorageService {
                 }else {
                     rawDB.setSizeOfWidth(String.valueOf(item.getSizeOfWidth()));
                     rawDB.setCountOfDesk(item.getCountOfDesk());
+                    rawDB.setMaxCountOfDesk(rawDB.getCountOfDesk());
+                    rawDB.setMaxExtent(
+                            String.format("%.3f",item.getExtent())
+                    );
                 }
-
             }else {
                 if (dto.getBreedId() == 2) {
                     rawDB.setExtent(
@@ -141,8 +149,24 @@ public class RawStorageServiceImpl implements RawStorageService {
                     );
                 }
             }
-            save(rawDB);
+            rawDB = save(rawDB);
+            rawStorageList.add(rawDB);
+            factExtent+=Double.parseDouble(rawDB.getExtent());
         }
+        double qualityCoef = factExtent/dto.getExtent();
+        for(RawStorage temp:rawStorageList){
+            temp.setUsedExtent(
+                    String.format("%.3f",Double.parseDouble(temp.getExtent())/qualityCoef).replace(",",".")
+            );
+            checkQualityInfo(save(temp));
+        }
+
+
+        TreeStorage main = treeStorageService.getMainTreeStorage(dto.getBreedId(),dto.getUserId());
+        main.setExtent(
+                String.format("%.3f",(Double.parseDouble(main.getExtent())-dto.getExtent())).replace(",",".")
+        );
+        treeStorageService.save(main);
     }
 
     @Override
@@ -264,7 +288,7 @@ public class RawStorageServiceImpl implements RawStorageService {
         rawStorage.setGroupedElements(groupedList);
         rawStorage.setCountOfDesk(countOfDesk);
         System.out.println(rawStorage);
-        String mainExtend = save(rawStorage);
+        String mainExtend = save(rawStorage).getExtent();
         rawStorage.setMaxExtent(mainExtend);
         save(rawStorage);
     }
@@ -319,7 +343,7 @@ public class RawStorageServiceImpl implements RawStorageService {
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setGroupedElements(rawsFromDBList);
         rawStorage.setDeskOakList(deskOakList);
-        String extend = save(rawStorage);
+        String extend = save(rawStorage).getExtent();
         rawStorage.setMaxExtent(extend);
         save(rawStorage);
     }
