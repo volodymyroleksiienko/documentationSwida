@@ -2,14 +2,104 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="treeStorage">
     <div class="tab-pane fade show active container-fluid" id="treestorage">
-        <table class="table table-hover table-striped" id="treestoragetable">
-
+        <table class="table table-hover table-striped" id="treestoragetable-single">
             <br>
             <thead>
-                <tr style="background: #18bc9c; color: white;">
-                    <th colspan="11">Суммарная кубатура кругляка на складе:</th>
-                    <th colspan="3" style="text-align: right">123123.00 м<sup>3</sup></th>
+            <tr>
+                <th scope="col">id</th>
+                <th style="width: 30px"></th>
+                <th scope="col">Дата обновления</th>
+                <th scope="col">Код партии</th>
+                <th scope="col">Порода</th>
+                <th scope="col" style="display: none">Описание</th>
+                <th scope="col" style="display: none">Поставщик</th>
+                <th scope="col" style="display: none">Поставщик id</th>
+                <th scope="col" style="display: none">Ср. диаметр</th>
+                <th scope="col" style="display: none">Кол-во колод</th>
+                <th scope="col">Остаток, м<sup>3</sup></th>
+                <th scope="col" style="display: none">Начальная куб-ра, м<sup>3</sup></th>
+                <th scope="col" style="display: none">Примечание</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="ts, index : ${treeStorageList}">
+                <tr th:id="${ts.id}">
+                    <td th:text="${ts.id}"></td>
+                    <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
+                    <td th:text="${ts.date}"></td>
+                    <th scope="row" th:text="${ts.codeOfProduct}"></th>
+                    <td th:text="${ts.breedOfTree.breed}"></td>
+                    <td th:text="${ts.breedDescription}" style="display: none"></td>
+                    <td th:text="${ts.contrAgent.nameOfAgent}" style="display: none"></td>
+                    <td th:text="${ts.contrAgent.id}" style="display: none"></td>
+                    <td th:text="${ts?.averageDiameter}" style="display: none"></td>
+                    <td th:text="${ts?.countOfDeck}" style="display: none"></td>
+                    <td th:text="${ts.extent}"></td>
+                    <td th:text="${ts.maxExtent}" style="display: none"></td>
+                    <td scope="col" th:text="${ts.treeDescription}" style="display: none"></td>
+                    <td>
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
+                            <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
+                        </button>
+                    </td>
                 </tr>
+
+                <tr style="display: none" th:id="'parent'+${ts.id}">
+                    <td style="display:none"></td>
+                    <td colspan="13" class="child-table">
+                        <table class="table table-hover table-striped parent-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Дата</th>
+                                <th scope="col">Толщина, мм</th>
+                                <th scope="col">Взято, м<sup>3</sup></th>
+                                <th scope="col">Выход, м<sup>3</sup></th>
+                                <th scope="col">Процент, %</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="list : ${ts?.statisticInfoList}" >
+                                <td th:text="${list?.date}"></td>
+                                <td th:text="${list?.height}"></td>
+                                <td th:text="${list?.firstExtent}"></td>
+                                <td th:text="${list?.extent}"></td>
+                                <td th:text="${list?.percent}"></td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th colspan="2">ИТОГО :</th>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <table class="table table-hover table-striped" id="treestoragetable">
+            <br>
+            <thead>
                 <tr>
                     <th scope="col">id</th>
                     <th style="width: 30px"></th>
@@ -31,7 +121,7 @@
                 <div th:each="ts, index : ${treeStorageList}">
                      <tr th:id="${ts.id}">
                         <td th:text="${ts.id}"></td>
-                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
+                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-2-'+this.id).toggle();" th:id="${ts.id}"></td>
                         <td th:text="${ts.date}"></td>
                         <th scope="row" th:text="${ts.codeOfProduct}"></th>
                         <td th:text="${ts.breedOfTree.breed}"></td>
@@ -44,16 +134,13 @@
                         <td th:text="${ts.maxExtent}"></td>
                         <td scope="col" th:text="${ts.treeDescription}"></td>
                         <td>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
-                                <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
-                            </button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
                                 <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                             </button>
                         </td>
                     </tr>
 
-                     <tr style="display: none" th:id="'parent'+${ts.id}">
+                     <tr style="display: none" th:id="'parent-2-'+${ts.id}">
                          <td style="display:none"></td>
                          <td colspan="13" class="child-table">
                              <table class="table table-hover table-striped parent-table">

@@ -65,7 +65,7 @@ $(document).ready( function () {
         },
 
         "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
-        "bSort": false,
+        "bSort": true,
         "info": false,
         // "order": [ 0, "desc" ],
 
@@ -81,7 +81,39 @@ $(document).ready( function () {
             {
                 "targets": -1,
                 "orderable": false,
-                "width": "70px"
+                "width": "40px"
+            },
+            { className: "display-none", "targets": [ 7 ] },
+        ]
+
+    });
+
+    $('#treestoragetable-single').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+
+        "lengthMenu": false,
+        "bSort": false,
+        "info": false,
+        "paging": false,
+        "searching": false,
+        "lengthChange": false,
+        // "order": [ 0, "desc" ],
+
+        // columns width
+        "autoWidth": false,
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false,
+            },
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "40px"
             },
             { className: "display-none", "targets": [ 7 ] },
         ]
