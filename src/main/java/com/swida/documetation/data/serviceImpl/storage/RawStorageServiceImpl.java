@@ -99,16 +99,49 @@ public class RawStorageServiceImpl implements RawStorageService {
         return rawStorageJPA.findAllByTreeStorageId(id);
     }
 
-    public void analyzeOfCutting(TreeStorageListDto dto){
+    @Override
+    public void analyzeOfCutting(TreeStorageListDto dto) {
         List<StorageItem> items = dto.getStorageItems();
-        for(StorageItem item:items){
+        for (StorageItem item : items) {
             String heights = String.valueOf(item.getSizeOfHeight());
             String widths = String.valueOf(item.getSizeOfWidth());
             String longs = String.valueOf(item.getSizeOfLong());
-            RawStorage rawDB = findEqualRaw(dto.getBreedId(),dto.getUserId(),item.getDescription(),heights,widths,longs);
-            if(rawDB!=null){
+            RawStorage rawDB = findEqualRaw(dto.getBreedId(), dto.getUserId(), item.getDescription(), heights, widths, longs);
+            if (rawDB == null) {
+                rawDB = new RawStorage();
+                rawDB.setCodeOfProduct(dto.getCodeOfProduct()+"-"+item.getSizeOfWidth());
+                rawDB.setBreedOfTree(breedOfTreeService.findById(dto.getBreedId()));
+                rawDB.setUserCompany(userCompanyService.findById(dto.getUserId()));
+                rawDB.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
+                rawDB.setSizeOfHeight(String.valueOf(item.getSizeOfHeight()));
+                rawDB.setTreeStorage(treeStorageService.getMainTreeStorage(dto.getBreedId(),dto.getUserId()));
+
+                rawDB.setSizeOfLong(String.valueOf(item.getSizeOfLong()));
+                if(dto.getBreedId()==2) {
+                    rawDB.setMaxExtent(
+                            String.valueOf(dto.getExtent()).replace(",",".")
+                    );
+                    rawDB.setExtent(rawDB.getMaxExtent());
+                }else {
+                    rawDB.setSizeOfWidth(String.valueOf(item.getSizeOfWidth()));
+                    rawDB.setCountOfDesk(item.getCountOfDesk());
+                }
+
+            }else {
+                if (dto.getBreedId() == 2) {
+                    rawDB.setExtent(
+                            String.format("%.3f",
+                                    Double.parseDouble(rawDB.getExtent()) + item.getExtent()
+                            ).replace(",", ".")
+                    );
+                }else{
+                    rawDB.setCountOfDesk(
+                            rawDB.getCountOfDesk()+item.getCountOfDesk()
+                    );
+                }
             }
+            save(rawDB);
         }
     }
 

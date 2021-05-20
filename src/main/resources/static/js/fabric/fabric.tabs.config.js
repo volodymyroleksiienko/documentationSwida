@@ -161,58 +161,74 @@ $(document).ready( function () {
 
 
     ///////////////////////////////////////////////////////////////////
+
+    class TreeStorageListDto{
+          codeOfProduct;
+          breedId;
+          userId;
+          extent;
+          recycleExtent;
+          storageItems = [];
+    }
+
+    class StorageItem{
+          description;
+          sizeOfHeight;
+          sizeOfWidth;
+          sizeOfLong;
+          extent;
+          countOfDesk;
+    }
+
     $("#cutTreeStorageButton").click(function () {
         let codeOfProduct =         $("#cutTreeStorageCode").val();
         let breedID =               $("#breedIdPack").val();
         let userID =                $("#userIdPack").val();
         let extent =                $("#cutTreeStorageUsedExtent").val();
         let recycleExtent =         $("#cutTreeStorageRecycleExtent").val();
-        let storageItems = [];
 
-        //fix one dimension array on controller
-        // storageItems[0] = [];
-        // storageItems[0][0] = "test";
-        // storageItems[0][1] = "test";
 
+        let dto = new TreeStorageListDto();
+        dto.codeOfProduct = codeOfProduct;
+        dto.breedId = breedID;
+        dto.userId = parseInt(userID);
+        dto.extent = extent;
+        dto.recycleExtent = recycleExtent;
 
 
         if (codeOfProduct !== "" && extent !== ""  && recycleExtent !== "" && parseFloat(extent) > 0) {
             let newData = ( tableForcuttingTreeStorage.rows().data() );
             for (let i =newData.length-1; i>=0; i--) {
-                storageItems.push(newData[i]);
+                let item=new StorageItem();
+                item.description = newData[i][0];
+                item.sizeOfHeight = newData[i][1];
+                item.sizeOfWidth = newData[i][2];
+                item.sizeOfLong = newData[i][3];
+                item.countOfDesk = newData[i][4];
+                item.extent = newData[i][5];
 
-                // storageItems[i] = [];
-                // storageItems[i][0] = width;
-                // storageItems[i][1] = count;
+                dto.storageItems.push(item);
             }
 
 
-            console.log(storageItems);
-            // console.log(newData);
+            console.log(dto);
 
-            // $.ajax({
-            //     method: "post",
-            //     url: "/XXX-" + userID + "-" + breedID,
-            //     contextType: "application/json",
-            //     data: {
-            //         codeOfPackage: codeOfInitialPackage1,
-            //         breedDescription: breedDescription1,
-            //         supplier: supplier1,
-            //         treeStorageId:treeStorageId,
-            //         sizeOfHeight: sizeOfHeight1,
-            //         sizeOfLong: length1,
-            //         extent: extent1,
-            //         usedExtent: usedExtent1,
-            //         arrayOfDesk: arrOfDesk
-            //     },
-            //     traditional: true,
-            //     success: function () {
-            //         location.reload();
-            //     },
-            //     error: function () {
-            //         alert("Ошыбка!");
-            //     }
-            // });
+
+            $.ajax({
+                method: "post",
+                url: "/cutOfTreeStorageDTO",
+                contextType: "application/json",
+                data: {
+                    dto: JSON.stringify(dto)
+                },
+                traditional: true,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Ошибка!");
+                }
+            });
         } else {
             alert("Заполните все поля!");
         }

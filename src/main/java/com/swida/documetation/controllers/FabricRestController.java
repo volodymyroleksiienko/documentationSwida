@@ -1,5 +1,7 @@
 package com.swida.documetation.controllers;
 
+import com.google.gson.Gson;
+import com.swida.documetation.data.dto.TreeStorageListDto;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -292,4 +294,12 @@ public class FabricRestController {
         );
         dryStorageService.save(dryStorageDB);
     }
+
+    @PostMapping("/cutOfTreeStorageDTO")
+    public void createInitialPackageOakDryObject(String dto) {
+        TreeStorageListDto listDto = new Gson().fromJson(dto, TreeStorageListDto.class);
+        System.out.println(listDto);
+        rawStorageService.analyzeOfCutting(listDto);
+    }
+
 }
