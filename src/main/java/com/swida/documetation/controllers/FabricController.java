@@ -188,8 +188,7 @@ public class FabricController {
     }
 
     @PostMapping("/editTreeStorageRow-{userId}-{breedId}")
-    public String editTreeStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                     String nameOfAgent, TreeStorage treeStorage){
+    public String editTreeStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, TreeStorage treeStorage){
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
         treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
