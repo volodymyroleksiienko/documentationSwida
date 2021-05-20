@@ -339,19 +339,19 @@
                         <input type="text" hidden="hidden" id="userIdPack" th:value="${userId}">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="col-form-label" for="cutTreeStorageCode">Код партии</label>
                                 <input type="text" class="form-control" id="cutTreeStorageCode" placeholder="Не заполнено" required="required" autocomplete="off">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="control-label" for="cutTreeStorageMaterial">Порода</label>
                                 <input class="form-control" id="cutTreeStorageMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="control-label" for="cutTreeStorageUsedExtent" style="padding-top: 7px">Взято, м<sup>3</sup></label>
                                 <input type="number" min="0" name="usedExtent" value="0.00" step="any" pattern="[0-9]*\.?[0-9]*" required="required"  class="form-control" id="cutTreeStorageUsedExtent"  autocomplete="off" placeholder="м3">
                             </div>
-                            <div class="col-6">
+                            <div class="col-6" style="display: none">
                                 <label class="control-label" for="cutTreeStorageRecycleExtent" style="padding-top: 7px">Отходы, м<sup>3</sup></label>
                                 <input type="number" min="0" name="recycleExtent" value="0.00" step="any" pattern="[0-9]*\.?[0-9]*" required="required"  class="form-control" id="cutTreeStorageRecycleExtent"  autocomplete="off" placeholder="м3">
                             </div>
