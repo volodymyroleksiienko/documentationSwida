@@ -70,3 +70,40 @@ function showEditModal(btnObj) {
     $('#editIncome').modal('show');
 }
 
+
+$('#cutTreeStorageDescr').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $('#cutTreeStorageSize').focus();
+    }
+});
+
+$('#cutTreeStorageSize').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $('#cutTreeStorageLength').focus();
+    }
+});
+
+$('#cutTreeStorageLength').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $('#cutTreeStorageWidth').focus();
+    }
+});
+
+$('#cutTreeStorageWidth').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $('#cutTreeStorageCount').focus();
+    }
+});
+
+$('#cutTreeStorageCount').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $("#buttonForAddingCutTreeStorageItem").click();
+        $('#cutTreeStorageDescr').focus();
+    }
+});
+

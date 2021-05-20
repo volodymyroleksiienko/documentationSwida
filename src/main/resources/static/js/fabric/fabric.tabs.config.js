@@ -196,39 +196,44 @@ $(document).ready( function () {
         dto.recycleExtent = recycleExtent;
 
 
-        if (codeOfProduct !== "" && extent !== ""  && recycleExtent !== "" && parseFloat(extent) > 0) {
-            let newData = ( tableForcuttingTreeStorage.rows().data() );
-            for (let i =newData.length-1; i>=0; i--) {
-                let item=new StorageItem();
-                item.description = newData[i][0];
-                item.sizeOfHeight = newData[i][1];
-                item.sizeOfWidth = newData[i][2];
-                item.sizeOfLong = newData[i][3];
-                item.countOfDesk = newData[i][4];
-                item.extent = newData[i][5];
+        if (codeOfProduct !== "" && extent !== ""  && recycleExtent !== "" && parseFloat(extent) > 0 ) {
 
-                dto.storageItems.push(item);
-            }
+            if (!tableForcuttingTreeStorage.data().any()){
+                alert("Отсутствуют записи в таблице!");
+            } else if (parseFloat(extent)<parseFloat($("#cutTreeStorageTotalExtent").val())){
+                alert("Введенные данные превышают кубатуру взятого материала на "+(parseFloat($("#cutTreeStorageTotalExtent").val())-parseFloat(extent)).toFixed(3)+"м3!");
+            }else {
+                let newData = ( tableForcuttingTreeStorage.rows().data() );
+                for (let i =newData.length-1; i>=0; i--) {
+                    let item=new StorageItem();
+                    item.description = newData[i][0];
+                    item.sizeOfHeight = newData[i][1];
+                    item.sizeOfWidth = newData[i][2];
+                    item.sizeOfLong = newData[i][3];
+                    item.countOfDesk = newData[i][4];
+                    item.extent = newData[i][5];
 
-
-            console.log(dto);
-
-
-            $.ajax({
-                method: "post",
-                url: "/cutOfTreeStorageDTO",
-                contextType: "application/json",
-                data: {
-                    dto: JSON.stringify(dto)
-                },
-                traditional: true,
-                success: function () {
-                    location.reload();
-                },
-                error: function () {
-                    alert("Ошибка!");
+                    dto.storageItems.push(item);
                 }
-            });
+
+                console.log(dto);
+
+                $.ajax({
+                    method: "post",
+                    url: "/cutOfTreeStorageDTO",
+                    contextType: "application/json",
+                    data: {
+                        dto: JSON.stringify(dto)
+                    },
+                    traditional: true,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Ошибка!");
+                    }
+                });
+            }
         } else {
             alert("Заполните все поля!");
         }
