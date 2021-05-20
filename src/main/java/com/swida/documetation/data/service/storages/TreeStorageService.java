@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface TreeStorageService {
-    void save(TreeStorage ts);
-    void putNewTreeStorageObj(TreeStorage treeStorage);
+    TreeStorage save(TreeStorage ts);
+    TreeStorage putNewTreeStorageObj(int breedId, int userId,TreeStorage treeStorage);
 //    void checkQualityInfo(TreeStorage treeStorage,String height,float extent);
+    TreeStorage getMainTreeStorage(int breedId, int userId);
     TreeStorage findById(int id);
     List<TreeStorage> findAll();
     List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status);

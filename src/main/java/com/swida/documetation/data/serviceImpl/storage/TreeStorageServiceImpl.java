@@ -1,16 +1,21 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
+import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.storages.TreeStorage;
+import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.TreeStorageJPA;
+import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.QualityStatisticInfoService;
 import com.swida.documetation.data.service.storages.RawStorageService;
 import com.swida.documetation.data.service.storages.TreeStorageService;
+import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -20,23 +25,28 @@ import java.util.stream.Collectors;
 
 @Service
 public class TreeStorageServiceImpl implements TreeStorageService {
-    private TreeStorageJPA treeStorageJPA;
-    private ContrAgentService contrAgentService;
-    private RawStorageService rawStorageService;
-    private QualityStatisticInfoService statisticInfoService;
+    private final TreeStorageJPA treeStorageJPA;
+    private final ContrAgentService contrAgentService;
+    private final RawStorageService rawStorageService;
+    private final BreedOfTreeService breedOfTreeService;
+    private final UserCompanyService userCompanyService;
+    private final QualityStatisticInfoService statisticInfoService;
 
     @Autowired
     public TreeStorageServiceImpl(TreeStorageJPA treeStorageJPA, ContrAgentService contrAgentService,
-                                  @Lazy RawStorageService rawStorageService, QualityStatisticInfoService statisticInfoService) {
+                                  @Lazy RawStorageService rawStorageService, BreedOfTreeService breedOfTreeService,
+                                  UserCompanyService userCompanyService, QualityStatisticInfoService statisticInfoService) {
         this.treeStorageJPA = treeStorageJPA;
         this.contrAgentService = contrAgentService;
         this.rawStorageService = rawStorageService;
+        this.breedOfTreeService = breedOfTreeService;
+        this.userCompanyService = userCompanyService;
         this.statisticInfoService = statisticInfoService;
     }
 
 
     @Override
-    public void save(TreeStorage ts) {
+    public TreeStorage save(TreeStorage ts) {
         if(ts.getDate()==null){
             Date date = new Date(System.currentTimeMillis());
             ts.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
@@ -44,12 +54,16 @@ public class TreeStorageServiceImpl implements TreeStorageService {
         if(ts.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             ts.setBreedDescription("");
         }
-       ts.setExtent(String.format("%.3f", Float.parseFloat(ts.getExtent())).replace(',', '.'));
-        treeStorageJPA.save(ts);
+        ts.setExtent(String.format("%.3f", Float.parseFloat(ts.getExtent())).replace(',', '.'));
+        return treeStorageJPA.save(ts);
     }
 
     @Override
-    public void putNewTreeStorageObj(TreeStorage treeStorage) {
+    public TreeStorage putNewTreeStorageObj(int breedId, int userId,TreeStorage treeStorage) {
+        treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        treeStorage.setUserCompany(userCompanyService.findById(userId));
+        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
+        treeStorage.setMaxExtent(treeStorage.getExtent());
         if(treeStorage.getDate()==null){
             Date date = new Date(System.currentTimeMillis());
             treeStorage.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
@@ -58,9 +72,60 @@ public class TreeStorageServiceImpl implements TreeStorageService {
             treeStorage.setBreedDescription("");
         }
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        treeStorageJPA.save(treeStorage);
+        checkMainStorageExtent(treeStorage);
+        return treeStorageJPA.save(treeStorage);
     }
 
+    public TreeStorage checkMainStorageExtent(TreeStorage treeStorage){
+        int breedId = treeStorage.getBreedOfTree().getId();
+        int userId = treeStorage.getUserCompany().getId();
+        if( breedId!=0 && userId!=0) {
+            TreeStorage main = getMainTreeStorage(breedId, userId);
+            double extent = 0;
+            if(treeStorage.getId()==0) {
+                extent = Double.parseDouble(main.getExtent()) + Double.parseDouble(treeStorage.getExtent());
+
+            }else {
+                TreeStorage treeStorageDB = findById(treeStorage.getId());
+                extent = Double.parseDouble(main.getExtent())
+                        + Double.parseDouble(treeStorage.getExtent())
+                        - Double.parseDouble(treeStorageDB.getExtent());
+            }
+            main.setExtent(
+                    String.format("%.3f", extent).replace(",", ".")
+            );
+            return save(main);
+        }
+        return null;
+    }
+
+    @Override
+    public TreeStorage getMainTreeStorage(int breedId, int userId){
+        TreeStorage treeStorage = treeStorageJPA.getListByUserByBreedByMain(breedId,userId,StatusOfTreeStorage.TREE,true).orElse(null);
+        if(treeStorage == null){
+            treeStorage = new TreeStorage();
+            treeStorage.setIsMainStorage(true);
+            treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+            treeStorage.setUserCompany(userCompanyService.findById(userId));
+            treeStorage.setCodeOfProduct("Главная запись");
+
+            double extent = 0;
+            List<TreeStorage> treeStorageList = treeStorageJPA.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.TREE);
+            for(TreeStorage temp:treeStorageList){
+                extent+=Double.parseDouble(temp.getExtent());
+            }
+            treeStorage.setExtent(
+                    String.format("%.3f",extent).replace(",",".")
+            );
+            treeStorage = save(treeStorage);
+        }
+        List<QualityStatisticInfo> infos = treeStorage.getStatisticInfoList();
+        if(infos!=null){
+            infos = infos.stream().sorted((o1, o2) -> o2.getId()-o1.getId()).limit(20).collect(Collectors.toList());
+            treeStorage.setStatisticInfoList(infos);
+        }
+        return treeStorage;
+    }
 
 
 //    @Override
@@ -123,6 +188,7 @@ public class TreeStorageServiceImpl implements TreeStorageService {
     public List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status) {
         return treeStorageJPA.getListByUserByBreed(breedId,userId,status)
                 .stream()
+                .filter(treeStorage -> treeStorage.getIsMainStorage()==null || !treeStorage.getIsMainStorage())
                 .sorted((o1, o2) -> o2.getId()-o1.getId())
                 .collect(Collectors.toList());
     }

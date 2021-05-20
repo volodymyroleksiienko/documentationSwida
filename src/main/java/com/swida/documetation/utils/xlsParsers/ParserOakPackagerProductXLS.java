@@ -49,6 +49,8 @@ public class ParserOakPackagerProductXLS {
                 filtered.add(p);
             }
         }
+        System.out.println(filtered);
+        System.out.println(filtered.size());
         productList = filtered;
         return parse();
     }
@@ -76,6 +78,10 @@ public class ParserOakPackagerProductXLS {
         rowHeader1.createCell(1).setCellValue("SIZE");
         rowHeader1.createCell(2).setCellValue("PKG");
         rowHeader1.createCell(3).setCellValue("Lenght");
+        rowHeader1.getCell(0).setCellStyle(style);
+        rowHeader1.getCell(1).setCellStyle(style);
+        rowHeader1.getCell(2).setCellStyle(style);
+        rowHeader1.getCell(3).setCellStyle(style);
 
         Row rowHeader2 = sheet.createRow(countRow++);
         rowHeader2.setHeight((short)300);
@@ -84,10 +90,10 @@ public class ParserOakPackagerProductXLS {
         rowHeader2.createCell(2);
         rowHeader2.createCell(3);
 
-        sheet.addMergedRegion(new CellRangeAddress(4, 5, 0, 0));
-        sheet.addMergedRegion(new CellRangeAddress(4, 5, 1, 1));
-        sheet.addMergedRegion(new CellRangeAddress(4, 5, 2, 2));
-        sheet.addMergedRegion(new CellRangeAddress(4, 5, 3, 3));
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0));
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 2, 2));
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 3, 3));
 
 
 //        create width block
@@ -98,7 +104,7 @@ public class ParserOakPackagerProductXLS {
         rowHeader1.createCell(4).setCellValue("Width, mm");
         createEmptyRow(rowHeader1,5,lastIndex);
         rowHeader1.getCell(4).setCellStyle(style);
-        sheet.addMergedRegion(new CellRangeAddress(4, 4, 4, lastIndex));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 4, lastIndex));
 
         for(int i=0;i<unicWidthList.size();i++){
             rowHeader2.createCell(i+4).setCellValue(Integer.parseInt(unicWidthList.get(i)));
@@ -169,13 +175,6 @@ public class ParserOakPackagerProductXLS {
         sheet.setColumnWidth(lastIndex-1,1200);
         sheet.setColumnWidth(lastIndex-2,2000);
 
-        //driver info
-        for(int i=0;i<4;i++){
-            for(int j=0;j<=lastIndex;j++){
-                sheet.getRow(i).createCell(j).setCellStyle(style);
-            }
-            sheet.addMergedRegion(new CellRangeAddress(i, i, 0, lastIndex));
-        }
 
 
         String filePath="";

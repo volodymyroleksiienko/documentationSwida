@@ -30,6 +30,7 @@ public class TreeStorage {
     private String countOfDeck;
 
     private String treeDescription;
+    private Boolean isMainStorage = false;
 
 
     @OneToMany(mappedBy = "treeStorage",fetch = FetchType.EAGER)

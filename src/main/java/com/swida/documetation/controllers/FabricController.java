@@ -131,6 +131,7 @@ public class FabricController {
         model.addAttribute("orderList",orderInfoService.getOrdersListByBreed(breedId));
         model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("treeStorageList",treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE));
+        model.addAttribute("mainTreeStorage",treeStorageService.getMainTreeStorage(breedId,userId));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
@@ -141,17 +142,8 @@ public class FabricController {
 
     @PostMapping("/addTreeStorageRow-{userId}-{breedId}")
     public String  addTreeStorageObj(@PathVariable("userId")int userId,
-                                     @PathVariable("breedId")int breedId,
-                                     String nameOfAgent, TreeStorage treeStorage){
-        BreedOfTree breedOfTree = new BreedOfTree();
-        breedOfTree.setId(breedId);
-        treeStorage.setBreedOfTree(breedOfTree);
-        UserCompany company = new UserCompany();
-        company.setId(userId);
-        treeStorage.setUserCompany(company);
-        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        treeStorage.setMaxExtent(treeStorage.getExtent());
-        treeStorageService.putNewTreeStorageObj(treeStorage);
+                                     @PathVariable("breedId")int breedId, TreeStorage treeStorage){
+        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -198,14 +190,8 @@ public class FabricController {
     @PostMapping("/editTreeStorageRow-{userId}-{breedId}")
     public String editTreeStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                      String nameOfAgent, TreeStorage treeStorage){
-        treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        treeStorage.setUserCompany(userCompanyService.findById(userId));
-//        ContrAgent contrAgent =  new ContrAgent();
-//        contrAgent.setNameOfAgent(nameOfAgent);
-//        treeStorage.setContrAgent(contrAgent);
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-//        treeStorage.setMaxExtent(treeStorage.getExtent());
-        treeStorageService.putNewTreeStorageObj(treeStorage);
+        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -916,19 +902,9 @@ public class FabricController {
 
     @PostMapping("/addRecycleRow-{userId}-{breedId}")
     public String  addRecycleRow(@PathVariable("userId")int userId,
-                                     @PathVariable("breedId")int breedId,
-                                     String nameOfAgent, TreeStorage treeStorage){
-        BreedOfTree breedOfTree = new BreedOfTree();
-        breedOfTree.setId(breedId);
-        treeStorage.setBreedOfTree(breedOfTree);
-        UserCompany company = new UserCompany();
-        company.setId(userId);
-        treeStorage.setUserCompany(company);
-//        ContrAgent contrAgent =  new ContrAgent();
-//        contrAgent.setNameOfAgent(nameOfAgent);
-//        treeStorage.setContrAgent(contrAgent);
+                                     @PathVariable("breedId")int breedId,TreeStorage treeStorage){
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
-        treeStorageService.putNewTreeStorageObj(treeStorage);
+        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
     }
 
@@ -953,15 +929,9 @@ public class FabricController {
     }
 
     @PostMapping("/editRecycleRow-{userId}-{breedId}")
-    public String editRecycleRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
-                                     String nameOfAgent, TreeStorage treeStorage){
+    public String editRecycleRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, TreeStorage treeStorage){
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
-        treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
-        treeStorage.setUserCompany(userCompanyService.findById(userId));
-//        ContrAgent contrAgent =  new ContrAgent();
-//        contrAgent.setNameOfAgent(nameOfAgent);
-//        treeStorage.setContrAgent(contrAgent);
-        treeStorageService.putNewTreeStorageObj(treeStorage);
+        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
     }
 
