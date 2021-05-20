@@ -43,6 +43,21 @@ function createPackageExtentCalc(table, extentInput, lengthInput, heightInput){
     return res;
 }
 
+function cutTreeStorageExtentCalc(){
+    let width =         $("#cutTreeStorageWidth").val();
+    let count =         $("#cutTreeStorageCount").val();
+    let extent =        $("#cutTreeStorageExtent");
+    let length =        $("#cutTreeStorageLength").val();
+    let height =        $("#cutTreeStorageSize").val();
+
+    if (width!=='' && count!=='' && length!=='' && height!=='' && width!==0 && count!==0 && length!==0 && height!==0){
+        let rowExtent = parseFloat(height) / 1000 * parseFloat(width) / 1000 * parseFloat(length) / 1000 * count;
+        extent.val(rowExtent.toFixed(3));
+    }else {
+        extent.val('0.00');
+    }
+}
+
 
 
 //////////////////////////////////////////////////////////////////////////////

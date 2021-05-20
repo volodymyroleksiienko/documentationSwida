@@ -88,6 +88,95 @@ $(document).ready( function () {
 
     });
 
+
+    var tableForcuttingTreeStorage = $('#tableForcuttingTreeStorage').DataTable({
+        // columns width
+        "autoWidth": false,
+        "order": [ 0, "desc" ],
+        // "bSort": false,
+        "searching": false,
+        "paging": false,
+        "info": false,
+        'select': false,
+        "columnDefs": [
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "30px"
+            }
+        ]
+    });
+
+    $('#tableForcuttingTreeStorage tbody').on( 'click', 'button', function () {
+        tableForcuttingTreeStorage.row( $(this).parents('tr') ).remove().draw();
+        calculateCutTreStorageSummary();
+    } );
+
+    $("#buttonForAddingCutTreeStorageItem").click(function () {
+        let descr =         $("#cutTreeStorageDescr").val();
+        let width =         $("#cutTreeStorageWidth").val();
+        let count =         $("#cutTreeStorageCount").val();
+        let extent =        $("#cutTreeStorageExtent");
+        let length =        $("#cutTreeStorageLength").val();
+        let height =        $("#cutTreeStorageSize").val();
+
+
+        let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
+
+
+        if (descr!=='' && width!=='' && count!=='' && length!=='' && height!==''){
+            if (parseInt(count)<=0){
+                alert("Количество не может быть отрицательным либо равным нулю!");
+                $("#cutTreeStorageCount").focus();
+            }else if (parseInt(width)<=0){
+                alert("Ширина не может быть отрицательной либо равной нулю!");
+                $("#cutTreeStorageWidth").focus();
+            }else if (parseInt(length)<=0){
+                alert("Длина не может быть отрицательной либо равной нулю!");
+                $("#cutTreeStorageLength").focus();
+            }else if (parseInt(height)<=0){
+                alert("Толщина не может быть отрицательной либо равной нулю!");
+                $("#cutTreeStorageSize").focus();
+            }else {
+                let rowExtent = parseFloat(height) / 1000 * parseFloat(width) / 1000 * parseFloat(length) / 1000 * count;
+                let d = [descr, height, width, length, count, rowExtent.toFixed(3), button];
+                console.log(d);
+
+                $("#cutTreeStorageWidth").val("");
+                $("#cutTreeStorageCount").val("");
+
+                tableForcuttingTreeStorage.row.add(d).draw();
+
+                $('#cutTreeStorageCount').focus();
+
+                extent.val('0.00');
+                calculateCutTreStorageSummary();
+
+                $('#cutTreeStorageWidth').val(parseInt(width) + 10);
+            }
+        }else {
+            alert("Заполните все поля!");
+        }
+    });
+
+    function calculateCutTreStorageSummary(){
+        let newData = ( tableForcuttingTreeStorage.rows( ).data() );
+        let extent = 0.00;
+        for (let i =newData.length-1; i>=0; i--) {
+
+            let sumHeight = parseInt(newData[i][1]);
+            let sumWidth  = parseInt(newData[i][2]);
+            let sumLength = parseInt(newData[i][3]);
+            let sumCount  = parseInt(newData[i][4]);
+
+            let rowExtent = parseFloat(sumHeight) / 1000 * parseFloat(sumWidth) / 1000 * parseFloat(sumLength) / 1000 * sumCount;
+
+            extent += rowExtent;
+        }
+        $("#cutTreeStorageTotalExtent").val(extent.toFixed(3));
+    }
+
+
     $('#treestoragetable-single').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"

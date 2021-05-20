@@ -121,7 +121,7 @@
                 <div th:each="ts, index : ${treeStorageList}">
                      <tr th:id="${ts.id}">
                         <td th:text="${ts.id}"></td>
-                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-2-'+this.id).toggle();" th:id="${ts.id}"></td>
+                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-'+this.id).toggle();" th:id="${ts.id}"></td>
                         <td th:text="${ts.date}"></td>
                         <th scope="row" th:text="${ts.codeOfProduct}"></th>
                         <td th:text="${ts.breedOfTree.breed}"></td>
@@ -140,7 +140,7 @@
                         </td>
                     </tr>
 
-                     <tr style="display: none" th:id="'parent-2-'+${ts.id}">
+                     <tr style="display: none" th:id="'parent-'+${ts.id}">
                          <td style="display:none"></td>
                          <td colspan="13" class="child-table">
                              <table class="table table-hover table-striped parent-table">
@@ -323,8 +323,118 @@
         </div>
     </div>
 
-
+    <!-- Add package start -->
     <div class="modal fade" id="cutModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ">Отправить на распиловку / в отходы</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form >
+                    <div class="modal-body">
+                        <input type="number" hidden="hidden" id="breedIdPack" th:value="${breedId}">
+                        <input type="text" hidden="hidden" id="userIdPack" th:value="${userId}">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-6">
+                                <label class="col-form-label" for="cutTreeStorageCode">Код партии</label>
+                                <input type="text" class="form-control" id="cutTreeStorageCode" placeholder="Не заполнено" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="cutTreeStorageMaterial">Порода</label>
+                                <input class="form-control" id="cutTreeStorageMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="cutTreeStorageUsedExtent" style="padding-top: 7px">Взято, м<sup>3</sup></label>
+                                <input type="number" min="0" name="usedExtent" value="0.00" step="any" pattern="[0-9]*\.?[0-9]*" required="required"  class="form-control" id="cutTreeStorageUsedExtent"  autocomplete="off" placeholder="м3">
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label" for="cutTreeStorageRecycleExtent" style="padding-top: 7px">Отходы, м<sup>3</sup></label>
+                                <input type="number" min="0" name="recycleExtent" value="0.00" step="any" pattern="[0-9]*\.?[0-9]*" required="required"  class="form-control" id="cutTreeStorageRecycleExtent"  autocomplete="off" placeholder="м3">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row form-group" style="display: inline-flex; justify-content: center; align-items: baseline;">
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageDescr">Описание</label>
+                                <input class="form-control" id="cutTreeStorageDescr" placeholder="Не заполнено" type="text" name="breedDescription">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageSize">Толщина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="cutTreeStorageSize" required="required" oninput="cutTreeStorageExtentCalc()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="cutTreeStorageLength">Длина, мм</label>
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="cutTreeStorageLength" required="required" autocomplete="off" oninput="cutTreeStorageExtentCalc()">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="cutTreeStorageWidth">Ширина, мм</label>
+                                <input type="number" min="0" step="10" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="cutTreeStorageWidth" required="required" autocomplete="off" value="100" oninput="cutTreeStorageExtentCalc()">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageCount">Количество</label>
+                                <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" placeholder="шт" class="form-control" id="cutTreeStorageCount" required="required" autocomplete="off" oninput="cutTreeStorageExtentCalc()">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageExtent">Кубатура, м<sup>3</sup></label>
+                                <input type="number" value="0.00" disabled="disabled" class="form-control" id="cutTreeStorageExtent"  autocomplete="off" placeholder="м3">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6">
+                                <label class="control-label" for="cutTreeStorageTotalExtent">Суммарная кубатура, м<sup>3</sup></label>
+                                <input type="text" disabled="disabled" class="form-control" id="cutTreeStorageTotalExtent" value="0.00"  autocomplete="off" placeholder="м3">
+                            </div>
+                            <div class="col-6" style="display: inline-flex; text-align: right; justify-content: flex-end; margin-top: 1rem;">
+                                <button id="buttonForAddingCutTreeStorageItem" type="button" class="btn btn-primary" style="width: 50%; margin-right: 5px">Добавить позицию</button>
+                                <button type="button" class="btn btn-primary" style="width: 50%" id="cutTreeStorageButton">Отправить</button>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped" id="tableForcuttingTreeStorage" style="padding-left: 1rem; padding-right: 1rem">
+                        <thead>
+                        <tr>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Толщина, мм</th>
+                            <th scope="col">Ширина, мм</th>
+                            <th scope="col">Длина, мм</th>
+                            <th scope="col">Количество, шт</th>
+                            <th scope="col">Кубатура, м<sup>3</sup></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="listOfOakPackageRowsId">
+                        <!-- <tr></tr> -->
+                        </tbody>
+
+                        <tfoot>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Толщина, мм</th>
+                            <th scope="col">Ширина, мм</th>
+                            <th scope="col">Длина, мм</th>
+                            <th scope="col">Количество, шт</th>
+                            <th scope="col">Кубатура, м<sup>3</sup></th>
+                            <th></th>
+                        </tfoot>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="clearInitialPackageButton">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Add package end-->
+
+
+    <div class="modal fade" id="cutModal-2">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
