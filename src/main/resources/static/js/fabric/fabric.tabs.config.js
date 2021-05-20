@@ -159,6 +159,66 @@ $(document).ready( function () {
         }
     });
 
+
+    ///////////////////////////////////////////////////////////////////
+    $("#cutTreeStorageButton").click(function () {
+        let codeOfProduct =         $("#cutTreeStorageCode").val();
+        let breedID =               $("#breedIdPack").val();
+        let userID =                $("#userIdPack").val();
+        let extent =                $("#cutTreeStorageUsedExtent").val();
+        let recycleExtent =         $("#cutTreeStorageRecycleExtent").val();
+        let storageItems = [];
+
+        //fix one dimension array on controller
+        // storageItems[0] = [];
+        // storageItems[0][0] = "test";
+        // storageItems[0][1] = "test";
+
+
+
+        if (codeOfProduct !== "" && extent !== ""  && recycleExtent !== "" && parseFloat(extent) > 0) {
+            let newData = ( tableForcuttingTreeStorage.rows().data() );
+            for (let i =newData.length-1; i>=0; i--) {
+                storageItems.push(newData[i]);
+
+                // storageItems[i] = [];
+                // storageItems[i][0] = width;
+                // storageItems[i][1] = count;
+            }
+
+
+            console.log(storageItems);
+            // console.log(newData);
+
+            // $.ajax({
+            //     method: "post",
+            //     url: "/XXX-" + userID + "-" + breedID,
+            //     contextType: "application/json",
+            //     data: {
+            //         codeOfPackage: codeOfInitialPackage1,
+            //         breedDescription: breedDescription1,
+            //         supplier: supplier1,
+            //         treeStorageId:treeStorageId,
+            //         sizeOfHeight: sizeOfHeight1,
+            //         sizeOfLong: length1,
+            //         extent: extent1,
+            //         usedExtent: usedExtent1,
+            //         arrayOfDesk: arrOfDesk
+            //     },
+            //     traditional: true,
+            //     success: function () {
+            //         location.reload();
+            //     },
+            //     error: function () {
+            //         alert("Ошыбка!");
+            //     }
+            // });
+        } else {
+            alert("Заполните все поля!");
+        }
+    });
+    /////////////////////////////////////////////////////////////////////
+
     function calculateCutTreStorageSummary(){
         let newData = ( tableForcuttingTreeStorage.rows( ).data() );
         let extent = 0.00;

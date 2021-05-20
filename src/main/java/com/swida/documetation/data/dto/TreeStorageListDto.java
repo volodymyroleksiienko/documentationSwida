@@ -16,6 +16,4 @@ public class TreeStorageListDto {
     private double extent;
     private double recycleExtent;
     private List<StorageItem> storageItems;
-
-
 }
