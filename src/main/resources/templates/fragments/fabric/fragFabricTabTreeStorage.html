@@ -63,10 +63,12 @@
                             <tbody>
                             <tr th:each="list : ${mainTreeStorage?.statisticInfoList}" >
                                 <td th:text="${list?.date}"></td>
+                                <td th:text="${list?.codeOfTeam}"></td>
                                 <td th:text="${list?.height}"></td>
                                 <td th:text="${list?.firstExtent}"></td>
                                 <td th:text="${list?.extent}"></td>
                                 <td th:text="${list?.percent}"></td>
+                                <td th:text="${list?.rawStorage?.codeOfProduct}"></td>
                             </tr>
                             </tbody>
                             <tfoot>
@@ -80,6 +82,7 @@
                             </tfoot>
                         </table>
                     </td>
+                    <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>

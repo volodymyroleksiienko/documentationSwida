@@ -113,7 +113,7 @@ public class RawStorageServiceImpl implements RawStorageService {
             RawStorage rawDB = findEqualRaw(dto.getBreedId(), dto.getUserId(), item.getDescription(), heights, widths, longs);
             if (rawDB == null) {
                 rawDB = new RawStorage();
-                rawDB.setCodeOfProduct(dto.getCodeOfProduct()+"-"+item.getSizeOfWidth());
+                rawDB.setCodeOfProduct(dto.getCodeOfProduct()+"-"+item.getSizeOfHeight());
                 rawDB.setDescription(item.getDescription());
                 rawDB.setBreedOfTree(breedOfTreeService.findById(dto.getBreedId()));
                 rawDB.setUserCompany(userCompanyService.findById(dto.getUserId()));
@@ -158,7 +158,9 @@ public class RawStorageServiceImpl implements RawStorageService {
             temp.setUsedExtent(
                     String.format("%.3f",Double.parseDouble(temp.getExtent())/qualityCoef).replace(",",".")
             );
-            checkQualityInfo(save(temp));
+            QualityStatisticInfo info = checkQualityInfo(save(temp));
+            info.setCodeOfTeam(dto.getCodeOfProduct()+"-"+temp.getSizeOfHeight());
+            statisticInfoService.save(info);
         }
 
 

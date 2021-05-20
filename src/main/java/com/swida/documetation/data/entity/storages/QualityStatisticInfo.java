@@ -19,6 +19,7 @@ public class QualityStatisticInfo {
     public String firstExtent="0";
     public String extent="0";
     public String percent="0";
+    public String codeOfTeam="0";
 
     public String date=DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now());
 
