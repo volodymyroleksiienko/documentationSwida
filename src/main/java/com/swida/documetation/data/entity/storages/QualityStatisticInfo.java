@@ -15,13 +15,19 @@ public class QualityStatisticInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    public String height="0";
-    public String firstExtent="0";
-    public String extent="0";
-    public String percent="0";
-    public String codeOfTeam="0";
+    private String height="0";
+    private String firstExtent="0";
+    private String extent="0";
+    private String percent="0";
+    private String codeOfTeam="0";
 
-    public String date=DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now());
+    private String breedDescription;
+    private String sizeOfWidth;
+    private String sizeOfLong;
+    private Integer countOfDesk;
+
+
+    private String date=DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now());
 
     @ManyToOne
     private TreeStorage treeStorage;

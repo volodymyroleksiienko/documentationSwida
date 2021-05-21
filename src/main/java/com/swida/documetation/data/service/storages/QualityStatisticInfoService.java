@@ -11,5 +11,6 @@ public interface QualityStatisticInfoService {
     QualityStatisticInfo findByTreeStorageIdAndAndHeight(int id,String height);
     List<QualityStatisticInfo> findByUserByBreedByHeightByDescription(List<Integer> userId,List<Integer> breedId,List<String> heights, List<String> description);
     List<QualityStatisticInfo> findAll();
+    void returnQualityInfo(int id);
     void deleteByID(int id);
 }

@@ -1,10 +1,8 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
-import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.storages.TreeStorage;
-import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import com.swida.documetation.data.jpa.storages.TreeStorageJPA;
 import com.swida.documetation.data.service.UserCompanyService;
@@ -15,7 +13,6 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -109,7 +106,7 @@ public class TreeStorageServiceImpl implements TreeStorageService {
             treeStorage.setIsMainStorage(true);
             treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
             treeStorage.setUserCompany(userCompanyService.findById(userId));
-            treeStorage.setCodeOfProduct("Главная запись");
+            treeStorage.setCodeOfProduct("Остаток всего");
 
             double extent = 0;
             List<TreeStorage> treeStorageList = treeStorageJPA.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.TREE);

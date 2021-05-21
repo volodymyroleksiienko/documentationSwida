@@ -24,7 +24,7 @@
             </thead>
             <tbody>
             <div>
-                <tr th:id="${mainTreeStorage.id}">
+                <tr th:id="${mainTreeStorage.id}" >
                     <td th:text="${mainTreeStorage.id}"></td>
                     <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${mainTreeStorage.id}"></td>
                     <td th:text="${mainTreeStorage.date}"></td>
@@ -66,14 +66,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="list : ${mainTreeStorage?.statisticInfoList}" >
+                            <tr th:each="list : ${mainTreeStorage?.statisticInfoList}" th:id="${list?.id}">
                                 <td th:text="${list?.date}"></td>
                                 <td th:text="${list?.codeOfTeam}"></td>
-                                <td>ds</td>
+                                <td th:text="${list?.breedDescription}">ds</td>
                                 <td th:text="${list?.height}"></td>
-                                <td>sh</td>
-                                <td>dl</td>
-                                <td>kl</td>
+                                <td th:text="${list?.sizeOfWidth}"></td>
+                                <td th:text="${list?.sizeOfLong}"></td>
+                                <td th:text="${list?.countOfDesk}"></td>
                                 <td th:text="${list?.firstExtent}"></td>
                                 <td th:text="${list?.extent}"></td>
                                 <td th:text="${list?.percent}"></td>
@@ -176,7 +176,7 @@
                                  </tr>
                                  </thead>
                                  <tbody>
-                                     <tr th:each="list : ${ts?.statisticInfoList}" >
+                                     <tr th:each="list : ${ts?.statisticInfoList}"  >
                                          <td th:text="${list?.date}"></td>
                                          <td th:text="${list?.height}"></td>
                                          <td th:text="${list?.firstExtent}"></td>
@@ -422,11 +422,11 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form th:action="@{'/fabric/XXX-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/returnQualityInfoObject-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">
+                            <input type="number" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">
                             <p>Вы уверены, что хотите возвратить партию?</p>
                         </div>
                     </div>

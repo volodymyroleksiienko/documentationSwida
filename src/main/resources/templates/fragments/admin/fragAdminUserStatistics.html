@@ -97,7 +97,7 @@
             <tbody>
             <tr th:each="list : ${statisticInfo}" th:if="${user?.id==list?.treeStorage?.userCompany?.id}">
                 <td th:text="${list?.date}"></td>
-                <td th:text="${list?.treeStorage.codeOfProduct}"></td>
+                <td th:text="${list?.codeOfTeam}"></td>
                 <td th:text="${list?.treeStorage.breedOfTree.breed}"></td>
                 <td th:text="${list?.rawStorage?.breedDescription}"></td>
                 <td th:text="${list?.height}"></td>

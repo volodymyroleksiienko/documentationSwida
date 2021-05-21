@@ -45,6 +45,12 @@ public class RawStorageServiceImpl implements RawStorageService {
         info.setHeight(rawStorage.getSizeOfHeight());
         info.setExtent(rawStorage.getExtent());
         info.setFirstExtent(rawStorage.getUsedExtent());
+        info.setBreedDescription(rawStorage.getBreedDescription());
+        info.setSizeOfWidth(rawStorage.getSizeOfWidth());
+        info.setSizeOfLong(rawStorage.getSizeOfLong());
+
+        info.setCountOfDesk(rawStorage.getCountOfDesk());
+
         float percent = Float.parseFloat(rawStorage.getExtent())/Float.parseFloat(rawStorage.getUsedExtent()) * 100;
         info.setPercent(
                 String.format("%.3f",percent).replace(",",".")
@@ -113,8 +119,9 @@ public class RawStorageServiceImpl implements RawStorageService {
             RawStorage rawDB = findEqualRaw(dto.getBreedId(), dto.getUserId(), item.getDescription(), heights, widths, longs);
             if (rawDB == null) {
                 rawDB = new RawStorage();
+                rawDB.setGetBuCutting(true);
                 rawDB.setCodeOfProduct(dto.getCodeOfProduct()+"-"+item.getSizeOfHeight());
-                rawDB.setDescription(item.getDescription());
+                rawDB.setBreedDescription(item.getDescription());
                 rawDB.setBreedOfTree(breedOfTreeService.findById(dto.getBreedId()));
                 rawDB.setUserCompany(userCompanyService.findById(dto.getUserId()));
                 rawDB.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -133,7 +140,7 @@ public class RawStorageServiceImpl implements RawStorageService {
                     rawDB.setCountOfDesk(item.getCountOfDesk());
                     rawDB.setMaxCountOfDesk(rawDB.getCountOfDesk());
                     rawDB.setMaxExtent(
-                            String.format("%.3f",item.getExtent())
+                            String.format("%.3f",item.getExtent()).replace(",",".")
                     );
                 }
             }else {
@@ -173,7 +180,8 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public RawStorage findEqualRaw(int breedId, int userId, String desc, String heights, String widths, String longs) {
-        return rawStorageJPA.findEqualRaw(breedId,userId,desc,heights,widths,longs);
+        return rawStorageJPA.findEqualRaw(breedId,userId,desc,heights,widths,longs).stream()
+                .filter(rawStorage -> rawStorage.getGetBuCutting()==true).findAny().orElse(null);
     }
 
     @Override

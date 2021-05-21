@@ -1,12 +1,9 @@
 package com.swida.documetation.controllers;
 
-import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.swida.documetation.data.dto.CellDryingStorageDto;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
-import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.ContrAgentType;
@@ -20,11 +17,8 @@ import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import com.swida.documetation.utils.other.GenerateResponseForExport;
-import com.swida.documetation.utils.other.PackageProductToJson;
 import com.swida.documetation.utils.xlsParsers.*;
 import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +54,7 @@ public class FabricController {
     private UserCompanyService userCompanyService;
     private OrderInfoService orderInfoService;
     private DriverInfoService driverInfoService;
+    private QualityStatisticInfoService statisticInfoService;
 
     @Autowired
     public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService,
@@ -67,7 +62,7 @@ public class FabricController {
                             PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService,
                             BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService,
                             UserCompanyService userCompanyService, OrderInfoService orderInfoService,
-                            DriverInfoService driverInfoService) {
+                            DriverInfoService driverInfoService, QualityStatisticInfoService statisticInfoService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -79,6 +74,7 @@ public class FabricController {
         this.userCompanyService = userCompanyService;
         this.orderInfoService = orderInfoService;
         this.driverInfoService = driverInfoService;
+        this.statisticInfoService = statisticInfoService;
     }
 
     private void btnConfig(int userId, Model model){
@@ -88,7 +84,6 @@ public class FabricController {
         if(hasAdminRole || userId==userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId()){
             model.addAttribute("btnConfig","btnON");
         }
-
     }
 
     @GetMapping("/index-{userId}")
@@ -114,7 +109,6 @@ public class FabricController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
-
         return "fabricPage";
     }
 
@@ -147,6 +141,11 @@ public class FabricController {
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/returnQualityInfoObject-{userId}-{breedId}")
+    public String  returnQualityInfoObject(int id,@PathVariable int breedId,@PathVariable int userId){
+        statisticInfoService.returnQualityInfo(id);
+        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+    }
 
     @PostMapping("/cutOfTreeStorage-{userId}-{breedId}")
     public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,

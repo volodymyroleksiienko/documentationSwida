@@ -33,6 +33,7 @@ public class RawStorage {
     private String usedExtent="0.0";
     private String description;
     private String date;
+    private Boolean getBuCutting = false;
 
     @OneToOne(cascade = CascadeType.ALL)
     private QualityStatisticInfo statisticInfo;
