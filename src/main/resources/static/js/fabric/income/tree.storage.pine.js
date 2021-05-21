@@ -104,6 +104,16 @@ function showEditCutModal(btnObj){
 }
 
 
+function returnToIncome(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#returnItemId').val(trId);
+    console.log("row id: "+trId);
+
+    $('#returnToIncomeModal').modal('show');
+}
+
+
 $('#cutTreeStorageDescr').on('keyup', function(event){
     if(event.keyCode == 13){
         event.preventDefault();

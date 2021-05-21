@@ -350,7 +350,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDryingModalHeader">Редактировать</h5>
+                    <h5 class="modal-title">Редактировать</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -359,43 +359,43 @@
                     <div class="modal-body">
                         <div class="form-group">
 
-                            <label class="col-form-label" for="editDryingModalCode">Номер пилорамы</label>
-                            <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+                            <label class="col-form-label" for="editTeamCode">Номер пилорамы</label>
+                            <input type="text" class="form-control" id="editTeamCode" required="required" placeholder="Не заполнено" autocomplete="off" name="teamCode">
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px">
                                 <div class="col-6">
-                                    <label class="control-label" for="editDryingModalMaterial">Порода</label>
-                                    <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                                    <label class="col-form-label" for="editDate">Дата</label>
+                                    <input class="form-control" type="date" id="editDate"  name="date" required="required">
                                 </div>
                                 <div class="col-6">
-                                    <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
-                                    <input class="form-control" id="editDryingModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                                    <label class="control-label" for="editMaterialDescr">Описание</label>
+                                    <input class="form-control" id="editMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
                                 </div>
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-4">
-                                    <label class="col-form-label" for="editDryingModalThickness">Толщина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
+                                    <label class="col-form-label" for="editThickness">Толщина, мм</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
                                 </div>
                                 <div class="col-4">
-                                    <label class="col-form-label" for="editDryingModalWidth">Ширина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
+                                    <label class="col-form-label" for="editWidth">Ширина, мм</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
                                 </div>
                                 <div class="col-4">
-                                    <label class="col-form-label" for="editDryingModalLength">Длина, мм</label>
-                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                    <label class="col-form-label" for="editLength">Длина, мм</label>
+                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
                                 </div>
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
-                                    <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
+                                    <label class="col-form-label" for="editDescCount">Количество досок</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDescCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
                                 </div>
                                 <div class="col-6">
-                                    <label class="col-form-label" for="editDryingModalVolume">Кубатура м<sup>3</sup></label>
-                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required" readonly autocomplete="off" placeholder="мм" name="extent">
+                                    <label class="col-form-label" for="editVolume">Кубатура м<sup>3</sup></label>
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editVolume" required="required" readonly autocomplete="off" placeholder="мм" name="extent">
                                 </div>
                             </div>
                         </div>
@@ -422,18 +422,16 @@
                     </button>
                 </div>
                 <!--       TUT         -->
-                <form th:action="@{'/fabric/returnRawPackageToTree-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/XXX-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body">
 
                         <div class="form-group">
                             <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">
-
-                            <p id="returnItemModalConfirmation">
-                            </p>
+                            <p>Вы уверены, что хотите возвратить партию?</p>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="submitReturnBtnRS">Подтвердить</button>
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
