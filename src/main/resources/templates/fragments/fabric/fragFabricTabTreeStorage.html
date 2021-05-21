@@ -48,37 +48,54 @@
                 <tr style="display: none" th:id="'parent'+${mainTreeStorage.id}">
                     <td style="display:none"></td>
                     <td colspan="13" class="child-table">
-                        <table class="table table-hover table-striped parent-table">
+                        <table class="table table-hover table-striped parent-table" id="treeStorageSubTable">
                             <thead>
                             <tr>
                                 <th scope="col">Дата</th>
                                 <th scope="col">Номер пилорамы</th>
+                                <th scope="col">Описание</th>
                                 <th scope="col">Толщина, мм</th>
+                                <th scope="col">Ширина, мм</th>
+                                <th scope="col">Длина, мм</th>
+                                <th scope="col">Кол-во досок, шт</th>
                                 <th scope="col">Взято, м<sup>3</sup></th>
                                 <th scope="col">Выход, м<sup>3</sup></th>
                                 <th scope="col">Процент, %</th>
                                 <th scope="col">Додано в</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="list : ${mainTreeStorage?.statisticInfoList}" >
                                 <td th:text="${list?.date}"></td>
                                 <td th:text="${list?.codeOfTeam}"></td>
+                                <td>ds</td>
                                 <td th:text="${list?.height}"></td>
+                                <td>sh</td>
+                                <td>dl</td>
+                                <td>kl</td>
                                 <td th:text="${list?.firstExtent}"></td>
                                 <td th:text="${list?.extent}"></td>
                                 <td th:text="${list?.percent}"></td>
                                 <td th:text="${list?.rawStorage?.codeOfProduct}"></td>
+                                <td>
+                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditCutModal(this)">
+                                        <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
+                                    </button>
+                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)">
+                                        <i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i>
+                                    </button>
+                                </td>
                             </tr>
                             </tbody>
                             <tfoot>
-                            <tr>
-                                <th colspan="3">ИТОГО :</th>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td></td>
-                            </tr>
+                                <tr style="background: #18bc9c; color: white;">
+                                    <th colspan="7">ИТОГО :</th>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td colspan="2"></td>
+                                </tr>
                             </tfoot>
                         </table>
                     </td>
@@ -238,9 +255,9 @@
             let percentageSum = 0.0;
 
             for (let j = 1; j<rowsList.length-1; j++){
-                if ((rowsList[j].cells[3].innerHTML)!=='' && !isNaN(parseFloat(rowsList[j].cells[3].innerHTML)) ){
-                    takenSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                    outputSum+= parseFloat(rowsList[j].cells[4].innerHTML);
+                if ((rowsList[j].cells[7].innerHTML)!=='' && !isNaN(parseFloat(rowsList[j].cells[7].innerHTML)) ){
+                    takenSum+= parseFloat(rowsList[j].cells[7].innerHTML);
+                    outputSum+= parseFloat(rowsList[j].cells[8].innerHTML);
                     percentageSum = outputSum/takenSum*100;
                 } else{
                     continue;
@@ -327,6 +344,103 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit start -->
+    <div class="modal fade" id="editTreeStorageCutModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDryingModalHeader">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/fabric/XXX-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+
+                            <label class="col-form-label" for="editDryingModalCode">Номер пилорамы</label>
+                            <input type="text" class="form-control" id="editDryingModalCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfProduct">
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px">
+                                <div class="col-6">
+                                    <label class="control-label" for="editDryingModalMaterial">Порода</label>
+                                    <input type="text" class="form-control" id="editDryingModalMaterial" disabled="disabled">
+                                </div>
+                                <div class="col-6">
+                                    <label class="control-label" for="editDryingModalMaterialDescr">Описание</label>
+                                    <input class="form-control" id="editDryingModalMaterialDescr" type="text" placeholder="Не заполнено" name="breedDescription">
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="editDryingModalThickness">Толщина, мм</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="editDryingModalWidth">Ширина, мм</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label" for="editDryingModalLength">Длина, мм</label>
+                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editDryingModalVolume">Кубатура м<sup>3</sup></label>
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalVolume" required="required" readonly autocomplete="off" placeholder="мм" name="extent">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Insert rows -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Редактировать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--    Edit end -->
+
+    <!--  Modal return confirmation start -->
+    <div class="modal fade" id="returnToIncomeModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Возвращение</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--       TUT         -->
+                <form th:action="@{'/fabric/returnRawPackageToTree-'+${userId}+'-'+${breedId}}" method="post">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="returnItemId" hidden="hidden" autocomplete="off" name="id">
+
+                            <p id="returnItemModalConfirmation">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="submitReturnBtnRS">Подтвердить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Modal return confirmation end -->
 
     <!-- Add package start -->
     <div class="modal fade" id="cutModal">

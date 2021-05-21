@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <th scope="col">Дата распиловки</th>
+                    <th scope="col">Дата распил./прихода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -122,7 +122,7 @@
                 <tr>
                     <th></th>
     <!--                <th style="width: 30px"></th>-->
-                    <th scope="col">Дата распиловки</th>
+                    <th scope="col">Дата распил./прихода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -737,7 +737,7 @@
                 <tr>
                     <th></th>
                     <th style="width: 30px"></th>
-                    <th scope="col">Дата распиловки</th>
+                    <th scope="col">Дата распил./прихода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -824,7 +824,7 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th scope="col">Дата распиловки</th>
+                    <th scope="col">Дата распил./прихода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -842,6 +842,9 @@
         </table>
         <!-- BUTTON -->
         <div class="float-action-button" th:if="${btnConfig?.equals('btnON')}">
+            <button type="button" class="buttons btn btn-primary" title="Добавить пиломатериалы с точковкой" data-toggle="modal" data-placement="left" data-target="#addExtendedIncomeToOakRawStorageModal">
+                <i class="fa fa-plus"></i>
+            </button>
             <button type="button" class="buttons btn btn-primary" title="История прихода" data-toggle="modal" data-placement="left" data-target="#exportHistoryModal">
                 <i class="fas fa-history"></i>
             </button>

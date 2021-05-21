@@ -89,6 +89,29 @@ $(document).ready( function () {
     });
 
 
+    $('#treeStorageSubTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+
+        "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "bSort": true,
+        "info": false,
+        // "order": [ 0, "desc" ],
+
+        // columns width
+        "autoWidth": false,
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "70px"
+            },
+        ]
+    });
+
+
     var tableForcuttingTreeStorage = $('#tableForcuttingTreeStorage').DataTable({
         // columns width
         "autoWidth": false,
