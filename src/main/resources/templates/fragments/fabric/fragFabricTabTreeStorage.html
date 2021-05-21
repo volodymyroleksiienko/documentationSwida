@@ -356,7 +356,7 @@
                     </button>
                 </div>
                 <form th:action="@{'/fabric/XXX-'+${userId}+'-'+${breedId}}" method="post">
-                    <div class="modal-body">
+                    <div class="modal-body" style="padding-top: 0; padding-bottom: 0;">
                         <div class="form-group">
 
                             <label class="col-form-label" for="editTeamCode">Номер пилорамы</label>
@@ -394,7 +394,18 @@
                                     <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDescCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
                                 </div>
                                 <div class="col-6">
-                                    <label class="col-form-label" for="editVolume">Кубатура м<sup>3</sup></label>
+                                    <label class="col-form-label" for="editAddedTo">Додано в</label>
+                                    <input type="text" class="form-control" id="editAddedTo" required="required" readonly autocomplete="off" name="addedTo">
+                                </div>
+                            </div>
+
+                            <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editUsedVolume">Взято м<sup>3</sup></label>
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editUsedVolume" required="required" readonly autocomplete="off" placeholder="мм" name="usedExtent">
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="editVolume">Выход м<sup>3</sup></label>
                                     <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editVolume" required="required" readonly autocomplete="off" placeholder="мм" name="extent">
                                 </div>
                             </div>
