@@ -73,7 +73,7 @@ function showEditModal(btnObj) {
 function showEditCutModal(btnObj){
     var trObj = btnObj.parentElement.parentElement;
     var trId =  $(trObj).attr('id');
-    $('#incomeTreeStorageId').val(trId);
+    $('#treeStorageId').val(trId);
 
     var teamCode =      $(trObj).find('td:eq(1)').text();
     var date =          $(trObj).find('td:eq(0)').text();
