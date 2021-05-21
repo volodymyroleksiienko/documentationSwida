@@ -147,6 +147,12 @@ public class FabricController {
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
+    @PostMapping("/editQualityInfoObject-{userId}-{breedId}")
+    public String  editQualityInfoObject(@PathVariable int breedId,@PathVariable int userId,QualityStatisticInfo info){
+        statisticInfoService.edit(info);
+        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+    }
+
     @PostMapping("/cutOfTreeStorage-{userId}-{breedId}")
     public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                        int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage,String  extentOfWaste){

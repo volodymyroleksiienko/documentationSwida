@@ -355,7 +355,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/XXX-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editQualityInfoObject-'+${userId}+'-'+${breedId}}" method="post">
 
                     <input type="text" class="form-control" id="treeStorageId" hidden="hidden" autocomplete="off" name="id">
 
@@ -363,12 +363,12 @@
                         <div class="form-group">
 
                             <label class="col-form-label" for="editTeamCode">Номер пилорамы</label>
-                            <input type="text" class="form-control" id="editTeamCode" required="required" placeholder="Не заполнено" autocomplete="off" name="teamCode">
+                            <input type="text" class="form-control" id="editTeamCode" required="required" placeholder="Не заполнено" autocomplete="off" name="codeOfTeam">
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px">
                                 <div class="col-6">
                                     <label class="col-form-label" for="editDate">Дата</label>
-                                    <input class="form-control" type="date" id="editDate"  name="date" required="required">
+                                    <input class="form-control" type="date" id="editDate"  name="date" required="required" readonly>
                                 </div>
                                 <div class="col-6">
                                     <label class="control-label" for="editMaterialDescr">Описание</label>
@@ -379,7 +379,7 @@
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-4">
                                     <label class="col-form-label" for="editThickness">Толщина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editThickness" required="required" autocomplete="off" placeholder="мм" name="height"  oninput="calculateExtent()">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editWidth">Ширина, мм</label>

@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.jws.soap.SOAPBinding;
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class RawStorageServiceImpl implements RawStorageService {
     private final BreedOfTreeService breedOfTreeService;
     private final UserCompanyService userCompanyService;
     private final QualityStatisticInfoService statisticInfoService;
+    private final EntityManager entityManager;
 
 
     @Override
@@ -172,6 +174,7 @@ public class RawStorageServiceImpl implements RawStorageService {
 
 
         TreeStorage main = treeStorageService.getMainTreeStorage(dto.getBreedId(),dto.getUserId());
+        entityManager.refresh(main);
         main.setExtent(
                 String.format("%.3f",(Double.parseDouble(main.getExtent())-dto.getExtent())).replace(",",".")
         );
