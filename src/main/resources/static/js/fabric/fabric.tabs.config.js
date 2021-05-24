@@ -108,8 +108,38 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "70px"
             },
-        ]
+        ],
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+
+            let used = api
+                .column( 7 )
+                .data()
+                .reduce( function (a, b) {
+                    return parseFloat(a) + parseFloat(b);
+                }, 0 );
+
+            let result = api
+                .column( 8 )
+                .data()
+                .reduce( function (a, b) {
+                    return parseFloat(a) + parseFloat(b);
+                }, 0 );
+
+            // Update footer
+            $( api.column( 7 ).footer() ).html(
+                used.toFixed(3)+" м<sup>3</sup>"
+            );
+            $( api.column( 8 ).footer() ).html(
+                result.toFixed(3)+" м<sup>3</sup>"
+            );
+            $( api.column( 9 ).footer() ).html(
+                (result / used * 100).toFixed(3)+" %"
+            );
+        }
     });
+
+
 
 
     var tableForcuttingTreeStorage = $('#tableForcuttingTreeStorage').DataTable({

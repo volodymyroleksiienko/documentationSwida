@@ -96,8 +96,11 @@
                     <tr th:id="${rs.id}">
                         <td th:text="${rs.id}"></td>
 <!--                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>-->
-                        <th scope="col" th:text="${rs?.statisticInfo?.date}">Дата распиловки</th>
-                        <th scope="row" th:text="${rs.codeOfProduct}">20-1С3-2605-1-2805</th>
+                        <th scope="col">
+                            <span th:text="${rs?.statisticInfo?.date?.substring(8,10)+'-'+rs?.statisticInfo?.date?.substring(5,7)+'-'+rs?.statisticInfo?.date?.substring(0,4)}"></span>
+                            <span class="original-date" th:text="${rs?.statisticInfo?.date}" style="display: none"></span>
+                        </th>
+                        <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
                         <td th:text="${rs.sizeOfHeight}"></td>

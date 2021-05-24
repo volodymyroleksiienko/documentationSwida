@@ -73,7 +73,7 @@ function showEditCutModal(btnObj){
     $('#treeStorageId').val(trId);
 
     var teamCode =      $(trObj).find('td:eq(1)').text();
-    var date =          $(trObj).find('td:eq(0)').text();
+    var date =          $(trObj).find('td:eq(0)').find('.original-date').text();
     var desc =          $(trObj).find('td:eq(2)').text();
 
     var thickness = 	$(trObj).find('td:eq(3)').text();
