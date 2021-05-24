@@ -747,6 +747,7 @@
                     <th scope="col">rs.ext-rs.max</th>
                     <th scope="col">rec.ext-rs.rec.max</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -771,6 +772,7 @@
                         <td th:text="${T(Double).parseDouble(rs?.extent)-T(Double).parseDouble(rs?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle!=null}" th:text="${T(Double).parseDouble(rs?.recycle?.extent)-T(Double).parseDouble(rs?.recycle?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle==null}">null</td>
+                        <td>TUTAJ</td>
                         <td style="text-align: right; width: 200px !important; display: block;">
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                             <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -817,6 +819,7 @@
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
+                        <td style="display:none"></td>
                     </tr>
                 </div>
             </tbody>
@@ -834,6 +837,7 @@
                     <th scope="col">Примечание</th>
                     <th scope="col">TreeStorage extent</th>
                     <th scope="col">Поставщик</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
