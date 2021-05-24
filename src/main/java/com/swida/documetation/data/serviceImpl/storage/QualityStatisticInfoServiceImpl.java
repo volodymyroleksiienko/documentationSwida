@@ -35,8 +35,8 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
     }
 
     @Override
-    public void save(QualityStatisticInfo info) {
-        infoJPA.save(info);
+    public QualityStatisticInfo save(QualityStatisticInfo info) {
+        return infoJPA.save(info);
     }
 
     @Override
@@ -104,14 +104,20 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
             dto.setCodeOfProduct(info.getCodeOfTeam());
             dto.setExtent(Double.parseDouble(infoDB.getFirstExtent()));
 
+
             StorageItem storageItem = new StorageItem();
             storageItem.setCountOfDesk(info.getCountOfDesk());
             storageItem.setDescription(info.getBreedDescription());
-            storageItem.setExtent(Double.parseDouble(info.getExtent()));
             storageItem.setSizeOfHeight(Integer.parseInt(info.getHeight()));
             storageItem.setSizeOfWidth(Integer.parseInt(info.getSizeOfWidth()));
             storageItem.setSizeOfLong(Integer.parseInt(info.getSizeOfLong()));
-
+            if(Integer.parseInt(info.getSizeOfWidth())>0) {
+                double extent = Double.parseDouble(info.getHeight()) * Double.parseDouble(info.getSizeOfWidth()) *
+                        Double.parseDouble(info.getSizeOfLong()) * info.getCountOfDesk() / 1000000000;
+                storageItem.setExtent(extent);
+            }else {
+                storageItem.setExtent(Double.parseDouble(info.getExtent()));
+            }
             dto.setStorageItems(Collections.singletonList(storageItem));
             rawStorageService.analyzeOfCutting(dto);
         }
