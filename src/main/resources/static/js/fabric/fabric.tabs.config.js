@@ -419,6 +419,7 @@ $(document).ready( function () {
             }
 
             let data = this.data();
+            console.log("data 14: "+ data[14]);
             let firstData = rawstoragetable.row(first).data();
             let idInput = "<input type='number' value=\""+rawstoragetable.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
 
@@ -429,7 +430,7 @@ $(document).ready( function () {
             exampleWidth = firstData[6];
             exampleLength = firstData[7];
 
-            if (data[5]===firstData[5]&&data[6]===firstData[6]&&data[7]===firstData[7]){
+            if (data[5]===firstData[5]&&data[6]===firstData[6]&&data[7]===firstData[7]  && data[14] === "false" && firstData[14] === "false"){
                 console.log('ok');
                 count+=parseInt(data[8]);
                 extent += (parseFloat(data[9]));
