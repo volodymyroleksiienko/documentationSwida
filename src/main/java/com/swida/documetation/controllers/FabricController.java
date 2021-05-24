@@ -359,7 +359,7 @@ public class FabricController {
         }
         treeStorageService.save(treeStorage);
 
-        rawStorageService.checkQualityInfo(rawStorageDB);
+//        rawStorageService.checkQualityInfo(rawStorageDB);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -406,7 +406,7 @@ public class FabricController {
             rawStorage.setExtent("0.000");
             rawStorage.setCountOfDesk(0);
             rawStorageService.save(rawStorage);
-            rawStorageService.checkQualityInfo(rawStorage);
+//            rawStorageService.checkQualityInfo(rawStorage);
         }else {
             rawStorageService.uncollectFromOnePineEntity(rawStorage,userId,breedId);
         }

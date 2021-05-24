@@ -5,7 +5,7 @@ import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
 import java.util.List;
 
 public interface QualityStatisticInfoService {
-    void save(QualityStatisticInfo info);
+    QualityStatisticInfo save(QualityStatisticInfo info);
     void edit(QualityStatisticInfo info);
     QualityStatisticInfo findById(int id);
     List<QualityStatisticInfo> findByUserByBreed(List<Integer> userId,List<Integer> breedId);
