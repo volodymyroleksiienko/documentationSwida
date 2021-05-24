@@ -118,8 +118,14 @@ public class ParseRawStorageToXLS {
                             .setScale(3,BigDecimal.ROUND_HALF_UP);
                     row.createCell(9).setCellValue(maxExtent.doubleValue());
 
-                    row.createCell(10).setCellValue(rs.getTreeStorage().getContrAgent().getNameOfAgent());
-                    row.createCell(11).setCellValue(rs.getTreeStorage().getDate());
+                    if(rs.getTreeStorage()==null || rs.getTreeStorage().getContrAgent()==null){
+                        row.createCell(10).setCellValue("");
+                    }else {
+                        row.createCell(10).setCellValue(rs.getTreeStorage().getContrAgent().getNameOfAgent());
+                    }
+                    row.createCell(11).setCellValue(rs.getDate());
+
+
                     row.getCell(0).setCellStyle(style);
                     row.getCell(1).setCellStyle(style);
                     row.getCell(2).setCellStyle(style);

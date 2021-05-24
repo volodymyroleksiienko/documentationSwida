@@ -110,7 +110,7 @@
                         <td th:text="${T(Double).parseDouble(rs?.extent)-T(Double).parseDouble(rs?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle!=null}" th:text="${T(Double).parseDouble(rs?.recycle?.extent)-T(Double).parseDouble(rs?.recycle?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle==null}">null</td>
-                        <td>TUTAJ</td>
+                        <td th:text="${rs.getBuCutting}"></td>
                         <td>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                             <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -482,20 +482,6 @@
                     </button>
                 </div>
                 <form th:action="@{'/fabric/exportRawStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label for="startDateInput" class="col-2 col-form-label">Начало</label>
-                            <div class="col-10">
-                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput" required="required" name="startDate">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="endDateInput" class="col-2 col-form-label">Конец</label>
-                            <div class="col-10">
-                                <input class="form-control" type="date" id="endDateInput" required="required" name="endDate">
-                            </div>
-                        </div>
-                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
