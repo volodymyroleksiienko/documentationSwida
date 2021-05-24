@@ -481,6 +481,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div class="modal-body">
+                    <p>
+                        В экспортируемый файл попадут все записи, которые отображены в таблице.
+                    </p>
+                </div>
                 <form th:action="@{'/fabric/exportRawStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Скачать</button>
