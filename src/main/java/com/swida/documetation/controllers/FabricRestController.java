@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -241,8 +243,9 @@ public class FabricRestController {
             descriptionDeskList.add(deskOak);
         }
         treeStorageService.save(treeStorage);
-
-        rawStorageService.checkQualityInfo(rawStorage);
+        if(Integer.parseInt(supplier)==0) {
+            rawStorageService.checkQualityInfo(rawStorage);
+        }
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")
