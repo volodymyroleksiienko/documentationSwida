@@ -1682,7 +1682,7 @@ $(document).ready( function () {
                         location.reload();
                 },
                 error: function () {
-                    alert("Заполните все поля!");
+                    alert("Ошыбка!");
                 }
             });
         } else {
