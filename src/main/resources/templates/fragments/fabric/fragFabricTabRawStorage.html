@@ -755,7 +755,10 @@
                         <td th:text="${rs.id}"></td>
                         <td th:if="${rs.deskOakList.isEmpty()}"></td>
                         <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"><span></span></td>
-                        <th scope="col" th:text="${rs?.statisticInfo?.date}">Дата распиловки</th>
+                        <th scope="col">
+                            <span th:text="${rs?.statisticInfo?.date?.substring(8,10)+'-'+rs?.statisticInfo?.date?.substring(5,7)+'-'+rs?.statisticInfo?.date?.substring(0,4)}"></span>
+                            <span class="original-date" th:text="${rs?.statisticInfo?.date}" style="display: none"></span>
+                        </th>
                         <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
