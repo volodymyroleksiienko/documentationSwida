@@ -95,6 +95,58 @@ function showEditOakModal(btnObj) {
     $('#editOakIncome').modal('show');
 }
 
+function showEditCutModal(btnObj){
+    var trObj = btnObj.parentElement.parentElement;
+    var trId =  $(trObj).attr('id');
+    $('#treeStorageId').val(trId);
+
+    var teamCode =      $(trObj).find('td:eq(1)').text();
+    var date =          $(trObj).find('td:eq(0)').find('.original-date').text();
+    var desc =          $(trObj).find('td:eq(2)').text();
+
+    var thickness = 	$(trObj).find('td:eq(3)').text();
+    var length = 		$(trObj).find('td:eq(4)').text();
+
+    var usedExtent =    $(trObj).find('td:eq(5)').text();
+    var extent =        $(trObj).find('td:eq(6)').text();
+
+    var addedTo =       $(trObj).find('td:eq(8)').text().trim();
+
+    $('#editTeamCode')              .val(teamCode);
+    $('#editDate')                  .val(date);
+    $('#editMaterialDescr')         .val(desc);
+
+    $('#editThickness')             .val(thickness);
+    $('#editLength')                .val(length);
+
+    $('#editUsedVolume')            .val(usedExtent);
+    $('#editVolume')                .val(extent);
+
+    $('#editAddedTo')               .val(addedTo);
+
+
+    $('#editTreeStorageCutOakModal').modal('show');
+}
+
+$("#editCutMaterialForm").submit(function( event ) {
+    if (parseFloat($('#editVolume').val())>parseFloat($('#editUsedVolume').val())){
+        alert("Невозможно выполнить действие! Выход превышает кубатуру взятого материала на "+(parseFloat($('#editVolume').val())-parseFloat($('#editUsedVolume').val())).toFixed(3)+"м3.");
+        event.preventDefault();
+        return;
+    }else {
+
+    }
+});
+
+function returnToIncome(btnObj) {
+    let trObj = btnObj.parentElement.parentElement;
+    let trId =  $(trObj).attr('id');
+    $('#returnItemId').val(trId);
+    console.log("row id: "+trId);
+
+    $('#returnToIncomeModal').modal('show');
+}
+
 $('#cutTreeStorageDescr').on('keyup', function(event){
     if(event.keyCode == 13){
         event.preventDefault();
