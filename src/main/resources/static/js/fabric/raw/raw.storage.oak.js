@@ -402,6 +402,9 @@ $('#addOakInitialPackageSupplier').on('input', function(){
         $('#addOakInitialPackageSupplier-hidden').val(null);
     }else {
         $('#addOakInitialPackageTreeStorage').attr('disabled', 'disabled');
+        $('#addDeliveryPackageModalUsedExtentOak').val('');
+        $('#addDeliveryPackageModalUsedExtentOak').attr('disabled', 'disabled');
+        $('#addDeliveryPackageModalUsedExtentOak').removeAttr('required');
     }
 });
 
@@ -411,6 +414,8 @@ $('#addOakInitialPackageTreeStorage').on('input', function(){
         $('#addOakInitialPackageTreeStorage-hidden').val(null);
     }else {
         $('#addOakInitialPackageSupplier').attr('disabled', 'disabled');
+        $('#addDeliveryPackageModalUsedExtentOak').removeAttr('disabled');
+        $('#addDeliveryPackageModalUsedExtentOak').attr('required', 'required');
     }
 });
 
