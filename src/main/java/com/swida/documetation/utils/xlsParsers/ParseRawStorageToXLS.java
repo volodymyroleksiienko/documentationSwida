@@ -1,5 +1,7 @@
 package com.swida.documetation.utils.xlsParsers;
 
+import com.swida.documetation.data.entity.storages.DryStorage;
+import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.entity.storages.TreeStorage;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +28,29 @@ import java.util.List;
 public class ParseRawStorageToXLS {
     private List<RawStorage> rawStorages;
 
-    public String parse(String startDate, String endDate ) throws ParseException {
+    public String parse(String startDate, String endDate, int breedId) throws ParseException {
         Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
         Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+        List<RawStorage> filtered = new ArrayList<>();
+        for(RawStorage p:rawStorages) {
+            if(p.getDate()!=null) {
+                Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(p.getDate());
+                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
+                    filtered.add(p);
+                }
+            }else {
+                filtered.add(p);
+            }
+        }
+        rawStorages = filtered;
+        if(breedId==2){
+            return parseOAK();
+        }else {
+            return parse();
+        }
+    }
 
+    public String parse() throws ParseException {
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
         sheet.getPrintSetup().setLandscape(true);
@@ -77,7 +99,6 @@ public class ParseRawStorageToXLS {
         for(RawStorage rs: rawStorages){
             if (rs.getDate()!=null) {
                 Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getDate());
-                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
                     Row row = sheet.createRow(rowCount++);
                     row.setHeight((short) 400);
                     row.createCell(0).setCellValue(rs.getCodeOfProduct());
@@ -111,7 +132,6 @@ public class ParseRawStorageToXLS {
                     row.getCell(9).setCellStyle(style);
                     row.getCell(10).setCellStyle(style);
                     row.getCell(11).setCellStyle(style);
-                }
             }
         }
 
@@ -128,10 +148,7 @@ public class ParseRawStorageToXLS {
         return "";
     }
 
-    public String parseOAK(String startDate, String endDate ) throws ParseException {
-        Date after = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
-        Date before = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
-
+    public String parseOAK() throws ParseException {
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("List of RawStorage");
         XSSFCellStyle style = book.createCellStyle();
@@ -163,7 +180,6 @@ public class ParseRawStorageToXLS {
         for(RawStorage rs: rawStorages){
             if (rs.getDate()!=null) {
                 Date dateOfInsert = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getDate());
-                if (dateOfInsert.before(before) && dateOfInsert.after(after)) {
                     Row row = sheet.createRow(rowCount++);
                     row.setHeight((short) 400);
                     row.createCell(0).setCellValue(rs.getCodeOfProduct());
@@ -181,7 +197,6 @@ public class ParseRawStorageToXLS {
                     row.getCell(4).setCellStyle(style);
                     row.getCell(5).setCellStyle(style);
                 }
-            }
         }
 
         try {

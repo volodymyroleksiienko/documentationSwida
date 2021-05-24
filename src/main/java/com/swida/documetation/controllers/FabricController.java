@@ -226,7 +226,7 @@ public class FabricController {
             filePath = parser.parse(startDate, endDate);
         }else{
             ParseRawStorageToXLS parser = new ParseRawStorageToXLS(rawStorageService.getListByUserByBreedByStatusOfTree(breedId, userId, StatusOfTreeStorage.PROVIDER_DESK));
-            filePath = parser.parse(startDate, endDate);
+            filePath = parser.parse(startDate, endDate,breedId);
         }
 
         return new GenerateResponseForExport().generate(filePath,startDate,endDate);
@@ -250,6 +250,7 @@ public class FabricController {
         treeStorageService.save(treeStorage);
 
         RawStorage rawStorage = new RawStorage();
+        rawStorage.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         rawStorage.setTreeStorage(treeStorage);
@@ -415,17 +416,19 @@ public class FabricController {
 
 
     @PostMapping("/exportRawStorageXLS-{userId}-{breedId}")
-    public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, String startDate,
-                                                         String endDate) throws FileNotFoundException, ParseException {
-        ParseRawStorageToXLS parser = new ParseRawStorageToXLS(rawStorageService.getListByUserByBreed(breedId,userId));
+    public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
+                                                        String[] descriptions, String[] heights, String[] longs,
+                                                        String[] widths) throws FileNotFoundException, ParseException {
+        List<RawStorage> rawStorageList = rawStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
+        ParseRawStorageToXLS parser = new ParseRawStorageToXLS(rawStorageList);
         String filePath;
         if (breedId==2){
 //            for breed oak
-             filePath = parser.parseOAK(startDate,endDate);
+             filePath = parser.parseOAK();
         }else {
-             filePath = parser.parse(startDate,endDate);
+             filePath = parser.parse();
         }
-       return new GenerateResponseForExport().generate(filePath,startDate,endDate);
+       return new GenerateResponseForExport().generate(filePath,"","");
     }
 
 
