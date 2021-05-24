@@ -28,9 +28,7 @@ import sun.security.krb5.internal.crypto.Des;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping("fabric")
@@ -115,27 +113,25 @@ public class FabricOakController {
         String rawStorageExtent = rawStorageService.save(rawStorage).getExtent();
         treeStorage.setExtent(String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)).replace(',','.'));
 
-        TreeStorage recycle = new TreeStorage();
-        if(extentOfWaste==null){
-            recycle.setExtent("0.000");
-        }else {
-            recycle.setExtent(String.format("%.3f", Float.parseFloat(extentOfWaste)).replace(',', '.'));
-        }
-        recycle.setMaxExtent(recycle.getExtent());
-        recycle.setCodeOfProduct(treeStorage.getCodeOfProduct()+"-rec");
-        recycle.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
-        recycle.setContrAgent(treeStorage.getContrAgent());
+//        TreeStorage recycle = new TreeStorage();
+//        if(extentOfWaste==null){
+//            recycle.setExtent("0.000");
+//        }else {
+//            recycle.setExtent(String.format("%.3f", Float.parseFloat(extentOfWaste)).replace(',', '.'));
+//        }
+//        recycle.setMaxExtent(recycle.getExtent());
+//        recycle.setCodeOfProduct(treeStorage.getCodeOfProduct()+"-rec");
+//        recycle.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
+//        recycle.setContrAgent(treeStorage.getContrAgent());
+//
+//        recycle.setUserCompany(userCompanyService.findById(userId));
+//        recycle.setBreedOfTree(breedOfTreeService.findById(breedId));
+//        recycle.setBreedDescription(treeStorage.getBreedDescription());
 
-        recycle.setUserCompany(userCompanyService.findById(userId));
-        recycle.setBreedOfTree(breedOfTreeService.findById(breedId));
-        recycle.setBreedDescription(treeStorage.getBreedDescription());
-
-        treeStorageService.save(recycle);
-        treeStorage.getRecycle().add(recycle);
-        rawStorage.setRecycle(recycle);
+//        treeStorageService.save(recycle);
+//        treeStorage.getRecycle().add(recycle);
+//        rawStorage.setRecycle(recycle);
         treeStorageService.save(treeStorage);
-        System.out.println(rawStorage);
-//        treeStorageService.checkQualityInfo(treeStorage,rawStorage.getSizeOfHeight(),Float.parseFloat(rawStorage.getExtent()));
         rawStorageService.checkQualityInfo(rawStorage);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
@@ -207,9 +203,8 @@ public class FabricOakController {
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
         model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
-        List<TreeStorage> treeList = treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.TREE);
-        treeList.addAll(treeStorageService.getListByUserByBreed(breedId,userId,StatusOfTreeStorage.RECYCLING));
-        model.addAttribute("treeStorageList",treeList);
+
+        model.addAttribute("treeStorageList", Collections.singletonList(treeStorageService.getMainTreeStorage(breedId,userId)));
 
         model.addAttribute("descList",rawStorageService.getListOfUnicBreedDescription(breedId));
         model.addAttribute("sizeOfHeightList",rawStorageService.getListOfUnicSizeOfHeight(breedId));

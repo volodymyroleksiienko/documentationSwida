@@ -106,12 +106,16 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
 
 
             StorageItem storageItem = new StorageItem();
-            storageItem.setCountOfDesk(info.getCountOfDesk());
+            if(info.getCountOfDesk()!=null) {
+                storageItem.setCountOfDesk(info.getCountOfDesk());
+            }
             storageItem.setDescription(info.getBreedDescription());
             storageItem.setSizeOfHeight(Integer.parseInt(info.getHeight()));
-            storageItem.setSizeOfWidth(Integer.parseInt(info.getSizeOfWidth()));
+            if(info.getSizeOfWidth()!=null) {
+                storageItem.setSizeOfWidth(Integer.parseInt(info.getSizeOfWidth()));
+            }
             storageItem.setSizeOfLong(Integer.parseInt(info.getSizeOfLong()));
-            if(Integer.parseInt(info.getSizeOfWidth())>0) {
+            if(info.getSizeOfWidth()!=null && Integer.parseInt(info.getSizeOfWidth())>0) {
                 double extent = Double.parseDouble(info.getHeight()) * Double.parseDouble(info.getSizeOfWidth()) *
                         Double.parseDouble(info.getSizeOfLong()) * info.getCountOfDesk() / 1000000000;
                 storageItem.setExtent(extent);

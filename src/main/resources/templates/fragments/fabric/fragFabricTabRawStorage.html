@@ -773,11 +773,11 @@
                         <td th:if="${rs?.recycle==null}">null</td>
                         <td style="text-align: right; width: 200px !important; display: block;">
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                             <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addOakRawStorageItem(this)"><i class="fas fa-plus" data-toggle="tooltip" title="Добавить позицию"></i></button>
                             <button th:if="${btnConfig?.equals('btnON') && rs.deskOakList.isEmpty()}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorageOak(this.parentElement.parentElement.getAttribute('id'))"><i class="fas fa-cubes" data-toggle="tooltip" title="Рассчитать и добавить кубатуру к пачке"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="resetRawExtent(this)"><i class="fab fa-creative-commons-zero" data-toggle="tooltip" title="Обнулить кубатуру"></i></button>
                         </td>
                     </tr>
                     <tr style="display:none" th:id="'parent'+${rs.id}" th:if="${!rs.deskOakList.isEmpty()}">

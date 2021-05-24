@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +50,9 @@ public class RawStorageServiceImpl implements RawStorageService {
             info = new QualityStatisticInfo();
         }else {
             info = rawStorage.getStatisticInfo();
+        }
+        if(info.getCodeOfTeam().isEmpty() || info.getCodeOfTeam().equals("0")){
+            info.setCodeOfTeam(rawStorage.getCodeOfProduct());
         }
         info.setTreeStorage(treeStorageService.getMainTreeStorage(rawStorage.getBreedOfTree().getId(),rawStorage.getUserCompany().getId()));
         info.setHeight(rawStorage.getSizeOfHeight());
@@ -184,7 +188,7 @@ public class RawStorageServiceImpl implements RawStorageService {
                 rawDB.setSizeOfLong(String.valueOf(item.getSizeOfLong()));
                 if(dto.getBreedId()==2) {
                     rawDB.setMaxExtent(
-                            String.valueOf(dto.getExtent()).replace(",",".")
+                            String.valueOf(item.getExtent()).replace(",",".")
                     );
                     rawDB.setExtent(rawDB.getMaxExtent());
                 }else {
@@ -227,8 +231,15 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public RawStorage findEqualRaw(int breedId, int userId, String desc, String heights, String widths, String longs) {
+        Predicate<? super RawStorage> func;
+        if(breedId==2){
+            func = rawStorage -> rawStorage.getGetBuCutting()==true &&
+                    (rawStorage.getDeskOakList()==null || rawStorage.getDeskOakList().size()==0);
+        } else {
+            func = rawStorage -> rawStorage.getGetBuCutting()==true;
+        }
         return rawStorageJPA.findEqualRaw(breedId,userId,desc,heights,widths,longs).stream()
-                .filter(rawStorage -> rawStorage.getGetBuCutting()==true).findAny().orElse(null);
+                .filter(func).findAny().orElse(null);
     }
 
     @Override

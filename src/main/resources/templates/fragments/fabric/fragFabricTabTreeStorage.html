@@ -1,6 +1,6 @@
 <!--// TREE STORAGE TAB-->
 <th:block xmlns="http://www.w3.org/1999/xhtml"
-          xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="treeStorage">
+          xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" th:fragment="treeStorage">
     <div class="tab-pane fade show active container-fluid" id="treestorage">
         <table class="table table-hover table-striped" id="treestoragetable-single" th:if="${mainTreeStorage!=null}">
             <br>
@@ -165,7 +165,7 @@
                         <td th:text="${ts.maxExtent}"></td>
                         <td scope="col" th:text="${ts.treeDescription}"></td>
                         <td>
-                            <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
+                            <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditModal(this)">
                                 <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                             </button>
                         </td>
@@ -783,7 +783,7 @@
 <!--// OAK TREE STORAGE TAB-->
 
 
-<th:block xmlns="http://www.w3.org/1999/xhtml"
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
           xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="treeStorageOAK">
     <div class="tab-pane fade show active container-fluid" id="treestorage">
 
@@ -944,7 +944,7 @@
                             <td th:text="${ts.maxExtent}"></td>
                             <td th:text="${ts.treeDescription}"></td>
                             <td>
-                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditOakModal(this)">
+                                <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditOakModal(this)">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                                 </button>
                             </td>
@@ -1349,7 +1349,7 @@
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
                                     <label class="col-form-label" for="editUsedVolume">Взято м<sup>3</sup></label>
-                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editUsedVolume" required="required" readonly autocomplete="off" placeholder="мм" name="usedExtent">
+                                    <input type="number" min="0" step="any" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editUsedVolume" required="required" readonly autocomplete="off" placeholder="мм" name="firstExtent">
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="editVolume">Выход м<sup>3</sup></label>
