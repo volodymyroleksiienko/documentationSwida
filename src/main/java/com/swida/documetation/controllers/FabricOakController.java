@@ -183,7 +183,7 @@ public class FabricOakController {
 //        );
 //        orderInfoService.save(orderInfo);
 //        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
 
