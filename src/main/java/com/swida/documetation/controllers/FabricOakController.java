@@ -92,8 +92,8 @@ public class FabricOakController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
-//        Map<Integer,List<QualityStatisticInfo>> map = treeStorageService.getQualityStatisticInfo(treeStorageList);
-//        model.addAttribute("qualityStatisticInfoMap",treeStorageService.getQualityStatisticInfo(treeStorageList));
+        model.addAttribute("mainTreeStorage",treeStorageService.getMainTreeStorage(breedId,userId));
+
         btnConfig(userId,model);
         return "fabricPage";
     }
