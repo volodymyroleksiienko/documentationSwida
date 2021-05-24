@@ -8,6 +8,10 @@ function deselectButton(selectId){
     $('#'+selectId).trigger('chosen:updated');
 }
 
+$("#addIncomeToRawStorageModal").on('hide.bs.modal', function(){
+    location.reload();
+});
+
 function sendForDrying(btnObj) {
 
     var trObj = btnObj.parentElement.parentElement;

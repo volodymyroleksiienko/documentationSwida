@@ -374,7 +374,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "135px"
             },
-            { className: "display-none", "targets": [ -5, -3, -2 ] },
+            { className: "display-none", "targets": [ -6, -4, -3, -2 ] },
         ]
     });
 
@@ -648,7 +648,7 @@ $(document).ready( function () {
                     let treeStorageExt= obj["treeStorageExtent"];
                     let rawStorageExt = obj["rawStorageExtent"];
 
-                    let row = [id, '', code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, '0.0', 'null', button];
+                    let row = [id, '', code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, '0.0', 'null', 'false', button];
 
                     rawstoragetable.row.add(row).draw();
 

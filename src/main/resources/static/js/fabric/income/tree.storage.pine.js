@@ -1,5 +1,4 @@
 function showCutModal(btnObj) {
-
     let trObj = btnObj.parentElement.parentElement;
     let trId =  $(trObj).attr('id');
     $('#idOfTreeStorageRow').val(trId);
@@ -11,12 +10,10 @@ function showCutModal(btnObj) {
     $('#addRawStorageCode').val(codeOfTreeStorage);
     $('#maxPossibleExtent').val(extent);
 
-
     $('#cutModal').modal('show');
 }
 
 $( "#cutModalForm" ).submit(function( event ) {
-
     let addTreeStorageLeft = parseFloat($('#addTreeStorageLeft').val());
     let extentOfWaste      = parseFloat($('#extentOfWaste').val());
     let sum = addTreeStorageLeft+extentOfWaste;
@@ -43,7 +40,7 @@ function showEditModal(btnObj) {
     $('#incomeTreeStorageId').val(trId);
 
     var code =          $(trObj).find('th:eq(0)').text();
-    var date =          $(trObj).find('td:eq(1)').text();
+    var date =          $(trObj).find('td:eq(1)').find('.original-date').text();
     var breed =         $(trObj).find('td:eq(2)').text();
     var desc =          $(trObj).find('td:eq(3)').text();
     var provider =      $(trObj).find('td:eq(4)').text();

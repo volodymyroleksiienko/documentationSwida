@@ -88,6 +88,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -109,6 +110,7 @@
                         <td th:text="${T(Double).parseDouble(rs?.extent)-T(Double).parseDouble(rs?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle!=null}" th:text="${T(Double).parseDouble(rs?.recycle?.extent)-T(Double).parseDouble(rs?.recycle?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle==null}">null</td>
+                        <td>TUTAJ</td>
                         <td>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                             <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==true}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -133,6 +135,7 @@
                     <th scope="col">Кубатура, м<sup>3</sup></th>
                     <th>TreeStorage extent</th>
                     <th>Поставщик</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
