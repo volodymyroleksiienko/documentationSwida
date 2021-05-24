@@ -1377,7 +1377,7 @@
 
                         <div class="form-group row">
                             <div class="col-4">
-                                <label class="col-form-label" for="addOakInitialPackageTreeStorage">Кругляк</label>
+                                <label class="col-form-label" for="addOakInitialPackageTreeStorage">Кругляк *</label>
                                 <input type="text" class="form-control" list="treeListOak" id="addOakInitialPackageTreeStorage" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
                                 <datalist id="treeListOak">
                                     <option  th:each="c : ${treeStorageList}" th:data-value="${c.id}" th:text="${c.codeOfProduct}" th:label="${c.extent}"></option>
@@ -1385,7 +1385,7 @@
                                 <input type="number" hidden="hidden"  name="treeStorageId" id="addOakInitialPackageTreeStorage-hidden">
                             </div>
                             <div class="col-4">
-                                <label class="col-form-label" for="addOakInitialPackageSupplier">Поставщик</label>
+                                <label class="col-form-label" for="addOakInitialPackageSupplier">Поставщик **</label>
                                 <input type="text" class="form-control" list="suppliers1oak" id="addOakInitialPackageSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">
                                 <datalist id="suppliers1oak">
                                     <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>
@@ -1455,7 +1455,9 @@
                             <th></th>
                         </tfoot>
                     </table>
-                    <div class="modal-footer">
+                    <div class="modal-footer" style="justify-content: space-between; flex-wrap: nowrap;">
+                        <p style="font-size: 14px;">* Выбрав "Кругляк", с прихода леса ("Остаток всего") будет списана кубатура.</p>
+                        <p style="font-size: 14px;">** Если указать поставщика, кубатура списываться не будет.</p>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="clearInitialPackageButton">Отмена</button>
                     </div>
                 </form>
