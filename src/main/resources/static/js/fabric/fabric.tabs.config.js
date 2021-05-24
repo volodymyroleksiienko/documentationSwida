@@ -139,6 +139,56 @@ $(document).ready( function () {
         }
     });
 
+    $('#treeStorageOakSubTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+
+        "lengthMenu": [ [25, 50, -1], [25, 50, "Все"] ],
+        "bSort": true,
+        "info": false,
+        // "order": [ 0, "desc" ],
+
+        // columns width
+        "autoWidth": false,
+        // id column visibility
+        "columnDefs": [
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "70px"
+            },
+        ],
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+
+            let used = api
+                .column( 5 )
+                .data()
+                .reduce( function (a, b) {
+                    return parseFloat(a) + parseFloat(b);
+                }, 0 );
+
+            let result = api
+                .column( 6 )
+                .data()
+                .reduce( function (a, b) {
+                    return parseFloat(a) + parseFloat(b);
+                }, 0 );
+
+            // Update footer
+            $( api.column( 5 ).footer() ).html(
+                used.toFixed(3)+" м<sup>3</sup>"
+            );
+            $( api.column( 6 ).footer() ).html(
+                result.toFixed(3)+" м<sup>3</sup>"
+            );
+            $( api.column( 7 ).footer() ).html(
+                (result / used * 100).toFixed(3)+" %"
+            );
+        }
+    });
+
 
 
 
@@ -160,9 +210,33 @@ $(document).ready( function () {
         ]
     });
 
+    var tableForcuttingTreeStorageOak = $('#tableForcuttingTreeStorageOak').DataTable({
+        // columns width
+        "autoWidth": false,
+        "order": [ 0, "desc" ],
+        // "bSort": false,
+        "searching": false,
+        "paging": false,
+        "info": false,
+        'select': false,
+        "columnDefs": [
+            {
+                "targets": -1,
+                "orderable": false,
+                "width": "30px"
+            }
+        ]
+    });
+
+
     $('#tableForcuttingTreeStorage tbody').on( 'click', 'button', function () {
         tableForcuttingTreeStorage.row( $(this).parents('tr') ).remove().draw();
         calculateCutTreStorageSummary();
+    } );
+
+    $('#tableForcuttingTreeStorageOak tbody').on( 'click', 'button', function () {
+        tableForcuttingTreeStorageOak.row( $(this).parents('tr') ).remove().draw();
+        calculateCutTreStorageOakSummary();
     } );
 
     $("#buttonForAddingCutTreeStorageItem").click(function () {
@@ -211,7 +285,46 @@ $(document).ready( function () {
             alert("Заполните все поля!");
         }
     });
+    ////////////////////////////////////////////////////////////////////
+    $("#buttonForAddingCutTreeStorageOakItem").click(function () {
+        let descr =         $("#cutTreeStorageDescr").val();
+        let extent =        $("#cutTreeStorageExtent").val();
+        let length =        $("#cutTreeStorageLength").val();
+        let height =        $("#cutTreeStorageSize").val();
 
+
+        let button = "<button type='button' class='btn btn-primary btn-sm'><i class='fa fa-times' title='Удалить'></i></button>";
+
+
+        if (descr!=='' && length!=='' && height!=='' && extent!==''){
+            if (parseInt(length)<=0){
+                alert("Длина не может быть отрицательной либо равной нулю!");
+                $("#cutTreeStorageLength").focus();
+            }else if (parseInt(height)<=0){
+                alert("Толщина не может быть отрицательной либо равной нулю!");
+                $("#cutTreeStorageSize").focus();
+            }else if (parseFloat(extent)<=0.000){
+                alert("Кубатура не может быть отрицательной либо равной нулю!");
+                $("#cutTreeStorageExtent").focus();
+            }else {
+                let d = [descr, height, length, extent, button];
+                console.log(d);
+
+                $("#cutTreeStorageWidth").val("");
+                $("#cutTreeStorageCount").val("");
+
+                tableForcuttingTreeStorageOak.row.add(d).draw();
+
+                $('#cutTreeStorageDescr').focus();
+
+                $("#cutTreeStorageExtent").val('0.00');
+
+                calculateCutTreStorageOakSummary();
+            }
+        }else {
+            alert("Заполните все поля!");
+        }
+    });
 
     ///////////////////////////////////////////////////////////////////
 
@@ -291,6 +404,66 @@ $(document).ready( function () {
             alert("Заполните все поля!");
         }
     });
+
+
+
+
+    $("#cutTreeStorageOakButton").click(function () {
+        let codeOfProduct =         $("#cutTreeStorageCode").val();
+        let breedID =               $("#breedIdPack").val();
+        let userID =                $("#userIdPack").val();
+        let extent =                $("#cutTreeStorageUsedExtent").val();
+        let recycleExtent =         $("#cutTreeStorageRecycleExtent").val();
+
+
+        let dto = new TreeStorageListDto();
+        dto.codeOfProduct = codeOfProduct;
+        dto.breedId = breedID;
+        dto.userId = parseInt(userID);
+        dto.extent = extent;
+        dto.recycleExtent = recycleExtent;
+
+
+        if (codeOfProduct !== "" && extent !== ""  && recycleExtent !== "" && parseFloat(extent) > 0 ) {
+
+            if (!tableForcuttingTreeStorageOak.data().any()){
+                alert("Отсутствуют записи в таблице!");
+            } else if (parseFloat(extent)<parseFloat($("#cutTreeStorageTotalExtent").val())){
+                alert("Введенные данные превышают кубатуру взятого материала на "+(parseFloat($("#cutTreeStorageTotalExtent").val())-parseFloat(extent)).toFixed(3)+"м3!");
+            }else {
+                let newData = ( tableForcuttingTreeStorageOak.rows().data() );
+                for (let i =newData.length-1; i>=0; i--) {
+                    let item=new StorageItem();
+                    item.description = newData[i][0];
+                    item.sizeOfHeight = newData[i][1];
+                    item.sizeOfLong = newData[i][2];
+                    item.extent = newData[i][3];
+
+                    dto.storageItems.push(item);
+                }
+
+                console.log(dto);
+
+                $.ajax({
+                    method: "post",
+                    url: "/cutOfTreeStorageDTO",
+                    contextType: "application/json",
+                    data: {
+                        dto: JSON.stringify(dto)
+                    },
+                    traditional: true,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Ошибка!");
+                    }
+                });
+            }
+        } else {
+            alert("Заполните все поля!");
+        }
+    });
     /////////////////////////////////////////////////////////////////////
 
     function calculateCutTreStorageSummary(){
@@ -305,6 +478,16 @@ $(document).ready( function () {
 
             let rowExtent = parseFloat(sumHeight) / 1000 * parseFloat(sumWidth) / 1000 * parseFloat(sumLength) / 1000 * sumCount;
 
+            extent += rowExtent;
+        }
+        $("#cutTreeStorageTotalExtent").val(extent.toFixed(3));
+    }
+
+    function calculateCutTreStorageOakSummary(){
+        let newData = ( tableForcuttingTreeStorageOak.rows( ).data() );
+        let extent = 0.00;
+        for (let i =newData.length-1; i>=0; i--) {
+            let rowExtent  = parseFloat(newData[i][3]);
             extent += rowExtent;
         }
         $("#cutTreeStorageTotalExtent").val(extent.toFixed(3));

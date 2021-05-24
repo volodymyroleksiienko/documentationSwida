@@ -827,7 +827,7 @@
                     <td th:text="${mainTreeStorage?.maxExtent}" style="display: none"></td>
                     <td scope="col" th:text="${mainTreeStorage.treeDescription}" style="display: none"></td>
                     <td>
-                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutModal(this)">
+                        <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutOakModal(this)">
                             <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
                         </button>
                     </td>
@@ -836,16 +836,14 @@
                 <tr style="display: none" th:id="'parent'+${mainTreeStorage.id}">
                     <td style="display:none"></td>
                     <td colspan="13" class="child-table">
-                        <table class="table table-hover table-striped parent-table" id="treeStorageSubTable">
+                        <table class="table table-hover table-striped parent-table" id="treeStorageOakSubTable">
                             <thead>
                             <tr>
                                 <th scope="col">Дата</th>
                                 <th scope="col">Номер пилорамы</th>
                                 <th scope="col">Описание</th>
                                 <th scope="col">Толщина, мм</th>
-                                <th scope="col">Ширина, мм</th>
                                 <th scope="col">Длина, мм</th>
-                                <th scope="col">Кол-во досок, шт</th>
                                 <th scope="col">Взято, м<sup>3</sup></th>
                                 <th scope="col">Выход, м<sup>3</sup></th>
                                 <th scope="col">Процент, %</th>
@@ -862,9 +860,7 @@
                                 <td th:text="${list?.codeOfTeam}"></td>
                                 <td th:text="${list?.breedDescription}">ds</td>
                                 <td th:text="${list?.height}"></td>
-                                <td th:text="${list?.sizeOfWidth}"></td>
                                 <td th:text="${list?.sizeOfLong}"></td>
-                                <td th:text="${list?.countOfDesk}"></td>
                                 <td th:text="${list?.firstExtent}"></td>
                                 <td th:text="${list?.extent}"></td>
                                 <td th:text="${list?.percent}"></td>
@@ -881,7 +877,7 @@
                             </tbody>
                             <tfoot>
                             <tr style="background: #18bc9c; color: white;">
-                                <th colspan="7">ИТОГО :</th>
+                                <th colspan="5">ИТОГО :</th>
                                 <td>0</td>
                                 <td>0</td>
                                 <td>0</td>
@@ -890,7 +886,6 @@
                             </tfoot>
                         </table>
                     </td>
-                    <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
@@ -949,9 +944,6 @@
                             <td th:text="${ts.maxExtent}"></td>
                             <td th:text="${ts.treeDescription}"></td>
                             <td>
-                                <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showCutOakModal(this)">
-                                    <i class="fas fa-th" data-toggle="tooltip" title="Распиловка"></i>
-                                </button>
                                 <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditOakModal(this)">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                                 </button>
@@ -1042,32 +1034,6 @@
         <!-- BUTTON -->
     </div>
 
-    <script>
-        let rowTables = document.getElementsByClassName('parent-table');
-        for (let i=0;i<rowTables.length;i++){
-            let rowsList = rowTables[i].rows;
-            let last = rowsList.length-1;
-
-            let takenSum = 0.0;
-            let outputSum = 0.0;
-            let percentageSum = 0.0;
-
-            for (let j = 1; j<rowsList.length-1; j++){
-                if ((rowsList[j].cells[2].innerHTML)!=='' && !isNaN(parseFloat(rowsList[j].cells[2].innerHTML)) ){
-                    takenSum+= parseFloat(rowsList[j].cells[2].innerHTML);
-                    outputSum+= parseFloat(rowsList[j].cells[3].innerHTML);
-                    percentageSum = outputSum/takenSum*100;
-                } else{
-                    continue;
-                }
-
-                console.log("row: "+takenSum+"; "+outputSum+";"+percentageSum+"%");
-            }
-            rowsList[last].cells[1].innerHTML=takenSum.toFixed(3);
-            rowsList[last].cells[2].innerHTML=outputSum.toFixed(3);
-            rowsList[last].cells[3].innerHTML=percentageSum.toFixed(3);
-        }
-    </script>
 
     <div class="modal fade" id="addOakIncomeModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1143,79 +1109,107 @@
         </div>
     </div>
 
-    <!--  Add to raw storage  -->
-<!--    <div class="modal fade" id="addOakIncomeToRawStorageModal">-->
-<!--        <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h5 class="modal-title">Добавить пиломатериалы</h5>-->
-<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <form th:action="@{'/fabric/addDeskFromProvider-'+${userId}+'-'+${breedId}}" method="post">-->
-<!--                    <div class="modal-body">-->
-<!--                        <label class="col-form-label" for="addOakToRawStorageCode">Код партии</label>-->
-<!--                        <input type="text" class="form-control" id="addOakToRawStorageCode" required="required" autocomplete="off" placeholder="Не заполнено" name="codeOfProduct">-->
 
-<!--                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">-->
-<!--                            <div class="col-6">-->
-<!--                                <label class="control-label" for="addOakToRawStorageMaterial">Порода</label>-->
-<!--                                <input class="form-control" id="addOakToRawStorageMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">-->
-<!--                            </div>-->
-<!--                            <div class="col-6">-->
-<!--                                <label class="control-label" for="addOakToRawStorageBreedDescription">Описание породы</label>-->
-<!--                                <input class="form-control" id="addOakToRawStorageBreedDescription" type="text" placeholder="Не заполнено" name="breedDescription" required="required">-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <label class="col-form-label" for="addOakToRawStorageSupplier">Контракт</label>-->
-<!--                        <input type="text" class="form-control" list="suppliers3oak" id="addOakToRawStorageSupplier" autocomplete="off" name="nameOfAgent" placeholder="Не заполнено" onchange="setHiddenValue(this)">-->
-<!--                        <datalist id="suppliers3oak">-->
-<!--                            <option  th:each="c, index : ${orderList}" th:text="${c.codeOfOrder}" th:label="${c?.contrAgent?.nameOfAgent}" th:data-value="${c.id}"></option>-->
-<!--                        </datalist>-->
-<!--                        <input type="number" hidden="hidden"  name="contractId" id="addOakToRawStorageSupplier-hidden">-->
-
-<!--                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0; margin-top: 5px;">-->
-<!--                            <div class="col-6">-->
-<!--                                <label class="col-form-label" for="addSupplier">Поставщик</label>-->
-<!--                                <input type="text" class="form-control" list="suppliers1" id="addSupplier" autocomplete="off" name="nameOfAgent" onchange="setHiddenValue(this)" placeholder="Не заполнено" required="required">-->
-<!--                                <datalist id="suppliers1">-->
-<!--                                    <option  th:each="c : ${contrAgentList}" th:data-value="${c.id}" th:text="${c.nameOfAgent}" th:label="${c.addressOfCompany}"></option>-->
-<!--                                </datalist>-->
-<!--                                <input type="number" hidden="hidden"  name="contrAgent.id" id="addSupplier-hidden">-->
-<!--                            </div>-->
-<!--                            <div class="col-6">-->
-<!--                                <label class="control-label" for="addOakAverageDiameter">Средний диаметр</label>-->
-<!--                                <input type="number" min="0" step="any" class="form-control" placeholder="Не заполнено" id="addOakAverageDiameter" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="avgDiameter">-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">-->
-<!--                            <div class="col-6">-->
-<!--                                <label class="control-label" for="addOakToRawStorageThickness">Толщина</label>-->
-<!--                                <input class="form-control" id="addOakToRawStorageThickness" type="number" placeholder="мм" min="1" required="required" autocomplete="off" name="sizeOfHeight">-->
-<!--                            </div>-->
-<!--                            <div class="col-6">-->
-<!--                                <label class="col-form-label" for="addOakToRawStorageVolume">Кубатура</label>-->
-<!--                                <input type="number" step="any" min="0" class="form-control" placeholder="м3" id="addOakToRawStorageVolume" pattern="[0-9]*\.?[0-9]*" autocomplete="off" name="extent" required="required">-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <label class="col-form-label" for="addOakToRawStorageDesc">Примечания</label>-->
-<!--                        <input type="text" class="form-control" id="addOakToRawStorageDesc"  autocomplete="off" name="description" placeholder="Не заполнено">-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="submit" class="btn btn-primary">Добавить</button>-->
-<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-    <!-- // Add to raw storage  -->
-
+    <!-- Add package start -->
     <div class="modal fade" id="cutOakModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ">Отправить на распиловку</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form >
+                    <div class="modal-body">
+                        <input type="number" hidden="hidden" id="breedIdPack" th:value="${breedId}">
+                        <input type="text" hidden="hidden" id="userIdPack" th:value="${userId}">
+
+                        <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
+                            <div class="col-4">
+                                <label class="col-form-label" for="cutTreeStorageCode">Номер пилорамы</label>
+                                <input type="text" class="form-control" id="cutTreeStorageCode" placeholder="Не заполнено" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageMaterial">Порода</label>
+                                <input class="form-control" id="cutTreeStorageMaterial" type="text" placeholder="Порода" th:value="${breedOfTreeList[breedId-1].breed}" name="" disabled="disabled">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageUsedExtent" style="padding-top: 7px">Взято, м<sup>3</sup></label>
+                                <input type="number" min="0" name="usedExtent" value="0.00" step="any" pattern="[0-9]*\.?[0-9]*" required="required"  class="form-control" id="cutTreeStorageUsedExtent"  autocomplete="off" placeholder="м3">
+                            </div>
+                            <div class="col-6" style="display: none">
+                                <label class="control-label" for="cutTreeStorageRecycleExtent" style="padding-top: 7px">Отходы, м<sup>3</sup></label>
+                                <input type="number" min="0" name="recycleExtent" value="0.00" step="any" pattern="[0-9]*\.?[0-9]*" required="required"  class="form-control" id="cutTreeStorageRecycleExtent"  autocomplete="off" placeholder="м3">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row form-group" style="display: inline-flex; justify-content: center; align-items: baseline;">
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageDescr">Описание</label>
+                                <input class="form-control" id="cutTreeStorageDescr" placeholder="Не заполнено" type="text" name="breedDescription">
+                            </div>
+                            <div class="col-4">
+                                <label class="control-label" for="cutTreeStorageSize">Толщина, мм</label>
+                                <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="cutTreeStorageSize" required="required">
+                            </div>
+                            <div class="col-4">
+                                <label class="col-form-label" for="cutTreeStorageLength">Длина, мм</label>
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" placeholder="мм" class="form-control" id="cutTreeStorageLength" required="required" autocomplete="off">
+                            </div>
+                            <div class="col-6" style="margin-top: 0.5rem;">
+                                <label class="control-label" for="cutTreeStorageExtent">Кубатура, м<sup>3</sup></label>
+                                <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="cutTreeStorageExtent"  autocomplete="off" placeholder="м3">
+                            </div>
+                            <div class="col-6" style="margin-top: 0.5rem;">
+                                <label class="control-label" for="cutTreeStorageTotalExtent">Сум. кубатура, м<sup>3</sup></label>
+                                <input type="text" disabled="disabled" class="form-control" id="cutTreeStorageTotalExtent" value="0.00"  autocomplete="off" placeholder="м3">
+                            </div>
+                        </div>
+
+                        <div class="form-group row d-flex" style="align-items: flex-end">
+                            <div class="col-6"></div>
+                            <div class="col-6" style="display: inline-flex; text-align: right; justify-content: flex-end; margin-top: 1rem;">
+                                <button id="buttonForAddingCutTreeStorageOakItem" type="button" class="btn btn-primary" style="width: 50%; margin-right: 5px">Добавить позицию</button>
+                                <button type="button" class="btn btn-primary" style="width: 50%" id="cutTreeStorageOakButton">Отправить</button>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped" id="tableForcuttingTreeStorageOak" style="padding-left: 1rem; padding-right: 1rem">
+                        <thead>
+                        <tr>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Толщина, мм</th>
+                            <th scope="col">Длина, мм</th>
+                            <th scope="col">Кубатура, м<sup>3</sup></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="listOfOakPackageRowsId">
+                        <!-- <tr></tr> -->
+                        </tbody>
+
+                        <tfoot>
+                        <th scope="col">Описание</th>
+                        <th scope="col">Толщина, мм</th>
+                        <th scope="col">Длина, мм</th>
+                        <th scope="col">Кубатура, м<sup>3</sup></th>
+                        <th></th>
+                        </tfoot>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Add package end-->
+
+    <div class="modal fade" id="cutOakModal-2">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1387,7 +1381,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button submit" class="btn btn-primary">Скачать</button>
+                        <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>

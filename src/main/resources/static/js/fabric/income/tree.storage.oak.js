@@ -1,21 +1,35 @@
 function showCutOakModal(btnObj) {
-
     let trObj = btnObj.parentElement.parentElement;
     let trId =  $(trObj).attr('id');
-    $('#idOfOakTreeStorageRow').val(trId);
-    console.log("row id:" + $(trObj).attr('id'));
+    $('#idOfTreeStorageRow').val(trId);
+    console.log(  $(trObj).attr('id'));
 
     let codeOfTreeStorage = $(trObj).find('th:eq(0)').text();
-    let description =       $(trObj).find('td:eq(3)').text().trim();
     let extent =            $(trObj).find('td:eq(8)').text();
 
-
-    $('#cutOakRawStorageCode').val(codeOfTreeStorage);
-    $('#cutOakRawStorageBreedDesc').val(description);
-    $('#maxPossibleOakExtent').val(extent);
+    $('#addRawStorageCode').val(codeOfTreeStorage);
+    $('#maxPossibleExtent').val(extent);
 
     $('#cutOakModal').modal('show');
 }
+
+// function showCutOakModal(btnObj) {
+//     let trObj = btnObj.parentElement.parentElement;
+//     let trId =  $(trObj).attr('id');
+//     $('#idOfOakTreeStorageRow').val(trId);
+//     console.log("row id:" + $(trObj).attr('id'));
+//
+//     let codeOfTreeStorage = $(trObj).find('th:eq(0)').text();
+//     let description =       $(trObj).find('td:eq(3)').text().trim();
+//     let extent =            $(trObj).find('td:eq(8)').text();
+//
+//
+//     $('#cutOakRawStorageCode').val(codeOfTreeStorage);
+//     $('#cutOakRawStorageBreedDesc').val(description);
+//     $('#maxPossibleOakExtent').val(extent);
+//
+//     $('#cutOakModal').modal('show');
+// }
 
 $( "#cutOakModalForm" ).submit(function( event ) {
 
@@ -80,3 +94,33 @@ function showEditOakModal(btnObj) {
 
     $('#editOakIncome').modal('show');
 }
+
+$('#cutTreeStorageDescr').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $('#cutTreeStorageSize').focus();
+    }
+});
+
+$('#cutTreeStorageSize').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $('#cutTreeStorageLength').focus();
+    }
+});
+
+$('#cutTreeStorageLength').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $('#cutTreeStorageExtent').focus();
+    }
+});
+
+
+$('#cutTreeStorageExtent').on('keyup', function(event){
+    if(event.keyCode == 13){
+        event.preventDefault();
+        $("#buttonForAddingCutTreeStorageOakItem").click();
+        $('#cutTreeStorageDescr').focus();
+    }
+});
