@@ -104,6 +104,26 @@ function showEditCutModal(btnObj){
     $('#editTreeStorageCutModal').modal('show');
 }
 
+function calculateResult() {
+    let th = parseInt($('#editThickness').val());
+    let wd = parseInt($('#editWidth').val());
+    let ln = parseInt($('#editLength').val());
+    let dc = parseInt($('#editDescCount').val());
+    // let max = parseFloat($('#editUsedVolume').val());
+
+    let extent = th/1000*wd/1000*ln/1000*dc;
+    $('#editVolume').val(extent.toFixed(3));
+}
+
+$("#editCutMaterialForm").submit(function( event ) {
+    if (parseFloat($('#editVolume').val())>parseFloat($('#editUsedVolume').val())){
+        alert("Невозможно выполнить действие! Выход превышает кубатуру взятого материала на "+(parseFloat($('#editVolume').val())-parseFloat($('#editUsedVolume').val())).toFixed(3)+"м3.");
+        event.preventDefault();
+        return;
+    }else {
+
+    }
+});
 
 function returnToIncome(btnObj) {
     let trObj = btnObj.parentElement.parentElement;

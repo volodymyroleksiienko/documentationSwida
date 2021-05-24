@@ -339,7 +339,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/editQualityInfoObject-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/editQualityInfoObject-'+${userId}+'-'+${breedId}}" method="post" id="editCutMaterialForm">
 
                     <input type="text" class="form-control" id="treeStorageId" hidden="hidden" autocomplete="off" name="id">
 
@@ -363,22 +363,22 @@
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-4">
                                     <label class="col-form-label" for="editThickness">Толщина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editThickness" required="required" autocomplete="off" placeholder="мм" name="height"  oninput="calculateExtent()">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editThickness" required="required" autocomplete="off" placeholder="мм" name="height"  oninput="calculateResult()">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editWidth">Ширина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateResult()">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editLength">Длина, мм</label>
-                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateResult()">
                                 </div>
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
                                     <label class="col-form-label" for="editDescCount">Количество досок</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDescCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDescCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput="calculateResult()">
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="editAddedTo">Додано в</label>
