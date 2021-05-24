@@ -243,7 +243,7 @@ public class FabricRestController {
             descriptionDeskList.add(deskOak);
         }
         treeStorageService.save(treeStorage);
-        if(Integer.parseInt(supplier)==0) {
+        if(supplier.isEmpty() || Integer.parseInt(supplier)==0) {
             rawStorageService.checkQualityInfo(rawStorage);
         }
     }

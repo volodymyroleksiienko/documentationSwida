@@ -397,6 +397,9 @@ public class FabricController {
                 treeStorageService.save(rawStorage.getRecycle());
             }
             if(treeStorage!=null){
+                if(rawStorage.getUsedExtent().isEmpty()){
+                    rawStorage.setUsedExtent("0");
+                }
                 treeStorage.setExtent(
                         String.format("%.3f", Float.parseFloat(treeStorage.getExtent())
                                 + Float.parseFloat(rawStorage.getUsedExtent())).replace(",", ".")
@@ -406,7 +409,9 @@ public class FabricController {
             rawStorage.setExtent("0.000");
             rawStorage.setCountOfDesk(0);
             rawStorageService.save(rawStorage);
-//            rawStorageService.checkQualityInfo(rawStorage);
+            if(rawStorage.getTreeStorage()!=null && rawStorage.getTreeStorage().getContrAgent()!=null){
+            rawStorageService.checkQualityInfo(rawStorage);
+            }
         }else {
             rawStorageService.uncollectFromOnePineEntity(rawStorage,userId,breedId);
         }

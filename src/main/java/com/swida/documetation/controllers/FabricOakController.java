@@ -146,16 +146,17 @@ public class FabricOakController {
 
     @PostMapping("/addDeskFromProvider-{userId}-2")
     public String addDeskFromProvider(@PathVariable("userId")int userId, TreeStorage treeStorage, String sizeOfHeight,
-                                      String description, String nameOfAgent, String extent,String contractId){
+                                      String description, String nameOfAgentId, String extent,String contractId,String sizeOfLong){
        int breedId = 2;
 
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         treeStorage.setExtent("0.000");
+        treeStorage.setContrAgent(contrAgentService.findById(Integer.parseInt(nameOfAgentId)));
 
-        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
-        treeStorage.setOrderInfo(orderInfo);
-        treeStorage.setContrAgent(orderInfo.getContrAgent());
+//        OrderInfo orderInfo = orderInfoService.findById(Integer.parseInt(contractId));
+//        treeStorage.setOrderInfo(orderInfo);
+//        treeStorage.setContrAgent(orderInfo.getContrAgent());
 
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
         treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
@@ -170,17 +171,18 @@ public class FabricOakController {
         rawStorage.setExtent(extent);
 
         rawStorage.setSizeOfHeight(sizeOfHeight);
+        rawStorage.setSizeOfLong(sizeOfLong);
         rawStorage.setDescription(description);
 
         rawStorageService.save(rawStorage);
 
-        orderInfo.setDoneExtendOfOrder(
-                String.format("%.3f",
-                        Float.parseFloat(orderInfo.getDoneExtendOfOrder())+Float.parseFloat(rawStorageService.findById(rawStorage.getId()).getExtent()))
-                        .replace(",",".")
-        );
-        orderInfoService.save(orderInfo);
-        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
+//        orderInfo.setDoneExtendOfOrder(
+//                String.format("%.3f",
+//                        Float.parseFloat(orderInfo.getDoneExtendOfOrder())+Float.parseFloat(rawStorageService.findById(rawStorage.getId()).getExtent()))
+//                        .replace(",",".")
+//        );
+//        orderInfoService.save(orderInfo);
+//        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 

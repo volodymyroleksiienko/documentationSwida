@@ -756,9 +756,13 @@
                         <td th:text="${rs.id}"></td>
                         <td th:if="${rs.deskOakList.isEmpty()}"></td>
                         <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"><span></span></td>
-                        <th scope="col">
+                        <th scope="col" th:if="${rs?.statisticInfo!=null}">
                             <span th:text="${rs?.statisticInfo?.date?.substring(8,10)+'-'+rs?.statisticInfo?.date?.substring(5,7)+'-'+rs?.statisticInfo?.date?.substring(0,4)}"></span>
                             <span class="original-date" th:text="${rs?.statisticInfo?.date}" style="display: none"></span>
+                        </th>
+                        <th scope="col" th:if="${rs?.statisticInfo==null}">
+                            <span th:text="${rs?.date?.substring(8,10)+'-'+rs?.date?.substring(5,7)+'-'+rs?.date?.substring(0,4)}"></span>
+                            <span class="original-date" th:text="${rs?.date}" style="display: none"></span>
                         </th>
                         <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
@@ -772,7 +776,7 @@
                         <td th:text="${T(Double).parseDouble(rs?.extent)-T(Double).parseDouble(rs?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle!=null}" th:text="${T(Double).parseDouble(rs?.recycle?.extent)-T(Double).parseDouble(rs?.recycle?.maxExtent)}"></td>
                         <td th:if="${rs?.recycle==null}">null</td>
-                        <td>TUTAJ</td>
+                        <td th:text="${rs.getBuCutting}"></td>
                         <td style="text-align: right; width: 200px !important; display: block;">
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
                             <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorageOak(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
@@ -947,7 +951,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/XXX-'+${userId}+'-'+${breedId}}" method="post">
+                <form th:action="@{'/fabric/addDeskFromProvider-'+${userId}+'-'+${breedId}}" method="post">
                     <div class="modal-body" style="padding-top: 0; padding-bottom: 0;">
                         <!-- Insert rows -->
                         <div class="form-group">
@@ -986,7 +990,7 @@
                             <datalist id="suppliers4">
                                 <option  th:each="c, index : ${contrAgentList}" th:text="${c.nameOfAgent}" th:label="${c?.addressOfCompany}" th:data-value="${c.id}"></option>
                             </datalist>
-                            <input type="number" hidden="hidden"  name="contrAgent.id" id="addToRawStorageOakSupplier-hidden">
+                            <input type="number" hidden="hidden"  name="nameOfAgentId" id="addToRawStorageOakSupplier-hidden">
 
                             <label class="col-form-label" for="editForDryingModalDescription">Примечания</label>
                             <input type="text" class="form-control" placeholder="Не заполнено" name="description">
@@ -1471,6 +1475,7 @@
     <!--Add package end-->
 
 
+
     <!-- Export start-->
     <div class="modal fade" id="exportModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1481,20 +1486,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form  th:action="@{'/fabric/exportRawStorageXLS-'+${userId}+'-'+${breedId}}" method="post">
+                <form  th:action="@{'/fabric/exportRawStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-body">
-                        <div class="form-group row">
-                            <label for="startDateInput" class="col-2 col-form-label">Начало</label>
-                            <div class="col-10">
-                                <input class="form-control" type="date" value="2020-01-01" id="startDateInput" required="required" name="startDate">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="endDateInput" class="col-2 col-form-label">Конец</label>
-                            <div class="col-10">
-                                <input class="form-control" type="date" id="endDateInput" required="required" name="endDate">
-                            </div>
-                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Скачать</button>
