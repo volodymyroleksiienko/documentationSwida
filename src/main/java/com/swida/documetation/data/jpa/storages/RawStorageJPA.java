@@ -4,9 +4,11 @@ import com.swida.documetation.data.entity.storages.RawStorage;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public interface RawStorageJPA extends JpaRepository<RawStorage,Integer> {
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and  r.userCompany.id=?2 and r.countOfDesk>0 and r.statusOfEntity='ACTIVE'")
     List<RawStorage> getListByUserByBreed(int breedId, int userId);

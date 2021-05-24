@@ -113,9 +113,9 @@
                         <td>TUTAJ</td>
                         <td>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip" title="В сушку"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==true}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForPackagesStorage(this)"><i class="fas fa-cubes" data-toggle="tooltip" title="Формирование пачек"></i></button>
-                            <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==true}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
+                            <button th:if="${btnConfig?.equals('btnON') && rs?.getBuCutting==false}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)"><i class="fas fa-undo-alt" data-toggle="tooltip" title="Возвратить в приход"></i></button>
                         </td>
                     </tr>
                 </div>
