@@ -73,6 +73,7 @@
                 </tr>
                 <tr>
                     <th scope="col">id</th>
+                    <th scope="col">Дата выхода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -88,6 +89,10 @@
             <tbody>
                 <tr th:each="ds, index : ${dryStorageList}" th:id="${ds.id}">
                     <td th:text="${ds.id}"></td>
+                    <th>
+                        <span th:text="${ds?.date.substring(8,10)+'-'+ds?.date.substring(5,7)+'-'+ds?.date.substring(0,4)}"></span>
+                        <span class="original-date" th:text="${ds?.date}" style="display: none"></span>
+                    </th>
                     <th scope="row" th:text="${ds.codeOfProduct}">20-1С3-2605-1-2805</th>
                     <td th:text="${ds.breedOfTree.breed}"></td>
                     <td th:text="${ds.breedDescription}"></td>
@@ -108,6 +113,7 @@
             <tfoot>
                 <tr>
                     <th scope="col">id</th>
+                    <th scope="col">Дата выхода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -612,6 +618,7 @@
                 <tr>
                     <th></th>
                     <th style="width: 30px"></th>
+                    <th scope="col">Дата выхода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>
@@ -631,6 +638,10 @@
                         <td th:text="${rs.id}"></td>
                         <td th:if="${rs.deskOakList.isEmpty()}"></td>
                         <td th:if="${!rs.deskOakList.isEmpty()}" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"></td>
+                        <th>
+                            <span th:text="${rs?.date.substring(8,10)+'-'+rs?.date.substring(5,7)+'-'+rs?.date.substring(0,4)}"></span>
+                            <span class="original-date" th:text="${rs?.date}" style="display: none"></span>
+                        </th>
                         <th scope="row" th:text="${rs.codeOfProduct}"></th>
                         <td th:text="${rs.breedOfTree.breed}"></td>
                         <td th:text="${rs.breedDescription}"></td>
@@ -684,6 +695,7 @@
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
+                        <td style="display:none"></td>
                     </tr>
                 </div>
             </tbody>
@@ -691,6 +703,7 @@
                 <tr>
                     <th></th>
                     <th></th>
+                    <th scope="col">Дата выхода</th>
                     <th scope="col">Код партии</th>
                     <th scope="col">Порода</th>
                     <th scope="col">Описание</th>

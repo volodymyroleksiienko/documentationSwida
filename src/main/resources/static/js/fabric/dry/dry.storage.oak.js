@@ -17,7 +17,7 @@ function sendForPackagesStorageOak(btnObj) {
     $('#sendForDryingModalIdOak').val(trId);
     console.log("Row id: "+$(trObj).attr('id'));
 
-    var codeOfDryStorage =      $(trObj).find('th:eq(0)').text();
+    var codeOfDryStorage =      $(trObj).find('th:eq(1)').text();
     var size =                  $(trObj).find('td:eq(3)').text();
     var quality =               $(trObj).find('td:eq(7)').text();
     var length =                $(trObj).find('td:eq(4)').text();
@@ -71,7 +71,7 @@ function sendToPackages(btnObj) {
 
     console.log("Row id: "+$(trObj).attr('id'));
 
-    var code =          $(trObj).find('th:eq(0)').text();
+    var code =          $(trObj).find('th:eq(1)').text();
     var material =      $(trObj).find('td:eq(1)').text();
     var description =   $(trObj).find('td:eq(2)').text();
     var thickness =     $(trObj).find('td:eq(3)').text();
@@ -93,10 +93,10 @@ function editDryStorageOak(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#editDryStorageModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfDryStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfDryStorage = $(trObj).find('th:eq(1)').text();
     $('#editDryStorageModalHeader').text("Редактировать "+codeOfDryStorage);
 
-    var code =          $(trObj).find('th:eq(0)').text();
+    var code =          $(trObj).find('th:eq(1)').text();
     var material =      $(trObj).find('td:eq(1)').text();
     var description =   $(trObj).find('td:eq(2)').text();
     var thickness =     $(trObj).find('td:eq(3)').text();
@@ -144,7 +144,7 @@ function resetDryExtent(btnObj) {
     $('#resetItemId').val(trId);
     console.log("row id: "+trId);
 
-    let code = $(trObj).find('th:eq(0)').text();
+    let code = $(trObj).find('th:eq(1)').text();
 
     $('#resetItemModalConfirmation').text(" Вы уверены, что хотите обнулить кубатуру партии №"+code+"? Это действие не возвращает материал на предыдущий склад!");
     $('#resetModal').modal('show');
@@ -153,7 +153,7 @@ function resetDryExtent(btnObj) {
 function addOakDryStorageItem(btnObj) {
     let trObj = btnObj.parentElement.parentElement;
     let trId =              $(trObj).attr('id');
-    let packageCode =       $(trObj).find('th:eq(0)').text();
+    let packageCode =       $(trObj).find('th:eq(1)').text();
 
     console.log("row id: "+trId);
 

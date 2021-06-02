@@ -30,10 +30,10 @@ function sendForPackagesStorage(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#sendForPackagesModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfRawStorage = $(trObj).find('th:eq(1)').text();
     $('#sendForPackageModalHeader').text("Формирование пачек из  "+codeOfRawStorage);
 
-    var code = 			$(trObj).find('th:eq(0)').text();
+    var code = 			$(trObj).find('th:eq(1)').text();
     var material = 		$(trObj).find('td:eq(0)').text();
     var description = 	$(trObj).find('td:eq(1)').text();
     var thickness = 	parseInt($(trObj).find('td:eq(2)').text());
@@ -113,10 +113,10 @@ function editDryStorage(btnObj) {
     var trId =  $(trObj).attr('id');
     $('#editDryStorageModalId').val(trId);
     console.log(  $(trObj).attr('id'));
-    var codeOfRawStorage = $(trObj).find('th:eq(0)').text();
+    var codeOfRawStorage = $(trObj).find('th:eq(1)').text();
     $('#editDryStorageModalHeader').text("Редактировать "+codeOfRawStorage);
 
-    var code = $(trObj).find('th:eq(0)').text();
+    var code = $(trObj).find('th:eq(1)').text();
     var material = $(trObj).find('td:eq(0)').text();
     var description = $(trObj).find('td:eq(1)').text();
     var thickness = $(trObj).find('td:eq(2)').text();
