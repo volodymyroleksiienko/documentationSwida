@@ -797,14 +797,14 @@
                     <tr>
                         <th></th>
                         <th scope="col">id</th>
-                        <th scope="col">№ пачки</th>
-                        <th scope="col">Качество</th>
-                        <th scope="col">Толщина, мм</th>
-                        <th scope="col">Длина, мм</th>
-                        <th scope="col">Сум. ширина</th>
-                        <th scope="col">Кол. досок</th>
-                        <th scope="col">Кубатура, м<sup>3</sup></th>
-                        <th>Сух. скл. м<sup>3</sup></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=code&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('code') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">№ пачки</a></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=quality&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('quality') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Качество</a></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=height&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('height') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Толщина, мм</a></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=long&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('long') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Длина, мм</a></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=summaryLength&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('summaryLength') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Сум. ширина</a></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=descCount&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('descCount') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Кол. досок</a></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=extent&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('extent') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Кубатура, м<sup>3</sup></a></th>
+                        <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfPackageStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=dryStorageExtent&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('dryStorageExtent') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Сух. скл. м<sup>3</sup></a></th>
                         <th scope="col"></th>
                         <th class="display-none"></th>
                     </tr>

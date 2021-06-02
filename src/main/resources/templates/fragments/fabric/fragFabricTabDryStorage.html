@@ -618,13 +618,13 @@
                 <tr>
                     <th></th>
                     <th style="width: 30px"></th>
-                    <th scope="col">Дата выхода</th>
-                    <th scope="col">Код партии</th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=date&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('date') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Дата выхода</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=code&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('code') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Код партии</a></th>
                     <th scope="col">Порода</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Толщина, мм</th>
-                    <th scope="col">Длина, мм</th>
-                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=breedDescription&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('breedDescription') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Описание</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=height&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('height') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Толщина, мм</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=long&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('long') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Длина, мм</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfDryStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=extent&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('extent') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Кубатура, м<sup>3</sup></a></th>
                     <th scope="col">Примечание</th>
                     <th scope="col" class="display-none">qualityOfPack</th>
                     <th scope="col" class="display-none">longOfPack</th>
