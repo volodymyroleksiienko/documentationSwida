@@ -22,7 +22,10 @@
             <tbody>
             <tr th:each="doc : ${deliveryDocumentationList}" th:id="${doc.id}">
                 <td th:text="${doc.id}"></td>
-                <td scope="row" th:text="${doc.dateOfUnloading}"></td>
+                <td scope="row">
+                    <span th:text="${doc?.dateOfUnloading?.substring(8,10)+'-'+doc?.dateOfUnloading?.substring(5,7)+'-'+doc?.dateOfUnloading?.substring(0,4)}"></span>
+                    <span class="original-date" th:text="${doc?.dateOfUnloading}" style="display: none"></span>
+                </td>
                 <td th:text="${doc.driverInfo.idOfTruck}"></td>
                 <td th:text="${(doc.contrAgent!=null)?doc.contrAgent.addressOfCompany:''}"></td>
                 <td th:text="${doc.packagesExtent}"></td>
@@ -180,7 +183,7 @@
             let truckNumber =    $(trObj).find('td:eq(1)').text();
             $('#editTruckModalHeader').text("Редактировать "+ truckNumber);
 
-            let date =              $(trObj).find('td:eq(0)').text();
+            let date =              $(trObj).find('td:eq(0)').find('.original-date').text();
             let place =             $(trObj).find('td:eq(2)').text();
             let extent =            $(trObj).find('td:eq(3)').text();
             let contract =          $(trObj).find('td:eq(4)').text();
