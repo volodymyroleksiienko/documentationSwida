@@ -661,4 +661,63 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         }
         return productJPA.getExtentByOrder(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId,type);
     }
+
+    public List<PackagedProduct> sortedBy(List<PackagedProduct> list,String sortedField, String sortedType){
+        Comparator<PackagedProduct> comparator = (o1, o2) -> o2.getId()-o1.getId();
+        if(sortedField!=null && sortedType!=null) {
+            switch (sortedField) {
+                case "code":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparing(PackagedProduct::getCodeOfPackage);
+                    } else {
+                        comparator = (o1, o2) -> o2.getCodeOfPackage().compareTo(o1.getCodeOfPackage());
+                    }
+                    break;
+                case "quality":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparing(PackagedProduct::getQuality);
+                    } else {
+                        comparator = (o1, o2) -> o2.getQuality().compareTo(o1.getQuality());
+                    }
+                    break;
+                case "height":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getSizeOfHeight()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getSizeOfHeight()), Double.parseDouble(o1.getSizeOfHeight()));
+                    }
+                    break;
+                case "long":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getSizeOfLong()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getSizeOfLong()), Double.parseDouble(o1.getSizeOfLong()));
+                    }
+                    break;
+                case "sumWidth":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getSumWidthOfAllDesk()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getSumWidthOfAllDesk()), Double.parseDouble(o1.getSumWidthOfAllDesk()));
+                    }
+                    break;
+                case "countOfDesk":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getCountOfDesk()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getCountOfDesk()), Double.parseDouble(o1.getCountOfDesk()));
+                    }
+                    break;
+                case "extent":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getExtent()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getExtent()), Double.parseDouble(o1.getExtent()));
+                    }
+                    break;
+            }
+        }
+        list.sort(comparator);
+        return list;
+    }
 }

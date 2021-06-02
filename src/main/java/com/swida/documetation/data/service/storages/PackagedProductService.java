@@ -51,4 +51,5 @@ public interface PackagedProductService {
     List<String> getExtent(int breedId,String[] breedDesc,String[] sizeHeight,String[] sizeWidth,String[] sizeLong,int[] agentId,StatusOfProduct statusProduct);
     List<String> getExtentByOrder(int breedId, String[] breedDesc, String[] sizeHeight, String[] sizeWidth, String[] sizeLong, int[] agentId, DeliveryDestinationType type);
 
+    List<PackagedProduct> sortedBy(List<PackagedProduct> list,String sortedField, String sortedType);
 }

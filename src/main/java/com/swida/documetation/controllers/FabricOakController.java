@@ -462,7 +462,8 @@ public class FabricOakController {
     //Dry Storage page
     @GetMapping("/getListOfDryStorage-{userId}-2")
     public String getListOfDryStorage(@PathVariable("userId")int userId,Model model,String[] descriptions,
-                                      String[] heights, String[] longs, String[] widths, HttpServletRequest request){
+                                      String[] heights, String[] longs, String[] widths, HttpServletRequest request,
+                                      String sortedField,String sortedType){
         int breedId = 2;
 
         model.addAttribute("fragmentPathTabDryStorage","dryStorageOAK");
@@ -479,7 +480,27 @@ public class FabricOakController {
                 dryStorageService.save(dryStorage);
             }
         }
-        model.addAttribute("dryStorageList",dryStorageList);
+        String requestParams = request.getQueryString();
+        if(requestParams!=null) {
+            requestParams = requestParams.replace("sortedField=date", "")
+                    .replace("sortedField=code", "")
+                    .replace("sortedField=description", "")
+                    .replace("sortedField=breedDescription", "")
+                    .replace("sortedField=height", "")
+                    .replace("sortedField=long", "")
+                    .replace("sortedField=extent", "")
+                    .replace("sortedField=provider", "")
+                    .replace("sortedType=ASC", "")
+                    .replace("sortedType=DESC", "")
+                    .replace("&&", "&")
+                    .replace("&&&", "&");
+        }
+        model.addAttribute("exportLinkParams", "?" + requestParams);
+        model.addAttribute("sortedField", sortedField);
+        model.addAttribute("sortedType",sortedType);
+
+
+        model.addAttribute("dryStorageList",dryStorageService.sortedBy(dryStorageList,sortedField,sortedType));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
@@ -488,7 +509,6 @@ public class FabricOakController {
         model.addAttribute("sizeOfHeightList",dryStorageService.getListOfUnicSizeOfHeight(breedId));
         model.addAttribute("sizeOfWidthList",dryStorageService.getListOfUnicSizeOfWidth(breedId));
         model.addAttribute("sizeOfLongList",dryStorageService.getListOfUnicSizeOfLong(breedId));
-        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
         model.addAttribute("sumExtent",dryStorageService.countExtent(dryStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
         btnConfig(userId,model);
         return "fabricPage";
@@ -548,7 +568,7 @@ public class FabricOakController {
         //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-2")
     public String getListOfPackagedProduct(@PathVariable("userId")int userId, Model model,String[] qualities, String[] heights, String[] longs, String[] widths,
-                                           HttpServletRequest request){
+                                           HttpServletRequest request,String sortedField,String sortedType){
         int breedId = 2;
         model.addAttribute("fragmentPathTabPackageStorage","packageStorageOak");
         model.addAttribute("tabName","packageStorage");
@@ -556,7 +576,7 @@ public class FabricOakController {
         model.addAttribute("breedId",breedId);
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
         List<PackagedProduct> productList = packagedProductService.getFilteredListOak(breedId,userId,qualities,heights,longs).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList());
-        model.addAttribute("packageOakList",productList);
+        model.addAttribute("packageOakList",packagedProductService.sortedBy(productList,sortedField,sortedType));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
@@ -569,9 +589,29 @@ public class FabricOakController {
         model.addAttribute("qualityList",packagedProductService.getListOfUnicQuality(breedId));
         model.addAttribute("sizeOfHeightList",packagedProductService.getListOfUnicSizeOfHeight(breedId));
         model.addAttribute("sizeOfLongList",packagedProductService.getListOfUnicSizeOfLong(breedId));
-        model.addAttribute("exportLinkParams", "?" + request.getQueryString());
         model.addAttribute("sumExtent",packagedProductService.countExtent(productList).setScale(3, RoundingMode.DOWN).doubleValue());
         btnConfig(userId,model);
+
+        String requestParams = request.getQueryString();
+        if(requestParams!=null) {
+            requestParams = requestParams.replace("sortedField=date", "")
+                    .replace("sortedField=code", "")
+                    .replace("sortedField=quality", "")
+                    .replace("sortedField=height", "")
+                    .replace("sortedField=long", "")
+                    .replace("sortedField=sumWidth", "")
+                    .replace("sortedField=extent", "")
+                    .replace("sortedField=countOfDesk", "")
+                    .replace("sortedType=ASC", "")
+                    .replace("sortedType=DESC", "")
+                    .replace("&&", "&")
+                    .replace("&&", "&")
+                    .replace("&&", "&")
+                    .replace("&&", "&");
+        }
+        model.addAttribute("exportLinkParams", "?" + requestParams);
+        model.addAttribute("sortedField", sortedField);
+        model.addAttribute("sortedType",sortedType);
 
         return "fabricPage";
     }

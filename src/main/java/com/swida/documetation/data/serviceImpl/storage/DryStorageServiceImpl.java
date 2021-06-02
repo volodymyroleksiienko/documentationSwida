@@ -330,4 +330,56 @@ public class DryStorageServiceImpl implements DryStorageService {
         }
         return dryStorageJPA.getExtent(breedId,breedDesc,sizeHeight,sizeWidth,sizeLong,agentId);
     }
+
+    public List<DryStorage> sortedBy(List<DryStorage> list,String sortedField, String sortedType){
+        Comparator<DryStorage> comparator = (o1, o2) -> o2.getId()-o1.getId();
+        if(sortedField!=null && sortedType!=null) {
+            switch (sortedField) {
+                case "date":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparing(DryStorage::getDate);
+                    } else {
+                        comparator = (o1, o2) -> o2.getDate().compareTo(o1.getDate());
+                    }
+                    break;
+                case "code":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparing(DryStorage::getCodeOfProduct);
+                    } else {
+                        comparator = (o1, o2) -> o2.getCodeOfProduct().compareTo(o1.getCodeOfProduct());
+                    }
+                    break;
+                case "breedDescription":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparing(DryStorage::getBreedDescription);
+                    } else {
+                        comparator = (o1, o2) -> o2.getBreedDescription().compareTo(o1.getBreedDescription());
+                    }
+                    break;
+                case "height":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getSizeOfHeight()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getSizeOfHeight()), Double.parseDouble(o1.getSizeOfHeight()));
+                    }
+                    break;
+                case "long":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getSizeOfLong()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getSizeOfLong()), Double.parseDouble(o1.getSizeOfLong()));
+                    }
+                    break;
+                case "extent":
+                    if (sortedType.equals("ASC")) {
+                        comparator = Comparator.comparingDouble(o -> Double.parseDouble(o.getExtent()));
+                    } else {
+                        comparator = (o1, o2) -> Double.compare(Double.parseDouble(o2.getExtent()), Double.parseDouble(o1.getExtent()));
+                    }
+                    break;
+            }
+        }
+        list.sort(comparator);
+        return list;
+    }
 }

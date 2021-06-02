@@ -33,4 +33,5 @@ public interface DryStorageService {
     List<String> getListOfUnicSizeOfLong(int breedId);
 
     List<String> getExtent(int breedId,String[] breedDesc,String[] sizeHeight,String[] sizeWidth,String[] sizeLong,int[] agentId);
+    List<DryStorage> sortedBy(List<DryStorage> list,String sortedField, String sortedType);
 }
