@@ -35,4 +35,5 @@ public interface RawStorageService {
 
     List<String> getExtent(int breedId,String[] breedDesc,String[] sizeHeight,String[] sizeWidth,String[] sizeLong,int[] agentId);
 
+    List<RawStorage> sortedBy(List<RawStorage> list,String sortedField, String sortedType);
 }
