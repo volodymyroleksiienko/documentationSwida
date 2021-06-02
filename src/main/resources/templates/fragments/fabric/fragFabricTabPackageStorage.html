@@ -590,7 +590,10 @@
                     </button>
                 </div>
                 <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
-                        <input name="factExport" value="true">
+<!--                        <input name="factExport" value="true">-->
+                    <div class="modal-body">
+                        <p>В экспортируемый файл попадут все записи, которые отображены в таблице.</p>
+                    </div>
                      <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
@@ -1453,6 +1456,9 @@
                     </button>
                 </div>
                 <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
+                    <div class="modal-body">
+                        <p>В экспортируемый файл попадут все записи, которые отображены в таблице.</p>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Скачать</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
