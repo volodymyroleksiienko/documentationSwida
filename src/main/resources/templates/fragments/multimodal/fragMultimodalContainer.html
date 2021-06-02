@@ -37,7 +37,10 @@
                 <td th:text="${container.costOfWeighing}"></td>
                 <td th:text="${container.exchangeRate}"></td>
                 <td th:text="${container.equalsToUAH}"></td>
-                <td th:text="${container.date}"></td>
+                <td>
+                    <span th:text="${container?.date?.substring(8,10)+'-'+container?.date?.substring(5,7)+'-'+container?.date?.substring(0,4)}"></span>
+                    <span class="original-date" th:text="${container?.date?}" style="display: none"></span>
+                </td>
                 <td th:text="${container.destinationType}"></td>
                 <td th:text="${container.statusOfEntity}"></td>
                 <td th:text="${container?.contrAgent?.id}"></td>
