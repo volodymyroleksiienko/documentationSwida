@@ -733,19 +733,19 @@
                     <th colspan="8">ИТОГО:</th>
                     <th colspan="7" th:text="${sumExtent}">123123.00 м<sup>3</sup></th>
                 </tr>
-                <tr>
+                <tr style="color: #212529">
                     <th></th>
                     <th style="width: 30px"></th>
-                    <th scope="col">Дата распил./прихода</th>
-                    <th scope="col">Код партии</th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Дата распил./прихода</a></th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Код партии</a></th>
                     <th scope="col">Порода</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Толщина, мм</th>
-                    <th scope="col">Длина, мм</th>
-                    <th scope="col">Кубатура, м<sup>3</sup></th>
-                    <th scope="col">Примечане</th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Описание</a></th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Толщина, мм</a></th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Длина, мм</a></th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Кубатура, м<sup>3</sup></a></th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Примечане</a></th>
                     <th scope="col">TreeStorage extent</th>
-                    <th scope="col">Поставщик</th>
+                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Поставщик</a></th>
                     <th scope="col">rs.ext-rs.max</th>
                     <th scope="col">rec.ext-rs.rec.max</th>
                     <th></th>
@@ -812,6 +812,9 @@
                                 </tbody>
                             </table>
                         </td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>

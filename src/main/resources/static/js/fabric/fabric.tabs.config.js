@@ -698,7 +698,7 @@ $(document).ready( function () {
     });
 
 
-    let rawstoragetableoak =  $('#rawstoragetableoak').DataTable({
+     let rawstoragetableoak =  $('#rawstoragetableoak').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
         },
@@ -726,6 +726,19 @@ $(document).ready( function () {
             { className: "display-none", "targets": [ -6, -4, -3, -2] },
         ]
     });
+
+    // let newData = ( rawstoragetableoak.rows( ).data() );
+    // for (let i = newData.length-1; i>=0; i--) {
+    //     for (let j = 0; j>newData[i].length; j++ ) {
+    //         console.log(newData[i][j]);
+    //     }
+    //     console.log("\n");
+    // }
+
+    // function sortByColumn(column, order){
+    //     let array = rawstoragetableoak.rows().data();
+    //     console.log("col: "+column+"; order: "+ order+"; \ndata: "+array);
+    // }
 
     let tableForOakRawStorageGrouping = $('#tableForOakRawStorageGrouping').DataTable({
         "language": {
