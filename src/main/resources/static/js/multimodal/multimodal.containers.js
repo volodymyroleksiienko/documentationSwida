@@ -61,7 +61,7 @@ function editContainer(btnObj) {
     let measurement =           $(trObj).find('td:eq(7)').text();
     let currency =              $(trObj).find('td:eq(8)').text();
     let uah =                   $(trObj).find('td:eq(9)').text();
-    let date =                  $(trObj).find('td:eq(10)').text();
+    let date =                  $(trObj).find('td:eq(10)').find('.original-date').text();
     let state =                 $(trObj).find('td:eq(11)').text();
     let buyerId =               $(trObj).find('td:eq(13)').text();
 
