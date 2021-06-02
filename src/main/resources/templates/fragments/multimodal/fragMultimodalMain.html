@@ -25,46 +25,49 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${multimodalOrderList}" th:id="${order.id}">
-                <td th:text="${order.id}"></td>
-                <th scope="row" th:text="${order.codeOfOrder}"></th>
-                <td th:text="${order?.contrAgent?.nameOfAgent}"></td>
-                <td th:text="${order?.breedOfTree?.breed}"></td>
-                <td th:text="${order.breedDescription}"></td>
-                <td th:text="${order.extentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
-                <td th:text="${order.doneExtendOfOrder}"></td>
-                <td th:text="${order.extentInContainer}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
-                <td th:text="${order.extentWithoutContainer}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
-                <td th:text="${order.toDoExtentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
-                <td th:text="${order.date}"  class="change-color" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
-                <td th:text="${order.statusOfEntity}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
-                <td th:text="${order?.contrAgent?.id}"></td>
-                <td style="text-align: right; width: 140px !important; display: block;">
-                    <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
-                    <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
-                    <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/exportAllPackagesByContract-'+${order.id}}"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></a>
-                    <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
-                </td>
-            </tr>
+                <tr th:each="order : ${multimodalOrderList}" th:id="${order.id}">
+                    <td th:text="${order.id}"></td>
+                    <th scope="row" th:text="${order.codeOfOrder}"></th>
+                    <td th:text="${order?.contrAgent?.nameOfAgent}"></td>
+                    <td th:text="${order?.breedOfTree?.breed}"></td>
+                    <td th:text="${order.breedDescription}"></td>
+                    <td th:text="${order.extentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
+                    <td th:text="${order.doneExtendOfOrder}"></td>
+                    <td th:text="${order.extentInContainer}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
+                    <td th:text="${order.extentWithoutContainer}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
+                    <td th:text="${order.toDoExtentOfOrder}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
+                    <td class="change-color" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">
+                        <span th:text="${order?.date?.substring(8,10)+'-'+order?.date?.substring(5,7)+'-'+order?.date?.substring(0,4)}"></span>
+                        <span class="original-date" th:text="${order?.date}" style="display: none"></span>
+                    </td>
+                    <td th:text="${order.statusOfEntity}" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}"></td>
+                    <td th:text="${order?.contrAgent?.id}"></td>
+                    <td style="text-align: right; width: 140px !important; display: block;">
+                        <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/getTrucksByContract-'+${order.id}}"><i class="fas fa-info-circle" data-toggle="tooltip" title="Подробно"></i></a>
+                        <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="editContract(this)"><i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i></button>
+                        <a class="btn btn-primary btn-sm" th:href="@{'/multimodal/exportAllPackagesByContract-'+${order.id}}"><i class="far fa-file-excel" data-toggle="tooltip" title="Экспорт"></i></a>
+                        <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}" type="button" class="btn btn-primary btn-sm" onclick="sendToArchive(this)"><i class="far fa-folder-open" data-toggle="tooltip" title="В архив"></i></button>
+                    </td>
+                </tr>
             </tbody>
 
             <tfoot>
-            <tr>
-                <th>id</th>
-                <th scope="col">№ контр.</th>
-                <th scope="col">Покупатель</th>
-                <th scope="col">Материал</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Кубатура</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Выполнено</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгружено</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Остаток</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожид. объем</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
-                <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
-                <th></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>id</th>
+                    <th scope="col">№ контр.</th>
+                    <th scope="col">Покупатель</th>
+                    <th scope="col">Материал</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Кубатура</th>
+                    <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Выполнено</th>
+                    <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Отгружено</th>
+                    <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Остаток</th>
+                    <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Ожид. объем</th>
+                    <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Срок выполнения</th>
+                    <th scope="col" th:if="${buttonConfig!=null && buttonConfig.equals('multimodalMain')}">Статус</th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </tfoot>
         </table>
         <!-- BUTTON START-->
@@ -164,7 +167,7 @@
             var extent =            $(trObj).find('td:eq(3)').text();
             var sent =              $(trObj).find('td:eq(4)').text();
             var expected =          $(trObj).find('td:eq(5)').text();
-            var terms =             $(trObj).find('td:eq(8)').text();
+            var terms =             $(trObj).find('td:eq(8)').find('.original-date').text();;
             var agentId =           $(trObj).find('td:eq(10)').text();
 
             $('#editContractNumber')              .val(contractNumber);

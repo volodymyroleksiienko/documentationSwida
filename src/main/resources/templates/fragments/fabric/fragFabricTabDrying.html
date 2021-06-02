@@ -27,8 +27,14 @@
                         <td th:text="${cell?.cell}"></td>
                         <td th:text="${cell?.extent}"></td>
                         <td th:text="${cell.thickness}"></td>
-                        <td th:text="${cell?.startDate}"></td>
-                        <td th:text="${cell?.endDate}"></td>
+                        <td>
+                            <span th:text="${cell?.startDate?.substring(8,10)+'-'+cell?.startDate?.substring(5,7)+'-'+cell?.startDate?.substring(0,4)}"></span>
+                            <span class="original-date" th:text="${cell?.startDate}" style="display: none"></span>
+                        </td>
+                        <td>
+                            <span th:text="${cell?.endDate.substring(8,10)+'-'+cell?.endDate.substring(5,7)+'-'+cell?.endDate.substring(0,4)}"></span>
+                            <span class="original-date" th:text="${cell?.endDate}" style="display: none"></span>
+                        </td>
                         <td th:text="${cell?.countOfDesk}"></td>
                         <td style="width: 40px">
                             <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingMultiple(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
@@ -68,8 +74,14 @@
                                 <td th:text="${ds.countOfDesk}"></td>
                                 <td th:text="${ds.extent}"></td>
                                 <td th:text="${ds?.cell}"></td>
-                                <td th:text="${ds?.startDate}"></td>
-                                <td th:text="${ds?.dateDrying}"></td>
+                                <td>
+                                    <span th:text="${ds?.startDate?.substring(8,10)+'-'+ds?.startDate?.substring(5,7)+'-'+ds?.startDate?.substring(0,4)}"></span>
+                                    <span class="original-date" th:text="${ds?.startDate}" style="display: none"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${ds?.dateDrying?.substring(8,10)+'-'+ds?.dateDrying?.substring(5,7)+'-'+ds?.dateDrying?.substring(0,4)}"></span>
+                                    <span class="original-date" th:text="${ds?.dateDrying}" style="display: none"></span>
+                                </td>
                                 <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
                                 <td>
                                     <button th:if="${btnConfig?.equals('btnON')}" type="button"
@@ -409,8 +421,14 @@
                             <td th:text="${cell?.cell}"></td>
                             <td th:text="${cell.extent}"></td>
                             <td th:text="${cell.thickness}"></td>
-                            <td th:text="${cell?.startDate}"></td>
-                            <td th:text="${cell?.endDate}"></td>
+                            <td>
+                                <span th:text="${cell?.startDate?.substring(8,10)+'-'+cell?.startDate?.substring(5,7)+'-'+cell?.startDate?.substring(0,4)}"></span>
+                                <span class="original-date" th:text="${cell?.startDate}" style="display: none"></span>
+                            </td>
+                            <td>
+                                <span th:text="${cell?.endDate.substring(8,10)+'-'+cell?.endDate.substring(5,7)+'-'+cell?.endDate.substring(0,4)}"></span>
+                                <span class="original-date" th:text="${cell?.endDate}" style="display: none"></span>
+                            </td>
                             <td style="width: 40px">
                                 <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="sendForDryingMultipleOak(this)"><i class="fas fa-th" data-toggle="tooltip" title="На сухой склад"></i></button>
                             </td>
@@ -453,8 +471,14 @@
                                             <td th:text="${rs.extent}"></td>
                                             <td th:text="${rs.description}"></td>
                                             <td th:text="${rs?.cell}"></td>
-                                            <td th:text="${rs?.startDate}"></td>
-                                            <td th:text="${rs.dateDrying}"></td>
+                                            <td>
+                                                <span th:text="${rs?.startDate?.substring(8,10)+'-'+rs?.startDate?.substring(5,7)+'-'+rs?.startDate?.substring(0,4)}"></span>
+                                                <span class="original-date" th:text="${rs?.startDate}" style="display: none"></span>
+                                            </td>
+                                            <td>
+                                                <span th:text="${rs?.dateDrying?.substring(8,10)+'-'+rs?.dateDrying?.substring(5,7)+'-'+rs?.dateDrying?.substring(0,4)}"></span>
+                                                <span class="original-date" th:text="${rs?.dateDrying}" style="display: none"></span>
+                                            </td>
                                             <td th:text="${rs?.rawStorage?.extent}"></td>
                                             <td style="text-align: right">
                                                 <button th:if="${btnConfig?.equals('btnON') && !rs.deskOakList.isEmpty()}" type="button"

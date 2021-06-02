@@ -14,7 +14,7 @@ function sendForDryingOak(btnObj) {
     var length =            $(trObj).find('td:eq(4)').text();
     var extent =            $(trObj).find('td:eq(5)').text();
     var description =       $(trObj).find('td:eq(6)').text();
-    var date =              $(trObj).find('td:eq(7)').text();
+    var date =              $(trObj).find('td:eq(7)').find('.original-date').text();
 
     $('#sendForDryStorageModalCode').val(code);
     $('#sendForDryStorageModalMaterial').val(material);
@@ -59,8 +59,8 @@ function editRawStorageOak(btnObj) {
     var extent =            $(trObj).find('td:eq(5)').text();
     var description =       $(trObj).find('td:eq(6)').text();
     var cell =              $(trObj).find('td:eq(7)').text();
-    var incomeDate =        $(trObj).find('td:eq(8)').text();
-    var exitDate =          $(trObj).find('td:eq(9)').text();
+    var incomeDate =        $(trObj).find('td:eq(8)').find('.original-date').text();
+    var exitDate =          $(trObj).find('td:eq(9)').find('.original-date').text();
     var rawExtent =         $(trObj).find('td:eq(10)').text();
     var initial =           $(trObj).find('td:eq(5)').text();
 
