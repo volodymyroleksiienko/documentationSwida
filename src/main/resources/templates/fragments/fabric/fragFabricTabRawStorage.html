@@ -736,16 +736,16 @@
                 <tr style="color: #212529">
                     <th></th>
                     <th style="width: 30px"></th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Дата распил./прихода</a></th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Код партии</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=date&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('date') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Дата распил./прихода</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=code&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('code') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Код партии</a></th>
                     <th scope="col">Порода</th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Описание</a></th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Толщина, мм</a></th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Длина, мм</a></th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Кубатура, м<sup>3</sup></a></th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Примечане</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=breedDescription&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('breedDescription') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Описание</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=height&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('height') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Толщина, мм</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=long&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('long') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Длина, мм</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=extent&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('extent') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Кубатура, м<sup>3</sup></a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=description&sortedType='+${(sortedField!=null && sortedType!=null &&  sortedField?.equals('description') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Примечане</a></th>
                     <th scope="col">TreeStorage extent</th>
-                    <th scope="col" class="sorting"><a href="#" style="color: #212529">Поставщик</a></th>
+                    <th scope="col" class="sorting"><a th:href="@{'/fabric/getListOfRawStorage-'+${userId}+'-'+${breedId}+${exportLinkParams}+'&sortedField=provider&sortedType='+${(sortedField!=null && sortedType!=null && sortedField?.equals('provider') && sortedType?.equals('ASC'))?'DESC':'ASC'}}" style="color: #212529">Поставщик</a></th>
                     <th scope="col">rs.ext-rs.max</th>
                     <th scope="col">rec.ext-rs.rec.max</th>
                     <th></th>
