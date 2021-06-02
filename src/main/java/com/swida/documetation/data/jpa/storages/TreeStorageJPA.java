@@ -19,6 +19,9 @@ public interface TreeStorageJPA extends JpaRepository<TreeStorage,Integer> {
     @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfTreeStorage=?3 and t.isMainStorage=?4 and  t.extent<>'0.000' and  t.extent not like '-%'")
     Optional<TreeStorage> getListByUserByBreedByMain(int breedId, int userId, StatusOfTreeStorage status, Boolean main);
 
+    @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id in ?2 and t.statusOfTreeStorage=?3 and t.isMainStorage=?4 and  t.extent<>'0.000' and  t.extent not like '-%'")
+    List<TreeStorage> getListByUserByBreedByMain(int breedId, List<Integer> userId, StatusOfTreeStorage status, Boolean main);
+
     @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfTreeStorage=?3 ")
     List<TreeStorage> getListByUserByBreedALL(int breedId, int userId, StatusOfTreeStorage status);
 

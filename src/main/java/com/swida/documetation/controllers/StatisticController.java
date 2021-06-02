@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -110,11 +111,10 @@ public class StatisticController {
 
     private Set<String> getAllBreedDescription(int breedId){
         Set<String> list = new TreeSet<>();
-        list.addAll(treeStorageService.getListOfUnicBreedDescription(breedId));
+//        list.addAll(treeStorageService.getListOfUnicBreedDescription(breedId));
         list.addAll(rawStorageService.getListOfUnicBreedDescription(breedId));
         list.addAll(dryStorageService.getListOfUnicBreedDescription(breedId));
         list.addAll(dryingStorageService.getListOfUnicBreedDescription(breedId));
-        System.out.println(packagedProductService.getListOfUnicBreedDescription(breedId));
         list.addAll(packagedProductService.getListOfUnicBreedDescription(breedId));
         list.addAll(orderInfoService.getListOfUnicBreedDescription(breedId));
         return list.stream().map(String::trim).collect(Collectors.toSet());
@@ -125,7 +125,6 @@ public class StatisticController {
         list.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedId));
         list.addAll(dryStorageService.getListOfUnicSizeOfHeight(breedId));
         list.addAll(dryingStorageService.getListOfUnicSizeOfHeight(breedId));
-        System.out.println(packagedProductService.getListOfUnicSizeOfHeight(breedId));
         list.addAll(packagedProductService.getListOfUnicSizeOfHeight(breedId));
         return list;
     }
@@ -136,7 +135,6 @@ public class StatisticController {
         list.addAll(dryStorageService.getListOfUnicSizeOfWidth(breedId));
         list.addAll(dryingStorageService.getListOfUnicSizeOfWidth(breedId));
         list.addAll(packagedProductService.getListOfUnicSizeOfWidth(breedId));
-        System.out.println(packagedProductService.getListOfUnicSizeOfWidth(breedId));
         return list;
     }
 
@@ -217,11 +215,17 @@ public class StatisticController {
         json.put("providerInWork","0.000");
         json.put("recycleStorage","0.000");
 
+        List<Integer> listOfProviders = new ArrayList<>();
+        if(providers!=null){
+            for(int id: providers){
+                listOfProviders.add(id);
+            }
+        }
         for(String stg:stages){
             switch (stg){
             case "treeStorage":
-                System.out.println(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.TREE));
-                json.put("treeStorage",formatExtent(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.TREE)));
+                System.out.println(treeStorageService.getMainTreeStorage(breedId,listOfProviders));
+                json.put("treeStorage",formatExtent(treeStorageService.getMainTreeStorage(breedId,listOfProviders).stream().map(TreeStorage::getExtent).collect(Collectors.toList())));
                 break;
 
             case "rawStorage":

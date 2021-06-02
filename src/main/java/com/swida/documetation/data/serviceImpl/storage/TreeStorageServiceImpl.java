@@ -121,6 +121,11 @@ public class TreeStorageServiceImpl implements TreeStorageService {
         return treeStorage;
     }
 
+    @Override
+    public List<TreeStorage> getMainTreeStorage(int breedId, List<Integer> userId) {
+        return treeStorageJPA.getListByUserByBreedByMain(breedId,userId,StatusOfTreeStorage.TREE,true);
+    }
+
 
 //    @Override
 //    public void checkQualityInfo(TreeStorage treeStorage,String height, float extent) {

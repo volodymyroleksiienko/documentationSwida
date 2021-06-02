@@ -12,6 +12,7 @@ public interface TreeStorageService {
     TreeStorage putNewTreeStorageObj(int breedId, int userId,TreeStorage treeStorage);
 //    void checkQualityInfo(TreeStorage treeStorage,String height,float extent);
     TreeStorage getMainTreeStorage(int breedId, int userId);
+    List<TreeStorage> getMainTreeStorage(int breedId, List<Integer> userId);
     TreeStorage findById(int id);
     List<TreeStorage> findAll();
     List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status);
