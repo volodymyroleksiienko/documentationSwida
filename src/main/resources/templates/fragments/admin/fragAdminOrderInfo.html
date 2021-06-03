@@ -811,7 +811,7 @@
                 <td th:text="${b.extentOfOrder}"></td>
                 <td th:text="${b.doneExtendOfOrder}"></td>
                 <td th:text="${b.toDoExtentOfOrder}"></td>
-                <td th:text="${b.date}" class="change-color">
+                <td class="change-color">
                     <span th:text="${b?.date?.substring(8,10)+'-'+b?.date?.substring(5,7)+'-'+b?.date?.substring(0,4)}"></span>
                     <span class="original-date" th:text="${b?.date}" style="display: none"></span>
                 </td>
