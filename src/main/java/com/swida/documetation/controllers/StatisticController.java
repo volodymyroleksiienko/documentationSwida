@@ -327,8 +327,8 @@ public class StatisticController {
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
             int breedId = breedOfTree.getId();
-            desc.addAll(rawStorageService.getListOfUnicBreedDescription(breedId).stream().map(String::trim).collect(Collectors.toSet()));
-            heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedId));
+            desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedId).stream().map(String::trim).collect(Collectors.toSet()));
+            heights.addAll(statisticInfoService.getListOfUnicSizeOfHeight(breedId));
         }
         model.addAttribute("descriptions",desc);
         model.addAttribute("thickness",heights);
@@ -376,8 +376,8 @@ public class StatisticController {
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
             int breedOfTreeId = breedOfTree.getId();
-            desc.addAll(rawStorageService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
-            heights.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedOfTreeId));
+            desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
+            heights.addAll(statisticInfoService.getListOfUnicSizeOfHeight(breedOfTreeId));
         }
         model.addAttribute("descriptions",desc);
         model.addAttribute("thickness",heights);
@@ -448,14 +448,14 @@ public class StatisticController {
         if(thickness==null || thickness.size()==0) {
             thickness = new ArrayList<>();
             for(int breedOfTreeId:breedId){
-                thickness.addAll(rawStorageService.getListOfUnicSizeOfHeight(breedOfTreeId));
+                thickness.addAll(statisticInfoService.getListOfUnicSizeOfHeight(breedOfTreeId));
             }
         }
 
         if(desc==null || desc.size()==0) {
             desc = new ArrayList<>();
             for(int breedOfTreeId:breedId){
-                desc.addAll(rawStorageService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
+                desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
             }
         }
 

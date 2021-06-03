@@ -1,6 +1,7 @@
 package com.swida.documetation.data.service.storages;
 
 import com.swida.documetation.data.entity.storages.QualityStatisticInfo;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -14,4 +15,7 @@ public interface QualityStatisticInfoService {
     List<QualityStatisticInfo> findAll();
     void returnQualityInfo(int id);
     void deleteByID(int id);
+
+     List<String> getListOfUnicBreedDescription(int breedId);
+     List<String> getListOfUnicSizeOfHeight(int breedId);
 }

@@ -145,4 +145,14 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
         System.out.println("delete "+id);
         infoJPA.deleteQualityStatisticInfoById(id);
     }
+
+    @Override
+    public List<String> getListOfUnicBreedDescription(int breedId) {
+        return infoJPA.getListOfUnicBreedDescription(breedId);
+    }
+
+    @Override
+    public List<String> getListOfUnicSizeOfHeight(int breedId) {
+        return infoJPA.getListOfUnicSizeOfHeight(breedId);
+    }
 }
