@@ -16,7 +16,7 @@ public interface TreeStorageJPA extends JpaRepository<TreeStorage,Integer> {
     @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfTreeStorage=?3 and  t.extent<>'0.000' and  t.extent not like '-%'")
     List<TreeStorage> getListByUserByBreed(int breedId, int userId, StatusOfTreeStorage status);
 
-    @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfTreeStorage=?3 and t.isMainStorage=?4 and  t.extent<>'0.000' and  t.extent not like '-%'")
+    @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfTreeStorage=?3 and t.isMainStorage=?4")
     Optional<TreeStorage> getListByUserByBreedByMain(int breedId, int userId, StatusOfTreeStorage status, Boolean main);
 
     @Query("select t from  TreeStorage  t where t.breedOfTree.id=?1 and  t.userCompany.contrAgent.id in ?2 and t.statusOfTreeStorage=?3 and t.isMainStorage=?4 and  t.extent<>'0.000' and  t.extent not like '-%'")
@@ -36,5 +36,4 @@ public interface TreeStorageJPA extends JpaRepository<TreeStorage,Integer> {
 
     @Query("select obj.extent from TreeStorage obj where obj.breedOfTree.id=?1 and trim(obj.breedDescription) in ?2 and obj.userCompany.contrAgent.id in ?3 and obj.statusOfTreeStorage=?4 and obj.userCompany.id=?5 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%'")
     List<String> getListOfExtent(int breedId, String[] breedDesc,int[] providers,StatusOfTreeStorage status,int userId);
-
 }
