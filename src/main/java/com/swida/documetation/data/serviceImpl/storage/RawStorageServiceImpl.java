@@ -294,6 +294,7 @@ public class RawStorageServiceImpl implements RawStorageService {
 
     @Override
     public void countExtentRawStorageWithDeskDescription(RawStorage rawStorage) {
+        entityManager.refresh(rawStorage);
         if(rawStorage.getDeskOakList()==null || rawStorage.getDeskOakList().size()==0){
             return;
         }

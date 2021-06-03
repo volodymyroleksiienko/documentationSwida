@@ -866,7 +866,7 @@
                                 <td th:text="${list?.percent}"></td>
                                 <td th:text="${list?.rawStorage?.codeOfProduct}"></td>
                                 <td>
-                                    <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" onclick="showEditCutModal(this)">
+                                    <button th:if="${btnConfig?.equals('btnON') && (list?.rawStorage?.deskOakList?.size()==0 || list?.rawStorage?.deskOakList==null)}" type="button" class="btn btn-primary btn-sm" onclick="showEditCutModal(this)">
                                         <i class="fas fa-pen" data-toggle="tooltip" title="Редактировать"></i>
                                     </button>
                                     <button th:if="${btnConfig?.equals('btnON')}" type="button" class="btn btn-primary btn-sm" data-toggle="modal" onclick="returnToIncome(this)">

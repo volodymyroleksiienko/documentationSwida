@@ -314,15 +314,16 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     public void deletePackage(String id, String deliveryId) {
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(id));
         DeliveryDocumentation deliveryDocumentation = documentationJPA.getOne(Integer.parseInt(deliveryId));
-        if (product.getUserCompany()==null){
+        if (product.getDryStorage()==null){
             deliveryDocumentation.getProductList().remove(product);
             packagedProductService.deleteByID(product.getId());
             documentationJPA.save(deliveryDocumentation);
         }else{
             deliveryDocumentation.getProductList().remove(product);
-            product.setStatusOfProduct(StatusOfProduct.ON_STORAGE);
-            packagedProductService.saveWithoutCalculating(product);
             documentationJPA.save(deliveryDocumentation);
+            product.setStatusOfProduct(StatusOfProduct.ON_STORAGE);
+            product.setDeliveryDocumentation(null);
+            packagedProductService.saveWithoutCalculating(product);
         }
     }
 

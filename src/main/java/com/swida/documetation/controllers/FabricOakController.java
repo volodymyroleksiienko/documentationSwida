@@ -169,6 +169,7 @@ public class FabricOakController {
         rawStorage.setCodeOfProduct(treeStorage.getCodeOfProduct());
         rawStorage.setBreedDescription(treeStorage.getBreedDescription());
         rawStorage.setExtent(extent);
+        rawStorage.setMaxExtent(extent);
 
         rawStorage.setSizeOfHeight(sizeOfHeight);
         rawStorage.setSizeOfLong(sizeOfLong);
@@ -279,27 +280,19 @@ public class FabricOakController {
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorageDB);
 
         TreeStorage treeStorage = rawStorageDB.getTreeStorage();
-        treeStorage.setExtent(
-                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-(Float.parseFloat(rawStorage.getExtent())-oldExtent)).replace(",",".")
-        );
-        if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK){
-            treeStorage.setMaxExtent(
-                    String.format("%.3f",Float.parseFloat(treeStorage.getMaxExtent())+(Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())-oldExtent)).replace(",",".")
+        if(treeStorage!=null) {
+            treeStorage.setExtent(
+                    String.format("%.3f", Float.parseFloat(treeStorage.getExtent()) - (Float.parseFloat(rawStorage.getExtent()) - oldExtent)).replace(",", ".")
             );
-            treeStorage.setExtent("0.000");
+            if (treeStorage.getStatusOfTreeStorage() == StatusOfTreeStorage.PROVIDER_DESK) {
+                treeStorage.setMaxExtent(
+                        String.format("%.3f", Float.parseFloat(treeStorage.getMaxExtent()) + (Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent()) - oldExtent)).replace(",", ".")
+                );
+                treeStorage.setExtent("0.000");
+            }
+            treeStorageService.save(treeStorage);
+            rawStorageService.checkQualityInfo(rawStorage);
         }
-        treeStorageService.save(treeStorage);
-        rawStorageService.checkQualityInfo(rawStorage);
-//        if (treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK && treeStorage.getOrderInfo()!=null){
-//            OrderInfo orderInfo = treeStorage.getOrderInfo();
-//            orderInfo.setDoneExtendOfOrder(
-//                    String.format("%.3f",
-//                            Float.parseFloat(orderInfo.getDoneExtendOfOrder())-(oldExtent-Float.parseFloat(rawStorageService.findById(rawStorageDB.getId()).getExtent())))
-//                            .replace(",",".")
-//            );
-//            orderInfoService.save(orderInfo);
-//            orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-//        }
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -332,6 +325,7 @@ public class FabricOakController {
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
         rawStorage.getDeskOakList().remove(deskOak);
         deskOakService.deleteByID(descId);
+
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
@@ -528,7 +522,7 @@ public class FabricOakController {
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
         rawStorage.setExtent("0.000");
         rawStorageService.save(rawStorage);
-        rawStorageService.checkQualityInfo(rawStorage);
+//        rawStorageService.checkQualityInfo(rawStorage);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 

@@ -52,6 +52,11 @@ public class DescriptionDeskOakServiceImpl implements DescriptionDeskOakService 
 
     @Override
     public void deleteByID(int id) {
-        descriptionDeskOakJPA.deleteById(id);
+        DescriptionDeskOak desk = findById(id);
+        if(desk!=null) {
+            desk.setRawStorage(null);
+            save(desk);
+            descriptionDeskOakJPA.deleteById(id);
+        }
     }
 }

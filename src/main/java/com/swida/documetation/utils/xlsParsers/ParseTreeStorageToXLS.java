@@ -67,8 +67,11 @@ public class ParseTreeStorageToXLS {
                    row.createCell(0).setCellValue(ts.getCodeOfProduct());
                    row.createCell(1).setCellValue(ts.getBreedOfTree().getBreed());
                    row.createCell(2).setCellValue(ts.getBreedDescription());
-                   row.createCell(3).setCellValue(ts.getContrAgent().getNameOfAgent());
-
+                   if(ts.getContrAgent()!=null) {
+                       row.createCell(3).setCellValue(ts.getContrAgent().getNameOfAgent());
+                   }else{
+                       row.createCell(3).setCellValue("");
+                   }
                    BigDecimal extent = new BigDecimal(Float.parseFloat(ts.getExtent())).setScale(3,BigDecimal.ROUND_HALF_UP);
                    row.createCell(4).setCellValue(extent.doubleValue());
 

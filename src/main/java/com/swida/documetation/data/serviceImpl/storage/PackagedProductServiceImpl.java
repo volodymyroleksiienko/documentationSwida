@@ -516,8 +516,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
         deskOak.setCountOfDesk(count);
         deskOak.setSizeOfWidth(width);
-        deskOakService.save(deskOak);
         PackagedProduct product = productJPA.getOne(Integer.parseInt(packId));
+        deskOak.setPackagedProduct(product);
+        deskOakService.save(deskOak);
         product.getDeskOakList().add(deskOak);
         productJPA.save(product);
         editPackageProductOak(product);

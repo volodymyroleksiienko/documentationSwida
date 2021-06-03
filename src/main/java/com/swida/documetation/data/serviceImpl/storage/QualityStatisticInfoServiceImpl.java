@@ -19,7 +19,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@Transactional
 public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoService {
     private final QualityStatisticInfoJPA infoJPA;
     private final RawStorageService rawStorageService;
@@ -129,7 +128,11 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
 
     @Override
     public List<QualityStatisticInfo> findByUserByBreedByHeightByDescription(List<Integer> userId, List<Integer> breedId, List<String> heights, List<String> description) {
-        return infoJPA.findByUserByBreedByHeightByDescription(userId,breedId,heights,description);
+        try {
+            return infoJPA.findByUserByBreedByHeightByDescription(userId, breedId, heights, description);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
