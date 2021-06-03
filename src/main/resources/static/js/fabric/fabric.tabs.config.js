@@ -1666,7 +1666,7 @@ $(document).ready( function () {
 
 
         if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "" && (treeStorageId !== "" ||  supplier1 !== "")) {
-            if (parseFloat(usedExtent1)>=parseFloat(maxPossibleExtent)){
+            if (parseFloat(usedExtent1)>parseFloat(maxPossibleExtent)){
                 alert("Максимально возможная кубатура к использованию "+maxPossibleExtent +"м3");
             }else {
                 for (let i = 1; i <= listTr.length; i++) {
