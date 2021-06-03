@@ -1646,6 +1646,8 @@ $(document).ready( function () {
         let sizeOfHeight1 =         $('#addDeliveryPackageModalSizeOak').val();
         let length1 =               $('#addDeliveryPackageModalLengthOak').val();
 
+        let maxPossibleExtent =     $('#maxPossibleExtent').val();
+
         let tableBody = document.getElementById('listOfOakPackageRowsId');
         let listTr = tableBody.getElementsByTagName('tr');
 
@@ -1664,40 +1666,44 @@ $(document).ready( function () {
 
 
         if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "" && (treeStorageId !== "" ||  supplier1 !== "")) {
-            for (let i = 1; i <= listTr.length; i++) {
-                let width = $(listTr[i - 1]).find('td:eq(0)').text();
-                let count = $(listTr[i - 1]).find('td:eq(1)').text();
+            if (parseFloat(usedExtent1)>=parseFloat(maxPossibleExtent)){
+                alert("Максимально возможная кубатура к использованию "+maxPossibleExtent +"м3");
+            }else {
+                for (let i = 1; i <= listTr.length; i++) {
+                    let width = $(listTr[i - 1]).find('td:eq(0)').text();
+                    let count = $(listTr[i - 1]).find('td:eq(1)').text();
 
-                arrOfDesk[i] = [];
-                arrOfDesk[i][0] = width;
-                arrOfDesk[i][1] = count;
-            }
-
-            console.log(arrOfDesk);
-
-            $.ajax({
-                method: "post",
-                url: "/createInitialPackageOakObject-" + userID + "-" + breedID,
-                contextType: "application/json",
-                data: {
-                    codeOfPackage: codeOfInitialPackage1,
-                    breedDescription: breedDescription1,
-                    supplier: supplier1,
-                    treeStorageId:treeStorageId,
-                    sizeOfHeight: sizeOfHeight1,
-                    sizeOfLong: length1,
-                    extent: extent1,
-                    usedExtent: usedExtent1,
-                    arrayOfDesk: arrOfDesk
-                },
-                traditional: true,
-                success: function () {
-                        location.reload();
-                },
-                error: function () {
-                    alert("Ошыбка!");
+                    arrOfDesk[i] = [];
+                    arrOfDesk[i][0] = width;
+                    arrOfDesk[i][1] = count;
                 }
-            });
+
+                console.log(arrOfDesk);
+
+                $.ajax({
+                    method: "post",
+                    url: "/createInitialPackageOakObject-" + userID + "-" + breedID,
+                    contextType: "application/json",
+                    data: {
+                        codeOfPackage: codeOfInitialPackage1,
+                        breedDescription: breedDescription1,
+                        supplier: supplier1,
+                        treeStorageId: treeStorageId,
+                        sizeOfHeight: sizeOfHeight1,
+                        sizeOfLong: length1,
+                        extent: extent1,
+                        usedExtent: usedExtent1,
+                        arrayOfDesk: arrOfDesk
+                    },
+                    traditional: true,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Ошыбка!");
+                    }
+                });
+            }
         } else {
             alert("Заполните все поля!");
         }

@@ -1372,6 +1372,7 @@
                     <div class="modal-body">
                         <input type="number" hidden="hidden" id="breedIdPack" th:value="${breedId}">
                         <input type="text" hidden="hidden" id="userIdPack" th:value="${userId}">
+                        <input type="number" hidden="hidden" id="maxPossibleExtent" th:value="${(treeStorageList?.size()>0) ? treeStorageList.get(0).extent : 0}">
 
                         <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0">
                             <div class="col-4">
