@@ -4,14 +4,6 @@
 <!--        <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>-->
         <form action="/admin/getDailyFactoryPowerStatistic" method="post">
             <table style="width: 100%;" >
-<!--                <tr>-->
-<!--                    <th scope="col">Начальная дата</th>-->
-<!--                    <th scope="col">Конечная дата</th>-->
-<!--                    <th scope="col">Описание</th>-->
-<!--                    <th scope="col">Толщина</th>-->
-<!--                    <th scope="col">Пользователи</th>-->
-<!--                    <th scope="col">Порода</th>-->
-<!--                </tr>-->
                 <tr>
                     <th scope="col">Начальная дата</th>
                     <th scope="col">Конечная дата</th>
@@ -96,7 +88,10 @@
             </thead>
             <tbody>
             <tr th:each="list : ${statisticInfo}" th:if="${user?.id==list?.treeStorage?.userCompany?.id}">
-                <td th:text="${list?.date}"></td>
+                <td>
+                    <span th:text="${list?.date?.substring(8,10)+'-'+list?.date?.substring(5,7)+'-'+list?.date?.substring(0,4)}"></span>
+                    <span class="original-date" th:text="${list?.date}" style="display: none"></span>
+                </td>
                 <td th:text="${list?.codeOfTeam}"></td>
                 <td th:text="${list?.treeStorage.breedOfTree.breed}"></td>
                 <td th:text="${list?.rawStorage?.breedDescription}"></td>
