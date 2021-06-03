@@ -444,22 +444,22 @@
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalThickness">Толщина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
+                                    <input type="number" min="1" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalThickness" required="required" autocomplete="off" placeholder="мм" name="sizeOfHeight"  oninput="calculateExtent()">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalWidth">Ширина, мм</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
+                                    <input type="number" min="1" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalWidth" required="required" autocomplete="off" placeholder="мм" name="sizeOfWidth"  oninput="calculateExtent()">
                                 </div>
                                 <div class="col-4">
                                     <label class="col-form-label" for="editDryingModalLength">Длина, мм</label>
-                                    <input type="number" min="0" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
+                                    <input type="number" min="0" step="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalLength" required="required" autocomplete="off" placeholder="мм" name="sizeOfLong"  oninput="calculateExtent()">
                                 </div>
                             </div>
 
                             <div class="form-group row d-flex" style="align-items: flex-end; margin-bottom: 0;">
                                 <div class="col-6">
                                     <label class="col-form-label" for="editDryingModalCount">Количество досок</label>
-                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
+                                    <input type="number" min="1" pattern="[0-9]*\.?[0-9]*" step="1" class="form-control" id="editDryingModalCount" required="required" autocomplete="off" placeholder="шт" name="countOfDesk" oninput=" calculateExtent()">
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="editDryingModalVolume">Кубатура м<sup>3</sup></label>
