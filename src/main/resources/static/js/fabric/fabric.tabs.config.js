@@ -1525,7 +1525,7 @@ $(document).ready( function () {
                         let trObj = document.getElementById(idOfDryStorageOak);
                         console.log(trObj);
 
-                        $(trObj).find('td:eq(3)').text(extent);
+                        $(trObj).find('td:eq(5)').text(extent);
 
                         sendForPackagesStorageOak(idOfDryStorageOak);
 
@@ -1665,7 +1665,7 @@ $(document).ready( function () {
 
 
 
-        if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "" && (treeStorageId !== "" ||  supplier1 !== "")) {
+        if (codeOfInitialPackage1 !== "" && sizeOfHeight1 !== "" && length1 !== "" && ((treeStorageId !== "" && usedExtent1!=="" &&  supplier1 === "") || (treeStorageId === "" &&  supplier1 !== ""))) {
             if (parseFloat(usedExtent1)>parseFloat(maxPossibleExtent)){
                 alert("Максимально возможная кубатура к использованию "+maxPossibleExtent +"м3");
             }else {
@@ -1700,7 +1700,7 @@ $(document).ready( function () {
                         location.reload();
                     },
                     error: function () {
-                        alert("Ошыбка!");
+                        alert("Ошибка!");
                     }
                 });
             }

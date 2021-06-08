@@ -291,7 +291,8 @@ public class FabricOakController {
                 treeStorage.setExtent("0.000");
             }
             treeStorageService.save(treeStorage);
-            rawStorageService.checkQualityInfo(rawStorage);
+//            is not using for foreign rows
+//            rawStorageService.checkQualityInfo(rawStorage);
         }
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }

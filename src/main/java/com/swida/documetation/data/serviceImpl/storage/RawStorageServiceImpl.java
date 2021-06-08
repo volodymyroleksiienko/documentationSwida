@@ -64,6 +64,9 @@ public class RawStorageServiceImpl implements RawStorageService {
 
         info.setCountOfDesk(rawStorage.getCountOfDesk());
 
+        if(rawStorage.getExtent().isEmpty() || rawStorage.getUsedExtent().isEmpty()){
+            return null;
+        }
         float percent = Float.parseFloat(rawStorage.getExtent())/Float.parseFloat(rawStorage.getUsedExtent()) * 100;
         info.setPercent(
                 String.format("%.3f",percent).replace(",",".")

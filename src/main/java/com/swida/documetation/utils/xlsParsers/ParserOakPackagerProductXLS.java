@@ -160,7 +160,7 @@ public class ParserOakPackagerProductXLS {
             sheet.setColumnWidth(i+4,1000);
         }
 
-        for(int i=4;i<countRow;i++){
+        for(int i=0;i<countRow;i++){
             Row row = sheet.getRow(i);
             for(int j=0;j<=lastIndex;j++){
                 row.getCell(j).setCellStyle(style);
