@@ -459,7 +459,11 @@ public class StatisticController {
         if(desc==null || desc.size()==0) {
             desc = new ArrayList<>();
             for(int breedOfTreeId:breedId){
-                desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
+                try {
+                    desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
+                }catch (Exception e){
+                    System.out.println();
+                }
             }
         }
 
