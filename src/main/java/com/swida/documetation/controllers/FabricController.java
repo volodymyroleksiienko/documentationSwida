@@ -686,7 +686,7 @@ public class FabricController {
         return "fabricPage";
     }
 
-    @GetMapping("/exportPackageStorageXLS-{userId}-{breedId}")
+    @PostMapping("/exportPackageStorageXLS-{userId}-{breedId}")
     public ResponseEntity<Resource> exportRawStorageXLS(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                                         String startDate, String endDate,String[] descriptions,
                                                         String[] heights, String[] longs, String[] widths,
@@ -697,6 +697,7 @@ public class FabricController {
         if (breedId==2){
 //            for breed oak
             productList = packagedProductService.getFilteredListOak(breedId,userId,qualities,heights,longs);
+            System.out.println("heights"+heights.length);
             ParserOakPackagerProductXLS parser =  new ParserOakPackagerProductXLS(productList);
             if(startDate==null || startDate.isEmpty() || endDate==null || endDate.isEmpty()){
                 filePath = parser.parse();

@@ -589,7 +589,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
+                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
 <!--                        <input name="factExport" value="true">-->
                     <div class="modal-body">
                         <p>В экспортируемый файл попадут все записи, которые отображены в таблице.</p>
@@ -617,7 +617,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
+                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-body">
                         <div class="form-group row">
                             <label for="startHistDateInput" class="col-2 col-form-label">Начало</label>
@@ -1455,7 +1455,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
+                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-body">
                         <p>В экспортируемый файл попадут все записи, которые отображены в таблице.</p>
                     </div>
@@ -1482,7 +1482,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="get">
+                <form th:action="@{'/fabric/exportPackageStorageXLS-'+${userId}+'-'+${breedId}+${exportLinkParams}}" method="post">
                     <div class="modal-body">
                         <div class="form-group row">
                             <label for="startHistDateInput" class="col-2 col-form-label">Начало</label>
