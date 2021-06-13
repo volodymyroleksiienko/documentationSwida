@@ -587,7 +587,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "135px"
             },
-            { className: "display-none", "targets": [ -6, -4, -3, -2 ] },
+            { className: "display-none", "targets": [ -7, -5, -4, -3, -2 ] },
         ]
     });
 
@@ -723,7 +723,7 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "135px"
             },
-            { className: "display-none", "targets": [ -6, -4, -3, -2] },
+            { className: "display-none", "targets": [ -7, -5, -4, -3, -2] },
         ]
     });
 
@@ -799,7 +799,7 @@ $(document).ready( function () {
             exampleLength = firstData[7];
 
             console.log("data 0: "+data[2]);
-            if (data[6]===firstData[6]&&data[7]===firstData[7]&&data[2].toString()===firstData[2].toString() && data[14] === "false" && firstData[14] === "false" && data[11]!=="" && firstData[11]!==""){
+            if (data[6]===firstData[6]&&data[7]===firstData[7]&&data[2].toString()===firstData[2].toString() && data[14] === "false" && firstData[14] === "false" && data[15]!=="true" && firstData[15]!=="true"){
 
                 console.log('ok');
                 extent += (parseFloat(data[8]));
