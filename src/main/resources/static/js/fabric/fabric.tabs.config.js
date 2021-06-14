@@ -798,8 +798,8 @@ $(document).ready( function () {
             exampleThickness = firstData[6];
             exampleLength = firstData[7];
 
-            console.log("data 0: "+data[2]);
-            if (data[6]===firstData[6]&&data[7]===firstData[7]&& data[14] === "false" && firstData[14] === "false" && data[15]!=="true" && firstData[15]!=="true"){
+            console.log("data 0: "+data[1]);
+            if (data[1]===firstData[1] && data[6]===firstData[6]&&data[7]===firstData[7]&& data[14] === "false" && firstData[14] === "false" && data[15]!=="true" && firstData[15]!=="true"){
 
                 console.log('ok');
                 extent += (parseFloat(data[8]));
