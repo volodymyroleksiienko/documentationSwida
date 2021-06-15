@@ -365,6 +365,7 @@ public class FabricOakController {
         dryStorage.setBreedOfTree(dryingStorageDB.getBreedOfTree());
         dryStorage.setBreedDescription(breedDescription);
         dryStorage.setExtent(dryingStorageDB.getExtent());
+        dryStorage.setMaxExtent(dryingStorageDB.getExtent());
         dryStorage.setSizeOfHeight(dryingStorageDB.getSizeOfHeight());
         dryStorage.setSizeOfLong(dryingStorageDB.getSizeOfLong());
         dryStorage.setDescription(dryingStorageDB.getDescription());
@@ -399,11 +400,15 @@ public class FabricOakController {
                 dryStorage.setBreedOfTree(dryingStorageDB.getBreedOfTree());
                 dryStorage.setBreedDescription(dryingStorageDB.getBreedDescription());
                 dryStorage.setExtent(dryingStorageDB.getExtent());
+                dryStorage.setMaxExtent(dryingStorageDB.getExtent());
                 dryStorage.setSizeOfHeight(dryingStorageDB.getSizeOfHeight());
                 dryStorage.setSizeOfLong(dryingStorageDB.getSizeOfLong());
                 dryStorage.setDescription(dryingStorageDB.getDescription());
                 dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
                 dryStorage.setDryingStorage(dryingStorageDB);
+                if(dryingStorageDB.getDeskOakList()!=null && dryingStorageDB.getDeskOakList().size()>0) {
+                    dryStorage.setWasWithDeskOakList(true);
+                }
 
                 dryStorageService.save(dryStorage);
                 dryingStorageDB.setExtent("0.000");

@@ -597,13 +597,16 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             if (breedId != 2) {
                 dryStorage.setCountOfDesk(dryStorage.getCountOfDesk() + Integer.parseInt(product.getCountOfDesk()));
             } else {
-                if(product.getDeskOakList().size()==0) {
-                    dryStorage.setExtent(String.format("%.3f", Float.parseFloat(dryStorage.getExtent()) + Float.parseFloat(product.getExtent())).replace(",", "."));
-                }else {
+                if(product.getDeskOakList().size()!=0 && dryStorage.getWasWithDeskOakList()!=null && dryStorage.getWasWithDeskOakList()==true) {
                     for(DescriptionDeskOak deskOak:product.getDeskOakList()){
                         deskOak.setPackagedProduct(null);
                         deskOak.setDryStorage(dryStorage);
                         deskOakService.save(deskOak);
+                    }
+                }else {
+                    dryStorage.setExtent(String.format("%.3f", Float.parseFloat(dryStorage.getExtent()) + Float.parseFloat(product.getExtent())).replace(",", "."));
+                    for(DescriptionDeskOak deskOak:product.getDeskOakList()){
+                        deskOakService.deleteByID(deskOak.getId());
                     }
                 }
             }

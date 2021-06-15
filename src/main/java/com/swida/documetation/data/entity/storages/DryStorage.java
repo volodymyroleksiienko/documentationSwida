@@ -26,13 +26,15 @@ public class DryStorage {
 
     private int countOfDesk;
 
-
     private String extent;
+    private String maxExtent;
     private String description;
     private String date;
 
     private String qualityOfPack;
     private String longOfPack;
+
+    private Boolean wasWithDeskOakList;
 
     @OneToMany
     private List<DryStorage> groupedElements;
