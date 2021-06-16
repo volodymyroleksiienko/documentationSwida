@@ -327,12 +327,8 @@ public class StatisticController {
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
             int breedId = breedOfTree.getId();
-            try {
-                desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedId).stream().map(String::trim).collect(Collectors.toSet()));
-                heights.addAll(statisticInfoService.getListOfUnicSizeOfHeight(breedId));
-            }catch (Exception e){
-                System.out.println("Error");
-            }
+            desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedId).stream().filter(Objects::nonNull).map(String::trim).collect(Collectors.toSet()));
+            heights.addAll(statisticInfoService.getListOfUnicSizeOfHeight(breedId));
         }
         model.addAttribute("descriptions",desc);
         model.addAttribute("thickness",heights);
@@ -380,7 +376,7 @@ public class StatisticController {
         Set<String> heights = new TreeSet<>();
         for(BreedOfTree breedOfTree:breedOfTreeList){
             int breedOfTreeId = breedOfTree.getId();
-            desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
+            desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().filter(Objects::nonNull).map(String::trim).collect(Collectors.toSet()));
             heights.addAll(statisticInfoService.getListOfUnicSizeOfHeight(breedOfTreeId));
         }
         model.addAttribute("descriptions",desc);
@@ -459,11 +455,7 @@ public class StatisticController {
         if(desc==null || desc.size()==0) {
             desc = new ArrayList<>();
             for(int breedOfTreeId:breedId){
-                try {
-                    desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().map(String::trim).collect(Collectors.toSet()));
-                }catch (Exception e){
-                    System.out.println();
-                }
+                desc.addAll(statisticInfoService.getListOfUnicBreedDescription(breedOfTreeId).stream().filter(Objects::nonNull).map(String::trim).collect(Collectors.toSet()));
             }
         }
 

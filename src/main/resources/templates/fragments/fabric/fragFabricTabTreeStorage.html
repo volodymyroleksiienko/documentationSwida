@@ -931,8 +931,11 @@
                     <div th:each="ts, index : ${treeStorageList}">
                         <tr th:id="${ts.id}">
                             <td th:text="${ts.id}"></td>
-                            <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
-                            <td th:text="${ts.date}"></td>
+                            <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
+                            <td>
+                                <span th:text="${ts.date.substring(8,10)+'-'+ts.date.substring(5,7)+'-'+ts.date.substring(0,4)}"></span>
+                                <span class="original-date" th:text="${ts.date}" style="display: none"></span>
+                            </td>
                             <th scope="row" th:text="${ts.codeOfProduct}"></th>
                             <td th:text="${ts.breedOfTree.breed}"></td>
                             <td th:text="${ts.breedDescription}"></td>

@@ -69,7 +69,7 @@ function showEditOakModal(btnObj) {
     $('#incomeOakTreeStorageId').val(trId);
 
     let code =          $(trObj).find('th:eq(0)').text();
-    let date =          $(trObj).find('td:eq(1)').text();
+    let date =          $(trObj).find('td:eq(1)').find('.original-date').text();
     let breed =         $(trObj).find('td:eq(2)').text();
     let desc =          $(trObj).find('td:eq(3)').text();
     let provider =      $(trObj).find('td:eq(4)').text();
