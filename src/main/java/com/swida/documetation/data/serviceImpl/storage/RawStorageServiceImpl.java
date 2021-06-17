@@ -236,7 +236,7 @@ public class RawStorageServiceImpl implements RawStorageService {
     public RawStorage findEqualRaw(int breedId, int userId, String desc, String heights, String widths, String longs) {
         Predicate<? super RawStorage> func;
         if(breedId==2){
-            func = rawStorage -> rawStorage.getGetBuCutting()==true &&
+            func = rawStorage -> rawStorage.getGetBuCutting()!=null && rawStorage.getGetBuCutting()==true &&
                     (rawStorage.getDeskOakList()==null || rawStorage.getDeskOakList().size()==0);
         } else {
             func = rawStorage -> rawStorage.getGetBuCutting()==true;
