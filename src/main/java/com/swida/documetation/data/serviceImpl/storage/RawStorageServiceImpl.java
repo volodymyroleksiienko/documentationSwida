@@ -239,7 +239,7 @@ public class RawStorageServiceImpl implements RawStorageService {
             func = rawStorage -> rawStorage.getGetBuCutting()!=null && rawStorage.getGetBuCutting()==true &&
                     (rawStorage.getDeskOakList()==null || rawStorage.getDeskOakList().size()==0);
         } else {
-            func = rawStorage -> rawStorage.getGetBuCutting()==true;
+            func = rawStorage -> rawStorage.getGetBuCutting()!=null && rawStorage.getGetBuCutting()==true;
         }
         return rawStorageJPA.findEqualRaw(breedId,userId,desc,heights,widths,longs).stream()
                 .filter(func).findAny().orElse(null);
