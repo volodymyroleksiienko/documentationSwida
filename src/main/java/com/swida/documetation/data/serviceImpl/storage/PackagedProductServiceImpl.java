@@ -326,7 +326,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     public BigDecimal countExtent(List<PackagedProduct> product) {
         double sum = 0;
         for(PackagedProduct p:product){
-            sum+=Double.parseDouble(p.getExtent());
+            if(p!=null && p.getExtent()!=null) {
+                sum += Double.parseDouble(p.getExtent());
+            }
         }
         return new BigDecimal(sum);
     }
