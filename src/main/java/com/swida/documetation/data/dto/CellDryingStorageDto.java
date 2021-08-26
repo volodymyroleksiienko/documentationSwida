@@ -48,7 +48,9 @@ public class CellDryingStorageDto {
                     dto.endDate=storage.getDateDrying();
                     dto.startDate=storage.getStartDate();
                     thickness.add(storage.getSizeOfHeight());
-                    dto.getDryingStorageList().add(storage);
+                    if(dto.getDryingStorageList().size()<20) {
+                        dto.getDryingStorageList().add(storage);
+                    }
                 }
             }
             dto.extent=String.format("%.3f",storageExtent).replace(",",".");
