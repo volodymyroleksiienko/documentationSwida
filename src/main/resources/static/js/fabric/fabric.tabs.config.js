@@ -801,6 +801,7 @@ $(document).ready( function () {
             }
 
             let data = this.data();
+            console.log("arr", data);
             let firstData = rawstoragetableoak.row(first).data();
             let idInput = "<input type='number' value=\""+rawstoragetableoak.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
 
@@ -811,7 +812,7 @@ $(document).ready( function () {
             exampleLength = firstData[7];
 
             console.log("data 0: "+data[1]);
-            if (data[1]===firstData[1] && data[6]===firstData[6]&&data[7]===firstData[7]&& data[14] === "false" && firstData[14] === "false" && data[15]!=="true" && firstData[15]!=="true"){
+            if (rawstoragetableoak.rows( { selected: true } ).count()>1 && data[1]===firstData[1] && data[6]===firstData[6]&&data[7]===firstData[7]&& data[14] === "false" && firstData[14] === "false" && data[15]!=="true" && firstData[15]!=="true"){
 
                 console.log('ok');
                 extent += (parseFloat(data[8]));
@@ -1242,6 +1243,7 @@ $(document).ready( function () {
             }
 
             let data = this.data();
+            console.log("arr: ", data);
             let firstData = drystoragetableOak.row(first).data();
             let idInput = "<input type='number' value=\""+drystoragetableOak.row(rowIdx).id()+"\" readonly  name=\"idOfRow\">\n";
 
@@ -1252,7 +1254,7 @@ $(document).ready( function () {
             exampleLength = firstData[7];
 
             console.log("data 0: "+data[1]);
-            if (data[1]===firstData[1] && data[6]===firstData[6]&&data[7]===firstData[7] && data[5]===firstData[5]){
+            if (drystoragetableOak.rows( { selected: true } ).count()>1 && data[1]===firstData[1] && data[6]===firstData[6]&&data[7]===firstData[7] && data[5]===firstData[5]){
 
                 console.log('ok');
                 extent += (parseFloat(data[8]));
