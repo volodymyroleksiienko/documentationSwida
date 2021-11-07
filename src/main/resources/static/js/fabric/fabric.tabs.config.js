@@ -1,4 +1,8 @@
 $(document).ready( function () {
+
+    moment.updateLocale(moment.locale(), { invalidDate: "Invalid Date Example" });
+
+
     // Distribution table start
     $('#distribution-tab-table').DataTable({
         "language": {
@@ -82,6 +86,10 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "width": "40px"
+            },
+            {
+                "targets": 2,
+                "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
             },
             { className: "display-none", "targets": [ 1, 7 ] },
         ]
