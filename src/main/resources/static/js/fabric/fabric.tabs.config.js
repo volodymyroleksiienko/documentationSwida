@@ -529,6 +529,10 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "40px"
             },
+            {
+                "targets": 2,
+                "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
+            },
             { className: "display-none", "targets": [ 7 ] },
         ]
 
