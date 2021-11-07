@@ -13,6 +13,10 @@
                     <a class="nav-link" href="/admin/getStatistics-1">Статистика</a>
                 </li>
 
+                <li class="nav-item" th:classappend="${navTabName.equals('main')} ? 'active':''">
+                    <a class="nav-link" href="/admin/getStatistics-1">История активности</a>
+                </li>
+
 <!--                <li class="nav-item" th:classappend="${navTabName.equals('adminPanel')} ? 'active':''">-->
 <!--                    <a class="nav-link" href="/admin/getListOfUserCompany">Админ панель</a>-->
 <!--                </li>-->

@@ -1,0 +1,190 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="usersActivity">
+    <div class="tab-pane fade show active container-fluid" id="pineStats">
+        <br>
+<!--        <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>-->
+        <form action="/admin/getDailyFactoryPowerStatistic" method="post">
+            <table style="width: 100%;" >
+                <tr>
+                    <th scope="col">Начальная дата</th>
+                    <th scope="col">Конечная дата</th>
+                    <th scope="col">Описание
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" id="selectDesc"  onclick="selectButton('selectDescription')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" id="deselectDesc" onclick="deselectButton('selectDescription')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
+                    <th scope="col">Толщина, мм
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectThickness')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectThickness')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
+                    <th scope="col">Пользователи
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectUser')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectUser')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
+                    <th scope="col">Порода
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectBreedType')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectBreedType')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
+                </tr>
+                <tr style="vertical-align: top;">
+                    <td style="width: 15%">
+                        <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()" th:value="${#dates.format(dateFrom, 'yyyy-MM-dd')}" required="required">
+                    </td>
+                    <td style="width: 15%">
+                        <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()" th:value="${#dates.format(dateTo, 'yyyy-MM-dd')}" required="required">
+                    </td>
+                    <td style="width: 15%">
+                        <select id="selectDescription" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="description" >
+                            <option  th:each="obj : ${descriptions}" th:value="${obj}"  th:text="${obj}" th:selected="${checkedDescription?.contains(obj)}"></option>
+                        </select>
+                    </td>
+                    <td style="width: 15%">
+                        <select id="selectThickness" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="thickness" >
+                            <option  th:each="obj : ${thickness}" th:value="${obj}"  th:text="${obj}" th:selected="${checkedThickness?.contains(obj)}"></option>
+                        </select>
+                    </td>
+                    <td style="width: 25%">
+                        <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users" >
+                            <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}" th:selected="${checkedUsers?.contains(obj.id)}"></option>
+                        </select>
+                    </td>
+                    <td style="width: 15%">
+                        <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId" >
+                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}" th:selected="${checkedBreed?.contains(obj.id)}"></option>
+                        </select>
+                    </td>
+                    <td style="width: auto; align-items: end;">
+                        <button class="btn btn-primary" type="submit">
+                            Поиск
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <div th:each="user:${filteredUsers}">
+         <table class="table userStatistic table-hover table-striped">
+            <br>
+            <thead>
+                <tr>
+                    <th colspan="8" scope="col" style="background-color: lightgrey;" th:text="${user.nameOfCompany}">User</th>
+                </tr>
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Номер пилорамы</th>
+                    <th scope="col">Порода</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Толщина, мм</th>
+                    <th scope="col">Взято, м<sup>3</sup></th>
+                    <th scope="col">Выход, м<sup>3</sup></th>
+                    <th scope="col">Процент, %</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="list : ${statisticInfo}" th:if="${user?.id==list?.treeStorage?.userCompany?.id}">
+                <td>
+                    <span th:text="${list?.date?.substring(8,10)+'-'+list?.date?.substring(5,7)+'-'+list?.date?.substring(0,4)}"></span>
+                    <span class="original-date" th:text="${list?.date}" style="display: none"></span>
+                </td>
+                <td th:text="${list?.codeOfTeam}"></td>
+                <td th:text="${list?.treeStorage.breedOfTree.breed}"></td>
+                <td th:text="${list?.rawStorage?.breedDescription}"></td>
+                <td th:text="${list?.height}"></td>
+                <td th:text="${list?.firstExtent}"></td>
+                <td th:text="${list?.extent}"></td>
+                <td th:text="${list?.percent}"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="5">ИТОГО :</th>
+                <th>0</th>
+                <th>0</th>
+                <th>0</th>
+            </tr>
+            </tfoot>
+        </table>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        // document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
+        // document.querySelector("#endDate").valueAsDate = new Date();
+
+
+
+        function checkFirstDate() {
+            let firstDate = new Date(document.getElementById('startDate').value);
+            let lastDate = new Date(document.getElementById('endDate').value);
+
+            if (firstDate.getTime() > lastDate.getTime()) {
+                alert("Начальная дата больше конечной!");
+                document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
+                document.querySelector("#endDate").valueAsDate = new Date();
+            }
+        }
+
+        function checkLastDate() {
+            let firstDate = new Date(document.getElementById('startDate').value);
+            let lastDate = new Date(document.getElementById('endDate').value);
+
+            if (firstDate.getTime() > lastDate.getTime()) {
+                alert("Начальная дата больше конечной!");
+                document.querySelector("#startDate").valueAsDate = new Date(new Date().setDate(new Date().getDate() - 1));
+                document.querySelector("#endDate").valueAsDate = new Date();
+            }
+        }
+    </script>
+
+    <script>
+        let rowTables = document.getElementsByClassName('userStatistic');
+        for (let i=0;i<rowTables.length;i++){
+            let rowsList = rowTables[i].rows;
+            let last = rowsList.length-1;
+
+            let takenSum = 0.0;
+            let outputSum = 0.0;
+            let percentageSum = 0.0;
+
+            for (let j = 2; j<rowsList.length-1; j++){
+                takenSum+= parseFloat(rowsList[j].cells[5].innerHTML);
+                outputSum+= parseFloat(rowsList[j].cells[6].innerHTML);
+                percentageSum = outputSum/takenSum*100;
+
+                console.log("row: "+takenSum+"; "+outputSum+";"+percentageSum+"%");
+            }
+            rowsList[last].cells[1].innerHTML=(takenSum.toFixed(3)+" м<sup>3</sup>");
+            rowsList[last].cells[2].innerHTML=(outputSum.toFixed(3)+" м<sup>3</sup>");
+            rowsList[last].cells[3].innerHTML=(percentageSum.toFixed(3)+" %");
+        }
+    </script>
+
+    <script type="text/javascript">
+        function selectButton(selectId){
+            $('#'+selectId+' option').prop('selected', true);
+            $('#'+selectId).trigger('chosen:updated');
+        }
+
+        function deselectButton(selectId){
+            $('#'+selectId+' option:selected').prop("selected",false);
+            $('#'+selectId).trigger('chosen:updated');
+        }
+
+        function selectAll() {
+            console.log("click");
+            // $('#selectDescription option').prop('selected', true); // Selects all options
+            var options = document.getElementById('selectDescription_chosen').getElementsByTagName('li');
+            for(var i = 0; i<options.length;i++){
+                options[i].click();
+                console.log(options[i]);
+            }
+        }
+    </script>
+</th:block>
