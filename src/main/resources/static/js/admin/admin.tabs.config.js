@@ -12,6 +12,20 @@ $(document).ready( function () {
         "autoWidth": false,
     });
 
+    $('.userActivity').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        },
+        "bSort": false,
+        "info": false,
+        "searching": false,
+        "paging": false,
+        // "order": [ 0, "desc" ],
+        "autoWidth": false,
+    });
+
+
+
     $('#admin-users-table').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
