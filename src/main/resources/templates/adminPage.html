@@ -96,6 +96,10 @@
         <div th:if="${fragmentPathOrderInfo!=null}">
             <div th:replace="~{fragments/admin/fragAdminOrderInfo :: ${fragmentPathOrderInfo}}"></div>
         </div>
+        <!--USER ACTIVITY-->
+        <div th:if="${fragmentPathUserActivity!=null}">
+            <div th:replace="~{fragments/admin/fragAdminUserActivity :: ${fragmentPathUserActivity}}"></div>
+        </div>
     </div>
     <!-- ALL TABLES end-->
 </div>
