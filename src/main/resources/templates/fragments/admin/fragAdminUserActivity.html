@@ -70,71 +70,74 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="background-color: lightgrey;">
-                        <td style="width: 30px;" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" id="1"><span></span></td>
-                        <td>date</td>
-                        <td>user</td>
-                        <td>storage</td>
-                        <td>action</td>
-                    </tr>
-                    <tr style="display:none" th:id="parent1">
-                        <td style="display:none; width: 30px"></td>
-                        <td colspan="5" class="child-table">
-<!--                            Tree Storage Start-->
-                            <table class="table table-hover table-striped parent-table" >
-                                <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Дата прихода</th>
-                                        <th scope="col">Код партии</th>
-                                        <th scope="col">Порода</th>
-                                        <th scope="col">Описание</th>
-                                        <th scope="col">Поставщик</th>
-                                        <th scope="col">Ср. диаметр</th>
-                                        <th scope="col">Кол-во колод</th>
-                                        <th scope="col">Остаток, м<sup>3</sup></th>
-                                        <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
-                                        <th scope="col">Примечание</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>До:</th>
-                                        <td>2</td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                        <td>11</td>
-                                    </tr>
-                                    <tr>
-                                        <th>После:</th>
-                                        <td>2mod</td>
-                                        <td>3mod</td>
-                                        <td>4mod</td>
-                                        <td>5mod</td>
-                                        <td>6mod</td>
-                                        <td>7mod</td>
-                                        <td>8mod</td>
-                                        <td>9mod</td>
-                                        <td>10mod</td>
-                                        <td>11mod</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-<!--                            Tree Storage End-->
-                        </td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                        <td style="display:none"></td>
-                    </tr>
+                    <div th:each="act, index : ${activityList}">
+                        <tr style="background-color: lightgrey;">
+                            <td style="width: 30px;" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${act.id}"><span></span></td>
+                            <td th:text="${act?.date}">date</td>
+                            <td th:text="${act?.user?.getNameOfCompany()}">user</td>
+                            <td th:text="${act?.storageType?.getMeaning()}">storage</td>
+                            <td th:text="${act?.operationType?.getMeaning()}">action</td>
+                        </tr>
+                        <tr style="display:none" th:id="'parent'+${act.id}">
+                            <td style="display:none; width: 30px"></td>
+                            <td colspan="5" class="child-table">
+    <!--                            Tree Storage Start-->
+                                <table class="table table-hover table-striped parent-table" >
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Дата прихода</th>
+                                            <th scope="col">Код партии</th>
+                                            <th scope="col">Порода</th>
+                                            <th scope="col">Описание</th>
+                                            <th scope="col">Поставщик</th>
+                                            <th scope="col">Ср. диаметр</th>
+                                            <th scope="col">Кол-во колод</th>
+                                            <th scope="col">Остаток, м<sup>3</sup></th>
+                                            <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
+                                            <th scope="col">Примечание</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>До:</th>
+                                            <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
+                                            <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
+                                            <td th:text="${act.objectBeforeChanging?.getBreedOfTree()?.getBreed()}">4</td>
+                                            <td th:text="${act.objectBeforeChanging.getBreedDescription()}">5</td>
+                                            <td th:text="${act.objectBeforeChanging.getContrAgent().getNameOfAgent()}">6</td>
+                                            <td th:text="${act.objectBeforeChanging.getAverageDiameter()}">7</td>
+                                            <td th:text="${act.objectBeforeChanging.getCountOfDeck()}">8</td>
+                                            <td th:text="${act.objectBeforeChanging.getExtent()}">9</td>
+                                            <td th:text="${act.objectBeforeChanging.getMaxExtent()}">10</td>
+                                            <td th:text="${act.objectBeforeChanging.getTreeDescription()}">11</td>
+                                        </tr>
+                                        <tr>
+                                            <th>После:</th>
+                                            <td th:text="${act.objectAfterChanging.getDate()}">2</td>
+                                            <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
+                                            <td th:text="${act.objectAfterChanging?.getBreedOfTree()?.getBreed()}">4</td>
+                                            <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
+                                            <td th:text="${act.objectAfterChanging.getContrAgent().getNameOfAgent()}">6</td>
+                                            <td th:text="${act.objectAfterChanging.getAverageDiameter()}">7</td>
+                                            <td th:text="${act.objectAfterChanging.getCountOfDeck()}">8</td>
+                                            <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
+                                            <td th:text="${act.objectAfterChanging.getMaxExtent()}">10</td>
+                                            <td th:text="${act.objectAfterChanging.getTreeDescription()}">11</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+    <!--                            Tree Storage End-->
+                            </td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                        </tr>
+                    </div>
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">Время</th>
                         <th scope="col">Пользователь</th>
                         <th scope="col">Склад</th>

@@ -1,31 +1,31 @@
 package com.swida.documetation.controllers;
 
+import com.google.gson.Gson;
 import com.swida.documetation.data.dto.CellDryingStorageDto;
-import com.swida.documetation.data.entity.OrderInfo;
+import com.swida.documetation.data.dto.storages.TreeStorageDTO;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
-import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
-import com.swida.documetation.data.entity.subObjects.DriverInfo;
 import com.swida.documetation.data.enums.ContrAgentType;
-import com.swida.documetation.data.enums.StatusOfProduct;
+import com.swida.documetation.data.enums.LoggerOperationType;
 import com.swida.documetation.data.enums.StatusOfTreeStorage;
+import com.swida.documetation.data.enums.StorageType;
+import com.swida.documetation.data.service.LoggerDataInfoService;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.ContrAgentService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
-import com.swida.documetation.utils.xlsParsers.ParseTreeStorageToXLS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sun.security.krb5.internal.crypto.Des;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
 import java.math.RoundingMode;
 import java.util.*;
@@ -45,6 +45,7 @@ public class FabricOakController {
     private UserCompanyService userCompanyService;
     private OrderInfoService orderInfoService;
     private DescriptionDeskOakService deskOakService;
+    private LoggerDataInfoService loggerDataInfoService;
 
     @Autowired
     public FabricOakController(TreeStorageService treeStorageService, RawStorageService rawStorageService,
@@ -52,7 +53,7 @@ public class FabricOakController {
                                PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService,
                                BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService,
                                UserCompanyService userCompanyService, OrderInfoService orderInfoService,
-                               DescriptionDeskOakService deskOakService) {
+                               DescriptionDeskOakService deskOakService, LoggerDataInfoService loggerDataInfoService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -64,6 +65,7 @@ public class FabricOakController {
         this.userCompanyService = userCompanyService;
         this.orderInfoService = orderInfoService;
         this.deskOakService = deskOakService;
+        this.loggerDataInfoService = loggerDataInfoService;
     }
     private void btnConfig(int userId, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -139,8 +141,11 @@ public class FabricOakController {
     @PostMapping("/editTreeStorageRow-{userId}-2")
     public String editTreeStorageRow(@PathVariable("userId")int userId, String nameOfAgent, TreeStorage treeStorage){
         int breedId = 2;
+        TreeStorageDTO before = TreeStorageDTO.convertToDTO(treeStorageService.findById(treeStorage.getId()));
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        TreeStorage treeStorageFromDB = treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        loggerDataInfoService.save(breedOfTreeService.findById(2),StorageType.TREE, LoggerOperationType.UPDATING,
+                before,TreeStorageDTO.convertToDTO(treeStorageFromDB));
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 

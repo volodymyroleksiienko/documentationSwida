@@ -299,6 +299,7 @@ public class FabricRestController {
         TreeStorageListDto listDto = new Gson().fromJson(dto, TreeStorageListDto.class);
         System.out.println(listDto);
         rawStorageService.analyzeOfCutting(listDto);
+
     }
 
 }
