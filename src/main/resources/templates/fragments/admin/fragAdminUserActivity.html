@@ -81,8 +81,9 @@
                         <tr style="display:none" th:id="'parent'+${act.id}">
                             <td style="display:none; width: 30px"></td>
                             <td colspan="5" class="child-table">
-    <!--                            Tree Storage Start-->
-                                <table class="table table-hover table-striped parent-table" >
+
+                            <!--Tree Storage Start-->
+                                <table class="table table-hover table-striped parent-table">
                                     <thead>
                                         <tr>
                                             <th scope="col"></th>
@@ -127,7 +128,184 @@
                                         </tr>
                                     </tbody>
                                 </table>
-    <!--                            Tree Storage End-->
+                            <!--Tree Storage End-->
+
+                            <!--Raw Storage Pine Start-->
+                                <table class="table table-hover table-striped parent-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Дата распил./прихода</th>
+                                            <th scope="col">Код партии</th>
+                                            <th scope="col">Порода</th>
+                                            <th scope="col">Описание</th>
+                                            <th scope="col">Толщина, мм</th>
+                                            <th scope="col">Ширина, мм</th>
+                                            <th scope="col">Длина, мм</th>
+                                            <th scope="col">Кол-во досок, шт</th>
+                                            <th scope="col">Кубатура, м<sup>3</sup></th>
+                                            <th>Поставщик</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>До:</th>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                        </tr>
+                                        <tr>
+                                            <th>После:</th>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <!--Raw Storage Pine End-->
+
+                            <!--Raw Storage Oak Start-->
+                                <table class="table table-hover table-striped parent-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th></th>
+                                            <th scope="col">Дата распил./прихода</th>
+                                            <th scope="col">Код партии</th>
+                                            <th scope="col">Порода</th>
+                                            <th scope="col">Описание</th>
+                                            <th scope="col">Толщина, мм</th>
+                                            <th scope="col">Длина, мм</th>
+                                            <th scope="col">Кубатура, м<sup>3</sup></th>
+                                            <th scope="col">Примечание</th>
+                                            <th scope="col">Поставщик</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>До:</th>
+                                            <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"><span></span></td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                        </tr>
+                                        <tr style="display:none">
+                                            <td style="display:none; width: 30px"></td>
+                                            <td colspan="11" class="child-table">
+                                                <table class="table table-hover table-striped parent-table" >
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Ширина, мм</th>
+                                                        <th scope="col">Количество досок</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>После:</th>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                        </tr>
+                                        <tr style="display:none">
+                                            <td style="display:none; width: 30px"></td>
+                                            <td colspan="11" class="child-table">
+                                                <table class="table table-hover table-striped parent-table" >
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Ширина, мм</th>
+                                                        <th scope="col">Количество досок</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <!--Raw Storage Oak End-->
+
+                            <!--Drying Storage Pine Start-->
+                            <!--Drying Storage Pine End-->
+
+                            <!--Drying Storage Oak Start-->
+                            <!--Drying Storage Oak End-->
+
+                            <!--Dry Storage Pine Start-->
+                            <!--Dry Storage Pine End-->
+
+                            <!--Dry Storage Oak Start-->
+                            <!--Dry Storage Oak End-->
+
+                            <!--Packages Storage Pine Start-->
+                            <!--Packages Storage Pine End-->
+
+                            <!--Packages Storage Oak Start-->
+                            <!--Packages Storage Oak End-->
+
+                            <!--Transportation Storage Pine Start-->
+                            <!--Transportation Storage Pine End-->
+
+                            <!--Transportation Storage Oak Start-->
+                            <!--Transportation Storage Oak End-->
                             </td>
                             <td style="display:none"></td>
                             <td style="display:none"></td>
