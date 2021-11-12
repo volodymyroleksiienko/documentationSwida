@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.google.gson.Gson;
 import com.swida.documetation.data.dto.CellDryingStorageDto;
+import com.swida.documetation.data.dto.storages.RawStorageDTO;
 import com.swida.documetation.data.dto.storages.TreeStorageDTO;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -180,7 +181,9 @@ public class FabricOakController {
         rawStorage.setSizeOfLong(sizeOfLong);
         rawStorage.setDescription(description);
 
-        rawStorageService.save(rawStorage);
+        RawStorage after = rawStorageService.save(rawStorage);
+
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.CREATING,null, RawStorageDTO.convertToDTO(after));
 
 //        orderInfo.setDoneExtendOfOrder(
 //                String.format("%.3f",

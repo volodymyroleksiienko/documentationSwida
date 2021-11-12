@@ -83,7 +83,7 @@
                             <td colspan="5" class="child-table">
 
                             <!--Tree Storage Start-->
-                                <table class="table table-hover table-striped parent-table">
+                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                     <thead>
                                         <tr>
                                             <th scope="col"></th>
@@ -131,7 +131,7 @@
                             <!--Tree Storage End-->
 
                             <!--Raw Storage Pine Start-->
-                                <table class="table table-hover table-striped parent-table">
+                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                     <thead>
                                         <tr>
                                             <th scope="col"></th>
@@ -179,7 +179,7 @@
                             <!--Raw Storage Pine End-->
 
                             <!--Raw Storage Oak Start-->
-                                <table class="table table-hover table-striped parent-table">
+                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
                                     <thead>
                                         <tr>
                                             <th scope="col"></th>
@@ -197,59 +197,17 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th>До:</th>
-                                            <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${rs.id}"><span></span></td>
-                                            <td>3</td>
-                                            <td>4</td>
-                                            <td>5</td>
-                                            <td>6</td>
-                                            <td>7</td>
-                                            <td>8</td>
-                                            <td>9</td>
-                                            <td>10</td>
-                                            <td>11</td>
-                                        </tr>
-                                        <tr style="display:none">
-                                            <td style="display:none; width: 30px"></td>
-                                            <td colspan="11" class="child-table">
-                                                <table class="table table-hover table-striped parent-table" >
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col">Ширина, мм</th>
-                                                        <th scope="col">Количество досок</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>2</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>После:</th>
-                                            <td>2</td>
-                                            <td>3</td>
-                                            <td>4</td>
-                                            <td>5</td>
-                                            <td>6</td>
-                                            <td>7</td>
-                                            <td>8</td>
-                                            <td>9</td>
-                                            <td>10</td>
-                                            <td>11</td>
+                                            <th>Создано:</th>
+                                            <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                            <td th:text="${act.objectAfterChanging.getDate()}">3</td>
+                                            <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">4</td>
+                                            <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">5</td>
+                                            <td th:text="${act.objectAfterChanging.getBreedDescription()}">6</td>
+                                            <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">7</td>
+                                            <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
+                                            <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
+                                            <td th:text="${act.objectAfterChanging.getDescription()}">10</td>
+                                            <td th:text="${act.objectAfterChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
                                         </tr>
                                         <tr style="display:none">
                                             <td style="display:none; width: 30px"></td>
@@ -281,6 +239,111 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            <!--Raw Storage Oak End-->
+
+                            <!--Raw Storage Oak Start-->
+                              <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th></th>
+                                    <th scope="col">Дата распил./прихода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                    <th scope="col">Примечание</th>
+                                    <th scope="col">Поставщик</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>До:</th>
+                                    <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="10"><span></span></td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr style="display:none">
+                                    <td style="display:none; width: 30px"></td>
+                                    <td colspan="11" class="child-table">
+                                        <table class="table table-hover table-striped parent-table" >
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Ширина, мм</th>
+                                                <th scope="col">Количество досок</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                </tr>
+
+                                <tr>
+                                    <th>После:</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr style="display:none">
+                                    <td style="display:none; width: 30px"></td>
+                                    <td colspan="11" class="child-table">
+                                        <table class="table table-hover table-striped parent-table" >
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Ширина, мм</th>
+                                                <th scope="col">Количество досок</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                             <!--Raw Storage Oak End-->
 
                             <!--Drying Storage Pine Start-->

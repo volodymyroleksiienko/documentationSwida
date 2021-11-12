@@ -1,14 +1,15 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.dto.CellDryingStorageDto;
+import com.swida.documetation.data.dto.storages.QualityStatisticInfoDTO;
+import com.swida.documetation.data.dto.storages.RawStorageDTO;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
-import com.swida.documetation.data.enums.ContrAgentType;
-import com.swida.documetation.data.enums.StatusOfProduct;
-import com.swida.documetation.data.enums.StatusOfTreeStorage;
+import com.swida.documetation.data.enums.*;
+import com.swida.documetation.data.service.LoggerDataInfoService;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
@@ -55,6 +56,7 @@ public class FabricController {
     private OrderInfoService orderInfoService;
     private DriverInfoService driverInfoService;
     private QualityStatisticInfoService statisticInfoService;
+    private LoggerDataInfoService  loggerDataInfoService;
 
     @Autowired
     public FabricController(TreeStorageService treeStorageService, RawStorageService rawStorageService,
@@ -62,7 +64,7 @@ public class FabricController {
                             PackagedProductService packagedProductService, DeliveryDocumentationService deliveryDocumentationService,
                             BreedOfTreeService breedOfTreeService, ContrAgentService contrAgentService,
                             UserCompanyService userCompanyService, OrderInfoService orderInfoService,
-                            DriverInfoService driverInfoService, QualityStatisticInfoService statisticInfoService) {
+                            DriverInfoService driverInfoService, QualityStatisticInfoService statisticInfoService, LoggerDataInfoService loggerDataInfoService) {
         this.treeStorageService = treeStorageService;
         this.rawStorageService = rawStorageService;
         this.dryingStorageService = dryingStorageService;
@@ -75,6 +77,7 @@ public class FabricController {
         this.orderInfoService = orderInfoService;
         this.driverInfoService = driverInfoService;
         this.statisticInfoService = statisticInfoService;
+        this.loggerDataInfoService = loggerDataInfoService;
     }
 
     private void btnConfig(int userId, Model model){
@@ -149,7 +152,10 @@ public class FabricController {
 
     @PostMapping("/editQualityInfoObject-{userId}-{breedId}")
     public String  editQualityInfoObject(@PathVariable int breedId,@PathVariable int userId,QualityStatisticInfo info){
+        QualityStatisticInfo before = statisticInfoService.findById(info.getId());
         statisticInfoService.edit(info);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.TREE, LoggerOperationType.UPDATING,
+                QualityStatisticInfoDTO.convertToDTO(before),QualityStatisticInfoDTO.convertToDTO(info));
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -268,11 +274,12 @@ public class FabricController {
         String rawExtent =  rawStorageService.save(rawStorage).getExtent();
         rawStorage.setUsedExtent(rawExtent);
         rawStorage.setMaxExtent(rawExtent);
-        rawStorageService.save(rawStorage);
+        RawStorage after = rawStorageService.save(rawStorage);
 
         treeStorage.setMaxExtent(rawExtent);
         treeStorageService.save(treeStorage);
 
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.CREATING,null, RawStorageDTO.convertToDTO(after));
 
         JSONObject json = new JSONObject();
         json.put("rawStorageId",rawStorage.getId());
