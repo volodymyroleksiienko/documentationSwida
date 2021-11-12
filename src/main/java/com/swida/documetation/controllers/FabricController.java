@@ -146,16 +146,23 @@ public class FabricController {
 
     @PostMapping("/returnQualityInfoObject-{userId}-{breedId}")
     public String  returnQualityInfoObject(int id,@PathVariable int breedId,@PathVariable int userId){
+        QualityStatisticInfoDTO before = QualityStatisticInfoDTO.convertToDTO(statisticInfoService.findById(id));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.TREE_STATISTIC, LoggerOperationType.RETURNING,
+                before,null);
         statisticInfoService.returnQualityInfo(id);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/editQualityInfoObject-{userId}-{breedId}")
     public String  editQualityInfoObject(@PathVariable int breedId,@PathVariable int userId,QualityStatisticInfo info){
-        QualityStatisticInfo before = statisticInfoService.findById(info.getId());
-        statisticInfoService.edit(info);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.TREE, LoggerOperationType.UPDATING,
-                QualityStatisticInfoDTO.convertToDTO(before),QualityStatisticInfoDTO.convertToDTO(info));
+        QualityStatisticInfoDTO before = QualityStatisticInfoDTO.convertToDTO(statisticInfoService.findById(info.getId()));
+        List<QualityStatisticInfo> list =  statisticInfoService.edit(info);
+        QualityStatisticInfoDTO after = new QualityStatisticInfoDTO();
+        if(list.size()==1){
+            after = QualityStatisticInfoDTO.convertToDTO(list.get(0));
+        }
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.TREE_STATISTIC, LoggerOperationType.UPDATING,
+                before,after);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 

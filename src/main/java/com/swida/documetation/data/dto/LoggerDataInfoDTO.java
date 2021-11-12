@@ -2,6 +2,7 @@ package com.swida.documetation.data.dto;
 
 import com.google.gson.Gson;
 import com.swida.documetation.data.dto.storages.QualityStatisticInfoDTO;
+import com.swida.documetation.data.dto.storages.QualityStatisticInfoListDTO;
 import com.swida.documetation.data.dto.storages.RawStorageDTO;
 import com.swida.documetation.data.dto.storages.TreeStorageDTO;
 import com.swida.documetation.data.dto.subObjects.BreedOfTreeDTO;
@@ -40,7 +41,7 @@ public class LoggerDataInfoDTO<T> {
             dto = new LoggerDataInfoDTO<TreeStorageDTO>();
             dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), TreeStorageDTO.class);
             dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), TreeStorageDTO.class);
-        }else if (info.getStorageType()==StorageType.TREE_STATISTIC && info.getOperationType()==LoggerOperationType.UPDATING){
+        }else if (info.getStorageType()==StorageType.TREE_STATISTIC && (info.getOperationType()==LoggerOperationType.UPDATING ||info.getOperationType()==LoggerOperationType.RETURNING) ){
             dto = new LoggerDataInfoDTO<QualityStatisticInfoDTO>();
             dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), QualityStatisticInfoDTO.class);
             dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), QualityStatisticInfoDTO.class);
@@ -48,6 +49,10 @@ public class LoggerDataInfoDTO<T> {
             dto = new LoggerDataInfoDTO<RawStorageDTO>();
             dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), RawStorageDTO.class);
             dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), RawStorageDTO.class);
+        }else if (info.getStorageType()==StorageType.TREE_STATISTIC && info.getOperationType()==LoggerOperationType.CREATING){
+            dto = new LoggerDataInfoDTO<QualityStatisticInfoListDTO>();
+            dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), QualityStatisticInfoListDTO.class);
+            dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), QualityStatisticInfoListDTO.class);
         }
         dto.id = info.getId();
         dto.date = info.getDate();

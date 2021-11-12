@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class QualityStatisticInfoDTO {
@@ -21,11 +23,12 @@ public class QualityStatisticInfoDTO {
     private Integer countOfDesk;
     private String date=DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now());
 //    private TreeStorageDTO treeStorage;
-//    private RawStorageDTO rawStorage;
+    private RawStorageDTO rawStorage;
 
     public static QualityStatisticInfoDTO convertToDTO(QualityStatisticInfo info){
         QualityStatisticInfoDTO dto = new QualityStatisticInfoDTO();
         dto.id = info.getId();
+        dto.height = info.getHeight();
         dto.firstExtent = info.getFirstExtent();
         dto.extent = info.getExtent();
         dto.percent = info.getPercent();
@@ -35,8 +38,20 @@ public class QualityStatisticInfoDTO {
         dto.sizeOfLong = info.getSizeOfLong();
         dto.countOfDesk = info.getCountOfDesk();
         dto.date = info.getDate();
+        if(info.getRawStorage()!=null){
+            dto.rawStorage = RawStorageDTO.convertToDTO(info.getRawStorage());
+        }
         return dto;
     }
+
+    public static List<QualityStatisticInfoDTO> convertToDTO(List<QualityStatisticInfo> info){
+        List<QualityStatisticInfoDTO> dto = new ArrayList<>();
+        for(QualityStatisticInfo item : info){
+            dto.add(QualityStatisticInfoDTO.convertToDTO(item));
+        }
+        return dto;
+    }
+
 
 
     @Override

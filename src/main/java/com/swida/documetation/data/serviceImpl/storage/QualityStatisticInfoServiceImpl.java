@@ -85,7 +85,7 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
         }
     }
 
-    public void edit(QualityStatisticInfo info){
+    public List<QualityStatisticInfo> edit(QualityStatisticInfo info){
         QualityStatisticInfo infoDB  = findById(info.getId());
         if(infoDB.getCountOfDesk().equals(info.getCountOfDesk()) &&
             infoDB.getHeight().equals(info.getHeight()) &&
@@ -94,7 +94,7 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
             infoDB.getBreedDescription().equals(info.getBreedDescription()) ){
             infoDB.setDate(info.getDate());
             infoDB.setCodeOfTeam(info.getCodeOfTeam());
-            save(infoDB);
+            return Collections.singletonList(save(infoDB));
         }else{
             returnQualityInfo(info.getId());
             TreeStorageListDto  dto = new TreeStorageListDto();
@@ -122,7 +122,7 @@ public class QualityStatisticInfoServiceImpl implements QualityStatisticInfoServ
                 storageItem.setExtent(Double.parseDouble(info.getExtent()));
             }
             dto.setStorageItems(Collections.singletonList(storageItem));
-            rawStorageService.analyzeOfCutting(dto);
+            return rawStorageService.analyzeOfCutting(dto);
         }
     }
 

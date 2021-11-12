@@ -2,11 +2,12 @@ package com.swida.documetation.data.serviceImpl.storage;
 
 import com.swida.documetation.data.dto.StorageItem;
 import com.swida.documetation.data.dto.TreeStorageListDto;
+import com.swida.documetation.data.dto.storages.QualityStatisticInfoDTO;
+import com.swida.documetation.data.dto.storages.QualityStatisticInfoListDTO;
 import com.swida.documetation.data.entity.storages.*;
-import com.swida.documetation.data.enums.StatusOfEntity;
-import com.swida.documetation.data.enums.StatusOfProduct;
-import com.swida.documetation.data.enums.StatusOfTreeStorage;
+import com.swida.documetation.data.enums.*;
 import com.swida.documetation.data.jpa.storages.RawStorageJPA;
+import com.swida.documetation.data.service.LoggerDataInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.QualityStatisticInfoService;
 import com.swida.documetation.data.service.storages.RawStorageService;
@@ -35,6 +36,7 @@ public class RawStorageServiceImpl implements RawStorageService {
     private final UserCompanyService userCompanyService;
     private final QualityStatisticInfoService statisticInfoService;
     private final EntityManager entityManager;
+    private final LoggerDataInfoService loggerDataInfoService;
 
     public QualityStatisticInfo checkQualityInfo(RawStorage rawStorage, String extent){
         QualityStatisticInfo info = checkQualityInfo(rawStorage);
@@ -167,10 +169,11 @@ public class RawStorageServiceImpl implements RawStorageService {
     }
 
     @Override
-    public void analyzeOfCutting(TreeStorageListDto dto) {
+    public List<QualityStatisticInfo> analyzeOfCutting(TreeStorageListDto dto) {
         List<StorageItem> items = dto.getStorageItems();
         double factExtent = dto.getStorageItems().stream().mapToDouble(StorageItem::getExtent).reduce(Double::sum).getAsDouble();
         double qualityCoef = factExtent/dto.getExtent();
+        List<QualityStatisticInfo> statisticList = new ArrayList<>();
         for (StorageItem item : items) {
             String heights = String.valueOf(item.getSizeOfHeight());
             String widths = String.valueOf(item.getSizeOfWidth());
@@ -220,16 +223,18 @@ public class RawStorageServiceImpl implements RawStorageService {
                             +Double.parseDouble(rawDB.getExtent())/qualityCoef).replace(",",".")
             );
             QualityStatisticInfo info = create(save(rawDB),item,item.getExtent()/qualityCoef);
-            info.setCodeOfTeam(dto.getCodeOfProduct()+"-"+rawDB.getSizeOfHeight());
-            statisticInfoService.save(info);
-        }
 
+            info.setCodeOfTeam(dto.getCodeOfProduct()+"-"+rawDB.getSizeOfHeight());
+            statisticList.add(statisticInfoService.save(info));
+        }
+        loggerDataInfoService.save(breedOfTreeService.findById(dto.getBreedId()), StorageType.TREE_STATISTIC, LoggerOperationType.CREATING,null, QualityStatisticInfoListDTO.convertToDTO(statisticList));
         TreeStorage main = treeStorageService.getMainTreeStorage(dto.getBreedId(),dto.getUserId());
         entityManager.refresh(main);
         main.setExtent(
                 String.format("%.3f",(Double.parseDouble(main.getExtent())-dto.getExtent())).replace(",",".")
         );
         treeStorageService.save(main);
+        return  statisticList;
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface QualityStatisticInfoService {
     QualityStatisticInfo save(QualityStatisticInfo info);
-    void edit(QualityStatisticInfo info);
+    List<QualityStatisticInfo> edit(QualityStatisticInfo info);
     QualityStatisticInfo findById(int id);
     List<QualityStatisticInfo> findByUserByBreed(List<Integer> userId,List<Integer> breedId);
     QualityStatisticInfo findByTreeStorageIdAndAndHeight(int id,String height);

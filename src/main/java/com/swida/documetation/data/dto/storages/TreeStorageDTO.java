@@ -43,7 +43,9 @@ public class TreeStorageDTO {
         dto.treeDescription=treeStorage.getTreeDescription();
         dto.isMainStorage=treeStorage.getIsMainStorage();
         dto.breedOfTree = BreedOfTreeDTO.convertToDTO(treeStorage.getBreedOfTree());
-        dto.contrAgent = ContrAgentDTO.convertToDTO(treeStorage.getContrAgent());
+        if(treeStorage.getContrAgent()!=null) {
+            dto.contrAgent = ContrAgentDTO.convertToDTO(treeStorage.getContrAgent());
+        }
         return dto;
     }
 }

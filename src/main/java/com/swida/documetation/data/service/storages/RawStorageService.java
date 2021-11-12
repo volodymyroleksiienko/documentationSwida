@@ -13,7 +13,7 @@ public interface RawStorageService {
     RawStorage findById(int id);
     List<RawStorage> findAll();
     List<RawStorage> findAllByTreeStorageId(int id);
-    void analyzeOfCutting(TreeStorageListDto dto);
+    List<QualityStatisticInfo> analyzeOfCutting(TreeStorageListDto dto);
     RawStorage findEqualRaw(int breedId, int userId, String desc,String heights,String widths,String longs);
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
     List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);

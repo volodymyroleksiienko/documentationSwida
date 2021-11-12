@@ -178,7 +178,7 @@
                             <!--                                </table>-->
                             <!--                            &lt;!&ndash;Raw Storage Pine End&ndash;&gt;-->
                             <!--Tree Storage Pine History Start-->
-                            <table class="table table-hover table-striped parent-table">
+                            <table class="table table-hover table-striped parent-table" th:if="false">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -225,11 +225,45 @@
                                     <td>12</td>
                                 </tr>
                                 </tbody>
-                            </table>
+                            </table >
                             <!--Tree Storage Pine History End-->
 
-                            <!--Tree Storage Oak History Start-->
-                            <table class="table table-hover table-striped parent-table">
+                            <!--Tree Storage Oak History Start CREATING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE_STATISTIC) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата</th>
+                                    <th scope="col">Номер пилорамы</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Взято, м<sup>3</sup></th>
+                                    <th scope="col">Выход, м<sup>3</sup></th>
+                                    <th scope="col">Процент, %</th>
+                                    <th scope="col">Додано в</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="st : ${act.objectAfterChanging.getList()}">
+                                    <th>Создано:</th>
+                                    <td th:text="${st.getDate()}">2</td>
+                                    <td th:text="${st.getCodeOfTeam()}">3</td>
+                                    <td th:text="${st.getBreedDescription()}">4</td>
+                                    <td th:text="${st.getSizeOfWidth()}">5</td>
+                                    <td th:text="${st.getSizeOfLong()}">6</td>
+                                    <td th:text="${st.getFirstExtent()}">7</td>
+                                    <td th:text="${st.getExtent()}">8</td>
+                                    <td th:text="${st.getPercent()}">9</td>
+                                    <td th:text="${st?.getRawStorage()?.getCodeOfProduct()}">10</td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Tree Storage Oak History End CREATING-->
+
+                            <!--Tree Storage Oak History Start UPDATING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE_STATISTIC) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -247,31 +281,64 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>10</td>
+                                    <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectBeforeChanging.getCodeOfTeam()}">3</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedDescription()}">4</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfWidth()}">5</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">6</td>
+                                    <td th:text="${act.objectBeforeChanging.getFirstExtent()}">7</td>
+                                    <td th:text="${act.objectBeforeChanging.getExtent()}">8</td>
+                                    <td th:text="${act.objectBeforeChanging.getPercent()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging?.getRawStorage()?.getCodeOfProduct()}">10</td>
                                 </tr>
                                 <tr>
                                     <th>После:</th>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>10</td>
+                                    <td th:text="${act.objectAfterChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectAfterChanging.getCodeOfTeam()}">3</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedDescription()}">4</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfWidth()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfLong()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getFirstExtent()}">7</td>
+                                    <td th:text="${act.objectAfterChanging.getExtent()}">8</td>
+                                    <td th:text="${act.objectAfterChanging.getPercent()}">9</td>
+                                    <td th:text="${act.objectAfterChanging?.getRawStorage()?.getCodeOfProduct()}">10</td>
                                 </tr>
                                 </tbody>
-                            </table>
-                            <!--Tree Storage Oak History End-->
+                            </table >
+                            <!--Tree Storage Oak History End UPDATING-->
+
+                            <!--Tree Storage Oak History Start RETURNING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE_STATISTIC) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата</th>
+                                    <th scope="col">Номер пилорамы</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Взято, м<sup>3</sup></th>
+                                    <th scope="col">Выход, м<sup>3</sup></th>
+                                    <th scope="col">Процент, %</th>
+                                    <th scope="col">Додано в</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>После:</th>
+                                    <td th:text="${act.objectBeforeChanging?.getDate()}">2</td>
+                                    <td th:text="${act.objectBeforeChanging.getCodeOfTeam()}">3</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedDescription()}">4</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfWidth()}">5</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">6</td>
+                                    <td th:text="${act.objectBeforeChanging.getFirstExtent()}">7</td>
+                                    <td th:text="${act.objectBeforeChanging.getExtent()}">8</td>
+                                    <td th:text="${act.objectBeforeChanging.getPercent()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging?.getRawStorage()?.getCodeOfProduct()}">10</td>
+                                </tr>
+                                </tbody>
+                            </table >
+                            <!--Tree Storage Oak History End RETURNING-->
 
                             <!--Raw Storage Pine Start-->
                             <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
