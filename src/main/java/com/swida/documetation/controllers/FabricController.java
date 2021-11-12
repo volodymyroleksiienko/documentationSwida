@@ -385,6 +385,7 @@ public class FabricController {
     public String returnRawPackageToTree(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     String id){
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.RETURNING,RawStorageDTO.convertToDTO(rawStorage),null);
         if(rawStorage.getGroupedElements()==null || rawStorage.getGroupedElements().size()==0) {
             TreeStorage treeStorage = rawStorage.getTreeStorage();
             float rawStorageExtent = Float.parseFloat(rawStorage.getExtent());

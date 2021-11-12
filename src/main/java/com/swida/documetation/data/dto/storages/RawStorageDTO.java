@@ -35,7 +35,7 @@ public class RawStorageDTO {
     private Boolean getBuCutting = false;
 //    private QualityStatisticInfoDTO statisticInfo;
 //    private List<RawStorageDTO> groupedElements;
-//    private List<DescriptionDeskOakDTO> deskOakList;
+    private List<DescriptionDeskOakDTO> deskOakList;
     private UserCompanyDTO userCompany;
     private TreeStorageDTO treeStorage;
 //    private List<DryingStorageDTO> dryingStorageList;
@@ -62,6 +62,9 @@ public class RawStorageDTO {
         dto.userCompany = UserCompanyDTO.convertToDTO(rawStorage.getUserCompany());
         dto.treeStorage = TreeStorageDTO.convertToDTO(rawStorage.getTreeStorage());
         dto.statusOfEntity = rawStorage.getStatusOfEntity();
+        if(rawStorage.getDeskOakList()!=null && rawStorage.getDeskOakList().size()>0) {
+            dto.deskOakList = DescriptionDeskOakDTO.convertToDTO(rawStorage.getDeskOakList());
+        }
         return dto;
     }
 

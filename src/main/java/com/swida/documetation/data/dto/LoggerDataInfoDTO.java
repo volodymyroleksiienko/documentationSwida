@@ -44,10 +44,10 @@ public class LoggerDataInfoDTO<T> {
             dto = new LoggerDataInfoDTO<QualityStatisticInfoDTO>();
             dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), QualityStatisticInfoDTO.class);
             dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), QualityStatisticInfoDTO.class);
-        } else if (info.getStorageType()==StorageType.RAW && info.getOperationType()==LoggerOperationType.CREATING){
-        dto = new LoggerDataInfoDTO<RawStorageDTO>();
-        dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), RawStorageDTO.class);
-        dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), RawStorageDTO.class);
+        } else if (info.getStorageType()==StorageType.RAW){
+            dto = new LoggerDataInfoDTO<RawStorageDTO>();
+            dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), RawStorageDTO.class);
+            dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), RawStorageDTO.class);
         }
         dto.id = info.getId();
         dto.date = info.getDate();

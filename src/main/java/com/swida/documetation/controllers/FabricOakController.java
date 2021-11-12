@@ -277,6 +277,7 @@ public class FabricOakController {
         int breedId = 2;
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
+        RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorageDB);
         float oldExtent = Float.parseFloat(rawStorageDB.getExtent());
         rawStorageDB.setBreedDescription(rawStorage.getBreedDescription());
         rawStorageDB.setCodeOfProduct(rawStorage.getCodeOfProduct());
@@ -284,7 +285,9 @@ public class FabricOakController {
         rawStorageDB.setSizeOfHeight(rawStorage.getSizeOfHeight());
         rawStorageDB.setSizeOfLong(rawStorage.getSizeOfLong());
         rawStorageDB.setDescription(rawStorage.getDescription());
-        rawStorageService.save(rawStorageDB);
+        RawStorage savedRawStorage = rawStorageService.save(rawStorageDB);
+        RawStorageDTO after = RawStorageDTO.convertToDTO(savedRawStorage);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorageDB);
 
         TreeStorage treeStorage = rawStorageDB.getTreeStorage();
@@ -308,6 +311,7 @@ public class FabricOakController {
     @PostMapping("/addDescriptionOakItemToRawStorage-{userId}-{breedId}")
     public String addDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int positionId,String width, String count){
         RawStorage rawStorage = rawStorageService.findById(positionId);
+        RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorage);
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
         deskOak.setSizeOfWidth(width);
         deskOak.setCountOfDesk(count);
@@ -315,27 +319,36 @@ public class FabricOakController {
         deskOakService.save(deskOak);
         rawStorage.getDeskOakList().add(deskOak);
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
+        RawStorageDTO after = RawStorageDTO.convertToDTO(rawStorageService.findById(positionId));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/editDescriptionOakItemToRawStorage-{userId}-{breedId}")
     public String editDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int rawStorageId,int descId,String width, String count){
+        RawStorage rawStorage = rawStorageService.findById(rawStorageId);
+        RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
         deskOak.setSizeOfWidth(width);
         deskOak.setCountOfDesk(count);
         deskOakService.save(deskOak);
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorageService.findById(rawStorageId));
+        RawStorageDTO after = RawStorageDTO.convertToDTO(rawStorageService.findById(rawStorageId));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/deleteDescriptionOakItemToRawStorage-{userId}-{breedId}")
     public String deleteDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int rawStorageId,int descId){
         RawStorage rawStorage = rawStorageService.findById(rawStorageId);
+        RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
         rawStorage.getDeskOakList().remove(deskOak);
         deskOakService.deleteByID(descId);
 
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
+        RawStorageDTO after = RawStorageDTO.convertToDTO(rawStorageService.findById(rawStorageId));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -534,6 +547,7 @@ public class FabricOakController {
     @PostMapping("/resetRawPackageExtent-{userId}-{breedId}")
     public String resetRawPackageExtent(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,String id) {
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW, LoggerOperationType.RETURN_TO_ZERO,RawStorageDTO.convertToDTO(rawStorage),null);
         rawStorage.setExtent("0.000");
         rawStorageService.save(rawStorage);
 //        rawStorageService.checkQualityInfo(rawStorage);

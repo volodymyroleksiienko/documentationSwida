@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.google.gson.Gson;
 import com.swida.documetation.data.dto.TreeStorageListDto;
+import com.swida.documetation.data.dto.storages.RawStorageDTO;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -9,12 +10,12 @@ import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.entity.subObjects.DriverInfo;
-import com.swida.documetation.data.enums.DeliveryDestinationType;
-import com.swida.documetation.data.enums.StatusOfProduct;
-import com.swida.documetation.data.enums.StatusOfTreeStorage;
+import com.swida.documetation.data.enums.*;
+import com.swida.documetation.data.service.LoggerDataInfoService;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.*;
+import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,16 @@ public class FabricRestController {
     DryStorageService dryStorageService;
     TreeStorageService treeStorageService;
     DescriptionDeskOakService deskOakService;
+    LoggerDataInfoService loggerDataInfoService;
+    BreedOfTreeService breedOfTreeService;
 
     @Autowired
     public FabricRestController(DriverInfoService driverInfoService, PackagedProductService packagedProductService,
                                 DeliveryDocumentationService deliveryDocumentationService, OrderInfoService orderInfoService,
                                 UserCompanyService userCompanyService, RawStorageService rawStorageService,
                                 DryingStorageService dryingStorageService, DryStorageService dryStorageService,
-                                TreeStorageService treeStorageService, DescriptionDeskOakService deskOakService ) {
+                                TreeStorageService treeStorageService, DescriptionDeskOakService deskOakService,
+                                LoggerDataInfoService loggerDataInfoService, BreedOfTreeService breedOfTreeService) {
         this.driverInfoService = driverInfoService;
         this.packagedProductService = packagedProductService;
         this.deliveryDocumentationService = deliveryDocumentationService;
@@ -57,6 +61,8 @@ public class FabricRestController {
         this.dryStorageService = dryStorageService;
         this.treeStorageService = treeStorageService;
         this.deskOakService = deskOakService;
+        this.loggerDataInfoService = loggerDataInfoService;
+        this.breedOfTreeService = breedOfTreeService;
     }
 
 
@@ -229,7 +235,8 @@ public class FabricRestController {
         rawStorage.setUsedExtent(usedExtent.replace(",","."));
         rawStorage.setTreeStorage(treeStorage);
 //        rawStorage.setDeskOakList(descriptionDeskList);
-        String rawExtent = rawStorageService.save(rawStorage).getExtent();
+        RawStorage savedRawStorage = rawStorageService.save(rawStorage);
+        String rawExtent = savedRawStorage.getExtent();
         if(treeStorage.getStatusOfTreeStorage()==StatusOfTreeStorage.PROVIDER_DESK){
             treeStorage.setMaxExtent(rawExtent);
         }
@@ -246,6 +253,8 @@ public class FabricRestController {
         if(supplier.isEmpty() || Integer.parseInt(supplier)==0) {
             rawStorageService.checkQualityInfo(rawStorage);
         }
+        savedRawStorage.setDeskOakList(descriptionDeskList);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedID), StorageType.RAW, LoggerOperationType.CREATING,null, RawStorageDTO.convertToDTO(savedRawStorage));
     }
 
     @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")

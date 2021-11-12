@@ -3,7 +3,7 @@ package com.swida.documetation.data.enums;
 public enum StorageType {
     TREE_STATISTIC("Приход леса, история"),
     TREE("Приход леса"),
-    RAW ("Сирой склад"),
+    RAW ("Сырой склад"),
     DRYING ("Сушка"),
     DRY ("Сухой склад"),
     PACKAGE ("Пачки"),
