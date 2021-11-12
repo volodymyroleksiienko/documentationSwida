@@ -45,55 +45,55 @@
                     <td colspan="14" class="child-table">
                         <table class="table table-hover table-striped parent-table dryingtable">
                             <thead>
-                            <tr>
-                                <th></th>
-                                <th scope="col">Код партии</th>
-                                <th scope="col">Порода</th>
-                                <th scope="col">Описание</th>
-                                <th scope="col">Толщина, мм</th>
-                                <th scope="col">Ширина, мм</th>
-                                <th scope="col">Длина, мм</th>
-                                <th scope="col">Кол-во досок, шт</th>
-                                <th scope="col">Кубатура, м<sup>3</sup></th>
-                                <th scope="col">Камера</th>
-                                <th scope="col">Дата загрузки</th>
-                                <th scope="col">Дата выхода</th>
-                                <th>RawStorage countOfDesk</th>
-                                <th></th>
-                            </tr>
+                                <tr>
+                                    <th></th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                    <th scope="col">Камера</th>
+                                    <th scope="col">Дата загрузки</th>
+                                    <th scope="col">Дата выхода</th>
+                                    <th>RawStorage countOfDesk</th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr  th:id="${ds.id}" th:each="ds, index : ${cell.dryingStorageList}">
-                                <td th:text="${ds.id}"></td>
-                                <th scope="row" th:text="${ds.codeOfProduct}"></th>
-                                <td th:text="${ds.breedOfTree.breed}"></td>
-                                <td th:text="${ds.breedDescription}"></td>
-                                <td th:text="${ds.sizeOfHeight}"></td>
-                                <td th:text="${ds.sizeOfWidth}"></td>
-                                <td th:text="${ds.sizeOfLong}"></td>
-                                <td th:text="${ds.countOfDesk}"></td>
-                                <td th:text="${ds.extent}"></td>
-                                <td th:text="${ds?.cell}"></td>
-                                <td>
-                                    <span th:text="${ds?.startDate?.substring(8,10)+'-'+ds?.startDate?.substring(5,7)+'-'+ds?.startDate?.substring(0,4)}"></span>
-                                    <span class="original-date" th:text="${ds?.startDate}" style="display: none"></span>
-                                </td>
-                                <td>
-                                    <span th:text="${ds?.dateDrying?.substring(8,10)+'-'+ds?.dateDrying?.substring(5,7)+'-'+ds?.dateDrying?.substring(0,4)}"></span>
-                                    <span class="original-date" th:text="${ds?.dateDrying}" style="display: none"></span>
-                                </td>
-                                <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
-                                <td>
-                                    <button th:if="${btnConfig?.equals('btnON')}" type="button"
-                                            class="btn btn-primary btn-sm" data-toggle="modal"
-                                            onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip"
-                                                                             title="На сухой склад"></i></button>
-                                    <button th:if="${btnConfig?.equals('btnON')}" type="button"
-                                            class="btn btn-primary btn-sm" data-toggle="modal"
-                                            onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip"
-                                                                              title="Редактировать"></i></button>
-                                </td>
-                            </tr>
+                                <tr  th:id="${ds.id}" th:each="ds, index : ${cell.dryingStorageList}">
+                                    <td th:text="${ds.id}"></td>
+                                    <th scope="row" th:text="${ds.codeOfProduct}"></th>
+                                    <td th:text="${ds.breedOfTree.breed}"></td>
+                                    <td th:text="${ds.breedDescription}"></td>
+                                    <td th:text="${ds.sizeOfHeight}"></td>
+                                    <td th:text="${ds.sizeOfWidth}"></td>
+                                    <td th:text="${ds.sizeOfLong}"></td>
+                                    <td th:text="${ds.countOfDesk}"></td>
+                                    <td th:text="${ds.extent}"></td>
+                                    <td th:text="${ds?.cell}"></td>
+                                    <td>
+                                        <span th:text="${ds?.startDate?.substring(8,10)+'-'+ds?.startDate?.substring(5,7)+'-'+ds?.startDate?.substring(0,4)}"></span>
+                                        <span class="original-date" th:text="${ds?.startDate}" style="display: none"></span>
+                                    </td>
+                                    <td>
+                                        <span th:text="${ds?.dateDrying?.substring(8,10)+'-'+ds?.dateDrying?.substring(5,7)+'-'+ds?.dateDrying?.substring(0,4)}"></span>
+                                        <span class="original-date" th:text="${ds?.dateDrying}" style="display: none"></span>
+                                    </td>
+                                    <td th:text="${ds?.rawStorage?.countOfDesk}"></td>
+                                    <td>
+                                        <button th:if="${btnConfig?.equals('btnON')}" type="button"
+                                                class="btn btn-primary btn-sm" data-toggle="modal"
+                                                onclick="sendForDrying(this)"><i class="fas fa-th" data-toggle="tooltip"
+                                                                                 title="На сухой склад"></i></button>
+                                        <button th:if="${btnConfig?.equals('btnON')}" type="button"
+                                                class="btn btn-primary btn-sm" data-toggle="modal"
+                                                onclick="editRawStorage(this)"><i class="fas fa-pen" data-toggle="tooltip"
+                                                                                  title="Редактировать"></i></button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </td>
