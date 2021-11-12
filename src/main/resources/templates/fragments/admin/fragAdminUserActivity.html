@@ -130,6 +130,102 @@
                                 </table>
                             <!--Tree Storage End-->
 
+                            <!--Tree Storage Pine History Start-->
+                                <table class="table table-hover table-striped parent-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Номер пилорамы</th>
+                                            <th scope="col">Описание</th>
+                                            <th scope="col">Толщина, мм</th>
+                                            <th scope="col">Ширина, мм</th>
+                                            <th scope="col">Длина, мм</th>
+                                            <th scope="col">Кол-во досок, шт</th>
+                                            <th scope="col">Взято, м<sup>3</sup></th>
+                                            <th scope="col">Выход, м<sup>3</sup></th>
+                                            <th scope="col">Процент, %</th>
+                                            <th scope="col">Додано в</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th>До:</th>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                            <td>12</td>
+                                        </tr>
+                                        <tr>
+                                            <th>После:</th>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                            <td>12</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <!--Tree Storage Pine History End-->
+
+                            <!--Tree Storage Oak History Start-->
+                                <table class="table table-hover table-striped parent-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Дата</th>
+                                            <th scope="col">Номер пилорамы</th>
+                                            <th scope="col">Описание</th>
+                                            <th scope="col">Толщина, мм</th>
+                                            <th scope="col">Длина, мм</th>
+                                            <th scope="col">Взято, м<sup>3</sup></th>
+                                            <th scope="col">Выход, м<sup>3</sup></th>
+                                            <th scope="col">Процент, %</th>
+                                            <th scope="col">Додано в</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th>До:</th>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <th>После:</th>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <!--Tree Storage Oak History End-->
+
                             <!--Raw Storage Pine Start-->
                                 <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                     <thead>
@@ -242,7 +338,7 @@
                             <!--Raw Storage Oak End-->
 
                             <!--Raw Storage Oak Start-->
-                              <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                               <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
