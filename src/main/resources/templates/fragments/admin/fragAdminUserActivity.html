@@ -1,7 +1,7 @@
 <th:block xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="usersActivity">
     <div class="tab-pane fade show active container-fluid" id="pineStats">
         <br>
-<!--        <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>-->
+        <!--        <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>-->
         <form action="XXX" method="post">
             <table style="width: 100%;" >
                 <tr>
@@ -58,190 +58,333 @@
         </form>
 
         <div>
-             <table class="table userActivity table-hover table-striped">
+            <table class="table userActivity table-hover table-striped">
                 <br>
                 <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Время</th>
-                        <th scope="col">Пользователь</th>
-                        <th scope="col">Склад</th>
-                        <th scope="col">Событие</th>
-                    </tr>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Время</th>
+                    <th scope="col">Пользователь</th>
+                    <th scope="col">Склад</th>
+                    <th scope="col">Событие</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <div th:each="act, index : ${activityList}">
-                        <tr style="background-color: lightgrey;">
-                            <td style="width: 30px;" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${act.id}"><span></span></td>
-                            <td th:text="${act?.date}">date</td>
-                            <td th:text="${act?.user?.getNameOfCompany()}">user</td>
-                            <td th:text="${act?.storageType?.getMeaning()}">storage</td>
-                            <td th:text="${act?.operationType?.getMeaning()}">action</td>
-                        </tr>
-                        <tr style="display:none" th:id="'parent'+${act.id}">
-                            <td style="display:none; width: 30px"></td>
-                            <td colspan="5" class="child-table">
+                <div th:each="act, index : ${activityList}">
+                    <tr style="background-color: lightgrey;">
+                        <td style="width: 30px;" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${act.id}"><span></span></td>
+                        <td th:text="${act?.date}">date</td>
+                        <td th:text="${act?.user?.getNameOfCompany()}">user</td>
+                        <td th:text="${act?.storageType?.getMeaning()}">storage</td>
+                        <td th:text="${act?.operationType?.getMeaning()}">action</td>
+                    </tr>
+                    <tr style="display:none" th:id="'parent'+${act.id}">
+                        <td style="display:none; width: 30px"></td>
+                        <td colspan="5" class="child-table">
 
                             <!--Tree Storage Start-->
-                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col">Дата прихода</th>
-                                            <th scope="col">Код партии</th>
-                                            <th scope="col">Порода</th>
-                                            <th scope="col">Описание</th>
-                                            <th scope="col">Поставщик</th>
-                                            <th scope="col">Ср. диаметр</th>
-                                            <th scope="col">Кол-во колод</th>
-                                            <th scope="col">Остаток, м<sup>3</sup></th>
-                                            <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
-                                            <th scope="col">Примечание</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>До:</th>
-                                            <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
-                                            <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
-                                            <td th:text="${act.objectBeforeChanging?.getBreedOfTree()?.getBreed()}">4</td>
-                                            <td th:text="${act.objectBeforeChanging.getBreedDescription()}">5</td>
-                                            <td th:text="${act.objectBeforeChanging.getContrAgent().getNameOfAgent()}">6</td>
-                                            <td th:text="${act.objectBeforeChanging.getAverageDiameter()}">7</td>
-                                            <td th:text="${act.objectBeforeChanging.getCountOfDeck()}">8</td>
-                                            <td th:text="${act.objectBeforeChanging.getExtent()}">9</td>
-                                            <td th:text="${act.objectBeforeChanging.getMaxExtent()}">10</td>
-                                            <td th:text="${act.objectBeforeChanging.getTreeDescription()}">11</td>
-                                        </tr>
-                                        <tr>
-                                            <th>После:</th>
-                                            <td th:text="${act.objectAfterChanging.getDate()}">2</td>
-                                            <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
-                                            <td th:text="${act.objectAfterChanging?.getBreedOfTree()?.getBreed()}">4</td>
-                                            <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
-                                            <td th:text="${act.objectAfterChanging.getContrAgent().getNameOfAgent()}">6</td>
-                                            <td th:text="${act.objectAfterChanging.getAverageDiameter()}">7</td>
-                                            <td th:text="${act.objectAfterChanging.getCountOfDeck()}">8</td>
-                                            <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
-                                            <td th:text="${act.objectAfterChanging.getMaxExtent()}">10</td>
-                                            <td th:text="${act.objectAfterChanging.getTreeDescription()}">11</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата прихода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Поставщик</th>
+                                    <th scope="col">Ср. диаметр</th>
+                                    <th scope="col">Кол-во колод</th>
+                                    <th scope="col">Остаток, м<sup>3</sup></th>
+                                    <th scope="col">Куб-ра (начальная), м<sup>3</sup></th>
+                                    <th scope="col">Примечание</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>До:</th>
+                                    <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
+                                    <td th:text="${act.objectBeforeChanging?.getBreedOfTree()?.getBreed()}">4</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedDescription()}">5</td>
+                                    <td th:text="${act.objectBeforeChanging.getContrAgent().getNameOfAgent()}">6</td>
+                                    <td th:text="${act.objectBeforeChanging.getAverageDiameter()}">7</td>
+                                    <td th:text="${act.objectBeforeChanging.getCountOfDeck()}">8</td>
+                                    <td th:text="${act.objectBeforeChanging.getExtent()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging.getMaxExtent()}">10</td>
+                                    <td th:text="${act.objectBeforeChanging.getTreeDescription()}">11</td>
+                                </tr>
+                                <tr>
+                                    <th>После:</th>
+                                    <td th:text="${act.objectAfterChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
+                                    <td th:text="${act.objectAfterChanging?.getBreedOfTree()?.getBreed()}">4</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getContrAgent().getNameOfAgent()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getAverageDiameter()}">7</td>
+                                    <td th:text="${act.objectAfterChanging.getCountOfDeck()}">8</td>
+                                    <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getMaxExtent()}">10</td>
+                                    <td th:text="${act.objectAfterChanging.getTreeDescription()}">11</td>
+                                </tr>
+                                </tbody>
+                            </table>
                             <!--Tree Storage End-->
 
-<!--                            &lt;!&ndash;Raw Storage Pine Start&ndash;&gt;-->
-<!--                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">-->
-<!--                                    <thead>-->
-<!--                                        <tr>-->
-<!--                                            <th scope="col"></th>-->
-<!--                                            <th scope="col">Дата распил./прихода</th>-->
-<!--                                            <th scope="col">Код партии</th>-->
-<!--                                            <th scope="col">Порода</th>-->
-<!--                                            <th scope="col">Описание</th>-->
-<!--                                            <th scope="col">Толщина, мм</th>-->
-<!--                                            <th scope="col">Ширина, мм</th>-->
-<!--                                            <th scope="col">Длина, мм</th>-->
-<!--                                            <th scope="col">Кол-во досок, шт</th>-->
-<!--                                            <th scope="col">Кубатура, м<sup>3</sup></th>-->
-<!--                                            <th>Поставщик</th>-->
-<!--                                        </tr>-->
-<!--                                    </thead>-->
-<!--                                    <tbody>-->
-<!--                                        <tr>-->
-<!--                                            <th>До:</th>-->
-<!--                                            <td>2</td>-->
-<!--                                            <td>3</td>-->
-<!--                                            <td>4</td>-->
-<!--                                            <td>5</td>-->
-<!--                                            <td>6</td>-->
-<!--                                            <td>7</td>-->
-<!--                                            <td>8</td>-->
-<!--                                            <td>9</td>-->
-<!--                                            <td>10</td>-->
-<!--                                            <td>11</td>-->
-<!--                                        </tr>-->
-<!--                                        <tr>-->
-<!--                                            <th>После:</th>-->
-<!--                                            <td>2</td>-->
-<!--                                            <td>3</td>-->
-<!--                                            <td>4</td>-->
-<!--                                            <td>5</td>-->
-<!--                                            <td>6</td>-->
-<!--                                            <td>7</td>-->
-<!--                                            <td>8</td>-->
-<!--                                            <td>9</td>-->
-<!--                                            <td>10</td>-->
-<!--                                            <td>11</td>-->
-<!--                                        </tr>-->
-<!--                                    </tbody>-->
-<!--                                </table>-->
-<!--                            &lt;!&ndash;Raw Storage Pine End&ndash;&gt;-->
+                            <!--                            &lt;!&ndash;Raw Storage Pine Start&ndash;&gt;-->
+                            <!--                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">-->
+                            <!--                                    <thead>-->
+                            <!--                                        <tr>-->
+                            <!--                                            <th scope="col"></th>-->
+                            <!--                                            <th scope="col">Дата распил./прихода</th>-->
+                            <!--                                            <th scope="col">Код партии</th>-->
+                            <!--                                            <th scope="col">Порода</th>-->
+                            <!--                                            <th scope="col">Описание</th>-->
+                            <!--                                            <th scope="col">Толщина, мм</th>-->
+                            <!--                                            <th scope="col">Ширина, мм</th>-->
+                            <!--                                            <th scope="col">Длина, мм</th>-->
+                            <!--                                            <th scope="col">Кол-во досок, шт</th>-->
+                            <!--                                            <th scope="col">Кубатура, м<sup>3</sup></th>-->
+                            <!--                                            <th>Поставщик</th>-->
+                            <!--                                        </tr>-->
+                            <!--                                    </thead>-->
+                            <!--                                    <tbody>-->
+                            <!--                                        <tr>-->
+                            <!--                                            <th>До:</th>-->
+                            <!--                                            <td>2</td>-->
+                            <!--                                            <td>3</td>-->
+                            <!--                                            <td>4</td>-->
+                            <!--                                            <td>5</td>-->
+                            <!--                                            <td>6</td>-->
+                            <!--                                            <td>7</td>-->
+                            <!--                                            <td>8</td>-->
+                            <!--                                            <td>9</td>-->
+                            <!--                                            <td>10</td>-->
+                            <!--                                            <td>11</td>-->
+                            <!--                                        </tr>-->
+                            <!--                                        <tr>-->
+                            <!--                                            <th>После:</th>-->
+                            <!--                                            <td>2</td>-->
+                            <!--                                            <td>3</td>-->
+                            <!--                                            <td>4</td>-->
+                            <!--                                            <td>5</td>-->
+                            <!--                                            <td>6</td>-->
+                            <!--                                            <td>7</td>-->
+                            <!--                                            <td>8</td>-->
+                            <!--                                            <td>9</td>-->
+                            <!--                                            <td>10</td>-->
+                            <!--                                            <td>11</td>-->
+                            <!--                                        </tr>-->
+                            <!--                                    </tbody>-->
+                            <!--                                </table>-->
+                            <!--                            &lt;!&ndash;Raw Storage Pine End&ndash;&gt;-->
+                            <!--Tree Storage Pine History Start-->
+                            <table class="table table-hover table-striped parent-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата</th>
+                                    <th scope="col">Номер пилорамы</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Взято, м<sup>3</sup></th>
+                                    <th scope="col">Выход, м<sup>3</sup></th>
+                                    <th scope="col">Процент, %</th>
+                                    <th scope="col">Додано в</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>До:</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                    <td>11</td>
+                                    <td>12</td>
+                                </tr>
+                                <tr>
+                                    <th>После:</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                    <td>11</td>
+                                    <td>12</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Tree Storage Pine History End-->
+
+                            <!--Tree Storage Oak History Start-->
+                            <table class="table table-hover table-striped parent-table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата</th>
+                                    <th scope="col">Номер пилорамы</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Взято, м<sup>3</sup></th>
+                                    <th scope="col">Выход, м<sup>3</sup></th>
+                                    <th scope="col">Процент, %</th>
+                                    <th scope="col">Додано в</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>До:</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                </tr>
+                                <tr>
+                                    <th>После:</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Tree Storage Oak History End-->
+
+                            <!--Raw Storage Pine Start-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата распил./прихода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                    <th>Поставщик</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>До:</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr>
+                                    <th>После:</th>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>10</td>
+                                    <td>11</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Raw Storage Pine End-->
 
                             <!--Raw Storage Oak Start CREATING-->
-                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th></th>
-                                            <th scope="col">Дата распил./прихода</th>
-                                            <th scope="col">Код партии</th>
-                                            <th scope="col">Порода</th>
-                                            <th scope="col">Описание</th>
-                                            <th scope="col">Толщина, мм</th>
-                                            <th scope="col">Длина, мм</th>
-                                            <th scope="col">Кубатура, м<sup>3</sup></th>
-                                            <th scope="col">Примечание</th>
-                                            <th scope="col">Поставщик</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>Создано:</th>
-                                            <td class="details-control" onclick="javascript:$('#parent_raw_oak'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
-                                            <td th:text="${act.objectAfterChanging.getDate()}">3</td>
-                                            <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">4</td>
-                                            <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">5</td>
-                                            <td th:text="${act.objectAfterChanging.getBreedDescription()}">6</td>
-                                            <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">7</td>
-                                            <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
-                                            <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
-                                            <td th:text="${act.objectAfterChanging.getDescription()}">10</td>
-                                            <td th:text="${act.objectAfterChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
-                                        </tr>
-                                        <tr style="display:none" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="'parent_raw_oak'+${act.objectAfterChanging.getId()}">
-                                            <td style="display:none; width: 30px"></td>
-                                            <td colspan="11" class="child-table">
-                                                <table class="table table-hover table-striped parent-table" >
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col">Ширина, мм</th>
-                                                        <th scope="col">Количество досок</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr th:each="desc : ${act.objectAfterChanging.getDeskOakList()}">
-                                                        <td th:text="${desc.getSizeOfWidth()}">1</td>
-                                                        <td th:text="${desc.getCountOfDesk()}">2</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                            <td style="display:none"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th></th>
+                                    <th scope="col">Дата распил./прихода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                    <th scope="col">Примечание</th>
+                                    <th scope="col">Поставщик</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Создано:</th>
+                                    <td class="details-control" onclick="javascript:$('#parent_raw_oak'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:text="${act.objectAfterChanging.getDate()}">3</td>
+                                    <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">4</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedDescription()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">7</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
+                                    <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getDescription()}">10</td>
+                                    <td th:text="${act.objectAfterChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                </tr>
+                                <tr style="display:none" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="'parent_raw_oak'+${act.objectAfterChanging.getId()}">
+                                    <td style="display:none; width: 30px"></td>
+                                    <td colspan="11" class="child-table">
+                                        <table class="table table-hover table-striped parent-table" >
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Ширина, мм</th>
+                                                <th scope="col">Количество досок</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="desc : ${act.objectAfterChanging.getDeskOakList()}">
+                                                <td th:text="${desc.getSizeOfWidth()}">1</td>
+                                                <td th:text="${desc.getCountOfDesk()}">2</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                             <!--Raw Storage Oak End CREATING-->
                             <!--Raw Storage Oak Start DELETING-->
-                                <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && (act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURN_TO_ZERO) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING))}">
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && (act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURN_TO_ZERO) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING))}">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -304,7 +447,7 @@
                             <!--Raw Storage Oak End DELETING-->
 
                             <!--Raw Storage Oak Start-->
-                              <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -430,21 +573,21 @@
 
                             <!--Transportation Storage Oak Start-->
                             <!--Transportation Storage Oak End-->
-                            </td>
-                            <td style="display:none"></td>
-                            <td style="display:none"></td>
-                            <td style="display:none"></td>
-                        </tr>
-                    </div>
+                        </td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                    </tr>
+                </div>
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Время</th>
-                        <th scope="col">Пользователь</th>
-                        <th scope="col">Склад</th>
-                        <th scope="col">Событие</th>
-                    </tr>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Время</th>
+                    <th scope="col">Пользователь</th>
+                    <th scope="col">Склад</th>
+                    <th scope="col">Событие</th>
+                </tr>
                 </tfoot>
             </table>
         </div>
