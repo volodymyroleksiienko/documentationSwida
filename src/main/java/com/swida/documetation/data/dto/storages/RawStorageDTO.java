@@ -60,7 +60,9 @@ public class RawStorageDTO {
         dto.date = rawStorage.getDate();
         dto.getBuCutting = rawStorage.getGetBuCutting();
         dto.userCompany = UserCompanyDTO.convertToDTO(rawStorage.getUserCompany());
-        dto.treeStorage = TreeStorageDTO.convertToDTO(rawStorage.getTreeStorage());
+        if(rawStorage.getTreeStorage()!=null) {
+            dto.treeStorage = TreeStorageDTO.convertToDTO(rawStorage.getTreeStorage());
+        }
         dto.statusOfEntity = rawStorage.getStatusOfEntity();
         if(rawStorage.getDeskOakList()!=null && rawStorage.getDeskOakList().size()>0) {
             dto.deskOakList = DescriptionDeskOakDTO.convertToDTO(rawStorage.getDeskOakList());

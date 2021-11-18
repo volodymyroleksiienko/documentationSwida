@@ -1,10 +1,7 @@
 package com.swida.documetation.data.dto;
 
 import com.google.gson.Gson;
-import com.swida.documetation.data.dto.storages.QualityStatisticInfoDTO;
-import com.swida.documetation.data.dto.storages.QualityStatisticInfoListDTO;
-import com.swida.documetation.data.dto.storages.RawStorageDTO;
-import com.swida.documetation.data.dto.storages.TreeStorageDTO;
+import com.swida.documetation.data.dto.storages.*;
 import com.swida.documetation.data.dto.subObjects.BreedOfTreeDTO;
 import com.swida.documetation.data.entity.LoggerDataInfo;
 import com.swida.documetation.data.entity.UserCompany;
@@ -53,6 +50,10 @@ public class LoggerDataInfoDTO<T> {
             dto = new LoggerDataInfoDTO<QualityStatisticInfoListDTO>();
             dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), QualityStatisticInfoListDTO.class);
             dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), QualityStatisticInfoListDTO.class);
+        }else if (info.getStorageType()==StorageType.DRYING ){
+            dto = new LoggerDataInfoDTO<DryingStorageDTO>();
+            dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), DryingStorageDTO.class);
+            dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), DryingStorageDTO.class);
         }
         dto.id = info.getId();
         dto.date = info.getDate();

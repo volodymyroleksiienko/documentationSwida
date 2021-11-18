@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Set;
 
 public interface DryingStorageService {
-    void save(DryingStorage ds);
+    DryingStorage save(DryingStorage ds);
     DryingStorage findById(int id);
     DryingStorage createFromRawStorage(RawStorage rawStorage);
     List<DryingStorage> findAll();
     List<DryingStorage> getListByUserByBreed(int breedId, int userId);
     Set<Integer> getListCellByUserByBreed(int breedId, int userId);
     void countExtentRawStorageWithDeskDescription(DryingStorage dryingStorage);
-    void editDryingStorage(DryingStorage dryingStorage);
+    DryingStorage editDryingStorage(DryingStorage dryingStorage);
     void deleteByID(int id);
 
     //for statistic

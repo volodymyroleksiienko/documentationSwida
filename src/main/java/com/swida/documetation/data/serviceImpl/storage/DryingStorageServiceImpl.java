@@ -30,7 +30,7 @@ public class DryingStorageServiceImpl implements DryingStorageService {
     }
 
     @Override
-    public void save(DryingStorage ds) {
+    public DryingStorage save(DryingStorage ds) {
         if (ds.getSizeOfWidth()!=null && Float.parseFloat(ds.getSizeOfWidth())!=0) {
             float width = Float.parseFloat(ds.getSizeOfWidth()) / 1000;
             float height = Float.parseFloat(ds.getSizeOfHeight()) / 1000;
@@ -44,7 +44,7 @@ public class DryingStorageServiceImpl implements DryingStorageService {
         if(ds.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
             ds.setBreedDescription("");
         }
-        dryingStorageJPA.save(ds);
+        return dryingStorageJPA.save(ds);
     }
 
     @Override
@@ -108,16 +108,18 @@ public class DryingStorageServiceImpl implements DryingStorageService {
         }
         if (Double.parseDouble(dryingStorage.getExtent())!=extent){
             TreeStorage treeStorage = dryingStorage.getRawStorage().getTreeStorage();
-            treeStorage.setExtent(
-                    String.format("%.3f",
-                            Double.parseDouble(treeStorage.getExtent())+
-                                    (Double.parseDouble(dryingStorage.getExtent())-extent))
-                            .replace(",",".")
+            if(treeStorage!=null) {
+                treeStorage.setExtent(
+                        String.format("%.3f",
+                                Double.parseDouble(treeStorage.getExtent()) +
+                                        (Double.parseDouble(dryingStorage.getExtent()) - extent))
+                                .replace(",", ".")
 
-            );
+                );
 //          @todo
 //            treeStorageService.checkQualityInfo(treeStorage,dryingStorage.getSizeOfHeight(),extent-Float.parseFloat(dryingStorage.getExtent()));
-            treeStorageService.save(treeStorage);
+                treeStorageService.save(treeStorage);
+            }
         }
         dryingStorage.setExtent(
                 String.format("%.3f",extent).replace(",",".")
@@ -126,7 +128,7 @@ public class DryingStorageServiceImpl implements DryingStorageService {
     }
 
     @Override
-    public void editDryingStorage(DryingStorage dryingStorage) {
+    public DryingStorage editDryingStorage(DryingStorage dryingStorage) {
         DryingStorage dryingStorageDB = dryingStorageJPA.getOne(dryingStorage.getId());
         if (dryingStorageDB.getBreedOfTree().getId()!=2){
             int difExtentDesk = dryingStorageDB.getCountOfDesk()-dryingStorage.getCountOfDesk();
@@ -168,7 +170,7 @@ public class DryingStorageServiceImpl implements DryingStorageService {
             rawStorageService.save(rawStorage);
             countExtentRawStorageWithDeskDescription(dryingStorageDB);
         }
-        save(dryingStorageDB);
+        return save(dryingStorageDB);
     }
 
     @Override

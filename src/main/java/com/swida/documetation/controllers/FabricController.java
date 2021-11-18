@@ -1,6 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.dto.CellDryingStorageDto;
+import com.swida.documetation.data.dto.storages.DryingStorageDTO;
 import com.swida.documetation.data.dto.storages.QualityStatisticInfoDTO;
 import com.swida.documetation.data.dto.storages.RawStorageDTO;
 import com.swida.documetation.data.entity.OrderInfo;
@@ -554,7 +555,10 @@ public class FabricController {
     @PostMapping("/editDryingStorageObj-{userId}-{breedId}")
     public String editDryingStorageObj(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     DryingStorage dryingStorage ){
-        dryingStorageService.editDryingStorage(dryingStorage);
+        DryingStorageDTO before = DryingStorageDTO.convertToDTO(dryingStorageService.findById(dryingStorage.getId()));
+        DryingStorage after = dryingStorageService.editDryingStorage(dryingStorage);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.UPDATING,
+                before,DryingStorageDTO.convertToDTO(after));
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 

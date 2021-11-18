@@ -21,8 +21,8 @@ public class DescriptionDeskOakServiceImpl implements DescriptionDeskOakService 
     }
 
     @Override
-    public void save(DescriptionDeskOak descriptionDesk) {
-        descriptionDeskOakJPA.save(descriptionDesk);
+    public DescriptionDeskOak save(DescriptionDeskOak descriptionDesk) {
+        return descriptionDeskOakJPA.save(descriptionDesk);
     }
 
     @Override

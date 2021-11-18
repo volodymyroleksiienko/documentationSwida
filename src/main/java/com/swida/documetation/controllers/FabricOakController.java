@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.google.gson.Gson;
 import com.swida.documetation.data.dto.CellDryingStorageDto;
+import com.swida.documetation.data.dto.storages.DryingStorageDTO;
 import com.swida.documetation.data.dto.storages.RawStorageDTO;
 import com.swida.documetation.data.dto.storages.TreeStorageDTO;
 import com.swida.documetation.data.entity.UserCompany;
@@ -257,18 +258,20 @@ public class FabricOakController {
         dryingStorage.setBreedDescription(rawStorage.getBreedDescription());
         dryingStorage.setDateDrying(date);
 
-
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
-        dryingStorageService.save(dryingStorage);
+        DryingStorage savedDS = dryingStorageService.save(dryingStorage);
+        List<DescriptionDeskOak>  deskOakList = new ArrayList<>();
         if(!rawStorage.getDeskOakList().isEmpty()){
             for(DescriptionDeskOak desc:rawStorage.getDeskOakList()){
                 desc.setRawStorage(null);
                 desc.setDryingStorage(dryingStorage);
-                deskOakService.save(desc);
+                deskOakList.add(deskOakService.save(desc));
             }
 //            rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
         }
+        savedDS.setDeskOakList(deskOakList);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.CREATING,null, DryingStorageDTO.convertToDTO(savedDS));
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -450,32 +453,42 @@ public class FabricOakController {
     @PostMapping("/addDescriptionOakItemToDryingStorage-{userId}-{breedId}")
     public String addDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryStorageId,String width, String count){
         DryingStorage dryingStorage = dryingStorageService.findById(dryStorageId);
+        DryingStorageDTO before = DryingStorageDTO.convertToDTO(dryingStorage);
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
         deskOak.setSizeOfWidth(width);
         deskOak.setCountOfDesk(count);
         deskOakService.save(deskOak);
         dryingStorage.getDeskOakList().add(deskOak);
         dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorage);
+        DryingStorageDTO after = DryingStorageDTO.convertToDTO(dryingStorageService.findById(dryStorageId));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/editDescriptionOakItemToDryingStorage-{userId}-{breedId}")
     public String editDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryingStorageId,int descId,String width, String count){
+        DryingStorage dryingStorage = dryingStorageService.findById(dryingStorageId);
+        DryingStorageDTO before = DryingStorageDTO.convertToDTO(dryingStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
         deskOak.setSizeOfWidth(width);
         deskOak.setCountOfDesk(count);
         deskOakService.save(deskOak);
         dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorageService.findById(dryingStorageId));
+        DryingStorageDTO after = DryingStorageDTO.convertToDTO(dryingStorageService.findById(dryingStorageId));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/deleteDescriptionOakItemToDryingStorage-{userId}-{breedId}")
     public String deleteDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryingStorageId,int descId){
         DryingStorage dryingStorage = dryingStorageService.findById(dryingStorageId);
+        DryingStorageDTO before = DryingStorageDTO.convertToDTO(dryingStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
         dryingStorage.getDeskOakList().remove(deskOak);
         deskOakService.deleteByID(descId);
         dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorage);
+        DryingStorageDTO after = DryingStorageDTO.convertToDTO(dryingStorageService.findById(dryingStorageId));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 
