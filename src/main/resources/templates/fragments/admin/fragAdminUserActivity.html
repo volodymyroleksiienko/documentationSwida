@@ -2,7 +2,7 @@
     <div class="tab-pane fade show active container-fluid" id="pineStats">
         <br>
         <!--        <p class="text-muted" style="font-size: 14px; position: fixed; z-index: 100; bottom: 0; left: 0; margin: 1em;"><i class="fas fa-info-circle"></i> Для множинного выбора зажмите <strong>Ctrl</strong>.</p>-->
-        <form action="XXX" method="post">
+        <form action="/admin/userActivity" method="get">
             <table style="width: 100%;" >
                 <tr>
                     <th scope="col">Начальная дата</th>
@@ -19,6 +19,12 @@
                             <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectAction')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
                         </div>
                     </th>
+                    <th scope="col">Склад
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectStorage')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="deselectButton('selectStorage')" data-toggle="tooltip" title="Удалить выбранные"><i class="fas fa-backspace"></i></button>
+                        </div>
+                    </th>
                     <th scope="col">Порода
                         <div>
                             <button class="btn btn-primary btn-sm" type="button" onclick="selectButton('selectBreedType')" data-toggle="tooltip" title="Выбрать все"><i class="fas fa-check-square"></i></button>
@@ -27,25 +33,38 @@
                     </th>
                 </tr>
                 <tr style="vertical-align: top;">
-                    <td style="width: 15%">
-                        <input class="form-control" type="date" name="dayFrom" id="startDate" onchange="checkFirstDate()" th:value="${#dates.format(dateFrom, 'yyyy-MM-dd')}" required="required">
+                    <td style="width: 10%">
+                        <input class="form-control" type="date" name="dateFrom" id="startDate" onchange="checkFirstDate()" th:value="${#dates?.format(dateFrom, 'yyyy-MM-dd')}" required="required">
                     </td>
-                    <td style="width: 15%">
-                        <input class="form-control" type="date" name="dayTo" id="endDate" onchange="checkLastDate()" th:value="${#dates.format(dateTo, 'yyyy-MM-dd')}" required="required">
+                    <td style="width: 10%">
+                        <input class="form-control" type="date" name="dateTo" id="endDate" onchange="checkLastDate()" th:value="${#dates?.format(dateTo, 'yyyy-MM-dd')}" required="required">
                     </td>
-                    <td style="width: 25%">
+                    <td style="width: 20%">
                         <select id="selectUser" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="users" >
-                            <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}" th:selected="${checkedUsers?.contains(obj.id)}"></option>
+                            <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}" th:selected="${selectedUsers?.contains(obj.id)}"></option>
                         </select>
                     </td>
-                    <td style="width: 25%">
+                    <td style="width: 20%">
                         <select id="selectAction" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="actions" >
-                            <option  th:each="obj : ${userCompanyList}" th:value="${obj.id}"  th:text="${obj.nameOfCompany}" th:selected="${checkedUsers?.contains(obj.id)}"></option>
+                            <option  value="CREATING" th:selected="${selectedActions?.contains('CREATING')}">Созднание записи</option>
+                            <option  value="UPDATING" th:selected="${selectedActions?.contains('UPDATING')}">Редактирование записи</option>
+                            <option  value="DELETING" th:selected="${selectedActions?.contains('DELETING')}">Удаление записи</option>
                         </select>
                     </td>
-                    <td style="width: 15%">
+                    <td style="width: 20%">
+                        <select id="selectStorage" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="storageType" >
+                            <option  value="TREE_STATISTIC" th:selected="${selectedStorage?.contains('TREE_STATISTIC')}">История распиловки</option>
+                            <option  value="TREE" th:selected="${selectedStorage?.contains('TREE')}">Приход леса</option>
+                            <option  value="RAW" th:selected="${selectedStorage?.contains('RAW')}">Сырой склад</option>
+                            <option  value="DRYING" th:selected="${selectedStorage?.contains('DRYING')}">Сушка</option>
+                            <option  value="DRY" th:selected="${selectedStorage?.contains('DRY')}">Сухой склад</option>
+                            <option  value="PACKAGE" th:selected="${selectedStorage?.contains('PACKAGE')}">Пачки</option>
+                            <option  value="DELIVERY" th:selected="${selectedStorage?.contains('DELIVERY')}">Транспортировка</option>
+                        </select>
+                    </td>
+                    <td style="width: 20%">
                         <select id="selectBreedType" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="breedId" >
-                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}" th:selected="${checkedBreed?.contains(obj.id)}"></option>
+                            <option  th:each="obj : ${breedOfTreeList}" th:value="${obj.id}"  th:text="${obj.breed}" th:selected="${selectedBreedId?.contains(obj.id)}"></option>
                         </select>
                     </td>
                     <td style="width: auto; align-items: end;">
@@ -83,7 +102,7 @@
                         <td colspan="5" class="child-table">
 
                             <!--Tree Storage Start-->
-                            <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>

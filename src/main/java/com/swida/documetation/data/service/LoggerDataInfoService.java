@@ -13,5 +13,6 @@ public interface LoggerDataInfoService {
     LoggerDataInfo save(BreedOfTree breedOfTree,StorageType storageType, LoggerOperationType operationType, Object before, Object after);
     LoggerDataInfo findById(int id);
     List<LoggerDataInfoDTO> findAll();
+    List<LoggerDataInfoDTO> findFiltered(String dateFrom, String dateTo, Integer[] breedId, Integer[] users, String[] storageType, String[] actions);
     void deleteByID(int id);
 }
