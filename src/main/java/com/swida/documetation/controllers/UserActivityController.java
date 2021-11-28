@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.enums.ContrAgentType;
+import com.swida.documetation.data.enums.LoggerOperationType;
 import com.swida.documetation.data.service.LoggerDataInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
@@ -40,6 +41,7 @@ public class UserActivityController {
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
         model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
+        model.addAttribute("allActions", LoggerOperationType.values());
         if((dateFrom==null || dateFrom.isEmpty()) && (dateTo==null || dateTo.isEmpty())) {
             dateFrom = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
             dateTo = new SimpleDateFormat("yyyy-MM-dd").format(new Date());

@@ -46,9 +46,7 @@
                     </td>
                     <td style="width: 20%">
                         <select id="selectAction" class="form-control form-control-chosen" data-placeholder="Выберите нужные..." multiple="multiple" name="actions" >
-                            <option  value="CREATING" th:selected="${selectedActions?.contains('CREATING')}">Созднание записи</option>
-                            <option  value="UPDATING" th:selected="${selectedActions?.contains('UPDATING')}">Редактирование записи</option>
-                            <option  value="DELETING" th:selected="${selectedActions?.contains('DELETING')}">Удаление записи</option>
+                            <option  th:each="obj:${allActions}" th:value="${obj.toString()}" th:selected="${selectedActions?.contains(obj.toString())}" th:text="${obj.getMeaning()}">Созднание записи</option>
                         </select>
                     </td>
                     <td style="width: 20%">

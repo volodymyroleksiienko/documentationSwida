@@ -437,7 +437,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         productDB.setSizeOfWidth(product.getSizeOfWidth());
         productDB.setSizeOfLong(product.getSizeOfLong());
         productDB.setCodeOfDeliveryCompany(product.getCodeOfDeliveryCompany());
-
+        productDB.setQuality(product.getQuality());
         productDB.setCountOfDesk(product.getCountOfDesk());
         System.out.println(productDB.getCountOfDesk());
         System.out.println(productDB.getId());
