@@ -2,6 +2,9 @@ package com.swida.documetation.controllers;
 
 import com.google.gson.Gson;
 import com.swida.documetation.data.dto.TreeStorageListDto;
+import com.swida.documetation.data.dto.storages.DryStorageDTO;
+import com.swida.documetation.data.dto.storages.DryingStorageDTO;
+import com.swida.documetation.data.dto.storages.PackagedProductDTO;
 import com.swida.documetation.data.dto.storages.RawStorageDTO;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
@@ -130,6 +133,11 @@ public class FabricRestController {
             idOfDryStorage="";
         }
         PackagedProduct product = packagedProductService.createPackageOak(arrayOfDesk,idOfDryStorage,codeOfPackage,quality,sizeOfHeight,length,userID,breedID);
+        if(idOfDryStorage.isEmpty()){
+            loggerDataInfoService.save(breedOfTreeService.findById(breedID), StorageType.PACKAGE, LoggerOperationType.CREATING, null, PackagedProductDTO.convertToDTO(product));
+        }else {
+            loggerDataInfoService.save(breedOfTreeService.findById(breedID), StorageType.PACKAGE, LoggerOperationType.SENDING, null, PackagedProductDTO.convertToDTO(product));
+        }
         return (product.getDryStorage()!=null)?product.getDryStorage().getExtent():"0.000";
     }
 
@@ -296,11 +304,14 @@ public class FabricRestController {
             deskOakList.add(deskOak);
             extent += (cofExtent*Float.parseFloat(arrayOfDesk[i][0])*Float.parseFloat(arrayOfDesk[i][1])/1000);
         }
-        deskOakService.saveAll(deskOakList);
+        deskOakList = deskOakService.saveAll(deskOakList);
         dryStorageDB.setExtent(
                 String.format("%.3f",extent).replace(",",".")
         );
-        dryStorageService.save(dryStorageDB);
+        DryStorage savedDS = dryStorageService.save(dryStorageDB);
+        savedDS.setDeskOakList(deskOakList);
+        DryStorageDTO after = DryStorageDTO.convertToDTO(savedDS);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedID),StorageType.DRY,LoggerOperationType.CREATING,null,after);
     }
 
     @PostMapping("/cutOfTreeStorageDTO")

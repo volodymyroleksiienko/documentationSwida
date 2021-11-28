@@ -54,6 +54,15 @@ public class DryStorageServiceImpl implements DryStorageService {
     }
 
     @Override
+    public List<DryStorage> findById(Integer[] idOfRows) {
+        if(idOfRows!=null && idOfRows.length>0) {
+            return dryStorageJPA.findByIdIn(Arrays.asList(idOfRows));
+        }else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public DryStorage createFromDryingStorage(DryingStorage dryingStorage) {
         DryStorage dryStorage = new DryStorage();
         dryStorage.setCodeOfProduct(dryingStorage.getCodeOfProduct());
@@ -138,9 +147,9 @@ public class DryStorageServiceImpl implements DryStorageService {
     }
 
     @Override
-    public void countExtentRawStorageWithDeskDescription(DryStorage dryStorage) {
+    public DryStorage countExtentRawStorageWithDeskDescription(DryStorage dryStorage) {
         if(dryStorage.getDeskOakList()==null || dryStorage.getDeskOakList().size()==0){
-            return;
+            return dryStorage;
         }
         float extent = 0;
         for(DescriptionDeskOak deskOak:  dryStorage.getDeskOakList()){
@@ -166,7 +175,7 @@ public class DryStorageServiceImpl implements DryStorageService {
         dryStorage.setExtent(
                 String.format("%.3f",extent).replace(",",".")
         );
-        dryStorageJPA.save(dryStorage);
+        return dryStorageJPA.save(dryStorage);
     }
 
     @Override
@@ -179,7 +188,7 @@ public class DryStorageServiceImpl implements DryStorageService {
     }
 
     @Override
-    public void editDryStorage(DryStorage dryStorage) {
+    public DryStorage editDryStorage(DryStorage dryStorage) {
         DryStorage dryStorageDB = dryStorageJPA.getOne(dryStorage.getId());
         DryingStorage dryingStorage = dryStorageDB.getDryingStorage();
         if (dryStorageDB.getBreedOfTree().getId()!=2){
@@ -221,7 +230,7 @@ public class DryStorageServiceImpl implements DryStorageService {
             }
             dryingStorageService.save(dryingStorage);
         }
-        save(dryStorageDB);
+        return save(dryStorageDB);
     }
 
     @Override
@@ -230,7 +239,7 @@ public class DryStorageServiceImpl implements DryStorageService {
     }
 
     @Override
-    public void collectToOnePineEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId) {
+    public DryStorage collectToOnePineEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId) {
         int countOfDesk = 0;
         List<DryStorage> groupedList = new ArrayList<>();
         for(Integer id:arrOfEntity){
@@ -247,17 +256,17 @@ public class DryStorageServiceImpl implements DryStorageService {
         dryStorage.setUserCompany(userCompanyService.findById(userId));
         dryStorage.setGroupedElements(groupedList);
         dryStorage.setCountOfDesk(countOfDesk);
-        save(dryStorage);
+        return save(dryStorage);
     }
 
     @Override
-    public void collectToOneOakEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId) {
+    public DryStorage collectToOneOakEntityDry(DryStorage dryStorage, Integer[] arrOfEntity, int userId, int breedId) {
         Set<String> width = new TreeSet<>();
         List<DryStorage> rawsFromDBList=dryStorageJPA.findAllById(Arrays.asList(arrOfEntity));
         if(rawsFromDBList.size()>0 && rawsFromDBList.get(0).getDeskOakList().size()==0){
             System.out.println(rawsFromDBList.get(0).getDeskOakList());
-            collectToOnePineEntityDry(dryStorage,arrOfEntity,userId,breedId);
-            return;
+            return collectToOnePineEntityDry(dryStorage,arrOfEntity,userId,breedId);
+
         }
         for(DryStorage temp:rawsFromDBList){
             if(temp!=null && temp.getDeskOakList().size()>0){
@@ -289,18 +298,20 @@ public class DryStorageServiceImpl implements DryStorageService {
         dryStorage.setUserCompany(userCompanyService.findById(userId));
         dryStorage.setGroupedElements(rawsFromDBList);
         dryStorage.setDeskOakList(deskOakList);
-        save(dryStorage);
+        return save(dryStorage);
     }
 
     @Override
-    public void uncollectFromOnePineEntityDry(DryStorage dryStorage, int userId, int breedId) {
+    public List<DryStorage> uncollectFromOnePineEntityDry(DryStorage dryStorage, int userId, int breedId) {
+        List<DryStorage> list = new ArrayList<>();
         if(dryStorage.getGroupedElements()!=null && dryStorage.getGroupedElements().size()>0){
             for(DryStorage grouped:dryStorage.getGroupedElements()){
                 grouped.setStatusOfEntity(StatusOfEntity.ACTIVE);
-                save(grouped);
+                list.add(save(grouped));
             }
             deleteByID(dryStorage.getId());
         }
+        return list;
     }
 
     @Override

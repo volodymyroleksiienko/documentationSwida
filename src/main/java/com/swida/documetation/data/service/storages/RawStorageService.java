@@ -12,15 +12,16 @@ public interface RawStorageService {
     RawStorage save(RawStorage rs);
     RawStorage findById(int id);
     List<RawStorage> findAll();
+    List<RawStorage> findById(Integer[] idOfRows);
     List<RawStorage> findAllByTreeStorageId(int id);
     List<QualityStatisticInfo> analyzeOfCutting(TreeStorageListDto dto);
     RawStorage findEqualRaw(int breedId, int userId, String desc,String heights,String widths,String longs);
     List<RawStorage> getListByUserByBreed(int breedId, int userId);
     List<RawStorage> getListByUserByBreedByStatusOfTree(int breedId, int userId, StatusOfTreeStorage status);
     List<RawStorage> getFilteredList(int breedId, int userId,String[] descriptions,String[] heights,String[] longs,String[] widths);
-    void collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId);
-    void uncollectFromOnePineEntity(RawStorage rawStorage,int userId,int breedId);
-    void collectToOneOakEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId);
+    RawStorage collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId);
+    List<RawStorage> uncollectFromOnePineEntity(RawStorage rawStorage,int userId,int breedId);
+    RawStorage collectToOneOakEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId);
 
     QualityStatisticInfo checkQualityInfo(RawStorage rawStorage);
     void countExtentRawStorageWithDeskDescription(RawStorage rawStorage);
