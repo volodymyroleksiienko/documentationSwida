@@ -655,7 +655,8 @@
                                 <tbody>
                                 <tr>
                                     <th>Создано:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
                                     <td th:text="${act.objectAfterChanging.getDate()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">5</td>
@@ -2168,9 +2169,9 @@
                                     <td th:text="${obj.getSizeOfLong()}">6</td>
                                     <td th:text="${obj.getCountOfDesk()}">6</td>
                                     <td th:text="${obj.getExtent()}">9</td>
-                                    <td th:text="${obj.getSumWidthOfAllDesk()}">7</td>
-                                    <td th:text="${obj.getCountOfDesk()}">8</td>
-                                    <td th:text="${obj?.getDryStorage()?.getExtent()}">10</td>
+                                    <td th:text="${obj.getCountDeskInHeight()}">7</td>
+                                    <td th:text="${obj.getCountDeskInWidth()}">8</td>
+                                    <td th:text="${obj?.getLongFact()}">10</td>
                                     <td th:text="${obj?.getHeight_width()}">10</td>
                                     <td th:text="${obj?.getDryStorage()?.getExtent()}">10</td>
                                 </tr>
@@ -2501,13 +2502,12 @@
                             <!--Packages Storage Oak End-->
 
                             <!--Transportation Storage Pine Start-->
-                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING)}">
+                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).SENDING)}">
                                 <br>
                                 <thead>
                                     <tr>
                                         <th style="width: 30px"></th>
                                         <th></th>
-                                        <th scope="col">Дата выгрузки</th>
                                         <th scope="col">Дата выгрузки</th>
                                         <th scope="col">№ выгрузки</th>
                                         <th scope="col">А/М</th>
@@ -2525,22 +2525,21 @@
                                 <div>
                                     <tr>
                                         <th>До:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                        <td>11</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                        <td>14</td>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_creating'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                        <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTruck()}">5</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTrailer()}">6</td>
+                                        <td th:text="${act.objectAfterChanging.getTimeOfUnloading()}">7</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getFullName()}">8</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getPhone()}">9</td>
+                                        <td th:text="${act.objectAfterChanging.getOrderInfo().getCodeOfOrder()}">10</td>
+                                        <td th:text="${act.objectAfterChanging.getPackagesExtent()}">11</td>
+                                        <td th:text="${act.objectAfterChanging.getSizeOfHeightList()}">12</td>
+                                        <td th:text="${act.objectAfterChanging.getDescription()}">13</td>
                                     </tr>
 
-                                    <tr style="display:none" id="parent3">
+                                    <tr style="display:none" th:if="${act.objectAfterChanging.getProductList()!=null}" th:id="'parent_delivery_creating'+${act.objectAfterChanging.getId()}">
                                         <td colspan="14" class="child-table">
                                             <table class="table table-hover table-striped parent-table">
                                                 <thead>
@@ -2560,89 +2559,20 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>2</td>
-                                                        <td>3</td>
-                                                        <td>4</td>
-                                                        <td>5</td>
-                                                        <td>6</td>
-                                                        <td>7</td>
-                                                        <td>8</td>
-                                                        <td>9</td>
-                                                        <td>10</td>
-                                                        <td>11</td>
-                                                        <td>12</td>
+                                                    <tr th:each="obj:${act.objectAfterChanging.getProductList()}">
+                                                        <td th:text="${obj.getCodeOfPackage()}">3</td>
+                                                        <td th:text="${obj.getBreedOfTree().getBreed()}">3</td>
+                                                        <td th:text="${obj.getBreedDescription()}">4</td>
+                                                        <td th:text="${obj.getSizeOfHeight()}">5</td>
+                                                        <td th:text="${obj.getSizeOfWidth()}">5</td>
+                                                        <td th:text="${obj.getSizeOfLong()}">6</td>
+                                                        <td th:text="${obj.getCountOfDesk()}">6</td>
+                                                        <td th:text="${obj.getExtent()}">9</td>
+                                                        <td th:text="${obj.getCountDeskInHeight()}">7</td>
+                                                        <td th:text="${obj.getCountDeskInWidth()}">8</td>
+                                                        <td th:text="${obj?.getLongFact()}">10</td>
+                                                        <td th:text="${obj?.getHeight_width()}">10</td>
                                                     </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                        <td>11</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                        <td>14</td>
-                                    </tr>
-
-                                    <tr style="display:none" id="parent4">
-                                        <td colspan="14" class="child-table">
-                                            <table class="table table-hover table-striped parent-table">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">№ пачки</th>
-                                                    <th scope="col">Порода</th>
-                                                    <th scope="col">Описание</th>
-                                                    <th scope="col">Толщина</th>
-                                                    <th scope="col">Ширина</th>
-                                                    <th scope="col">Длина</th>
-                                                    <th scope="col">Кол-во</th>
-                                                    <th scope="col">Кубатура</th>
-                                                    <th scope="col">Высота</th>
-                                                    <th scope="col">Ширина</th>
-                                                    <th scope="col">Длина-ФАКТ</th>
-                                                    <th scope="col">В/Ш</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>2</td>
-                                                    <td>3</td>
-                                                    <td>4</td>
-                                                    <td>5</td>
-                                                    <td>6</td>
-                                                    <td>7</td>
-                                                    <td>8</td>
-                                                    <td>9</td>
-                                                    <td>10</td>
-                                                    <td>11</td>
-                                                    <td>12</td>
-                                                </tr>
                                                 </tbody>
                                             </table>
                                         </td>

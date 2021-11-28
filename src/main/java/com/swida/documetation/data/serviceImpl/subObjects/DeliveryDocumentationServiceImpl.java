@@ -135,7 +135,7 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
     }
 
     @Override
-    public void checkHeightUnicValue(DeliveryDocumentation doc) {
+    public DeliveryDocumentation checkHeightUnicValue(DeliveryDocumentation doc) {
         String list= doc.getProductList()
                 .stream()
                 .map(PackagedProduct::getSizeOfHeight)
@@ -144,7 +144,7 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
 
         list = list.replace("[","").replace("]","");
         doc.setSizeOfHeightList(list);
-        documentationJPA.save(doc);
+        return documentationJPA.save(doc);
      }
 
     @Override

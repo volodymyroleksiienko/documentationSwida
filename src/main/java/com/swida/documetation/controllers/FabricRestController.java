@@ -6,6 +6,7 @@ import com.swida.documetation.data.dto.storages.DryStorageDTO;
 import com.swida.documetation.data.dto.storages.DryingStorageDTO;
 import com.swida.documetation.data.dto.storages.PackagedProductDTO;
 import com.swida.documetation.data.dto.storages.RawStorageDTO;
+import com.swida.documetation.data.dto.subObjects.DeliveryDocumentationDTO;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -121,7 +122,9 @@ public class FabricRestController {
             packagedProductService.save(product);
         }
         reloadAllExtentFields(deliveryDocumentation);
-        deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
+        DeliveryDocumentation afterSaved = deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(afterSaved,true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedOfTree.getId()),StorageType.DELIVERY,LoggerOperationType.SENDING,null,after);
         return "redirect:/fabric/getListOfPackagedProduct-"+userID+"-"+breedID;
     }
 

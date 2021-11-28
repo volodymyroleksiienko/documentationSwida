@@ -3,6 +3,7 @@ package com.swida.documetation.data.dto;
 import com.google.gson.Gson;
 import com.swida.documetation.data.dto.storages.*;
 import com.swida.documetation.data.dto.subObjects.BreedOfTreeDTO;
+import com.swida.documetation.data.dto.subObjects.DeliveryDocumentationDTO;
 import com.swida.documetation.data.entity.LoggerDataInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.TreeStorage;
@@ -94,6 +95,10 @@ public class LoggerDataInfoDTO<T1,T2> {
                 dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), PackagedProductDTO.class);
                 dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), PackagedProductDTO.class);
             }
+        }else if(info.getStorageType()==StorageType.DELIVERY){
+            dto = new LoggerDataInfoDTO<DeliveryDocumentationDTO, DeliveryDocumentationDTO>();
+            dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), DeliveryDocumentationDTO.class);
+            dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), DeliveryDocumentationDTO.class);
         }
         dto.id = info.getId();
         dto.date = info.getDate();
