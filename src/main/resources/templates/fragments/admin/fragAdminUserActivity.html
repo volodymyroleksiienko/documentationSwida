@@ -2501,7 +2501,7 @@
                             </table>
                             <!--Packages Storage Oak End-->
 
-                            <!--Transportation Storage Pine Start-->
+                            <!--Transportation Storage Pine Start SENDING-->
                             <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).SENDING)}">
                                 <br>
                                 <thead>
@@ -2524,7 +2524,7 @@
                                 <tbody>
                                 <div>
                                     <tr>
-                                        <th>До:</th>
+                                        <th>После:</th>
                                         <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_creating'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
                                         <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
                                         <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
@@ -2593,7 +2593,170 @@
                                 </div>
                                 </tbody>
                             </table>
-                            <!--Transportation Storage Pine End-->
+                            <!--Transportation Storage Pine End SENDING-->
+
+                            <!--Transportation Storage Pine Start UPDATING-->
+                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                                <br>
+                                <thead>
+                                <tr>
+                                    <th style="width: 30px"></th>
+                                    <th></th>
+                                    <th scope="col">Дата выгрузки</th>
+                                    <th scope="col">№ выгрузки</th>
+                                    <th scope="col">А/М</th>
+                                    <th scope="col">П/П</th>
+                                    <th scope="col">Время выгрузки</th>
+                                    <th scope="col">Водитель</th>
+                                    <th scope="col">Телефон</th>
+                                    <th scope="col">№ контракта</th>
+                                    <th scope="col">Кубатура</th>
+                                    <th scope="col">Толщина</th>
+                                    <th scope="col">Примечание</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <div>
+                                    <tr>
+                                        <th>До:</th>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                        <td th:text="${act.objectBeforeChanging.getDateOfUnloading()}">3</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getIdOfTruck()}">4</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getNumberOfTruck()}">5</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getNumberOfTrailer()}">6</td>
+                                        <td th:text="${act.objectBeforeChanging.getTimeOfUnloading()}">7</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getFullName()}">8</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getPhone()}">9</td>
+                                        <td th:text="${act.objectBeforeChanging.getOrderInfo().getCodeOfOrder()}">10</td>
+                                        <td th:text="${act.objectBeforeChanging.getPackagesExtent()}">11</td>
+                                        <td th:text="${act.objectBeforeChanging.getSizeOfHeightList()}">12</td>
+                                        <td th:text="${act.objectBeforeChanging.getDescription()}">13</td>
+                                    </tr>
+
+                                    <tr style="display:none" th:if="${act.objectBeforeChanging.getProductList()!=null}" th:id="'parent_delivery_updating_before'+${act.objectBeforeChanging.getId()}">
+                                        <td colspan="14" class="child-table">
+                                            <table class="table table-hover table-striped parent-table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">№ пачки</th>
+                                                    <th scope="col">Порода</th>
+                                                    <th scope="col">Описание</th>
+                                                    <th scope="col">Толщина</th>
+                                                    <th scope="col">Ширина</th>
+                                                    <th scope="col">Длина</th>
+                                                    <th scope="col">Кол-во</th>
+                                                    <th scope="col">Кубатура</th>
+                                                    <th scope="col">Высота</th>
+                                                    <th scope="col">Ширина</th>
+                                                    <th scope="col">Длина-ФАКТ</th>
+                                                    <th scope="col">В/Ш</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="obj:${act.objectBeforeChanging.getProductList()}">
+                                                    <td th:text="${obj.getCodeOfPackage()}">3</td>
+                                                    <td th:text="${obj.getBreedOfTree().getBreed()}">3</td>
+                                                    <td th:text="${obj.getBreedDescription()}">4</td>
+                                                    <td th:text="${obj.getSizeOfHeight()}">5</td>
+                                                    <td th:text="${obj.getSizeOfWidth()}">5</td>
+                                                    <td th:text="${obj.getSizeOfLong()}">6</td>
+                                                    <td th:text="${obj.getCountOfDesk()}">6</td>
+                                                    <td th:text="${obj.getExtent()}">9</td>
+                                                    <td th:text="${obj.getCountDeskInHeight()}">7</td>
+                                                    <td th:text="${obj.getCountDeskInWidth()}">8</td>
+                                                    <td th:text="${obj?.getLongFact()}">10</td>
+                                                    <td th:text="${obj?.getHeight_width()}">10</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                </div>
+                                <div>
+                                    <tr>
+                                        <th>После:</th>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                        <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTruck()}">5</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTrailer()}">6</td>
+                                        <td th:text="${act.objectAfterChanging.getTimeOfUnloading()}">7</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getFullName()}">8</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getPhone()}">9</td>
+                                        <td th:text="${act.objectAfterChanging.getOrderInfo().getCodeOfOrder()}">10</td>
+                                        <td th:text="${act.objectAfterChanging.getPackagesExtent()}">11</td>
+                                        <td th:text="${act.objectAfterChanging.getSizeOfHeightList()}">12</td>
+                                        <td th:text="${act.objectAfterChanging.getDescription()}">13</td>
+                                    </tr>
+
+                                    <tr style="display:none" th:if="${act.objectAfterChanging.getProductList()!=null}" th:id="'parent_delivery_updating_after'+${act.objectAfterChanging.getId()}">
+                                        <td colspan="14" class="child-table">
+                                            <table class="table table-hover table-striped parent-table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">№ пачки</th>
+                                                    <th scope="col">Порода</th>
+                                                    <th scope="col">Описание</th>
+                                                    <th scope="col">Толщина</th>
+                                                    <th scope="col">Ширина</th>
+                                                    <th scope="col">Длина</th>
+                                                    <th scope="col">Кол-во</th>
+                                                    <th scope="col">Кубатура</th>
+                                                    <th scope="col">Высота</th>
+                                                    <th scope="col">Ширина</th>
+                                                    <th scope="col">Длина-ФАКТ</th>
+                                                    <th scope="col">В/Ш</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="obj:${act.objectAfterChanging.getProductList()}">
+                                                    <td th:text="${obj.getCodeOfPackage()}">3</td>
+                                                    <td th:text="${obj.getBreedOfTree().getBreed()}">3</td>
+                                                    <td th:text="${obj.getBreedDescription()}">4</td>
+                                                    <td th:text="${obj.getSizeOfHeight()}">5</td>
+                                                    <td th:text="${obj.getSizeOfWidth()}">5</td>
+                                                    <td th:text="${obj.getSizeOfLong()}">6</td>
+                                                    <td th:text="${obj.getCountOfDesk()}">6</td>
+                                                    <td th:text="${obj.getExtent()}">9</td>
+                                                    <td th:text="${obj.getCountDeskInHeight()}">7</td>
+                                                    <td th:text="${obj.getCountDeskInWidth()}">8</td>
+                                                    <td th:text="${obj?.getLongFact()}">10</td>
+                                                    <td th:text="${obj?.getHeight_width()}">10</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
+                            <!--Transportation Storage Pine End UPDATING-->
 
                             <!--Transportation Storage Oak Start-->
                             <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING)}">

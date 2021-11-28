@@ -2,6 +2,7 @@ package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.dto.CellDryingStorageDto;
 import com.swida.documetation.data.dto.storages.*;
+import com.swida.documetation.data.dto.subObjects.DeliveryDocumentationDTO;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -809,6 +810,7 @@ public class FabricController {
                                        String packId,String driverId){
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packId));
         DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.findById(Integer.parseInt(driverId));
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(deliveryDocumentation,true);
         product.setStatusOfProduct(StatusOfProduct.IN_DELIVERY);
         product.setDeliveryDocumentation(deliveryDocumentation);
         packagedProductService.save(product);
@@ -823,8 +825,9 @@ public class FabricController {
 
         //reload order extent info
         reloadAllExtentFields(product.getDeliveryDocumentation());
-        deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
-
+        DeliveryDocumentation saved = deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(saved,true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
@@ -882,9 +885,12 @@ public class FabricController {
 
     @PostMapping("/editDeliveryDocumentation-{userId}-{breedId}")
     public String editDeliveryDocumentation(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DeliveryDocumentation documentation){
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(deliveryDocumentationService.findById(documentation.getId()),true);
         DeliveryDocumentation deliveryDocumentation = deliveryDocumentationService.editDeliveryDoc(documentation);
-        deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
+        DeliveryDocumentation afterSaved = deliveryDocumentationService.checkHeightUnicValue(deliveryDocumentation);
         reloadAllExtentFields(deliveryDocumentation);
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(afterSaved,true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
@@ -908,8 +914,11 @@ public class FabricController {
             dryStorageService.save(dryStorage);
         }
         if(packagedProduct.getDeliveryDocumentation()!=null) {
+            DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(deliveryDocumentationService.findById(packagedProduct.getDeliveryDocumentation().getId()),true);
             reloadAllExtentFields(packagedProduct.getDeliveryDocumentation());
-            deliveryDocumentationService.checkHeightUnicValue(packagedProduct.getDeliveryDocumentation());
+            DeliveryDocumentation afterSaved = deliveryDocumentationService.checkHeightUnicValue(packagedProduct.getDeliveryDocumentation());
+            DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(afterSaved,true);
+            loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         }
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
@@ -917,6 +926,7 @@ public class FabricController {
     @PostMapping("/addPackageProduct-{userId}-{breedId}")
     public String addPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,PackagedProduct product,
                                     String docId,String dryStorageId){
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(deliveryDocumentationService.findById(Integer.parseInt(docId)),true);
         product.setUserCompany(userCompanyService.findById(userId));
         PackagedProduct productDB = deliveryDocumentationService.addPackageProductToDeliveryDoc(docId,product);
         if (dryStorageId!=null){
@@ -931,18 +941,23 @@ public class FabricController {
             packagedProductService.save(productDB);
         }
         reloadAllExtentFields(productDB.getDeliveryDocumentation());
-        deliveryDocumentationService.checkHeightUnicValue(productDB.getDeliveryDocumentation());
+        DeliveryDocumentation savedDoc = deliveryDocumentationService.checkHeightUnicValue(productDB.getDeliveryDocumentation());
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(savedDoc,true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
     @PostMapping("/deletePackageProduct-{userId}-{breedId}")
     public String deletePackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     String id,String deliveryId){
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(deliveryDocumentationService.findById(Integer.parseInt(deliveryId)),true);
         System.out.println("delete pack id "+id+" delivery id "+deliveryId);
         deliveryDocumentationService.deletePackage(id,deliveryId);
         DeliveryDocumentation doc = deliveryDocumentationService.findById(Integer.parseInt(deliveryId));
         reloadAllExtentFields(doc);
-        deliveryDocumentationService.checkHeightUnicValue(doc);
+        DeliveryDocumentation savedDoc = deliveryDocumentationService.checkHeightUnicValue(doc);
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(savedDoc,true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
