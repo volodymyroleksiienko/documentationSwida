@@ -879,7 +879,6 @@ $(document).ready( function () {
 
         let button = "<button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\"  data-toggle=\"modal\" onclick=\"sendForDrying(this)\"><i class=\"fas fa-th\" data-toggle=\"tooltip\" title=\"В сушку\"></i></button> <button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\"  data-toggle=\"modal\" onclick=\"editRawStorage(this)\"><i class=\"fas fa-pen\" data-toggle=\"tooltip\" title=\"Редактировать\"></i></button> <button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\"  data-toggle=\"modal\" onclick=\"sendForPackagesStorage(this)\"><i class=\"fas fa-cubes\" data-toggle=\"tooltip\" title=\"Формирование пачек\"></i></button> <button th:if=\"${btnConfig?.equals('btnON')}\" type=\"button\" class=\"btn btn-primary btn-sm\" data-toggle=\"modal\" onclick=\"returnToIncome(this)\"><i class=\"fas fa-undo-alt\" data-toggle=\"tooltip\" title=\"Возвратить в приход\"></i></button>";
 
-
         if (code !== "" && supplier !== "" && thickness !== "" && width !== "" && length !== "" && count !== "" ) {
             $.ajax({
                 method: "post",
@@ -904,7 +903,23 @@ $(document).ready( function () {
                     let treeStorageExt= obj["treeStorageExtent"];
                     let rawStorageExt = obj["rawStorageExtent"];
 
-                    let row = [id, '', code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, '0.0', 'null', 'false', button];
+
+                    let todayDate = new Date();
+
+                    let dd = todayDate.getDate();
+                    let mm = todayDate.getMonth() + 1;
+
+                    let yyyy = todayDate.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+
+                    let todayDateVal = dd + '-' + mm + '-' + yyyy;
+
+                    let row = [id, todayDateVal, code, tree, breedDescr, thickness, width, length, count, rawStorageExt, treeStorageExt, supplier, '0.0', 'null', 'false', '', button];
 
                     rawstoragetable.row.add(row).draw();
 
