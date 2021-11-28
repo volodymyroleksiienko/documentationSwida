@@ -100,6 +100,7 @@
                     <tr style="display:none" th:id="'parent'+${act.id}">
                         <td style="display:none; width: 30px"></td>
                         <td colspan="5" class="child-table">
+
                             <!--Tree Storage Start CREATING-->
                             <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
                                 <thead>
@@ -119,12 +120,12 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th>После:</th>
+                                    <th>Создано:</th>
                                     <td th:text="${act.objectAfterChanging.getDate()}">2</td>
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectAfterChanging?.getBreedOfTree()?.getBreed()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
-                                    <td th:text="${act.objectAfterChanging.getContrAgent().getNameOfAgent()}">6</td>
+                                    <td th:text="${act?.objectAfterChanging?.getContrAgent()?.getNameOfAgent()}">6</td>
                                     <td th:text="${act.objectAfterChanging.getAverageDiameter()}">7</td>
                                     <td th:text="${act.objectAfterChanging.getCountOfDeck()}">8</td>
                                     <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
@@ -159,7 +160,7 @@
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectBeforeChanging?.getBreedOfTree()?.getBreed()}">4</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedDescription()}">5</td>
-                                    <td th:text="${act.objectBeforeChanging.getContrAgent().getNameOfAgent()}">6</td>
+                                    <td th:text="${act?.objectBeforeChanging?.getContrAgent()?.getNameOfAgent()}">6</td>
                                     <td th:text="${act.objectBeforeChanging.getAverageDiameter()}">7</td>
                                     <td th:text="${act.objectBeforeChanging.getCountOfDeck()}">8</td>
                                     <td th:text="${act.objectBeforeChanging.getExtent()}">9</td>
@@ -172,7 +173,7 @@
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectAfterChanging?.getBreedOfTree()?.getBreed()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
-                                    <td th:text="${act.objectAfterChanging.getContrAgent().getNameOfAgent()}">6</td>
+                                    <td th:text="${act?.objectAfterChanging?.getContrAgent()?.getNameOfAgent()}">6</td>
                                     <td th:text="${act.objectAfterChanging.getAverageDiameter()}">7</td>
                                     <td th:text="${act.objectAfterChanging.getCountOfDeck()}">8</td>
                                     <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
@@ -291,7 +292,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th>До:</th>
+                                    <th>Возвращено:</th>
                                     <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfTeam()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedDescription()}">4</td>
@@ -405,7 +406,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th>После:</th>
+                                    <th>Возвращено:</th>
                                     <td th:text="${act.objectBeforeChanging?.getDate()}">2</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfTeam()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedDescription()}">4</td>
@@ -449,7 +450,7 @@
                                     <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectAfterChanging.getCountOfDesk()}">9</td>
                                     <td th:text="${act.objectAfterChanging.getExtent()}">10</td>
-                                    <td th:text="${act.objectAfterChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectAfterChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -474,7 +475,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th>До:</th>
+                                    <th>Возвращено:</th>
                                     <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">4</td>
@@ -484,7 +485,7 @@
                                     <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectBeforeChanging.getCountOfDesk()}">9</td>
                                     <td th:text="${act.objectBeforeChanging.getExtent()}">10</td>
-                                    <td th:text="${act.objectBeforeChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectBeforeChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 <tr>
                                 </tbody>
@@ -520,7 +521,7 @@
                                     <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectBeforeChanging.getCountOfDesk()}">9</td>
                                     <td th:text="${act.objectBeforeChanging.getExtent()}">10</td>
-                                    <td th:text="${act.objectBeforeChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectBeforeChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 <tr>
                                     <th>После:</th>
@@ -533,7 +534,7 @@
                                     <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectAfterChanging.getCountOfDesk()}">9</td>
                                     <td th:text="${act.objectAfterChanging.getExtent()}">10</td>
-                                    <td th:text="${act.objectAfterChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectAfterChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -581,7 +582,7 @@
                                     <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectAfterChanging.getCountOfDesk()}">9</td>
                                     <td th:text="${act.objectAfterChanging.getExtent()}">10</td>
-                                    <td th:text="${act.objectAfterChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectAfterChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -616,7 +617,7 @@
                                     <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectBeforeChanging.getCountOfDesk()}">9</td>
                                     <td th:text="${act.objectBeforeChanging.getExtent()}">10</td>
-                                    <td th:text="${act.objectBeforeChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectBeforeChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 <tr th:each="obj : ${act.objectAfterChanging.getList()}">
                                     <th>После:</th>
@@ -718,8 +719,9 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <th>Обнулено:</th>
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
                                     <td th:text="${act.objectBeforeChanging.getDate()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">4</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">5</td>
@@ -728,7 +730,7 @@
                                     <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectBeforeChanging.getExtent()}">9</td>
                                     <td th:text="${act.objectBeforeChanging.getDescription()}">10</td>
-                                    <td th:text="${act.objectBeforeChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectBeforeChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 <tr style="display:none" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="'parent_raw_oak'+${act.objectBeforeChanging.getId()}">
                                     <td style="display:none; width: 30px"></td>
@@ -782,7 +784,11 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectBeforeChanging.getDate()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">4</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">5</td>
@@ -791,7 +797,7 @@
                                     <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectBeforeChanging.getExtent()}">9</td>
                                     <td th:text="${act.objectBeforeChanging.getDescription()}">10</td>
-                                    <td th:text="${act.objectBeforeChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectBeforeChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 <tr style="display:none" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="'parent_raw_oak_before'+${act.objectBeforeChanging.getId()}">
                                     <td style="display:none; width: 30px"></td>
@@ -823,7 +829,11 @@
                                 </tr>
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getDate()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">5</td>
@@ -832,7 +842,7 @@
                                     <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
                                     <td th:text="${act.objectAfterChanging.getDescription()}">10</td>
-                                    <td th:text="${act.objectAfterChanging.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectAfterChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 <tr style="display:none" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="'parent_raw_oak_after'+${act.objectAfterChanging.getId()}">
                                     <td style="display:none; width: 30px"></td>
@@ -887,7 +897,11 @@
                                 <div th:each="obj:${act.objectBeforeChanging.getList()}">
                                     <tr >
                                         <th>До:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before_group'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>
+<!--                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before_group'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>-->
+
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before_group'+this.id).toggle();" th:if="${obj?.getDeskOakList()!=null}" th:id="${obj.getId()}"><span></span></td>
+                                        <td th:if="${obj?.getDeskOakList()==null}"></td>
+
                                         <td th:text="${obj.getDate()}">3</td>
                                         <td th:text="${obj.getCodeOfProduct()}">4</td>
                                         <td th:text="${obj.getBreedOfTree().getBreed()}">5</td>
@@ -896,7 +910,7 @@
                                         <td th:text="${obj.getSizeOfLong()}">8</td>
                                         <td th:text="${obj.getExtent()}">9</td>
                                         <td th:text="${obj.getDescription()}">10</td>
-                                        <td th:text="${obj.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                        <td th:text="${obj?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                     </tr>
                                     <tr style="display:none" th:if="${obj?.getDeskOakList()!=null}" th:id="'parent_raw_oak_before_group'+${obj.getId()}">
                                     <td style="display:none; width: 30px"></td>
@@ -930,7 +944,11 @@
 
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after_group'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after_group'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after_group'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getDate()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">5</td>
@@ -939,7 +957,7 @@
                                     <td th:text="${act.objectAfterChanging.getSizeOfLong()}">8</td>
                                     <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
                                     <td th:text="${act.objectAfterChanging.getDescription()}">10</td>
-                                    <td th:text="${act.objectAfterChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
+                                    <td th:text="${act?.objectAfterChanging?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                 </tr>
                                 <tr style="display:none" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="'parent_raw_oak_after_group'+${act.objectAfterChanging.getId()}">
                                     <td style="display:none; width: 30px"></td>
@@ -993,7 +1011,11 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before_ungroup'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before_ungroup'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_before_ungroup'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectBeforeChanging.getDate()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">4</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">5</td>
@@ -1036,7 +1058,11 @@
                                 <div th:each="obj:${act.objectAfterChanging.getList()}">
                                     <tr>
                                         <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after_ungroup'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>
+<!--                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after_ungroup'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>-->
+
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_raw_oak_after_ungroup'+this.id).toggle();" th:if="${obj?.getDeskOakList()!=null}" th:id="${obj.getId()}"><span></span></td>
+                                        <td th:if="${obj?.getDeskOakList()==null}"></td>
+
                                         <td th:text="${obj.getDate()}">3</td>
                                         <td th:text="${obj.getCodeOfProduct()}">4</td>
                                         <td th:text="${obj.getBreedOfTree().getBreed()}">5</td>
@@ -1045,7 +1071,7 @@
                                         <td th:text="${obj.getSizeOfLong()}">8</td>
                                         <td th:text="${obj.getExtent()}">9</td>
                                         <td th:text="${obj.getDescription()}">10</td>
-                                        <td th:text="${obj.getTreeStorage().getContrAgent().getNameOfAgent()}">11</td>
+                                        <td th:text="${obj?.getTreeStorage()?.getContrAgent()?.getNameOfAgent()}">11</td>
                                     </tr>
                                     <tr style="display:none" th:if="${obj?.getDeskOakList()!=null}" th:id="'parent_raw_oak_after_ungroup'+${obj.getId()}">
                                     <td style="display:none; width: 30px"></td>
@@ -1190,7 +1216,11 @@
                                 <tbody>
                                 <tr>
                                     <th>Создано:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_create'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_create'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_create'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
@@ -1255,7 +1285,11 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_update_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_update_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_update_before'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">4</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedDescription()}">5</td>
@@ -1297,7 +1331,11 @@
                                 </tr>
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_update_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_update_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_drying_oak_update_after'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
@@ -1561,7 +1599,11 @@
                                 <tbody>
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_create_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_create_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_create_after'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getDate()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
@@ -1624,7 +1666,11 @@
                                 <div th:each="obj : ${act?.objectAfterChanging?.getList()}">
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_create_multi'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_create_multi'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_create_multi'+this.id).toggle();" th:if="${obj?.getDeskOakList()!=null}" th:id="${obj.getId()}"><span></span></td>
+                                    <td th:if="${obj?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${obj.getDate()}">3</td>
                                     <td th:text="${obj.getCodeOfProduct()}">3</td>
                                     <td th:text="${obj.getBreedOfTree().getBreed()}">4</td>
@@ -1686,7 +1732,11 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_before'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectBeforeChanging.getDate()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">4</td>
@@ -1729,6 +1779,10 @@
                                     <tr>
                                         <th>После:</th>
                                         <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>
+
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:if="${obj?.getDeskOakList()!=null}" th:id="${obj.getId()}"><span></span></td>
+                                        <td th:if="${obj?.getDeskOakList()==null}"></td>
+
                                         <td th:text="${obj.getDate()}">3</td>
                                         <td th:text="${obj.getCodeOfProduct()}">3</td>
                                         <td th:text="${obj.getBreedOfTree().getBreed()}">4</td>
@@ -1791,7 +1845,11 @@
                                     <div th:each="obj : ${act?.objectBeforeChanging?.getList()}">
                                         <tr>
                                             <th>До:</th>
-                                            <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>
+<!--                                            <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>-->
+
+                                            <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:if="${obj?.getDeskOakList()!=null}" th:id="${obj.getId()}"><span></span></td>
+                                            <td th:if="${obj?.getDeskOakList()==null}"></td>
+
                                             <td th:text="${obj.getDate()}">3</td>
                                             <td th:text="${obj.getCodeOfProduct()}">3</td>
                                             <td th:text="${obj.getBreedOfTree().getBreed()}">4</td>
@@ -1832,7 +1890,11 @@
                                     </div>
                                     <tr>
                                         <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_after'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                        <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                         <td th:text="${act.objectAfterChanging.getDate()}">3</td>
                                         <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
                                         <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
@@ -1893,7 +1955,11 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_before'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectBeforeChanging.getDate()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">4</td>
@@ -1935,7 +2001,11 @@
 
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_after'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getDate()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
@@ -1997,7 +2067,11 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_before'+this.id).toggle();" th:id="${act?.objectBeforeChanging?.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_before'+this.id).toggle();" th:id="${act?.objectBeforeChanging?.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_update_before'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectBeforeChanging.getDate()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">4</td>
@@ -2198,7 +2272,11 @@
                                 <tbody>
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_sending_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_sending_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_sending_after'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getCodeOfPackage()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getQuality()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">5</td>
@@ -2259,7 +2337,11 @@
                                 <div th:each="obj : ${act.objectBeforeChanging.getList()}">
                                     <tr>
                                         <th>До:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_returning_before'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>
+<!--                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_returning_before'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>-->
+
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_returning_before'+this.id).toggle();" th:if="${obj?.getDeskOakList()!=null}" th:id="${obj.getId()}"><span></span></td>
+                                        <td th:if="${obj?.getDeskOakList()==null}"></td>
+
                                         <td th:text="${obj.getCodeOfPackage()}">3</td>
                                         <td th:text="${obj.getQuality()}">4</td>
                                         <td th:text="${obj.getSizeOfHeight()}">5</td>
@@ -2320,7 +2402,11 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_updating_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_updating_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_updating_before'+this.id).toggle();" th:if="${act?.objectBeforeChanging?.getDeskOakList()!=null}" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectBeforeChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectBeforeChanging.getCodeOfPackage()}">3</td>
                                     <td th:text="${act.objectBeforeChanging.getQuality()}">4</td>
                                     <td th:text="${act.objectBeforeChanging.getSizeOfHeight()}">5</td>
@@ -2360,7 +2446,11 @@
 
                                 <tr>
                                     <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_updating_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_updating_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+
+                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_package_oak_updating_after'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                    <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>
+
                                     <td th:text="${act.objectAfterChanging.getCodeOfPackage()}">3</td>
                                     <td th:text="${act.objectAfterChanging.getQuality()}">4</td>
                                     <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">5</td>
@@ -2401,105 +2491,105 @@
                             </table>
                             <!--Packages Storage Oak End UPDATING-->
 
-                            <!--Packages Storage Oak Start-->
-                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).PACKAGE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).DELETING)}">
-                                <thead>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th></th>
-                                    <th scope="col">№ пачки</th>
-                                    <th scope="col">Качество</th>
-                                    <th scope="col">Толщина, мм</th>
-                                    <th scope="col">Длина, мм</th>
-                                    <th scope="col">Сум. ширина</th>
-                                    <th scope="col">Кол. досок</th>
-                                    <th scope="col">Кубатура, м<sup>3</sup></th>
-                                    <th>Сух. скл. м<sup>3</sup></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>До:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr style="display:none">
-                                    <td style="display:none; width: 30px"></td>
-                                    <td colspan="10" class="child-table">
-                                        <table class="table table-hover table-striped parent-table" >
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">Ширина, мм</th>
-                                                <th scope="col">Количество досок</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                </tr>
+<!--                            &lt;!&ndash;Packages Storage Oak Start&ndash;&gt;-->
+<!--                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).PACKAGE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).DELETING)}">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th scope="col"></th>-->
+<!--                                    <th></th>-->
+<!--                                    <th scope="col">№ пачки</th>-->
+<!--                                    <th scope="col">Качество</th>-->
+<!--                                    <th scope="col">Толщина, мм</th>-->
+<!--                                    <th scope="col">Длина, мм</th>-->
+<!--                                    <th scope="col">Сум. ширина</th>-->
+<!--                                    <th scope="col">Кол. досок</th>-->
+<!--                                    <th scope="col">Кубатура, м<sup>3</sup></th>-->
+<!--                                    <th>Сух. скл. м<sup>3</sup></th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                <tr>-->
+<!--                                    <th>До:</th>-->
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>-->
+<!--                                    <td>3</td>-->
+<!--                                    <td>4</td>-->
+<!--                                    <td>5</td>-->
+<!--                                    <td>6</td>-->
+<!--                                    <td>7</td>-->
+<!--                                    <td>8</td>-->
+<!--                                    <td>9</td>-->
+<!--                                    <td>10</td>-->
+<!--                                </tr>-->
+<!--                                <tr style="display:none">-->
+<!--                                    <td style="display:none; width: 30px"></td>-->
+<!--                                    <td colspan="10" class="child-table">-->
+<!--                                        <table class="table table-hover table-striped parent-table" >-->
+<!--                                            <thead>-->
+<!--                                            <tr>-->
+<!--                                                <th scope="col">Ширина, мм</th>-->
+<!--                                                <th scope="col">Количество досок</th>-->
+<!--                                            </tr>-->
+<!--                                            </thead>-->
+<!--                                            <tbody>-->
+<!--                                            <tr>-->
+<!--                                                <td>1</td>-->
+<!--                                                <td>2</td>-->
+<!--                                            </tr>-->
+<!--                                            </tbody>-->
+<!--                                        </table>-->
+<!--                                    </td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                </tr>-->
 
-                                <tr>
-                                    <th>После:</th>
-                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>10</td>
-                                </tr>
-                                <tr style="display:none">
-                                    <td style="display:none; width: 30px"></td>
-                                    <td colspan="11" class="child-table">
-                                        <table class="table table-hover table-striped parent-table" >
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">Ширина, мм</th>
-                                                <th scope="col">Количество досок</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>2</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                    <td style="display:none"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <!--Packages Storage Oak End-->
+<!--                                <tr>-->
+<!--                                    <th>После:</th>-->
+<!--                                    <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>-->
+<!--                                    <td>3</td>-->
+<!--                                    <td>4</td>-->
+<!--                                    <td>5</td>-->
+<!--                                    <td>6</td>-->
+<!--                                    <td>7</td>-->
+<!--                                    <td>8</td>-->
+<!--                                    <td>9</td>-->
+<!--                                    <td>10</td>-->
+<!--                                </tr>-->
+<!--                                <tr style="display:none">-->
+<!--                                    <td style="display:none; width: 30px"></td>-->
+<!--                                    <td colspan="11" class="child-table">-->
+<!--                                        <table class="table table-hover table-striped parent-table" >-->
+<!--                                            <thead>-->
+<!--                                            <tr>-->
+<!--                                                <th scope="col">Ширина, мм</th>-->
+<!--                                                <th scope="col">Количество досок</th>-->
+<!--                                            </tr>-->
+<!--                                            </thead>-->
+<!--                                            <tbody>-->
+<!--                                            <tr>-->
+<!--                                                <td>1</td>-->
+<!--                                                <td>2</td>-->
+<!--                                            </tr>-->
+<!--                                            </tbody>-->
+<!--                                        </table>-->
+<!--                                    </td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                    <td style="display:none"></td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            &lt;!&ndash;Packages Storage Oak End&ndash;&gt;-->
 
                             <!--Transportation Storage Pine Start SENDING-->
                             <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).SENDING)}">
@@ -2526,6 +2616,10 @@
                                     <tr>
                                         <th>После:</th>
                                         <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_creating'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+
+<!--                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_creating'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
+<!--                                        <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>-->
+
                                         <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
                                         <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
                                         <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTruck()}">5</td>
