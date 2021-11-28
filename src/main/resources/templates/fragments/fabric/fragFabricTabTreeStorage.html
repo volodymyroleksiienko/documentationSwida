@@ -27,7 +27,15 @@
                     <tr th:id="${mainTreeStorage.id}" >
                         <td th:text="${mainTreeStorage.id}"></td>
                         <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${mainTreeStorage.id}"></td>
-                        <td th:text="${mainTreeStorage.date}"></td>
+<!--                        <td th:text="${mainTreeStorage.date}"></td>-->
+<!--                        <td>-->
+<!--                            <span th:text="${mainTreeStorage?.date?.substring(8,10)+'-'+mainTreeStorage?.date?.substring(5,7)+'-'+mainTreeStorage?.date?.substring(0,4)}"></span>-->
+<!--                            <span class="original-date" th:text="${mainTreeStorage?.date}" style="display: none"></span>-->
+<!--                        </td>-->
+                        <td>
+                            <time th:datetime="${mainTreeStorage?.date}" th:text="${mainTreeStorage?.date?.substring(8,10)+'-'+mainTreeStorage?.date?.substring(5,7)+'-'+mainTreeStorage?.date?.substring(0,4)}"></time>
+                            <time th:datetime="${mainTreeStorage?.date}" class="original-date" th:text="${mainTreeStorage?.date}" style="display: none"></time>
+                        </td>
                         <th scope="row" th:text="${mainTreeStorage.codeOfProduct}"></th>
                         <td th:text="${mainTreeStorage.breedOfTree.breed}"></td>
                         <td th:text="${mainTreeStorage?.breedDescription}" style="display: none"></td>
@@ -67,9 +75,13 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="list : ${mainTreeStorage?.statisticInfoList}" th:id="${list?.id}">
+<!--                                    <td>-->
+<!--                                        <span th:text="${list?.date.substring(8,10)+'-'+list?.date.substring(5,7)+'-'+list?.date.substring(0,4)}"></span>-->
+<!--                                        <span class="original-date" th:text="${list?.date}" style="display: none"></span>-->
+<!--                                    </td>-->
                                     <td>
-                                        <span th:text="${list?.date.substring(8,10)+'-'+list?.date.substring(5,7)+'-'+list?.date.substring(0,4)}"></span>
-                                        <span class="original-date" th:text="${list?.date}" style="display: none"></span>
+                                        <time th:datetime="${list?.date}" th:text="${list?.date?.substring(8,10)+'-'+list?.date?.substring(5,7)+'-'+list?.date?.substring(0,4)}"></time>
+                                        <time th:datetime="${list?.date}"class="original-date" th:text="${list?.date}" style="display: none"></time>
                                     </td>
                                     <td th:text="${list?.codeOfTeam}"></td>
                                     <td th:text="${list?.breedDescription}">ds</td>
@@ -147,11 +159,11 @@
                      <tr th:id="${ts.id}">
                         <td th:text="${ts.id}"></td>
                         <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-'+this.id).toggle();" th:id="${ts.id}"></td>
-                         <td th:text="${ts.date}"></td>
-<!--                         <th scope="col">-->
-<!--                             <span th:text="${ts?.date?.substring(8,10)+'-'+ts?.date?.substring(5,7)+'-'+ts?.date?.substring(0,4)}"></span>-->
-<!--                             <span class="original-date" th:text="${ts?.date}" style="display: none"></span>-->
-<!--                         </th>-->
+<!--                         <td th:text="${ts.date}"></td>-->
+                         <td>
+                             <time th:datetime="${ts?.date}" th:text="${ts?.date?.substring(8,10)+'-'+ts?.date?.substring(5,7)+'-'+ts?.date?.substring(0,4)}"></time>
+                             <time th:datetime="${ts?.date}"class="original-date" th:text="${ts?.date}" style="display: none"></time>
+                         </td>
                         <th scope="row" th:text="${ts.codeOfProduct}"></th>
                         <td th:text="${ts.breedOfTree.breed}"></td>
                         <td th:text="${ts.breedDescription}"></td>
@@ -767,7 +779,11 @@
 <!--                        <span th:text="${mainTreeStorage.date.substring(8,10)+'-'+mainTreeStorage.date.substring(5,7)+'-'+mainTreeStorage.date.substring(0,4)}"></span>-->
 <!--                        <span class="original-date" th:text="${mainTreeStorage.date}" style="display: none"></span>-->
 <!--                    </td>-->
-                    <td th:text="${mainTreeStorage.date}"></td>
+                    <td>
+                        <time th:datetime="${mainTreeStorage?.date}" th:text="${mainTreeStorage?.date?.substring(8,10)+'-'+mainTreeStorage?.date?.substring(5,7)+'-'+mainTreeStorage?.date?.substring(0,4)}"></time>
+                        <time th:datetime="${mainTreeStorage?.date}"class="original-date" th:text="${mainTreeStorage?.date}" style="display: none"></time>
+                    </td>
+<!--                    <td th:text="${mainTreeStorage.date}"></td>-->
                     <th scope="row" th:text="${mainTreeStorage.codeOfProduct}"></th>
                     <td th:text="${mainTreeStorage.breedOfTree.breed}"></td>
                     <td th:text="${mainTreeStorage?.breedDescription}" style="display: none"></td>
@@ -805,9 +821,13 @@
                             </thead>
                             <tbody>
                             <tr th:each="list : ${mainTreeStorage?.statisticInfoList}" th:id="${list?.id}">
+<!--                                <td>-->
+<!--                                    <span th:text="${list?.date.substring(8,10)+'-'+list?.date.substring(5,7)+'-'+list?.date.substring(0,4)}"></span>-->
+<!--                                    <span class="original-date" th:text="${list?.date}" style="display: none"></span>-->
+<!--                                </td>-->
                                 <td>
-                                    <span th:text="${list?.date.substring(8,10)+'-'+list?.date.substring(5,7)+'-'+list?.date.substring(0,4)}"></span>
-                                    <span class="original-date" th:text="${list?.date}" style="display: none"></span>
+                                    <time th:datetime="${list?.date}" th:text="${list?.date?.substring(8,10)+'-'+list?.date?.substring(5,7)+'-'+list?.date?.substring(0,4)}"></time>
+                                    <time th:datetime="${list?.date}"class="original-date" th:text="${list?.date}" style="display: none"></time>
                                 </td>
                                 <td th:text="${list?.codeOfTeam}"></td>
                                 <td th:text="${list?.breedDescription}">ds</td>
@@ -884,7 +904,11 @@
                         <tr th:id="${ts.id}">
                             <td th:text="${ts.id}"></td>
                             <td class="details-control" style="width: 30px" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${ts.id}"></td>
-                            <td th:text="${ts.date}"></td>
+<!--                            <td th:text="${ts.date}"></td>-->
+                            <td>
+                                <time th:datetime="${ts?.date}" th:text="${ts?.date?.substring(8,10)+'-'+ts?.date?.substring(5,7)+'-'+ts?.date?.substring(0,4)}"></time>
+                                <time th:datetime="${ts?.date}"class="original-date" th:text="${ts?.date}" style="display: none"></time>
+                            </td>
                             <th scope="row" th:text="${ts.codeOfProduct}"></th>
                             <td th:text="${ts.breedOfTree.breed}"></td>
                             <td th:text="${ts.breedDescription}"></td>

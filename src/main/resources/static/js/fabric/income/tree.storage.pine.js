@@ -49,8 +49,10 @@ function showEditModal(btnObj) {
     var amount =        $(trObj).find('td:eq(7)').text();
     var extent =        $(trObj).find('td:eq(8)').text();
     var initialExtent = $(trObj).find('td:eq(9)').text();
-    // var date =          $(trObj).find('td:eq(9)').text();
+    // var date =          $(trObj).find('td:eq(1)').text();
     var description =   $(trObj).find('td:eq(10)').text();
+
+    console.log("date: ", date);
 
     $('#editIncomeCode')            .val(code);
     $('#editIncomeMaterial')        .val(breed);

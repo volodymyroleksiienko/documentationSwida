@@ -1,6 +1,6 @@
 $(document).ready( function () {
 
-    moment.updateLocale(moment.locale(), { invalidDate: "Invalid Date Example" });
+    // moment.updateLocale(moment.locale(), { invalidDate: "Invalid Date Example" });
 
 
     // Distribution table start
@@ -88,9 +88,13 @@ $(document).ready( function () {
                 "width": "40px"
             },
             {
-                "targets": 2,
-                "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
+                "type": 'date-uk',
+                "targets": 2
             },
+            // {
+            //     "targets": 2,
+            //     "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
+            // },
             { className: "display-none", "targets": [ 1, 7 ] },
         ]
 
@@ -115,6 +119,10 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "width": "70px"
+            },
+            {
+                "type": 'date-uk',
+                "targets": 0
             },
         ],
         "footerCallback": function ( row, data, start, end, display ) {
@@ -165,6 +173,10 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "width": "70px"
+            },
+            {
+                "type": 'date-uk',
+                "targets": 0
             },
         ],
         "footerCallback": function ( row, data, start, end, display ) {
@@ -530,9 +542,13 @@ $(document).ready( function () {
                 "width": "40px"
             },
             {
-                "targets": 2,
-                "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
+                "type": 'date-uk',
+                "targets": 2
             },
+            // {
+            //     "targets": 2,
+            //     "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
+            // },
             { className: "display-none", "targets": [ 7 ] },
         ]
 

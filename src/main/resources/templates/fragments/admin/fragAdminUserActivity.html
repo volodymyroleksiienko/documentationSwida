@@ -2262,9 +2262,386 @@
                             <!--Packages Storage Oak End-->
 
                             <!--Transportation Storage Pine Start-->
+                            <table class="table table-hover table-striped">
+                                <br>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30px"></th>
+                                        <th></th>
+                                        <th scope="col">Дата выгрузки</th>
+                                        <th scope="col">Дата выгрузки</th>
+                                        <th scope="col">№ выгрузки</th>
+                                        <th scope="col">А/М</th>
+                                        <th scope="col">П/П</th>
+                                        <th scope="col">Время выгрузки</th>
+                                        <th scope="col">Водитель</th>
+                                        <th scope="col">Телефон</th>
+                                        <th scope="col">№ контракта</th>
+                                        <th scope="col">Кубатура</th>
+                                        <th scope="col">Толщина</th>
+                                        <th scope="col">Примечание</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <div>
+                                    <tr>
+                                        <th>До:</th>
+                                        <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                        <td>12</td>
+                                        <td>13</td>
+                                        <td>14</td>
+                                    </tr>
+
+                                    <tr style="display:none" id="parent3">
+                                        <td colspan="14" class="child-table">
+                                            <table class="table table-hover table-striped parent-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">№ пачки</th>
+                                                        <th scope="col">Порода</th>
+                                                        <th scope="col">Описание</th>
+                                                        <th scope="col">Толщина</th>
+                                                        <th scope="col">Ширина</th>
+                                                        <th scope="col">Длина</th>
+                                                        <th scope="col">Кол-во</th>
+                                                        <th scope="col">Кубатура</th>
+                                                        <th scope="col">Высота</th>
+                                                        <th scope="col">Ширина</th>
+                                                        <th scope="col">Длина-ФАКТ</th>
+                                                        <th scope="col">В/Ш</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>10</td>
+                                                        <td>11</td>
+                                                        <td>12</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>После:</th>
+                                        <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                        <td>12</td>
+                                        <td>13</td>
+                                        <td>14</td>
+                                    </tr>
+
+                                    <tr style="display:none" id="parent4">
+                                        <td colspan="14" class="child-table">
+                                            <table class="table table-hover table-striped parent-table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">№ пачки</th>
+                                                    <th scope="col">Порода</th>
+                                                    <th scope="col">Описание</th>
+                                                    <th scope="col">Толщина</th>
+                                                    <th scope="col">Ширина</th>
+                                                    <th scope="col">Длина</th>
+                                                    <th scope="col">Кол-во</th>
+                                                    <th scope="col">Кубатура</th>
+                                                    <th scope="col">Высота</th>
+                                                    <th scope="col">Ширина</th>
+                                                    <th scope="col">Длина-ФАКТ</th>
+                                                    <th scope="col">В/Ш</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>2</td>
+                                                    <td>3</td>
+                                                    <td>4</td>
+                                                    <td>5</td>
+                                                    <td>6</td>
+                                                    <td>7</td>
+                                                    <td>8</td>
+                                                    <td>9</td>
+                                                    <td>10</td>
+                                                    <td>11</td>
+                                                    <td>12</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
                             <!--Transportation Storage Pine End-->
 
                             <!--Transportation Storage Oak Start-->
+                            <table class="table table-hover table-striped">
+                                <br>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30px"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Дата выгрузки</th>
+                                        <th scope="col">№ выгрузки</th>
+                                        <th scope="col">А/М</th>
+                                        <th scope="col">П/П</th>
+                                        <th scope="col">Время выгрузки</th>
+                                        <th scope="col">Водитель</th>
+                                        <th scope="col">Телефон</th>
+                                        <th scope="col">№ контракта</th>
+                                        <th scope="col">Кубатура</th>
+                                        <th scope="col">Толщина</th>
+                                        <th scope="col">Примечание</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <div>
+                                    <tr>
+                                        <th>До:</th>
+                                        <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                        <td>12</td>
+                                        <td>13</td>
+                                    </tr>
+
+                                    <!--      LEVEL    2    START          -->
+                                    <tr style="display:none" id="parent1">
+                                        <td colspan="13" class="child-table">
+                                            <table class="table table-hover table-striped parent-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 30px"></th>
+                                                        <th scope="col">№ пачки</th>
+                                                        <th scope="col">Качество</th>
+                                                        <th scope="col">Размер</th>
+                                                        <th scope="col">Длина</th>
+                                                        <th scope="col">Сум. ширина</th>
+                                                        <th scope="col">Кол. досок</th>
+                                                        <th scope="col">Кубатура</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <div>
+                                                        <tr>
+                                                            <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();"></td>
+                                                            <td>2</td>
+                                                            <td>3</td>
+                                                            <td>4</td>
+                                                            <td>5</td>
+                                                            <td>6</td>
+                                                            <td>7</td>
+                                                            <td>8</td>
+                                                        </tr>
+
+                                                    <!--      LEVEL    3    START          -->
+                                                    <tr style="display:none" id="parent-parent1">
+                                                        <td colspan="13" class="child-table">
+                                                            <table class="table table-hover table-striped parent-table">
+
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Ширина, мм</th>
+                                                                        <th scope="col">Количество досок</th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>1</td>
+                                                                        <td>2</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                    </tr>
+                                                    <!--      LEVEL    3    END          -->
+
+                                                </div>
+
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                    <!--      LEVEL    2    END          -->
+
+                                    <tr>
+                                        <th>После:</th>
+                                        <td class="details-control" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                        <td>12</td>
+                                        <td>13</td>
+                                    </tr>
+
+                                    <!--      LEVEL    2    START          -->
+                                    <tr style="display:none" id="parent2">
+                                        <td colspan="13" class="child-table">
+                                            <table class="table table-hover table-striped parent-table">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 30px"></th>
+                                                    <th scope="col">№ пачки</th>
+                                                    <th scope="col">Качество</th>
+                                                    <th scope="col">Размер</th>
+                                                    <th scope="col">Длина</th>
+                                                    <th scope="col">Сум. ширина</th>
+                                                    <th scope="col">Кол. досок</th>
+                                                    <th scope="col">Кубатура</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <div>
+                                                    <tr>
+                                                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();"></td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                    </tr>
+
+                                                    <!--      LEVEL    3    START          -->
+                                                    <tr style="display:none" id="parent-parent2">
+                                                        <td colspan="13" class="child-table">
+                                                            <table class="table table-hover table-striped parent-table">
+
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">Ширина, мм</th>
+                                                                    <th scope="col">Количество досок</th>
+                                                                </tr>
+                                                                </thead>
+
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>2</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                    </tr>
+                                                    <!--      LEVEL    3    END          -->
+
+                                                </div>
+
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                    <!--      LEVEL    2    END          -->
+
+                                </div>
+                                </tbody>
+                            </table>
                             <!--Transportation Storage Oak End-->
                         </td>
                         <td style="display:none"></td>
