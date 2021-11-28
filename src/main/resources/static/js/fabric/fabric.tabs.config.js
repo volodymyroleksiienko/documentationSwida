@@ -1,6 +1,6 @@
 $(document).ready( function () {
 
-    moment.updateLocale(moment.locale(), { invalidDate: "Invalid Date Example" });
+    // moment.updateLocale(moment.locale(), { invalidDate: "Invalid Date Example" });
 
 
     // Distribution table start
@@ -87,10 +87,10 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "40px"
             },
-            {
-                "targets": 2,
-                "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
-            },
+            // {
+            //     "targets": 2,
+            //     "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
+            // },
             { className: "display-none", "targets": [ 1, 7 ] },
         ]
 
@@ -529,10 +529,10 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "40px"
             },
-            {
-                "targets": 2,
-                "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
-            },
+            // {
+            //     "targets": 2,
+            //     "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
+            // },
             { className: "display-none", "targets": [ 7 ] },
         ]
 
