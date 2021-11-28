@@ -3,6 +3,7 @@ package com.swida.documetation.controllers;
 import com.google.gson.Gson;
 import com.swida.documetation.data.dto.CellDryingStorageDto;
 import com.swida.documetation.data.dto.storages.*;
+import com.swida.documetation.data.dto.subObjects.DeliveryDocumentationDTO;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
 import com.swida.documetation.data.entity.subObjects.ContrAgent;
@@ -764,31 +765,39 @@ public class FabricOakController {
     @PostMapping("/editPackageDescriptionOak-{userId}-{breedId}")
     public String editPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
                                             String rowId,String packageId, String width, String count) {
-
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
         deskOakService.editDescription(rowId,width,count);
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
     @PostMapping("/addPackageDescriptionOak-{userId}-{breedId}")
     public String addPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
                                             String packageId, String width, String count) {
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
         packagedProductService.addDescriptionOak(packageId,width,count);
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 
     @PostMapping("/deletePackageDescriptionOak-{userId}-{breedId}")
     public String deletePackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
                                            String packageId, String id) {
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
         packagedProductService.deleteDescriptionOak(packageId,id);
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
     }
 

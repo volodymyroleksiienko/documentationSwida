@@ -160,11 +160,13 @@ public class FabricRestController {
         PackagedProduct product = packagedProductService.createPackageOak(arrayOfDesk,"",codeOfPackage,quality,sizeOfHeight,length,0,Integer.parseInt(breedID));
 
         DeliveryDocumentation documentation = deliveryDocumentationService.findById(Integer.parseInt(deliveryId));
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(documentation,true);
         documentation.getProductList().add(product);
         deliveryDocumentationService.save(documentation);
         reloadAllExtentFields(documentation);
-        deliveryDocumentationService.checkHeightUnicValue(documentation);
-
+        DeliveryDocumentation afterSaved = deliveryDocumentationService.checkHeightUnicValue(documentation);
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(afterSaved,true);
+        loggerDataInfoService.save(documentation.getBreedOfTree(),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
     }
 
 //    @PostMapping("/createRawPackageOakObject-{userID}-{breedID}")

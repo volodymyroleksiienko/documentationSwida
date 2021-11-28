@@ -2758,8 +2758,8 @@
                             </table>
                             <!--Transportation Storage Pine End UPDATING-->
 
-                            <!--Transportation Storage Oak Start-->
-                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING)}">
+                            <!--Transportation Storage Oak Start CREATING-->
+                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).SENDING)}">
                                 <br>
                                 <thead>
                                     <tr>
@@ -2781,27 +2781,27 @@
 
                                 <tbody>
                                     <div>
-                                    <tr>
-                                        <th>До:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                        <td>11</td>
-                                        <td>12</td>
-                                        <td>13</td>
-                                    </tr>
+                                        <tr>
+                                            <th>После:</th>
+                                            <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                            <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
+                                            <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
+                                            <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTruck()}">5</td>
+                                            <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTrailer()}">6</td>
+                                            <td th:text="${act.objectAfterChanging.getTimeOfUnloading()}">7</td>
+                                            <td th:text="${act.objectAfterChanging.getDriverInfo().getFullName()}">8</td>
+                                            <td th:text="${act.objectAfterChanging.getDriverInfo().getPhone()}">9</td>
+                                            <td th:text="${act.objectAfterChanging.getOrderInfo().getCodeOfOrder()}">10</td>
+                                            <td th:text="${act.objectAfterChanging.getPackagesExtent()}">11</td>
+                                            <td th:text="${act.objectAfterChanging.getSizeOfHeightList()}">12</td>
+                                            <td th:text="${act.objectAfterChanging.getDescription()}">13</td>
+                                        </tr>
 
-                                    <!--      LEVEL    2    START          -->
-                                    <tr style="display:none" id="parent1">
-                                        <td colspan="13" class="child-table">
-                                            <table class="table table-hover table-striped parent-table">
-                                                <thead>
+                                        <!--      LEVEL    2    START          -->
+                                        <tr style="display:none" th:id="'parent_delivery_updating_after_oak'+${act.objectAfterChanging.getId()}">
+                                            <td colspan="13" class="child-table">
+                                                <table class="table table-hover table-striped parent-table">
+                                                    <thead>
                                                     <tr>
                                                         <th style="width: 30px"></th>
                                                         <th scope="col">№ пачки</th>
@@ -2812,88 +2812,114 @@
                                                         <th scope="col">Кол. досок</th>
                                                         <th scope="col">Кубатура</th>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <div>
+                                                    </thead>
+                                                    <tbody>
+                                                    <div th:each="pack : ${act.objectAfterChanging.getProductList()}">
                                                         <tr>
-                                                            <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();"></td>
-                                                            <td>2</td>
-                                                            <td>3</td>
-                                                            <td>4</td>
-                                                            <td>5</td>
-                                                            <td>6</td>
-                                                            <td>7</td>
-                                                            <td>8</td>
+                                                            <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${pack.getId()}"></td>
+                                                            <td th:text="${pack.getCodeOfPackage()}">2</td>
+                                                            <td th:text="${pack.getQuality()}">3</td>
+                                                            <td th:text="${pack.getSizeOfHeight()}">4</td>
+                                                            <td th:text="${pack.getSizeOfLong()}">5</td>
+                                                            <td th:text="${pack.getSumWidthOfAllDesk()}">6</td>
+                                                            <td th:text="${pack.getCountOfDesk()}">7</td>
+                                                            <td th:text="${pack.getExtent()}">8</td>
                                                         </tr>
 
-                                                    <!--      LEVEL    3    START          -->
-                                                    <tr style="display:none" id="parent-parent1">
-                                                        <td colspan="13" class="child-table">
-                                                            <table class="table table-hover table-striped parent-table">
+                                                        <!--      LEVEL    3    START          -->
+                                                        <tr style="display:none" th:id="'parent-parent_delivery_updating_after_oak'+${pack.getId()}">
+                                                            <td colspan="13" class="child-table">
+                                                                <table class="table table-hover table-striped parent-table">
 
-                                                                <thead>
+                                                                    <thead>
                                                                     <tr>
                                                                         <th scope="col">Ширина, мм</th>
                                                                         <th scope="col">Количество досок</th>
                                                                     </tr>
-                                                                </thead>
+                                                                    </thead>
 
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>1</td>
-                                                                        <td>2</td>
+                                                                    <tbody>
+                                                                    <tr th:each="desc : ${pack.getDeskOakList()}">
+                                                                        <td th:text="${desc.getSizeOfWidth()}">1</td>
+                                                                        <td th:text="${desc.getCountOfDesk()}">2</td>
                                                                     </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                        <td style="display:none"></td>
-                                                        <td style="display:none"></td>
-                                                        <td style="display:none"></td>
-                                                        <td style="display:none"></td>
-                                                        <td style="display:none"></td>
-                                                        <td style="display:none"></td>
-                                                        <td style="display:none"></td>
-                                                    </tr>
-                                                    <!--      LEVEL    3    END          -->
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                        </tr>
+                                                        <!--      LEVEL    3    END          -->
 
-                                                </div>
+                                                    </div>
 
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                        <td style="display:none"></td>
-                                    </tr>
-                                    <!--      LEVEL    2    END          -->
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                        </tr>
+                                        <!--      LEVEL    2    END          -->
+                                    </div>
+                                </tbody>
+                            </table>
+                            <!--Transportation Storage Oak End CREATING-->
+                            <!--Transportation Storage Oak Start UPDATING-->
+                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                                <br>
+                                <thead>
+                                <tr>
+                                    <th style="width: 30px"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата выгрузки</th>
+                                    <th scope="col">№ выгрузки</th>
+                                    <th scope="col">А/М</th>
+                                    <th scope="col">П/П</th>
+                                    <th scope="col">Время выгрузки</th>
+                                    <th scope="col">Водитель</th>
+                                    <th scope="col">Телефон</th>
+                                    <th scope="col">№ контракта</th>
+                                    <th scope="col">Кубатура</th>
+                                    <th scope="col">Толщина</th>
+                                    <th scope="col">Примечание</th>
+                                </tr>
+                                </thead>
 
+                                <tbody>
+                                <div>
                                     <tr>
-                                        <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent'+this.id).toggle();"><span></span></td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                        <td>11</td>
-                                        <td>12</td>
-                                        <td>13</td>
+                                        <th>До:</th>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_before_oak'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                        <td th:text="${act.objectBeforeChanging.getDateOfUnloading()}">3</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getIdOfTruck()}">4</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getNumberOfTruck()}">5</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getNumberOfTrailer()}">6</td>
+                                        <td th:text="${act.objectBeforeChanging.getTimeOfUnloading()}">7</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getFullName()}">8</td>
+                                        <td th:text="${act.objectBeforeChanging.getDriverInfo().getPhone()}">9</td>
+                                        <td th:text="${act.objectBeforeChanging.getOrderInfo().getCodeOfOrder()}">10</td>
+                                        <td th:text="${act.objectBeforeChanging.getPackagesExtent()}">11</td>
+                                        <td th:text="${act.objectBeforeChanging.getSizeOfHeightList()}">12</td>
+                                        <td th:text="${act.objectBeforeChanging.getDescription()}">13</td>
                                     </tr>
 
                                     <!--      LEVEL    2    START          -->
-                                    <tr style="display:none" id="parent2">
+                                    <tr style="display:none" th:id="'parent_delivery_updating_before_oak'+${act.objectBeforeChanging.getId()}">
                                         <td colspan="13" class="child-table">
                                             <table class="table table-hover table-striped parent-table">
                                                 <thead>
@@ -2909,20 +2935,20 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <div>
+                                                <div th:each="pack : ${act.objectBeforeChanging.getProductList()}">
                                                     <tr>
-                                                        <td  class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent'+this.id).toggle();"></td>
-                                                        <td>2</td>
-                                                        <td>3</td>
-                                                        <td>4</td>
-                                                        <td>5</td>
-                                                        <td>6</td>
-                                                        <td>7</td>
-                                                        <td>8</td>
+                                                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent_delivery_updating_before_oak'+this.id).toggle();" th:id="${pack.getId()}"></td>
+                                                        <td th:text="${pack.getCodeOfPackage()}">2</td>
+                                                        <td th:text="${pack.getQuality()}">3</td>
+                                                        <td th:text="${pack.getSizeOfHeight()}">4</td>
+                                                        <td th:text="${pack.getSizeOfLong()}">5</td>
+                                                        <td th:text="${pack.getSumWidthOfAllDesk()}">6</td>
+                                                        <td th:text="${pack.getCountOfDesk()}">7</td>
+                                                        <td th:text="${pack.getExtent()}">8</td>
                                                     </tr>
 
                                                     <!--      LEVEL    3    START          -->
-                                                    <tr style="display:none" id="parent-parent2">
+                                                    <tr style="display:none" th:id="'parent-parent_delivery_updating_before_oak'+${pack.getId()}">
                                                         <td colspan="13" class="child-table">
                                                             <table class="table table-hover table-striped parent-table">
 
@@ -2934,9 +2960,9 @@
                                                                 </thead>
 
                                                                 <tbody>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>2</td>
+                                                                <tr th:each="desc : ${pack.getDeskOakList()}">
+                                                                    <td th:text="${desc.getSizeOfWidth()}">1</td>
+                                                                    <td th:text="${desc.getCountOfDesk()}">2</td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
@@ -2970,11 +2996,106 @@
                                         <td style="display:none"></td>
                                     </tr>
                                     <!--      LEVEL    2    END          -->
+                                </div>
+                                <div>
+                                    <tr>
+                                        <th>После:</th>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                        <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTruck()}">5</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTrailer()}">6</td>
+                                        <td th:text="${act.objectAfterChanging.getTimeOfUnloading()}">7</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getFullName()}">8</td>
+                                        <td th:text="${act.objectAfterChanging.getDriverInfo().getPhone()}">9</td>
+                                        <td th:text="${act.objectAfterChanging.getOrderInfo().getCodeOfOrder()}">10</td>
+                                        <td th:text="${act.objectAfterChanging.getPackagesExtent()}">11</td>
+                                        <td th:text="${act.objectAfterChanging.getSizeOfHeightList()}">12</td>
+                                        <td th:text="${act.objectAfterChanging.getDescription()}">13</td>
+                                    </tr>
 
+                                    <!--      LEVEL    2    START          -->
+                                    <tr style="display:none" th:id="'parent_delivery_updating_after_oak'+${act.objectAfterChanging.getId()}">
+                                        <td colspan="13" class="child-table">
+                                            <table class="table table-hover table-striped parent-table">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 30px"></th>
+                                                    <th scope="col">№ пачки</th>
+                                                    <th scope="col">Качество</th>
+                                                    <th scope="col">Размер</th>
+                                                    <th scope="col">Длина</th>
+                                                    <th scope="col">Сум. ширина</th>
+                                                    <th scope="col">Кол. досок</th>
+                                                    <th scope="col">Кубатура</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <div th:each="pack : ${act.objectAfterChanging.getProductList()}">
+                                                    <tr>
+                                                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${pack.getId()}"></td>
+                                                        <td th:text="${pack.getCodeOfPackage()}">2</td>
+                                                        <td th:text="${pack.getQuality()}">3</td>
+                                                        <td th:text="${pack.getSizeOfHeight()}">4</td>
+                                                        <td th:text="${pack.getSizeOfLong()}">5</td>
+                                                        <td th:text="${pack.getSumWidthOfAllDesk()}">6</td>
+                                                        <td th:text="${pack.getCountOfDesk()}">7</td>
+                                                        <td th:text="${pack.getExtent()}">8</td>
+                                                    </tr>
+
+                                                    <!--      LEVEL    3    START          -->
+                                                    <tr style="display:none" th:id="'parent-parent_delivery_updating_after_oak'+${pack.getId()}">
+                                                        <td colspan="13" class="child-table">
+                                                            <table class="table table-hover table-striped parent-table">
+
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">Ширина, мм</th>
+                                                                    <th scope="col">Количество досок</th>
+                                                                </tr>
+                                                                </thead>
+
+                                                                <tbody>
+                                                                <tr th:each="desc : ${pack.getDeskOakList()}">
+                                                                    <td th:text="${desc.getSizeOfWidth()}">1</td>
+                                                                    <td th:text="${desc.getCountOfDesk()}">2</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                    </tr>
+                                                    <!--      LEVEL    3    END          -->
+
+                                                </div>
+
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                    <!--      LEVEL    2    END          -->
                                 </div>
                                 </tbody>
                             </table>
-                            <!--Transportation Storage Oak End-->
+                            <!--Transportation Storage Oak End UPDATING-->
                         </td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>

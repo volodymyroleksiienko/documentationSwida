@@ -897,8 +897,10 @@ public class FabricController {
 
     @PostMapping("/editPackageProduct-{userId}-{breedId}")
     public String editPackageProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, PackagedProduct product){
-        int oldPackCountDesk = Integer.parseInt(packagedProductService.findById(product.getId()).getCountOfDesk());
-        float oldPackExtent = Float.parseFloat(packagedProductService.findById(product.getId()).getExtent());
+        PackagedProduct fromDB =packagedProductService.findById(product.getId());
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(deliveryDocumentationService.findById(fromDB.getDeliveryDocumentation().getId()),true);
+        int oldPackCountDesk = Integer.parseInt(fromDB.getCountOfDesk());
+        float oldPackExtent = Float.parseFloat(fromDB.getExtent());
         PackagedProduct packagedProduct = packagedProductService.editPackageProduct(product);
         if (packagedProduct.getDryStorage()!=null){
             DryStorage dryStorage = dryStorageService.findById(packagedProduct.getDryStorage().getId());
@@ -914,7 +916,6 @@ public class FabricController {
             dryStorageService.save(dryStorage);
         }
         if(packagedProduct.getDeliveryDocumentation()!=null) {
-            DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(deliveryDocumentationService.findById(packagedProduct.getDeliveryDocumentation().getId()),true);
             reloadAllExtentFields(packagedProduct.getDeliveryDocumentation());
             DeliveryDocumentation afterSaved = deliveryDocumentationService.checkHeightUnicValue(packagedProduct.getDeliveryDocumentation());
             DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(afterSaved,true);
