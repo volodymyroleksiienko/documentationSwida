@@ -1776,7 +1776,7 @@
                                 <div th:each="obj : ${act?.objectAfterChanging?.getList()}">
                                     <tr>
                                         <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>
+<!--                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:id="${obj.getId()}"><span></span></td>-->
 
                                         <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_dry_oak_ungroup_after'+this.id).toggle();" th:if="${obj?.getDeskOakList()!=null}" th:id="${obj.getId()}"><span></span></td>
                                         <td th:if="${obj?.getDeskOakList()==null}"></td>
