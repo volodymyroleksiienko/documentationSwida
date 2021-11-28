@@ -657,7 +657,6 @@ public class FabricController {
                                     String codeOfProduct,String breedDescription,String countOfDesk,String height, String width, String count, String longFact, String heightWidth){
         packagedProductService.createPackages(id,codeOfProduct,breedDescription,countOfDesk,height,width,count,longFact,heightWidth,userCompanyService.findById(userId));
 
-
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
     @PostMapping("/groupPineDry-{userId}-{breedId}")
@@ -780,16 +779,21 @@ public class FabricController {
     public String addPackagedProductWithoutHistory(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                                   PackagedProduct product, String countOfPacks){
         product.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        packagedProductService.createPackagesWithoutHistory(product,countOfPacks,breedId,userId);
+        List<PackagedProduct> productSaved = packagedProductService.createPackagesWithoutHistory(product,countOfPacks,breedId,userId);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.PACKAGE,LoggerOperationType.CREATING,null,PackageProductListDTO.convertToDTO(productSaved));
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 
     @PostMapping("/editPack-{userId}-{breedId}")
     public String editPack(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,PackagedProduct product){
-        int oldCountOFDesk = Integer.parseInt(packagedProductService.findById(product.getId()).getCountOfDesk());
+        PackagedProduct old =  packagedProductService.findById(product.getId());
+        PackagedProductDTO before = PackagedProductDTO.convertToDTO(old);
+        int oldCountOFDesk = Integer.parseInt(old.getCountOfDesk());
         PackagedProduct productDB = packagedProductService.editPackageProduct(product);
         productDB.setExtent(packagedProductService.countExtent(productDB));
-        packagedProductService.save(productDB);
+        PackagedProduct saved = packagedProductService.save(productDB);
+        PackagedProductDTO after = PackagedProductDTO.convertToDTO(saved);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.PACKAGE,LoggerOperationType.UPDATING,before,after);
         if (productDB.getDryStorage()!=null){
             DryStorage dryStorage = dryStorageService.findById(productDB.getDryStorage().getId());
             if(breedId!=2) {

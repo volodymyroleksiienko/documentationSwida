@@ -85,6 +85,10 @@ public class LoggerDataInfoDTO<T1,T2> {
                 dto = new LoggerDataInfoDTO<PackageProductListDTO, PackageProductListDTO>();
                 dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), PackageProductListDTO.class);
                 dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), PackageProductListDTO.class);
+            }else if(info.getBreedOfTree().getId()==1 && (info.getOperationType()==LoggerOperationType.CREATING || info.getOperationType()==LoggerOperationType.SENDING)){
+                dto = new LoggerDataInfoDTO<PackageProductListDTO, PackageProductListDTO>();
+                dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), PackageProductListDTO.class);
+                dto.objectAfterChanging = new Gson().fromJson(info.getObjectAfterChanging(), PackageProductListDTO.class);
             }else {
                 dto = new LoggerDataInfoDTO<PackagedProductDTO, PackagedProductDTO>();
                 dto.objectBeforeChanging = new Gson().fromJson(info.getObjectBeforeChanging(), PackagedProductDTO.class);

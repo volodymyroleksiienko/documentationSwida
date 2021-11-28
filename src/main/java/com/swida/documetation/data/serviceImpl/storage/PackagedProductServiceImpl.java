@@ -1,6 +1,7 @@
 package com.swida.documetation.data.serviceImpl.storage;
 
 
+import com.swida.documetation.data.dto.storages.PackageProductListDTO;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.DescriptionDeskOak;
 import com.swida.documetation.data.entity.storages.DryStorage;
@@ -8,8 +9,11 @@ import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.BreedOfTree;
 import com.swida.documetation.data.entity.subObjects.Container;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
+import com.swida.documetation.data.enums.LoggerOperationType;
 import com.swida.documetation.data.enums.StatusOfProduct;
+import com.swida.documetation.data.enums.StorageType;
 import com.swida.documetation.data.jpa.storages.PackagedProductJPA;
+import com.swida.documetation.data.service.LoggerDataInfoService;
 import com.swida.documetation.data.service.OrderInfoService;
 import com.swida.documetation.data.service.UserCompanyService;
 import com.swida.documetation.data.service.storages.DescriptionDeskOakService;
@@ -38,12 +42,14 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     private UserCompanyService userCompanyService;
     private ContainerService containerService;
     private OrderInfoService orderInfoService;
+    private LoggerDataInfoService loggerDataInfoService;
 
     @Autowired
     public PackagedProductServiceImpl(DryStorageService dryStorageService, PackagedProductJPA productJPA,
                                       DescriptionDeskOakService deskOakService, RawStorageService rawStorageService,
-                                      BreedOfTreeService breedOfTreeService,UserCompanyService userCompanyService,
-                                      ContainerService containerService,OrderInfoService orderInfoService) {
+                                      BreedOfTreeService breedOfTreeService, UserCompanyService userCompanyService,
+                                      ContainerService containerService, OrderInfoService orderInfoService,
+                                      LoggerDataInfoService loggerDataInfoService) {
         this.dryStorageService = dryStorageService;
         this.productJPA = productJPA;
         this.deskOakService = deskOakService;
@@ -52,14 +58,15 @@ public class PackagedProductServiceImpl implements PackagedProductService {
         this.userCompanyService = userCompanyService;
         this.containerService = containerService;
         this.orderInfoService = orderInfoService;
+        this.loggerDataInfoService = loggerDataInfoService;
     }
 
     @Override
-    public void save(PackagedProduct packProd) {
+    public PackagedProduct save(PackagedProduct packProd) {
         packProd.setExtent(String.format("%.3f", Float.parseFloat(packProd.getExtent().replace(',', '.'))).replace(',', '.'));
         Date date = new Date(System.currentTimeMillis());
         packProd.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
-        productJPA.save(packProd);
+        return productJPA.save(packProd);
     }
 
     @Override
@@ -72,6 +79,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     public void createPackages(String dryStorageId, String codeOfProduct,String breedDescription,String countOfDesk, String countHeight, String countWidth,
                                String countOfPack, String longFact,String heightWidth, UserCompany userCompany) {
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(dryStorageId));
+        List<PackagedProduct> afterList = new ArrayList<>();
         for (int i=1; i<=Integer.parseInt(countOfPack);i++){
             PackagedProduct product = new PackagedProduct();
             product.setCodeOfPackage(codeOfProduct+"-"+i);
@@ -102,16 +110,17 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             if(product.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
                 product.setBreedDescription("");
             }
-            productJPA.save(product);
+            afterList.add(productJPA.save(product));
         }
         dryStorageService.save(dryStorage);
+        loggerDataInfoService.save(dryStorage.getBreedOfTree(), StorageType.PACKAGE, LoggerOperationType.SENDING,null, PackageProductListDTO.convertToDTO(afterList));
     }
 
     @Override
-    public void createPackagesWithoutHistory(PackagedProduct product, String countOfPacks,int breedId, int userId) {
+    public List<PackagedProduct> createPackagesWithoutHistory(PackagedProduct product, String countOfPacks,int breedId, int userId) {
         int countPack = Integer.parseInt(countOfPacks);
         String codeOfPack = product.getCodeOfPackage();
-
+        List<PackagedProduct> list = new ArrayList<>();
         for(int i=0;i<countPack;i++){
             PackagedProduct newProduct = new PackagedProduct();
             if (countPack>1){
@@ -134,8 +143,9 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             newProduct.setHeight_width(product.getHeight_width());
 
             newProduct.setExtent(countExtent(newProduct));
-            productJPA.save(newProduct);
+            list.add(productJPA.save(newProduct));
         }
+        return list;
     }
 
 

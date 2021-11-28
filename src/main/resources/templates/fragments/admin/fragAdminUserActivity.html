@@ -2039,8 +2039,49 @@
                             </table>
                             <!--Dry Storage Oak End RETURN_TO_ZERO-->
 
-                            <!--Packages Storage Pine Start-->
-                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).PACKAGE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
+                            <!--Packages Storage Pine Start SENDING CREATING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).PACKAGE) && (act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).SENDING) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING))}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">№ пачки</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                    <th scope="col">Высота, шт</th>
+                                    <th scope="col">Ширина, шт</th>
+                                    <th scope="col">Длина-ФАКТ</th>
+                                    <th scope="col">Высота/Ширина</th>
+                                    <th>Сух. скл. шт.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="obj : ${act.objectAfterChanging.getList()}">
+                                    <th>После:</th>
+                                    <td th:text="${obj.getCodeOfPackage()}">3</td>
+                                    <td th:text="${obj.getBreedOfTree().getBreed()}">3</td>
+                                    <td th:text="${obj.getBreedDescription()}">4</td>
+                                    <td th:text="${obj.getSizeOfHeight()}">5</td>
+                                    <td th:text="${obj.getSizeOfWidth()}">5</td>
+                                    <td th:text="${obj.getSizeOfLong()}">6</td>
+                                    <td th:text="${obj.getCountOfDesk()}">6</td>
+                                    <td th:text="${obj.getExtent()}">9</td>
+                                    <td th:text="${obj.getSumWidthOfAllDesk()}">7</td>
+                                    <td th:text="${obj.getCountOfDesk()}">8</td>
+                                    <td th:text="${obj?.getDryStorage()?.getExtent()}">10</td>
+                                    <td th:text="${obj?.getHeight_width()}">10</td>
+                                    <td th:text="${obj?.getDryStorage()?.getExtent()}">10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Packages Storage Pine End SENDING CREATING-->
+
+                            <!--Packages Storage Pine Start UPDATING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).PACKAGE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -2062,39 +2103,80 @@
                                 <tbody>
                                 <tr>
                                     <th>До:</th>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>10</td>
-                                    <td>11</td>
-                                    <td>12</td>
-                                    <td>13</td>
-                                    <td>14</td>
+                                    <td th:text="${act.objectBeforeChanging.getCodeOfPackage()}">3</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">3</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedDescription()}">4</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfHeight()}">5</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfWidth()}">5</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">6</td>
+                                    <td th:text="${act.objectBeforeChanging.getCountOfDesk()}">6</td>
+                                    <td th:text="${act.objectBeforeChanging.getExtent()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging.getSumWidthOfAllDesk()}">7</td>
+                                    <td th:text="${act.objectBeforeChanging.getCountOfDesk()}">8</td>
+                                    <td th:text="${act.objectBeforeChanging?.getDryStorage()?.getExtent()}">10</td>
+                                    <td th:text="${act.objectBeforeChanging?.getHeight_width()}">10</td>
+                                    <td th:text="${act.objectBeforeChanging?.getDryStorage()?.getExtent()}">10</td>
                                 </tr>
                                 <tr>
                                     <th>После:</th>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>10</td>
-                                    <td>11</td>
-                                    <td>12</td>
-                                    <td>13</td>
-                                    <td>14</td>
+                                    <td th:text="${act.objectAfterChanging.getCodeOfPackage()}">3</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">3</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedDescription()}">4</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfWidth()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfLong()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getCountOfDesk()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getExtent()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getSumWidthOfAllDesk()}">7</td>
+                                    <td th:text="${act.objectAfterChanging.getCountOfDesk()}">8</td>
+                                    <td th:text="${act.objectAfterChanging?.getDryStorage()?.getExtent()}">10</td>
+                                    <td th:text="${act.objectAfterChanging?.getHeight_width()}">10</td>
+                                    <td th:text="${act.objectAfterChanging?.getDryStorage()?.getExtent()}">10</td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <!--Packages Storage Pine End-->
+                            <!--Packages Storage Pine End UPDATING-->
+
+                            <!--Packages Storage Pine Start RETURNING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).PACKAGE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">№ пачки</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                    <th scope="col">Высота, шт</th>
+                                    <th scope="col">Ширина, шт</th>
+                                    <th scope="col">Длина-ФАКТ</th>
+                                    <th scope="col">Высота/Ширина</th>
+                                    <th>Сух. скл. шт.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="obj : ${act.objectBeforeChanging.getList()}">
+                                    <th>До:</th>
+                                    <td th:text="${obj.getCodeOfPackage()}">3</td>
+                                    <td th:text="${obj.getBreedOfTree().getBreed()}">3</td>
+                                    <td th:text="${obj.getBreedDescription()}">4</td>
+                                    <td th:text="${obj.getSizeOfHeight()}">5</td>
+                                    <td th:text="${obj.getSizeOfWidth()}">5</td>
+                                    <td th:text="${obj.getSizeOfLong()}">6</td>
+                                    <td th:text="${obj.getCountOfDesk()}">6</td>
+                                    <td th:text="${obj.getExtent()}">9</td>
+                                    <td th:text="${obj.getSumWidthOfAllDesk()}">7</td>
+                                    <td th:text="${obj.getCountOfDesk()}">8</td>
+                                    <td th:text="${obj?.getDryStorage()?.getExtent()}">10</td>
+                                    <td th:text="${obj?.getHeight_width()}">10</td>
+                                    <td th:text="${obj?.getDryStorage()?.getExtent()}">10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Packages Storage Pine End RETURNING-->
 
                             <!--Packages Storage Oak Start SENDING CREATING-->
                             <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).PACKAGE) && (act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).SENDING) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING))}">
