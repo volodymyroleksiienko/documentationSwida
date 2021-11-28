@@ -164,6 +164,15 @@ public class RawStorageServiceImpl implements RawStorageService {
     }
 
     @Override
+    public List<RawStorage> findById(Integer[] idOfRows) {
+        if(idOfRows!=null && idOfRows.length>0) {
+            return rawStorageJPA.findByIdIn(Arrays.asList(idOfRows));
+        }else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public List<RawStorage> findAllByTreeStorageId(int id) {
         return rawStorageJPA.findAllByTreeStorageId(id);
     }
@@ -342,7 +351,7 @@ public class RawStorageServiceImpl implements RawStorageService {
         return new BigDecimal(sum);
     }
 
-    public void collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId){
+    public RawStorage collectToOnePineEntity(RawStorage rawStorage,Integer[] arrOfEntity,int userId,int breedId){
         int countOfDesk = 0;
         double extend=0;
         List<RawStorage> groupedList = new ArrayList<>();
@@ -367,28 +376,29 @@ public class RawStorageServiceImpl implements RawStorageService {
         System.out.println(rawStorage);
         String mainExtend = save(rawStorage).getExtent();
         rawStorage.setMaxExtent(mainExtend);
-        save(rawStorage);
+        return save(rawStorage);
     }
 
     @Override
-    public void uncollectFromOnePineEntity(RawStorage rawStorage, int userId, int breedId) {
+    public List<RawStorage> uncollectFromOnePineEntity(RawStorage rawStorage, int userId, int breedId) {
+        List<RawStorage> uncollected = new ArrayList<>();
         if(rawStorage.getGroupedElements()!=null && rawStorage.getGroupedElements().size()>0){
             for(RawStorage grouped:rawStorage.getGroupedElements()){
                 grouped.setStatusOfEntity(StatusOfEntity.ACTIVE);
-                save(grouped);
+                uncollected.add(save(grouped));
             }
             deleteByID(rawStorage.getId());
         }
+        return uncollected;
     }
 
     @Override
-    public void collectToOneOakEntity(RawStorage rawStorage, Integer[] arrOfEntity, int userId, int breedId) {
+    public RawStorage collectToOneOakEntity(RawStorage rawStorage, Integer[] arrOfEntity, int userId, int breedId) {
         Set<String> width = new TreeSet<>();
         List<RawStorage> rawsFromDBList=rawStorageJPA.findAllById(Arrays.asList(arrOfEntity));
         if(rawsFromDBList.size()>0 && rawsFromDBList.get(0).getDeskOakList().size()==0){
             System.out.println(rawsFromDBList.get(0).getDeskOakList());
-            collectToOnePineEntity(rawStorage,arrOfEntity,userId,breedId);
-            return;
+            return collectToOnePineEntity(rawStorage,arrOfEntity,userId,breedId);
         }
         for(RawStorage temp:rawsFromDBList){
             if(temp!=null && temp.getDeskOakList().size()>0){
@@ -422,7 +432,7 @@ public class RawStorageServiceImpl implements RawStorageService {
         rawStorage.setDeskOakList(deskOakList);
         String extend = save(rawStorage).getExtent();
         rawStorage.setMaxExtent(extend);
-        save(rawStorage);
+        return save(rawStorage);
     }
 
 

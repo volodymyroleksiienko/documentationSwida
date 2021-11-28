@@ -30,6 +30,7 @@ public interface RawStorageJPA extends JpaRepository<RawStorage,Integer> {
     @Query("select r from  RawStorage  r where r.breedOfTree.id=?1 and r.userCompany.id=?2 and trim(r.breedDescription) like ?3 and r.sizeOfHeight like ?4 and r.sizeOfWidth like ?5 and r.sizeOfLong like ?6 and r.statusOfEntity='ACTIVE' and r.extent<>'0.000' and  r.extent not like '-%' ")
     List<RawStorage> findEqualRaw(int breedId, int userId, String desc,String heights,String widths,String longs);
 
+    List<RawStorage> findByIdIn(List<Integer> idList);
     //selects for statistic
 
     @Query("select obj.breedDescription from RawStorage obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.breedDescription")

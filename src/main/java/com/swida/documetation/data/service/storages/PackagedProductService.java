@@ -24,6 +24,7 @@ public interface PackagedProductService {
     List<PackagedProduct> getFilteredList(int breedId, int userId, String[] descriptions, String[] heights, String[] longs, String[] widths);
     List<PackagedProduct> getFilteredListOak(int breedId, int userId, String[] qualities, String[] heights, String[] longs);
     PackagedProduct findById(int id);
+    List<PackagedProduct> findById(Integer[] id);
     String countExtent(PackagedProduct product);
     BigDecimal countExtent(List<PackagedProduct> product);
     void countExtentOak(PackagedProduct product);

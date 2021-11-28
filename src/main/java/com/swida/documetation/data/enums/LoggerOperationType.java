@@ -10,7 +10,7 @@ public enum LoggerOperationType {
 
     RETURNING ("Возврат записи"),
     CUTTING_TREE ("Распиловка"),
-    SENDING ("Отправка в "),
+    SENDING ("Перевод с предыдущего склада"),
 
     RETURN_TO_ZERO ("Обнуление"),
     CREATING ("Созднание записи"),

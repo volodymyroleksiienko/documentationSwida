@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DescriptionDeskOakService {
     DescriptionDeskOak save(DescriptionDeskOak descriptionDesk);
-    void saveAll(List<DescriptionDeskOak> list);
+    List<DescriptionDeskOak> saveAll(List<DescriptionDeskOak> list);
     void editDescription(String deskId, String width, String count);
     DescriptionDeskOak findById(int id);
     List<DescriptionDeskOak> findAll();

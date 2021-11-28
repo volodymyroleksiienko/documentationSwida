@@ -9,6 +9,7 @@ import com.swida.documetation.data.enums.StatusOfEntity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,6 +67,14 @@ public class RawStorageDTO {
         dto.statusOfEntity = rawStorage.getStatusOfEntity();
         if(rawStorage.getDeskOakList()!=null && rawStorage.getDeskOakList().size()>0) {
             dto.deskOakList = DescriptionDeskOakDTO.convertToDTO(rawStorage.getDeskOakList());
+        }
+        return dto;
+    }
+
+    public static List<RawStorageDTO> convertToDTO(List<RawStorage> rawStorage){
+        List<RawStorageDTO> dto = new ArrayList<>();
+        for(RawStorage storage:rawStorage){
+            dto.add(convertToDTO(storage));
         }
         return dto;
     }

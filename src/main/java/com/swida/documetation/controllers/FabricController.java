@@ -1,9 +1,7 @@
 package com.swida.documetation.controllers;
 
 import com.swida.documetation.data.dto.CellDryingStorageDto;
-import com.swida.documetation.data.dto.storages.DryingStorageDTO;
-import com.swida.documetation.data.dto.storages.QualityStatisticInfoDTO;
-import com.swida.documetation.data.dto.storages.RawStorageDTO;
+import com.swida.documetation.data.dto.storages.*;
 import com.swida.documetation.data.entity.OrderInfo;
 import com.swida.documetation.data.entity.UserCompany;
 import com.swida.documetation.data.entity.storages.*;
@@ -141,7 +139,9 @@ public class FabricController {
     @PostMapping("/addTreeStorageRow-{userId}-{breedId}")
     public String  addTreeStorageObj(@PathVariable("userId")int userId,
                                      @PathVariable("breedId")int breedId, TreeStorage treeStorage){
-        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+
+        TreeStorage saved = treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.TREE,LoggerOperationType.CREATING,null,TreeStorageDTO.convertToDTO(saved));
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -208,8 +208,11 @@ public class FabricController {
 
     @PostMapping("/editTreeStorageRow-{userId}-{breedId}")
     public String editTreeStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, TreeStorage treeStorage){
+        TreeStorageDTO before = TreeStorageDTO.convertToDTO(treeStorageService.findById(treeStorage.getId()));
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        TreeStorage saved = treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        TreeStorageDTO after = TreeStorageDTO.convertToDTO(saved);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.TREE,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
     }
 
@@ -340,7 +343,8 @@ public class FabricController {
         dryingStorage.setDateDrying(date);
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
-        dryingStorageService.save(dryingStorage);
+        DryingStorage storage = dryingStorageService.save(dryingStorage);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.SENDING,null,DryingStorageDTO.convertToDTO(storage));
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -349,6 +353,7 @@ public class FabricController {
                                     RawStorage rawStorage){
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
+        RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorageDB);
         float oldExtent = Float.parseFloat(rawStorageDB.getExtent());
         float newExtent = Float.parseFloat(rawStorage.getExtent());
         rawStorageDB.setBreedDescription(rawStorage.getBreedDescription());
@@ -357,7 +362,7 @@ public class FabricController {
         rawStorageDB.setSizeOfHeight(rawStorage.getSizeOfHeight());
         rawStorageDB.setSizeOfLong(rawStorage.getSizeOfLong());
         rawStorageDB.setSizeOfWidth(rawStorage.getSizeOfWidth());
-        rawStorageService.save(rawStorageDB);
+        RawStorage saved = rawStorageService.save(rawStorageDB);
 
         TreeStorage treeStorage = rawStorageDB.getTreeStorage();
         if (treeStorage!=null) {
@@ -370,22 +375,31 @@ public class FabricController {
                 );
                 treeStorage.setExtent("0.000");
                 rawStorageDB.setMaxCountOfDesk(rawStorage.getCountOfDesk());
-                rawStorageService.save(rawStorageDB);
+                saved = rawStorageService.save(rawStorageDB);
             }
             treeStorageService.save(treeStorage);
         }
+
+        RawStorageDTO after = RawStorageDTO.convertToDTO(saved);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
 //        rawStorageService.checkQualityInfo(rawStorageDB);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/groupPineRaw-{userId}-{breedId}")
     public String groupPineRaw(@PathVariable int userId,@PathVariable int breedId,RawStorage rawStorage,Integer[] idOfRow){
-        rawStorageService.collectToOnePineEntity(rawStorage,idOfRow,userId,breedId);
+        RawStorageListDTO before = RawStorageListDTO.convertToDTO(rawStorageService.findById(idOfRow));
+        RawStorage afterRaw = rawStorageService.collectToOnePineEntity(rawStorage,idOfRow,userId,breedId);
+        RawStorageDTO after = RawStorageDTO.convertToDTO(afterRaw);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW, LoggerOperationType.GROUP_ITEMS,before,after);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
     @PostMapping("/groupOakRaw-{userId}-{breedId}")
     public String groupOakRaw(@PathVariable int userId,@PathVariable int breedId,RawStorage rawStorage,Integer[] idOfRow){
-        rawStorageService.collectToOneOakEntity(rawStorage,idOfRow,userId,breedId);
+        RawStorageListDTO before = RawStorageListDTO.convertToDTO(rawStorageService.findById(idOfRow));
+        RawStorage afterRaw = rawStorageService.collectToOneOakEntity(rawStorage,idOfRow,userId,breedId);
+        RawStorageDTO after = RawStorageDTO.convertToDTO(afterRaw);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW, LoggerOperationType.GROUP_ITEMS,before,after);
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
     }
 
@@ -393,8 +407,9 @@ public class FabricController {
     public String returnRawPackageToTree(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,
                                     String id){
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.RETURNING,RawStorageDTO.convertToDTO(rawStorage),null);
+        RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorage);
         if(rawStorage.getGroupedElements()==null || rawStorage.getGroupedElements().size()==0) {
+            loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.RETURNING,before,null);
             TreeStorage treeStorage = rawStorage.getTreeStorage();
             float rawStorageExtent = Float.parseFloat(rawStorage.getExtent());
 
@@ -429,7 +444,8 @@ public class FabricController {
 //            rawStorageService.checkQualityInfo(rawStorage);
 //            }
         }else {
-            rawStorageService.uncollectFromOnePineEntity(rawStorage,userId,breedId);
+            RawStorageListDTO after = RawStorageListDTO.convertToDTO(rawStorageService.uncollectFromOnePineEntity(rawStorage,userId,breedId));
+            loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UNGROUP_ITEMS,before,after);
         }
 
         return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
@@ -620,13 +636,17 @@ public class FabricController {
 
     @PostMapping("/editDryStorageRow-{userId}-{breedId}")
     public String editDryStorageRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DryStorage dryStorage){
-        dryStorageService.editDryStorage(dryStorage);
+        DryStorageDTO before = DryStorageDTO.convertToDTO(dryStorageService.findById(dryStorage.getId()));
+        DryStorage saved = dryStorageService.editDryStorage(dryStorage);
+        DryStorageDTO after = DryStorageDTO.convertToDTO(saved);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.UPDATING,before,after);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/addDryStorageWithoutParent-{userId}-{breedId}")
     public String addDryStorageWithoutParent(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId,DryStorage dryStorage){
-        dryStorageService.addDryStorageWithoutParent(userId,breedId,dryStorage);
+        DryStorageDTO after = DryStorageDTO.convertToDTO(dryStorageService.addDryStorageWithoutParent(userId,breedId,dryStorage));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.CREATING,null,after);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
@@ -645,13 +665,20 @@ public class FabricController {
     }
     @PostMapping("/groupOakDry-{userId}-{breedId}")
     public String groupOakDry(@PathVariable int userId,@PathVariable int breedId,DryStorage dryStorage,Integer[] idOfRow){
-        dryStorageService.collectToOneOakEntityDry(dryStorage,idOfRow,userId,breedId);
+        DryStorageListDTO before  = DryStorageListDTO.convertToDTO(dryStorageService.findById(idOfRow));
+        DryStorage saved = dryStorageService.collectToOneOakEntityDry(dryStorage,idOfRow,userId,breedId);
+        DryStorageDTO after = DryStorageDTO.convertToDTO(saved);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.GROUP_ITEMS,before,after);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
     @PostMapping("/ungroupPineDry-{userId}-{breedId}")
     public String ungroupPineDry(@PathVariable int userId,@PathVariable int breedId,int id){
-        dryStorageService.uncollectFromOnePineEntityDry(dryStorageService.findById(id),userId,breedId);
+        DryStorage dryStorage = dryStorageService.findById(id);
+        DryStorageDTO before = DryStorageDTO.convertToDTO(dryStorage);
+        List<DryStorage> afterList = dryStorageService.uncollectFromOnePineEntityDry(dryStorage,userId,breedId);
+        DryStorageListDTO after = DryStorageListDTO.convertToDTO(afterList);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.UNGROUP_ITEMS,before,after);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
 
@@ -737,7 +764,9 @@ public class FabricController {
 
     @PostMapping("/unformPackagedProduct-{userId}-{breedId}")
     public  String unformPackagedProduct(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, Integer[] id){
-                packagedProductService.unformPackageProduct(breedId,userId,id);
+        PackageProductListDTO before = PackageProductListDTO.convertToDTO(packagedProductService.findById(id));
+        packagedProductService.unformPackageProduct(breedId,userId,id);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.PACKAGE,LoggerOperationType.RETURNING,before,null);
         return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
     }
 

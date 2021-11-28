@@ -247,7 +247,7 @@ public class PackagedProductServiceImpl implements PackagedProductService {
             dryStorage.setExtent(String.format("%.3f", Float.parseFloat(dryStorage.getExtent()) - extent).replace(',', '.'));
             dryStorageService.save(dryStorage);
         }
-        return product;
+        return productJPA.save(product);
     }
 
     @Override
@@ -310,6 +310,15 @@ public class PackagedProductServiceImpl implements PackagedProductService {
     @Override
     public PackagedProduct findById(int id) {
         return productJPA.getOne(id);
+    }
+
+    @Override
+    public List<PackagedProduct> findById(Integer[] id) {
+        if(id!=null && id.length>0) {
+            return productJPA.findByIdIn(Arrays.asList(id));
+        }else {
+            return new ArrayList<>();
+        }
     }
 
     @Override
