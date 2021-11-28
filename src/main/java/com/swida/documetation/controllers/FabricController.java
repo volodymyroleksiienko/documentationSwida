@@ -33,10 +33,7 @@ import java.io.FileNotFoundException;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping("/fabric")
@@ -531,9 +528,11 @@ public class FabricController {
         dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
         dryStorage.setDryingStorage(dryingStorageDB);
 
-        dryStorageService.save(dryStorage);
+        DryStorage savedDS = dryStorageService.save(dryStorage);
         dryingStorageDB.setCountOfDesk(0);
         dryingStorageService.save(dryingStorageDB);
+        DryStorageListDTO after = DryStorageListDTO.convertToDTO(Collections.singletonList(savedDS));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.SENDING,null,after);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
     @PostMapping("/addDeskToDryStorageMultiple-{userId}-{breedId}")
@@ -541,6 +540,7 @@ public class FabricController {
                                        Integer cellId){
 
         if(cellId!=null) {
+            List<DryStorage> list = new ArrayList<>();
             List<DryingStorage> dryingStorageDBList = dryingStorageService.getListByUserByBreed(breedId, userId).stream()
                     .filter(dr -> dr.getCell().equals(cellId)).collect(Collectors.toList());
             for(DryingStorage dryingStorageDB:dryingStorageDBList) {
@@ -559,10 +559,12 @@ public class FabricController {
                 dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
                 dryStorage.setDryingStorage(dryingStorageDB);
 
-                dryStorageService.save(dryStorage);
+                list.add(dryStorageService.save(dryStorage));
                 dryingStorageDB.setCountOfDesk(0);
                 dryingStorageService.save(dryingStorageDB);
             }
+            DryStorageListDTO after = DryStorageListDTO.convertToDTO(list);
+            loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.SENDING,null,after);
         }
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
@@ -660,7 +662,10 @@ public class FabricController {
     }
     @PostMapping("/groupPineDry-{userId}-{breedId}")
     public String groupPineDry(@PathVariable int userId,@PathVariable int breedId,DryStorage dryStorage,Integer[] idOfRow){
-        dryStorageService.collectToOnePineEntityDry(dryStorage,idOfRow,userId,breedId);
+        DryStorageListDTO before = DryStorageListDTO.convertToDTO(dryStorageService.findById(idOfRow));
+        DryStorage saved = dryStorageService.collectToOnePineEntityDry(dryStorage,idOfRow,userId,breedId);
+        DryStorageDTO after = DryStorageDTO.convertToDTO(saved);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.GROUP_ITEMS,before,after);
         return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
     }
     @PostMapping("/groupOakDry-{userId}-{breedId}")

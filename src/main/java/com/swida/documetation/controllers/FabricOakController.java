@@ -394,7 +394,7 @@ public class FabricOakController {
         dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
         dryStorage.setDryingStorage(dryingStorageDB);
 
-        dryStorageService.save(dryStorage);
+        DryStorage savedDS = dryStorageService.save(dryStorage);
         dryingStorageDB.setExtent("0.000");
         dryingStorageService.save(dryingStorageDB);
         if(!dryingStorageDB.getDeskOakList().isEmpty()){
@@ -404,6 +404,8 @@ public class FabricOakController {
                 deskOakService.save(desk);
             }
         }
+        DryStorageListDTO after = DryStorageListDTO.convertToDTO(Collections.singletonList(savedDS));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.SENDING,null,after);
         return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
     }
 

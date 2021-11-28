@@ -971,6 +971,7 @@
                                 </tbody>
                             </table>
                             <!--Raw Storage Oak End GROUP-->
+
                             <!--Raw Storage Oak Start UNGROUP-->
                             <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).RAW) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UNGROUP_ITEMS)}">
                                 <thead>
@@ -1339,8 +1340,8 @@
                             </table>
                             <!--Drying Storage Oak End UPDATE-->
 
-                            <!--Dry Storage Pine Start-->
-                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DRY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
+                            <!--Dry Storage Pine Start SENDING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DRY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).SENDING)}">
                                 <thead>
                                     <tr>
                                         <th scope="col"></th>
@@ -1356,33 +1357,189 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th>До:</th>
-                                        <td>2</td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                    </tr>
-                                    <tr>
-                                        <th>После:</th>
-                                        <td>2</td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>10</td>
-                                    </tr>
+                                <tr th:each="obj : ${act?.objectAfterChanging?.getList()}">
+                                    <th>Создано:</th>
+                                    <td th:text="${obj.getDate()}">2</td>
+                                    <td th:text="${obj.getCodeOfProduct()}">3</td>
+                                    <td th:text="${obj.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${obj.getBreedDescription()}">5</td>
+                                    <td th:text="${obj.getSizeOfHeight()}">6</td>
+                                    <td th:text="${obj.getSizeOfWidth()}">7</td>
+                                    <td th:text="${obj.getSizeOfLong()}">9</td>
+                                    <td th:text="${obj.getCountOfDesk()}">9</td>
+                                    <td th:text="${obj.getExtent()}">10</td>
+                                </tr>
                                 </tbody>
                             </table>
-                            <!--Dry Storage Pine End-->
+                            <!--Dry Storage Pine End SENDING-->
+
+                            <!--Dry Storage Pine Start CREATING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DRY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата выхода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Создано:</th>
+                                    <td th:text="${act.objectAfterChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfWidth()}">7</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfLong()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getCountOfDesk()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getExtent()}">10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Dry Storage Pine End CREATING-->
+
+                            <!--Dry Storage Pine Start UPDATING-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DRY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата выхода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>До:</th>
+                                    <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedDescription()}">5</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfHeight()}">6</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfWidth()}">7</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging.getCountOfDesk()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging.getExtent()}">10</td>
+                                </tr>
+                                <tr>
+                                    <th>После:</th>
+                                    <td th:text="${act.objectAfterChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfWidth()}">7</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfLong()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getCountOfDesk()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getExtent()}">10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Dry Storage Pine End UPDATING-->
+
+                            <!--Dry Storage Pine Start GROUP-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DRY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).GROUP_ITEMS)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата выхода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="obj : ${act?.objectBeforeChanging?.getList()}">
+                                    <th>До:</th>
+                                    <td th:text="${obj.getDate()}">2</td>
+                                    <td th:text="${obj.getCodeOfProduct()}">3</td>
+                                    <td th:text="${obj.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${obj.getBreedDescription()}">5</td>
+                                    <td th:text="${obj.getSizeOfHeight()}">6</td>
+                                    <td th:text="${obj.getSizeOfWidth()}">7</td>
+                                    <td th:text="${obj.getSizeOfLong()}">9</td>
+                                    <td th:text="${obj.getCountOfDesk()}">9</td>
+                                    <td th:text="${obj.getExtent()}">10</td>
+                                </tr>
+                                <tr>
+                                    <th>После:</th>
+                                    <td th:text="${act.objectAfterChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectAfterChanging.getCodeOfProduct()}">3</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${act.objectAfterChanging.getBreedDescription()}">5</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfHeight()}">6</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfWidth()}">7</td>
+                                    <td th:text="${act.objectAfterChanging.getSizeOfLong()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getCountOfDesk()}">9</td>
+                                    <td th:text="${act.objectAfterChanging.getExtent()}">10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Dry Storage Pine End GROUP-->
+
+                            <!--Dry Storage Pine Start UNGROUP-->
+                            <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DRY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UNGROUP_ITEMS)}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Дата выхода</th>
+                                    <th scope="col">Код партии</th>
+                                    <th scope="col">Порода</th>
+                                    <th scope="col">Описание</th>
+                                    <th scope="col">Толщина, мм</th>
+                                    <th scope="col">Ширина, мм</th>
+                                    <th scope="col">Длина, мм</th>
+                                    <th scope="col">Кол-во досок, шт</th>
+                                    <th scope="col">Кубатура, м<sup>3</sup></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>До:</th>
+                                    <td th:text="${act.objectBeforeChanging.getDate()}">2</td>
+                                    <td th:text="${act.objectBeforeChanging.getCodeOfProduct()}">3</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${act.objectBeforeChanging.getBreedDescription()}">5</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfHeight()}">6</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfWidth()}">7</td>
+                                    <td th:text="${act.objectBeforeChanging.getSizeOfLong()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging.getCountOfDesk()}">9</td>
+                                    <td th:text="${act.objectBeforeChanging.getExtent()}">10</td>
+                                </tr>
+                                <tr th:each="obj : ${act?.objectAfterChanging?.getList()}">
+                                    <th>После:</th>
+                                    <td th:text="${obj.getDate()}">2</td>
+                                    <td th:text="${obj.getCodeOfProduct()}">3</td>
+                                    <td th:text="${obj.getBreedOfTree().getBreed()}">4</td>
+                                    <td th:text="${obj.getBreedDescription()}">5</td>
+                                    <td th:text="${obj.getSizeOfHeight()}">6</td>
+                                    <td th:text="${obj.getSizeOfWidth()}">7</td>
+                                    <td th:text="${obj.getSizeOfLong()}">9</td>
+                                    <td th:text="${obj.getCountOfDesk()}">9</td>
+                                    <td th:text="${obj.getExtent()}">10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--Dry Storage Pine End UNGROUP-->
 
                             <!--Dry Storage Oak Start CREATE-->
                             <table class="table table-hover table-striped parent-table" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DRY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
@@ -2262,7 +2419,7 @@
                             <!--Packages Storage Oak End-->
 
                             <!--Transportation Storage Pine Start-->
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==1 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING)}">
                                 <br>
                                 <thead>
                                     <tr>
@@ -2427,7 +2584,7 @@
                             <!--Transportation Storage Pine End-->
 
                             <!--Transportation Storage Oak Start-->
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped" th:if="${act.breedOfTree.getId()==2 && act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURNING)}">
                                 <br>
                                 <thead>
                                     <tr>
