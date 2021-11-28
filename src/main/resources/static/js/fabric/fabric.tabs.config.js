@@ -87,6 +87,10 @@ $(document).ready( function () {
                 "orderable": false,
                 "width": "40px"
             },
+            {
+                "type": 'date-uk',
+                "targets": 2
+            },
             // {
             //     "targets": 2,
             //     "render": $.fn.dataTable.render.moment('DD-MM-YYYY' )
@@ -115,6 +119,10 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "width": "70px"
+            },
+            {
+                "type": 'date-uk',
+                "targets": 0
             },
         ],
         "footerCallback": function ( row, data, start, end, display ) {
@@ -165,6 +173,10 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "width": "70px"
+            },
+            {
+                "type": 'date-uk',
+                "targets": 0
             },
         ],
         "footerCallback": function ( row, data, start, end, display ) {
@@ -528,6 +540,10 @@ $(document).ready( function () {
                 "targets": -1,
                 "orderable": false,
                 "width": "40px"
+            },
+            {
+                "type": 'date-uk',
+                "targets": 2
             },
             // {
             //     "targets": 2,
