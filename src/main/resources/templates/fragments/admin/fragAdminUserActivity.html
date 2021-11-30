@@ -92,7 +92,7 @@
                 <div th:each="act, index : ${activityList}">
                     <tr style="background-color: lightgrey;">
                         <td style="width: 30px;" class="details-control" onclick="javascript:$('#parent'+this.id).toggle();" th:id="${act.id}"><span></span></td>
-                        <td th:text="${act?.date}">date</td>
+                        <td th:text="${#dates.format(act?.date, 'dd-MM-yyyy HH:mm:ss')}">date</td>
                         <td th:text="${act?.user?.getNameOfCompany()}">user</td>
                         <td th:text="${act?.storageType?.getMeaning()}">storage</td>
                         <td th:text="${act?.operationType?.getMeaning()}">action</td>
