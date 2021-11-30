@@ -84,6 +84,8 @@
                     <th scope="col">Пользователь</th>
                     <th scope="col">Склад</th>
                     <th scope="col">Событие</th>
+                    <th scope="col">Было</th>
+                    <th scope="col">Стало</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -94,10 +96,20 @@
                         <td th:text="${act?.user?.getNameOfCompany()}">user</td>
                         <td th:text="${act?.storageType?.getMeaning()}">storage</td>
                         <td th:text="${act?.operationType?.getMeaning()}">action</td>
+                         <th:block th:if="${(act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).DELETING) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURN_TO_ZERO))}">
+                            <td th:text="${act?.objectBeforeChanging?.getExtent()}" th:if="${!act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY)}">action</td>
+                            <td th:text="${act?.objectBeforeChanging?.getPackagesExtent()}" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY)}"></td>
+                        </th:block>
+                        <td th:unless="${(act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).DELETING) || act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).RETURN_TO_ZERO))}"></td>
+                        <th:block th:if="${act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING) }">
+                            <td th:text="${act?.objectAfterChanging?.getExtent()}" th:if="${!act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY)}">action</td>
+                            <td th:text="${act?.objectAfterChanging?.getPackagesExtent()}" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).DELIVERY)}"></td>
+                        </th:block>
+                        <td th:unless="${act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).UPDATING) }"></td>
                     </tr>
                     <tr style="display:none" th:id="'parent'+${act.id}">
                         <td style="display:none; width: 30px"></td>
-                        <td colspan="5" class="child-table">
+                        <td colspan="7" class="child-table">
 
                             <!--Tree Storage Start CREATING-->
                             <table class="table table-hover table-striped parent-table" th:if="${act.storageType.equals(T(com.swida.documetation.data.enums.StorageType).TREE) && act.operationType.equals(T(com.swida.documetation.data.enums.LoggerOperationType).CREATING)}">
@@ -2613,7 +2625,7 @@
                                 <div>
                                     <tr>
                                         <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_creating'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_creating'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}+'_'+${act.getId()}"><span></span></td>
 
 <!--                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_creating'+this.id).toggle();" th:if="${act?.objectAfterChanging?.getDeskOakList()!=null}" th:id="${act.objectAfterChanging.getId()}"><span></span></td>-->
 <!--                                        <td th:if="${act?.objectAfterChanging?.getDeskOakList()==null}"></td>-->
@@ -2631,7 +2643,7 @@
                                         <td th:text="${act.objectAfterChanging.getDescription()}">13</td>
                                     </tr>
 
-                                    <tr style="display:none" th:if="${act.objectAfterChanging.getProductList()!=null}" th:id="'parent_delivery_creating'+${act.objectAfterChanging.getId()}">
+                                    <tr style="display:none" th:if="${act.objectAfterChanging.getProductList()!=null}" th:id="'parent_delivery_creating'+${act.objectAfterChanging.getId()}+'_'+${act.getId()}">
                                         <td colspan="14" class="child-table">
                                             <table class="table table-hover table-striped parent-table">
                                                 <thead>
@@ -2711,7 +2723,7 @@
                                 <div>
                                     <tr>
                                         <th>До:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_before'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}+'_'+${act.getId()}"><span></span></td>
                                         <td th:text="${act.objectBeforeChanging.getDateOfUnloading()}">3</td>
                                         <td th:text="${act.objectBeforeChanging.getDriverInfo().getIdOfTruck()}">4</td>
                                         <td th:text="${act.objectBeforeChanging.getDriverInfo().getNumberOfTruck()}">5</td>
@@ -2725,7 +2737,7 @@
                                         <td th:text="${act.objectBeforeChanging.getDescription()}">13</td>
                                     </tr>
 
-                                    <tr style="display:none" th:if="${act.objectBeforeChanging.getProductList()!=null}" th:id="'parent_delivery_updating_before'+${act.objectBeforeChanging.getId()}">
+                                    <tr style="display:none" th:if="${act.objectBeforeChanging.getProductList()!=null}" th:id="'parent_delivery_updating_before'+${act.objectBeforeChanging.getId()}+'_'+${act.getId()}">
                                         <td colspan="14" class="child-table">
                                             <table class="table table-hover table-striped parent-table">
                                                 <thead>
@@ -2780,7 +2792,7 @@
                                 <div>
                                     <tr>
                                         <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_after'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}+'_'+${act.getId()}"><span></span></td>
                                         <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
                                         <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
                                         <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTruck()}">5</td>
@@ -2794,7 +2806,7 @@
                                         <td th:text="${act.objectAfterChanging.getDescription()}">13</td>
                                     </tr>
 
-                                    <tr style="display:none" th:if="${act.objectAfterChanging.getProductList()!=null}" th:id="'parent_delivery_updating_after'+${act.objectAfterChanging.getId()}">
+                                    <tr style="display:none" th:if="${act.objectAfterChanging.getProductList()!=null}" th:id="'parent_delivery_updating_after'+${act.objectAfterChanging.getId()}+'_'+${act.getId()}">
                                         <td colspan="14" class="child-table">
                                             <table class="table table-hover table-striped parent-table">
                                                 <thead>
@@ -2996,7 +3008,7 @@
                                 <div>
                                     <tr>
                                         <th>До:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_before_oak'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}"><span></span></td>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_before_oak'+this.id).toggle();" th:id="${act.objectBeforeChanging.getId()}+'_'+${act.getId()}"><span></span></td>
                                         <td th:text="${act.objectBeforeChanging.getDateOfUnloading()}">3</td>
                                         <td th:text="${act.objectBeforeChanging.getDriverInfo().getIdOfTruck()}">4</td>
                                         <td th:text="${act.objectBeforeChanging.getDriverInfo().getNumberOfTruck()}">5</td>
@@ -3011,7 +3023,7 @@
                                     </tr>
 
                                     <!--      LEVEL    2    START          -->
-                                    <tr style="display:none" th:id="'parent_delivery_updating_before_oak'+${act.objectBeforeChanging.getId()}">
+                                    <tr style="display:none" th:id="'parent_delivery_updating_before_oak'+${act.objectBeforeChanging.getId()}+'_'+${act.getId()}">
                                         <td colspan="13" class="child-table">
                                             <table class="table table-hover table-striped parent-table">
                                                 <thead>
@@ -3029,7 +3041,7 @@
                                                 <tbody>
                                                 <div th:each="pack : ${act.objectBeforeChanging.getProductList()}">
                                                     <tr>
-                                                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent_delivery_updating_before_oak'+this.id).toggle();" th:id="${pack.getId()}"></td>
+                                                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent_delivery_updating_before_oak'+this.id).toggle();" th:id="${pack.getId()}+'_'+${act.getId()}"></td>
                                                         <td th:text="${pack.getCodeOfPackage()}">2</td>
                                                         <td th:text="${pack.getQuality()}">3</td>
                                                         <td th:text="${pack.getSizeOfHeight()}">4</td>
@@ -3040,7 +3052,7 @@
                                                     </tr>
 
                                                     <!--      LEVEL    3    START          -->
-                                                    <tr style="display:none" th:id="'parent-parent_delivery_updating_before_oak'+${pack.getId()}">
+                                                    <tr style="display:none" th:id="'parent-parent_delivery_updating_before_oak'+${pack.getId()}+'_'+${act.getId()}">
                                                         <td colspan="13" class="child-table">
                                                             <table class="table table-hover table-striped parent-table">
 
@@ -3092,7 +3104,7 @@
                                 <div>
                                     <tr>
                                         <th>После:</th>
-                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}"><span></span></td>
+                                        <td class="details-control" style="width: 30px;" onclick="javascript:$('#parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${act.objectAfterChanging.getId()}+'_'+${act.getId()}"><span></span></td>
                                         <td th:text="${act.objectAfterChanging.getDateOfUnloading()}">3</td>
                                         <td th:text="${act.objectAfterChanging.getDriverInfo().getIdOfTruck()}">4</td>
                                         <td th:text="${act.objectAfterChanging.getDriverInfo().getNumberOfTruck()}">5</td>
@@ -3107,7 +3119,7 @@
                                     </tr>
 
                                     <!--      LEVEL    2    START          -->
-                                    <tr style="display:none" th:id="'parent_delivery_updating_after_oak'+${act.objectAfterChanging.getId()}">
+                                    <tr style="display:none" th:id="'parent_delivery_updating_after_oak'+${act.objectAfterChanging.getId()}+'_'+${act.getId()}">
                                         <td colspan="13" class="child-table">
                                             <table class="table table-hover table-striped parent-table">
                                                 <thead>
@@ -3125,7 +3137,7 @@
                                                 <tbody>
                                                 <div th:each="pack : ${act.objectAfterChanging.getProductList()}">
                                                     <tr>
-                                                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${pack.getId()}"></td>
+                                                        <td class="details-control" style="width: 30px" onclick="javascript:$('#parent-parent_delivery_updating_after_oak'+this.id).toggle();" th:id="${pack.getId()}+'_'+${act.getId()}"></td>
                                                         <td th:text="${pack.getCodeOfPackage()}">2</td>
                                                         <td th:text="${pack.getQuality()}">3</td>
                                                         <td th:text="${pack.getSizeOfHeight()}">4</td>
@@ -3136,7 +3148,7 @@
                                                     </tr>
 
                                                     <!--      LEVEL    3    START          -->
-                                                    <tr style="display:none" th:id="'parent-parent_delivery_updating_after_oak'+${pack.getId()}">
+                                                    <tr style="display:none" th:id="'parent-parent_delivery_updating_after_oak'+${pack.getId()}+'_'+${act.getId()}">
                                                         <td colspan="13" class="child-table">
                                                             <table class="table table-hover table-striped parent-table">
 
@@ -3192,6 +3204,8 @@
                         <td style="display:none"></td>
                         <td style="display:none"></td>
                         <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
                     </tr>
                 </div>
                 </tbody>
@@ -3202,6 +3216,8 @@
                     <th scope="col">Пользователь</th>
                     <th scope="col">Склад</th>
                     <th scope="col">Событие</th>
+                    <th scope="col">Было</th>
+                    <th scope="col">Стало</th>
                 </tr>
                 </tfoot>
             </table>
