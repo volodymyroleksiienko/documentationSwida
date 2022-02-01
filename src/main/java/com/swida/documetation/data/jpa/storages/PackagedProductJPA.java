@@ -34,7 +34,7 @@ public interface PackagedProductJPA extends JpaRepository<PackagedProduct,Intege
     @Query("select obj.breedDescription from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.breedDescription")
     List<String> getListOfUnicBreedDescription(int breedId);
 
-    @Query("select obj.quality from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.quality")
+    @Query("select trim(obj.quality) from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.quality")
     List<String> getListOfUnicQuality(int breedId);
 
     @Query("select obj.sizeOfHeight from PackagedProduct obj where obj.breedOfTree.id=?1 and obj.statusOfEntity='ACTIVE' and obj.extent<>'0.000' and  obj.extent not like '-%' group by obj.sizeOfHeight")
