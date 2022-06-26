@@ -10,6 +10,7 @@ import java.util.Map;
 public interface TreeStorageService {
     TreeStorage save(TreeStorage ts);
     TreeStorage putNewTreeStorageObj(int breedId, int userId,TreeStorage treeStorage);
+    TreeStorage putNewRecycleTreeStorageObj(int breedId, int userId,TreeStorage treeStorage);
 //    void checkQualityInfo(TreeStorage treeStorage,String height,float extent);
     TreeStorage getMainTreeStorage(int breedId, int userId);
     List<TreeStorage> getMainTreeStorage(int breedId, List<Integer> userId);

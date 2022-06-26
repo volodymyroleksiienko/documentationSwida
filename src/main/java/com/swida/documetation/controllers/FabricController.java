@@ -990,7 +990,7 @@ public class FabricController {
     public String  addRecycleRow(@PathVariable("userId")int userId,
                                      @PathVariable("breedId")int breedId,TreeStorage treeStorage){
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
-        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        treeStorageService.putNewRecycleTreeStorageObj(breedId,userId,treeStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
     }
 
@@ -1017,7 +1017,7 @@ public class FabricController {
     @PostMapping("/editRecycleRow-{userId}-{breedId}")
     public String editRecycleRow(@PathVariable("userId")int userId, @PathVariable("breedId")int breedId, TreeStorage treeStorage){
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.RECYCLING);
-        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        treeStorageService.putNewRecycleTreeStorageObj(breedId,userId,treeStorage);
         return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
     }
 

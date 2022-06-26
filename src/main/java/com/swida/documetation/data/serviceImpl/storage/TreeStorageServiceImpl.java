@@ -73,6 +73,24 @@ public class TreeStorageServiceImpl implements TreeStorageService {
         return treeStorageJPA.save(treeStorage);
     }
 
+    @Override
+    public TreeStorage putNewRecycleTreeStorageObj(int breedId, int userId,TreeStorage treeStorage) {
+        treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
+        treeStorage.setUserCompany(userCompanyService.findById(userId));
+        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
+        treeStorage.setMaxExtent(treeStorage.getExtent());
+        if(treeStorage.getDate()==null){
+            Date date = new Date(System.currentTimeMillis());
+            treeStorage.setDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        }
+        if(treeStorage.getBreedDescription().codePoints().allMatch(Character::isWhitespace)){
+            treeStorage.setBreedDescription("");
+        }
+        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
+        return treeStorageJPA.save(treeStorage);
+    }
+
+
     public TreeStorage checkMainStorageExtent(TreeStorage treeStorage){
         int breedId = treeStorage.getBreedOfTree().getId();
         int userId = treeStorage.getUserCompany().getId();
