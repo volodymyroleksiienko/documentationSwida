@@ -224,52 +224,52 @@ public class StatisticController {
         for(String stg:stages){
             switch (stg){
             case "treeStorage":
-                System.out.println(treeStorageService.getMainTreeStorage(breedId,listOfProviders));
+//                System.out.println(treeStorageService.getMainTreeStorage(breedId,listOfProviders));
                 json.put("treeStorage",formatExtent(treeStorageService.getMainTreeStorage(breedId,listOfProviders).stream().map(TreeStorage::getExtent).collect(Collectors.toList())));
                 break;
 
             case "rawStorage":
-                System.out.println(rawStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
+//                System.out.println(rawStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
                 json.put("rawStorage",formatExtent(rawStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
                 break;
 
             case "dryingStorage":
-                 System.out.println(dryingStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
+//                 System.out.println(dryingStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
                  json.put("dryingStorage",formatExtent(dryingStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
                  break;
 
             case "dryStorage":
-                System.out.println(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
+//                System.out.println(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers));
                 json.put("dryStorage",formatExtent(dryStorageService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers)));
                 break;
 
             case "packagedProduct":
-                System.out.println(packagedProductService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,StatusOfProduct.ON_STORAGE));
+//                System.out.println(packagedProductService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,StatusOfProduct.ON_STORAGE));
                 json.put("packagedProduct",formatExtent(packagedProductService.getExtent(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,StatusOfProduct.ON_STORAGE)));
                 break;
 
             case "deliveryMultimodal":
-                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.MULTIMODAL));
+//                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.MULTIMODAL));
                 json.put("deliveryMultimodal",formatExtent(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,DeliveryDestinationType.MULTIMODAL)));
                 break;
 
             case "deliveryPort":
-                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.PORT));
+//                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.PORT));
                 json.put("deliveryPort",formatExtent(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,DeliveryDestinationType.PORT)));
                 break;
 
             case "deliveryCountry":
-                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.COUNTRY));
+//                System.out.println(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers, DeliveryDestinationType.COUNTRY));
                 json.put("deliveryCountry",formatExtent(packagedProductService.getExtentByOrder(breedId,descriptions,sizeOfHeight,sizeOfWidth,sizeOfLong,providers,DeliveryDestinationType.COUNTRY)));
                 break;
 
             case "providerInWork":
-                System.out.println(orderInfoService.getExtentProviderInWork(breedId,providers));
+//                System.out.println(orderInfoService.getExtentProviderInWork(breedId,providers));
                 json.put("providerInWork",formatExtent(orderInfoService.getExtentProviderInWork(breedId,providers)));
                 break;
 
             case "recycleStorage":
-                System.out.println(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.RECYCLING));
+//                System.out.println(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.RECYCLING));
                 json.put("recycleStorage",formatExtent(treeStorageService.getListOfExtent(breedId,descriptions,providers, StatusOfTreeStorage.RECYCLING)));
                 break;
             }
