@@ -24,16 +24,16 @@ public class DescriptionDeskOak {
     private String sizeOfWidth;
     private String countOfDesk;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DryingStorage dryingStorage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DryStorage dryStorage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private RawStorage rawStorage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PackagedProduct packagedProduct;
 
     @Enumerated(EnumType.STRING)

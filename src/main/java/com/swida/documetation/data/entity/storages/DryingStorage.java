@@ -18,11 +18,11 @@ public class DryingStorage {
     private String codeOfProduct;
     @ManyToOne
     private BreedOfTree breedOfTree;
-    private String breedDescription="";
+    private String breedDescription = "";
 
     private String sizeOfHeight;
-    private String sizeOfWidth="0";
-    private String sizeOfLong="0";
+    private String sizeOfWidth = "0";
+    private String sizeOfLong = "0";
     private Integer cell;
 
     private int countOfDesk;
@@ -33,15 +33,15 @@ public class DryingStorage {
     private String startDate;
     private String date;
 
-    @OneToMany(mappedBy = "dryingStorage")
+    @OneToMany(mappedBy = "dryingStorage", fetch = FetchType.LAZY)
     private List<DescriptionDeskOak> deskOakList;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserCompany userCompany;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private RawStorage rawStorage;
 
-    @OneToMany(mappedBy = "dryingStorage",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dryingStorage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DryStorage> dryStorageList;
 
     @Enumerated(EnumType.STRING)

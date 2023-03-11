@@ -34,10 +34,10 @@ public class UserCompany implements UserDetails {
     private boolean credentialsNonExpired= true;
     private boolean enabled = true;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private ContrAgent contrAgent;
 
-    @OneToMany(mappedBy = "userCompany",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userCompany",fetch = FetchType.LAZY)
     private List<TreeStorage> treeStorageList;
 
 

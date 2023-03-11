@@ -28,12 +28,12 @@ public class OrderInfo {
     private String date;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private OrderInfo mainOrder;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private BreedOfTree breedOfTree;
     private String breedDescription="";
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private ContrAgent contrAgent;
     @Enumerated(EnumType.STRING)
     private DeliveryDestinationType destinationType;

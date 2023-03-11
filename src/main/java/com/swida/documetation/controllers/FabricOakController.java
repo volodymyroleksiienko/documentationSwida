@@ -68,43 +68,46 @@ public class FabricOakController {
         this.deskOakService = deskOakService;
         this.loggerDataInfoService = loggerDataInfoService;
     }
-    private void btnConfig(int userId, Model model){
+
+    private void btnConfig(int userId, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean hasAdminRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
-        if(hasAdminRole || userId==userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId()){
-            model.addAttribute("btnConfig","btnON");
+        if (hasAdminRole || userId == userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId()) {
+            model.addAttribute("btnConfig", "btnON");
         }
 
     }
+
     //Tree Storage page
     @GetMapping("/getListOfTreeStorage-{userId}-2")
-    public String getListOfTreeStorage(@PathVariable("userId")int userId, Model model){
+    public String getListOfTreeStorage(@PathVariable("userId") int userId, Model model) {
         int breedId = 2;
-        model.addAttribute("fragmentPathTabTreeStorage","treeStorageOAK");
-        model.addAttribute("tabName","treeStorage");
-        model.addAttribute("userId",userId);
-        model.addAttribute("breedId",breedId);
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        List<TreeStorage> treeStorageList = treeStorageService.getListByUserByBreed(breedId,userId, StatusOfTreeStorage.TREE);
-        model.addAttribute("treeStorageList",treeStorageList);
-        model.addAttribute("orderList",orderInfoService.getOrdersListByBreed(breedId));
-        model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("fragmentPathTabTreeStorage", "treeStorageOAK");
+        model.addAttribute("tabName", "treeStorage");
+        model.addAttribute("userId", userId);
+        model.addAttribute("breedId", breedId);
+        model.addAttribute("breedOfTreeList", breedOfTreeService.findAll());
+        List<TreeStorage> treeStorageList = treeStorageService.getListByUserByBreed(breedId, userId, StatusOfTreeStorage.TREE);
+        model.addAttribute("treeStorageList", treeStorageList);
+        model.addAttribute("orderList", orderInfoService.getOrdersListByBreed(breedId));
+        model.addAttribute("contrAgentList", contrAgentService.getListByType(ContrAgentType.PROVIDER));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
-        model.addAttribute("mainTreeStorage",treeStorageService.getMainTreeStorage(breedId,userId));
+        model.addAttribute("userCompanyList", userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedName", breedOfTreeService.findById(breedId).getBreed());
 
-        btnConfig(userId,model);
+
+        TreeStorage mainTreeStorage = treeStorageService.getMainTreeStorage(breedId, userId);
+
+        model.addAttribute("mainTreeStorage", mainTreeStorage);
+        btnConfig(userId, model);
         return "fabricPage";
     }
 
 
-
-
     @PostMapping("/cutOfTreeStorage-{userId}-2")
-    public String  addCutTreeToRawStorage(@PathVariable("userId")int userId, String idOfTreeStorageRow,
-                                         RawStorage rawStorage, String usedExtent,String extentOfWaste){
+    public String addCutTreeToRawStorage(@PathVariable("userId") int userId, String idOfTreeStorageRow,
+                                         RawStorage rawStorage, String usedExtent, String extentOfWaste) {
         int breedId = 2;
 
         TreeStorage treeStorage = treeStorageService.findById(Integer.parseInt(idOfTreeStorageRow));
@@ -114,7 +117,7 @@ public class FabricOakController {
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setMaxExtent(rawStorage.getExtent());
         String rawStorageExtent = rawStorageService.save(rawStorage).getExtent();
-        treeStorage.setExtent(String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(usedExtent)).replace(',','.'));
+        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent()) - Float.parseFloat(usedExtent)).replace(',', '.'));
 
 //        TreeStorage recycle = new TreeStorage();
 //        if(extentOfWaste==null){
@@ -136,24 +139,24 @@ public class FabricOakController {
 //        rawStorage.setRecycle(recycle);
         treeStorageService.save(treeStorage);
         rawStorageService.checkQualityInfo(rawStorage);
-        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfTreeStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/editTreeStorageRow-{userId}-2")
-    public String editTreeStorageRow(@PathVariable("userId")int userId, String nameOfAgent, TreeStorage treeStorage){
+    public String editTreeStorageRow(@PathVariable("userId") int userId, String nameOfAgent, TreeStorage treeStorage) {
         int breedId = 2;
         TreeStorageDTO before = TreeStorageDTO.convertToDTO(treeStorageService.findById(treeStorage.getId()));
         treeStorage.setExtent(String.format("%.3f", Float.parseFloat(treeStorage.getExtent())).replace(',', '.'));
-        TreeStorage treeStorageFromDB = treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
-        loggerDataInfoService.save(breedOfTreeService.findById(2),StorageType.TREE, LoggerOperationType.UPDATING,
-                before,TreeStorageDTO.convertToDTO(treeStorageFromDB));
-        return "redirect:/fabric/getListOfTreeStorage-"+userId+"-"+breedId;
+        TreeStorage treeStorageFromDB = treeStorageService.putNewTreeStorageObj(breedId, userId, treeStorage);
+        loggerDataInfoService.save(breedOfTreeService.findById(2), StorageType.TREE, LoggerOperationType.UPDATING,
+                before, TreeStorageDTO.convertToDTO(treeStorageFromDB));
+        return "redirect:/fabric/getListOfTreeStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/addDeskFromProvider-{userId}-2")
-    public String addDeskFromProvider(@PathVariable("userId")int userId, TreeStorage treeStorage, String sizeOfHeight,
-                                      String description, String nameOfAgentId, String extent,String contractId,String sizeOfLong){
-       int breedId = 2;
+    public String addDeskFromProvider(@PathVariable("userId") int userId, TreeStorage treeStorage, String sizeOfHeight,
+                                      String description, String nameOfAgentId, String extent, String contractId, String sizeOfLong) {
+        int breedId = 2;
 
         treeStorage.setUserCompany(userCompanyService.findById(userId));
         treeStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
@@ -165,7 +168,7 @@ public class FabricOakController {
 //        treeStorage.setContrAgent(orderInfo.getContrAgent());
 
         treeStorage.setStatusOfTreeStorage(StatusOfTreeStorage.PROVIDER_DESK);
-        treeStorageService.putNewTreeStorageObj(breedId,userId,treeStorage);
+        treeStorageService.putNewTreeStorageObj(breedId, userId, treeStorage);
 
         RawStorage rawStorage = new RawStorage();
         rawStorage.setUserCompany(userCompanyService.findById(userId));
@@ -183,7 +186,7 @@ public class FabricOakController {
 
         RawStorage after = rawStorageService.save(rawStorage);
 
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.CREATING,null, RawStorageDTO.convertToDTO(after));
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.RAW, LoggerOperationType.CREATING, null, RawStorageDTO.convertToDTO(after));
 
 //        orderInfo.setDoneExtendOfOrder(
 //                String.format("%.3f",
@@ -192,38 +195,38 @@ public class FabricOakController {
 //        );
 //        orderInfoService.save(orderInfo);
 //        orderInfoService.reloadMainOrderExtent(orderInfo.getMainOrder());
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfRawStorage-" + userId + "-" + breedId;
     }
 
 
     //RawStorage page
     @GetMapping("/getListOfRawStorage-{userId}-2")
-    public String getListOfRawStorage(@PathVariable("userId")int userId, Model model,
+    public String getListOfRawStorage(@PathVariable("userId") int userId, Model model,
                                       String[] descriptions, String[] heights, String[] longs,
-                                      String[] widths,HttpServletRequest request,String sortedType,String sortedField){
+                                      String[] widths, HttpServletRequest request, String sortedType, String sortedField) {
         int breedId = 2;
 
-        model.addAttribute("fragmentPathTabRawStorage","rawStorageOAK");
-        model.addAttribute("tabName","rawStorage");
-        model.addAttribute("userId",userId);
-        model.addAttribute("breedId",breedId);
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        List<RawStorage> rawStorageList = rawStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
-        model.addAttribute("rawStorageList",rawStorageService.sortedBy(rawStorageList,sortedField,sortedType));
+        model.addAttribute("fragmentPathTabRawStorage", "rawStorageOAK");
+        model.addAttribute("tabName", "rawStorage");
+        model.addAttribute("userId", userId);
+        model.addAttribute("breedId", breedId);
+        model.addAttribute("breedOfTreeList", breedOfTreeService.findAll());
+        List<RawStorage> rawStorageList = rawStorageService.getFilteredList(breedId, userId, descriptions, heights, longs, widths);
+        model.addAttribute("rawStorageList", rawStorageService.sortedBy(rawStorageList, sortedField, sortedType));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
-        model.addAttribute("contrAgentList",contrAgentService.getListByType(ContrAgentType.PROVIDER));
+        model.addAttribute("userCompanyList", userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedName", breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("contrAgentList", contrAgentService.getListByType(ContrAgentType.PROVIDER));
 
-        model.addAttribute("treeStorageList", Collections.singletonList(treeStorageService.getMainTreeStorage(breedId,userId)));
-        model.addAttribute("sortedField",sortedField);
-        model.addAttribute("sortedType",sortedType);
+        model.addAttribute("treeStorageList", Collections.singletonList(treeStorageService.getMainTreeStorage(breedId, userId)));
+        model.addAttribute("sortedField", sortedField);
+        model.addAttribute("sortedType", sortedType);
 
-        model.addAttribute("descList",rawStorageService.getListOfUnicBreedDescription(breedId));
-        model.addAttribute("sizeOfHeightList",rawStorageService.getListOfUnicSizeOfHeight(breedId));
-        model.addAttribute("sizeOfLongList",rawStorageService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("descList", rawStorageService.getListOfUnicBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList", rawStorageService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfLongList", rawStorageService.getListOfUnicSizeOfLong(breedId));
         String requestParams = request.getQueryString();
-        if(requestParams!=null) {
+        if (requestParams != null) {
             requestParams = requestParams.replace("sortedField=date", "")
                     .replace("sortedField=code", "")
                     .replace("sortedField=description", "")
@@ -238,19 +241,20 @@ public class FabricOakController {
                     .replace("&&&", "&");
         }
         model.addAttribute("exportLinkParams", "?" + requestParams);
-        model.addAttribute("sumExtent",rawStorageService.countExtent(rawStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
-        btnConfig(userId,model);
+        model.addAttribute("sumExtent", rawStorageService.countExtent(rawStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
+        btnConfig(userId, model);
         return "fabricPage";
     }
+
     @PostMapping("/addDeskToDrying-{userId}-2")
-    private String addDeskToDrying(@PathVariable("userId")int userId, String rawStorageId, DryingStorage dryingStorage,
-                                   String date){
+    private String addDeskToDrying(@PathVariable("userId") int userId, String rawStorageId, DryingStorage dryingStorage,
+                                   String date) {
         int breedId = 2;
 
         dryingStorage.setUserCompany(userCompanyService.findById(userId));
         dryingStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(rawStorageId));
-        rawStorage.setExtent(String.format("%.3f",Float.parseFloat(rawStorage.getExtent())-Float.parseFloat(dryingStorage.getExtent())).replace(',','.'));
+        rawStorage.setExtent(String.format("%.3f", Float.parseFloat(rawStorage.getExtent()) - Float.parseFloat(dryingStorage.getExtent())).replace(',', '.'));
 
         dryingStorage.setSizeOfHeight(rawStorage.getSizeOfHeight());
         dryingStorage.setSizeOfLong(rawStorage.getSizeOfLong());
@@ -260,9 +264,9 @@ public class FabricOakController {
         rawStorageService.save(rawStorage);
         dryingStorage.setRawStorage(rawStorage);
         DryingStorage savedDS = dryingStorageService.save(dryingStorage);
-        List<DescriptionDeskOak>  deskOakList = new ArrayList<>();
-        if(!rawStorage.getDeskOakList().isEmpty()){
-            for(DescriptionDeskOak desc:rawStorage.getDeskOakList()){
+        List<DescriptionDeskOak> deskOakList = new ArrayList<>();
+        if (!rawStorage.getDeskOakList().isEmpty()) {
+            for (DescriptionDeskOak desc : rawStorage.getDeskOakList()) {
                 desc.setRawStorage(null);
                 desc.setDryingStorage(dryingStorage);
                 deskOakList.add(deskOakService.save(desc));
@@ -270,12 +274,12 @@ public class FabricOakController {
 //            rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
         }
         savedDS.setDeskOakList(deskOakList);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.CREATING,null, DryingStorageDTO.convertToDTO(savedDS));
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRYING, LoggerOperationType.CREATING, null, DryingStorageDTO.convertToDTO(savedDS));
+        return "redirect:/fabric/getListOfRawStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/editRawStorageObj-{userId}-2")
-    public String editRawStorageObj(@PathVariable("userId")int userId, RawStorage rawStorage){
+    public String editRawStorageObj(@PathVariable("userId") int userId, RawStorage rawStorage) {
         int breedId = 2;
 
         RawStorage rawStorageDB = rawStorageService.findById(rawStorage.getId());
@@ -289,11 +293,11 @@ public class FabricOakController {
         rawStorageDB.setDescription(rawStorage.getDescription());
         RawStorage savedRawStorage = rawStorageService.save(rawStorageDB);
         RawStorageDTO after = RawStorageDTO.convertToDTO(savedRawStorage);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.RAW, LoggerOperationType.UPDATING, before, after);
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorageDB);
 
         TreeStorage treeStorage = rawStorageDB.getTreeStorage();
-        if(treeStorage!=null) {
+        if (treeStorage != null) {
             treeStorage.setExtent(
                     String.format("%.3f", Float.parseFloat(treeStorage.getExtent()) - (Float.parseFloat(rawStorage.getExtent()) - oldExtent)).replace(",", ".")
             );
@@ -307,11 +311,11 @@ public class FabricOakController {
 //            is not using for foreign rows
 //            rawStorageService.checkQualityInfo(rawStorage);
         }
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfRawStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/addDescriptionOakItemToRawStorage-{userId}-{breedId}")
-    public String addDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int positionId,String width, String count){
+    public String addDescriptionOakItemToRawStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int positionId, String width, String count) {
         RawStorage rawStorage = rawStorageService.findById(positionId);
         RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorage);
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
@@ -322,12 +326,12 @@ public class FabricOakController {
         rawStorage.getDeskOakList().add(deskOak);
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
         RawStorageDTO after = RawStorageDTO.convertToDTO(rawStorageService.findById(positionId));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.RAW, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfRawStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/editDescriptionOakItemToRawStorage-{userId}-{breedId}")
-    public String editDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int rawStorageId,int descId,String width, String count){
+    public String editDescriptionOakItemToRawStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int rawStorageId, int descId, String width, String count) {
         RawStorage rawStorage = rawStorageService.findById(rawStorageId);
         RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
@@ -336,12 +340,12 @@ public class FabricOakController {
         deskOakService.save(deskOak);
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorageService.findById(rawStorageId));
         RawStorageDTO after = RawStorageDTO.convertToDTO(rawStorageService.findById(rawStorageId));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.RAW, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfRawStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/deleteDescriptionOakItemToRawStorage-{userId}-{breedId}")
-    public String deleteDescriptionOakItemToRawStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int rawStorageId,int descId){
+    public String deleteDescriptionOakItemToRawStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int rawStorageId, int descId) {
         RawStorage rawStorage = rawStorageService.findById(rawStorageId);
         RawStorageDTO before = RawStorageDTO.convertToDTO(rawStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
@@ -350,35 +354,35 @@ public class FabricOakController {
 
         rawStorageService.countExtentRawStorageWithDeskDescription(rawStorage);
         RawStorageDTO after = RawStorageDTO.convertToDTO(rawStorageService.findById(rawStorageId));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.RAW, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfRawStorage-" + userId + "-" + breedId;
     }
 
 
     //Drying page
     @GetMapping("/getListOfDryingStorage-{userId}-2")
-    public String getListOfDryingStorage(@PathVariable("userId")int userId, Model model){
+    public String getListOfDryingStorage(@PathVariable("userId") int userId, Model model) {
         int breedId = 2;
 
-        model.addAttribute("fragmentPathTabDryingStorage","dryingStorageOAK");
-        model.addAttribute("tabName","dryingStorage");
-        model.addAttribute("userId",userId);
-        model.addAttribute("breedId",breedId);
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("dryingStorageList",dryingStorageService.getListByUserByBreed(breedId,userId).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
+        model.addAttribute("fragmentPathTabDryingStorage", "dryingStorageOAK");
+        model.addAttribute("tabName", "dryingStorage");
+        model.addAttribute("userId", userId);
+        model.addAttribute("breedId", breedId);
+        model.addAttribute("breedOfTreeList", breedOfTreeService.findAll());
+        model.addAttribute("dryingStorageList", dryingStorageService.getListByUserByBreed(breedId, userId).stream().sorted((o1, o2) -> o2.getId() - o1.getId()).collect(Collectors.toList()));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("userCompanyList", userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedName", breedOfTreeService.findById(breedId).getBreed());
         model.addAttribute("uniqCell",
-                CellDryingStorageDto.convert(dryingStorageService.getListByUserByBreed(breedId,userId)));
+                CellDryingStorageDto.convert(dryingStorageService.getListByUserByBreed(breedId, userId)));
 
-        btnConfig(userId,model);
+        btnConfig(userId, model);
         return "fabricPage";
     }
 
     @PostMapping("/addDeskToDryStorage-{userId}-2")
-    private String addDeskToDryStorage(@PathVariable("userId")int userId, String dryingStorageId, String codeOfProduct,
-                                       String breedDescription){
+    private String addDeskToDryStorage(@PathVariable("userId") int userId, String dryingStorageId, String codeOfProduct,
+                                       String breedDescription) {
         int breedId = 2;
 
         DryingStorage dryingStorageDB = dryingStorageService.findById(Integer.parseInt(dryingStorageId));
@@ -398,23 +402,23 @@ public class FabricOakController {
         DryStorage savedDS = dryStorageService.save(dryStorage);
         dryingStorageDB.setExtent("0.000");
         dryingStorageService.save(dryingStorageDB);
-        if(!dryingStorageDB.getDeskOakList().isEmpty()){
-            for(DescriptionDeskOak desk: dryingStorageDB.getDeskOakList()){
+        if (!dryingStorageDB.getDeskOakList().isEmpty()) {
+            for (DescriptionDeskOak desk : dryingStorageDB.getDeskOakList()) {
                 desk.setDryingStorage(null);
                 desk.setDryStorage(dryStorage);
                 deskOakService.save(desk);
             }
         }
         DryStorageListDTO after = DryStorageListDTO.convertToDTO(Collections.singletonList(savedDS));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.SENDING,null,after);
-        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRY, LoggerOperationType.SENDING, null, after);
+        return "redirect:/fabric/getListOfDryingStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/addDeskToDryStorageMultiple-{userId}-2")
-    private String addDeskToDryStorageMultiple(@PathVariable("userId")int userId, Integer cellId){
+    private String addDeskToDryStorageMultiple(@PathVariable("userId") int userId, Integer cellId) {
         int breedId = 2;
         List<DryStorage> list = new ArrayList<>();
-        if(cellId!=null) {
+        if (cellId != null) {
             List<DryingStorage> dryingStorageDBList = dryingStorageService.getListByUserByBreed(breedId, userId)
                     .parallelStream()
                     .filter(dr -> dr.getCell().equals(cellId)).collect(Collectors.toList());
@@ -431,7 +435,7 @@ public class FabricOakController {
                 dryStorage.setDescription(dryingStorageDB.getDescription());
                 dryStorage.setUserCompany(dryingStorageDB.getUserCompany());
                 dryStorage.setDryingStorage(dryingStorageDB);
-                if(dryingStorageDB.getDeskOakList()!=null && dryingStorageDB.getDeskOakList().size()>0) {
+                if (dryingStorageDB.getDeskOakList() != null && dryingStorageDB.getDeskOakList().size() > 0) {
                     dryStorage.setWasWithDeskOakList(true);
                 }
 
@@ -451,12 +455,12 @@ public class FabricOakController {
             }
         }
         DryStorageListDTO after = DryStorageListDTO.convertToDTO(list);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.SENDING,null,after);
-        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRY, LoggerOperationType.SENDING, null, after);
+        return "redirect:/fabric/getListOfDryingStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/addDescriptionOakItemToDryingStorage-{userId}-{breedId}")
-    public String addDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryStorageId,String width, String count){
+    public String addDescriptionOakItemToDryingStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int dryStorageId, String width, String count) {
         DryingStorage dryingStorage = dryingStorageService.findById(dryStorageId);
         DryingStorageDTO before = DryingStorageDTO.convertToDTO(dryingStorage);
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
@@ -466,12 +470,12 @@ public class FabricOakController {
         dryingStorage.getDeskOakList().add(deskOak);
         dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorage);
         DryingStorageDTO after = DryingStorageDTO.convertToDTO(dryingStorageService.findById(dryStorageId));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRYING, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDryingStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/editDescriptionOakItemToDryingStorage-{userId}-{breedId}")
-    public String editDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryingStorageId,int descId,String width, String count){
+    public String editDescriptionOakItemToDryingStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int dryingStorageId, int descId, String width, String count) {
         DryingStorage dryingStorage = dryingStorageService.findById(dryingStorageId);
         DryingStorageDTO before = DryingStorageDTO.convertToDTO(dryingStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
@@ -480,12 +484,12 @@ public class FabricOakController {
         deskOakService.save(deskOak);
         dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorageService.findById(dryingStorageId));
         DryingStorageDTO after = DryingStorageDTO.convertToDTO(dryingStorageService.findById(dryingStorageId));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRYING, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDryingStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/deleteDescriptionOakItemToDryingStorage-{userId}-{breedId}")
-    public String deleteDescriptionOakItemToDryingStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryingStorageId,int descId){
+    public String deleteDescriptionOakItemToDryingStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int dryingStorageId, int descId) {
         DryingStorage dryingStorage = dryingStorageService.findById(dryingStorageId);
         DryingStorageDTO before = DryingStorageDTO.convertToDTO(dryingStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
@@ -493,34 +497,34 @@ public class FabricOakController {
         deskOakService.deleteByID(descId);
         dryingStorageService.countExtentRawStorageWithDeskDescription(dryingStorage);
         DryingStorageDTO after = DryingStorageDTO.convertToDTO(dryingStorageService.findById(dryingStorageId));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRYING,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDryingStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRYING, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDryingStorage-" + userId + "-" + breedId;
     }
 
 
     //Dry Storage page
     @GetMapping("/getListOfDryStorage-{userId}-2")
-    public String getListOfDryStorage(@PathVariable("userId")int userId,Model model,String[] descriptions,
+    public String getListOfDryStorage(@PathVariable("userId") int userId, Model model, String[] descriptions,
                                       String[] heights, String[] longs, String[] widths, HttpServletRequest request,
-                                      String sortedField,String sortedType){
+                                      String sortedField, String sortedType) {
         int breedId = 2;
 
-        model.addAttribute("fragmentPathTabDryStorage","dryStorageOAK");
-        model.addAttribute("tabName","dryStorage");
-        model.addAttribute("userId",userId);
-        model.addAttribute("breedId",breedId);
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        List<DryStorage> dryStorageList = dryStorageService.getFilteredList(breedId,userId,descriptions,heights,longs,widths);
-        for(DryStorage dryStorage :dryStorageList){
+        model.addAttribute("fragmentPathTabDryStorage", "dryStorageOAK");
+        model.addAttribute("tabName", "dryStorage");
+        model.addAttribute("userId", userId);
+        model.addAttribute("breedId", breedId);
+        model.addAttribute("breedOfTreeList", breedOfTreeService.findAll());
+        List<DryStorage> dryStorageList = dryStorageService.getFilteredList(breedId, userId, descriptions, heights, longs, widths);
+        for (DryStorage dryStorage : dryStorageList) {
             PackagedProduct product = packagedProductService.getProductByDryStorage(dryStorage.getId());
-            if(product!=null){
+            if (product != null) {
                 dryStorage.setQualityOfPack(product.getQuality());
                 dryStorage.setLongOfPack(product.getSizeOfLong());
                 dryStorageService.save(dryStorage);
             }
         }
         String requestParams = request.getQueryString();
-        if(requestParams!=null) {
+        if (requestParams != null) {
             requestParams = requestParams.replace("sortedField=date", "")
                     .replace("sortedField=code", "")
                     .replace("sortedField=description", "")
@@ -536,46 +540,46 @@ public class FabricOakController {
         }
         model.addAttribute("exportLinkParams", "?" + requestParams);
         model.addAttribute("sortedField", sortedField);
-        model.addAttribute("sortedType",sortedType);
+        model.addAttribute("sortedType", sortedType);
 
 
-        model.addAttribute("dryStorageList",dryStorageService.sortedBy(dryStorageList,sortedField,sortedType));
+        model.addAttribute("dryStorageList", dryStorageService.sortedBy(dryStorageList, sortedField, sortedType));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("userCompanyList", userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("breedName", breedOfTreeService.findById(breedId).getBreed());
 
-        model.addAttribute("descList",dryStorageService.getListOfUnicBreedDescription(breedId));
-        model.addAttribute("sizeOfHeightList",dryStorageService.getListOfUnicSizeOfHeight(breedId));
-        model.addAttribute("sizeOfWidthList",dryStorageService.getListOfUnicSizeOfWidth(breedId));
-        model.addAttribute("sizeOfLongList",dryStorageService.getListOfUnicSizeOfLong(breedId));
-        model.addAttribute("sumExtent",dryStorageService.countExtent(dryStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
-        btnConfig(userId,model);
+        model.addAttribute("descList", dryStorageService.getListOfUnicBreedDescription(breedId));
+        model.addAttribute("sizeOfHeightList", dryStorageService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfWidthList", dryStorageService.getListOfUnicSizeOfWidth(breedId));
+        model.addAttribute("sizeOfLongList", dryStorageService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("sumExtent", dryStorageService.countExtent(dryStorageList).setScale(3, RoundingMode.DOWN).doubleValue());
+        btnConfig(userId, model);
         return "fabricPage";
     }
 
 
     @PostMapping("/resetDryPackageExtent-{userId}-{breedId}")
-    public String resetDryPackageExtent(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,String id) {
+    public String resetDryPackageExtent(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, String id) {
         DryStorage dryStorage = dryStorageService.findById(Integer.parseInt(id));
         DryStorageDTO before = DryStorageDTO.convertToDTO(dryStorage);
         dryStorage.setExtent("0.000");
         dryStorageService.save(dryStorage);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY, LoggerOperationType.RETURN_TO_ZERO,before,null);
-        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRY, LoggerOperationType.RETURN_TO_ZERO, before, null);
+        return "redirect:/fabric/getListOfDryStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/resetRawPackageExtent-{userId}-{breedId}")
-    public String resetRawPackageExtent(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,String id) {
+    public String resetRawPackageExtent(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, String id) {
         RawStorage rawStorage = rawStorageService.findById(Integer.parseInt(id));
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.RAW, LoggerOperationType.RETURN_TO_ZERO,RawStorageDTO.convertToDTO(rawStorage),null);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.RAW, LoggerOperationType.RETURN_TO_ZERO, RawStorageDTO.convertToDTO(rawStorage), null);
         rawStorage.setExtent("0.000");
         rawStorageService.save(rawStorage);
 //        rawStorageService.checkQualityInfo(rawStorage);
-        return "redirect:/fabric/getListOfRawStorage-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfRawStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/addDescriptionOakItemToDryStorage-{userId}-{breedId}")
-    public String addDescriptionOakItemToDryStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryStorageId,String width, String count){
+    public String addDescriptionOakItemToDryStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int dryStorageId, String width, String count) {
         DryStorage dryStorage = dryStorageService.findById(dryStorageId);
         DryStorageDTO before = DryStorageDTO.convertToDTO(dryStorage);
         DescriptionDeskOak deskOak = new DescriptionDeskOak();
@@ -586,12 +590,12 @@ public class FabricOakController {
         dryStorage.getDeskOakList().add(deskOak);
         DryStorage savedDS = dryStorageService.countExtentRawStorageWithDeskDescription(dryStorage);
         DryStorageDTO after = DryStorageDTO.convertToDTO(savedDS);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRY, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDryStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/editDescriptionOakItemToDryStorage-{userId}-{breedId}")
-    public String editDescriptionOakItemToDryStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryStorageId,int descId,String width, String count){
+    public String editDescriptionOakItemToDryStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int dryStorageId, int descId, String width, String count) {
         DryStorage dryStorage = dryStorageService.findById(dryStorageId);
         DryStorageDTO before = DryStorageDTO.convertToDTO(dryStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
@@ -600,12 +604,12 @@ public class FabricOakController {
         deskOakService.save(deskOak);
         DryStorage saved = dryStorageService.countExtentRawStorageWithDeskDescription(dryStorage);
         DryStorageDTO after = DryStorageDTO.convertToDTO(saved);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRY, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDryStorage-" + userId + "-" + breedId;
     }
 
     @PostMapping("/deleteDescriptionOakItemToDryStorage-{userId}-{breedId}")
-    public String deleteDescriptionOakItemToDryStorage(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,int dryStorageId,int descId){
+    public String deleteDescriptionOakItemToDryStorage(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId, int dryStorageId, int descId) {
         DryStorage dryStorage = dryStorageService.findById(dryStorageId);
         DryStorageDTO before = DryStorageDTO.convertToDTO(dryStorage);
         DescriptionDeskOak deskOak = deskOakService.findById(descId);
@@ -613,39 +617,39 @@ public class FabricOakController {
         deskOakService.deleteByID(descId);
         DryStorage saved = dryStorageService.countExtentRawStorageWithDeskDescription(dryStorage);
         DryStorageDTO after = DryStorageDTO.convertToDTO(saved);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DRY,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDryStorage-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DRY, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDryStorage-" + userId + "-" + breedId;
     }
 
-        //Packaged product page
+    //Packaged product page
     @GetMapping("/getListOfPackagedProduct-{userId}-2")
-    public String getListOfPackagedProduct(@PathVariable("userId")int userId, Model model,String[] qualities, String[] heights, String[] longs, String[] widths,
-                                           HttpServletRequest request,String sortedField,String sortedType){
+    public String getListOfPackagedProduct(@PathVariable("userId") int userId, Model model, String[] qualities, String[] heights, String[] longs, String[] widths,
+                                           HttpServletRequest request, String sortedField, String sortedType) {
         int breedId = 2;
-        model.addAttribute("fragmentPathTabPackageStorage","packageStorageOak");
-        model.addAttribute("tabName","packageStorage");
-        model.addAttribute("userId",userId);
-        model.addAttribute("breedId",breedId);
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        List<PackagedProduct> productList = packagedProductService.getFilteredListOak(breedId,userId,qualities,heights,longs).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList());
-        model.addAttribute("packageOakList",packagedProductService.sortedBy(productList,sortedField,sortedType));
+        model.addAttribute("fragmentPathTabPackageStorage", "packageStorageOak");
+        model.addAttribute("tabName", "packageStorage");
+        model.addAttribute("userId", userId);
+        model.addAttribute("breedId", breedId);
+        model.addAttribute("breedOfTreeList", breedOfTreeService.findAll());
+        List<PackagedProduct> productList = packagedProductService.getFilteredListOak(breedId, userId, qualities, heights, longs).stream().sorted((o1, o2) -> o2.getId() - o1.getId()).collect(Collectors.toList());
+        model.addAttribute("packageOakList", packagedProductService.sortedBy(productList, sortedField, sortedType));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("deliveryList",deliveryDocumentationService.getListByUserByBreed(breedId,userId));
-        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("userCompanyList", userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("deliveryList", deliveryDocumentationService.getListByUserByBreed(breedId, userId));
+        model.addAttribute("breedName", breedOfTreeService.findById(breedId).getBreed());
 
         UserCompany company = userCompanyService.findById(userId);
         ContrAgent contrAgent = company.getContrAgent();
-        model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
+        model.addAttribute("contractList", orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(), breedId));
 
-        model.addAttribute("qualityList",packagedProductService.getListOfUnicQuality(breedId));
-        model.addAttribute("sizeOfHeightList",packagedProductService.getListOfUnicSizeOfHeight(breedId));
-        model.addAttribute("sizeOfLongList",packagedProductService.getListOfUnicSizeOfLong(breedId));
-        model.addAttribute("sumExtent",packagedProductService.countExtent(productList).setScale(3, RoundingMode.DOWN).doubleValue());
-        btnConfig(userId,model);
+        model.addAttribute("qualityList", packagedProductService.getListOfUnicQuality(breedId));
+        model.addAttribute("sizeOfHeightList", packagedProductService.getListOfUnicSizeOfHeight(breedId));
+        model.addAttribute("sizeOfLongList", packagedProductService.getListOfUnicSizeOfLong(breedId));
+        model.addAttribute("sumExtent", packagedProductService.countExtent(productList).setScale(3, RoundingMode.DOWN).doubleValue());
+        btnConfig(userId, model);
 
         String requestParams = request.getQueryString();
-        if(requestParams!=null) {
+        if (requestParams != null) {
             requestParams = requestParams.replace("sortedField=date", "")
                     .replace("sortedField=code", "")
                     .replace("sortedField=quality", "")
@@ -663,158 +667,156 @@ public class FabricOakController {
         }
         model.addAttribute("exportLinkParams", "?" + requestParams);
         model.addAttribute("sortedField", sortedField);
-        model.addAttribute("sortedType",sortedType);
+        model.addAttribute("sortedType", sortedType);
 
         return "fabricPage";
     }
 
     @PostMapping("/addDryStorageToPackageProduct-{userId}-2")
-    public String addDryStorageToPackageProduct(@PathVariable("userId")int userId,DryStorage dryStorage,String quality){
+    public String addDryStorageToPackageProduct(@PathVariable("userId") int userId, DryStorage dryStorage, String quality) {
         DryStorage dryStorageDB = dryStorageService.findById(dryStorage.getId());
-        PackagedProduct product = packagedProductService.createPackageOak(dryStorageDB.getDeskOakList(),String.valueOf(dryStorageDB.getId()),dryStorage.getCodeOfProduct(),quality,
-                dryStorageDB.getSizeOfHeight(),dryStorageDB.getSizeOfLong(),userId,2);
+        PackagedProduct product = packagedProductService.createPackageOak(dryStorageDB.getDeskOakList(), String.valueOf(dryStorageDB.getId()), dryStorage.getCodeOfProduct(), quality,
+                dryStorageDB.getSizeOfHeight(), dryStorageDB.getSizeOfLong(), userId, 2);
         PackagedProductDTO after = PackagedProductDTO.convertToDTO(product);
         after.setDeskOakList(DescriptionDeskOakDTO.convertToDTO(dryStorageDB.getDeskOakList()));
-        loggerDataInfoService.save(breedOfTreeService.findById(2),StorageType.PACKAGE,LoggerOperationType.SENDING,null,after);
-        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+2;
+        loggerDataInfoService.save(breedOfTreeService.findById(2), StorageType.PACKAGE, LoggerOperationType.SENDING, null, after);
+        return "redirect:/fabric/getListOfPackagedProduct-" + userId + "-" + 2;
     }
 
 
     @PostMapping("/editPackOak-{userId}-2")
-    public String editPackOak(@PathVariable("userId")int userId,PackagedProduct product){
-        int breedId=2;
+    public String editPackOak(@PathVariable("userId") int userId, PackagedProduct product) {
+        int breedId = 2;
         PackagedProductDTO before = PackagedProductDTO.convertToDTO(packagedProductService.findById(product.getId()));
         PackagedProduct savedAfter = packagedProductService.editPackageProductOak(product);
         PackagedProductDTO after = PackagedProductDTO.convertToDTO(savedAfter);
-        loggerDataInfoService.save(breedOfTreeService.findById(2),StorageType.PACKAGE,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(2), StorageType.PACKAGE, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfPackagedProduct-" + userId + "-" + breedId;
     }
 
     @PostMapping("/addPackOakDesc-{userId}-2")
-    public String addPackOakDesc(@PathVariable("userId")int userId,String packageId, String width,String count){
-        int breedId=2;
+    public String addPackOakDesc(@PathVariable("userId") int userId, String packageId, String width, String count) {
+        int breedId = 2;
         PackagedProductDTO before = PackagedProductDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)));
-        packagedProductService.addDescriptionOak(packageId,width,count);
+        packagedProductService.addDescriptionOak(packageId, width, count);
         PackagedProductDTO after = PackagedProductDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)));
-        loggerDataInfoService.save(breedOfTreeService.findById(2),StorageType.PACKAGE,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(2), StorageType.PACKAGE, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfPackagedProduct-" + userId + "-" + breedId;
     }
 
     @PostMapping("/editPackOakDesc-{userId}-2")
-    public String editPackOakDesc(@PathVariable("userId")int userId,String rowId,String packageId, String width, String count){
-        int breedId=2;
+    public String editPackOakDesc(@PathVariable("userId") int userId, String rowId, String packageId, String width, String count) {
+        int breedId = 2;
         PackagedProductDTO before = PackagedProductDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)));
-        deskOakService.editDescription(rowId,width,count);
+        deskOakService.editDescription(rowId, width, count);
         packagedProductService.editPackageProductOak(packagedProductService.findById(Integer.parseInt(packageId)));
         PackagedProductDTO after = PackagedProductDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)));
-        loggerDataInfoService.save(breedOfTreeService.findById(2),StorageType.PACKAGE,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(2), StorageType.PACKAGE, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfPackagedProduct-" + userId + "-" + breedId;
     }
 
     @PostMapping("/deletePackOakDesc-{userId}-2")
-    public String deletePackOakDesc(@PathVariable("userId")int userId,String packageId, String id){
-        int breedId=2;
+    public String deletePackOakDesc(@PathVariable("userId") int userId, String packageId, String id) {
+        int breedId = 2;
         PackagedProductDTO before = PackagedProductDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)));
-        packagedProductService.deleteDescriptionOak(packageId,id);
+        packagedProductService.deleteDescriptionOak(packageId, id);
         PackagedProductDTO after = PackagedProductDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)));
-        loggerDataInfoService.save(breedOfTreeService.findById(2),StorageType.PACKAGE,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfPackagedProduct-"+userId+"-"+breedId;
+        loggerDataInfoService.save(breedOfTreeService.findById(2), StorageType.PACKAGE, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfPackagedProduct-" + userId + "-" + breedId;
     }
 
     //Delivery page
     @GetMapping("/getListOfDeliveryDocumentation-{userId}-2")
-    public String getListOfDeliveryDocumentation(@PathVariable("userId")int userId,Model model){
+    public String getListOfDeliveryDocumentation(@PathVariable("userId") int userId, Model model) {
 
         int breedId = 2;
         UserCompany company = userCompanyService.findById(userId);
         ContrAgent contrAgent = company.getContrAgent();
 
-        model.addAttribute("fragmentPathTabDelivery","deliveryInfoOak");
-        model.addAttribute("tabName","deliveryInfo");
-        model.addAttribute("userId",userId);
-        model.addAttribute("breedId",breedId);
-        model.addAttribute("breedOfTreeList",breedOfTreeService.findAll());
-        model.addAttribute("deliveryDocumentations",deliveryDocumentationService.getListByUserByBreed(breedId,userId).stream().sorted((o1, o2) -> o2.getId()-o1.getId()).collect(Collectors.toList()));
+        model.addAttribute("fragmentPathTabDelivery", "deliveryInfoOak");
+        model.addAttribute("tabName", "deliveryInfo");
+        model.addAttribute("userId", userId);
+        model.addAttribute("breedId", breedId);
+        model.addAttribute("breedOfTreeList", breedOfTreeService.findAll());
+        model.addAttribute("deliveryDocumentations", deliveryDocumentationService.getListByUserByBreedLast30(breedId, userId, 20));
         model.addAttribute("userCompanyName", userCompanyService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        model.addAttribute("userCompanyList",userCompanyService.getListOfAllUsersROLE());
-        model.addAttribute("contractList",orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(),breedId));
-        model.addAttribute("breedName",breedOfTreeService.findById(breedId).getBreed());
-        model.addAttribute("dryStorageList",dryStorageService.getListByUserByBreed(breedId,userId));
+        model.addAttribute("userCompanyList", userCompanyService.getListOfAllUsersROLE());
+        model.addAttribute("contractList", orderInfoService.getOrdersListByAgentByBreed(contrAgent.getId(), breedId));
+        model.addAttribute("breedName", breedOfTreeService.findById(breedId).getBreed());
+        model.addAttribute("dryStorageList", dryStorageService.getListByUserByBreed(breedId, userId));
 
 
-        model.addAttribute("urlEditDriver","/fabric/editDeliveryDocumentation-"+userId+"-"+breedId);
-        model.addAttribute("urlEditPackage","/fabric/editPackageProduct-"+userId+"-"+breedId);
-        model.addAttribute("urlAddPackage","/fabric/addPackageProduct-"+userId+"-"+breedId);
-        model.addAttribute("urlDeletePackage","/fabric/deletePackageProduct-"+userId+"-"+breedId);
-        model.addAttribute("urlEditPackageDescriptionOak","/fabric/editPackageDescriptionOak-"+userId+"-"+breedId);
-        model.addAttribute("urlAddPackageDescriptionOak","/fabric/addPackageDescriptionOak-"+userId+"-"+breedId);
-        model.addAttribute("urlDeleteDescriptionOak","/fabric/deletePackageDescriptionOak-"+userId+"-"+breedId);
-        btnConfig(userId,model);
+        model.addAttribute("urlEditDriver", "/fabric/editDeliveryDocumentation-" + userId + "-" + breedId);
+        model.addAttribute("urlEditPackage", "/fabric/editPackageProduct-" + userId + "-" + breedId);
+        model.addAttribute("urlAddPackage", "/fabric/addPackageProduct-" + userId + "-" + breedId);
+        model.addAttribute("urlDeletePackage", "/fabric/deletePackageProduct-" + userId + "-" + breedId);
+        model.addAttribute("urlEditPackageDescriptionOak", "/fabric/editPackageDescriptionOak-" + userId + "-" + breedId);
+        model.addAttribute("urlAddPackageDescriptionOak", "/fabric/addPackageDescriptionOak-" + userId + "-" + breedId);
+        model.addAttribute("urlDeleteDescriptionOak", "/fabric/deletePackageDescriptionOak-" + userId + "-" + breedId);
+        btnConfig(userId, model);
         return "fabricPage";
     }
 
-    public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation ){
+    public void reloadAllExtentFields(DeliveryDocumentation deliveryDocumentation) {
         deliveryDocumentationService.reloadExtentOfAllPack(deliveryDocumentation);
         List<Integer> list = new ArrayList<>();
         list.add(deliveryDocumentation.getOrderInfo().getId());
         List<DeliveryDocumentation> docList = deliveryDocumentationService.getListByDistributionContractsId(list);
-        orderInfoService.reloadOrderExtent(deliveryDocumentation.getOrderInfo(),docList);
+        orderInfoService.reloadOrderExtent(deliveryDocumentation.getOrderInfo(), docList);
         orderInfoService.reloadMainOrderExtent(deliveryDocumentation.getOrderInfo().getMainOrder());
     }
 
     @PostMapping("/editPackageDescriptionOak-{userId}-{breedId}")
-    public String editPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
-                                            String rowId,String packageId, String width, String count) {
-        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
-        deskOakService.editDescription(rowId,width,count);
+    public String editPackageDescriptionOak(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId,
+                                            String rowId, String packageId, String width, String count) {
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(), true);
+        deskOakService.editDescription(rowId, width, count);
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
-        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(), true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DELIVERY, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDeliveryDocumentation-" + userId + "-" + breedId;
     }
 
     @PostMapping("/addPackageDescriptionOak-{userId}-{breedId}")
-    public String addPackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
-                                            String packageId, String width, String count) {
-        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
-        packagedProductService.addDescriptionOak(packageId,width,count);
+    public String addPackageDescriptionOak(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId,
+                                           String packageId, String width, String count) {
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(), true);
+        packagedProductService.addDescriptionOak(packageId, width, count);
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
-        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(), true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DELIVERY, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDeliveryDocumentation-" + userId + "-" + breedId;
     }
 
     @PostMapping("/deletePackageDescriptionOak-{userId}-{breedId}")
-    public String deletePackageDescriptionOak(@PathVariable("userId")int userId,@PathVariable("breedId")int breedId,
-                                           String packageId, String id) {
-        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
-        packagedProductService.deleteDescriptionOak(packageId,id);
+    public String deletePackageDescriptionOak(@PathVariable("userId") int userId, @PathVariable("breedId") int breedId,
+                                              String packageId, String id) {
+        DeliveryDocumentationDTO before = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(), true);
+        packagedProductService.deleteDescriptionOak(packageId, id);
         PackagedProduct product = packagedProductService.findById(Integer.parseInt(packageId));
         packagedProductService.countExtentOak(product);
         reloadAllExtentFields(product.getDeliveryDocumentation());
-        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(),true);
-        loggerDataInfoService.save(breedOfTreeService.findById(breedId),StorageType.DELIVERY,LoggerOperationType.UPDATING,before,after);
-        return "redirect:/fabric/getListOfDeliveryDocumentation-"+userId+"-"+breedId;
+        DeliveryDocumentationDTO after = DeliveryDocumentationDTO.convertToDTO(packagedProductService.findById(Integer.parseInt(packageId)).getDeliveryDocumentation(), true);
+        loggerDataInfoService.save(breedOfTreeService.findById(breedId), StorageType.DELIVERY, LoggerOperationType.UPDATING, before, after);
+        return "redirect:/fabric/getListOfDeliveryDocumentation-" + userId + "-" + breedId;
     }
 
 
-
-
-//    Recycle page
+    //    Recycle page
     @PostMapping("/cutOfRecycle-{userId}-2")
-    public String  cutOfRecycle(@PathVariable("userId")int userId,
-                                int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage){
-        int breedId =2;
+    public String cutOfRecycle(@PathVariable("userId") int userId,
+                               int idOfTreeStorageRow, String extentOfTreeStorage, RawStorage rawStorage) {
+        int breedId = 2;
         TreeStorage treeStorage = treeStorageService.findById(idOfTreeStorageRow);
 
         rawStorage.setUsedExtent(
-                String.format("%.3f",Float.parseFloat(treeStorage.getExtent())-Float.parseFloat(extentOfTreeStorage)).replace(',','.')
+                String.format("%.3f", Float.parseFloat(treeStorage.getExtent()) - Float.parseFloat(extentOfTreeStorage)).replace(',', '.')
         );
-        treeStorage.setExtent(String.format("%.3f",Float.parseFloat(extentOfTreeStorage)).replace(',','.'));
+        treeStorage.setExtent(String.format("%.3f", Float.parseFloat(extentOfTreeStorage)).replace(',', '.'));
         rawStorage.setTreeStorage(treeStorage);
         rawStorage.setUserCompany(userCompanyService.findById(userId));
         rawStorage.setBreedOfTree(breedOfTreeService.findById(breedId));
@@ -822,7 +824,7 @@ public class FabricOakController {
         rawStorageService.save(rawStorage);
         rawStorage.setMaxExtent(rawStorage.getExtent());
         rawStorageService.save(rawStorage);
-        return "redirect:/fabric/getListOfRecycle-"+userId+"-"+breedId;
+        return "redirect:/fabric/getListOfRecycle-" + userId + "-" + breedId;
     }
 }
 

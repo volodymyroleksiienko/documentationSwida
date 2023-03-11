@@ -25,7 +25,7 @@ public class PackagedProduct {
     //Detail of Product
     @ManyToOne
     private BreedOfTree breedOfTree;
-    private String breedDescription="";
+    private String breedDescription = "";
     private String quality;
 
     //Size of one desk
@@ -48,22 +48,22 @@ public class PackagedProduct {
 
     private String date;
 
-    @OneToMany(mappedBy = "packagedProduct")
+    @OneToMany(mappedBy = "packagedProduct", fetch = FetchType.LAZY)
     private List<DescriptionDeskOak> deskOakList;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private OrderInfo orderInfo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Container container;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserCompany userCompany;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DryStorage dryStorage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DeliveryDocumentation deliveryDocumentation;
 
     @Enumerated(EnumType.STRING)

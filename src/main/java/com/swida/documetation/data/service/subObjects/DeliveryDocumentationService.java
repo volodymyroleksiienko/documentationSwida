@@ -16,6 +16,7 @@ public interface DeliveryDocumentationService {
     DeliveryDocumentation findById(int id);
     List<DeliveryDocumentation> findAll();
     List<DeliveryDocumentation> getListByUserByBreed(int breedId, int userId);
+    List<DeliveryDocumentation> getListByUserByBreedLast30(int breedId, int userId,int amountOfItems);
     DeliveryDocumentation getDeliveryDocumentationByIdOfTruck(String idOfTruck);
     DeliveryDocumentation getDeliveryDocumentationByIdOfTruckByOrder(String idOfTruck,int orderId);
     List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId);

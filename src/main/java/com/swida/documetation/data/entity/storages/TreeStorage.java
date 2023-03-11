@@ -33,22 +33,22 @@ public class TreeStorage {
     private Boolean isMainStorage = false;
 
 
-    @OneToMany(mappedBy = "treeStorage",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "treeStorage",fetch = FetchType.LAZY)
     private List<QualityStatisticInfo> statisticInfoList;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<TreeStorage> recycle;
 
-    @OneToMany(mappedBy = "treeStorage")
+    @OneToMany(mappedBy = "treeStorage",fetch = FetchType.LAZY)
     private List<RawStorage> rawStorageList;
 
     @ManyToOne
     private BreedOfTree breedOfTree;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private OrderInfo orderInfo;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ContrAgent contrAgent;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserCompany userCompany;
     @Enumerated(EnumType.STRING)
     private StatusOfTreeStorage statusOfTreeStorage = StatusOfTreeStorage.TREE;

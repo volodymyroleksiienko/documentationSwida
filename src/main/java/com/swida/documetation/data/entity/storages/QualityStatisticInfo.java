@@ -29,10 +29,10 @@ public class QualityStatisticInfo {
 
     private String date=DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now());
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private TreeStorage treeStorage;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private RawStorage rawStorage;
 
     @Override

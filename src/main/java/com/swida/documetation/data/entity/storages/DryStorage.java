@@ -18,11 +18,11 @@ public class DryStorage {
     private String codeOfProduct;
     @ManyToOne
     private BreedOfTree breedOfTree;
-    private String breedDescription="";
+    private String breedDescription = "";
 
     private String sizeOfHeight;
-    private String sizeOfWidth="0";
-    private String sizeOfLong="0";
+    private String sizeOfWidth = "0";
+    private String sizeOfLong = "0";
 
     private int countOfDesk;
 
@@ -36,17 +36,17 @@ public class DryStorage {
 
     private Boolean wasWithDeskOakList;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<DryStorage> groupedElements;
 
-    @OneToMany(mappedBy = "dryStorage",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dryStorage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DescriptionDeskOak> deskOakList;
 
-    @OneToMany(mappedBy = "dryStorage")
+    @OneToMany(mappedBy = "dryStorage", fetch = FetchType.LAZY)
     private List<PackagedProduct> packagedProductList;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserCompany userCompany;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DryingStorage dryingStorage;
     @Enumerated(EnumType.STRING)
     private StatusOfEntity statusOfEntity = StatusOfEntity.ACTIVE;

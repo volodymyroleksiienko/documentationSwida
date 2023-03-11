@@ -26,15 +26,15 @@ public class DeliveryDocumentation {
     private String extentWithoutContainer="0.000";
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private OrderInfo orderInfo;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private BreedOfTree breedOfTree;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private DriverInfo driverInfo;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ContrAgent contrAgent;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserCompany userCompany;
     @OneToMany(mappedBy = "deliveryDocumentation",fetch = FetchType.LAZY)
     private List<PackagedProduct> productList;

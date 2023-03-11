@@ -14,6 +14,7 @@ import com.swida.documetation.data.service.subObjects.BreedOfTreeService;
 import com.swida.documetation.data.service.subObjects.DeliveryDocumentationService;
 import com.swida.documetation.data.service.subObjects.DriverInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -215,6 +216,11 @@ public class DeliveryDocumentationServiceImpl implements DeliveryDocumentationSe
                 .stream()
                 .sorted((o1, o2) -> o2.getId()-o1.getId())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DeliveryDocumentation> getListByUserByBreedLast30(int breedId, int userId,int amountOfItems) {
+        return documentationJPA.getListByUserByBreedLastN(breedId,userId, PageRequest.of(0,amountOfItems));
     }
 
     @Override

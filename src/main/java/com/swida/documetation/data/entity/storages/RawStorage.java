@@ -38,22 +38,22 @@ public class RawStorage {
     @OneToOne(cascade = CascadeType.ALL)
     private QualityStatisticInfo statisticInfo;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<RawStorage> groupedElements;
 
-    @OneToMany(mappedBy = "rawStorage",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rawStorage",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DescriptionDeskOak> deskOakList;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserCompany userCompany;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private TreeStorage treeStorage;
 
-    @OneToMany(mappedBy = "rawStorage",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rawStorage",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<DryingStorage> dryingStorageList;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private TreeStorage recycle;
 
     @Enumerated(EnumType.STRING)

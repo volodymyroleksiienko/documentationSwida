@@ -3,14 +3,18 @@ package com.swida.documetation.data.jpa.subObjects;
 import com.swida.documetation.data.entity.storages.PackagedProduct;
 import com.swida.documetation.data.entity.subObjects.DeliveryDocumentation;
 import com.swida.documetation.data.enums.DeliveryDestinationType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocumentation,Integer> {
+public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocumentation, Integer> {
     @Query("select t from  DeliveryDocumentation  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfEntity='ACTIVE'")
     List<DeliveryDocumentation> getListByUserByBreed(int breedId, int userId);
+
+    @Query("select t from  DeliveryDocumentation  t where t.breedOfTree.id=?1 and  t.userCompany.id=?2 and t.statusOfEntity='ACTIVE'  order by t.id DESC")
+    List<DeliveryDocumentation> getListByUserByBreedLastN(int breedId, int userId, Pageable pageable);
 
     @Query("select t from  DeliveryDocumentation  t where t.orderInfo.id in ?1 and t.packagesExtent<>'0.000'")
     List<DeliveryDocumentation> getListByDistributionContractsId(List<Integer> contractId);
@@ -23,7 +27,7 @@ public interface DeliveryDocumentationJPA extends JpaRepository<DeliveryDocument
     DeliveryDocumentation getDeliveryDocumentationByIdOfTruck(String idOfTruck);
 
     @Query("select obj from  DeliveryDocumentation obj where obj.driverInfo.idOfTruck=?1 and obj.orderInfo.id=?2")
-    DeliveryDocumentation getDeliveryDocumentationByIdOfTruckByOrder(String idOfTruck,int orderId);
+    DeliveryDocumentation getDeliveryDocumentationByIdOfTruckByOrder(String idOfTruck, int orderId);
 
     @Query("select obj from  DeliveryDocumentation obj where obj.productList in ?1")
     DeliveryDocumentation getDeliveryDocumentationPackagedProduct(PackagedProduct product);
